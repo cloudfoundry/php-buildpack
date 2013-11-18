@@ -1,7 +1,8 @@
 {
     "CACHE_HASH_ALGORITHM": "sha1",
     "WEB_SERVER": "HTTPD",
-    "HTTPD_DOWNLOAD_PREFIX": "http://localhost:5001/httpd/",
-    "HTTPD_PACKAGE": "2.4.6/httpd-2.4.6.tar.gz",
-    "HTTPD_PACKAGE_HASH": "cb8914d4e4acf6db593d689d8abd38cb3dcb344b"
+    "HTTPD_DOWNLOAD_PREFIX": "http://192.168.0.6:5001/httpd/2.4.6",
+    "HTTPD_PACKAGE": "httpd-2.4.6.tar.gz",
+    "HTTPD_PACKAGE_HASH": "cb8914d4e4acf6db593d689d8abd38cb3dcb344b",
+    "HTTPD_STRIP": "true"
 }

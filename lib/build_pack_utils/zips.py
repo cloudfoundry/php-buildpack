@@ -75,12 +75,11 @@ class UnzipUtil(object):
             cmd.append('gunzip -c %s' % zipFile)
         elif compression == 'bz2':
             cmd.append('bunzip2 -c %s' % zipFile)
-        if strip > 0:
+        if strip:
             if compression is None:
-                cmd.append('tar xf %s --strip-components %d'
-                           % (zipFile, strip))
+                cmd.append('tar xf %s --strip-components 1' % zipFile)
             else:
-                cmd.append('tar xf - --strip-components %d' % strip)
+                cmd.append('tar xf - --strip-components 1')
         else:
             if compression is None:
                 cmd.append('tar xf %s' % zipFile)
