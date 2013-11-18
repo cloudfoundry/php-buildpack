@@ -1,0 +1,10 @@
+#!/bin/bash
+# 
+# Wrapper script that launches Python Build Pack
+#  At the moment, this just launches the appropriate
+#  python script.  However, this is here in case the
+#  build pack needs to do anything to bootstrap the
+#  python scripts, like install Python.
+BP=$(dirname $(dirname $0))
+export PYTHONPATH=$BP/lib
+python $BP/scripts/compile.py $1 $2
