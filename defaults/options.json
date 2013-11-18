@@ -1,0 +1,13 @@
+{
+    "CACHE_HASH_ALGORITHM": "sha1",
+    "JAVA_DOWNLOAD_PREFIX": "http://download.oracle.com/otn-pub/java/jdk/7u40-b43/",
+    "JAVA_PACKAGE": "jdk-7u40-linux-x64.tar.gz", 
+    "JAVA_PACKAGE_HASH": "a638e16ff13398e4e17bd88547c443d2252e8454",
+    "JAVA_STRIP": true,
+    "MAVEN_DOWNLOAD_PREFIX": "http://apache.osuosl.org/maven/maven-3/3.1.1/binaries/",
+    "MAVEN_PACKAGE": "apache-maven-3.1.1-bin.tar.gz",
+    "MAVEN_PACKAGE_HASH": "630eea2107b0742acb315b214009ba08602dda5f",
+    "MAVEN_STRIP": true,
+    "MAVEN_BUILD_COMMAND": "test",
+    "MAVEN_RUN_COMMAND": "tomcat7:run"
+}
