@@ -1,3 +1,4 @@
 binaries
 *.pyc
 *.swp
+env
