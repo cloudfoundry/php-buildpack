@@ -53,7 +53,4 @@ if __name__ == '__main__':
                 .with_argument("-f $HOME/httpd/conf/httpd.conf")
                 .with_argument("-k start")
                 .done()
-            .command()
-                .manual('while [ 1 -eq 1 ]; do sleep 100000; done')
-                .done()
-            .write())
+            .write(wait_forever=True))
