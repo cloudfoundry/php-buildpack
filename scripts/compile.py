@@ -17,16 +17,7 @@
 import os
 from build_pack_utils import Builder
 
-
-def log_run(cmd, retcode, stdout, stderr):
-    print 'Comand %s completed with [%d]' % (str(cmd), retcode)
-    print 'STDOUT:'
-    print stdout
-    print 'STDERR:'
-    print stderr
-    if retcode != 0:
-        raise RuntimeError('Script Failure')
-
+# TODO: Setup x-forwarded-for / x-forwarded-proto support
 
 if __name__ == '__main__':
     (Builder()
