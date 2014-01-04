@@ -36,11 +36,18 @@ class HttpdModuleInstaller(object):
             raise ValueError("path [%s] does not exist" % path)
 
     def done(self):
-        pass
+        for module in self._modules:
+            self._installer.install_binary_direct(
+                os.path.join('{HTTPD_DOWNLOAD_PREFIX}',
+                             "httpd-%s-{HTTPD_VERSION}.tar.gz"),
+                os.path.join('{HTTPD_DOWNLOAD_PREFIX}',
+                             "httpd-%s-{HTTPD_VERSION}.tar.gz.sha1"),
+                os.path.join(self._builder._ctx['BUILD_DIR'],
+                             'httpd', 'modules'))
 
 
 def modules(self):
-    self._module_installer = HttpdModuleInstaller(self.builder)
+    return HttpdModuleInstaller(self.builder)
 
 
 # add methods to Installer
