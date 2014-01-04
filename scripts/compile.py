@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import os
+import httpd
+from build_pack_utils import log_output
 from build_pack_utils import Builder
 
 # TODO: Setup x-forwarded-for / x-forwarded-proto support
@@ -27,16 +29,13 @@ if __name__ == '__main__':
             .done()
         .install()
             .package('HTTPD')
-            .config()
-                .from_application('config/httpd/httpd.conf')
-                .or_from_build_pack('defaults/config/httpd/httpd.conf')
-                .to('httpd/conf/httpd.conf')
+            .modules()
+                .from_config('httpd/conf')
                 .done()
             .config()
-                .all_files()
-                .from_application('config/httpd/extra')
-                .or_from_build_pack('defaults/config/httpd/extra')
-                .to('httpd/conf/extra')
+                .from_application('config/httpd')
+                .or_from_build_pack('defaults/config/httpd')
+                .to('httpd/conf')
                 .done()
             .done()
         .create_start_script()
