@@ -9,8 +9,8 @@ class TestHttpdModuleInstaller(object):
 
     def setUp(self):
         self.ctx = {
-            'BUILD_DIR': './test/data',
-            'BP_DIR': './test/data',
+            'BUILD_DIR': '/tmp/build',
+            'BP_DIR': './',
             'CACHE_DIR': '/tmp/cache'
         }
         self.builder = Dingus(_ctx=self.ctx)
