@@ -14,7 +14,7 @@ class UnzipUtil(object):
         self._ctx = config
 
     def _unzip(self, zipFile, intoDir, strip):
-        tmpDir = (strip) and self._ctx['TEMP_DIR'] or intoDir
+        tmpDir = (strip) and self._ctx['TMPDIR'] or intoDir
         zipIn = None
         try:
             zipIn = zipfile.ZipFile(zipFile, 'r')

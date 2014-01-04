@@ -2,6 +2,7 @@ import os
 import sys
 import shutil
 import re
+import imp
 from subprocess import Popen
 from subprocess import PIPE
 from cloudfoundry import CloudFoundryUtil
@@ -11,6 +12,19 @@ from detecter import RegexFileSearch
 from detecter import StartsWithFileSearch
 from detecter import EndsWithFileSearch
 from detecter import ContainsFileSearch
+from runner import BuildPack
+
+
+def log_output(cmd, retcode, stdout, stderr):
+    print 'Comand %s completed with [%d]' % (str(cmd), retcode)
+    if stdout:
+        print 'STDOUT:'
+        print stdout
+    if stderr:
+        print 'STDERR:'
+        print stderr
+    if retcode != 0:
+        raise RuntimeError('Script Failure')
 
 
 class Configurer(object):
@@ -128,8 +142,55 @@ class Installer(object):
     def config(self):
         return ConfigInstaller(self)
 
+    def extension(self):
+        return ExtensionInstaller(self)
+
+    def extensions(self):
+        return ExtensionInstaller(self)
+
+    def build_pack(self):
+        return BuildPackManager(self)
+
     def done(self):
         return self.builder
+
+
+class ExtensionInstaller(object):
+    def __init__(self, installer):
+        self._installer = installer
+        self._paths = []
+        self._ignore = True
+
+    def from_location(self, path):
+        self._paths.append(os.path.abspath(path))
+        return self
+
+    def from_directory(self, directory):
+        for path in os.listdir(directory):
+            self._paths.append(os.path.abspath(os.path.join(directory,
+                                                            path)))
+        return self
+
+    def ignore_errors(self, ignore):
+        self._ignore = ignore
+        return self
+
+    def _load_extension(self, path):
+        info = imp.find_module('extension', [path])
+        return imp.load_module('extension', *info)
+
+    def done(self):
+        for path in self._paths:
+            extn = self._load_extension(path)
+            try:
+                retcode = extn.compile(self._installer)
+                if retcode != 0:
+                    raise RuntimeError('Extension Failed with [%s]' % retcode)
+            except Exception, e:
+                print "Extension Error [%s]" % str(e)
+                if not self._ignore:
+                    raise e
+        return self._installer
 
 
 class ConfigInstaller(object):
@@ -140,7 +201,6 @@ class ConfigInstaller(object):
         self._app_path = None
         self._bp_path = None
         self._to_path = None
-        self._all_files = False
 
     def from_build_pack(self, fromFile):
         self._bp_path = fromFile
@@ -158,34 +218,14 @@ class ConfigInstaller(object):
         self._to_path = toPath
         return self
 
-    def all_files(self):
-        self._all_files = True
-        return self
-
     def done(self):
         if (self._bp_path or self._app_path) and self._to_path:
-            if not self._all_files:
-                if self._bp_path:
-                    self._cfInst.install_from_build_pack(self._bp_path,
-                                                         self._to_path)
-                if self._app_path:
-                    self._cfInst.install_from_application(self._app_path,
-                                                          self._to_path)
-            else:
-                if self._bp_path:
-                    root = os.path.join(self._ctx['BP_DIR'], self._bp_path)
-                    for item in os.listdir(root):
-                        fromFile = os.path.join(self._bp_path, item)
-                        toFile = os.path.join(self._to_path, item)
-                        self._cfInst.install_from_build_pack(fromFile, toFile)
-                if self._app_path:
-                    root = os.path.join(self._ctx['BUILD_DIR'], self._app_path)
-                    if os.path.exists(root) and os.path.isdir(root):
-                        for item in os.listdir(root):
-                            fromFile = os.path.join(self._app_path, item)
-                            toFile = os.path.join(self._to_path, item)
-                            self._cfInst.install_from_application(fromFile,
-                                                                  toFile)
+            if self._bp_path:
+                self._cfInst.install_from_build_pack(self._bp_path,
+                                                     self._to_path)
+            if self._app_path:
+                self._cfInst.install_from_application(self._app_path,
+                                                      self._to_path)
         return self._installer
 
 
@@ -402,11 +442,15 @@ class StartScriptBuilder(object):
     def command(self):
         return ScriptCommandBuilder(self.builder, self)
 
-    def write(self):
+    def write(self, wait_forever=False):
         scriptName = self.builder._ctx.get('START_SCRIPT_NAME',
                                            'start.sh')
         startScriptPath = os.path.join(
             self.builder._ctx['BUILD_DIR'], scriptName)
+        if wait_forever:
+            self.content.append("while [ 1 -eq 1 ]; do")
+            self.content.append("    sleep 100000")
+            self.content.append("done")
         with open(startScriptPath, 'wt') as out:
             out.write('\n'.join(self.content))
         os.chmod(startScriptPath, 0755)
@@ -519,6 +563,25 @@ class EnvironmentVariableBuilder(object):
         line.append("%s=%s" % (self._name, value))
         self._scriptBuilder.manual(' '.join(line))
         return self._scriptBuilder
+
+
+class BuildPackManager(object):
+    def __init__(self, builder):
+        self._builder = builder
+
+    def from_buildpack(self, url):
+        self._bp = BuildPack(self._builder._ctx, url)
+        return self
+
+    def using_branch(self, branch):
+        self._bp._branch = branch
+        return self
+
+    def done(self):
+        if self._bp:
+            self._bp._clone()
+            print self._bp._compile()
+        return self._builder
 
 
 class Builder(object):
