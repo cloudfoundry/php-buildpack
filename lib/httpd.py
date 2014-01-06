@@ -20,20 +20,22 @@ class HttpdModuleInstaller(object):
         return modules
 
     def from_config(self, path):
-        if os.path.exists(path):
-            if os.path.isdir(path):
-                for root, dirs, files in os.walk(path):
-                    for f in files:
-                        if f.endswith('.conf'):
-                            self._modules.extend(
-                                self._load_modules(
-                                    os.path.join(root, f)))
+        for base in (self._ctx['BP_DIR'], self._ctx['BUILD_DIR']):
+            fullPath = os.path.join(base, path)
+            if os.path.exists(fullPath):
+                if os.path.isdir(fullPath):
+                    for root, dirs, files in os.walk(fullPath):
+                        for f in files:
+                            if f.endswith('.conf'):
+                                self._modules.extend(
+                                    self._load_modules(
+                                        os.path.join(root, f)))
+                else:
+                    assert os.path.isfile(fullPath), "should be a file"
+                    self._modules.extend(
+                        self._load_modules(fullPath))
             else:
-                assert os.path.isfile(path), "should be a file"
-                self._modules.extend(
-                    self._load_modules(path))
-        else:
-            raise ValueError("path [%s] does not exist" % path)
+                raise ValueError("path [%s] does not exist" % fullPath)
 
     def done(self):
         for module in self._modules:
