@@ -101,7 +101,7 @@ class CloudFoundryInstaller(object):
                                        strip)
 
     def install_binary(self, installKey):
-        fileName = self._ctx['%s_PACKAGE' % installKey]
+        fileName = self._ctx['%s_PACKAGE' % installKey].format(self._ctx)
         digest = self._ctx['%s_PACKAGE_HASH' % installKey]
         # check cache & compare digest
         # use cached file or download new
