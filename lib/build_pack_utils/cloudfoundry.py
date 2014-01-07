@@ -110,10 +110,8 @@ class CloudFoundryInstaller(object):
         fileToInstall = self._dcm.get(fileName, digest)
         if fileToInstall is None:
             fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
-            self._dwn.download(
-                os.path.join(self._ctx['%s_DOWNLOAD_PREFIX' % installKey],
-                             fileName),
-                fileToInstall)
+            self._dwn.download(self._ctx['%s_DOWNLOAD_URL' % installKey],
+                               fileToInstall)
             digest = self._hashUtil.calculate_hash(fileToInstall)
             fileToInstall = self._dcm.put(fileName, fileToInstall, digest)
         # unzip
