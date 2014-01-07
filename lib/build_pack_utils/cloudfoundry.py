@@ -3,6 +3,7 @@ import sys
 import json
 import tempfile
 import shutil
+import utils
 from zips import UnzipUtil
 from hashes import HashUtil
 from cache import DirectoryCacheManager
@@ -152,7 +153,7 @@ class CloudFoundryInstaller(object):
             if os.path.isfile(fullPathFrom):
                 shutil.copy(fullPathFrom, fullPathTo)
             else:
-                shutil.copytree(fullPathFrom, fullPathTo, ignore=ignore)
+                utils.copytree(fullPathFrom, fullPathTo, ignore=ignore)
 
     def install_from_build_pack(self, fromPath, toLocation=None, ignore=None):
         """Copy file or directory from the build pack to the droplet

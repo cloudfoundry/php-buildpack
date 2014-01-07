@@ -5,3 +5,4 @@ from downloads import *
 from hashes import *
 from builder import *
 from zips import *
+import utils
