@@ -17,7 +17,7 @@ class CloudFoundryUtil(object):
         # Open stdout unbuffered
         if hasattr(sys.stdout, 'fileno'):
             sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb', 0)
-        ctx = {}
+        ctx = utils.FormattedDict()
         # Add environment variables
         ctx.update(os.environ)
         # Build Pack Location
@@ -102,7 +102,7 @@ class CloudFoundryInstaller(object):
                                        strip)
 
     def install_binary(self, installKey):
-        fileName = self._ctx['%s_PACKAGE' % installKey].format(**self._ctx)
+        fileName = self._ctx['%s_PACKAGE' % installKey]
         digest = self._ctx['%s_PACKAGE_HASH' % installKey]
         # check cache & compare digest
         # use cached file or download new

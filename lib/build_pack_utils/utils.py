@@ -1,6 +1,28 @@
 import os
 import shutil
 
+
+class FormattedDict(dict):
+    def __init__(self, *args, **kwargs):
+        dict.__init__(self, *args, **kwargs)
+
+    def _format(self, val):
+        if hasattr(val, 'format'):
+            val = val.format(**self)
+            newVal = val.format(**self)
+            while val != newVal:
+                val = newVal
+                newVal = newVal.format(**self)
+            return val
+        return val
+
+    def __getitem__(self, key):
+        return self._format(dict.__getitem__(self, key))
+
+    def get(self, *args, **kwargs):
+        return self._format(dict.get(self, *args, **kwargs))
+
+
 # This is copytree from PyPy 2.7 source code.  
 #   https://bitbucket.org/pypy/pypy/src/9d88b4875d6e/lib-python/2.7/shutil.py
 # Modifying this so that it doesn't care about an initial directory existing
