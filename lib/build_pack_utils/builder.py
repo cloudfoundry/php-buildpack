@@ -284,7 +284,7 @@ class Runner(object):
         elif path in self._builder._ctx.keys():
             self._path = self._builder._ctx[path]
         else:
-            self._path = path
+            self._path = path.format(**self._builder._ctx)
         return self
 
     def with_shell(self):
@@ -384,7 +384,7 @@ class FileUtil(object):
         elif not path.startswith('/'):
             self._from_path = os.path.join(os.getcwd(), path)
         else:
-            self._from_path = path
+            self._from_path = path.format(**self._builder._ctx)
         return self
 
     def into(self, path):
@@ -393,7 +393,7 @@ class FileUtil(object):
         elif not path.startswith('/'):
             self._into_path = os.path.join(self._from_path, path)
         else:
-            self._into_path = path
+            self._into_path = path.format(**self._builder._ctx)
         return self
 
     def _copy_or_move(self, src, dest):
