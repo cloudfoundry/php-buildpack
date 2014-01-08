@@ -203,19 +203,19 @@ class ConfigInstaller(object):
         self._to_path = None
 
     def from_build_pack(self, fromFile):
-        self._bp_path = fromFile
+        self._bp_path = fromFile.format(**self._ctx)
         return self
 
     def or_from_build_pack(self, fromFile):
-        self._bp_path = fromFile
+        self._bp_path = fromFile.format(**self._ctx)
         return self
 
     def from_application(self, fromFile):
-        self._app_path = fromFile
+        self._app_path = fromFile.format(**self._ctx)
         return self
 
     def to(self, toPath):
-        self._to_path = toPath
+        self._to_path = toPath.format(**self._ctx)
         return self
 
     def done(self):
