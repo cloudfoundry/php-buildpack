@@ -51,5 +51,6 @@ if __name__ == '__main__':
                 .run("$HOME/httpd/bin/apachectl")
                 .with_argument("-f $HOME/httpd/conf/httpd.conf")
                 .with_argument("-k start")
+                .with_argument("-DFOREGROUND")
                 .done()
-            .write(wait_forever=True))
+            .write())
