@@ -1,9 +1,10 @@
 {
     "CACHE_HASH_ALGORITHM": "sha1",
     "WEB_SERVER": "HTTPD",
-    "HTTPD_VERSION": "2.4.6",
-    "HTTPD_DOWNLOAD_PREFIX": "http://192.168.0.6:5001/httpd/{HTTPD_VERSION}",
+    "HTTPD_VERSION": "2.4.7",
     "HTTPD_PACKAGE": "httpd-{HTTPD_VERSION}.tar.gz",
+    "HTTPD_DOWNLOAD_URL": "http://192.168.0.6:5001/httpd/{HTTPD_VERSION}/{HTTPD_PACKAGE}",
     "HTTPD_PACKAGE_HASH": "cb8914d4e4acf6db593d689d8abd38cb3dcb344b",
-    "HTTPD_STRIP": "true"
+    "HTTPD_STRIP": "true",
+    "HTTPD_MODULES_PATTERN": "http://192.168.0.6:5001/httpd/{HTTPD_VERSION}/httpd-{HTTPD_MODULE_NAME}-{HTTPD_VERSION}.tar.gz"
 }
