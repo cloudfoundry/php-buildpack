@@ -19,7 +19,7 @@ class HashUtil(object):
         return hsh.hexdigest()
 
     def does_hash_match(self, digest, toFile):
-        return (digest == self.calculate_hash(toFile))
+        return (digest.split()[0] == self.calculate_hash(toFile))
 
 
 class ShaHashUtil(HashUtil):
