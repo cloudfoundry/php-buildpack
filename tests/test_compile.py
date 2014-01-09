@@ -17,15 +17,13 @@ class TestCompile(object):
         shutil.copytree('tests/data/app-1', self.build_dir)
 
     def tearDown(self):
-        # TODO: make sure all temporary files are cleaned up
-        #       Currently not cleaning up downloaded files.  Files are
-        #       downloaded to TMPDIR, no record of what is downloaded.
-        #       Probably need to override TMPDIR for the test and delete
-        #       after the test runs.
         if os.path.exists(self.build_dir):
             shutil.rmtree(self.build_dir)
         if os.path.exists(self.cache_dir):
             shutil.rmtree(self.cache_dir)
+        for name in os.listdir(os.environ['TMPDIR']):
+            if name.startswith('httpd-') and name.endswith('.gz'):
+                os.remove(os.path.join(os.environ['TMPDIR'], name))
 
     @with_setup(setup=setUp, teardown=tearDown)
     def test_setup(self):
