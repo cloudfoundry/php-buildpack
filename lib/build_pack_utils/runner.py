@@ -4,11 +4,15 @@ import tempfile
 import subprocess
 
 
-# This and check_output are shims to support features of Python 2.7 on Python 2.6.
+# This and check_output are shims to support features of Python 2.7
+#   on Python 2.6.
+#
 # This code was borrowed from PyPy 2.7.
-#   https://bitbucket.org/pypy/pypy/src/9d88b4875d6e/lib-python/2.7/subprocess.py
-# This can be removed when the CloudFoundry environment is upgraded to Python 2.7
-#  or higher.
+#   bitbucket.org/pypy/pypy/src/9d88b4875d6e/lib-python/2.7/subprocess.py
+#
+# This can be removed when the CloudFoundry environment is upgraded
+#   to Python 2.7 or higher.
+#
 class CalledProcessError(Exception):
     """This exception is raised when a process run by check_call() or
     check_output() returns a non-zero exit status.
@@ -19,8 +23,10 @@ class CalledProcessError(Exception):
         self.returncode = returncode
         self.cmd = cmd
         self.output = output
+
     def __str__(self):
-        return "Command '%s' returned non-zero exit status %d" % (self.cmd, self.returncode)
+        return "Command '%s' returned non-zero exit status %d" % (
+            self.cmd, self.returncode)
 
 
 def check_output(*popenargs, **kwargs):
@@ -40,7 +46,7 @@ def check_output(*popenargs, **kwargs):
 
     >>> check_output(["/bin/sh", "-c",
     ...               "ls -l non_existent_file ; exit 0"],
-    ...              stderr=STDOUT)
+    ...              stderr=subprocess.STDOUT)
     'ls: non_existent_file: No such file or directory\n'
     """
     if 'stdout' in kwargs:
@@ -76,15 +82,23 @@ class BuildPack(object):
             subprocess.call(['git', 'checkout', self._branch])
 
     def _detect(self):
-        cmd = [os.path.join(self.bp_dir, 'bin', 'detect'), self._ctx['BUILD_DIR']]
-        return check_output(" ".join(cmd), stderr=subprocess.STDOUT, shell=True).strip()
+        cmd = [os.path.join(self.bp_dir, 'bin', 'detect'),
+               self._ctx['BUILD_DIR']]
+        return check_output(" ".join(cmd),
+                            stderr=subprocess.STDOUT,
+                            shell=True).strip()
 
     def _compile(self):
         cmd = [os.path.join(self.bp_dir, 'bin', 'compile'),
                self._ctx['BUILD_DIR'],
                self._ctx['CACHE_DIR']]
-        return check_output(" ".join(cmd), stderr=subprocess.STDOUT, shell=True).strip()
+        return check_output(" ".join(cmd),
+                            stderr=subprocess.STDOUT,
+                            shell=True).strip()
 
     def _release(self):
-        cmd = [os.path.join(self.bp_dir, 'bin', 'release'), self._ctx['BUILD_DIR']]
-        return check_output(" ".join(cmd), stderr=subprocess.STDOUT, shell=True).strip()
+        cmd = [os.path.join(self.bp_dir, 'bin', 'release'),
+               self._ctx['BUILD_DIR']]
+        return check_output(" ".join(cmd),
+                            stderr=subprocess.STDOUT,
+                            shell=True).strip()

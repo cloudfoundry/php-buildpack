@@ -31,7 +31,7 @@ class ShaHashUtil(HashUtil):
         if checkFile is None or checkFile == '':
             return ''
         proc = Popen(["shasum", "-b",
-                      "-a", self._ctx['CACHE_HASH_ALGORITHM'],
+                      "-a", self._ctx['CACHE_HASH_ALGORITHM'].lstrip('sha'),
                       checkFile], stdout=PIPE, stderr=PIPE)
         output, err = proc.communicate()
         retcode = proc.poll()

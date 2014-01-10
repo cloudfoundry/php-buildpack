@@ -29,7 +29,7 @@ class DirectoryCacheManager(BaseCacheManager):
 
     def __init__(self, ctx):
         BaseCacheManager.__init__(self, ctx)
-        self._baseDir = ctx.get('FILE_CACHE_BASE_DIRECTORY', 
+        self._baseDir = ctx.get('FILE_CACHE_BASE_DIRECTORY',
                                 ctx['CACHE_DIR'])
         if not os.path.exists(self._baseDir):
             os.makedirs(self._baseDir)

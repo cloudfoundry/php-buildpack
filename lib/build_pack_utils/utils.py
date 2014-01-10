@@ -20,10 +20,13 @@ class FormattedDict(dict):
         return self._format(dict.__getitem__(self, key))
 
     def get(self, *args, **kwargs):
-        return self._format(dict.get(self, *args, **kwargs))
+        if kwargs.get('format', True):
+            return self._format(dict.get(self, *args))
+        else:
+            return dict.get(self, *args)
 
 
-# This is copytree from PyPy 2.7 source code.  
+# This is copytree from PyPy 2.7 source code.
 #   https://bitbucket.org/pypy/pypy/src/9d88b4875d6e/lib-python/2.7/shutil.py
 # Modifying this so that it doesn't care about an initial directory existing
 def copytree(src, dst, symlinks=False, ignore=None):
@@ -59,7 +62,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
     try:
         os.makedirs(dst)
     except OSError, e:
-        if e.errno != 17: # File exists
+        if e.errno != 17:  # File exists
             raise e
     errors = []
     for name in names:
@@ -78,7 +81,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
                 shutil.copy2(srcname, dstname)
         # catch the Error from the recursive copytree so that we can
         # continue with other files
-        except Error, err:
+        except shutil.Error, err:
             errors.extend(err.args[0])
         except EnvironmentError, why:
             errors.append((srcname, dstname, str(why)))
@@ -91,4 +94,4 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             errors.extend((src, dst, str(why)))
     if errors:
-        raise Error, errors
+        raise shutil.Error, errors

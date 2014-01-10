@@ -139,6 +139,9 @@ class Installer(object):
             self.package(key)
         return self
 
+    def modules(self, key):
+        return ModuleInstaller(self, key)
+
     def config(self):
         return ConfigInstaller(self)
 
@@ -153,6 +156,75 @@ class Installer(object):
 
     def done(self):
         return self.builder
+
+
+class ModuleInstaller(object):
+    def __init__(self, installer, moduleKey):
+        self._installer = installer
+        self._ctx = installer._builder._ctx
+        self._cf = CloudFoundryInstaller(self._ctx)
+        self._moduleKey = moduleKey
+        self._extn = ''
+        self._modules = []
+        self._load_modules = self._default_load_method
+        self._regex = None
+
+    def _default_load_method(self, path):
+        with open(path, 'rt') as f:
+            return [line.strip() for line in f]
+
+    def _regex_load_method(self, path):
+        modules = []
+        with open(path, 'rt') as f:
+            for line in f:
+                m = self._regex.match(line.strip())
+                if m:
+                    modules.append(m.group(1))
+        return modules
+
+    def filter_files_by_extension(self, extn):
+        self._extn = extn
+        return self
+
+    def find_modules_with(self, method):
+        self._load_modules = method
+        return self
+
+    def find_modules_with_regex(self, regex):
+        self._regex = re.compile(regex)
+        self._load_modules = self._regex_load_method
+        return self
+
+    def from_application(self, path):
+        fullPath = os.path.join(self._ctx['BUILD_DIR'], path)
+        if os.path.exists(fullPath) and os.path.isdir(fullPath):
+            for root, dirs, files in os.walk(fullPath):
+                for f in files:
+                    if f.endswith(self._extn):
+                        self._modules.extend(
+                            self._load_modules(os.path.join(root, f)))
+        elif os.path.exists(fullPath) and os.path.isfile(fullPath):
+            self._modules.extend(self._load_modules(fullPath))
+        self._modules = list(set(self._modules))
+        return self
+
+    def done(self):
+        urlPattern = self._ctx.get('%s_MODULES_PATTERN' % self._moduleKey,
+                                   format=False)
+        if urlPattern is None:
+            raise KeyError('%s_MODULES_PATTERN' % self._moduleKey)
+        hashUrlPattern = "%s.%s" % (urlPattern,
+                                    self._ctx['CACHE_HASH_ALGORITHM'])
+        toPath = os.path.join(self._ctx['BUILD_DIR'],
+                              self._moduleKey.lower())
+        strip = self._ctx.get('%s_MODULES_STRIP', False)
+        for module in self._modules:
+            tmp = dict(self._installer._ctx)
+            tmp.update(MODULE_NAME=module)
+            url = urlPattern.format(**tmp)
+            hashUrl = hashUrlPattern.format(**tmp)
+            self._cf.install_binary_direct(url, hashUrl, toPath, strip)
+        return self._installer
 
 
 class ExtensionInstaller(object):

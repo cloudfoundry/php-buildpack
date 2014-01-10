@@ -38,7 +38,7 @@ class CurlDownloader(object):
                  output.startswith('5')):
             raise RuntimeError("curl says [%s]" % output)
         print 'Downloaded [%s] to [%s]' % (url, toFile)
-    
+
     def download_direct(self, url):
         proc = Popen(["curl", "-s",
                       "-w", '<!-- Status: %{http_code} -->',
