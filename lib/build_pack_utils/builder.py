@@ -161,7 +161,7 @@ class Installer(object):
 class ModuleInstaller(object):
     def __init__(self, installer, moduleKey):
         self._installer = installer
-        self._ctx = installer._builder._ctx
+        self._ctx = installer.builder._ctx
         self._cf = CloudFoundryInstaller(self._ctx)
         self._moduleKey = moduleKey
         self._extn = ''
