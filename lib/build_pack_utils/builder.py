@@ -219,7 +219,7 @@ class ModuleInstaller(object):
                               self._moduleKey.lower())
         strip = self._ctx.get('%s_MODULES_STRIP', False)
         for module in self._modules:
-            tmp = dict(self._installer._ctx)
+            tmp = dict(self._ctx)
             tmp.update(MODULE_NAME=module)
             url = urlPattern.format(**tmp)
             hashUrl = hashUrlPattern.format(**tmp)
