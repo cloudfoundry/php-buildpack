@@ -195,6 +195,10 @@ class ModuleInstaller(object):
         self._load_modules = self._regex_load_method
         return self
 
+    def include_module(self, module):
+        self._modules.append(module)
+        return self
+
     def from_application(self, path):
         fullPath = os.path.join(self._ctx['BUILD_DIR'], path)
         if os.path.exists(fullPath) and os.path.isdir(fullPath):
