@@ -221,7 +221,7 @@ class ModuleInstaller(object):
                                     self._ctx['CACHE_HASH_ALGORITHM'])
         toPath = os.path.join(self._ctx['BUILD_DIR'],
                               self._moduleKey.lower())
-        strip = self._ctx.get('%s_MODULES_STRIP', False)
+        strip = self._ctx.get('%s_MODULES_STRIP' % self._moduleKey, False)
         for module in self._modules:
             tmp = dict(self._ctx)
             tmp.update(MODULE_NAME=module)
