@@ -53,12 +53,15 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(3, len(lines))
+                eq_(4, len(lines))
                 eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
                     lines[0])
                 eq_("export HTTPD_SERVER_ADMIN=dan@mikusa.com", lines[1])
-                eq_("$HOME/httpd/bin/apachectl -f $HOME/httpd/conf/httpd.conf "
-                    "-k start -DFOREGROUND", lines[2])
+                eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
+                    '-y "$HOME/php/etc/php-fpm.conf"', lines[2])
+                eq_('$HOME/httpd/bin/apachectl '
+                    '-f "$HOME/httpd/conf/httpd.conf" '
+                    '-k start -DFOREGROUND', lines[3])
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
