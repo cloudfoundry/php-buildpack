@@ -14,8 +14,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import os
-import httpd
 from build_pack_utils import log_output
 from build_pack_utils import Builder
 
@@ -34,8 +32,21 @@ if __name__ == '__main__':
                 .or_from_build_pack('defaults/config/httpd/{HTTPD_VERSION}')
                 .to('httpd/conf')
                 .done()
-            .modules()
-                .from_config('httpd/conf')
+            .modules('HTTPD')
+                .filter_files_by_extension('.conf')
+                .find_modules_with_regex('^LoadModule .* modules/(.*).so$')
+                .from_application('httpd/conf')
+                .done()
+            .package('PHP')
+            .config()
+                .from_application('config/php')
+                .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
+                .to('php/etc')
+                .done()
+            .modules('PHP')
+                .find_modules_with_regex('^extension=(.*).so$')
+                .include_module('fpm')
+                .from_application('php/etc/php.ini')
                 .done()
             .done()
         .create_start_script()
