@@ -234,6 +234,7 @@ class ModuleInstaller(object):
 class ExtensionInstaller(object):
     def __init__(self, installer):
         self._installer = installer
+        self._ctx = installer.builder._ctx
         self._paths = []
         self._ignore = True
 
@@ -546,6 +547,7 @@ class StartScriptBuilder(object):
 class ExtensionScriptBuilder(object):
     def __init__(self, scriptBuilder):
         self._scriptBuilder = scriptBuilder
+        self._ctx = scriptBuilder.builder._ctx
         self._paths = []
         self._ignore = True
 
