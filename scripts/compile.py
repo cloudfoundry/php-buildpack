@@ -17,7 +17,6 @@
 from build_pack_utils import log_output
 from build_pack_utils import Builder
 
-# TODO: Setup x-forwarded-for / x-forwarded-proto support
 
 if __name__ == '__main__':
     (Builder()
