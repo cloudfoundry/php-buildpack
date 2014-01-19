@@ -525,7 +525,7 @@ class StartScriptBuilder(object):
     def command(self):
         return ScriptCommandBuilder(self.builder, self)
 
-    def modules(self):
+    def extensions(self):
         return ExtensionScriptBuilder(self)
 
     def write(self, wait_forever=False):
