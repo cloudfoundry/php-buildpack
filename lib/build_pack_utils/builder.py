@@ -238,11 +238,11 @@ class ExtensionInstaller(object):
         self._ignore = True
 
     def from_build_pack(self, path):
-        self.from_directory(os.path.join(self._ctx['BP_DIR'], path))
+        self.from_path(os.path.join(self._ctx['BP_DIR'], path))
         return self
 
     def from_application(self, path):
-        self.from_directory(os.path.join(self._ctx['BUILD_DIR'], path))
+        self.from_path(os.path.join(self._ctx['BUILD_DIR'], path))
         return self
 
     def from_path(self, path):
@@ -549,14 +549,23 @@ class ExtensionScriptBuilder(object):
         self._paths = []
         self._ignore = True
 
-    def from_location(self, path):
-        self._paths.append(os.path.abspath(path))
+    def from_build_pack(self, path):
+        self.from_path(os.path.join(self._ctx['BP_DIR'], path))
         return self
 
-    def from_directory(self, directory):
-        for path in os.listdir(directory):
-            self._paths.append(os.path.abspath(os.path.join(directory,
-                                                            path)))
+    def from_application(self, path):
+        self.from_path(os.path.join(self._ctx['BUILD_DIR'], path))
+        return self
+
+    def from_path(self, path):
+        if os.path.exists(path):
+            if os.path.exists(os.path.join(path, 'extension.py')):
+                self._paths.append(os.path.abspath(path))
+            else:
+                for p in os.listdir(path):
+                    tmp = os.path.join(path, p)
+                    if os.path.exists(os.path.join(tmp, 'extension.py')):
+                        self._paths.append(os.path.abspath(tmp))
         return self
 
     def ignore_errors(self, ignore):
