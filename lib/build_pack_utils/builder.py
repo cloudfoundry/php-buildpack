@@ -237,14 +237,21 @@ class ExtensionInstaller(object):
         self._paths = []
         self._ignore = True
 
-    def from_location(self, path):
-        self._paths.append(os.path.abspath(path))
+    def from_build_pack(self, path):
+        self.from_directory(os.path.join(self._ctx['BP_DIR'], path))
         return self
 
-    def from_directory(self, directory):
-        for path in os.listdir(directory):
-            self._paths.append(os.path.abspath(os.path.join(directory,
-                                                            path)))
+    def from_application(self, path):
+        self.from_directory(os.path.join(self._ctx['BUILD_DIR'], path))
+        return self
+
+    def from_path(self, path):
+        if os.path.exists(path):
+            if os.path.exists(os.path.join(path, 'extension.py')):
+                self._paths.append(os.path.abspath(path))
+            else:
+                for p in os.listdir(path):
+                    self._paths.append(os.path.abspath(os.path.join(path, p)))
         return self
 
     def ignore_errors(self, ignore):
@@ -518,6 +525,9 @@ class StartScriptBuilder(object):
     def command(self):
         return ScriptCommandBuilder(self.builder, self)
 
+    def modules(self):
+        return ExtensionScriptBuilder(self)
+
     def write(self, wait_forever=False):
         scriptName = self.builder._ctx.get('START_SCRIPT_NAME',
                                            'start.sh')
@@ -531,6 +541,44 @@ class StartScriptBuilder(object):
             out.write('\n'.join(self.content))
         os.chmod(startScriptPath, 0755)
         return self.builder
+
+
+class ExtensionScriptBuilder(object):
+    def __init__(self, scriptBuilder):
+        self._scriptBuilder = scriptBuilder
+        self._paths = []
+        self._ignore = True
+
+    def from_location(self, path):
+        self._paths.append(os.path.abspath(path))
+        return self
+
+    def from_directory(self, directory):
+        for path in os.listdir(directory):
+            self._paths.append(os.path.abspath(os.path.join(directory,
+                                                            path)))
+        return self
+
+    def ignore_errors(self, ignore):
+        self._ignore = ignore
+        return self
+
+    def _load_extension(self, path):
+        info = imp.find_module('extension', [path])
+        return imp.load_module('extension', *info)
+
+    def done(self):
+        for path in self._paths:
+            extn = self._load_extension(path)
+            try:
+                retcode = extn.setup_start_script(self._scriptBuilder)
+                if retcode != 0:
+                    raise RuntimeError('Extension Failed with [%s]' % retcode)
+            except Exception, e:
+                print "Extension Error [%s]" % str(e)
+                if not self._ignore:
+                    raise e
+        return self._scriptBuilder
 
 
 class ScriptCommandBuilder(object):
