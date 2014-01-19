@@ -73,6 +73,8 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'httpd', 'conf', 'extra')
             self.assert_exists(self.build_dir, 'httpd', 'conf',
                                'extra', 'httpd-modules.conf')
+            self.assert_exists(self.build_dir, 'httpd', 'conf',
+                               'extra', 'httpd-remoteip.conf')
             self.assert_exists(self.build_dir, 'httpd', 'modules',
                                'mod_authz_core.so')
             self.assert_exists(self.build_dir, 'httpd', 'modules',
