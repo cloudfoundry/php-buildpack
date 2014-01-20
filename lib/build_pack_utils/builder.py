@@ -130,6 +130,8 @@ class Installer(object):
         self._installer = CloudFoundryInstaller(self.builder._ctx)
 
     def package(self, key):
+        if key in self.builder._ctx.keys():
+            key = self.builder._ctx[key]
         self.builder._ctx['%s_INSTALL_PATH' % key] = \
             self._installer.install_binary(key)
         return self
