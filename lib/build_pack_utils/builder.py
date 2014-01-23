@@ -528,6 +528,9 @@ class StartScriptBuilder(object):
     def command(self):
         return ScriptCommandBuilder(self.builder, self)
 
+    def extension(self):
+        return ExtensionScriptBuilder(self)
+
     def extensions(self):
         return ExtensionScriptBuilder(self)
 
