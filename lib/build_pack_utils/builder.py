@@ -584,9 +584,7 @@ class ExtensionScriptBuilder(object):
         for path in self._paths:
             extn = self._load_extension(path)
             try:
-                retcode = extn.setup_start_script(self._scriptBuilder)
-                if retcode != 0:
-                    raise RuntimeError('Extension Failed with [%s]' % retcode)
+                extn.setup_start_script(self._scriptBuilder)
             except Exception, e:
                 print "Extension Error [%s]" % str(e)
                 if not self._ignore:
