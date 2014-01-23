@@ -1,12 +1,18 @@
 import shutil
 import tempfile
 import os.path
+import json
 from nose.tools import eq_
 from nose.tools import with_setup
 from build_pack_utils import BuildPack
 
 
 class TestCompile(object):
+    def _set_web_server(self, optsFile, webServer):
+        options = json.load(open(optsFile))
+        options['WEB_SERVER'] = webServer
+        json.dump(options, open(optsFile, 'wt'))
+
     def setUp(self):
         self.build_dir = tempfile.mkdtemp(prefix='build-')
         self.cache_dir = tempfile.mkdtemp(prefix='cache-')
@@ -47,6 +53,11 @@ class TestCompile(object):
                         ignore=shutil.ignore_patterns("binaries",
                                                       "env",
                                                       "tests"))
+        # set web server
+        self._set_web_server(os.path.join(bp.bp_dir,
+                                          'defaults',
+                                          'options.json'),
+                             'HTTPD')
         try:
             bp._compile()
             # Test scripts and config
