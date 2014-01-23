@@ -249,6 +249,7 @@ class ExtensionInstaller(object):
         return self
 
     def from_path(self, path):
+        path = path.format(**self._ctx)
         if os.path.exists(path):
             if os.path.exists(os.path.join(path, 'extension.py')):
                 self._paths.append(os.path.abspath(path))
@@ -565,6 +566,7 @@ class ExtensionScriptBuilder(object):
         return self
 
     def from_path(self, path):
+        path = path.format(**self._ctx)
         if os.path.exists(path):
             if os.path.exists(os.path.join(path, 'extension.py')):
                 self._paths.append(os.path.abspath(path))
