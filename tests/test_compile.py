@@ -68,15 +68,16 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(4, len(lines))
-                eq_("export HTTPD_SERVER_ADMIN=dan@mikusa.com", lines[0])
+                eq_(5, len(lines))
+                eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
+                    lines[0])
+                eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
+                    '-y "$HOME/php/etc/php-fpm.conf"', lines[1])
+                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[2])
+                eq_("export HTTPD_SERVER_ADMIN=dan@mikusa.com", lines[3])
                 eq_('$HOME/httpd/bin/apachectl '
                     '-f "$HOME/httpd/conf/httpd.conf" '
-                    '-k start -DFOREGROUND', lines[1])
-                eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
-                    lines[2])
-                eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
-                    '-y "$HOME/php/etc/php-fpm.conf"', lines[3])
+                    '-k start -DFOREGROUND', lines[4])
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
@@ -173,13 +174,14 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(3, len(lines))
-                eq_('$HOME/nginx/sbin/nginx -c "$HOME/nginx/conf/nginx.conf"',
-                    lines[0])
+                eq_(4, len(lines))
                 eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
-                    lines[1])
+                    lines[0])
                 eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
-                    '-y "$HOME/php/etc/php-fpm.conf"', lines[2])
+                    '-y "$HOME/php/etc/php-fpm.conf"', lines[1])
+                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[2])
+                eq_('$HOME/nginx/sbin/nginx -c "$HOME/nginx/conf/nginx.conf"',
+                    lines[3])
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
