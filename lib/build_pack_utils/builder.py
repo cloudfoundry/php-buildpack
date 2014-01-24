@@ -281,7 +281,7 @@ class ExtensionInstaller(object):
                 if retcode != 0:
                     raise RuntimeError('Extension Failed with [%s]' % retcode)
             except Exception, e:
-                print "Extension Error [%s]" % str(e)
+                print "Error with extension [%s] [%s]" % (path, str(e))
                 if not self._ignore:
                     raise e
         return self._installer
@@ -626,7 +626,7 @@ class ExtensionScriptBuilder(object):
             try:
                 extn.setup_start_script(self._scriptBuilder)
             except Exception, e:
-                print "Extension Error [%s]" % str(e)
+                print "Error with extension [%s] [%s]" % (path, str(e))
                 if not self._ignore:
                     raise e
         return self._scriptBuilder
