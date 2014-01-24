@@ -440,6 +440,7 @@ class FileUtil(object):
         self._filters = []
         self._from_path = None
         self._into_path = None
+        self._match = all
 
     def everything(self):
         self._filters.append((lambda path: True))
@@ -465,11 +466,36 @@ class FileUtil(object):
             lambda path: os.path.isdir(path))
         return self
 
+    def where_name_is(self, name):
+        self._filters.append(
+            lambda path: os.path.basename(path) == name)
+        return self
+
+    def where_name_is_not(self, name):
+        self._filters.append(
+            lambda path: os.path.basename(path) != name)
+        return self
+
     def where_name_matches(self, pattern):
         if hasattr(pattern, 'strip'):
             pattern = re.compile(pattern)
         self._filters.append(
             lambda path: (pattern.match(path) is not None))
+        return self
+
+    def where_name_does_not_match(self, pattern):
+        if hasattr(pattern, 'strip'):
+            pattern = re.compile(pattern)
+        self._filters.append(
+            lambda path: (pattern.match(path) is None))
+        return self
+
+    def all_true(self):
+        self._match = all
+        return self
+
+    def any_true(self):
+        self._match = any
         return self
 
     def under(self, path):
@@ -491,17 +517,13 @@ class FileUtil(object):
         return self
 
     def _copy_or_move(self, src, dest):
-        if os.path.isfile(src):
-            dest_base = os.path.dirname(dest)
-            if not os.path.exists(dest_base):
-                os.makedirs(os.path.dirname(dest))
-        if not self._move:
-            if os.path.isfile(src):
-                shutil.copy(src, dest)
-            else:
-                shutil.copytree(src, dest)
-        else:
+        dest_base = os.path.dirname(dest)
+        if not os.path.exists(dest_base):
+            os.makedirs(os.path.dirname(dest))
+        if self._move:
             shutil.move(src, dest)
+        else:
+            shutil.copy(src, dest)
 
     def done(self):
         if self._from_path and self._into_path:
@@ -514,11 +536,15 @@ class FileUtil(object):
             if os.path.exists(self._into_path):
                 raise ValueError("Destination path [%s] already exists"
                                  % self._into_path)
-            for item in os.listdir(self._from_path):
-                if all([f(item) for f in self._filters]):
-                    self._copy_or_move(
-                        os.path.join(self._from_path, item),
-                        os.path.join(self._into_path, item))
+            for root, dirs, files in os.walk(self._from_path, topdown=False):
+                for f in files:
+                    fromPath = os.path.join(root, f)
+                    toPath = fromPath.replace(self._from_path, self._into_path)
+                    if self._match([f(fromPath) for f in self._filters]):
+                        self._copy_or_move(fromPath, toPath)
+                if self._move:
+                    for d in dirs:
+                        os.rmdir(os.path.join(root, d))
         return self._builder
 
 
