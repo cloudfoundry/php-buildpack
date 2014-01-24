@@ -544,7 +544,9 @@ class FileUtil(object):
                         self._copy_or_move(fromPath, toPath)
                 if self._move:
                     for d in dirs:
-                        os.rmdir(os.path.join(root, d))
+                        dirPath = os.path.join(root, d)
+                        if len(os.listdir(dirPath)) == 0:
+                            os.rmdir(os.path.join(root, d))
         return self._builder
 
 
