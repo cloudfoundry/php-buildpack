@@ -8,6 +8,7 @@ def setup_start_script(ssb):
             .run('$HOME/php/sbin/php-fpm')
             .with_argument('-p "$HOME/php/etc"')
             .with_argument('-y "$HOME/php/etc/php-fpm.conf"')
+            .background()
             .done())
 
 
