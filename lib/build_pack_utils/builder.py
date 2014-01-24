@@ -59,6 +59,7 @@ class Detecter(object):
         self._detecter = None
         self._recursive = False
         self._fullPath = False
+        self._continue = False
         self._output = 'Found'
         self._root = builder._ctx['BUILD_DIR']
 
@@ -103,6 +104,10 @@ class Detecter(object):
         self._output = text
         return self
 
+    def when_not_found_continue(self):
+        self._continue = True
+        return self
+
     def under(self, root):
         self._root = root
         self.recursive()
@@ -116,12 +121,14 @@ class Detecter(object):
         # calls to sys.exit are expected here and needed to
         #  conform to the requirements of CF's detect script
         #  which must set exit codes
-        if self._detecter:
-            if self._detecter.search(self._root):
-                print self._output
-                sys.exit(0)
-        print 'no'
-        sys.exit(1)
+        if self._detecter and self._detecter.search(self._root):
+            print self._output
+            sys.exit(0)
+        elif not self._continue:
+            print 'no'
+            sys.exit(1)
+        else:
+            return self._builder
 
 
 class Installer(object):
