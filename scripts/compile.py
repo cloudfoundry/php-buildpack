@@ -16,6 +16,7 @@
 # limitations under the License.
 from build_pack_utils import log_output
 from build_pack_utils import Builder
+from compile_helpers import 
 
 
 if __name__ == '__main__':
@@ -24,6 +25,8 @@ if __name__ == '__main__':
             .default_config()
             .user_config()
             .done()
+        .execute()
+            .method(setup_htdocs_if_it_doesnt_exist)
         .install()
             .extension()
                 .from_build_pack('lib/{WEB_SERVER}')
