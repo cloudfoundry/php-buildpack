@@ -16,7 +16,7 @@
 # limitations under the License.
 from build_pack_utils import log_output
 from build_pack_utils import Builder
-from compile_helpers import 
+from compile_helpers import setup_htdocs_if_it_doesnt_exist
 
 
 if __name__ == '__main__':
