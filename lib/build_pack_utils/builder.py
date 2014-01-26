@@ -731,6 +731,7 @@ class EnvironmentVariableBuilder(object):
             value = value()
         elif value in builder._ctx.keys():
             value = builder._ctx[value]
+        value = value.format(**builder._ctx)
         value = value.replace(builder._ctx['BUILD_DIR'], '$HOME')
         line = []
         if self._export:
