@@ -1,0 +1,2 @@
+{HOME}/test.cfg
+{TMPDIR}/some-file.txt

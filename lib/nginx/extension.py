@@ -1,3 +1,6 @@
+import os
+
+
 def setup_start_script(ssb):
     (ssb.environment_variable()
             .export()
@@ -18,3 +21,12 @@ def compile(install):
             .to('nginx/conf')
             .done())
     return 0
+
+
+def rewrite_nginx_conf(conf_path, ctx):
+    for file_name in os.listdir(conf_path):
+        cfg_path = os.path.join(conf_path, file_name)
+        lines = open(cfg_path).readlines()
+        with open(cfg_path, 'wt') as out:
+            for line in lines:
+                out.write(line.format(**ctx))
