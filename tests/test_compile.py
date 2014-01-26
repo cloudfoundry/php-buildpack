@@ -68,16 +68,17 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(5, len(lines))
+                eq_(6, len(lines))
                 eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
                     lines[0])
                 eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
                     '-y "$HOME/php/etc/php-fpm.conf"', lines[1])
                 eq_('tail -F $HOME/../logs/php-fpm.log &', lines[2])
                 eq_("export HTTPD_SERVER_ADMIN=dan@mikusa.com", lines[3])
+                eq_("export PHP_FPM_LISTEN=127.0.0.1:9000", lines[4])
                 eq_('$HOME/httpd/bin/apachectl '
                     '-f "$HOME/httpd/conf/httpd.conf" '
-                    '-k start -DFOREGROUND', lines[4])
+                    '-k start -DFOREGROUND', lines[5])
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
@@ -174,14 +175,17 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(4, len(lines))
+                eq_(5, len(lines))
                 eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
                     lines[0])
                 eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
                     '-y "$HOME/php/etc/php-fpm.conf"', lines[1])
                 eq_('tail -F $HOME/../logs/php-fpm.log &', lines[2])
-                eq_('$HOME/nginx/sbin/nginx -c "$HOME/nginx/conf/nginx.conf"',
+                eq_("export PHP_FPM_LISTEN=/var/folders/w4/"
+                    "g5kx6n_16330906jj_6nvqcc0000gp/T/php-fpm.socket",
                     lines[3])
+                eq_('$HOME/nginx/sbin/nginx -c "$HOME/nginx/conf/nginx.conf"',
+                    lines[4])
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')

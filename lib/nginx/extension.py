@@ -1,8 +1,12 @@
 def setup_start_script(ssb):
-    (ssb.command()
-        .run('$HOME/nginx/sbin/nginx')
-        .with_argument('-c "$HOME/nginx/conf/nginx.conf"')
-        .done())
+    (ssb.environment_variable()
+            .export()
+            .name('PHP_FPM_LISTEN')
+            .value('{TMPDIR}php-fpm.socket')
+        .command()
+            .run('$HOME/nginx/sbin/nginx')
+            .with_argument('-c "$HOME/nginx/conf/nginx.conf"')
+            .done())
        
 
 def compile(install):
