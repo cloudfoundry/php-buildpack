@@ -520,19 +520,19 @@ class FileUtil(object):
     def under(self, path):
         if path in self._builder._ctx.keys():
             self._from_path = self._builder._ctx[path]
-        elif not path.startswith('/'):
-            self._from_path = os.path.join(os.getcwd(), path)
         else:
             self._from_path = path.format(**self._builder._ctx)
+            if not self._from_path.startswith('/'):
+                self._from_path = os.path.join(os.getcwd(), path)
         return self
 
     def into(self, path):
         if path in self._builder._ctx.keys():
             self._into_path = self._builder._ctx[path]
-        elif not path.startswith('/'):
-            self._into_path = os.path.join(self._from_path, path)
         else:
             self._into_path = path.format(**self._builder._ctx)
+            if not self._into_path.startswith('/'):
+                self._into_path = os.path.join(self._from_path, path)
         return self
 
     def _copy_or_move(self, src, dest):
