@@ -296,7 +296,7 @@ class ConfigInstaller(object):
         self._app_path = None
         self._bp_path = None
         self._to_path = None
-        self._rewrite = None
+        self._delimiter = None
 
     def from_build_pack(self, fromFile):
         self._bp_path = fromFile.format(**self._ctx)
@@ -314,20 +314,21 @@ class ConfigInstaller(object):
         self._to_path = toPath.format(**self._ctx)
         return self
 
-    def rewrite(self, runtime=False):
-        self._rewrite = runtime and '@' or '#'
+    def rewrite(self, delimiter='#'):
+        self._delimiter = delimiter
         return self
 
     def _rewrite_cfgs(self):
         class RewriteTemplate(Template):
-            delimiter = self._rewrite
+            delimiter = self._delimiter
         toPath = os.path.join(self._ctx['BUILD_DIR'], self._to_path)
-        for fileName in os.listdir(toPath):
-            cfgPath = os.path.join(toPath, fileName)
-            with open(cfgPath) as fin:
-                data = fin.read()
-            with open(cfgPath, 'wt') as out:
-                out.write(RewriteTemplate(data).safe_substitute(**self._ctx))
+        for root, dirs, files in os.walk(toPath):
+            for f in files:
+                cfgPath = os.path.join(root, f)
+                with open(cfgPath) as fin:
+                    data = fin.read()
+                with open(cfgPath, 'wt') as out:
+                    out.write(RewriteTemplate(data).safe_substitute(**self._ctx))
 
     def done(self):
         if (self._bp_path or self._app_path) and self._to_path:
@@ -337,7 +338,7 @@ class ConfigInstaller(object):
             if self._app_path:
                 self._cfInst.install_from_application(self._app_path,
                                                       self._to_path)
-        if self._rewrite:
+        if self._delimiter:
             self._rewrite_cfgs()
         return self._installer
 
