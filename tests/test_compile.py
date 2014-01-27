@@ -68,16 +68,19 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(5, len(lines))
+                eq_(7, len(lines))
                 eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
                     lines[0])
+                eq_('$HOME/rewrite "$HOME/php/etc"', lines[1])
                 eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
-                    '-y "$HOME/php/etc/php-fpm.conf"', lines[1])
-                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[2])
-                eq_("export HTTPD_SERVER_ADMIN=dan@mikusa.com", lines[3])
+                    '-y "$HOME/php/etc/php-fpm.conf"', lines[2])
+                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[3])
+                eq_("export HTTPD_SERVER_ADMIN=dan@mikusa.com", lines[4])
+                eq_('$HOME/rewrite "$HOME/httpd/conf"', lines[5])
                 eq_('$HOME/httpd/bin/apachectl '
                     '-f "$HOME/httpd/conf/httpd.conf" '
-                    '-k start -DFOREGROUND', lines[4])
+                    '-k start -DFOREGROUND', lines[6])
+            self.assert_exists(self.build_dir, 'rewrite')
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
@@ -174,14 +177,17 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(4, len(lines))
+                eq_(6, len(lines))
                 eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
                     lines[0])
+                eq_('$HOME/rewrite "$HOME/php/etc"', lines[1])
                 eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
-                    '-y "$HOME/php/etc/php-fpm.conf"', lines[1])
-                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[2])
+                    '-y "$HOME/php/etc/php-fpm.conf"', lines[2])
+                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[3])
+                eq_('$HOME/rewrite "$HOME/nginx/conf"', lines[4])
                 eq_('$HOME/nginx/sbin/nginx -c "$HOME/nginx/conf/nginx.conf"',
-                    lines[3])
+                    lines[5])
+            self.assert_exists(self.build_dir, 'rewrite')
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
