@@ -5,6 +5,7 @@ import re
 import imp
 from subprocess import Popen
 from subprocess import PIPE
+from string import Template
 from cloudfoundry import CloudFoundryUtil
 from cloudfoundry import CloudFoundryInstaller
 from detecter import TextFileSearch
@@ -324,7 +325,7 @@ class ConfigInstaller(object):
             lines = open(cfgPath).readlines()
             with open(cfgPath, 'wt') as out:
                 for line in lines:
-                    out.write(line.format(**self._ctx))
+                    out.write(Template(line).safe_substitute(**self._ctx))
 
     def done(self):
         if (self._bp_path or self._app_path) and self._to_path:
