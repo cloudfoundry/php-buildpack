@@ -19,6 +19,7 @@ def compile(install):
             .from_application('config/httpd')
             .or_from_build_pack('defaults/config/httpd/{HTTPD_VERSION}')
             .to('httpd/conf')
+            .rewrite()
             .done()
         .modules('HTTPD')
             .filter_files_by_extension('.conf')
