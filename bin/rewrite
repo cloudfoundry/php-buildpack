@@ -1,10 +1,49 @@
-#!/bin/bash
-# 
-# Wrapper script that launches Python Build Pack
-#  At the moment, this just launches the appropriate
-#  python script.  However, this is here in case the
-#  build pack needs to do anything to bootstrap the
-#  python scripts, like install Python.
-BP=$(dirname $(dirname $0))
-export PYTHONPATH=$BP/lib
-python $BP/scripts/rewrite.py $1
+#!/usr/bin/env python
+
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import sys
+import os
+from string import Template
+
+
+class RewriteTemplate(Template):
+    delimiter = '@'
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print 'Argument required!  Specify path to configuration directory.'
+        sys.exit(-1)
+
+    toPath = sys.argv[1]
+    if not os.path.exists(toPath):
+        print 'Path [%s] not found.' % toPath
+        sys.exit(-1)
+
+    if not os.path.isdir(toPath):
+        print 'Path [%s] is not a directory.' % toPath
+        sys.exit(-1)
+
+    ctx = {
+        'BUILD_DIR': ''
+    }
+    ctx.update(os.environ)
+
+    for fileName in os.listdir(toPath):
+        cfgPath = os.path.join(toPath, fileName)
+        with open(cfgPath) as fin:
+            data = fin.read()
+        with open(cfgPath, 'wt') as out:
+            out.write(RewriteTemplate(data).safe_substitute(**ctx))
