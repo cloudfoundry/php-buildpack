@@ -23,6 +23,7 @@ def compile(install):
             .from_application('config/php')
             .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
             .to('php/etc')
+            .rewrite()
             .done()
         .modules('PHP')
             .find_modules_with_regex('^extension=(.*).so$')

@@ -3,10 +3,6 @@ def setup_start_script(ssb):
             .export()
             .name('HTTPD_SERVER_ADMIN')
             .value('ADMIN_EMAIL')
-        .environment_variable()
-            .export()
-            .name('PHP_FPM_LISTEN')
-            .value('127.0.0.1:9000')
         .command()
             .run('$HOME/httpd/bin/apachectl')
             .with_argument('-f "$HOME/httpd/conf/httpd.conf"')
@@ -16,6 +12,7 @@ def setup_start_script(ssb):
 
 
 def compile(install):
+    install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
     (install
         .package('HTTPD')
         .config()
