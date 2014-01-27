@@ -328,7 +328,7 @@ class ConfigInstaller(object):
                 with open(cfgPath) as fin:
                     data = fin.read()
                 with open(cfgPath, 'wt') as out:
-                    out.write(RewriteTemplate(data).safe_substitute(**self._ctx))
+                    out.write(RewriteTemplate(data).safe_substitute(self._ctx))
 
     def done(self):
         if (self._bp_path or self._app_path) and self._to_path:
