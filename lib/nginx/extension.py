@@ -11,7 +11,7 @@ def setup_start_script(ssb):
        
 
 def compile(install):
-    install.builder._ctx['PHP_FPM_LISTEN'] = '{TMPDIR}php-fpm.socket'
+    install.builder._ctx['PHP_FPM_LISTEN'] = '{TMPDIR}/php-fpm.socket'
     (install
         .package('NGINX')
         .config()
