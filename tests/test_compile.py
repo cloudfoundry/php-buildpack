@@ -208,6 +208,13 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'nginx', 'logs')
             self.assert_exists(self.build_dir, 'nginx', 'sbin')
             self.assert_exists(self.build_dir, 'nginx', 'sbin', 'nginx')
+            with open(os.path.join(self.build_dir,
+                                   'nginx',
+                                   'conf',
+                                   'http-php.conf')) as fin:
+                data = fin.read()
+                eq_(-1, data.find('#{PHP_FPM_LISTEN}'))
+                eq_(-1, data.find('{TMPDIR}'))
             # Test PHP
             self.assert_exists(self.build_dir, 'php')
             self.assert_exists(self.build_dir, 'php', 'etc')
