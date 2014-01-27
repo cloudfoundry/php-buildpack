@@ -1,6 +1,10 @@
 
 def setup_start_script(ssb):
     (ssb.command()
+            .run('$HOME/rewrite')
+            .with_argument('"$HOME/nginx/conf"')
+            .done()
+        .command()
             .run('$HOME/nginx/sbin/nginx')
             .with_argument('-c "$HOME/nginx/conf/nginx.conf"')
             .done())
