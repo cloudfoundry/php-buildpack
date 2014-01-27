@@ -8,6 +8,12 @@ class FakeBuilder(object):
         self._ctx = ctx
 
 
+class FakeInstaller(object):
+    def __init__(self, builder, installer):
+        self._installer = installer
+        self.builder = builder
+
+
 def setup_htdocs_if_it_doesnt_exist(ctx):
     htdocsPath = os.path.join(ctx['BUILD_DIR'], 'htdocs')
     if not os.path.exists(htdocsPath):
