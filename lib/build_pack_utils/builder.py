@@ -552,9 +552,6 @@ class FileUtil(object):
             if not os.path.exists(self._from_path):
                 raise ValueError("Source path [%s] does not exist"
                                  % self._from_path)
-            if os.path.exists(self._into_path):
-                raise ValueError("Destination path [%s] already exists"
-                                 % self._into_path)
             for root, dirs, files in os.walk(self._from_path, topdown=False):
                 for f in files:
                     fromPath = os.path.join(root, f)
