@@ -41,9 +41,10 @@ if __name__ == '__main__':
     }
     ctx.update(os.environ)
 
-    for fileName in os.listdir(toPath):
-        cfgPath = os.path.join(toPath, fileName)
-        with open(cfgPath) as fin:
-            data = fin.read()
-        with open(cfgPath, 'wt') as out:
-            out.write(RewriteTemplate(data).safe_substitute(**ctx))
+    for root, dirs, files in os.walk(toPath):
+        for f in files:
+            cfgPath = os.path.join(root, f)
+            with open(cfgPath) as fin:
+                data = fin.read()
+            with open(cfgPath, 'wt') as out:
+                out.write(RewriteTemplate(data).safe_substitute(**ctx))

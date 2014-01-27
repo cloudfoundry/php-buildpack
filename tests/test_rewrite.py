@@ -60,3 +60,28 @@ class TestRewriteScript(object):
             eq_(-1, cfgFile.find('@{TMPDIR}'))
             eq_(True, cfgFile.find('www@my.domain.com') >= 0)
 
+
+class TestRewriteScriptWithHttpd(object):
+    def __init__(self):
+        info = imp.find_module('runner', ['lib/build_pack_utils'])
+        self.run = imp.load_module('runner', *info)
+
+    def setUp(self):
+        self.cfg_dir = tempfile.mkdtemp(prefix='config-')
+        os.rmdir(self.cfg_dir)
+        shutil.copytree('defaults/config/httpd/2.4.x', self.cfg_dir)
+
+    def tearDown(self):
+        if os.path.exists(self.cfg_dir):
+            shutil.rmtree(self.cfg_dir)
+
+    @with_setup(setup=setUp, teardown=tearDown)
+    def test_rewrite_with_sub_dirs(self):
+        res = self.run.check_output("bin/rewrite %s" % self.cfg_dir,
+                                    stderr=subprocess.STDOUT,
+                                    shell=True)
+        eq_('', res)
+        for root, dirs, files in os.walk(self.cfg_dir):
+            for f in files:
+                with open(os.path.join(root, f)) as fin:
+                    eq_(-1, fin.read().find('@{'))
