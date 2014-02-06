@@ -16,6 +16,23 @@ from detecter import ContainsFileSearch
 from runner import BuildPack
 
 
+def _load_extension(path):
+    info = imp.find_module('extension', [path])
+    return imp.load_module('extension', *info)
+
+
+def _process_extensions(ctx, to_call, success, ignore=False):
+    for path in ctx['EXTENSIONS']:
+        extn = _load_extension(path)
+        try:
+            if hasattr(extn, to_call):
+                success(getattr(extn, to_call)(ctx))
+        except Exception, e:
+            print "Error with extension [%s] [%s]" % (path, str(e))
+            if not ignore:
+                raise e
+
+
 def log_output(cmd, retcode, stdout, stderr):
     print 'Comand %s completed with [%d]' % (str(cmd), retcode)
     if stdout:
@@ -270,21 +287,12 @@ class ExtensionInstaller(object):
         self._ignore = ignore
         return self
 
-    def _load_extension(self, path):
-        info = imp.find_module('extension', [path])
-        return imp.load_module('extension', *info)
-
     def done(self):
-        for path in self._paths:
-            extn = self._load_extension(path)
-            try:
-                retcode = extn.compile(self._installer)
-                if retcode != 0:
-                    raise RuntimeError('Extension Failed with [%s]' % retcode)
-            except Exception, e:
-                print "Error with extension [%s] [%s]" % (path, str(e))
-                if not self._ignore:
-                    raise e
+        def process(retcode):
+            if retcode != 0:
+                raise RuntimeError('Extension Failed with [%s]' % retcode)
+        self._ctx['EXTENSIONS'].extend(self._paths)
+        _process_extensions(self._ctx, 'compile', process)
         return self._installer
 
 
@@ -581,13 +589,18 @@ class StartScriptBuilder(object):
     def command(self):
         return ScriptCommandBuilder(self.builder, self)
 
-    def extension(self):
-        return ExtensionScriptBuilder(self)
+    def using_process_manager(self):
+        # TODO: add commands to start process manager
+        return self
 
-    def extensions(self):
-        return ExtensionScriptBuilder(self)
+    def _process_extensions(self):
+        def process(cmds):
+            for cmd in cmds:
+                self.content.append(' '.join(cmd))
+        _process_extensions(self.builder._ctx, 'preprocess_commands', process)
 
     def write(self, wait_forever=False):
+        self._process_extensions()
         scriptName = self.builder._ctx.get('START_SCRIPT_NAME',
                                            'start.sh')
         startScriptPath = os.path.join(
@@ -597,56 +610,10 @@ class StartScriptBuilder(object):
             self.content.append("    sleep 100000")
             self.content.append("done")
         with open(startScriptPath, 'wt') as out:
-            out.write('\n'.join(self.content))
+            if self.content:
+                out.write('\n'.join(self.content))
         os.chmod(startScriptPath, 0755)
         return self.builder
-
-
-class ExtensionScriptBuilder(object):
-    def __init__(self, scriptBuilder):
-        self._scriptBuilder = scriptBuilder
-        self._ctx = scriptBuilder.builder._ctx
-        self._paths = []
-        self._ignore = True
-
-    def from_build_pack(self, path):
-        self.from_path(os.path.join(self._ctx['BP_DIR'], path))
-        return self
-
-    def from_application(self, path):
-        self.from_path(os.path.join(self._ctx['BUILD_DIR'], path))
-        return self
-
-    def from_path(self, path):
-        path = path.format(**self._ctx)
-        if os.path.exists(path):
-            if os.path.exists(os.path.join(path, 'extension.py')):
-                self._paths.append(os.path.abspath(path))
-            else:
-                for p in os.listdir(path):
-                    tmp = os.path.join(path, p)
-                    if os.path.exists(os.path.join(tmp, 'extension.py')):
-                        self._paths.append(os.path.abspath(tmp))
-        return self
-
-    def ignore_errors(self, ignore):
-        self._ignore = ignore
-        return self
-
-    def _load_extension(self, path):
-        info = imp.find_module('extension', [path])
-        return imp.load_module('extension', *info)
-
-    def done(self):
-        for path in self._paths:
-            extn = self._load_extension(path)
-            try:
-                extn.setup_start_script(self._scriptBuilder)
-            except Exception, e:
-                print "Error with extension [%s] [%s]" % (path, str(e))
-                if not self._ignore:
-                    raise e
-        return self._scriptBuilder
 
 
 class ScriptCommandBuilder(object):
@@ -777,6 +744,32 @@ class BuildPackManager(object):
         return self._builder
 
 
+class SaveBuilder(object):
+    def __init__(self, builder):
+        self._builder = builder
+
+    def runtime_environment(self):
+        def process(env):
+            envPath = os.path.join(self._builder._ctx['BUILD_DIR'], '.env')
+            with open(envPath, 'at') as envFile:
+                for key, val in env.iteritems():
+                    envFile.write("%s=%s\n" % (key, val))
+        _process_extensions(self._builder._ctx, 'service_environment', process)
+        return self
+
+    def process_list(self):
+        def process(cmds):
+            procPath = os.path.join(self._builder._ctx['BUILD_DIR'], '.procs')
+            with open(procPath, 'at') as procFile:
+                for name, cmd in cmds.iteritems():
+                    procFile.write("%s: %s\n" % (name, ' '.join(cmd)))
+        _process_extensions(self._builder._ctx, 'service_commands', process)
+        return self
+
+    def done(self):
+        return self._builder
+
+
 class Builder(object):
     def __init__(self):
         self._installer = None
@@ -806,6 +799,9 @@ class Builder(object):
 
     def move(self):
         return FileUtil(self, move=True)
+
+    def save(self):
+        return SaveBuilder(self)
 
     def release(self):
         print 'default_process_types:'

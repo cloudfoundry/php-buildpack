@@ -34,6 +34,8 @@ class CloudFoundryUtil(object):
             os.makedirs(ctx['BUILD_DIR'])
         if ctx['CACHE_DIR'] and not os.path.exists(ctx['CACHE_DIR']):
             os.makedirs(ctx['CACHE_DIR'])
+        # Add place holder for extensions
+        ctx['EXTENSIONS'] = []
         return ctx
 
     @staticmethod
