@@ -1,18 +1,22 @@
-def setup_start_script(ssb):
-    (ssb.environment_variable()
-            .export()
-            .name('HTTPD_SERVER_ADMIN')
-            .value('ADMIN_EMAIL')
-        .command()
-            .run('$HOME/rewrite')
-            .with_argument('"$HOME/httpd/conf"')
-            .done()
-        .command()
-            .run('$HOME/httpd/bin/apachectl')
-            .with_argument('-f "$HOME/httpd/conf/httpd.conf"')
-            .with_argument('-k start')
-            .with_argument('-DFOREGROUND')
-            .done())
+def preprocess_commands(ctx):
+    return ((
+        '$HOME/rewrite',
+        '"$HOME/httpd/conf"'),)
+
+
+def service_commands(ctx):
+    return {
+        'httpd': (
+            '$HOME/httpd/bin/apachectl',
+            '-f "$HOME/httpd/conf/httpd.conf"',
+            '-k start',
+            '-DFOREGROUND')
+    }
+
+def service_environment(ctx):
+    return {
+        'HTTPD_SERVER_ADMIN': ctx['ADMIN_EMAIL']
+    }
 
 
 def compile(install):

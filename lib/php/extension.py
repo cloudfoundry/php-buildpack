@@ -1,23 +1,25 @@
-def setup_start_script(ssb):
-    (ssb
-        .environment_variable()
-            .export()
-            .name('LD_LIBRARY_PATH')
-            .value('$LD_LIBRARY_PATH:$HOME/php/lib')
-        .command()
-            .run('$HOME/rewrite')
-            .with_argument('"$HOME/php/etc"')
-            .done()
-        .command()
-            .run('$HOME/php/sbin/php-fpm')
-            .with_argument('-p "$HOME/php/etc"')
-            .with_argument('-y "$HOME/php/etc/php-fpm.conf"')
-            .done()
-        .command()
-            .run('tail')
-            .with_argument('-F $HOME/../logs/php-fpm.log')
-            .background()
-            .done())
+def preprocess_commands(ctx):
+    return ((
+        '$HOME/rewrite',
+        '"$HOME/php/etc"'),)
+
+
+def service_commands(ctx):
+    return {
+        'php-fpm': (
+            '$HOME/php/sbin/php-fpm',
+            '-p "$HOME/php/etc"',
+            '-y "$HOME/php/etc/php-fpm.conf"'),
+        'php-fpm-logs': (
+            'tail',
+            '-F $HOME/../logs/php-fpm.log')
+    }
+
+
+def service_environment(ctx):
+    return {
+        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/php/lib'
+    }
 
 
 def compile(install):

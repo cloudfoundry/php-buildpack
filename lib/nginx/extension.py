@@ -1,13 +1,19 @@
+def preprocess_commands(ctx):
+    return ((
+        '$HOME/rewrite',
+        '"$HOME/nginx/conf"'),)
 
-def setup_start_script(ssb):
-    (ssb.command()
-            .run('$HOME/rewrite')
-            .with_argument('"$HOME/nginx/conf"')
-            .done()
-        .command()
-            .run('$HOME/nginx/sbin/nginx')
-            .with_argument('-c "$HOME/nginx/conf/nginx.conf"')
-            .done())
+
+def service_commands(ctx):
+    return {
+        'nginx': (
+            '$HOME/nginx/sbin/nginx',
+            '-c "$HOME/nginx/conf/nginx.conf"')
+    }
+
+
+def service_environment(ctx):
+    return {}
        
 
 def compile(install):
