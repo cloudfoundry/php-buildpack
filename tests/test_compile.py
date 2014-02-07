@@ -59,6 +59,7 @@ class TestCompile(object):
                                           'options.json'),
                              'httpd')
         try:
+            output = ''
             output = bp._compile()
             outputLines = output.split('\n')
             eq_(20, len(outputLines))
@@ -167,6 +168,7 @@ class TestCompile(object):
                                           'options.json'),
                              'nginx')
         try:
+            output = ''
             output = bp._compile()
             # Test Output
             outputLines = output.split('\n')
