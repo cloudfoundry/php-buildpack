@@ -1,5 +1,36 @@
 import os
 import shutil
+import imp
+from string import Template
+
+
+def load_extension(path):
+    info = imp.find_module('extension', [path])
+    return imp.load_module('extension', *info)
+
+
+def process_extensions(ctx, to_call, success, ignore=False):
+    for path in ctx['EXTENSIONS']:
+        extn = load_extension(path)
+        try:
+            if hasattr(extn, to_call):
+                success(getattr(extn, to_call)(ctx))
+        except Exception, e:
+            print "Error with extension [%s] [%s]" % (path, str(e))
+            if not ignore:
+                raise e
+
+
+def rewrite_cfgs(toPath, ctx, delim='#'):
+    class RewriteTemplate(Template):
+        delimiter = delim
+    for root, dirs, files in os.walk(toPath):
+        for f in files:
+            cfgPath = os.path.join(root, f)
+            with open(cfgPath) as fin:
+                data = fin.read()
+            with open(cfgPath, 'wt') as out:
+                out.write(RewriteTemplate(data).safe_substitute(ctx))
 
 
 class FormattedDict(dict):

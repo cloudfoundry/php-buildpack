@@ -2,10 +2,8 @@ import os
 import sys
 import shutil
 import re
-import imp
 from subprocess import Popen
 from subprocess import PIPE
-from string import Template
 from cloudfoundry import CloudFoundryUtil
 from cloudfoundry import CloudFoundryInstaller
 from detecter import TextFileSearch
@@ -14,23 +12,8 @@ from detecter import StartsWithFileSearch
 from detecter import EndsWithFileSearch
 from detecter import ContainsFileSearch
 from runner import BuildPack
-
-
-def _load_extension(path):
-    info = imp.find_module('extension', [path])
-    return imp.load_module('extension', *info)
-
-
-def _process_extensions(ctx, to_call, success, ignore=False):
-    for path in ctx['EXTENSIONS']:
-        extn = _load_extension(path)
-        try:
-            if hasattr(extn, to_call):
-                success(getattr(extn, to_call)(ctx))
-        except Exception, e:
-            print "Error with extension [%s] [%s]" % (path, str(e))
-            if not ignore:
-                raise e
+from utils import rewrite_cfgs
+from utils import process_extensions
 
 
 def log_output(cmd, retcode, stdout, stderr):
@@ -292,7 +275,7 @@ class ExtensionInstaller(object):
             if retcode != 0:
                 raise RuntimeError('Extension Failed with [%s]' % retcode)
         self._ctx['EXTENSIONS'].extend(self._paths)
-        _process_extensions(self._ctx, 'compile', process)
+        process_extensions(self._ctx, 'compile', process)
         return self._installer
 
 
@@ -327,16 +310,9 @@ class ConfigInstaller(object):
         return self
 
     def _rewrite_cfgs(self):
-        class RewriteTemplate(Template):
-            delimiter = self._delimiter
-        toPath = os.path.join(self._ctx['BUILD_DIR'], self._to_path)
-        for root, dirs, files in os.walk(toPath):
-            for f in files:
-                cfgPath = os.path.join(root, f)
-                with open(cfgPath) as fin:
-                    data = fin.read()
-                with open(cfgPath, 'wt') as out:
-                    out.write(RewriteTemplate(data).safe_substitute(self._ctx))
+        rewrite_cfgs(os.path.join(self._ctx['BUILD_DIR'], self._to_path),
+                     self._ctx,
+                     delim=self._delimiter)
 
     def done(self):
         if (self._bp_path or self._app_path) and self._to_path:
@@ -597,7 +573,7 @@ class StartScriptBuilder(object):
         def process(cmds):
             for cmd in cmds:
                 self.content.append(' '.join(cmd))
-        _process_extensions(self.builder._ctx, 'preprocess_commands', process)
+        process_extensions(self.builder._ctx, 'preprocess_commands', process)
 
     def write(self, wait_forever=False):
         self._process_extensions()
@@ -754,7 +730,7 @@ class SaveBuilder(object):
             with open(envPath, 'at') as envFile:
                 for key, val in env.iteritems():
                     envFile.write("%s=%s\n" % (key, val))
-        _process_extensions(self._builder._ctx, 'service_environment', process)
+        process_extensions(self._builder._ctx, 'service_environment', process)
         return self
 
     def process_list(self):
@@ -763,7 +739,7 @@ class SaveBuilder(object):
             with open(procPath, 'at') as procFile:
                 for name, cmd in cmds.iteritems():
                     procFile.write("%s: %s\n" % (name, ' '.join(cmd)))
-        _process_extensions(self._builder._ctx, 'service_commands', process)
+        process_extensions(self._builder._ctx, 'service_commands', process)
         return self
 
     def done(self):
