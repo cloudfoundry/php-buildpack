@@ -555,6 +555,7 @@ class StartScriptBuilder(object):
     def __init__(self, builder):
         self.builder = builder
         self.content = []
+        self._use_pm = False
 
     def manual(self, cmd):
         self.content.append(cmd)
@@ -566,7 +567,7 @@ class StartScriptBuilder(object):
         return ScriptCommandBuilder(self.builder, self)
 
     def using_process_manager(self):
-        # TODO: add commands to start process manager
+        self._use_pm = True
         return self
 
     def _process_extensions(self):
@@ -577,14 +578,20 @@ class StartScriptBuilder(object):
 
     def write(self, wait_forever=False):
         self._process_extensions()
-        scriptName = self.builder._ctx.get('START_SCRIPT_NAME',
-                                           'start.sh')
-        startScriptPath = os.path.join(
-            self.builder._ctx['BUILD_DIR'], scriptName)
+
+        if self._use_pm:
+            self.content.append('export PYTHONPATH=$HOME/.bp/lib')
+            self.content.append('$HOME/.bp/bin/start')
+
         if wait_forever:
             self.content.append("while [ 1 -eq 1 ]; do")
             self.content.append("    sleep 100000")
             self.content.append("done")
+
+        scriptName = self.builder._ctx.get('START_SCRIPT_NAME',
+                                           'start.sh')
+        startScriptPath = os.path.join(
+            self.builder._ctx['BUILD_DIR'], scriptName)
         with open(startScriptPath, 'wt') as out:
             if self.content:
                 out.write('\n'.join(self.content))
