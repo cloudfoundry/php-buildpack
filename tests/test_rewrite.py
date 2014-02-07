@@ -14,6 +14,8 @@ class TestRewriteScript(object):
         self.run = imp.load_module('runner', *info)
 
     def setUp(self):
+        self.env = {'PYTHONPATH': os.path.abspath('lib')}
+        self.env.update(os.environ)
         self.cfg_dir = tempfile.mkdtemp(prefix='config-')
         os.rmdir(self.cfg_dir)
         shutil.copytree('defaults/config/php/5.5.x', self.cfg_dir)
@@ -26,8 +28,10 @@ class TestRewriteScript(object):
     def test_rewrite_no_args(self):
         try:
             self.run.check_output("bin/rewrite",
+                                  env=self.env,
                                   stderr=subprocess.STDOUT,
                                   shell=True)
+            assert False
         except self.run.CalledProcessError, e:
             eq_('Argument required!  Specify path to configuration '
                 'directory.\n', e.output)
@@ -38,8 +42,10 @@ class TestRewriteScript(object):
         try:
             cfg_file = os.path.join(self.cfg_dir, 'php.ini')
             self.run.check_output("bin/rewrite %s" % cfg_file,
+                                  env=self.env,
                                   stderr=subprocess.STDOUT,
                                   shell=True)
+            assert False
         except self.run.CalledProcessError, e:
             eq_('Path [%s] is not a directory.\n' % cfg_file, e.output)
             eq_(255, e.returncode)
@@ -47,6 +53,7 @@ class TestRewriteScript(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_arg_dir(self):
         res = self.run.check_output("bin/rewrite %s" % self.cfg_dir,
+                                    env=self.env,
                                     stderr=subprocess.STDOUT,
                                     shell=True)
         eq_('', res)
@@ -67,6 +74,8 @@ class TestRewriteScriptWithHttpd(object):
         self.run = imp.load_module('runner', *info)
 
     def setUp(self):
+        self.env = {'PYTHONPATH': os.path.abspath('lib')}
+        self.env.update(os.environ)
         self.cfg_dir = tempfile.mkdtemp(prefix='config-')
         os.rmdir(self.cfg_dir)
         shutil.copytree('defaults/config/httpd/2.4.x', self.cfg_dir)
@@ -78,6 +87,7 @@ class TestRewriteScriptWithHttpd(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_with_sub_dirs(self):
         res = self.run.check_output("bin/rewrite %s" % self.cfg_dir,
+                                    env=self.env,
                                     stderr=subprocess.STDOUT,
                                     shell=True)
         eq_('', res)
@@ -85,3 +95,33 @@ class TestRewriteScriptWithHttpd(object):
             for f in files:
                 with open(os.path.join(root, f)) as fin:
                     eq_(-1, fin.read().find('@{'))
+
+
+class TestRewriteScriptWithNginx(object):
+    def __init__(self):
+        info = imp.find_module('runner', ['lib/build_pack_utils'])
+        self.run = imp.load_module('runner', *info)
+
+    def setUp(self):
+        self.env = {'PYTHONPATH': os.path.abspath('lib'),
+                    'VCAP_APP_PORT': '80'}
+        self.env.update(os.environ)
+        self.cfg_dir = tempfile.mkdtemp(prefix='config-')
+        os.rmdir(self.cfg_dir)
+        shutil.copytree('defaults/config/nginx/1.5.x', self.cfg_dir)
+
+    def tearDown(self):
+        if os.path.exists(self.cfg_dir):
+            shutil.rmtree(self.cfg_dir)
+
+    @with_setup(setup=setUp, teardown=tearDown)
+    def test_rewrite(self):
+        res = self.run.check_output("bin/rewrite %s" % self.cfg_dir,
+                                    env=self.env,
+                                    stderr=subprocess.STDOUT,
+                                    shell=True)
+        eq_('', res)
+        for root, dirs, files in os.walk(self.cfg_dir):
+            for f in files:
+                with open(os.path.join(root, f)) as fin:
+                    eq_(-1, fin.read().find('@{'), f)
