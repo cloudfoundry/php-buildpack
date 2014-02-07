@@ -48,6 +48,7 @@ if __name__ == '__main__':
             .into('{BUILD_DIR}/.bp/bin')
             .where_name_is('rewrite')
             .where_name_is('start')
+            .any_true()
             .done()
         .save()
             .runtime_environment()
