@@ -275,7 +275,8 @@ class ExtensionInstaller(object):
             if retcode != 0:
                 raise RuntimeError('Extension Failed with [%s]' % retcode)
         self._ctx['EXTENSIONS'].extend(self._paths)
-        process_extensions(self._ctx, 'compile', process)
+        process_extensions(self._ctx, 'compile', process,
+                           args=[self._installer])
         return self._installer
 
 

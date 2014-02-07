@@ -27,12 +27,14 @@ def load_extension(path):
     return imp.load_module('extension', *info)
 
 
-def process_extensions(ctx, to_call, success, ignore=False):
+def process_extensions(ctx, to_call, success, args=None, ignore=False):
+    if not args:
+        args = [ctx]
     for path in ctx['EXTENSIONS']:
         extn = load_extension(path)
         try:
             if hasattr(extn, to_call):
-                success(getattr(extn, to_call)(ctx))
+                success(getattr(extn, to_call)(*args))
         except Exception, e:
             print "Error with extension [%s] [%s]" % (path, str(e))
             if not ignore:
