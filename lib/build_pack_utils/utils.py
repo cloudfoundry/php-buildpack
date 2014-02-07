@@ -4,6 +4,24 @@ import imp
 from string import Template
 
 
+def load_env(path):
+    env = {}
+    with open(path, 'rt') as envFile:
+        for line in envFile:
+            name, val = line.strip().split('=', 1)
+            env[name.strip()] = val.strip()
+    return env
+
+
+def load_processes(path):
+    procs = {}
+    with open(path, 'rt') as procFile:
+        for line in procFile:
+            name, cmd = line.strip().split(':', 1)
+            procs[name.strip()] = cmd.strip()
+    return procs
+
+
 def load_extension(path):
     info = imp.find_module('extension', [path])
     return imp.load_module('extension', *info)
