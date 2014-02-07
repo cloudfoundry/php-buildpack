@@ -69,19 +69,38 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(7, len(lines))
-                eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
-                    lines[0])
+                eq_(4, len(lines))
+                eq_('$HOME/rewrite "$HOME/httpd/conf"', lines[0])
                 eq_('$HOME/rewrite "$HOME/php/etc"', lines[1])
-                eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
-                    '-y "$HOME/php/etc/php-fpm.conf"', lines[2])
-                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[3])
-                eq_("export HTTPD_SERVER_ADMIN=dan@mikusa.com", lines[4])
-                eq_('$HOME/rewrite "$HOME/httpd/conf"', lines[5])
-                eq_('$HOME/httpd/bin/apachectl '
-                    '-f "$HOME/httpd/conf/httpd.conf" '
-                    '-k start -DFOREGROUND', lines[6])
-            self.assert_exists(self.build_dir, 'rewrite')
+                eq_('export PYTHONPATH=$HOME/.bp/lib', lines[2])
+                eq_('$HOME/.bp/bin/start', lines[3])
+            # Check scripts and bp are installed
+            self.assert_exists(self.build_dir, '.bp', 'bin', 'rewrite')
+            self.assert_exists(self.build_dir, '.bp', 'lib')
+            eq_(22,
+                len(os.listdir(os.path.join(self.build_dir, '.bp', 'lib'))))
+            self.assert_exists(self.build_dir, '.bp', 'lib', 'utils.py')
+            self.assert_exists(self.build_dir, '.bp', 'lib', 'process.py')
+            # Check env and procs files
+            self.assert_exists(self.build_dir, '.env')
+            self.assert_exists(self.build_dir, '.procs')
+            with open(os.path.join(self.build_dir, '.env')) as env:
+                lines = [line.strip() for line in env.readlines()]
+                eq_(2, len(lines))
+                eq_('HTTPD_SERVER_ADMIN=dan@mikusa.com', lines[0])
+                eq_('LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib',
+                    lines[1])
+            with open(os.path.join(self.build_dir, '.procs')) as procs:
+                lines = [line.strip() for line in procs.readlines()]
+                eq_(3, len(lines))
+                eq_('httpd: $HOME/httpd/bin/apachectl -f '
+                    '"$HOME/httpd/conf/httpd.conf" -k start -DFOREGROUND',
+                    lines[0])
+                eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
+                    '"$HOME/php/etc/php-fpm.conf"', lines[1])
+                eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
+                    lines[2])
+            # Check htdocs and config
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
@@ -179,17 +198,36 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(6, len(lines))
-                eq_("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib",
-                    lines[0])
+                eq_(4, len(lines))
+                eq_('$HOME/rewrite "$HOME/nginx/conf"', lines[0])
                 eq_('$HOME/rewrite "$HOME/php/etc"', lines[1])
-                eq_('$HOME/php/sbin/php-fpm -p "$HOME/php/etc" '
-                    '-y "$HOME/php/etc/php-fpm.conf"', lines[2])
-                eq_('tail -F $HOME/../logs/php-fpm.log &', lines[3])
-                eq_('$HOME/rewrite "$HOME/nginx/conf"', lines[4])
-                eq_('$HOME/nginx/sbin/nginx -c "$HOME/nginx/conf/nginx.conf"',
-                    lines[5])
-            self.assert_exists(self.build_dir, 'rewrite')
+                eq_('export PYTHONPATH=$HOME/.bp/lib', lines[2])
+                eq_('$HOME/.bp/bin/start', lines[3])
+            # Check scripts and bp are installed
+            self.assert_exists(self.build_dir, '.bp', 'bin', 'rewrite')
+            self.assert_exists(self.build_dir, '.bp', 'lib')
+            eq_(22,
+                len(os.listdir(os.path.join(self.build_dir, '.bp', 'lib'))))
+            self.assert_exists(self.build_dir, '.bp', 'lib', 'utils.py')
+            self.assert_exists(self.build_dir, '.bp', 'lib', 'process.py')
+            # Check env and procs files
+            self.assert_exists(self.build_dir, '.env')
+            self.assert_exists(self.build_dir, '.procs')
+            with open(os.path.join(self.build_dir, '.env')) as env:
+                lines = [line.strip() for line in env.readlines()]
+                eq_(1, len(lines))
+                eq_('LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib',
+                    lines[0])
+            with open(os.path.join(self.build_dir, '.procs')) as procs:
+                lines = [line.strip() for line in procs.readlines()]
+                eq_(3, len(lines))
+                eq_('nginx: $HOME/nginx/sbin/nginx -c '
+                    '"$HOME/nginx/conf/nginx.conf"', lines[0])
+                eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
+                    '"$HOME/php/etc/php-fpm.conf"', lines[1])
+                eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
+                    lines[2])
+            # Test htdocs & config
             self.assert_exists(self.build_dir, 'htdocs')
             self.assert_exists(self.build_dir, 'config')
             self.assert_exists(self.build_dir, 'config', 'options.json')
