@@ -16,11 +16,8 @@
 # limitations under the License.
 import sys
 import os
-from string import Template
+from build_pack_utils import utils
 
-
-class RewriteTemplate(Template):
-    delimiter = '@'
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -36,15 +33,9 @@ if __name__ == '__main__':
         print 'Path [%s] is not a directory.' % toPath
         sys.exit(-1)
 
-    ctx = {
+    ctx = utils.FormattedDict({
         'BUILD_DIR': ''
-    }
+    })
     ctx.update(os.environ)
 
-    for root, dirs, files in os.walk(toPath):
-        for f in files:
-            cfgPath = os.path.join(root, f)
-            with open(cfgPath) as fin:
-                data = fin.read()
-            with open(cfgPath, 'wt') as out:
-                out.write(RewriteTemplate(data).safe_substitute(**ctx))
+    utils.rewrite_cfgs(toPath, ctx, delim='@')
