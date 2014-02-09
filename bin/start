@@ -16,11 +16,15 @@
 # limitations under the License.
 import sys
 import os
+import logging
 from build_pack_utils import utils
 from build_pack_utils import process
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG,
+                        filename='$HOME/../logs/proc-man.log')
+
     home = os.environ('HOME')
     
     # Set the locations of data files
