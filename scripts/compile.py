@@ -41,7 +41,7 @@ if __name__ == '__main__':
             .done()
         .copy()
             .under('{BP_DIR}/lib/build_pack_utils')
-            .into('{BUILD_DIR}/.bp/lib')
+            .into('{BUILD_DIR}/.bp/lib/build_pack_utils')
             .done()
         .copy()
             .under('{BP_DIR}/bin')
