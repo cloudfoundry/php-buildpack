@@ -3,6 +3,7 @@ from __future__ import print_function
 import signal
 import subprocess
 import sys
+import logging
 from datetime import datetime
 from threading import Thread
 from Queue import Queue, Empty
@@ -73,9 +74,9 @@ class ProcessManager(object):
     def __init__(self):
         self.processes = []
         self.queue = Queue()
-        self.system_printer = Printer(sys.stdout, name='system')
         self.returncode = None
         self._terminating = False
+        self._log = logging.getLogger('process')
 
     def add_process(self, name, cmd, quiet=False):
         """
@@ -88,6 +89,7 @@ class ProcessManager(object):
         cmd         - the command-line used to run the process
                       (e.g. 'python run.py')
         """
+        self._log.debug("Adding process [%s] with cmd [%s]", name, cmd)
         self.processes.append(Process(cmd, name=name, quiet=quiet))
 
     def loop(self):
@@ -106,7 +108,7 @@ class ProcessManager(object):
         self._init_printers()
 
         for proc in self.processes:
-            print("started with pid {0}".format(proc.pid), file=proc.printer)
+            self._log.info("Started with pid [%s]", proc.pid)
 
         while True:
             try:
@@ -114,7 +116,7 @@ class ProcessManager(object):
             except Empty:
                 pass
             except KeyboardInterrupt:
-                print("SIGINT received", file=sys.stderr)
+                self._log.exception("SIGINT received")
                 self.returncode = 130
                 self.terminate()
             else:
@@ -122,7 +124,7 @@ class ProcessManager(object):
 
             for proc in self.processes:
                 if not proc.dead and proc.poll() is not None:
-                    print('process terminated', file=proc.printer)
+                    self._log.info('process terminated')
                     proc.dead = True
 
                     # Set the returncode of the ProcessManager instance if not
@@ -157,19 +159,17 @@ class ProcessManager(object):
 
         self._terminating = True
 
-        print("sending SIGTERM to all processes", file=self.system_printer)
+        self._log.info("sending SIGTERM to all processes")
         for proc in self.processes:
             if proc.poll() is None:
-                print("sending SIGTERM to pid {0:d}".format(proc.pid),
-                      file=self.system_printer)
+                self._log.info("sending SIGTERM to pid [%d]", proc.pid)
                 proc.terminate()
 
         def kill(signum, frame):
             # If anything is still alive, SIGKILL it
             for proc in self.processes:
                 if proc.poll() is None:
-                    print("sending SIGKILL to pid {0:d}".format(proc.pid),
-                          file=self.system_printer)
+                    self._log.info("sending SIGKILL to pid [%d]", proc.pid)
                     proc.kill()
 
         signal.signal(signal.SIGALRM, kill)  # @UndefinedVariable
@@ -180,6 +180,7 @@ class ProcessManager(object):
 
     def _init_readers(self):
         for proc in self.processes:
+            self._log.debug("Starting [%s]", proc.name)
             t = Thread(target=_enqueue_output, args=(proc, self.queue))
             t.daemon = True  # thread dies with the program
             t.start()
@@ -187,10 +188,6 @@ class ProcessManager(object):
     def _init_printers(self):
         width = max(len(p.name) for p in
                     filter(lambda x: not x.quiet, self.processes))
-        width = max(width, len(self.system_printer.name))
-
-        self.system_printer.width = width
-
         for proc in self.processes:
             proc.printer = Printer(sys.stdout,
                                    name=proc.name,
@@ -198,9 +195,9 @@ class ProcessManager(object):
 
     def _print_line(self, proc, line):
         if isinstance(line, UnicodeDecodeError):
-            print("UnicodeDecodeError while decoding line "
-                  "from process {0:s}".format(proc.name),
-                  file=self.system_printer)
+            self._log.error(
+                "UnicodeDecodeError while decoding line from process [%s]",
+                proc.name)
         else:
             print(line, end='', file=proc.printer)
 

@@ -3,6 +3,7 @@ import gzip
 import bz2
 import zipfile
 import shutil
+import logging
 from functools import partial
 from subprocess import Popen
 from subprocess import PIPE
@@ -12,6 +13,7 @@ class UnzipUtil(object):
 
     def __init__(self, config):
         self._ctx = config
+        self._log = logging.getLogger('zips')
 
     def _unzip(self, zipFile, intoDir, strip):
         tmpDir = (strip) and self._ctx['TMPDIR'] or intoDir
@@ -118,6 +120,7 @@ class UnzipUtil(object):
             return self._unzip
 
     def extract(self, zipFile, intoDir, strip=False, method=None):
+        self._log.info("Extracting [%s] into [%s]", zipFile, intoDir)
         if not method:
             method = self._pick_based_on_file_extension(zipFile)
         return method(zipFile, intoDir, strip)

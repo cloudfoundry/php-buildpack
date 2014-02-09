@@ -4,11 +4,16 @@ import json
 import tempfile
 import shutil
 import utils
+import logging
 from zips import UnzipUtil
 from hashes import HashUtil
 from cache import DirectoryCacheManager
 from downloads import Downloader
 from downloads import CurlDownloader
+from utils import safe_makedirs
+
+
+_log = logging.getLogger('cloudfoundry')
 
 
 class CloudFoundryUtil(object):
@@ -34,9 +39,23 @@ class CloudFoundryUtil(object):
             os.makedirs(ctx['BUILD_DIR'])
         if ctx['CACHE_DIR'] and not os.path.exists(ctx['CACHE_DIR']):
             os.makedirs(ctx['CACHE_DIR'])
+        # Setup Log Level
+        logLevelStr = ctx.get('BP_LOG_LEVEL', 'INFO')
+        ctx['BP_LOG_LEVEL'] = getattr(logging, logLevelStr, logging.INFO)
         # Add place holder for extensions
         ctx['EXTENSIONS'] = []
+        # Init Logging
+        CloudFoundryUtil.init_logging(ctx)
+        _log.info('CloudFoundry Initialized.')
+        _log.debug("CloudFoundry Context Setup [%s]", ctx)
         return ctx
+
+    @staticmethod
+    def init_logging(ctx):
+        logDir = os.path.join(ctx['BUILD_DIR'], '.bp', 'logs')
+        safe_makedirs(logDir)
+        logging.basicConfig(level=ctx['BP_LOG_LEVEL'],
+                            filename=os.path.join(logDir, 'bp.log'))
 
     @staticmethod
     def load_json_config_file_from(folder, cfgFile):
@@ -46,6 +65,7 @@ class CloudFoundryUtil(object):
     @staticmethod
     def load_json_config_file(cfgPath):
         if os.path.exists(cfgPath):
+            _log.debug("Loading config from [%s]", cfgPath)
             with open(cfgPath, 'rt') as cfgFile:
                 return json.load(cfgFile)
         return {}
@@ -53,6 +73,7 @@ class CloudFoundryUtil(object):
 
 class CloudFoundryInstaller(object):
     def __init__(self, ctx):
+        self._log = _log
         self._ctx = ctx
         self._unzipUtil = UnzipUtil(ctx)
         self._hashUtil = HashUtil(ctx)
@@ -62,11 +83,14 @@ class CloudFoundryInstaller(object):
     def _get_downloader(self, ctx):
         method = ctx.get('DOWNLOAD_METHOD', 'python')
         if method == 'python':
+            self._log.debug('Using python downloader.')
             return Downloader
         elif method == 'curl':
+            self._log.debug('Using cURL downloader.')
             return CurlDownloader
         elif method == 'custom':
             fullClsName = ctx['DOWNLOAD_CLASS']
+            self._log.debug('Using custom downloader [%s].', fullClsName)
             dotLoc = fullClsName.rfind('.')
             if dotLoc >= 0:
                 clsName = fullClsName[dotLoc + 1: len(fullClsName)]
@@ -75,26 +99,23 @@ class CloudFoundryInstaller(object):
                 try:
                     return getattr(m, clsName)
                 except AttributeError:
-                    print 'WARNING: DOWNLOAD_CLASS not found!'
+                    self._log.exception(
+                        'WARNING: DOWNLOAD_CLASS not found!')
             else:
-                print 'WARNING: DOWNLOAD_CLASS invalid, must include ' \
-                      'package name!'
+                self._log.error(
+                    'WARNING: DOWNLOAD_CLASS invalid, must include '
+                    'package name!')
         return Downloader
 
-    @staticmethod
-    def _safe_makedirs(path):
-        try:
-            os.makedirs(path)
-        except OSError, e:
-            # Ignore if it exists
-            if e.errno != 17:
-                raise e
-
     def install_binary_direct(self, url, hashUrl, installDir, strip=False):
+        self._log.debug(
+            "Installing [%s] with hash [%s] into [%s] stripping [%s]",
+            url, hashUrl, installDir, strip)
         fileName = url.split('/')[-1]
         digest = self._dwn.download_direct(hashUrl)
         fileToInstall = self._dcm.get(fileName, digest)
         if fileToInstall is None:
+            self._log.debug('File [%s] not in cache.', fileName)
             fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
             self._dwn.download(url, fileToInstall)
             digest = self._hashUtil.calculate_hash(fileToInstall)
@@ -104,6 +125,7 @@ class CloudFoundryInstaller(object):
                                        strip)
 
     def install_binary(self, installKey):
+        self._log.debug('Installing [%s]', installKey)
         url = self._ctx['%s_DOWNLOAD_URL' % installKey]
         hashUrl = "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM'])
         installDir = os.path.join(self._ctx['BUILD_DIR'],
@@ -129,12 +151,14 @@ class CloudFoundryInstaller(object):
             ignore     -> an optional callable that is passed to
                           the ignore argument of shutil.copytree.
         """
+        self._log.debug("Install file [%s] from [%s]", fromPath, fromLoc)
         fullPathFrom = os.path.join(fromLoc, fromPath)
         if os.path.exists(fullPathFrom):
             fullPathTo = os.path.join(
                 self._ctx['BUILD_DIR'],
                 ((toLocation is None) and fromPath or toLocation))
-            self._safe_makedirs(os.path.dirname(fullPathTo))
+            safe_makedirs(os.path.dirname(fullPathTo))
+            self._log.debug("Copying [%s] to [%s]", fullPathFrom, fullPathTo)
             if os.path.isfile(fullPathFrom):
                 shutil.copy(fullPathFrom, fullPathTo)
             else:

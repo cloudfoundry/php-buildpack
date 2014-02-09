@@ -2,6 +2,7 @@ import os
 import os.path
 import tempfile
 import subprocess
+import logging
 
 
 # This and check_output are shims to support features of Python 2.7
@@ -68,6 +69,7 @@ class BuildPack(object):
         self._url = url
         self._branch = branch
         self.bp_dir = tempfile.mkdtemp(prefix='buildpack')
+        self._log = logging.getLogger('runner')
 
     def run(self):
         if self._url:
@@ -77,11 +79,14 @@ class BuildPack(object):
             self.start_yml = self._release()
 
     def _clone(self):
+        self._log.debug("Clongin [%s] to [%s]", self._url, self.bp_dir)
         subprocess.call(['git', 'clone', self._url, self.bp_dir])
         if self._branch:
+            self._log.debug("Branching to [%s]", self._branch)
             subprocess.call(['git', 'checkout', self._branch])
 
     def _detect(self):
+        self._log.debug("Running detect script")
         cmd = [os.path.join(self.bp_dir, 'bin', 'detect'),
                self._ctx['BUILD_DIR']]
         return check_output(" ".join(cmd),
@@ -89,6 +94,10 @@ class BuildPack(object):
                             shell=True).strip()
 
     def _compile(self):
+        self._log.debug("Running compile script with build dir [%s]"
+                        "and cache dir [%s]",
+                        self._ctx['BUILD_DIR'],
+                        self._ctx['CACHE_DIR'])
         cmd = [os.path.join(self.bp_dir, 'bin', 'compile'),
                self._ctx['BUILD_DIR'],
                self._ctx['CACHE_DIR']]
@@ -97,6 +106,7 @@ class BuildPack(object):
                             shell=True).strip()
 
     def _release(self):
+        self._log.debug("Running release script")
         cmd = [os.path.join(self.bp_dir, 'bin', 'release'),
                self._ctx['BUILD_DIR']]
         return check_output(" ".join(cmd),

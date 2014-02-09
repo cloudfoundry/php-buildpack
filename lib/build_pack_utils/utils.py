@@ -1,28 +1,46 @@
 import os
 import shutil
 import imp
+import logging
 from string import Template
 
 
+_log = logging.getLogger('utils')
+
+
+def safe_makedirs(path):
+    try:
+        os.makedirs(path)
+    except OSError, e:
+        # Ignore if it exists
+        if e.errno != 17:
+            raise e
+
+
 def load_env(path):
+    _log.info("Loading environment from [%s]", path)
     env = {}
     with open(path, 'rt') as envFile:
         for line in envFile:
             name, val = line.strip().split('=', 1)
             env[name.strip()] = val.strip()
+    _log.debug("Loaded environment [%s]", env)
     return env
 
 
 def load_processes(path):
+    _log.info("Loading processes from [%s]", path)
     procs = {}
     with open(path, 'rt') as procFile:
         for line in procFile:
             name, cmd = line.strip().split(':', 1)
             procs[name.strip()] = cmd.strip()
+    _log.debug("Loaded processes [%s]", procs)
     return procs
 
 
 def load_extension(path):
+    _log.debug("Loading extension from [%s]", path)
     info = imp.find_module('extension', [path])
     return imp.load_module('extension', *info)
 
@@ -31,12 +49,13 @@ def process_extensions(ctx, to_call, success, args=None, ignore=False):
     if not args:
         args = [ctx]
     for path in ctx['EXTENSIONS']:
+        _log.debug('Processing extension from [%s]', path)
         extn = load_extension(path)
         try:
             if hasattr(extn, to_call):
                 success(getattr(extn, to_call)(*args))
         except Exception, e:
-            print "Error with extension [%s] [%s]" % (path, str(e))
+            _log.exception("Error with extension [%s]" % path)
             if not ignore:
                 raise e
 
@@ -44,9 +63,11 @@ def process_extensions(ctx, to_call, success, args=None, ignore=False):
 def rewrite_cfgs(toPath, ctx, delim='#'):
     class RewriteTemplate(Template):
         delimiter = delim
+    _log.info("Rewriting configuration under [%s]", toPath)
     for root, dirs, files in os.walk(toPath):
         for f in files:
             cfgPath = os.path.join(root, f)
+            _log.debug("Rewriting [%s]", cfgPath)
             with open(cfgPath) as fin:
                 data = fin.read()
             with open(cfgPath, 'wt') as out:

@@ -2,6 +2,7 @@ import os
 import sys
 import shutil
 import re
+import logging
 from subprocess import Popen
 from subprocess import PIPE
 from cloudfoundry import CloudFoundryUtil
@@ -16,14 +17,15 @@ from utils import rewrite_cfgs
 from utils import process_extensions
 
 
+_log = logging.getLogger('builder')
+
+
 def log_output(cmd, retcode, stdout, stderr):
-    print 'Comand %s completed with [%d]' % (str(cmd), retcode)
+    _log.info('Comand %s completed with [%d]', str(cmd), retcode)
     if stdout:
-        print 'STDOUT:'
-        print stdout
+        _log.debug('STDOUT: %s', stdout)
     if stderr:
-        print 'STDERR:'
-        print stderr
+        _log.error('STDERR: %s', stderr)
     if retcode != 0:
         raise RuntimeError('Script Failure')
 
@@ -135,6 +137,7 @@ class Detecter(object):
 class Installer(object):
     def __init__(self, builder):
         self.builder = builder
+        self._log = _log
         self._installer = CloudFoundryInstaller(self.builder._ctx)
 
     def package(self, key):
@@ -142,6 +145,8 @@ class Installer(object):
             key = self.builder._ctx[key]
         self.builder._ctx['%s_INSTALL_PATH' % key] = \
             self._installer.install_binary(key)
+        self._log.info("Installed [%s] to [%s]", key,
+                       self.builder._ctx['%s_INSTALL_PATH' % key])
         return self
 
     def packages(self, *keys):
@@ -178,6 +183,7 @@ class ModuleInstaller(object):
         self._modules = []
         self._load_modules = self._default_load_method
         self._regex = None
+        self._log = _log
 
     def _default_load_method(self, path):
         with open(path, 'rt') as f:
@@ -215,9 +221,12 @@ class ModuleInstaller(object):
             for root, dirs, files in os.walk(fullPath):
                 for f in files:
                     if f.endswith(self._extn):
+                        self._log.debug('Loading modules from [%s]',
+                                        os.path.join(root, f))
                         self._modules.extend(
                             self._load_modules(os.path.join(root, f)))
         elif os.path.exists(fullPath) and os.path.isfile(fullPath):
+            self._log.debug('Loading modules from [%s]', fullPath)
             self._modules.extend(self._load_modules(fullPath))
         self._modules = list(set(self._modules))
         return self
@@ -247,6 +256,7 @@ class ExtensionInstaller(object):
         self._ctx = installer.builder._ctx
         self._paths = []
         self._ignore = True
+        self._log = _log
 
     def from_build_pack(self, path):
         self.from_path(os.path.join(self._ctx['BP_DIR'], path))
@@ -338,16 +348,21 @@ class Runner(object):
         self._on_success = None
         self._on_fail = None
         self._env = os.environ.copy()
+        self._log = _log
 
     def done(self):
         if os.path.exists(self._path):
             cwd = os.getcwd()
             try:
+                self._log.debug('Running [%s] from [%s] with shell [%s]',
+                                self._cmd, self._path, self._shell)
+                self._log.debug('Running with env [%s]', self._env)
                 os.chdir(self._path)
                 proc = Popen(self._cmd, stdout=PIPE, env=self._env,
                              stderr=PIPE, shell=self._shell)
                 stdout, stderr = proc.communicate()
                 retcode = proc.poll()
+                self._log.debug("Command completed with [%s]", retcode)
                 if self._on_finish:
                     self._on_finish(self._cmd, retcode, stdout, stderr)
                 else:
@@ -356,9 +371,10 @@ class Runner(object):
                     elif retcode != 0 and self._on_fail:
                         self._on_fail(self._cmd, retcode, stderr)
                     elif retcode != 0:
-                        print 'Command [%s] failed with [%d], add an ' \
-                            '"on_fail" or "on_finish" method to debug ' \
-                            'further' % (self._cmd, retcode)
+                        self._log.error(
+                            'Command [%s] failed with [%d], add an '
+                            '"on_fail" or "on_finish" method to debug '
+                            'further', self._cmd, retcode)
             finally:
                 os.chdir(cwd)
         return self._builder
@@ -446,6 +462,7 @@ class FileUtil(object):
         self._from_path = None
         self._into_path = None
         self._match = all
+        self._log = _log
 
     def everything(self):
         self._filters.append((lambda path: True))
@@ -526,12 +543,16 @@ class FileUtil(object):
         if not os.path.exists(dest_base):
             os.makedirs(os.path.dirname(dest))
         if self._move:
+            self._log.debug("Moving [%s] to [%s]", src, dest)
             shutil.move(src, dest)
         else:
+            self._log.debug("Copying [%s] to [%s]", src, dest)
             shutil.copy(src, dest)
 
     def done(self):
         if self._from_path and self._into_path:
+            self._log.debug('Copying files from [%s] to [%s]',
+                            self._from_path, self._into_path)
             if self._from_path == self._into_path:
                 raise ValueError("Source and destination paths "
                                  "are the same [%s]" % self._from_path)
@@ -548,6 +569,9 @@ class FileUtil(object):
                     for d in dirs:
                         dirPath = os.path.join(root, d)
                         if len(os.listdir(dirPath)) == 0:
+                            self._log.debug(
+                                "Cleaning up empty directory [%s]",
+                                dirPath)
                             os.rmdir(os.path.join(root, d))
         return self._builder
 
@@ -557,6 +581,7 @@ class StartScriptBuilder(object):
         self.builder = builder
         self.content = []
         self._use_pm = False
+        self._log = _log
 
     def manual(self, cmd):
         self.content.append(cmd)
@@ -581,10 +606,12 @@ class StartScriptBuilder(object):
         self._process_extensions()
 
         if self._use_pm:
+            self._log.debug("Adding process manager to start script")
             self.content.append('export PYTHONPATH=$HOME/.bp/lib')
             self.content.append('$HOME/.bp/bin/start')
 
         if wait_forever:
+            self._log.debug('Adding wait-for-ever to start script')
             self.content.append("while [ 1 -eq 1 ]; do")
             self.content.append("    sleep 100000")
             self.content.append("done")
@@ -593,6 +620,7 @@ class StartScriptBuilder(object):
                                            'start.sh')
         startScriptPath = os.path.join(
             self.builder._ctx['BUILD_DIR'], scriptName)
+        self._log.debug('Writing start script to [%s]', startScriptPath)
         with open(startScriptPath, 'wt') as out:
             if self.content:
                 out.write('\n'.join(self.content))
@@ -611,6 +639,7 @@ class ScriptCommandBuilder(object):
         self._stderr = None
         self._both = None
         self._content = []
+        self._log = _log
 
     def manual(self, cmd):
         self._content.append(cmd)
@@ -660,12 +689,14 @@ class ScriptCommandBuilder(object):
             if self._command:
                 cmd.append('|')
             cmd.append(' '.join(self._content))
+        self._log.debug('Adding command [%s]', ' '.join(cmd))
         self._scriptBuilder.manual(' '.join(cmd))
         return self._scriptBuilder
 
 
 class EnvironmentVariableBuilder(object):
     def __init__(self, scriptBuilder):
+        self._log = _log
         self._scriptBuilder = scriptBuilder
         self._name = None
         self._export = False
@@ -705,6 +736,7 @@ class EnvironmentVariableBuilder(object):
         if self._export:
             line.append('export')
         line.append("%s=%s" % (self._name, value))
+        self._log.debug('Adding env variable [%s]', ' '.join(line))
         self._scriptBuilder.manual(' '.join(line))
         return self._scriptBuilder
 
@@ -712,8 +744,10 @@ class EnvironmentVariableBuilder(object):
 class BuildPackManager(object):
     def __init__(self, builder):
         self._builder = builder
+        self._log = _log
 
     def from_buildpack(self, url):
+        self._log.debug('Using build pack [%s]', url)
         self._bp = BuildPack(self._builder._ctx, url)
         return self
 
