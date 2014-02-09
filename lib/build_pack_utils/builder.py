@@ -166,6 +166,13 @@ class Installer(object):
     def extensions(self):
         return ExtensionInstaller(self)
 
+    def build_pack_utils(self):
+        self._log.info("Installed build pack utils.")
+        (self.builder.copy()
+             .under('{BP_DIR}/lib/build_pack_utils')
+             .into('{BUILD_DIR}/.bp/lib/build_pack_utils')
+             .done())
+
     def build_pack(self):
         return BuildPackManager(self)
 
@@ -603,11 +610,15 @@ class StartScriptBuilder(object):
         process_extensions(self.builder._ctx, 'preprocess_commands', process)
 
     def write(self, wait_forever=False):
+        if os.path.exists(os.path.join(self.builder._ctx['BUILD_DIR'],
+                                       '.bp', 'lib', 'build_pack_utils')):
+            self._log("Setting PYTHONPATH to include build pack utils")
+            self.content.append('export PYTHONPATH=$HOME/.bp/lib')
+
         self._process_extensions()
 
         if self._use_pm:
             self._log.debug("Adding process manager to start script")
-            self.content.append('export PYTHONPATH=$HOME/.bp/lib')
             self.content.append('$HOME/.bp/bin/start')
 
         if wait_forever:
