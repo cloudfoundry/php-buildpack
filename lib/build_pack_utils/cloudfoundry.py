@@ -52,12 +52,15 @@ class CloudFoundryUtil(object):
 
     @staticmethod
     def init_logging(ctx):
-        logDir = os.path.join(ctx['BUILD_DIR'], '.bp', 'logs')
-        safe_makedirs(logDir)
         logFmt = '%(asctime)s [%(levelname)s] %(name)s - %(message)s'
-        logging.basicConfig(level=ctx['BP_LOG_LEVEL'],
-                            format=logFmt,
-                            filename=os.path.join(logDir, 'bp.log'))
+        if ctx.get('BP_DEBUG', False):
+            logging.basicConfig(level=logging.DEBUG, format=logFmt)
+        else:
+            logDir = os.path.join(ctx['BUILD_DIR'], '.bp', 'logs')
+            safe_makedirs(logDir)
+            logging.basicConfig(level=ctx['BP_LOG_LEVEL'],
+                                format=logFmt,
+                                filename=os.path.join(logDir, 'bp.log'))
 
     @staticmethod
     def load_json_config_file_from(folder, cfgFile):
