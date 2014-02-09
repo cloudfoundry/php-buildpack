@@ -613,7 +613,7 @@ class StartScriptBuilder(object):
     def write(self, wait_forever=False):
         if os.path.exists(os.path.join(self.builder._ctx['BUILD_DIR'],
                                        '.bp', 'lib', 'build_pack_utils')):
-            self._log("Setting PYTHONPATH to include build pack utils")
+            self._log.debug("Setting PYTHONPATH to include build pack utils")
             self.content.append('export PYTHONPATH=$HOME/.bp/lib')
 
         self._process_extensions()
