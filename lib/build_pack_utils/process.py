@@ -108,7 +108,7 @@ class ProcessManager(object):
         self._init_printers()
 
         for proc in self.processes:
-            self._log.info("Started with pid [%s]", proc.pid)
+            self._log.info("Started [%s] with pid [%s]", proc.name, proc.pid)
 
         while True:
             try:
@@ -124,7 +124,8 @@ class ProcessManager(object):
 
             for proc in self.processes:
                 if not proc.dead and proc.poll() is not None:
-                    self._log.info('process terminated')
+                    self._log.info('process [%s] with pid [%s] terminated',
+                                   proc.name, proc.pid)
                     proc.dead = True
 
                     # Set the returncode of the ProcessManager instance if not
