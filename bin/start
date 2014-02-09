@@ -23,6 +23,7 @@ from build_pack_utils import process
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         filename='$HOME/../logs/proc-man.log')
 
     home = os.environ('HOME')
