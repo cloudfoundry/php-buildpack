@@ -172,6 +172,7 @@ class Installer(object):
              .under('{BP_DIR}/lib/build_pack_utils')
              .into('{BUILD_DIR}/.bp/lib/build_pack_utils')
              .done())
+        return self
 
     def build_pack(self):
         return BuildPackManager(self)
