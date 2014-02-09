@@ -1,7 +1,7 @@
 def preprocess_commands(ctx):
-    return (
-        ('sleep', '5'),
-        ('$HOME/.bp/bin/rewrite', '"$HOME/httpd/conf"'))
+    return ((
+        '$HOME/.bp/bin/rewrite',
+        '"$HOME/httpd/conf"'),)
 
 
 def service_commands(ctx):
