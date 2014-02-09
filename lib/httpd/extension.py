@@ -1,6 +1,6 @@
 def preprocess_commands(ctx):
     return ((
-        '$HOME/rewrite',
+        '$HOME/.bp/bin/rewrite',
         '"$HOME/httpd/conf"'),)
 
 
