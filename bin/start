@@ -39,7 +39,7 @@ if __name__ == '__main__':
     pm = process.ProcessManager()
 
     for name, cmd in utils.load_processes(procFile).iteritems():
-        pm.add_process(process.Process(name, cmd))
+        pm.add_process(name, cmd)
 
     # Start Everything
     sys.exit(pm.loop())
