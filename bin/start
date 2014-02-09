@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # Load processes and setup the ProcessManager
     pm = process.ProcessManager()
 
-    for name, cmd in utils.load_processes(procFile):
+    for name, cmd in utils.load_processes(procFile).iteritems():
         pm.add_process(process.Process(name, cmd))
 
     # Start Everything
