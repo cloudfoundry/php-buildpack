@@ -39,9 +39,6 @@ class CloudFoundryUtil(object):
             os.makedirs(ctx['BUILD_DIR'])
         if ctx['CACHE_DIR'] and not os.path.exists(ctx['CACHE_DIR']):
             os.makedirs(ctx['CACHE_DIR'])
-        # Setup Log Level
-        logLevelStr = ctx.get('BP_LOG_LEVEL', 'INFO')
-        ctx['BP_LOG_LEVEL'] = getattr(logging, logLevelStr, logging.INFO)
         # Add place holder for extensions
         ctx['EXTENSIONS'] = []
         # Init Logging
@@ -56,10 +53,11 @@ class CloudFoundryUtil(object):
         if ctx.get('BP_DEBUG', False):
             logging.basicConfig(level=logging.DEBUG, format=logFmt)
         else:
+            logLevelStr = ctx.get('BP_LOG_LEVEL', 'INFO')
+            logLevel = getattr(logging, logLevelStr, logging.INFO)
             logDir = os.path.join(ctx['BUILD_DIR'], '.bp', 'logs')
             safe_makedirs(logDir)
-            logging.basicConfig(level=ctx['BP_LOG_LEVEL'],
-                                format=logFmt,
+            logging.basicConfig(level=logLevel, format=logFmt,
                                 filename=os.path.join(logDir, 'bp.log'))
 
     @staticmethod
