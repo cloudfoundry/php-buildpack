@@ -53,4 +53,5 @@ if __name__ == '__main__':
             .done()
         .create_start_script()
             .using_process_manager()
+            .run_forever()
             .write())
