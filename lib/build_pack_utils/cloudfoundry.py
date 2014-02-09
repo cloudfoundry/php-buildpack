@@ -54,7 +54,7 @@ class CloudFoundryUtil(object):
     def init_logging(ctx):
         logDir = os.path.join(ctx['BUILD_DIR'], '.bp', 'logs')
         safe_makedirs(logDir)
-        logFmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        logFmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         logging.basicConfig(level=ctx['BP_LOG_LEVEL'],
                             format=logFmt,
                             filename=os.path.join(logDir, 'bp.log'))
