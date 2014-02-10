@@ -589,6 +589,7 @@ class StartScriptBuilder(object):
         self.builder = builder
         self.content = []
         self._use_pm = False
+        self._debug_console = False
         self._log = _log
 
     def manual(self, cmd):
@@ -602,6 +603,10 @@ class StartScriptBuilder(object):
 
     def using_process_manager(self):
         self._use_pm = True
+        return self
+
+    def on_fail_run_debug_console(self):
+        self._debug_console = True
         return self
 
     def _process_extensions(self):
@@ -621,6 +626,12 @@ class StartScriptBuilder(object):
         if self._use_pm:
             self._log.debug("Adding process manager to start script")
             self.content.append('$HOME/.bp/bin/start')
+
+        if self._debug_console:
+            self._log.debug("Enabling debug console, if start script fails.")
+            self.content.append(
+                'curl -s https://raw.github.com/dmikusa-pivotal/'
+                'cf-debug-console/master/debug.sh | bash')
 
         if wait_forever:
             self._log.debug('Adding wait-for-ever to start script')
