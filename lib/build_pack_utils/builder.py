@@ -223,6 +223,10 @@ class ModuleInstaller(object):
         self._modules.append(module)
         return self
 
+    def include_modules_from(self, key):
+        self._modules.extend(self._ctx.get(key, []))
+        return self
+
     def from_application(self, path):
         fullPath = os.path.join(self._ctx['BUILD_DIR'], path)
         if os.path.exists(fullPath) and os.path.isdir(fullPath):
