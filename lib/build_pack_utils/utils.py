@@ -83,7 +83,7 @@ class FormattedDict(dict):
     def __init__(self, *args, **kwargs):
         dict.__init__(self, *args, **kwargs)
 
-    def _format(self, val):
+    def format(self, val):
         if hasattr(val, 'format'):
             val = val.format(**self)
             newVal = val.format(**self)
@@ -94,11 +94,11 @@ class FormattedDict(dict):
         return val
 
     def __getitem__(self, key):
-        return self._format(dict.__getitem__(self, key))
+        return self.format(dict.__getitem__(self, key))
 
     def get(self, *args, **kwargs):
         if kwargs.get('format', True):
-            return self._format(dict.get(self, *args))
+            return self.format(dict.get(self, *args))
         else:
             return dict.get(self, *args)
 

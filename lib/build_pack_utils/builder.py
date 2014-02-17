@@ -277,7 +277,7 @@ class ExtensionInstaller(object):
         return self
 
     def from_path(self, path):
-        path = path.format(**self._ctx)
+        path = self._ctx.format(path)
         if os.path.exists(path):
             if os.path.exists(os.path.join(path, 'extension.py')):
                 self._paths.append(os.path.abspath(path))
@@ -312,19 +312,19 @@ class ConfigInstaller(object):
         self._delimiter = None
 
     def from_build_pack(self, fromFile):
-        self._bp_path = fromFile.format(**self._ctx)
+        self._bp_path = self._ctx.format(fromFile)
         return self
 
     def or_from_build_pack(self, fromFile):
-        self._bp_path = fromFile.format(**self._ctx)
+        self._bp_path = self._ctx.format(fromFile)
         return self
 
     def from_application(self, fromFile):
-        self._app_path = fromFile.format(**self._ctx)
+        self._app_path = self._ctx.format(fromFile)
         return self
 
     def to(self, toPath):
-        self._to_path = toPath.format(**self._ctx)
+        self._to_path = self._ctx.format(toPath)
         return self
 
     def rewrite(self, delimiter='#'):
@@ -410,7 +410,7 @@ class Runner(object):
         elif path in self._builder._ctx.keys():
             self._path = self._builder._ctx[path]
         else:
-            self._path = path.format(**self._builder._ctx)
+            self._path = self._builder._ctx.format(path)
         return self
 
     def with_shell(self):
@@ -535,7 +535,7 @@ class FileUtil(object):
         if path in self._builder._ctx.keys():
             self._from_path = self._builder._ctx[path]
         else:
-            self._from_path = path.format(**self._builder._ctx)
+            self._from_path = self._builder._ctx.format(path)
             if not self._from_path.startswith('/'):
                 self._from_path = os.path.join(os.getcwd(), path)
         return self
@@ -544,7 +544,7 @@ class FileUtil(object):
         if path in self._builder._ctx.keys():
             self._into_path = self._builder._ctx[path]
         else:
-            self._into_path = path.format(**self._builder._ctx)
+            self._into_path = self._builder._ctx.format(path)
             if not self._into_path.startswith('/'):
                 self._into_path = os.path.join(self._from_path, path)
         return self
@@ -756,7 +756,7 @@ class EnvironmentVariableBuilder(object):
             value = value()
         elif value in builder._ctx.keys():
             value = builder._ctx[value]
-        value = value.format(**builder._ctx)
+        value = builder._ctx.format(value)
         value = value.replace(builder._ctx['BUILD_DIR'], '$HOME')
         line = []
         if self._export:
