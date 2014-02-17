@@ -130,7 +130,9 @@ class CloudFoundryInstaller(object):
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)
         url = self._ctx['%s_DOWNLOAD_URL' % installKey]
-        hashUrl = "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM'])
+        hashUrl = self._ctx.get(
+            '%s_HASH_DOWNLOAD_URL' % installKey,
+            "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM']))
         installDir = os.path.join(self._ctx['BUILD_DIR'],
                                   self._ctx.get(
                                       '%s_PACKAGE_INSTALL_DIR' % installKey,
