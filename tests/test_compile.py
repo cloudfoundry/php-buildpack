@@ -70,17 +70,18 @@ class TestCompile(object):
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
                 eq_(4, len(lines))
-                eq_('$HOME/rewrite "$HOME/httpd/conf"', lines[0])
-                eq_('$HOME/rewrite "$HOME/php/etc"', lines[1])
-                eq_('export PYTHONPATH=$HOME/.bp/lib', lines[2])
+                eq_('export PYTHONPATH=$HOME/.bp/lib', lines[0])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"', lines[1])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/php/etc"', lines[2])
                 eq_('$HOME/.bp/bin/start', lines[3])
             # Check scripts and bp are installed
             self.assert_exists(self.build_dir, '.bp', 'bin', 'rewrite')
             self.assert_exists(self.build_dir, '.bp', 'lib')
-            eq_(22,
-                len(os.listdir(os.path.join(self.build_dir, '.bp', 'lib'))))
-            self.assert_exists(self.build_dir, '.bp', 'lib', 'utils.py')
-            self.assert_exists(self.build_dir, '.bp', 'lib', 'process.py')
+            bpu_path = os.path.join(self.build_dir, '.bp', 'lib',
+                                    'build_pack_utils')
+            eq_(22, len(os.listdir(bpu_path)))
+            self.assert_exists(bpu_path, 'utils.py')
+            self.assert_exists(bpu_path, 'process.py')
             # Check env and procs files
             self.assert_exists(self.build_dir, '.env')
             self.assert_exists(self.build_dir, '.procs')
@@ -199,17 +200,18 @@ class TestCompile(object):
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
                 eq_(4, len(lines))
-                eq_('$HOME/rewrite "$HOME/nginx/conf"', lines[0])
-                eq_('$HOME/rewrite "$HOME/php/etc"', lines[1])
-                eq_('export PYTHONPATH=$HOME/.bp/lib', lines[2])
+                eq_('export PYTHONPATH=$HOME/.bp/lib', lines[0])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"', lines[1])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/php/etc"', lines[2])
                 eq_('$HOME/.bp/bin/start', lines[3])
             # Check scripts and bp are installed
             self.assert_exists(self.build_dir, '.bp', 'bin', 'rewrite')
             self.assert_exists(self.build_dir, '.bp', 'lib')
-            eq_(22,
-                len(os.listdir(os.path.join(self.build_dir, '.bp', 'lib'))))
-            self.assert_exists(self.build_dir, '.bp', 'lib', 'utils.py')
-            self.assert_exists(self.build_dir, '.bp', 'lib', 'process.py')
+            bpu_path = os.path.join(self.build_dir, '.bp', 'lib',
+                                    'build_pack_utils')
+            eq_(22, len(os.listdir(bpu_path)))
+            self.assert_exists(bpu_path, 'utils.py')
+            self.assert_exists(bpu_path, 'process.py')
             # Check env and procs files
             self.assert_exists(self.build_dir, '.env')
             self.assert_exists(self.build_dir, '.procs')

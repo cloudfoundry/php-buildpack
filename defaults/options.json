@@ -18,5 +18,7 @@
     "PHP_PACKAGE_HASH": "",
     "PHP_STRIP": "true",
     "PHP_MODULES_PATTERN": "{DOWNLOAD_URL}/php/{PHP_VERSION}/php-{MODULE_NAME}-{PHP_VERSION}.tar.gz",
-    "PHP_MODULES_STRIP": "true"
+    "PHP_MODULES_STRIP": "true",
+    "PHP_EXTENSIONS": [ "bz2", "zlib", "curl", "mcrypt"],
+    "ZEND_EXTENSIONS": []
 }

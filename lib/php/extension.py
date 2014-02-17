@@ -1,3 +1,6 @@
+from compile_helpers import convert_php_extensions
+
+
 def preprocess_commands(ctx):
     return ((
         '$HOME/.bp/bin/rewrite',
@@ -23,6 +26,7 @@ def service_environment(ctx):
 
 
 def compile(install):
+    convert_php_extensions(install.builder._ctx)
     (install
         .package('PHP')
         .config()
