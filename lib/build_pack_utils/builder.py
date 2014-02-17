@@ -14,6 +14,7 @@ from detecter import EndsWithFileSearch
 from detecter import ContainsFileSearch
 from runner import BuildPack
 from utils import rewrite_cfgs
+from utils import process_extension
 from utils import process_extensions
 
 
@@ -296,9 +297,10 @@ class ExtensionInstaller(object):
         def process(retcode):
             if retcode != 0:
                 raise RuntimeError('Extension Failed with [%s]' % retcode)
+        for path in self._paths:
+            process_extension(path, self._ctx, 'compile', process,
+                              args=[self._installer])
         self._ctx['EXTENSIONS'].extend(self._paths)
-        process_extensions(self._ctx, 'compile', process,
-                           args=[self._installer])
         return self._installer
 
 

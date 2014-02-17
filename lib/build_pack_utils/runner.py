@@ -94,7 +94,7 @@ class BuildPack(object):
                             shell=True).strip()
 
     def _compile(self):
-        self._log.debug("Running compile script with build dir [%s]"
+        self._log.debug("Running compile script with build dir [%s] "
                         "and cache dir [%s]",
                         self._ctx['BUILD_DIR'],
                         self._ctx['CACHE_DIR'])

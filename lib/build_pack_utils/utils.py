@@ -45,19 +45,24 @@ def load_extension(path):
     return imp.load_module('extension', *info)
 
 
-def process_extensions(ctx, to_call, success, args=None, ignore=False):
+def process_extension(path, ctx, to_call, success, args=None, ignore=False):
+    _log.debug('Processing extension from [%s] with method [%s]',
+               path, to_call)
     if not args:
         args = [ctx]
+    extn = load_extension(path)
+    try:
+        if hasattr(extn, to_call):
+            success(getattr(extn, to_call)(*args))
+    except Exception, e:
+        _log.exception("Error with extension [%s]" % path)
+        if not ignore:
+            raise e
+
+
+def process_extensions(ctx, to_call, success, args=None, ignore=False):
     for path in ctx['EXTENSIONS']:
-        _log.debug('Processing extension from [%s]', path)
-        extn = load_extension(path)
-        try:
-            if hasattr(extn, to_call):
-                success(getattr(extn, to_call)(*args))
-        except Exception, e:
-            _log.exception("Error with extension [%s]" % path)
-            if not ignore:
-                raise e
+        process_extension(path, ctx, to_call, success, args, ignore)
 
 
 def rewrite_cfgs(toPath, ctx, delim='#'):
