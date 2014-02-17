@@ -245,21 +245,18 @@ class ModuleInstaller(object):
         return self
 
     def done(self):
-        urlPattern = self._ctx.get('%s_MODULES_PATTERN' % self._moduleKey,
-                                   format=False)
-        if urlPattern is None:
-            raise KeyError('%s_MODULES_PATTERN' % self._moduleKey)
-        hashUrlPattern = "%s.%s" % (urlPattern,
-                                    self._ctx['CACHE_HASH_ALGORITHM'])
         toPath = os.path.join(self._ctx['BUILD_DIR'],
                               self._moduleKey.lower())
         strip = self._ctx.get('%s_MODULES_STRIP' % self._moduleKey, False)
         for module in self._modules:
-            tmp = dict(self._ctx)
-            tmp.update(MODULE_NAME=module)
-            url = urlPattern.format(**tmp)
-            hashUrl = hashUrlPattern.format(**tmp)
-            self._cf.install_binary_direct(url, hashUrl, toPath, strip)
+            try:
+                self._ctx['MODULE_NAME'] = module
+                url = self._ctx['%s_MODULES_PATTERN' % self._moduleKey]
+                hashUrl = "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM'])
+                self._cf.install_binary_direct(url, hashUrl, toPath, strip)
+            finally:
+                if 'MODULE_NAME' in self._ctx.keys():
+                    del self._ctx['MODULE_NAME']
         return self._installer
 
 
