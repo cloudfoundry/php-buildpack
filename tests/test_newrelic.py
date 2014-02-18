@@ -52,8 +52,7 @@ class TestNewRelic(object):
             nr._php_extn_dir)
         eq_(False, nr._php_zts)
         eq_('20100525', nr._php_api)
-        eq_(os.path.join(self.build_dir, 'newrelic', 'agent', 'x64',
-                         'newrelic-20100525.so'), nr.newrelic_so)
+        eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
         eq_('app-name-1', nr.app_name)
         eq_('@{HOME}/../logs/newrelic-daemon.log', nr.log_path)
         eq_('@{HOME}/newrelic/daemon/newrelic-daemon.x64', nr.daemon_path)
@@ -244,8 +243,7 @@ class TestCompileNewRelic(object):
             with open(os.path.join(self.build_dir,
                                    'php', 'etc', 'php.ini'), 'rt') as php_ini:
                 lines = php_ini.readlines()
-            extn_path = os.path.join(self.build_dir, 'newrelic', 'agent',
-                                     'x64', 'newrelic-20100525.so')
+            extn_path = '@{HOME}/newrelic/agent/x64/newrelic-20100525.so'
             eq_(True, lines.index('extension=%s\n' % extn_path) >= 0)
             eq_(True, lines.index('[newrelic]\n') >= 0)
             eq_(True, lines.index('newrelic.license=JUNK_LICENSE\n') >= 0)
