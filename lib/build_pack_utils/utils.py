@@ -79,6 +79,18 @@ def rewrite_cfgs(toPath, ctx, delim='#'):
                 out.write(RewriteTemplate(data).safe_substitute(ctx))
 
 
+class FormattedDictWrapper(object):
+    def __init__(self, obj):
+        self.obj = obj
+
+    def unwrap(self):
+        return self.obj
+
+
+def wrap(obj):
+    return FormattedDictWrapper(obj)
+
+
 class FormattedDict(dict):
     def __init__(self, *args, **kwargs):
         dict.__init__(self, *args, **kwargs)
@@ -91,6 +103,8 @@ class FormattedDict(dict):
                 val = newVal
                 newVal = newVal.format(**self)
             return val
+        if hasattr(val, 'unwrap'):
+            return val.unwrap()
         return val
 
     def __getitem__(self, key):
