@@ -165,7 +165,7 @@ class TestCompile(object):
                 print e.output
             if output:
                 print output
-            raise e
+            raise
         finally:
             if os.path.exists(bp.bp_dir):
                 shutil.rmtree(bp.bp_dir)
@@ -283,7 +283,7 @@ class TestCompile(object):
                 print e.output
             if output:
                 print output
-            raise e
+            raise
         finally:
             if os.path.exists(bp.bp_dir):
                 shutil.rmtree(bp.bp_dir)
