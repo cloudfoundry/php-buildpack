@@ -24,7 +24,9 @@ class TestNewRelic(object):
             shutil.rmtree(self.build_dir)
 
     def testDefaults(self):
-        nr = newrelic.NewRelicInstaller(utils.FormattedDict({}))
+        nr = newrelic.NewRelicInstaller(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir
+        }))
         eq_(True, 'NEWRELIC_HOST' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_PACKAGE' in nr._ctx.keys())
@@ -33,7 +35,9 @@ class TestNewRelic(object):
         eq_(True, 'NEWRELIC_STRIP' in nr._ctx.keys())
 
     def testShouldNotInstall(self):
-        nr = newrelic.NewRelicInstaller(utils.FormattedDict({}))
+        nr = newrelic.NewRelicInstaller(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir
+        }))
         eq_(False, nr.should_install())
 
     @with_setup(setup=setUp, teardown=tearDown)
@@ -54,6 +58,65 @@ class TestNewRelic(object):
         eq_('20100525', nr._php_api)
         eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
         eq_('app-name-1', nr.app_name)
+        eq_('JUNK_LICENSE', nr.license_key)
+        eq_('@{HOME}/../logs/newrelic-daemon.log', nr.log_path)
+        eq_('@{HOME}/newrelic/daemon/newrelic-daemon.x64', nr.daemon_path)
+        eq_('@{HOME}/newrelic/daemon.sock', nr.socket_path)
+        eq_('@{HOME}/newrelic/daemon.pid', nr.pid_path)
+
+    @with_setup(setup=setUp, teardown=tearDown)
+    def testShouldInstallService(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'VCAP_SERVICES': {
+                'newrelic-n/a': [{'credentials': {'licenseKey': 'LICENSE'},
+                                  'label': 'newrelic-n/a',
+                                  'name': 'app-name-1',
+                                  'plan': 'standard',
+                                  'tags': []}]
+            }
+        })
+        nr = newrelic.NewRelicInstaller(ctx)
+        eq_(True, nr.should_install())
+        eq_('x64', nr._php_arch)
+        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20100525',
+            nr._php_extn_dir)
+        eq_(False, nr._php_zts)
+        eq_('20100525', nr._php_api)
+        eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
+        eq_('app-name-1', nr.app_name)
+        eq_('LICENSE', nr.license_key)
+        eq_('@{HOME}/../logs/newrelic-daemon.log', nr.log_path)
+        eq_('@{HOME}/newrelic/daemon/newrelic-daemon.x64', nr.daemon_path)
+        eq_('@{HOME}/newrelic/daemon.sock', nr.socket_path)
+        eq_('@{HOME}/newrelic/daemon.pid', nr.pid_path)
+
+    @with_setup(setup=setUp, teardown=tearDown)
+    def testShouldInstallServiceAndManual(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'VCAP_SERVICES': {
+                'newrelic-n/a': [{'credentials': {'licenseKey': 'LICENSE1'},
+                                  'label': 'newrelic-n/a',
+                                  'name': 'app-name-1',
+                                  'plan': 'standard',
+                                  'tags': []}]
+            },
+            'NEWRELIC_LICENSE': 'LICENSE2',
+            'VCAP_APPLICATION': {
+                'name': 'app-name-2'
+            }
+        })
+        nr = newrelic.NewRelicInstaller(ctx)
+        eq_(True, nr.should_install())
+        eq_('x64', nr._php_arch)
+        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20100525',
+            nr._php_extn_dir)
+        eq_(False, nr._php_zts)
+        eq_('20100525', nr._php_api)
+        eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
+        eq_('app-name-1', nr.app_name)
+        eq_('LICENSE2', nr.license_key)
         eq_('@{HOME}/../logs/newrelic-daemon.log', nr.log_path)
         eq_('@{HOME}/newrelic/daemon/newrelic-daemon.x64', nr.daemon_path)
         eq_('@{HOME}/newrelic/daemon.sock', nr.socket_path)

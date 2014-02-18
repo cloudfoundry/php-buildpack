@@ -27,26 +27,60 @@ class NewRelicInstaller(object):
     def __init__(self, ctx):
         self._log = _log
         self._ctx = ctx
+        self._detected = False
+        self.app_name = None
+        self.license_key = None
+        self._log.info("Initializing")
         self._merge_defaults()
-        if self.should_install():
-            self._log.info("Initializing")
-            self.php_ini_path = os.path.join(self._ctx['BUILD_DIR'],
-                                             'php', 'etc', 'php.ini')
-            self._php_extn_dir = self._find_php_extn_dir()
-            self._php_api, self._php_zts = self._parse_php_api()
-            self._php_arch = ctx.get('NEWRELIC_ARCH', 'x64')
-            self._log.debug("PHP API [%s] Arch [%s]",
-                            self._php_api, self._php_arch)
-            self.newrelic_so = os.path.join(
-                '@{HOME}', 'newrelic',
-                'agent', self._php_arch,
-                'newrelic-%s%s.so' % (self._php_api,
-                                      (self._php_zts and 'zts' or '')))
-            self._log.debug("PHP Extension [%s]", self.newrelic_so)
-            self.app_name = ctx['VCAP_APPLICATION']['name']
+        self._load_service_info()
+        self._load_php_info()
+        self._load_newrelic_info()
+
+    def _merge_defaults(self):
+        for key, val in DEFAULTS.iteritems():
+            if key not in self._ctx:
+                self._ctx[key] = val
+
+    def _load_service_info(self):
+        services = self._ctx.get('VCAP_SERVICES', {})
+        services = services.get('newrelic-n/a', [])
+        if len(services) == 0:
+            self._log.info("NewRelic services not detected.")
+        if len(services) > 1:
+            self._log.warn("Multiple NewRelic services found, "
+                           "credentials from first one.")
+        if len(services) > 0:
+            service = services[0]
+            creds = service.get('credentials', {})
+            self.license_key = creds.get('licenseKey', None)
+            self.app_name = service.get('name', None)
+            if self.license_key and self.app_name:
+                self._log.debug("NewRelic service detected.")
+                self._detected = True
+
+    def _load_newrelic_info(self):
+        if not self._detected:
+            vcap_app = self._ctx.get('VCAP_APPLICATION', {})
+            self.app_name = vcap_app.get('name', None)
             self._log.debug("App Name [%s]", self.app_name)
+
+        if 'NEWRELIC_LICENSE' in self._ctx.keys():
+            if self._detected:
+                self._log.warn("Detected a NewRelic Service & Manual Key,"
+                               " using the manual key.")
+            self.license_key = self._ctx['NEWRELIC_LICENSE']
+            self._detected = True
+
+        if self._detected:
+            newrelic_so_name = 'newrelic-%s%s.so' % (
+                self._php_api, (self._php_zts and 'zts' or ''))
+            self.newrelic_so = os.path.join('@{HOME}', 'newrelic',
+                                            'agent', self._php_arch,
+                                            newrelic_so_name)
+            self._log.debug("PHP Extension [%s]", self.newrelic_so)
             self.log_path = os.path.join('@{HOME}', '..', 'logs',
                                          'newrelic-daemon.log')
+            self._log.debug("Log Path [%s]", self.log_path)
             self.daemon_path = os.path.join(
                 '@{HOME}', 'newrelic', 'daemon',
                 'newrelic-daemon.%s' % self._php_arch)
@@ -58,10 +92,14 @@ class NewRelicInstaller(object):
                                          'daemon.pid')
             self._log.debug("Pid File [%s]", self.pid_path)
 
-    def _merge_defaults(self):
-        for key, val in DEFAULTS.iteritems():
-            if key not in self._ctx:
-                self._ctx[key] = val
+    def _load_php_info(self):
+        self.php_ini_path = os.path.join(self._ctx['BUILD_DIR'],
+                                         'php', 'etc', 'php.ini')
+        self._php_extn_dir = self._find_php_extn_dir()
+        self._php_api, self._php_zts = self._parse_php_api()
+        self._php_arch = self._ctx.get('NEWRELIC_ARCH', 'x64')
+        self._log.debug("PHP API [%s] Arch [%s]",
+                        self._php_api, self._php_arch)
 
     def _find_php_extn_dir(self):
         with open(self.php_ini_path, 'rt') as php_ini:
@@ -77,7 +115,7 @@ class NewRelicInstaller(object):
         return php_api, php_zts
 
     def should_install(self):
-        return 'NEWRELIC_LICENSE' in self._ctx.keys()
+        return self._detected
 
     def modify_php_ini(self):
         with open(self.php_ini_path, 'rt') as php_ini:
