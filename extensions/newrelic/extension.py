@@ -38,7 +38,7 @@ class NewRelicInstaller(object):
             self._log.debug("PHP API [%s] Arch [%s]", 
                             self._php_api, self._php_arch)
             self.newrelic_so = os.path.join(
-                self._ctx['BUILD_DIR'], 'newrelic',
+                '@{HOME}', 'newrelic',
                 'agent', self._php_arch,
                 'newrelic-%s%s.so' % (self._php_api,
                                       (self._php_zts and 'zts' or '')))
