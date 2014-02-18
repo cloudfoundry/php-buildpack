@@ -26,8 +26,8 @@ DEFAULTS = {
 class NewRelicInstaller(object):
     def __init__(self, ctx):
         self._log = _log
-        ctx.update(DEFAULTS)
         self._ctx = ctx
+        self._merge_defaults()
         if self.should_install():
             self._log.info("Initializing")
             self.php_ini_path = os.path.join(self._ctx['BUILD_DIR'],
@@ -57,6 +57,11 @@ class NewRelicInstaller(object):
             self.pid_path = os.path.join('@{HOME}', 'newrelic',
                                          'daemon.pid')
             self._log.debug("Pid File [%s]", self.pid_path)
+
+    def _merge_defaults(self):
+        for key, val in DEFAULTS.iteritems():
+            if key not in self._ctx:
+                self._ctx[key] = val
 
     def _find_php_extn_dir(self):
         with open(self.php_ini_path, 'rt') as php_ini:
