@@ -13,6 +13,7 @@ def service_commands(ctx):
             '-DFOREGROUND')
     }
 
+
 def service_environment(ctx):
     return {
         'HTTPD_SERVER_ADMIN': ctx['ADMIN_EMAIL']

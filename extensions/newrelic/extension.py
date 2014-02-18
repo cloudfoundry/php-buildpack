@@ -35,7 +35,7 @@ class NewRelicInstaller(object):
             self._php_extn_dir = self._find_php_extn_dir()
             self._php_api, self._php_zts = self._parse_php_api()
             self._php_arch = ctx.get('NEWRELIC_ARCH', 'x64')
-            self._log.debug("PHP API [%s] Arch [%s]", 
+            self._log.debug("PHP API [%s] Arch [%s]",
                             self._php_api, self._php_arch)
             self.newrelic_so = os.path.join(
                 '@{HOME}', 'newrelic',

@@ -88,7 +88,7 @@ class TestCompileHelpers(object):
         convert_php_extensions(ctx)
         eq_('', ctx['PHP_EXTENSIONS'])
         eq_('', ctx['ZEND_EXTENSIONS'])
-    
+
     def test_convert_php_extensions_one(self):
         ctx = {
             'PHP_EXTENSIONS': ['mod1'],

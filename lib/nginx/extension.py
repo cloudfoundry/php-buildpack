@@ -14,7 +14,7 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     return {}
-       
+
 
 def compile(install):
     install.builder._ctx['PHP_FPM_LISTEN'] = '{TMPDIR}/php-fpm.socket'

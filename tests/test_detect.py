@@ -1,7 +1,6 @@
 import shutil
 import tempfile
 import os.path
-import json
 from nose.tools import eq_
 from nose.tools import with_setup
 from build_pack_utils import BuildPack
