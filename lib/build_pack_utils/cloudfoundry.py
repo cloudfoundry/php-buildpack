@@ -27,8 +27,10 @@ class CloudFoundryUtil(object):
         ctx.update(os.environ)
         # Convert JSON env variables
         ctx['VCAP_APPLICATION'] = json.loads(ctx.get('VCAP_APPLICATION',
+                                                     '{}',
                                                      format=False))
         ctx['VCAP_SERVICES'] = json.loads(ctx.get('VCAP_SERVICES',
+                                                  '{}',
                                                   format=False))
         # Build Pack Location
         ctx['BP_DIR'] = os.path.dirname(os.path.dirname(sys.argv[0]))
