@@ -128,7 +128,7 @@ class NewRelicInstaller(object):
         lines.insert(pos, 'extension=%s\n' % self.newrelic_so)
         lines.append('\n')
         lines.append('[newrelic]\n')
-        lines.append('newrelic.license=%s\n' % self._ctx['NEWRELIC_LICENSE'])
+        lines.append('newrelic.license=%s\n' % self.license_key)
         lines.append('newrelic.appname=%s\n' % self.app_name)
         lines.append('newrelic.daemon.logfile=%s\n' % self.log_path)
         lines.append('newrelic.daemon.location=%s\n' % self.daemon_path)
