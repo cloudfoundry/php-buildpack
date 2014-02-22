@@ -34,12 +34,11 @@ if __name__ == '__main__':
         print 'Path [%s] not found.' % toPath
         sys.exit(-1)
 
-    if not os.path.isdir(toPath):
-        print 'Path [%s] is not a directory.' % toPath
-        sys.exit(-1)
-
     ctx = utils.FormattedDict({
-        'BUILD_DIR': ''
+        'BUILD_DIR': '',
+        'LD_LIBRARY_PATH': '',
+        'PATH': '',
+        'PYTHONPATH': ''
     })
     ctx.update(os.environ)
 
