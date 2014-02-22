@@ -65,18 +65,26 @@ def process_extensions(ctx, to_call, success, args=None, ignore=False):
         process_extension(path, ctx, to_call, success, args, ignore)
 
 
+def rewrite_with_template(template, cfgPath, ctx):
+    with open(cfgPath) as fin:
+        data = fin.read()
+    with open(cfgPath, 'wt') as out:
+        out.write(template(data).safe_substitute(ctx))
+
+
 def rewrite_cfgs(toPath, ctx, delim='#'):
     class RewriteTemplate(Template):
         delimiter = delim
-    _log.info("Rewriting configuration under [%s]", toPath)
-    for root, dirs, files in os.walk(toPath):
-        for f in files:
-            cfgPath = os.path.join(root, f)
-            _log.debug("Rewriting [%s]", cfgPath)
-            with open(cfgPath) as fin:
-                data = fin.read()
-            with open(cfgPath, 'wt') as out:
-                out.write(RewriteTemplate(data).safe_substitute(ctx))
+    if os.path.isdir(toPath):
+        _log.info("Rewriting configuration under [%s]", toPath)
+        for root, dirs, files in os.walk(toPath):
+            for f in files:
+                cfgPath = os.path.join(root, f)
+                _log.debug("Rewriting [%s]", cfgPath)
+                rewrite_with_template(RewriteTemplate, cfgPath, ctx)
+    else:
+        _log.info("Rewriting configuration file [%s]", toPath)
+        rewrite_with_template(RewriteTemplate, toPath, ctx)
 
 
 class FormattedDictWrapper(object):
