@@ -2,9 +2,8 @@ from compile_helpers import convert_php_extensions
 
 
 def preprocess_commands(ctx):
-    return ((
-        '$HOME/.bp/bin/rewrite',
-        '"$HOME/php/etc"'),)
+    return (('$HOME/.bp/bin/rewrite', '"$HOME/php/etc"'),
+            ('$HOME/.bp/bin/rewrite', '"$HOME/.env"'))
 
 
 def service_commands(ctx):
@@ -21,7 +20,7 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     return {
-        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/php/lib'
+        'LD_LIBRARY_PATH': '@LD_LIBRARY_PATH:@HOME/php/lib'
     }
 
 
