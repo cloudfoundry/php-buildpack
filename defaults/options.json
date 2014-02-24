@@ -1,6 +1,6 @@
 {
     "CACHE_HASH_ALGORITHM": "sha1",
-    "DOWNLOAD_URL": "http://192.168.0.6:5001",
+    "DOWNLOAD_URL": "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack",
     "WEB_SERVER": "httpd",
     "HTTPD_VERSION": "2.4.7",
     "HTTPD_PACKAGE": "httpd-{HTTPD_VERSION}.tar.gz",

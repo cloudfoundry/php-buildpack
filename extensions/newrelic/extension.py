@@ -14,9 +14,9 @@ DEFAULTS = {
     'NEWRELIC_HOST': 'download.newrelic.com',
     'NEWRELIC_VERSION': '4.5.5.38',
     'NEWRELIC_PACKAGE': 'newrelic-php5-{NEWRELIC_VERSION}-linux.tar.gz',
-    'NEWRELIC_DOWNLOAD_URL': '{DOWNLOAD_URL}/newrelic/{NEWRELIC_PACKAGE}',
-    #'NEWRELIC_DOWNLOAD_URL': 'https://{NEWRELIC_HOST}/php_agent/'
-    #                         'archive/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}',
+    #'NEWRELIC_DOWNLOAD_URL': '{DOWNLOAD_URL}/newrelic/{NEWRELIC_PACKAGE}',
+    'NEWRELIC_DOWNLOAD_URL': 'https://{NEWRELIC_HOST}/php_agent/'
+                             'archive/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}',
     'NEWRELIC_HASH_DOWNLOAD_URL': '{DOWNLOAD_URL}/newrelic/'
                                   '{NEWRELIC_PACKAGE}.{CACHE_HASH_ALGORITHM}',
     'NEWRELIC_STRIP': True
