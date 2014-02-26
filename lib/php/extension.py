@@ -29,7 +29,7 @@ def compile(install):
     (install
         .package('PHP')
         .config()
-            .from_application('config/php')
+            .from_application('.bp-config/php')
             .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
             .to('php/etc')
             .rewrite()

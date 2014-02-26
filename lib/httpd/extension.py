@@ -25,7 +25,7 @@ def compile(install):
     (install
         .package('HTTPD')
         .config()
-            .from_application('config/httpd')
+            .from_application('.bp-config/httpd')
             .or_from_build_pack('defaults/config/httpd/{HTTPD_VERSION}')
             .to('httpd/conf')
             .rewrite()
