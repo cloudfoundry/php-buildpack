@@ -44,7 +44,7 @@ class Configurer(object):
 
     def user_config(self, path=None):
         if path is None:
-            path = os.path.join('config', 'options.json')
+            path = os.path.join('.bp-config', 'options.json')
         self._merge(
             CloudFoundryUtil.load_json_config_file_from(
                 self.builder._ctx['BUILD_DIR'], path))
