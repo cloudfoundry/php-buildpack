@@ -11,6 +11,8 @@ class TestCompile(object):
     def _set_web_server(self, optsFile, webServer):
         options = json.load(open(optsFile))
         options['WEB_SERVER'] = webServer
+        options['DOWNLOAD_URL'] = 'http://localhost:5001'
+        options['NEWRELIC_DOWNLOAD_URL'] = '{DOWNLOAD_URL}/newrelic/{NEWRELIC_PACKAGE}'
         json.dump(options, open(optsFile, 'wt'))
 
     def setUp(self):
@@ -62,18 +64,19 @@ class TestCompile(object):
             output = ''
             output = bp._compile()
             outputLines = output.split('\n')
-            eq_(20, len(outputLines))
+            eq_(21, len(outputLines))
             for line in outputLines:
                 eq_(True, line.startswith('Download'))
             # Test scripts and config
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(4, len(lines))
+                eq_(5, len(lines))
                 eq_('export PYTHONPATH=$HOME/.bp/lib', lines[0])
                 eq_('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"', lines[1])
                 eq_('$HOME/.bp/bin/rewrite "$HOME/php/etc"', lines[2])
-                eq_('$HOME/.bp/bin/start', lines[3])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/.env"', lines[3])
+                eq_('$HOME/.bp/bin/start', lines[4])
             # Check scripts and bp are installed
             self.assert_exists(self.build_dir, '.bp', 'bin', 'rewrite')
             self.assert_exists(self.build_dir, '.bp', 'lib')
@@ -89,7 +92,7 @@ class TestCompile(object):
                 lines = [line.strip() for line in env.readlines()]
                 eq_(2, len(lines))
                 eq_('HTTPD_SERVER_ADMIN=dan@mikusa.com', lines[0])
-                eq_('LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib',
+                eq_('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib',
                     lines[1])
             with open(os.path.join(self.build_dir, '.procs')) as procs:
                 lines = [line.strip() for line in procs.readlines()]
@@ -139,6 +142,8 @@ class TestCompile(object):
                                'mod_unixd.so')
             self.assert_exists(self.build_dir, 'httpd', 'modules',
                                'mod_remoteip.so')
+            self.assert_exists(self.build_dir, 'httpd', 'modules',
+                               'mod_rewrite.so')
             # Test PHP
             self.assert_exists(self.build_dir, 'php')
             self.assert_exists(self.build_dir, 'php', 'etc')
@@ -199,11 +204,12 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
                 lines = [line.strip() for line in start.readlines()]
-                eq_(4, len(lines))
+                eq_(5, len(lines))
                 eq_('export PYTHONPATH=$HOME/.bp/lib', lines[0])
                 eq_('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"', lines[1])
                 eq_('$HOME/.bp/bin/rewrite "$HOME/php/etc"', lines[2])
-                eq_('$HOME/.bp/bin/start', lines[3])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/.env"', lines[3])
+                eq_('$HOME/.bp/bin/start', lines[4])
             # Check scripts and bp are installed
             self.assert_exists(self.build_dir, '.bp', 'bin', 'rewrite')
             self.assert_exists(self.build_dir, '.bp', 'lib')
@@ -218,7 +224,7 @@ class TestCompile(object):
             with open(os.path.join(self.build_dir, '.env')) as env:
                 lines = [line.strip() for line in env.readlines()]
                 eq_(1, len(lines))
-                eq_('LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib',
+                eq_('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib',
                     lines[0])
             with open(os.path.join(self.build_dir, '.procs')) as procs:
                 lines = [line.strip() for line in procs.readlines()]
