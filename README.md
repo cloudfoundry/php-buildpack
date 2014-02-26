@@ -56,9 +56,11 @@ While the *30 Tecond Tutorial* shows how quick and easy it is to get started usi
   - [Features](#features)
   - [Configuration Options]
   - [Example Applications](#examples)
+  - [Troubleshooting]
   - [Development]
 
 
 [CF PHP & Apache Build Pack]:https://github.com/dmikusa-pivotal/cf-php-apache-buildpack
 [Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/docs/config.md
 [Development]:https://github.com/dmikusa-pivotal/cf-php-build-pack/docs/development.md
+[Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/docs/development.md
