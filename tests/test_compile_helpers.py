@@ -4,6 +4,7 @@ import tempfile
 import shutil
 from nose.tools import eq_
 from nose.tools import with_setup
+from build_pack_utils import utils
 from compile_helpers import setup_htdocs_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
 
@@ -33,9 +34,9 @@ class TestCompileHelpers(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_htdocs_exists(self):
         shutil.copytree('tests/data/app-1', self.build_dir)
-        setup_htdocs_if_it_doesnt_exist({
+        setup_htdocs_if_it_doesnt_exist(utils.FormattedDict({
             'BUILD_DIR': self.build_dir
-        })
+        }))
         self.assert_exists(self.build_dir, 'htdocs')
         self.assert_exists(self.build_dir, 'htdocs', 'index.php')
         self.assert_exists(self.build_dir, 'htdocs', 'info.php')
@@ -51,9 +52,9 @@ class TestCompileHelpers(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_htdocs_does_not_exist(self):
         shutil.copytree('tests/data/app-2', self.build_dir)
-        setup_htdocs_if_it_doesnt_exist({
+        setup_htdocs_if_it_doesnt_exist(utils.FormattedDict({
             'BUILD_DIR': self.build_dir
-        })
+        }))
         self.assert_exists(self.build_dir, 'htdocs')
         self.assert_exists(self.build_dir, 'htdocs', 'index.php')
         self.assert_exists(self.build_dir, 'htdocs', 'info.php')
