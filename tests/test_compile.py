@@ -106,8 +106,8 @@ class TestCompile(object):
                     lines[2])
             # Check htdocs and config
             self.assert_exists(self.build_dir, 'htdocs')
-            self.assert_exists(self.build_dir, 'config')
-            self.assert_exists(self.build_dir, 'config', 'options.json')
+            self.assert_exists(self.build_dir, '.bp-config')
+            self.assert_exists(self.build_dir, '.bp-config', 'options.json')
             # Test HTTPD
             self.assert_exists(self.build_dir)
             self.assert_exists(self.build_dir, 'httpd')
@@ -237,8 +237,8 @@ class TestCompile(object):
                     lines[2])
             # Test htdocs & config
             self.assert_exists(self.build_dir, 'htdocs')
-            self.assert_exists(self.build_dir, 'config')
-            self.assert_exists(self.build_dir, 'config', 'options.json')
+            self.assert_exists(self.build_dir, '.bp-config')
+            self.assert_exists(self.build_dir, '.bp-config', 'options.json')
             # Test NGINX
             self.assert_exists(self.build_dir)
             self.assert_exists(self.build_dir, 'nginx')

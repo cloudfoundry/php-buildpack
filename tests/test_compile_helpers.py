@@ -42,9 +42,9 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, 'htdocs', 'info.php')
         self.assert_exists(self.build_dir, 'htdocs',
                            'technical-difficulties1.jpg')
-        self.assert_exists(self.build_dir, 'config')
-        self.assert_exists(self.build_dir, 'config', 'options.json')
-        self.assert_exists(self.build_dir, 'config', 'httpd', 'extra',
+        self.assert_exists(self.build_dir, '.bp-config')
+        self.assert_exists(self.build_dir, '.bp-config', 'options.json')
+        self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
                            'httpd-remoteip.conf')
         eq_(2, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
@@ -60,9 +60,9 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, 'htdocs', 'info.php')
         self.assert_exists(self.build_dir, 'htdocs',
                            'technical-difficulties1.jpg')
-        self.assert_exists(self.build_dir, 'config')
-        self.assert_exists(self.build_dir, 'config', 'options.json')
-        self.assert_exists(self.build_dir, 'config', 'httpd', 'extra',
+        self.assert_exists(self.build_dir, '.bp-config')
+        self.assert_exists(self.build_dir, '.bp-config', 'options.json')
+        self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
                            'httpd-remoteip.conf')
         eq_(2, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
