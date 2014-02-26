@@ -59,17 +59,17 @@ class TestRewriteScriptPhp(BaseRewriteScript):
 
     @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_arg_file(self):
-        try:
-            cfg_file = os.path.join(self.cfg_dir, 'php.ini')
-            self.run.check_output("%s %s" % (self.rewrite, cfg_file),
-                                  env=self.env,
-                                  cwd=os.path.join(self.run_dir, 'bin'),
-                                  stderr=subprocess.STDOUT,
-                                  shell=True)
-            assert False
-        except self.run.CalledProcessError, e:
-            eq_('Path [%s] is not a directory.\n' % cfg_file, e.output)
-            eq_(255, e.returncode)
+        cfg_file = os.path.join(self.cfg_dir, 'php.ini')
+        res = self.run.check_output("%s %s" % (self.rewrite, cfg_file),
+                              env=self.env,
+                              cwd=os.path.join(self.run_dir, 'bin'),
+                              stderr=subprocess.STDOUT,
+                              shell=True)
+        eq_('', res)
+        with open(os.path.join(self.cfg_dir, 'php.ini')) as fin:
+            cfgFile = fin.read()
+            eq_(-1, cfgFile.find('@{HOME}'))
+            eq_(-1, cfgFile.find('@{TMPDIR}'))
 
     @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_arg_dir(self):
