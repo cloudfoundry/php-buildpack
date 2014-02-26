@@ -36,6 +36,8 @@ def compile(install):
             .done()
         .modules('PHP')
             .find_modules_with_regex('^extension=(.*).so$')
+            .find_modules_with_regex('^zend_extension=(.*).so$')
+            .find_modules_with_regex('^zend_extension=".*/(.*).so"$')
             .include_module('fpm')
             .from_application('php/etc/php.ini')
             .done())
