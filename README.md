@@ -6,7 +6,7 @@ This is the next generation build pack for running PHP applications on CloudFoun
 
 ## 30 Second Tutorial
 
-Getting started with the build pack is easy.  With the cf command line utility installed, open a shell, change directories to the root of your PHP files and push your application.
+Getting started with the build pack is easy.  With the cf command line utility installed, open a shell, change directories to the root of your PHP files and push your application using the argument `-b https://github.com/dmikusa-pivotal/cf-php-build-pack.git`.
 
 Example:
 
@@ -21,13 +21,14 @@ EOF
 cf push -m 128M -b https://github.com/dmikusa-pivotal/cf-php-build-pack.git my-php-app
 ```
 
-This command will push your application, "my-php-app", to CloudFoundry.  The ```-b``` argument instructs CF to use this build pack.  The remainder of the options and arguments are not specific to the build pack, for questions on those consult the output of ```cf push -h```.
+Please note that you should change *my-php-app* to some unique name, otherwise you'll get an error and the push will fail.
 
-Please note that you should change *my-php-app* to some unique name.  Otherwise you'll get an error and the push will fail.
+The example above will create and push a test application, "my-php-app", to CloudFoundry.  The `-b` argument instructs CF to use this build pack.  The remainder of the options and arguments are not specific to the build pack, for questions on those consult the output of `cf push -h`.
 
-Behind the scenes the following actions occur when you run the commands above:
+Here's a breakdown of what happens when you run the example above.
+
   - On your PC...
-    - It'll create a new directory and one PHP file, which calls ```phpinfo()```
+    - It'll create a new directory and one PHP file, which calls `phpinfo()`
     - Run cf to push your application.  This will create a new application with a memory limit of 128M (more than enough here) and upload our test file.
   - On the Server...
     - The build pack is executed.
@@ -41,8 +42,8 @@ While the *30 Tecond Tutorial* shows how quick and easy it is to get started usi
 
   - [Goals](#goals)
   - [Features](#features)
-  - [Configuration Options]
   - [Example Applications](#examples)
+  - [Configuration Options]
   - [Troubleshooting]
   - [Development]
 
