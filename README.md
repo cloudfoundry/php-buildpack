@@ -87,7 +87,7 @@ Here are some example applications that can be used with this build pack.
 
 
 [CF PHP & Apache Build Pack]:https://github.com/dmikusa-pivotal/cf-php-apache-buildpack
-[Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/docs/config.md
-[Development]:https://github.com/dmikusa-pivotal/cf-php-build-pack/docs/development.md
-[Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/docs/development.md
+[Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
+[Development]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md
+[Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/troubleshooting.md
 [php-info]:https://github.com/dmikusa-pivotal/cf-ex-php-info
