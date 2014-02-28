@@ -91,4 +91,5 @@ Here are some example applications that can be used with this build pack.
 [Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
 [Development]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md
 [Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/troubleshooting.md
+[Usage]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/usage.md
 [php-info]:https://github.com/dmikusa-pivotal/cf-ex-php-info
