@@ -43,6 +43,7 @@ While the *30 Tecond Tutorial* shows how quick and easy it is to get started usi
   - [Goals](#goals)
   - [Features](#features)
   - [Example Applications](#examples)
+  - [Usage]
   - [Configuration Options]
   - [Troubleshooting]
   - [Development]
