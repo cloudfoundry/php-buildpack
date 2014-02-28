@@ -1,6 +1,8 @@
-## Default Configuration
+## Configuration
 
-This build pack was build to be extremely flexible and configurable for an application developer.  This document describes the different options that are available to an application developer and when he or she might want to use them.
+This build pack was built to be extremely flexible and configurable for an application developer.  This document describes the different options that are available to an application developer and when he or she might want to use them.
+
+### Defaults
 
 The build pack stores all of its default configuration settings in the [defaults] directory.  This is a good place to look if you want to see how something is configured out-of-the-box.
 
@@ -23,7 +25,7 @@ Here are a list of the options that an application developer might want to overr
 | ZEND_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
 | DOWNLOAD_URL | This is the base of the URL that the build pack uses to locate its binary files.  The default points to the location of the build pack's binary files.  If you want to provide your own binaries, you can point this URL at the repository that holds your custom binaries.  This should be an HTTP or HTTPS URL. |
 
-## HTTPD, Nginx and PHP configuration
+### HTTPD, Nginx and PHP configuration
 
 Explain how to override / configure this.
 
