@@ -41,7 +41,7 @@ total 8
 -rw-r--r--  1 daniel  staff  396 Jan  3 08:31 httpd-logging.conf
 ```
 
-In this example, we've created the `httpd` directory and added the `extra/httpd-logging.conf` file which matches the [extra/httpd-logging.conf] file is found in the build pack defaults.  With this configuration file in place, the build pack will detect it and install it when the application is pushed to CF.  
+In this example, we've created the `httpd` directory and added the `extra/httpd-logging.conf` file which matches the [extra/httpd-logging.conf] file is found in the build pack [defaults].  With this configuration file in place, the build pack will detect it and install it when the application is pushed to CF.  
 
 By installing it, the build pack will override the default file of the same name.  This means that the settings in the default file will no longer be applied, unless the application specific file also contains them as well.  In fact, it's a good idea to take the default file from the build pack, use it as a starting point and edit as necessary.  This will make it easier to edit the file without breaking the overall configuration.
 
