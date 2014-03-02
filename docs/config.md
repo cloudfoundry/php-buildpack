@@ -51,7 +51,7 @@ Second, you need to take care when adjusting the configurations.  It is possible
 
 ## Extensions
 
-The behavior of the build pack can be controlled with extensions.  Out-of-the-box the build pack includes some of it's own extensions like for HTTP, Nginx, PHP and NewRelic.  In addition to these, it's possible for an application developer to include his own custom extensions.  These should be placed into the `.extensions` directory of your project folder.  When pushed, the build pack will look in this location for application specific extensions and run them.
+The behavior of the build pack can be controlled with extensions.  Out-of-the-box the build pack includes some of it's own extensions like for [HTTPD], [Nginx], [PHP] and [NewRelic].  These are core extensions and will be automatically included by the build pack and used as necessary.  In addition to these, it's possible for an application developer to include his or her own custom extensions.  These should be placed into the `.extensions` directory of your project folder.  When pushed, the build pack will look in this location for application specific extensions and run them.
 
 The [Development Documentation] explains how to write extensions.
 
@@ -60,4 +60,7 @@ The [Development Documentation] explains how to write extensions.
 [ServerAdmin]:http://httpd.apache.org/docs/2.4/mod/core.html#serveradmin
 [extra/httpd-logging.conf]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/defaults/config/httpd/2.4.x/extra/httpd-logging.conf
 [Development Documentation]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md
-
+[HTTPD]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/httpd
+[Nginx]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/nginx
+[PHP]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/php
+[NewRelic]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/extensions/newrelic
