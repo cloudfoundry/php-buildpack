@@ -37,7 +37,7 @@ if __name__ == '__main__':
                 .done()
             .extensions()
                 .from_build_pack('extensions')
-                .from_application('extensions')
+                .from_application('.extensions')
                 .done()
             .done()
         .copy()
