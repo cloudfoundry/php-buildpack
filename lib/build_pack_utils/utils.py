@@ -57,7 +57,7 @@ def process_extension(path, ctx, to_call, success, args=None, ignore=False):
     except Exception, e:
         _log.exception("Error with extension [%s]" % path)
         if not ignore:
-            raise e
+            raise
 
 
 def process_extensions(ctx, to_call, success, args=None, ignore=False):
