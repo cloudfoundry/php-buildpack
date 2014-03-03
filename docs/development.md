@@ -6,8 +6,21 @@ This doc aims to provide some help should you want to modify or extend the build
 
 To get setup developing the build pack, you'll need some tools.  Here's the setup that should work.
 
- 1. [PyEnv] - This will allow you to install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
+ 1. [PyEnv] - This will allow you to easily install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
  1. [virtualenv] & [pip] - The build pack uses virtualenv and pip to setup the [required packages].  These are used by the unittest and not required by the build pack itself.
+
+With those tools installed, you should be able to run these commands to get up and running.
+
+```bash
+git clone https://github.com/dmikusa-pivotal/cf-php-build-pack
+cd cf-php-build-pack
+python -V  # should report 2.6.6, if not fix PyEnv before creating the virtualenv
+virtualenv `pwd`/env
+. ./env/bin/activate
+pip install -r requirements.txt
+```
+
+That's it.  You should now be able to run the [unit tests].
 
 ### Project Structure
 
@@ -24,9 +37,9 @@ The project is broken down into the following directories:
 
 ### Understanding the Build Pack
 
-The easiest way to understand the build pack is to trace the flow of the scripts.  The CloudFoundry system calls the `compile`, `release` and `detect` scripts provided by the build pack.  These are located under the `bin` directory and are generic.  They simply redirect to the corresponding Python script under the `scripts` directory.
+The easiest way to understand the build pack is to trace the flow of the scripts.  The build pack system calls the `compile`, `release` and `detect` scripts provided by the build pack.  These are located under the `bin` directory and are generic.  They simply redirect to the corresponding Python script under the `scripts` directory.
 
-Of these, the `detect` and `release` script are straightforward.  The `compile` script is more complicated but works like this.
+Of these, the `detect` and `release` script are straightforward, providing the minimal functionality required by a build pack.  The `compile` script is more complicated but works like this.
 
   - load configuration
   - setup the htdocs directory
@@ -36,11 +49,13 @@ Of these, the `detect` and `release` script are straightforward.  The `compile` 
   - setup the runtime environment and process manager
   - generate a startup.sh script
 
-If you're looking to extend the build pack, extensions are the way to go.
+In general, you shouldn't need to modify the build pack itself.  Instead creating an extension should be the way to go.
 
 ### Extensions
 
 The build pack heavily relies on extensions.  An extensions is simply a set of Python methods that will get called at various times during the staging process.  Writing one is easy and here is an explanation of the methods.
+
+#### Methods
 
 ```python
 def preprocess_commands(ctx):
@@ -80,7 +95,12 @@ The `compile` method is the main method and where extension authors should perfo
 
 The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
 
-To be consistent with the rest of the build pack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the build pack.
+#### Tips
+
+  - To be consistent with the rest of the build pack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the build pack.
+  - The build pack will run every extension that is included with the build pack and the application.  There is no mechanism to disable specific extensions.  Thus, when you write an extension, you should make some way for the user to enable / disable it's functionality.  See the [NewRelic] extension for an example of this.
+  - If an extension requires configuration, it should be included with the extension.  The `defaults/options.json` file is for the build pack and its core extensions.  See the [NewRelic] build pack for an example of this.
+  - Extensions should have their own test module.  This generally takes the form `tests/test_<extension_name>.py`.
 
 ### Testing
 
@@ -117,3 +137,5 @@ Integration tests expect to have a web server running on port 5001.  This is whe
 [Nginx]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/nginx
 [PHP]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/php
 [NewRelic]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/extensions/newrelic
+[unit tests]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md#testing
+
