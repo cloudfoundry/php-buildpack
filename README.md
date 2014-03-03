@@ -1,4 +1,4 @@
-## CloudFoundry PHP Buildpack
+## CloudFoundry PHP Build pack
 
 A build pack for CloudFoundry to deploy PHP based applications.
 
@@ -38,7 +38,7 @@ Here's a breakdown of what happens when you run the example above.
 
 ## More Information
 
-While the *30 Tecond Tutorial* shows how quick and easy it is to get started using the build pack, it skips over quite a bit of what you can do to adjust, configure and extend the build pack.  The following docs and links provide a more indepth look at the build pack.
+While the *30 Second Tutorial* shows how quick and easy it is to get started using the build pack, it skips over quite a bit of what you can do to adjust, configure and extend the build pack.  The following docs and links provide a more in-depth look at the build pack.
 
   - [Goals](#goals)
   - [Features](#features)
@@ -69,10 +69,10 @@ Here's a list of the major features of the build pack.
   - supports the latest versions of Apache HTTPD 2.4 and Nginx 1.5
   - supports the latest versions of PHP 5.4 and 5.5
   - supports a large set of PHP extensions, including amqp, apc, bz2, curl, dba, gd, gettext, gmp, imap, ldap, mcrypt, mongodb, openssl, pdo_pgsql, pgsql, pspell, redis, xdebug and zlib
-  - versions of HTTPD, Nginx and PHP are automatically upgraded to the latest release just by restaging an application
+  - versions of HTTPD, Nginx and PHP are automatically upgraded to the latest release just by re-staging an application
   - allows for application developers to control which PHP extensions are installed
   - allows for application developers to custom configure HTTPD, Nginx or PHP
-  - download location is configurable, allowing users to host binaries on the same network (i.e. run without an internet connection)
+  - download location is configurable, allowing users to host binaries on the same network (i.e. run without an Internet connection)
   - supports an extension mechanism that allows the build pack to provided additional functionality
   - allows for application developers to provide custom extensions
   - support NewRelic through an extension

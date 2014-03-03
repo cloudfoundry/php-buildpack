@@ -7,7 +7,7 @@ This doc aims to provide some help should you want to modify or extend the build
 To get setup developing the build pack, you'll need some tools.  Here's the setup that should work.
 
  1. [PyEnv] - This will allow you to easily install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
- 1. [virtualenv] & [pip] - The build pack uses virtualenv and pip to setup the [required packages].  These are used by the unittest and not required by the build pack itself.
+ 1. [virtualenv] & [pip] - The build pack uses virtualenv and pip to setup the [required packages].  These are used by the unit test and not required by the build pack itself.
 
 With those tools installed, you should be able to run these commands to get up and running.
 

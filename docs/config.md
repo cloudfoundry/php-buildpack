@@ -10,7 +10,7 @@ The build pack stores all of its default configuration settings in the [defaults
 
 The `options.json` file is the configuration file for the build pack itself.  This instructs the build pack what to download, where to download it from and how to install it.  Additionally it allows you to configure package names and versions (i.e. PHP, HTTPD or Nginx versions), the web server to use (HTTPD or Nginx) and the PHP extensions that are enabled.
 
-To configure these options for your applicaton, simply create the file `.bp-config/options.json` in your project directory.  The build pack will find this file when it runs and merge it with the default values that it uses.  Any values specified in your file will override the defaults.
+To configure these options for your application, simply create the file `.bp-config/options.json` in your project directory.  The build pack will find this file when it runs and merge it with the default values that it uses.  Any values specified in your file will override the defaults.
 
 Here are a list of the options that an application developer might want to override.
 
@@ -31,7 +31,7 @@ Here are a list of the options that an application developer might want to overr
 
 The build pack will automatically configure HTTPD, Nginx and PHP for your application.  In most situations this should just work, however if you need to adjust the configuration it can be done.  
 
-The first step is to create a directory for the configuration files under the `.bp-config`.  The new directory's name should be one or more of the following: `httpd`, `nginx` or `php.  Once created, simply add the configuration files to that directory.
+The first step is to create a directory for the configuration files under the `.bp-config`.  The new directory's name should be one or more of the following: `httpd`, `nginx` or `php`.  Once created, simply add the configuration files to that directory.
 
 Ex:  (to change HTTPD logging configuration)
 

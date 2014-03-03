@@ -1,6 +1,6 @@
 ## Troubleshooting
 
-The build pack should work in most situations, although nothing's perfect so you may need to debug it.  There are a couple easy ways to debug the build pack.
+The build pack should work in most situations, although nothings perfect so you may need to debug it.  There are a couple easy ways to debug the build pack.
 
  1. Check the output from the build pack.  It writes some basic information to stdout, like the files that are being downloaded.  Additionally, it will write more information should something fail, specifically you'll see a stack trace explaining why.
 
