@@ -14,12 +14,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from datetime import datetime
 from build_pack_utils import log_output
 from build_pack_utils import Builder
 from compile_helpers import setup_htdocs_if_it_doesnt_exist
 
 
 if __name__ == '__main__':
+    print 'Started: [%s]' % datetime.now()
     (Builder()
         .configure()
             .default_config()
@@ -54,3 +56,4 @@ if __name__ == '__main__':
         .create_start_script()
             .using_process_manager()
             .write())
+    print 'Finished: [%s]' % datetime.now()

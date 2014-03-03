@@ -25,6 +25,7 @@ def service_environment(ctx):
 
 
 def compile(install):
+    print 'Installing PHP'
     convert_php_extensions(install.builder._ctx)
     (install
         .package('PHP')

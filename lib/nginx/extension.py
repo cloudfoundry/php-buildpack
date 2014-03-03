@@ -17,6 +17,7 @@ def service_environment(ctx):
 
 
 def compile(install):
+    print 'Installing Nginx'
     install.builder._ctx['PHP_FPM_LISTEN'] = '{TMPDIR}/php-fpm.socket'
     (install
         .package('NGINX')
