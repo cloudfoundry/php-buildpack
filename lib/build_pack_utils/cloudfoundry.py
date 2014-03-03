@@ -155,7 +155,8 @@ class CloudFoundryInstaller(object):
                                       '%s_PACKAGE_INSTALL_DIR' % installKey,
                                       installKey.lower()))
         strip = self._ctx.get('%s_STRIP' % installKey, False)
-        return self.install_binary_direct(url, hashUrl, installDir, strip)
+        return self.install_binary_direct(url, hashUrl, installDir,
+                                          strip=strip)
 
     def _install_from(self, fromPath, fromLoc, toLocation=None, ignore=None):
         """Copy file or directory from a location to the droplet

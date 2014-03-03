@@ -253,7 +253,8 @@ class ModuleInstaller(object):
                 self._ctx['MODULE_NAME'] = module
                 url = self._ctx['%s_MODULES_PATTERN' % self._moduleKey]
                 hashUrl = "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM'])
-                self._cf.install_binary_direct(url, hashUrl, toPath, strip)
+                self._cf.install_binary_direct(url, hashUrl, toPath,
+                                               strip=strip)
             finally:
                 if 'MODULE_NAME' in self._ctx.keys():
                     del self._ctx['MODULE_NAME']
