@@ -5,6 +5,7 @@ import tempfile
 import shutil
 import utils
 import logging
+from urlparse import urlparse
 from zips import UnzipUtil
 from hashes import HashUtil
 from cache import DirectoryCacheManager
@@ -117,12 +118,18 @@ class CloudFoundryInstaller(object):
                     'package name!')
         return Downloader
 
-    def install_binary_direct(self, url, hashUrl, installDir, strip=False):
+    def _is_url(self, val):
+        return urlparse(val).scheme != ''
+
+    def install_binary_direct(self, url, hsh, installDir, strip=False):
         self._log.debug(
             "Installing [%s] with hash [%s] into [%s] stripping [%s]",
-            url, hashUrl, installDir, strip)
+            url, hsh, installDir, strip)
         fileName = url.split('/')[-1]
-        digest = self._dwn.download_direct(hashUrl)
+        if self._is_url(hsh):
+            digest = self._dwn.download_direct(hsh)
+        else:
+            digest = hsh
         fileToInstall = self._dcm.get(fileName, digest)
         if fileToInstall is None:
             self._log.debug('File [%s] not in cache.', fileName)
