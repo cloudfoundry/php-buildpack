@@ -121,15 +121,18 @@ class CloudFoundryInstaller(object):
     def _is_url(self, val):
         return urlparse(val).scheme != ''
 
-    def install_binary_direct(self, url, hsh, installDir, strip=False):
-        self._log.debug(
-            "Installing [%s] with hash [%s] into [%s] stripping [%s]",
-            url, hsh, installDir, strip)
-        fileName = url.split('/')[-1]
+    def install_binary_direct(self, url, hsh, installDir,
+                              fileName=None, strip=False):
+        if not fileName:
+            fileName = url.split('/')[-1]
         if self._is_url(hsh):
             digest = self._dwn.download_direct(hsh)
         else:
             digest = hsh
+        self._log.debug(
+            "Installing [%s] with digest [%s] into [%s] with "
+            "name [%s] stripping [%s]",
+            url, digest, installDir, fileName, strip)
         fileToInstall = self._dcm.get(fileName, digest)
         if fileToInstall is None:
             self._log.debug('File [%s] not in cache.', fileName)
