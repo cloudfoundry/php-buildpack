@@ -1,4 +1,5 @@
 from compile_helpers import convert_php_extensions
+from compile_helpers import build_php_environment
 
 
 def preprocess_commands(ctx):
@@ -27,6 +28,7 @@ def service_environment(ctx):
 def compile(install):
     print 'Installing PHP'
     convert_php_extensions(install.builder._ctx)
+    build_php_environment(install.builder._ctx)
     (install
         .package('PHP')
         .config()

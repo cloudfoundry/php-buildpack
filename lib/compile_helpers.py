@@ -39,3 +39,9 @@ def convert_php_extensions(ctx):
     ctx['ZEND_EXTENSIONS'] = \
         "\n".join(['zend_extension="%s/%s.so"' % (path, ze)
                    for ze in ctx['ZEND_EXTENSIONS']])
+
+
+def build_php_environment(ctx):
+    _log.debug('Building PHP environment variables')
+    ctx["PHP_ENV"] = \
+        "\n".join(["env[%s] = $%s" % (k, k) for k in os.environ.keys()])

@@ -7,6 +7,7 @@ from nose.tools import with_setup
 from build_pack_utils import utils
 from compile_helpers import setup_htdocs_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
+from compile_helpers import build_php_environment
 
 
 class TestCompileHelpers(object):
@@ -100,3 +101,10 @@ class TestCompileHelpers(object):
         eq_('zend_extension="@{HOME}/php/lib/php/extensions/'
             'no-debug-non-zts-20100525/zmod1.so"',
             ctx['ZEND_EXTENSIONS'])
+
+    def test_build_php_environment(self):
+        ctx = {}
+        build_php_environment(ctx)
+        eq_(True, 'PHP_ENV' in ctx.keys())
+        eq_(True, ctx['PHP_ENV'].find('env[HOME]') >= 0)
+        eq_(True, ctx['PHP_ENV'].find('env[PATH]') >= 0)
