@@ -64,9 +64,9 @@ class TestCompile(object):
             output = ''
             output = bp._compile()
             outputLines = output.split('\n')
-            eq_(21, len(outputLines))
-            for line in outputLines:
-                eq_(True, line.startswith('Download'))
+            eq_(21, len([l for l in outputLines if l.startswith('Downloaded')]))
+            eq_(2, len([l for l in outputLines if l.startswith('Installing')]))
+            eq_(True, outputLines[-1].startswith('Finished:'))
             # Test scripts and config
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
@@ -197,9 +197,9 @@ class TestCompile(object):
             output = bp._compile()
             # Test Output
             outputLines = output.split('\n')
-            eq_(7, len(outputLines))
-            for line in outputLines:
-                eq_(True, line.startswith('Download'))
+            eq_(7, len([l for l in outputLines if l.startswith('Downloaded')]))
+            eq_(2, len([l for l in outputLines if l.startswith('Installing')]))
+            eq_(True, outputLines[-1].startswith('Finished:'))
             # Test scripts and config
             self.assert_exists(self.build_dir, 'start.sh')
             with open(os.path.join(self.build_dir, 'start.sh')) as start:
