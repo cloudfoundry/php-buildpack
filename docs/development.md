@@ -53,9 +53,15 @@ In general, you shouldn't need to modify the build pack itself.  Instead creatin
 
 ### Extensions
 
-The build pack heavily relies on extensions.  An extensions is simply a set of Python methods that will get called at various times during the staging process.  Writing one is easy and here is an explanation of the methods.
+The build pack heavily relies on extensions.  An extensions is simply a set of Python methods that will get called at various times during the staging process.  
+
+#### Creation
+
+To create an extension, simply create a folder.  The name of the folder will be the extension.  Inside that folder, create a file called `extension.py`. That file will contain your code.  Inside that file, put your extension methods and any additional required code.
 
 #### Methods
+
+Here is an explanation of the methods required by an extension.
 
 ```python
 def preprocess_commands(ctx):
@@ -95,6 +101,43 @@ The `compile` method is the main method and where extension authors should perfo
 
 The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
 
+#### Example
+
+Here is an example extension.  While technically correct, it doesn't actually do anything.
+
+Here's the directory.
+
+```bash
+$ ls -lRh
+total 0
+drwxr-xr-x  3 daniel  staff   102B Mar  3 10:57 testextn
+
+./testextn:
+total 8
+-rw-r--r--  1 daniel  staff   321B Mar  3 11:03 extension.py
+```
+
+Here's the code.
+
+```python
+import logging
+
+_log = logging.getLogger('textextn')
+
+# Extension Methods
+def preprocess_commands(ctx):
+    return ()
+
+def service_commands(ctx):
+    return {}
+
+def service_environment(ctx):
+    return {}
+
+def compile(install):
+    return 0
+```
+
 #### Tips
 
   - To be consistent with the rest of the build pack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the build pack.
@@ -127,6 +170,7 @@ Integration tests expect to have a web server running on port 5001.  This is whe
  1. Run [bosh-lite].  It'll speed up testing and allow you to inspect the environment manually, if needed.
  1. Run a local web server for your binaries.  It'll seriously speed up download times.
  1. Test, test and test again.  Create unit and integration tests for your code and extensions.  This gives you quick and accurate feedback on your code.
+ 1. Check your code with flake8.  This linting tool can help to detect problems quickly.
 
 [PyEnv]:https://github.com/yyuu/pyenv
 [virtualenv]:http://www.virtualenv.org/en/latest/
