@@ -21,7 +21,6 @@ from compile_helpers import setup_htdocs_if_it_doesnt_exist
 
 
 if __name__ == '__main__':
-    print 'Started: [%s]' % datetime.now()
     (Builder()
         .configure()
             .default_config()
