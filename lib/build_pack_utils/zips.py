@@ -29,18 +29,17 @@ class UnzipUtil(object):
                 members = zipIn.namelist()
                 if len(members) > 0:
                     firstDir = members[0].split('/')[0]
-                    moveFrom = os.path.join(tmpDir, firstDir)
-                    if os.path.exists(moveFrom):
-                        for item in os.listdir(moveFrom):
-                            shutil.move(os.path.join(moveFrom, item),
-                                        intoDir)
-        except OSError, e:
-            if e.errno == 20:  # not a directory
-                self._log.warn("Zip file does not need stripped")
-                for item in os.listdir(tmpDir):
-                    shutil.move(os.path.join(tmpDir, item), intoDir)
-            else:
-                raise
+                    if all([firstDir == m.split('/')[0] for m in members]):
+                        moveFrom = os.path.join(tmpDir, firstDir)
+                        if os.path.exists(moveFrom) and os.path.isdir(moveFrom):
+                            for item in os.listdir(moveFrom):
+                                shutil.move(os.path.join(moveFrom, item),
+                                            intoDir)
+                            return intoDir
+                    self._log.warn("Zip file does not need stripped")
+                    for item in os.listdir(tmpDir):
+                        shutil.move(os.path.join(tmpDir, item), intoDir)
+                    return intoDir
         finally:
             if zipIn:
                 zipIn.close()
