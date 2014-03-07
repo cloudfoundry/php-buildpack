@@ -4,6 +4,7 @@ import bz2
 import zipfile
 import shutil
 import logging
+import tempfile
 from functools import partial
 from subprocess import Popen
 from subprocess import PIPE
@@ -16,7 +17,10 @@ class UnzipUtil(object):
         self._log = logging.getLogger('zips')
 
     def _unzip(self, zipFile, intoDir, strip):
-        tmpDir = (strip) and self._ctx['TMPDIR'] or intoDir
+        if strip:
+            tmpDir = tempfile.mkdtemp(prefix='zips-')
+        else:
+            tmpDir = intoDir
         zipIn = None
         try:
             zipIn = zipfile.ZipFile(zipFile, 'r')
@@ -30,9 +34,18 @@ class UnzipUtil(object):
                         for item in os.listdir(moveFrom):
                             shutil.move(os.path.join(moveFrom, item),
                                         intoDir)
+        except OSError, e:
+            if e.errno == 20:  # not a directory
+                self._log.warn("Zip file does not need stripped")
+                for item in os.listdir(tmpDir):
+                    shutil.move(os.path.join(tmpDir, item), intoDir)
+            else:
+                raise
         finally:
             if zipIn:
                 zipIn.close()
+            if intoDir != tmpDir and os.path.exists(tmpDir):
+                shutil.rmtree(tmpDir)
         return intoDir
 
     def _gunzip(self, zipFile, intoDir, strip):
