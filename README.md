@@ -85,6 +85,9 @@ Here's a list of the major features of the build pack.
 Here are some example applications that can be used with this build pack.
 
   - [php-info]  This app has a basic index page and shows the output of phpinfo()
+  - [PHPMyAdmin]  A deployment of PHPMyAdmin that uses bound MySQL services
+  - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
+  - [CodeIgniter]  CodeIgniter tutorial application running on CF
 
 
 [CF PHP & Apache Build Pack]:https://github.com/dmikusa-pivotal/cf-php-apache-buildpack
@@ -93,3 +96,7 @@ Here are some example applications that can be used with this build pack.
 [Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/troubleshooting.md
 [Usage]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/usage.md
 [php-info]:https://github.com/dmikusa-pivotal/cf-ex-php-info
+[PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
+[Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
+[CodeIgniter]:https://github.com/dmikusa-pivotal/cf-ex-code-igniter
+
