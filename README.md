@@ -89,6 +89,10 @@ Here are some example applications that can be used with this build pack.
   - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
   - [CodeIgniter]  CodeIgniter tutorial application running on CF
 
+## License
+
+The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache License].
+
 
 [CF PHP & Apache Build Pack]:https://github.com/dmikusa-pivotal/cf-php-apache-buildpack
 [Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
@@ -99,4 +103,4 @@ Here are some example applications that can be used with this build pack.
 [PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
 [CodeIgniter]:https://github.com/dmikusa-pivotal/cf-ex-code-igniter
-
+[Apache License]:http://www.apache.org/licenses/LICENSE-2.0
