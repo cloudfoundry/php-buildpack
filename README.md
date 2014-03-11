@@ -47,7 +47,7 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Configuration Options]
   - [Troubleshooting]
   - [Getting Help](#getting-help)
-  - [Issues & Feature Requests](#issues-&-feature-requests)
+  - [Issues & Feature Requests](#issues--feature-requests)
   - [Development]
   - [License](#license)
 
