@@ -46,7 +46,10 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Usage]
   - [Configuration Options]
   - [Troubleshooting]
+  - [Getting Help](#getting-help)
+  - [Issues & Feature Requests](#issues-&-feature-requests)
   - [Development]
+  - [License](#license)
 
 ### Goals
 
@@ -89,6 +92,14 @@ Here are some example applications that can be used with this build pack.
   - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
   - [CodeIgniter]  CodeIgniter tutorial application running on CF
 
+## Getting Help
+
+If you have questions, comments or need further help with the build pack you can post to the [vcap-dev] mailing list. It's a good place for posting question on all of the open source CloudFoundry components, like this build pack. Alternatively, if you're using Pivotal Web Services with the build pack, you could post to the [support forums]. I keep an eye on both places.
+
+## Issues & Feature Requests
+
+This project is managed through Github.  If you encounter any issues, bug or problems with the build pack please open an issue.  Feature requests can also be submitted this way too.
+
 ## License
 
 The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache License].
@@ -104,3 +115,5 @@ The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache Lic
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
 [CodeIgniter]:https://github.com/dmikusa-pivotal/cf-ex-code-igniter
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
+[vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
+[support forums]:http://support.run.pivotal.io/home
