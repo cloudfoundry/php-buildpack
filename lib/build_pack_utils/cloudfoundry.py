@@ -123,6 +123,7 @@ class CloudFoundryInstaller(object):
 
     def install_binary_direct(self, url, hsh, installDir,
                               fileName=None, strip=False):
+        self._log.debug("Installing direct [%s]", url)
         if not fileName:
             fileName = url.split('/')[-1]
         if self._is_url(hsh):
