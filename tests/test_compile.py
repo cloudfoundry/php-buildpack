@@ -46,19 +46,17 @@ class BaseTestCompile(object):
 
 
 class TestCompile(BaseTestCompile):
-    def initialize(self):
+    def setUp(self):
         BaseTestCompile.initialize(self, 'app-1')
 
-    def cleanup(self):
+    def tearDown(self):
         BaseTestCompile.cleanup(self)
 
-    @with_setup(setup=initialize, teardown=cleanup)
     def test_setup(self):
         eq_(True, os.path.exists(self.build_dir))
         eq_(False, os.path.exists(self.cache_dir))
         eq_(True, os.path.exists(os.path.join(self.build_dir, 'htdocs')))
 
-    @with_setup(setup=initialize, teardown=cleanup)
     def test_compile_httpd(self):
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
@@ -190,7 +188,6 @@ class TestCompile(BaseTestCompile):
             if os.path.exists(bp.bp_dir):
                 shutil.rmtree(bp.bp_dir)
 
-    @with_setup(setup=initialize, teardown=cleanup)
     def test_compile_nginx(self):
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
