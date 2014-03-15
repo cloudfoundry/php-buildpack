@@ -82,8 +82,8 @@ def find_stand_alone_app_to_run(ctx):
                 break
         if not app:
             print 'Build pack could not find a PHP file to execute!'
-            _log.info('Build pack could not find a file to execute.  Either set '
-                      '"APP_START_CMD" or include one of these files [%s]',
+            _log.info('Build pack could not find a file to execute.  Either '
+                      'set "APP_START_CMD" or include one of these files [%s]',
                       ", ".join(possible_files))
             app = 'app.php'
     return app
