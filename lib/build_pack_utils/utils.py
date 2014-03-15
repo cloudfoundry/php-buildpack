@@ -54,7 +54,7 @@ def process_extension(path, ctx, to_call, success, args=None, ignore=False):
     try:
         if hasattr(extn, to_call):
             success(getattr(extn, to_call)(*args))
-    except Exception, e:
+    except Exception:
         _log.exception("Error with extension [%s]" % path)
         if not ignore:
             raise

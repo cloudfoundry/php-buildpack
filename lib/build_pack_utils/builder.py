@@ -255,9 +255,10 @@ class ModuleInstaller(object):
                 hashUrl = "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM'])
                 self._cf.install_binary_direct(url, hashUrl, toPath,
                                                strip=strip)
-            except Exception, e:
+            except Exception:
                 self._log.warning('Module %s failed to install', module)
-                self._log.debug('Module %s failed to install because', module, exc_info=True)
+                self._log.debug('Module %s failed to install because',
+                                module, exc_info=True)
             finally:
                 if 'MODULE_NAME' in self._ctx.keys():
                     del self._ctx['MODULE_NAME']

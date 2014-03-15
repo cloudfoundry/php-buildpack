@@ -31,7 +31,8 @@ class UnzipUtil(object):
                     firstDir = members[0].split('/')[0]
                     if all([firstDir == m.split('/')[0] for m in members]):
                         moveFrom = os.path.join(tmpDir, firstDir)
-                        if os.path.exists(moveFrom) and os.path.isdir(moveFrom):
+                        if os.path.exists(moveFrom) and \
+                           os.path.isdir(moveFrom):
                             for item in os.listdir(moveFrom):
                                 shutil.move(os.path.join(moveFrom, item),
                                             intoDir)
