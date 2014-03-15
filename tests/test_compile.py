@@ -7,22 +7,27 @@ from nose.tools import with_setup
 from build_pack_utils import BuildPack
 
 
-class TestCompile(object):
-    def _set_web_server(self, optsFile, webServer):
+class BaseTestCompile(object):
+    def set_web_server(self, optsFile, webServer):
         options = json.load(open(optsFile))
         options['WEB_SERVER'] = webServer
         options['DOWNLOAD_URL'] = 'http://localhost:5001'
         options['NEWRELIC_DOWNLOAD_URL'] = '{DOWNLOAD_URL}/newrelic/{NEWRELIC_PACKAGE}'
         json.dump(options, open(optsFile, 'wt'))
 
-    def setUp(self):
+    def set_php_version(self, optsFile, version):
+        options = json.load(open(optsFile))
+        options['PHP_VERSION'] = version
+        json.dump(options, open(optsFile, 'wt'))
+
+    def initialize(self, app):
         self.build_dir = tempfile.mkdtemp(prefix='build-')
         self.cache_dir = tempfile.mkdtemp(prefix='cache-')
         os.rmdir(self.build_dir)  # delete otherwise copytree complains
         os.rmdir(self.cache_dir)  # cache dir does not exist normally
-        shutil.copytree('tests/data/app-1', self.build_dir)
+        shutil.copytree('tests/data/%s' % app, self.build_dir)
 
-    def tearDown(self):
+    def cleanup(self):
         if os.path.exists(self.build_dir):
             shutil.rmtree(self.build_dir)
         if os.path.exists(self.cache_dir):
@@ -30,20 +35,30 @@ class TestCompile(object):
         for name in os.listdir(os.environ['TMPDIR']):
             if name.startswith('httpd-') and name.endswith('.gz'):
                 os.remove(os.path.join(os.environ['TMPDIR'], name))
+            if name.startswith('nginx-') and name.endswith('.gz'):
+                os.remove(os.path.join(os.environ['TMPDIR'], name))
             if name.startswith('php-') and name.endswith('.gz'):
                 os.remove(os.path.join(os.environ['TMPDIR'], name))
-
-    @with_setup(setup=setUp, teardown=tearDown)
-    def test_setup(self):
-        eq_(True, os.path.exists(self.build_dir))
-        eq_(False, os.path.exists(self.cache_dir))
-        eq_(True, os.path.exists(os.path.join(self.build_dir, 'htdocs')))
 
     def assert_exists(self, *args):
         eq_(True, os.path.exists(os.path.join(*args)),
             "Does not exists: %s" % os.path.join(*args))
 
-    @with_setup(setup=setUp, teardown=tearDown)
+
+class TestCompile(BaseTestCompile):
+    def initialize(self):
+        BaseTestCompile.initialize(self, 'app-1')
+
+    def cleanup(self):
+        BaseTestCompile.cleanup(self)
+
+    @with_setup(setup=initialize, teardown=cleanup)
+    def test_setup(self):
+        eq_(True, os.path.exists(self.build_dir))
+        eq_(False, os.path.exists(self.cache_dir))
+        eq_(True, os.path.exists(os.path.join(self.build_dir, 'htdocs')))
+
+    @with_setup(setup=initialize, teardown=cleanup)
     def test_compile_httpd(self):
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
@@ -56,7 +71,7 @@ class TestCompile(object):
                                                       "env",
                                                       "tests"))
         # set web server
-        self._set_web_server(os.path.join(bp.bp_dir,
+        self.set_web_server(os.path.join(bp.bp_dir,
                                           'defaults',
                                           'options.json'),
                              'httpd')
@@ -175,7 +190,7 @@ class TestCompile(object):
             if os.path.exists(bp.bp_dir):
                 shutil.rmtree(bp.bp_dir)
 
-    @with_setup(setup=setUp, teardown=tearDown)
+    @with_setup(setup=initialize, teardown=cleanup)
     def test_compile_nginx(self):
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
@@ -188,7 +203,7 @@ class TestCompile(object):
                                                       "env",
                                                       "tests"))
         # set web server
-        self._set_web_server(os.path.join(bp.bp_dir,
+        self.set_web_server(os.path.join(bp.bp_dir,
                                           'defaults',
                                           'options.json'),
                              'nginx')
@@ -271,6 +286,100 @@ class TestCompile(object):
             self.assert_exists(self.build_dir, 'php', 'sbin', 'php-fpm')
             self.assert_exists(self.build_dir, 'php', 'bin')
             self.assert_exists(self.build_dir, 'php', 'bin', 'php-cgi')
+            self.assert_exists(self.build_dir, 'php', 'lib', 'php',
+                               'extensions', 'no-debug-non-zts-20100525',
+                               'bz2.so')
+            self.assert_exists(self.build_dir, 'php', 'lib', 'php',
+                               'extensions', 'no-debug-non-zts-20100525',
+                               'zlib.so')
+            self.assert_exists(self.build_dir, 'php', 'lib', 'php',
+                               'extensions', 'no-debug-non-zts-20100525',
+                               'curl.so')
+            self.assert_exists(self.build_dir, 'php', 'lib', 'php',
+                               'extensions', 'no-debug-non-zts-20100525',
+                               'mcrypt.so')
+        except Exception, e:
+            print str(e)
+            if hasattr(e, 'output'):
+                print e.output
+            if output:
+                print output
+            raise
+        finally:
+            if os.path.exists(bp.bp_dir):
+                shutil.rmtree(bp.bp_dir)
+
+
+class TestCompileStandAlone(BaseTestCompile):
+
+    def setUp(self):
+        BaseTestCompile.initialize(self, 'app-5')
+
+    def tearDown(self):
+        BaseTestCompile.cleanup(self)
+
+    def test_compile_stand_alone(self):
+        bp = BuildPack({
+            'BUILD_DIR': self.build_dir,
+            'CACHE_DIR': self.cache_dir
+        }, '.')
+        # simulate clone, makes debugging easier
+        os.rmdir(bp.bp_dir)
+        shutil.copytree('.', bp.bp_dir,
+                        ignore=shutil.ignore_patterns("binaries",
+                                                      "env",
+                                                      "tests"))
+        # set web server & php version
+        optsFile = os.path.join(bp.bp_dir, 'defaults', 'options.json')
+        self.set_web_server(optsFile, 'none')
+        self.set_php_version(optsFile, '5.4.26-dev')
+        try:
+            output = ''
+            output = bp._compile()
+            # Test Output
+            outputLines = output.split('\n')
+            eq_(6, len([l for l in outputLines if l.startswith('Downloaded')]))
+            eq_(1, len([l for l in outputLines if l.startswith('No Web')]))
+            eq_(1, len([l for l in outputLines if l.startswith('Installing PHP')]))
+            eq_(1, len([l for l in outputLines if l.find('php-cli') >= 0]))
+            eq_(True, outputLines[-1].startswith('Finished:'))
+            # Test scripts and config
+            self.assert_exists(self.build_dir, 'start.sh')
+            with open(os.path.join(self.build_dir, 'start.sh')) as start:
+                lines = [line.strip() for line in start.readlines()]
+                eq_(4, len(lines))
+                eq_('export PYTHONPATH=$HOME/.bp/lib', lines[0])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/php/etc"', lines[1])
+                eq_('$HOME/.bp/bin/rewrite "$HOME/.env"', lines[2])
+                eq_('$HOME/.bp/bin/start', lines[3])
+            # Check scripts and bp are installed
+            self.assert_exists(self.build_dir, '.bp', 'bin', 'rewrite')
+            self.assert_exists(self.build_dir, '.bp', 'lib')
+            bpu_path = os.path.join(self.build_dir, '.bp', 'lib',
+                                    'build_pack_utils')
+            eq_(22, len(os.listdir(bpu_path)))
+            self.assert_exists(bpu_path, 'utils.py')
+            self.assert_exists(bpu_path, 'process.py')
+            # Check env and procs files
+            self.assert_exists(self.build_dir, '.env')
+            self.assert_exists(self.build_dir, '.procs')
+            with open(os.path.join(self.build_dir, '.env')) as env:
+                lines = [line.strip() for line in env.readlines()]
+                eq_(1, len(lines))
+                eq_('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib',
+                    lines[0])
+            with open(os.path.join(self.build_dir, '.procs')) as procs:
+                lines = [line.strip() for line in procs.readlines()]
+                eq_(1, len(lines))
+                eq_('php-app: $HOME/php/bin/php -c "$HOME/php/etc" '
+                    'app.php', lines[0])
+            # Test PHP
+            self.assert_exists(self.build_dir, 'php')
+            self.assert_exists(self.build_dir, 'php', 'etc')
+            self.assert_exists(self.build_dir, 'php', 'etc', 'php.ini')
+            self.assert_exists(self.build_dir, 'php', 'bin')
+            self.assert_exists(self.build_dir, 'php', 'bin', 'php')
+            self.assert_exists(self.build_dir, 'php', 'bin', 'phar.phar')
             self.assert_exists(self.build_dir, 'php', 'lib', 'php',
                                'extensions', 'no-debug-non-zts-20100525',
                                'bz2.so')
