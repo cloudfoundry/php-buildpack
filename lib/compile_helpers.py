@@ -65,3 +65,24 @@ def build_php_environment(ctx):
     _log.debug('Building PHP environment variables')
     ctx["PHP_ENV"] = \
         "\n".join(["env[%s] = $%s" % (k, k) for k in os.environ.keys()])
+
+
+def is_web_app(ctx):
+    return ctx.get('WEB_SERVER', '') != 'none'
+
+
+def find_stand_alone_app_to_run(ctx):
+    app = ctx.get('APP_START_CMD', None)
+    if not app:
+        possible_files = ('app.php', 'main.php', 'run.php', 'start.php')
+        for pf in possible_files:
+            if os.path.exists(os.path.join(ctx['BUILD_DIR'], 'htdocs', pf)):
+                app = pf
+                break
+        if not app:
+            print 'Build pack could not find a PHP file to execute!'
+            _log.info('Build pack could not find a file to execute.  Either set '
+                      '"APP_START_CMD" or include one of these files [%s]',
+                      ", ".join(possible_files))
+            app = 'app.php'
+    return app

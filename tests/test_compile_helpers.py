@@ -8,6 +8,8 @@ from build_pack_utils import utils
 from compile_helpers import setup_htdocs_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
 from compile_helpers import build_php_environment
+from compile_helpers import is_web_app
+from compile_helpers import find_stand_alone_app_to_run
 
 
 class TestCompileHelpers(object):
@@ -133,3 +135,21 @@ class TestCompileHelpers(object):
         eq_(True, 'PHP_ENV' in ctx.keys())
         eq_(True, ctx['PHP_ENV'].find('env[HOME]') >= 0)
         eq_(True, ctx['PHP_ENV'].find('env[PATH]') >= 0)
+
+    def test_is_web_app(self):
+        ctx = {}
+        eq_(True, is_web_app(ctx))
+        ctx['WEB_SERVER'] = 'nginx'
+        eq_(True, is_web_app(ctx))
+        ctx['WEB_SERVER'] = 'httpd'
+        eq_(True, is_web_app(ctx))
+        ctx['WEB_SERVER'] = 'none'
+        eq_(False, is_web_app(ctx))
+
+    def test_find_stand_alone_app_to_run_app_start_cmd(self):
+        ctx = {'APP_START_CMD': "echo 'Hello World!'"}
+        eq_("echo 'Hello World!'", find_stand_alone_app_to_run(ctx))
+        results = ('app.php', 'main.php', 'run.php', 'start.php', 'app.php')
+        for i, res in enumerate(results):
+            ctx = {'BUILD_DIR': 'tests/data/standalone/test%d' % (i + 1)}
+            eq_(res, find_stand_alone_app_to_run(ctx))

@@ -14,6 +14,8 @@
 # limitations under the License.
 from compile_helpers import convert_php_extensions
 from compile_helpers import build_php_environment
+from compile_helpers import is_web_app
+from compile_helpers import find_stand_alone_app_to_run
 
 
 def preprocess_commands(ctx):
@@ -22,15 +24,24 @@ def preprocess_commands(ctx):
 
 
 def service_commands(ctx):
-    return {
-        'php-fpm': (
-            '$HOME/php/sbin/php-fpm',
-            '-p "$HOME/php/etc"',
-            '-y "$HOME/php/etc/php-fpm.conf"'),
-        'php-fpm-logs': (
-            'tail',
-            '-F $HOME/../logs/php-fpm.log')
-    }
+    if is_web_app(ctx):
+        return {
+            'php-fpm': (
+                '$HOME/php/sbin/php-fpm',
+                '-p "$HOME/php/etc"',
+                '-y "$HOME/php/etc/php-fpm.conf"'),
+            'php-fpm-logs': (
+                'tail',
+                '-F $HOME/../logs/php-fpm.log')
+        }
+    else:
+        app = find_stand_alone_app_to_run(ctx)
+        return {
+            'php-app': (
+                '$HOME/php/bin/php',
+                '-c "$HOME/php/etc"',
+                app)
+        }
 
 
 def service_environment(ctx):
@@ -41,8 +52,9 @@ def service_environment(ctx):
 
 def compile(install):
     print 'Installing PHP'
-    convert_php_extensions(install.builder._ctx)
-    build_php_environment(install.builder._ctx)
+    ctx = install.builder._ctx
+    convert_php_extensions(ctx)
+    build_php_environment(ctx)
     (install
         .package('PHP')
         .config()
@@ -58,6 +70,6 @@ def compile(install):
             .from_application('php/etc/php.ini')
             .find_modules_with_regex('^zend_extension=".*/(.*).so"$')
             .from_application('php/etc/php.ini')
-            .include_module('fpm')
+            .include_module(is_web_app(ctx) and 'fpm' or 'cli')
             .done())
     return 0
