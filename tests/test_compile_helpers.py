@@ -95,6 +95,15 @@ class TestCompileHelpers(object):
         eq_(4, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
+    def test_setup_if_htdocs_with_stand_alone_app(self):
+        shutil.copytree('tests/data/app-5', self.build_dir)
+        setup_htdocs_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEB_SERVER': 'none'
+        }))
+        self.assert_exists(self.build_dir, 'app.php')
+        eq_(1, len(os.listdir(self.build_dir)))
+
     def test_convert_php_extensions(self):
         ctx = {
             'PHP_EXTENSIONS': ['mod1', 'mod2', 'mod3'],

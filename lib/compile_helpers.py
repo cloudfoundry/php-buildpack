@@ -33,22 +33,23 @@ class FakeInstaller(object):
 
 
 def setup_htdocs_if_it_doesnt_exist(ctx):
-    htdocsPath = os.path.join(ctx['BUILD_DIR'], 'htdocs')
-    if not os.path.exists(htdocsPath):
-        fu = FileUtil(FakeBuilder(ctx), move=True)
-        fu.under('BUILD_DIR')
-        fu.into('htdocs')
-        fu.where_name_does_not_match(
-            '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp'))
-        fu.where_name_does_not_match(
-            '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.extensions'))
-        fu.where_name_does_not_match(
-            '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp-config'))
-        fu.where_name_does_not_match(
-            '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
-        fu.where_name_does_not_match(
-            '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'lib'))
-        fu.done()
+    if is_web_app(ctx):
+        htdocsPath = os.path.join(ctx['BUILD_DIR'], 'htdocs')
+        if not os.path.exists(htdocsPath):
+            fu = FileUtil(FakeBuilder(ctx), move=True)
+            fu.under('BUILD_DIR')
+            fu.into('htdocs')
+            fu.where_name_does_not_match(
+                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp'))
+            fu.where_name_does_not_match(
+                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.extensions'))
+            fu.where_name_does_not_match(
+                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp-config'))
+            fu.where_name_does_not_match(
+                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
+            fu.where_name_does_not_match(
+                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'lib'))
+            fu.done()
 
 
 def convert_php_extensions(ctx):
@@ -76,7 +77,7 @@ def find_stand_alone_app_to_run(ctx):
     if not app:
         possible_files = ('app.php', 'main.php', 'run.php', 'start.php')
         for pf in possible_files:
-            if os.path.exists(os.path.join(ctx['BUILD_DIR'], 'htdocs', pf)):
+            if os.path.exists(os.path.join(ctx['BUILD_DIR'], pf)):
                 app = pf
                 break
         if not app:
