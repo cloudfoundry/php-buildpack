@@ -8,7 +8,7 @@ The build pack stores all of its default configuration settings in the [defaults
 
 ## options.json
 
-The `options.json` file is the configuration file for the build pack itself.  This instructs the build pack what to download, where to download it from and how to install it.  Additionally it allows you to configure package names and versions (i.e. PHP, HTTPD or Nginx versions), the web server to use (HTTPD or Nginx) and the PHP extensions that are enabled.
+The `options.json` file is the configuration file for the build pack itself.  This instructs the build pack what to download, where to download it from and how to install it.  Additionally it allows you to configure package names and versions (i.e. PHP, HTTPD or Nginx versions), the web server to use (HTTPD, Nginx or None) and the PHP extensions that are enabled.
 
 To configure these options for your application, simply create the file `.bp-config/options.json` in your project directory.  The build pack will find this file when it runs and merge it with the default values that it uses.  Any values specified in your file will override the defaults.
 
@@ -16,7 +16,7 @@ Here are a list of the options that an application developer might want to overr
 
 |      Variable     |   Explanation                                        |
 ------------------- | -----------------------------------------------------|
-| WEB_SERVER | Sets the web server to use.  Should be either 'httpd' or 'nginx'.  This value defaults to 'httpd'. |
+| WEB_SERVER | Sets the web server to use.  Should be one of 'httpd', 'nginx' or 'none'.  This value defaults to 'httpd'. |
 | HTTPD_VERSION | Sets the version of Apache HTTPD to use. Currently the build pack supports the 2.4.x branch.  This value will default to the latest release that is supported by the build pack. |
 | ADMIN_EMAIL | The value used in HTTPD's configuration for [ServerAdmin] |
 | NGINX_VERSION | Sets the version of Nginx to use.  Currently the build pack supports the 1.5.x branch.  This value will default to the latest release that is supported by the build pack. |
