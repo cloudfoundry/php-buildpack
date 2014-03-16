@@ -75,6 +75,7 @@ Here's a list of the major features of the build pack.
   - versions of HTTPD, Nginx and PHP are automatically upgraded to the latest release just by re-staging an application
   - allows for application developers to control which PHP extensions are installed
   - allows for application developers to custom configure HTTPD, Nginx or PHP
+  - supports running stand alone PHP scripts
   - download location is configurable, allowing users to host binaries on the same network (i.e. run without an Internet connection)
   - supports an extension mechanism that allows the build pack to provided additional functionality
   - allows for application developers to provide custom extensions
@@ -91,6 +92,7 @@ Here are some example applications that can be used with this build pack.
   - [PHPMyAdmin]  A deployment of PHPMyAdmin that uses bound MySQL services
   - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
   - [CodeIgniter]  CodeIgniter tutorial application running on CF
+  - [Stand Alone]  An example which runs a stand alone PHP script
 
 ## Getting Help
 
@@ -114,6 +116,7 @@ The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache Lic
 [PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
 [CodeIgniter]:https://github.com/dmikusa-pivotal/cf-ex-code-igniter
+[Stand Alone]:https://github.com/dmikusa-pivotal/cf-ex-stand-alone
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
 [vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
 [support forums]:http://support.run.pivotal.io/home
