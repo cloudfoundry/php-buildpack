@@ -23,7 +23,7 @@ Here are a list of the options that an application developer might want to overr
 | PHP_VERSION | Sets the version of PHP to use.  Currently the build pack supports the 5.4.x and 5.5.x branches.  This value will default to the latest release of the 5.4.x branch. |
 | PHP_54_LATEST | Set by the build pack, this provides the latest PHP 5.4.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_54_LATEST}`, your configuration will always use the latest PHP 5.4.x release. |
 | PHP_55_LATEST | Set by the build pack, this provides the latest PHP 5.5.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_55_LATEST}`, your configuration will always use the latest PHP 5.5.x release. |
-| PHP_EXTENSIONS | A list of the extensions to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
+| PHP_EXTENSIONS | A list of the [extensions](#php-extensions) to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
 | ZEND_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
 | DOWNLOAD_URL | This is the base of the URL that the build pack uses to locate its binary files.  The default points to the location of the build pack's binary files.  If you want to provide your own binaries, you can point this URL at the repository that holds your custom binaries.  This should be an HTTP or HTTPS URL. |
 
