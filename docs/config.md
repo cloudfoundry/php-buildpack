@@ -49,6 +49,14 @@ A couple further notes.  First, you are not limited to including configuration f
 
 Second, you need to take care when adjusting the configurations.  It is possible for you to break the build pack's configuration and thus cause your application to fail.  If you've included custom configuration, be sure to double check it if your application stops working.
 
+### PHP Extensions
+
+As mentioned in the chart above, PHP extensions can easily be enabled by setting the `PHP_EXTENSIONS` or `ZEND_EXTENSIONS` option in `.bp-config/options.json`.  This option allows you to make sure that any of the bundled PHP extensions are installed and configured for your environment.
+
+In addition to this, there are a few special extensions that can be installed this way.  This includes `cli`, `fpm`, `cgi` and `pear`.  These are not PHP extensions, but additional PHP binaries that can be installed.  The first one, `cli`, will install the `php` and `phar` binaries, the second, `fpm`, will install the PHP-FPM binary, the third, `cgi`, will install the `php-cgi` binary and the fourth, `pear`, will install PHP's Pear script and associated libraries.  
+
+In most cases, manually selecting one of these four special modules is not necessary.  For example, the build pack will install the `cli` module when you push a stand alone application and it will install the `fpm` module when you run a web application.  Currently the build pack will not install the `cgi` module or `pear`.  If you need one of these, you'll have to instruct the build pack to install it.
+
 ## Extensions
 
 The behavior of the build pack can be controlled with extensions.  Out-of-the-box the build pack includes some of it's own extensions like for [HTTPD], [Nginx], [PHP] and [NewRelic].  These are core extensions and will be automatically included by the build pack and used as necessary.  In addition to these, it's possible for an application developer to include his or her own custom extensions.  These should be placed into the `.extensions` directory of your project folder.  When pushed, the build pack will look in this location for application specific extensions and run them.
