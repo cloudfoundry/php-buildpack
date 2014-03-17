@@ -49,9 +49,10 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Getting Help](#getting-help)
   - [Issues & Feature Requests](#issues--feature-requests)
   - [Development]
+  - [Releases](#releases)
   - [License](#license)
 
-### Goals
+## Goals
 
 Here are the general goals of the build pack (in no particular order):
 
@@ -98,6 +99,27 @@ Here are some example applications that can be used with this build pack.
 ## Getting Help
 
 If you have questions, comments or need further help with the build pack you can post to the [vcap-dev] mailing list. It's a good place for posting question on all of the open source CloudFoundry components, like this build pack. Alternatively, if you're using Pivotal Web Services with the build pack, you could post to the [support forums]. I keep an eye on both places.
+
+## Releases
+
+When using a custom build pack with CloudFoundry, you need to specify the Git URL for the build pack.  By default, this will pull down the master branch of the build pack.  With the CF PHP Build pack, the master branch is where work and new development occurs.  By using this branch it will get you all the latest and greatest developments from the build pack.
+
+If you'd like something that is a little more stable, you can select one of the release branches of the build pack.  You can specify a release branch by appending `#<branch>` to the end of the build pack's URL.  
+
+```yaml
+---
+applications:
+- name: my-php-app
+  memory: 128M
+  instances: 1
+  host: my-php-app
+  path: .
+  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack#v1.0
+```
+
+The benefit of using a release branche is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
+
+Because this build pack is a project that I maintain in my spare time and I do not have infinite resources, I will only commit to maintaining the two most recent release branch.  Older branches will continue to exist and can continue to be used, but will not receive security updates.  When a branch is no longer being maintained, the compile script will output a message when it is run to let you know that it's time to upgrade.
 
 ## Issues & Feature Requests
 
