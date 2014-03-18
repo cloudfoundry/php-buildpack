@@ -24,6 +24,7 @@ Here are a list of the options that an application developer might want to overr
 | PHP_54_LATEST | Set by the build pack, this provides the latest PHP 5.4.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_54_LATEST}`, your configuration will always use the latest PHP 5.4.x release. |
 | PHP_55_LATEST | Set by the build pack, this provides the latest PHP 5.5.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_55_LATEST}`, your configuration will always use the latest PHP 5.5.x release. |
 | PHP_EXTENSIONS | A list of the [extensions](#php-extensions) to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
+| PHP_MODULES | A list of the [modules](#php-modules) to enable.  The default is nothing.  The build pack will automatically enable either the `fpm` or `cli` modules.  If you want to force this, you can set this list to contain `fpm`, `cli`, `cgi` and / or `pear`.  |
 | ZEND_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
 | DOWNLOAD_URL | This is the base of the URL that the build pack uses to locate its binary files.  The default points to the location of the build pack's binary files.  If you want to provide your own binaries, you can point this URL at the repository that holds your custom binaries.  This should be an HTTP or HTTPS URL. |
 | APP_START_CMD | This option is used to instruct the build pack what command to run if WEB_SERVER is set to `none` (i.e. it is a stand alone app).  By default, the build pack will search for and run `app.php`, `main.php`, `run.php` or `start.php` (in that order).  This option can be the name of the script to run or the name plus arguments. |
@@ -54,7 +55,11 @@ Second, you need to take care when adjusting the configurations.  It is possible
 
 As mentioned in the chart above, PHP extensions can easily be enabled by setting the `PHP_EXTENSIONS` or `ZEND_EXTENSIONS` option in `.bp-config/options.json`.  This option allows you to make sure that any of the bundled PHP extensions are installed and configured for your environment.
 
-In addition to this, there are a few special extensions that can be installed this way.  This includes `cli`, `fpm`, `cgi` and `pear`.  These are not PHP extensions, but additional PHP binaries that can be installed.  The first one, `cli`, will install the `php` and `phar` binaries, the second, `fpm`, will install the PHP-FPM binary, the third, `cgi`, will install the `php-cgi` binary and the fourth, `pear`, will install PHP's Pear script and associated libraries.  
+### PHP Modules
+
+In addition to extensions, there are a few PHP modules that can be installed.  These are parts of the traditional PHP install that have been split out into their own download to decrease the size of the binaries used by the build pack by default.  If you need one of these you can manually install the module by adding it to the `PHP_MODULES` list.
+
+The list of available modules includes `cli`, `fpm`, `cgi` and `pear`.  The first one, `cli`, will install the `php` and `phar` binaries, the second, `fpm`, will install the PHP-FPM binary, the third, `cgi`, will install the `php-cgi` binary and the fourth, `pear`, will install PHP's Pear script and associated libraries.  
 
 In most cases, manually selecting one of these four special modules is not necessary.  For example, the build pack will install the `cli` module when you push a stand alone application and it will install the `fpm` module when you run a web application.  Currently the build pack will not install the `cgi` module or `pear`.  If you need one of these, you'll have to instruct the build pack to install it.
 
