@@ -248,7 +248,7 @@ class ModuleInstaller(object):
         toPath = os.path.join(self._ctx['BUILD_DIR'],
                               self._moduleKey.lower())
         strip = self._ctx.get('%s_MODULES_STRIP' % self._moduleKey, False)
-        for module in self._modules:
+        for module in set(self._modules):
             try:
                 self._ctx['MODULE_NAME'] = module
                 url = self._ctx['%s_MODULES_PATTERN' % self._moduleKey]
