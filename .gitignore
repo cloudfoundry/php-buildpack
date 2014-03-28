@@ -1,4 +1,5 @@
-binaries
+binaries/*
+!binaries/index.json
 *.pyc
 *.swp
 env
