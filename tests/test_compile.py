@@ -3,7 +3,6 @@ import tempfile
 import os.path
 import json
 from nose.tools import eq_
-from nose.tools import with_setup
 from build_pack_utils import BuildPack
 
 
@@ -71,14 +70,15 @@ class TestCompile(BaseTestCompile):
                                                       "tests"))
         # set web server
         self.set_web_server(os.path.join(bp.bp_dir,
-                                          'defaults',
-                                          'options.json'),
-                             'httpd')
+                                         'defaults',
+                                         'options.json'),
+                            'httpd')
         try:
             output = ''
             output = bp._compile()
             outputLines = output.split('\n')
-            eq_(21, len([l for l in outputLines if l.startswith('Downloaded')]))
+            eq_(21, len([l for l in outputLines
+                         if l.startswith('Downloaded')]))
             eq_(2, len([l for l in outputLines if l.startswith('Installing')]))
             eq_(True, outputLines[-1].startswith('Finished:'))
             # Test scripts and config
@@ -202,9 +202,9 @@ class TestCompile(BaseTestCompile):
                                                       "tests"))
         # set web server
         self.set_web_server(os.path.join(bp.bp_dir,
-                                          'defaults',
-                                          'options.json'),
-                             'nginx')
+                                         'defaults',
+                                         'options.json'),
+                            'nginx')
         try:
             output = ''
             output = bp._compile()
@@ -256,16 +256,26 @@ class TestCompile(BaseTestCompile):
             self.assert_exists(self.build_dir)
             self.assert_exists(self.build_dir, 'nginx')
             self.assert_exists(self.build_dir, 'nginx', 'conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'fastcgi_params')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'http-logging.conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'http-defaults.conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'http-php.conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'mime.types')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'nginx-defaults.conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'nginx-workers.conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'nginx.conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'server-defaults.conf')
-            self.assert_exists(self.build_dir, 'nginx', 'conf', 'server-locations.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'fastcgi_params')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'http-logging.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'http-defaults.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'http-php.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'mime.types')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'nginx-defaults.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'nginx-workers.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'nginx.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'server-defaults.conf')
+            self.assert_exists(self.build_dir, 'nginx', 'conf',
+                               'server-locations.conf')
             self.assert_exists(self.build_dir, 'nginx', 'logs')
             self.assert_exists(self.build_dir, 'nginx', 'sbin')
             self.assert_exists(self.build_dir, 'nginx', 'sbin', 'nginx')
@@ -338,7 +348,8 @@ class TestCompileStandAlone(BaseTestCompile):
             outputLines = output.split('\n')
             eq_(6, len([l for l in outputLines if l.startswith('Downloaded')]))
             eq_(1, len([l for l in outputLines if l.startswith('No Web')]))
-            eq_(1, len([l for l in outputLines if l.startswith('Installing PHP')]))
+            eq_(1, len([l for l in outputLines
+                        if l.startswith('Installing PHP')]))
             eq_(1, len([l for l in outputLines if l.find('php-cli') >= 0]))
             eq_(True, outputLines[-1].startswith('Finished:'))
             # Test scripts and config

@@ -203,7 +203,8 @@ class TestCompileNewRelic(object):
             output = ''
             output = bp._compile()
             outputLines = output.split('\n')
-            eq_(22, len([l for l in outputLines if l.startswith('Downloaded')]))
+            eq_(22, len([l for l in outputLines
+                         if l.startswith('Downloaded')]))
             eq_(2, len([l for l in outputLines if l.startswith('Installing')]))
             eq_(True, outputLines[-1].startswith('Finished:'))
             # Test scripts and config

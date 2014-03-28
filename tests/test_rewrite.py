@@ -61,10 +61,10 @@ class TestRewriteScriptPhp(BaseRewriteScript):
     def test_rewrite_arg_file(self):
         cfg_file = os.path.join(self.cfg_dir, 'php.ini')
         res = self.run.check_output("%s %s" % (self.rewrite, cfg_file),
-                              env=self.env,
-                              cwd=os.path.join(self.run_dir, 'bin'),
-                              stderr=subprocess.STDOUT,
-                              shell=True)
+                                    env=self.env,
+                                    cwd=os.path.join(self.run_dir, 'bin'),
+                                    stderr=subprocess.STDOUT,
+                                    shell=True)
         eq_('', res)
         with open(os.path.join(self.cfg_dir, 'php.ini')) as fin:
             cfgFile = fin.read()

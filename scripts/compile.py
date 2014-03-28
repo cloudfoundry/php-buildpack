@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from datetime import datetime
-from build_pack_utils import log_output
 from build_pack_utils import Builder
 from compile_helpers import setup_htdocs_if_it_doesnt_exist
 

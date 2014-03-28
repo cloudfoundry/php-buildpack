@@ -19,4 +19,3 @@ def service_environment(ctx):
 
 def compile(install):
     return 0
-
