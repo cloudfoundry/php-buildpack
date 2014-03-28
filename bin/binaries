@@ -1,0 +1,177 @@
+#!/usr/bin/env python
+
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import sys
+import os
+import json
+import urllib2
+import argparse
+import threading
+
+
+BPDIR = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
+
+
+def load_cfg():
+    """Load's the build pack's default options.json file"""
+    return json.load(
+        open(os.path.join(BPDIR, 'defaults', 'options.json'), 'rt'))
+
+
+def run():
+    """Parse the argument in sys.argv and run"""
+    parser = argparse.ArgumentParser(prog='binaries')
+    subparsers = parser.add_subparsers(title='Commands',
+                                       description='List of sub commands',
+                                       help='')
+
+    # generate sub-command --> generates a json index file
+    generate = subparsers.add_parser('generate')
+    generate.add_argument('binary path',
+                          help='The path to the existing binaries')
+    generate.add_argument('--base-url',
+                          help='Override the base URL for packages.  Defaults'
+                               ' to DOWNLOAD_URL from defaults/options.json.')
+
+    def wrap_generate_build_list(args):
+        if args['base-url'] is None:
+            args['base-url'] = load_cfg()['DOWNLOAD_URL']
+        generate_build_list(args['binary path'], args['base-url'])
+
+    generate.set_defaults(func=wrap_generate_build_list)
+
+    # download sub-command --> downloads files listed in json index file
+    download = subparsers.add_parser('download')
+    download.add_argument('binary path',
+                          help='Where to put the binaries')
+    download.add_argument('--index',
+                          help='Override the location for the download index. '
+                               'Defaults to <binary-path>/index.json.')
+    download.add_argument('--latest',
+                          default=True,
+                          help='Only download the latest versions')
+
+    def wrap_download_files(args):
+        if args['index'] is None:
+            args['index'] = os.path.join(args['binary path'], 'index.json')
+        download_files(args['binary path'], args['index'], args['latest'])
+
+    download.set_defaults(func=wrap_download_files)
+
+    # parse the args and run the func for the called sub-command
+    args = parser.parse_args()
+    args.func(vars(args))
+
+
+def safe_makedirs(path):
+    try:
+        os.makedirs(path)
+    except OSError, e:
+        # Ignore if it exists
+        if e.errno != 17:
+            raise e
+
+
+def download(url, toPath):
+    try:
+        res = urllib2.urlopen(url)
+        print 'Downloaded [%s] to [%s]' % (url, toPath)
+        with open(toPath, 'w') as f:
+            f.write(res.read())
+    except IOError, e:
+        if e.code == 404:
+            print 'Failed [%s] not found.' % url
+        else:
+            print 'Failed [%s] [%s] [%s].' % (url, e.code, e.reason)
+
+
+def generate_build_list(binPath, urlBase):
+    """Generate a JSON files with the download URLS for the files in binPath"""
+    bins = {}
+    for package in os.listdir(binPath):
+        if package == 'index.json':
+            continue
+        bins[package] = {}
+        for version in os.listdir(os.path.join(binPath, package)):
+            bins[package][version] = [os.path.join(urlBase,
+                                                   package,
+                                                   version,
+                                                   f)
+                                      for f in os.listdir(
+                                          os.path.join(binPath,
+                                                       package,
+                                                       version))
+                                      if not f.startswith(".")]
+    json.dump(bins, open(os.path.join(binPath, 'index.json'), 'wt'))
+
+
+def get_latest_version(package):
+    """Get the latest version of a package.
+
+    Works by looking in the defaults/config/<package> directory and looking
+    at the versions listed.  It takes the version with the most recent
+    modified time.
+    """
+    cfgDir = os.path.join(BPDIR, 'defaults', 'config', package)
+    dirs = [os.path.join(cfgDir, d) for d in os.listdir(cfgDir)
+            if os.path.isdir(os.path.join(cfgDir, d)) and not d.endswith('x')]
+    return os.path.basename(max(dirs, key=lambda x: os.lstat(x).st_mtime))
+
+
+def download_version(verPath, urls):
+    """Download all the files for a version of a packages.
+
+    Downloads all of the files for a particular version of a package.  Each
+    URL is downloaded in it's own thread, for faster downloads.
+
+    A max of four threads are downloaded at any time.
+    """
+    threads = []
+    for url in urls:
+        toPath = os.path.join(verPath,
+                              os.path.basename(url))
+        while len([t for t in threads if t.is_alive()]) > 4:
+            for thread in threads:
+                thread.join(0.25)
+        t = threading.Thread(target=download,
+                             args=(url, toPath))
+        t.start()
+        threads.append(t)
+    for thread in threads:
+        thread.join()
+
+
+def download_files(binPath, index, latest):
+    """Download the files listed in the JSON index file"""
+    bins = json.load(open(index, 'rt'))
+    safe_makedirs(binPath)
+    for package in bins.keys():
+        pkgPath = os.path.join(binPath, package)
+        safe_makedirs(pkgPath)
+        if not latest:
+            for version in bins[package].keys():
+                verPath = os.path.join(pkgPath, version)
+                safe_makedirs(verPath)
+                download_version(verPath, bins[package][version])
+        else:
+            version = get_latest_version(package)
+            verPath = os.path.join(pkgPath, version)
+            safe_makedirs(verPath)
+            download_version(verPath, bins[package][version])
+
+
+if __name__ == '__main__':
+    run()

@@ -1,4 +1,5 @@
 Pygments==1.6
+argparse==1.2.1
 dingus==0.3.4
 flake8==2.1.0
 mccabe==0.2.1
