@@ -47,7 +47,7 @@ def run():
                                ' to DOWNLOAD_URL from defaults/options.json.')
 
     def wrap_generate_build_list(args):
-        if args['base-url'] is None:
+        if 'base-url' not in args.keys() or args['base-url'] is None:
             args['base-url'] = load_cfg()['DOWNLOAD_URL']
         generate_build_list(args['binary path'], args['base-url'])
 
