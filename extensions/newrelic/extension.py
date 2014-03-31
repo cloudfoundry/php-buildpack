@@ -43,11 +43,12 @@ class NewRelicInstaller(object):
         self._detected = False
         self.app_name = None
         self.license_key = None
-        self._log.info("Initializing")
-        self._merge_defaults()
-        self._load_service_info()
-        self._load_php_info()
-        self._load_newrelic_info()
+        if ctx['PHP_VM'] == 'php':
+            self._log.info("Initializing")
+            self._merge_defaults()
+            self._load_service_info()
+            self._load_php_info()
+            self._load_newrelic_info()
 
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():

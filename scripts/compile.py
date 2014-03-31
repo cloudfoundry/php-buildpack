@@ -33,7 +33,7 @@ if __name__ == '__main__':
                 .from_build_pack('lib/{WEB_SERVER}')
                 .done()
             .extension()
-                .from_build_pack('lib/php')
+                .from_build_pack('lib/{PHP_VM}')
                 .done()
             .extensions()
                 .from_build_pack('extensions')

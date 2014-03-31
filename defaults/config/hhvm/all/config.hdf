@@ -1,0 +1,9 @@
+Server {
+    Type = fastcgi
+    #HHVM_LISTEN_TYPE = #PHP_FPM_LISTEN
+    DefaultDocument = index.php
+    SourceRoot = @HOME/htdocs
+    IncludeSearchPaths {
+        * = @HOME/lib
+    }
+}
