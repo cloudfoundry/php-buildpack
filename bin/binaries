@@ -115,7 +115,9 @@ def generate_build_list(binPath, urlBase):
                                                        package,
                                                        version))
                                       if not f.startswith(".")]
-    json.dump(bins, open(os.path.join(binPath, 'index.json'), 'wt'))
+    json.dump(bins,
+              open(os.path.join(binPath, 'index.json'), 'wt'),
+              indent=4)
 
 
 def get_latest_version(package):
