@@ -24,18 +24,19 @@ _log = logging.getLogger('cloud-nfs')
 
 class CloudNFSInstaller(object):
     def __init__(self, ctx):
-        print 'cloud-nfs:: CloudNFSInstaller init'
+        log("CloudNFSInstaller inititializing")
         self._log = _log
         self._ctx = ctx
         self._detected = False
+        self._load_service_info()
         
     def _load_service_info(self):
         services = self._ctx.get('VCAP_SERVICES', {})
         services = services.get('cloud-nfs', [])
         if len(services) == 0:
-            print 'cloud-nfs:: cloud-nfs services not detected.'
+            log("cloud-nfs services not detected")
         if len(services) > 1:
-            print 'cloud-nfs:: Multiple NewRelic services found...'
+            log("cloud-nfs:: Multiple NewRelic services found")
         #if len(services) > 0:
             #service = services[0]
             #creds = service.get('credentials', {})
@@ -44,22 +45,31 @@ class CloudNFSInstaller(object):
             #if self.license_key and self.app_name:
             #    self._log.debug("NewRelic service detected.")
             #    self._detected = True
+        self._detected = True
+        
+    def should_configure(self):
+        return self._detected
+
+def log(msg):
+    print 'cloud-nfs:: ' + msg
 
 # Extension Methods
 def preprocess_commands(ctx):
-    print 'cloud-nfs:: preprocess_commands method'
+    log("preprocess_commands method")
+    
+    nfs = CloudNFSInstaller(ctx)
+    if nfs.should_configure():
+        log("Preparing service commands to create mounts")
+        
     return ()
 
 def service_commands(ctx):
-    print 'cloud-nfs:: service_commands method'
     return {}
 
 
 def service_environment(ctx):
-    print 'cloud-nfs:: service_environment method'
     return {}
 
 
 def compile(install):
-    print 'cloud-nfs:: compile method'
     return 0
