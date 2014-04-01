@@ -35,9 +35,9 @@ class CloudNFSInstaller(object):
         services = self._ctx.get('VCAP_SERVICES', {})
         services = services.get('user-provided', [])
         
-        for i in len(services):
-            service = services[i]
-            name = service.get('name', {})
+        for key, elem in services.items():
+            print key, elem
+            name = elem.get('name', {})
             if name.find('cloud-nfs') >= 0:
                 self._nfs_services[name] = service
                 
@@ -45,9 +45,8 @@ class CloudNFSInstaller(object):
             log("cloud-nfs services not detected")
         if len(self._nfs_services) > 0:
             log("cloud-nfs services found...")
-            for i in self._nfs_services:
-                service = _nfs_services[i]
-                creds = service.get('credentials', {})
+            for key, elem in self._nfs_services:
+                creds = elem.get('credentials', {})
                 log("service " + i + " credentials: " + creds)
                 #self.license_key = creds.get('licenseKey', None)
                 #self.app_name = service.get('name', None)
