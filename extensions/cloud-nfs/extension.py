@@ -19,6 +19,7 @@ Prepares PHP buildpack to leverage NFS storage mount via user-provided-service(s
 import os
 import os.path
 import logging
+import simplejson as json
 
 _log = logging.getLogger('cloud-nfs')
 
@@ -36,7 +37,6 @@ class CloudNFSInstaller(object):
         services = services.get('user-provided', [])
         
         for item in services:
-            print item
             name = item.get('name', {})
             if name.find('cloud-nfs') >= 0:
                 self._nfs_services[name] = item
@@ -46,15 +46,6 @@ class CloudNFSInstaller(object):
             
         if len(self._nfs_services) > 0:
             log("cloud-nfs services found...")
-            
-            for item in self._nfs_services:
-                creds = item.get('credentials', {})
-                log("service " + i + " credentials: " + creds)
-                #self.license_key = creds.get('licenseKey', None)
-                #self.app_name = service.get('name', None)
-                #if self.license_key and self.app_name:
-                #    self._log.debug("NewRelic service detected.")
-                #    self._detected = True
             self._detected = True
         
     def should_configure(self):
