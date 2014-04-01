@@ -28,16 +28,26 @@ class CloudNFSInstaller(object):
         self._log = _log
         self._ctx = ctx
         self._detected = False
+        self._nfs_services = {}
         self._load_service_info()
         
     def _load_service_info(self):
         services = self._ctx.get('VCAP_SERVICES', {})
-        services = services.get('cloud-nfs', [])
-        if len(services) == 0:
+        services = services.get('user-provided', [])
+        index = 0
+        
+        for i in services:
+            service = services[i]
+            name = service.get('name', {})
+            if name.find('cloud-nfs') >= 0:
+                self._nfs_services[index] = service
+                ++index
+                
+        if len(self._nfs_services) == 0:
             log("cloud-nfs services not detected")
-        if len(services) > 0:
+        if len(self._nfs_services) > 0:
             log("cloud-nfs services found...")
-            for i in services:
+            for i in self._nfs_services:
                 service = services[i]
                 creds = service.get('credentials', {})
                 log("service " + i + " credentials: " + creds)
