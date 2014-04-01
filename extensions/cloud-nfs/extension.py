@@ -39,7 +39,7 @@ class CloudNFSInstaller(object):
             print item
             name = item.get('name', {})
             if name.find('cloud-nfs') >= 0:
-                self._nfs_services[name] = service
+                self._nfs_services[name] = item
                 
         if len(self._nfs_services) == 0:
             log("cloud-nfs services not detected")
