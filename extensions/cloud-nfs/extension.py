@@ -14,38 +14,52 @@
 # limitations under the License.
 """Cloud-NFS Extension
 
-Prepares PHP buildpack to leverage NFS storage mount
+Prepares PHP buildpack to leverage NFS storage mount via user-provided-service(s)
 """
 import os
 import os.path
 import logging
 
-
 _log = logging.getLogger('cloud-nfs')
 
 class CloudNFSInstaller(object):
     def __init__(self, ctx):
-        _log.info("CloudNFSInstaller init")
+        print 'cloud-nfs:: CloudNFSInstaller init'
         self._log = _log
         self._ctx = ctx
         self._detected = False
+        
+    def _load_service_info(self):
+        services = self._ctx.get('VCAP_SERVICES', {})
+        services = services.get('cloud-nfs', [])
+        if len(services) == 0:
+            print 'cloud-nfs:: cloud-nfs services not detected.'
+        if len(services) > 1:
+            print 'cloud-nfs:: Multiple NewRelic services found...'
+        #if len(services) > 0:
+            #service = services[0]
+            #creds = service.get('credentials', {})
+            #self.license_key = creds.get('licenseKey', None)
+            #self.app_name = service.get('name', None)
+            #if self.license_key and self.app_name:
+            #    self._log.debug("NewRelic service detected.")
+            #    self._detected = True
 
 # Extension Methods
 def preprocess_commands(ctx):
-    _log.info("preprocess_commands method")
+    print 'cloud-nfs:: preprocess_commands method'
     return ()
 
-
 def service_commands(ctx):
-    _log.info("service_commands method")
+    print 'cloud-nfs:: service_commands method'
     return {}
 
 
 def service_environment(ctx):
-    _log.info("service_environment method")
+    print 'cloud-nfs:: service_environment method'
     return {}
 
 
 def compile(install):
-    _log.info("compile method")
+    print 'cloud-nfs:: compile method'
     return 0
