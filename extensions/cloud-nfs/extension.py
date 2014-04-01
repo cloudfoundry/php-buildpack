@@ -39,13 +39,12 @@ class CloudNFSInstaller(object):
             name = item.get('name', {})
             if name.find('cloud-nfs') >= 0:
                 self._nfs_services[name] = item
+                log("Found cloud-nfs service" + name)
+                self._detected = True
                 
         if len(self._nfs_services) == 0:
             log("cloud-nfs services not detected")
             
-        if len(self._nfs_services) > 0:
-            log("cloud-nfs services found...")
-            self._detected = True
         
     def should_configure(self):
         return self._detected
