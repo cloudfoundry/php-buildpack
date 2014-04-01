@@ -35,7 +35,7 @@ class CloudNFSInstaller(object):
         services = self._ctx.get('VCAP_SERVICES', {})
         services = services.get('user-provided', [])
         
-        for i in services:
+        for i in len(services):
             service = services[i]
             name = service.get('name', {})
             if name.find('cloud-nfs') >= 0:
