@@ -19,7 +19,6 @@ Prepares PHP buildpack to leverage NFS storage mount via user-provided-service(s
 import os
 import os.path
 import logging
-import simplejson as json
 
 _log = logging.getLogger('cloud-nfs')
 
