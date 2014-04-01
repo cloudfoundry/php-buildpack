@@ -35,17 +35,18 @@ class CloudNFSInstaller(object):
         services = services.get('cloud-nfs', [])
         if len(services) == 0:
             log("cloud-nfs services not detected")
-        if len(services) > 1:
-            log("cloud-nfs:: Multiple NewRelic services found")
-        #if len(services) > 0:
-            #service = services[0]
-            #creds = service.get('credentials', {})
-            #self.license_key = creds.get('licenseKey', None)
-            #self.app_name = service.get('name', None)
-            #if self.license_key and self.app_name:
-            #    self._log.debug("NewRelic service detected.")
-            #    self._detected = True
-        self._detected = True
+        if len(services) > 0:
+            log("cloud-nfs services found... preparing commands")
+            for i in services:
+                service = services[i]
+                creds = service.get('credentials', {})
+                log("service " + i + " credentials: " + creds)
+                #self.license_key = creds.get('licenseKey', None)
+                #self.app_name = service.get('name', None)
+                #if self.license_key and self.app_name:
+                #    self._log.debug("NewRelic service detected.")
+                #    self._detected = True
+            self._detected = True
         
     def should_configure(self):
         return self._detected
