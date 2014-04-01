@@ -46,7 +46,7 @@ class CloudNFSInstaller(object):
         if len(self._nfs_services) > 0:
             log("cloud-nfs services found...")
             for i in self._nfs_services:
-                service = services[i]
+                service = _nfs_services[i]
                 creds = service.get('credentials', {})
                 log("service " + i + " credentials: " + creds)
                 #self.license_key = creds.get('licenseKey', None)
