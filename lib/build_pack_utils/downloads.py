@@ -12,6 +12,7 @@ class Downloader(object):
         self._log = logging.getLogger('downloads')
 
     def download(self, url, toFile):
+        print 'downloading - ' + url
         res = urllib2.urlopen(url)
         with open(toFile, 'w') as f:
             f.write(res.read())
@@ -19,6 +20,7 @@ class Downloader(object):
         self._log.info('Downloaded [%s] to [%s]', url, toFile)
 
     def download_direct(self, url):
+        print 'downloading - ' + url
         buf = urllib2.urlopen(url).read()
         self._log.info('Downloaded [%s] to memory', url)
         self._log.debug("Downloaded [%s] [%s]", url, buf)
