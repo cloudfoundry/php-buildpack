@@ -36,7 +36,7 @@ class CloudNFSInstaller(object):
         if len(services) == 0:
             log("cloud-nfs services not detected")
         if len(services) > 0:
-            log("cloud-nfs services found... preparing commands")
+            log("cloud-nfs services found...")
             for i in services:
                 service = services[i]
                 creds = service.get('credentials', {})
@@ -50,6 +50,10 @@ class CloudNFSInstaller(object):
         
     def should_configure(self):
         return self._detected
+    
+    def build_mount_commands(self):
+        log("preparing mount commands...")
+        return()
 
 def log(msg):
     print 'cloud-nfs:: ' + msg
@@ -61,7 +65,8 @@ def preprocess_commands(ctx):
     nfs = CloudNFSInstaller(ctx)
     if nfs.should_configure():
         log("Preparing service commands to create mounts")
-        
+        return nfs.build_mount_commands()
+    
     return ()
 
 def service_commands(ctx):
