@@ -51,18 +51,6 @@ class CloudNFSInstaller(object):
         
     def should_configure(self):
         return self._detected
-    
-    def build_mount_commands(self):
-        log("preparing mount commands...")
-        #TODO - parse service information
-#   157  sudo mount 10.0.0.59:/var/nfs /var/nfs
-#   159  sudo mount 10.0.0.59:/var/nfs /var/nfs
-#   160  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
-#   163  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
-           # return (('$HOME/.bp/bin/rewrite', '"$HOME/.env"'),
-            #('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'))
-        return (('mount 10.0.0.59:/var/nfs /var/nfs'),
-                ('mount 10.0.0.59:/var/nfs /var/nfs1'))
 
 def log(msg):
     print 'cloud-nfs:: ' + msg
@@ -74,7 +62,15 @@ def preprocess_commands(ctx):
     nfs = ctx['nfs']
     if nfs.should_configure():
         log("Preparing service commands to create mounts")
-        return nfs.build_mount_commands()
+        #TODO - parse service information
+#   157  sudo mount 10.0.0.59:/var/nfs /var/nfs
+#   159  sudo mount 10.0.0.59:/var/nfs /var/nfs
+#   160  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
+#   163  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
+           # return (('$HOME/.bp/bin/rewrite', '"$HOME/.env"'),
+            #('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'))
+        return (('mount 10.0.0.59:/var/nfs /var/nfs'),
+                ('mount 10.0.0.59:/var/nfs /var/nfs1'))
     
     return ()
 
