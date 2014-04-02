@@ -92,10 +92,16 @@ def compile(install):
     install.builder._ctx['nfs'] = nfs
     if nfs.should_configure():
         log('Installing NFS libs')
-        proc = subprocess.Popen('apt-get install -y FILE', shell=True, stdin=None, stdout=open(os.devnull,"wb"), stderr=STDOUT, executable="/bin/bash")
+        proc = subprocess.Popen('apt-get install -y nfs-common rpcbin', shell=True, stdin=None, stdout=subprocess.PIPE, stderr=STDOUT, executable="/bin/bash")
+        # Poll process for new output until finished
+        while True:
+            nextline = proc.stdout.readline()
+            if nextline == '' and process.poll() != None:
+                break
+            sys.stdout.write(nextline)
+            sys.stdout.flush()
+
         proc.wait()
-        #dpkg -i package_name.deb
-        #libgssglue1 libnfsidmap2 libtirpc1 nfs-common rpcbind
         
 #     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
 #     (install
