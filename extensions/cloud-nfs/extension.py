@@ -51,6 +51,15 @@ class CloudNFSInstaller(object):
     
     def build_mount_commands(self):
         log("preparing mount commands...")
+        
+#   157  sudo mount 10.0.0.59:/var/nfs /var/nfs
+#   158  ping 10.0.0.59
+#   159  sudo mount 10.0.0.59:/var/nfs /var/nfs
+#   160  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
+#   161  sudo apt-get install portmap
+#   162  sudo chmod og+w /var/nfs
+#   163  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
+        
         return()
 
 def log(msg):
@@ -77,7 +86,8 @@ def service_environment(ctx):
 
 def compile(install):
     log("compile step")
-    if install.builder._ctx['enabled']:
+    nfs = CloudNFSInstaller(install.builder._ctx)
+    if nfs.should_configure():
         log('Installing NFS libs')
 #     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
 #     (install
