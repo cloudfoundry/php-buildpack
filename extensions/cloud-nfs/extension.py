@@ -104,7 +104,7 @@ def compile(install):
 
         proc.wait()
         exit_code = proc.returncode
-        log("exit code: " + exit_code)
+        log("exit code: " + str(exit_code))
         
 #     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
 #     (install
