@@ -58,13 +58,13 @@ It is *not* necessary to download all of the binaries, unless you specifically n
 
 #### Python Versions
 
-If you have [PyEnv] installed on your system, you'll notice that the build pack includes a `.python-version` file.  This instructs PyEnv to use Python 2.6.6, which is the same version used by CloudFoundry (atleast at the moment).  This presents a minor issue in that Python 2.6.x does not contain the `argparse` library and that library is used by the `binaries` script.  There are three ways to handle this.
+If you have [PyEnv] installed on your system, you'll notice that the build pack includes a `.python-version` file.  This instructs PyEnv to use Python 2.6.6, which is the same version used by CloudFoundry (at least at the moment).  This presents a minor issue in that Python 2.6.x does not contain the `argparse` library and that library is used by the `binaries` script.  There are three ways to handle this.
 
-1. If you do not have PyEnv installed, nothing will happen and you'll use whatever version of Python you have installed on your system.  In most cases, this will be Python 2.7.x, the script should run fine and you should not need to do anything else.
+1. If you do not have PyEnv installed, nothing will happen and you'll use whatever version of Python you have installed on your system.  In most cases, this will be Python 2.7.x, the script should run fine and you should not need to do anything else.  If your system version is not Python 2.7.x, you'll need to install Python 2.7.x (not this script may work with Python 3, but I haven't tested it).
 
-2. If you have PyEnv installed, you'll need to run `pyenv local system` to switch to your system version of Python (again, probably Python 2.7.x).
+2. If you have PyEnv installed, you'll need to run `pyenv local system` to switch to your system version of Python (again, probably Python 2.7.x) or install Python 2.7.6 with PyEnv and switch to that.
 
-3. If you have PyEnv installed, create a virtual environment by running `virtualenv \`pwd\`/env`.  Then activate the virtual environment by running `. ./env/bin/activate` and run `pip install --allow-external argparse -r requirements.txt`, which will install argparse into the virtual environment.  With that you can run the `binaries` script, but only when the virtual environment is active.
+3. If you have PyEnv installed, create a virtual environment by running ```virtualenv `pwd`/env```.  Then activate the virtual environment by running `. ./env/bin/activate` and run `pip install --allow-external argparse -r requirements.txt`, which will install argparse into the virtual environment.  With that you can run the `binaries` script, but only when the virtual environment is active.
 
 ### Bundling Binaries With the Build Pack
 
