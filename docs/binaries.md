@@ -4,9 +4,23 @@ To reduce the time it takes for the build pack to run and setup a usable environ
 
 ### Binary Repo Structure
 
-The binary repository used by the build pack is simple and uses the following folder structure:  ```<package>/<version>/<binary-file>`.  In this example, package would be the name of the binary like `php` or `httpd`, the version would be the full version number of the package to be installed and the binary file would be the name of the file to download.
+The binary repository used by the build pack is simple and uses the following folder structure:  `<package>/<version>/<binary-file>`.  In this example, package would be the name of the binary like `php` or `httpd`, the version would be the full version number of the package to be installed and the binary file would be the name of the file to download.
 
-The repository is accessed by the build pack over HTTP and thus can be hosted on any web server, so long as the build pack can access it.
+Ex:
+
+```
+$REPO_ROOT/php/5.5.10/php-5.5.10.tar.gz
+```
+
+The repository is accessed by the build pack over HTTP or HTTPS and can be hosted on any web server, so long as the build pack can access it.  For convenience, you can also place the repository in a sub folder on the web server.  You just need to adjust the `DOWNLOAD_URL` link accordingly.
+
+Ex:
+
+```
+http:/server/cf/php-repo/php/5.5.10/php-5.5.10.tar.gz
+```
+
+The `DOWNLOAD_URL` would be `http://server/cf/php-repo`.
 
 ### Building Your Own Repository
 
@@ -32,7 +46,7 @@ Ex:
 ./binaries download --index=binaries/index.json my-binaries
 ```
 
-By default, the `binaries download` command will only download the most recent version of each package.  In other words, it'll pull in the most recent version of PHP, HTTPD and Nginx.  If you want the full list of available binaries, you can specify the `--latest` argument and set it to `False`.
+By default, the `binaries download` command will only download the most recent version of each package.  In other words, it'll pull in the most recent version of PHP, HTTPD and Nginx.  If you want to download the full list of available binaries, you can specify the `--latest` argument and set it to `False`.
 
 Ex:
 
@@ -40,7 +54,17 @@ Ex:
 ./binaries download --index=binaries/index.json --latest=False my-binaries
 ```
 
-It is not necessary to download all of the binaries, unless you specifically need support for an older version of software, so specifying `--latest=False` will generally just make the command take longer to run.
+It is *not* necessary to download all of the binaries, unless you specifically need support for an older version of software, so specifying `--latest=False` will generally just make the command take longer to run.
+
+#### Python Versions
+
+If you have [PyEnv] installed on your system, you'll notice that the build pack includes a `.python-version` file.  This instructs PyEnv to use Python 2.6.6, which is the same version used by CloudFoundry (atleast at the moment).  This presents a minor issue in that Python 2.6.x does not contain the `argparse` library and that library is used by the `binaries` script.  There are three ways to handle this.
+
+1. If you do not have PyEnv installed, nothing will happen and you'll use whatever version of Python you have installed on your system.  In most cases, this will be Python 2.7.x, the script should run fine and you should not need to do anything else.
+
+2. If you have PyEnv installed, you'll need to run `pyenv local system` to switch to your system version of Python (again, probably Python 2.7.x).
+
+3. If you have PyEnv installed, create a virtual environment by running `virtualenv \`pwd\`/env`.  Then activate the virtual environment by running `. ./env/bin/activate` and run `pip install --allow-external argparse -r requirements.txt`, which will install argparse into the virtual environment.  With that you can run the `binaries` script, but only when the virtual environment is active.
 
 ### Bundling Binaries With the Build Pack
 
@@ -55,3 +79,4 @@ Here are the steps you would need to do this.
 1. Publish your git repo or a zip archive of the repository.
 1. Run `cf create-buildpack` pointing to either the git repo or the zip archive of the repositor.  The build pack will be installed with it's binaries.
 
+[PyEnv]:https://github.com/yyuu/pyenv
