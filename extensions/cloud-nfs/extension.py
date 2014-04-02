@@ -97,7 +97,7 @@ def compile(install):
         # Poll process for new output until finished
         while True:
             nextline = proc.stdout.readline()
-            if nextline == '' and process.poll() != None:
+            if nextline == '' and proc.poll() != None:
                 break
             sys.stdout.write(nextline)
             sys.stdout.flush()
