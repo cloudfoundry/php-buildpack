@@ -56,11 +56,8 @@ class CloudNFSInstaller(object):
         log("preparing mount commands...")
         
 #   157  sudo mount 10.0.0.59:/var/nfs /var/nfs
-#   158  ping 10.0.0.59
 #   159  sudo mount 10.0.0.59:/var/nfs /var/nfs
 #   160  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
-#   161  sudo apt-get install portmap
-#   162  sudo chmod og+w /var/nfs
 #   163  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
         
         return()
@@ -93,7 +90,7 @@ def compile(install):
     install.builder._ctx['nfs'] = nfs
     if nfs.should_configure():
         log('Installing NFS libs')
-        proc = subprocess.Popen('apt-get install -y nfs-common rpcbin', shell=True, stdin=None, stdout=subprocess.PIPE, stderr=STDOUT, executable="/bin/bash")
+        proc = subprocess.Popen('sudo apt-get install -y nfs-common rpcbin', shell=True, stdin=None, stdout=subprocess.PIPE, stderr=STDOUT, executable="/bin/bash")
         # Poll process for new output until finished
         while True:
             nextline = proc.stdout.readline()
