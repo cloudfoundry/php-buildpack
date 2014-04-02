@@ -19,6 +19,7 @@ Prepares PHP buildpack to leverage NFS storage mount via user-provided-service(s
 import os
 import os.path
 import logging
+from subprocess import STDOUT, check_call
 
 _log = logging.getLogger('cloud-nfs')
 
@@ -90,6 +91,11 @@ def compile(install):
     install.builder._ctx['nfs'] = nfs
     if nfs.should_configure():
         log('Installing NFS libs')
+        proc = subprocess.Popen('apt-get install -y FILE', shell=True, stdin=None, stdout=open(os.devnull,"wb"), stderr=STDOUT, executable="/bin/bash")
+        proc.wait()
+        #dpkg -i package_name.deb
+        #libgssglue1 libnfsidmap2 libtirpc1 nfs-common rpcbind
+        
 #     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
 #     (install
 #         .package('HTTPD')
