@@ -62,7 +62,7 @@ def run():
                                'Defaults to <binary-path>/index.json.')
     download.add_argument('--latest',
                           default=True,
-                          help='Only download the latest versions')
+                          help='Only download the latest versions. Defaults to True.')
 
     def wrap_download_files(args):
         if args['index'] is None:
@@ -163,7 +163,7 @@ def download_files(binPath, index, latest):
     for package in bins.keys():
         pkgPath = os.path.join(binPath, package)
         safe_makedirs(pkgPath)
-        if not latest:
+        if not latest == "True":
             for version in bins[package].keys():
                 verPath = os.path.join(pkgPath, version)
                 safe_makedirs(verPath)
