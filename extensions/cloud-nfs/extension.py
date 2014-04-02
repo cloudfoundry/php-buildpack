@@ -24,7 +24,7 @@ _log = logging.getLogger('cloud-nfs')
 
 class CloudNFSInstaller(object):
     def __init__(self, ctx):
-        log("CloudNFSInstaller inititializing")
+        log("CloudNFSInstaller initializing")
         self._log = _log
         self._ctx = ctx
         self._detected = False
@@ -39,7 +39,7 @@ class CloudNFSInstaller(object):
             name = item.get('name', {})
             if name.find('cloud-nfs') >= 0:
                 self._nfs_services[name] = item
-                log("Found cloud-nfs service" + name)
+                log("Found cloud-nfs service [" + name + "]")
                 self._detected = True
                 
         if len(self._nfs_services) == 0:
@@ -61,6 +61,7 @@ def preprocess_commands(ctx):
     log("preprocess_commands method")
     
     nfs = CloudNFSInstaller(ctx)
+    ctx['enabled'] = nfs.should_configure
     if nfs.should_configure():
         log("Preparing service commands to create mounts")
         return nfs.build_mount_commands()
@@ -76,4 +77,21 @@ def service_environment(ctx):
 
 
 def compile(install):
+    log("compile step")
+    if(install.builder._ctx['enabled']):
+        log('Installing NFS libs')
+#     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
+#     (install
+#         .package('HTTPD')
+#         .config()
+#             .from_application('.bp-config/httpd')
+#             .or_from_build_pack('defaults/config/httpd/{HTTPD_VERSION}')
+#             .to('httpd/conf')
+#             .rewrite()
+#             .done()
+#         .modules('HTTPD')
+#             .filter_files_by_extension('.conf')
+#             .find_modules_with_regex('^LoadModule .* modules/(.*).so$')
+#             .from_application('httpd/conf')
+#             .done())
     return 0
