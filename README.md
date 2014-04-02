@@ -136,6 +136,7 @@ The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache Lic
 [Development]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md
 [Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/troubleshooting.md
 [Usage]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/usage.md
+[Binaries]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/binaries.md
 [php-info]:https://github.com/dmikusa-pivotal/cf-ex-php-info
 [PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
