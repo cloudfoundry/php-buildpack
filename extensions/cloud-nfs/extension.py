@@ -53,7 +53,7 @@ class CloudNFSInstaller(object):
         return self._detected
 
 def log(msg):
-    print 'cloud-nfs:: ' + msg
+    _log.info('cloud-nfs:: ' + msg)
 
 # Extension Methods
 def preprocess_commands(ctx):
