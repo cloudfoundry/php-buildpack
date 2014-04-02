@@ -61,7 +61,6 @@ def preprocess_commands(ctx):
     log("preprocess_commands method")
     
     nfs = CloudNFSInstaller(ctx)
-    ctx['enabled'] = nfs.should_configure
     if nfs.should_configure():
         log("Preparing service commands to create mounts")
         return nfs.build_mount_commands()
@@ -78,7 +77,7 @@ def service_environment(ctx):
 
 def compile(install):
     log("compile step")
-    if(install.builder._ctx['enabled']):
+    if install.builder._ctx['enabled']:
         log('Installing NFS libs')
 #     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
 #     (install
