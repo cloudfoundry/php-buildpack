@@ -61,7 +61,8 @@ class CloudNFSInstaller(object):
 #   163  sudo mount -t nfs4 10.0.0.59:/var/nfs /var/nfs
            # return (('$HOME/.bp/bin/rewrite', '"$HOME/.env"'),
             #('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'))
-        return ('mount', '10.0.0.59:/var/nfs /var/nfs')
+        return (('mount 10.0.0.59:/var/nfs /var/nfs'),
+                ('mount 10.0.0.59:/var/nfs /var/nfs1'))
 
 def log(msg):
     print 'cloud-nfs:: ' + msg
