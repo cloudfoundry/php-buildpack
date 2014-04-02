@@ -104,20 +104,7 @@ def compile(install):
 
         proc.wait()
         exit_code = proc.returncode
-        log("exit code: " + str(exit_code))
-        
-#     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
-#     (install
-#         .package('HTTPD')
-#         .config()
-#             .from_application('.bp-config/httpd')
-#             .or_from_build_pack('defaults/config/httpd/{HTTPD_VERSION}')
-#             .to('httpd/conf')
-#             .rewrite()
-#             .done()
-#         .modules('HTTPD')
-#             .filter_files_by_extension('.conf')
-#             .find_modules_with_regex('^LoadModule .* modules/(.*).so$')
-#             .from_application('httpd/conf')
-#             .done())
+        if exit_code != 0:
+            log("NFS Lib install failed :: exit code: " + str(exit_code))
+            return exit_code
     return 0
