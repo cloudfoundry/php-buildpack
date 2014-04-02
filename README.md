@@ -45,6 +45,7 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Example Applications](#examples)
   - [Usage]
   - [Configuration Options]
+  - [Binaries]
   - [Troubleshooting]
   - [Getting Help](#getting-help)
   - [Issues & Feature Requests](#issues--feature-requests)
