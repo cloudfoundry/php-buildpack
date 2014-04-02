@@ -106,5 +106,5 @@ def compile(install):
         exit_code = proc.returncode
         if exit_code != 0:
             log("NFS Lib install failed :: exit code: " + str(exit_code))
-            return exit_code
+            #return exit_code
     return 0
