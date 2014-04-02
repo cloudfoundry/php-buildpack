@@ -19,6 +19,7 @@ Prepares PHP buildpack to leverage NFS storage mount via user-provided-service(s
 import os
 import os.path
 import logging
+import subprocess
 from subprocess import STDOUT, check_call
 
 _log = logging.getLogger('cloud-nfs')
