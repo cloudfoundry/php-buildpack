@@ -62,7 +62,8 @@ def run():
                                'Defaults to <binary-path>/index.json.')
     download.add_argument('--latest',
                           default=True,
-                          help='Only download the latest versions')
+                          type=lambda x: x.lower() in ('yes', 'true', 't', '1'),
+                          help='Only download the latest versions. Defaults to True.')
 
     def wrap_download_files(args):
         if args['index'] is None:
