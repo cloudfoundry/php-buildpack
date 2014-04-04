@@ -18,7 +18,7 @@
     "HHVM_PACKAGE": "hhvm-nightly_{HHVM_VERSION}~lucid.tgz",
     "HHVM_DOWNLOAD_URL": "http://dl.hhvm.com/heroku/{HHVM_PACKAGE}",
     "HHVM_HASH_DOWNLOAD_URL": "{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}.{CACHE_HASH_ALGORITHM}",
-    "PHP_54_LATEST": "5.4.26",
+    "PHP_54_LATEST": "5.4.27",
     "PHP_55_LATEST": "5.5.11",
     "PHP_VERSION": "{PHP_54_LATEST}",
     "PHP_PACKAGE": "php-{PHP_VERSION}.tar.gz",
