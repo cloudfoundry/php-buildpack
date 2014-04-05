@@ -96,17 +96,20 @@ def generate_build_list(binPath, urlBase):
               indent=4)
 
 
-def get_latest_version(package):
+def get_latest_version(pkgDir, like=None):
     """Get the latest version of a package.
 
-    Works by looking in the defaults/config/<package> directory and looking
-    at the versions listed.  It takes the version with the most recent
-    modified time.
+    Look at an existing 'binaries' directory, get version number
+    from folder name.  Return the most recent version.
+
+    Option paramater 'like' allows filtering versions.
     """
-    cfgDir = os.path.join(BPDIR, 'defaults', 'config', package)
-    dirs = [os.path.join(cfgDir, d) for d in os.listdir(cfgDir)
-            if os.path.isdir(os.path.join(cfgDir, d)) and not d.endswith('x')]
-    return os.path.basename(max(dirs, key=lambda x: os.lstat(x).st_mtime))
+    versions = []
+    for d in os.listdir(pkgDir):
+        if os.path.isdir(os.path.join(pkgDir, d)):
+            if like is None or d.startswith(like):
+                versions.append(tuple(map(int, (d.split(".")))))
+    return ".".join([str(i) for i in max(versions)])
 
 
 def download_files(binPath, index):
