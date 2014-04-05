@@ -59,16 +59,13 @@ def run():
                           help='Where to put the binaries')
     download.add_argument('--index',
                           help='Override the location for the download index. '
-                               'Defaults to <binary-path>/index.json.')
-    download.add_argument('--latest',
-                          default=True,
-                          type=lambda x: x.lower() in ('yes', 'true', 't', '1'),
-                          help='Only download the latest versions. Defaults to True.')
+                               'Defaults to <binary-path>/index-latest.json.')
 
     def wrap_download_files(args):
         if args['index'] is None:
-            args['index'] = os.path.join(args['binary path'], 'index.json')
-        download_files(args['binary path'], args['index'], args['latest'])
+            args['index'] = os.path.join(args['binary path'],
+                                         'index-latest.json')
+        download_files(args['binary path'], args['index'])
 
     download.set_defaults(func=wrap_download_files)
 
@@ -103,7 +100,7 @@ def generate_build_list(binPath, urlBase):
     """Generate a JSON files with the download URLS for the files in binPath"""
     bins = {}
     for package in os.listdir(binPath):
-        if package == 'index.json':
+        if package.endswith('.json'):
             continue
         bins[package] = {}
         for version in os.listdir(os.path.join(binPath, package)):
@@ -157,20 +154,14 @@ def download_version(verPath, urls):
         thread.join()
 
 
-def download_files(binPath, index, latest):
+def download_files(binPath, index):
     """Download the files listed in the JSON index file"""
     bins = json.load(open(index, 'rt'))
     safe_makedirs(binPath)
     for package in bins.keys():
         pkgPath = os.path.join(binPath, package)
         safe_makedirs(pkgPath)
-        if not latest:
-            for version in bins[package].keys():
-                verPath = os.path.join(pkgPath, version)
-                safe_makedirs(verPath)
-                download_version(verPath, bins[package][version])
-        else:
-            version = get_latest_version(package)
+        for version in bins[package].keys():
             verPath = os.path.join(pkgPath, version)
             safe_makedirs(verPath)
             download_version(verPath, bins[package][version])
