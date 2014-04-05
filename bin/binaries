@@ -56,15 +56,15 @@ def run():
                                'binaries being included.')
 
     def wrap_generate_build_list(args):
-        if 'base-url' not in args.keys() or args['base-url'] is None:
-            args['base-url'] = load_cfg()['DOWNLOAD_URL']
+        if 'base_url' not in args.keys() or args['base_url'] is None:
+            args['base_url'] = load_cfg()['DOWNLOAD_URL']
         if 'index' not in args.keys() or args['index'] is None:
             args['index'] = sys.stdout
         else:
             args['index'] = open(os.path.abspath(args['index']), 'wt')
         if 'all' not in args.keys():
             args['all'] = False
-        generate_build_list(args['binary path'], args['base-url'],
+        generate_build_list(args['binary path'], args['base_url'],
                             args['index'], args['all'])
 
     generate.set_defaults(func=wrap_generate_build_list)
