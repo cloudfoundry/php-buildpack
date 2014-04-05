@@ -74,28 +74,6 @@ def run():
     args.func(vars(args))
 
 
-def safe_makedirs(path):
-    try:
-        os.makedirs(path)
-    except OSError, e:
-        # Ignore if it exists
-        if e.errno != 17:
-            raise e
-
-
-def download(url, toPath):
-    try:
-        res = urllib2.urlopen(url)
-        print 'Downloaded [%s] to [%s]' % (url, toPath)
-        with open(toPath, 'w') as f:
-            f.write(res.read())
-    except IOError, e:
-        if e.code == 404:
-            print 'Failed [%s] not found.' % url
-        else:
-            print 'Failed [%s] [%s] [%s].' % (url, e.code, e.reason)
-
-
 def generate_build_list(binPath, urlBase):
     """Generate a JSON files with the download URLS for the files in binPath"""
     bins = {}
@@ -131,6 +109,19 @@ def get_latest_version(package):
     return os.path.basename(max(dirs, key=lambda x: os.lstat(x).st_mtime))
 
 
+def download_files(binPath, index):
+    """Download the files listed in the JSON index file"""
+    bins = json.load(open(index, 'rt'))
+    safe_makedirs(binPath)
+    for package in bins.keys():
+        pkgPath = os.path.join(binPath, package)
+        safe_makedirs(pkgPath)
+        for version in bins[package].keys():
+            verPath = os.path.join(pkgPath, version)
+            safe_makedirs(verPath)
+            download_version(verPath, bins[package][version])
+
+
 def download_version(verPath, urls):
     """Download all the files for a version of a packages.
 
@@ -154,17 +145,26 @@ def download_version(verPath, urls):
         thread.join()
 
 
-def download_files(binPath, index):
-    """Download the files listed in the JSON index file"""
-    bins = json.load(open(index, 'rt'))
-    safe_makedirs(binPath)
-    for package in bins.keys():
-        pkgPath = os.path.join(binPath, package)
-        safe_makedirs(pkgPath)
-        for version in bins[package].keys():
-            verPath = os.path.join(pkgPath, version)
-            safe_makedirs(verPath)
-            download_version(verPath, bins[package][version])
+def download(url, toPath):
+    try:
+        res = urllib2.urlopen(url)
+        print 'Downloaded [%s] to [%s]' % (url, toPath)
+        with open(toPath, 'w') as f:
+            f.write(res.read())
+    except IOError, e:
+        if e.code == 404:
+            print 'Failed [%s] not found.' % url
+        else:
+            print 'Failed [%s] [%s] [%s].' % (url, e.code, e.reason)
+
+
+def safe_makedirs(path):
+    try:
+        os.makedirs(path)
+    except OSError, e:
+        # Ignore if it exists
+        if e.errno != 17:
+            raise e
 
 
 if __name__ == '__main__':
