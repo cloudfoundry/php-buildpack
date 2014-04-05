@@ -20,6 +20,7 @@ import json
 import urllib2
 import argparse
 import threading
+import operator
 
 
 BPDIR = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
@@ -45,11 +46,26 @@ def run():
     generate.add_argument('--base-url',
                           help='Override the base URL for packages.  Defaults'
                                ' to DOWNLOAD_URL from defaults/options.json.')
+    generate.add_argument('--index',
+                          help='Location of the index file.  Defaults to '
+                               'stdout.')
+    generate.add_argument('--all',
+                          action='store_true',
+                          help='Generate a complete list of binaries.  '
+                               'Defaults to false, with only the latest '
+                               'binaries being included.')
 
     def wrap_generate_build_list(args):
         if 'base-url' not in args.keys() or args['base-url'] is None:
             args['base-url'] = load_cfg()['DOWNLOAD_URL']
-        generate_build_list(args['binary path'], args['base-url'])
+        if 'index' not in args.keys() or args['index'] is None:
+            args['index'] = sys.stdout
+        else:
+            args['index'] = open(os.path.abspath(args['index']), 'wt')
+        if 'all' not in args.keys():
+            args['all'] = False
+        generate_build_list(args['binary path'], args['base-url'],
+                            args['index'], args['all'])
 
     generate.set_defaults(func=wrap_generate_build_list)
 
@@ -74,14 +90,26 @@ def run():
     args.func(vars(args))
 
 
-def generate_build_list(binPath, urlBase):
+def generate_build_list(binPath, urlBase, index, allPkgs):
     """Generate a JSON files with the download URLS for the files in binPath"""
     bins = {}
     for package in os.listdir(binPath):
         if package.endswith('.json'):
             continue
         bins[package] = {}
-        for version in os.listdir(os.path.join(binPath, package)):
+        if allPkgs:
+            for version in os.listdir(os.path.join(binPath, package)):
+                bins[package][version] = [os.path.join(urlBase,
+                                                       package,
+                                                       version,
+                                                       f)
+                                          for f in os.listdir(
+                                              os.path.join(binPath,
+                                                           package,
+                                                           version))
+                                          if not f.startswith(".")]
+        else:
+            version = get_latest_version(os.path.join(binPath, package))
             bins[package][version] = [os.path.join(urlBase,
                                                    package,
                                                    version,
@@ -91,9 +119,7 @@ def generate_build_list(binPath, urlBase):
                                                        package,
                                                        version))
                                       if not f.startswith(".")]
-    json.dump(bins,
-              open(os.path.join(binPath, 'index.json'), 'wt'),
-              indent=4)
+    json.dump(bins, index, indent=4)
 
 
 def get_latest_version(pkgDir, like=None):
@@ -104,12 +130,12 @@ def get_latest_version(pkgDir, like=None):
 
     Option paramater 'like' allows filtering versions.
     """
-    versions = []
+    versions = {}
     for d in os.listdir(pkgDir):
         if os.path.isdir(os.path.join(pkgDir, d)):
             if like is None or d.startswith(like):
-                versions.append(tuple(map(int, (d.split(".")))))
-    return ".".join([str(i) for i in max(versions)])
+                versions[d] = tuple(map(int, (d.split("."))))
+    return max(versions.iteritems(), key=operator.itemgetter(1))[0]
 
 
 def download_files(binPath, index):
