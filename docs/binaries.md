@@ -24,9 +24,9 @@ The `DOWNLOAD_URL` would be `http://server/cf/php-repo`.
 
 ### Building Your Own Repository
 
-The easiest way to build your own repository is to run the `bin/binaries download` command.  This is a script that is included with the build pack and when run it will read the file `binaries/index.json` and download the binaries it needs from DropBox.  When it completes, you'll have a working set of binaries on your local machine.  
+The easiest way to build your own repository is to run the `bin/binaries download` command.  This is a script that is included with the build pack and when run it will read the file `binaries/index-latest.json` and download the latest set of binaries from DropBox.  When it completes, you'll have a working set of binaries on your local machine.  
 
-To use these with the build pack, you just need to copy them to your web server and set the `DOWNLOAD_URL` to point to your web server.  Setting `DOWNLOAD_URL` can be done per application, in `.bp-config/options.json`, or by forking the build pack and modifying `defaults/options.json`.
+To use the downloaded files with the build pack, you just need to copy them to your web server and set the `DOWNLOAD_URL` to point to your web server.  Setting `DOWNLOAD_URL` can be done per application, in `.bp-config/options.json`, or by forking the build pack and modifying `defaults/options.json`.
 
 #### Usage:  binaries
 
@@ -35,26 +35,28 @@ The `binaries download` command expects one argument, the path where it should p
 Ex:
 
 ```
-./binaries download my-binaries
+./binaries download binaries
 ```
 
-This will look for the index.json file at the path `my-binaries/index.json`.  If the index file is in a different location, you can specify that with the `--index` option.
+This will look for the `index-latest.json` file at the path `binaries/index.json`.  If the index file is in a different location, you can specify that with the `--index` option.
 
 Ex:
 
 ```
-./binaries download --index=binaries/index.json my-binaries
+./binaries download --index=binaries/index-latest.json binaries
 ```
 
-By default, the `binaries download` command will only download the most recent version of each package.  In other words, it'll pull in the most recent version of PHP, HTTPD and Nginx.  If you want to download the full list of available binaries, you can specify the `--latest` argument and set it to `False`.
+By default, the `binaries download` command will only download the most recent version of each package.  In other words, it'll pull in the most recent version of PHP, HTTPD, Nginx and other packages used by the build pack.  If you want it to download the full list of available binaries, just use the `--index` argument and point to the `binaries/index-all.json` file.  This file contains a full index of the available downloads.
 
 Ex:
 
 ```
-./binaries download --index=binaries/index.json --latest=False my-binaries
+./binaries download --index=binaries/index-all.json binaries
 ```
 
-It is *not* necessary to download all of the binaries, unless you specifically need support for an older version of software, so specifying `--latest=False` will generally just make the command take longer to run.
+It is *not* necessary to download all of the binaries, unless you specifically need support for an older version of software, so using the `index-all.json` file will generally just make the command take longer to run.
+
+If you'd like to select a custom set of packages and versions to download, you can do that by starting with the `index-all.json` file and removing the packages, versions and files that you do not want to include.
 
 #### Python Versions
 
