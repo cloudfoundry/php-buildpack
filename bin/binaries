@@ -44,7 +44,10 @@ def run():
                                        help='')
 
     # generate sub-command --> generates a json index file
-    generate = subparsers.add_parser('generate')
+    generate = subparsers.add_parser('generate',
+                                     help='Generates a json index file from an'
+                                          ' existing binary repository '
+                                          'folder.')
     generate.add_argument('binary_path',
                           help='The path to the existing binaries')
     generate.add_argument('--base-url',
@@ -74,7 +77,9 @@ def run():
     generate.set_defaults(func=wrap_generate_build_list)
 
     # download sub-command --> downloads files listed in json index file
-    download = subparsers.add_parser('download')
+    download = subparsers.add_parser('download',
+                                     help='Download files listed in the index'
+                                           ' and build a local repository.')
     download.add_argument('binary_path',
                           help='Where to put the binaries')
     download.add_argument('--index',
@@ -93,9 +98,7 @@ def run():
     #                      a zip of the files and the build pack
     zipup = subparsers.add_parser('zip',
                                   help='Build a zip file of the build pack and'
-                                       ' its binary files.  Suitable for '
-                                       'uploading to a CloudFoundry '
-                                       'installation.')
+                                       ' its binary files.')
     zg = zipup.add_mutually_exclusive_group(required=True)
     zg.add_argument('--binary-path',
                     help='Path to existing binaries.  Must specify this or'
