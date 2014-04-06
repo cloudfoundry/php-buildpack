@@ -21,6 +21,10 @@ import urllib2
 import argparse
 import threading
 import operator
+import zipfile
+import tempfile
+import shutil
+from datetime import datetime
 
 
 BPDIR = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
@@ -84,6 +88,41 @@ def run():
         download_files(args['binary path'], args['index'])
 
     download.set_defaults(func=wrap_download_files)
+
+    # zip sub-command --> downloads files listed in json index and creates
+    #                      a zip of the files and the build pack
+    zipup = subparsers.add_parser('zip',
+                                  help='Build a zip file of the build pack and'
+                                       ' its binary files.  Suitable for '
+                                       'uploading to a CloudFoundry '
+                                       'installation.')
+    zg = zipup.add_mutually_exclusive_group(required=True)
+    zg.add_argument('--binary-path',
+                    help='Path to existing binaries.  Must specify this or'
+                         '--index.')
+    zg.add_argument('--index',
+                    help='Override the location for the download index. '
+                         'Defaults to <binary-path>/index-latest.json.'
+                         'Must specify this or --binary-path.')
+    zipup.add_argument('--zip-path',
+                       help='Location of the zip file to create.  Defaults '
+                            'to the current directory.')
+
+    def wrap_zip_up_files(args):
+        if args['binary_path'] is None:
+            if args['index'] is not None:
+                args['binary_path'] = tempfile.mkdtemp(prefix='php-binaries-')
+                download_files(args['binary_path'], args['index'])
+        if args['zip_path'] is None:
+            args['zip_path'] = os.getcwd()
+        try:
+            zip_up_files(args['binary_path'], args['zip_path'])
+        finally:
+            if args['binary_path'].startswith(tempfile.gettempdir()):
+                print 'Cleaning up temp files at %s' % args['binary_path']
+                shutil.rmtree(args['binary_path'])
+
+    zipup.set_defaults(func=wrap_zip_up_files)
 
     # parse the args and run the func for the called sub-command
     args = parser.parse_args()
@@ -195,6 +234,50 @@ def safe_makedirs(path):
         if e.errno != 17:
             raise e
 
+
+def zip_up_folder(zf, path, compress=None, altBase=None):
+    if not compress:
+        compress = zipfile.ZIP_STORED
+    if not altBase:
+        altBase = os.path.basename(path)
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            if f.endswith('.pyc') or f == 'options.json':
+                continue
+            fullPath = os.path.join(root, f)
+            zipPath = fullPath.replace(path, altBase)
+            zf.write(fullPath, zipPath, compress)
+
+
+def zip_up_files(binPath, zipPath):
+    zipName = 'php-build-pack-%s.zip' % \
+        datetime.now().strftime('%y.%d.%m-%H.%M.%S')
+    try:
+        zf = zipfile.ZipFile(os.path.join(zipPath, zipName), 'w')
+        # zip up binaries
+        zip_up_folder(zf, binPath, altBase='binaries')
+        # zip up build pack
+        zip_up_folder(zf, os.path.join(BPDIR, 'bin'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'defaults'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'extensions'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'lib'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'scripts'),
+                      zipfile.ZIP_DEFLATED)
+        # overwrite DOWNLOAD_URL in options.json
+        cfg = load_cfg()
+        cfg['DOWNLOAD_URL'] = 'file://{BP_DIR}/binaries'
+        info = zipfile.ZipInfo('defaults/options.json')
+        info.date_time = datetime.now().timetuple()[:6]
+        info.compress_type = zipfile.ZIP_DEFLATED
+        info.external_attr = 0644 << 16L
+        zf.writestr(info, json.dumps(cfg, indent=4))
+    finally:
+        if zf:
+            zf.close()
 
 if __name__ == '__main__':
     run()
