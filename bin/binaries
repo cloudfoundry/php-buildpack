@@ -45,7 +45,7 @@ def run():
 
     # generate sub-command --> generates a json index file
     generate = subparsers.add_parser('generate')
-    generate.add_argument('binary path',
+    generate.add_argument('binary_path',
                           help='The path to the existing binaries')
     generate.add_argument('--base-url',
                           help='Override the base URL for packages.  Defaults'
@@ -68,14 +68,14 @@ def run():
             args['index'] = open(os.path.abspath(args['index']), 'wt')
         if 'all' not in args.keys():
             args['all'] = False
-        generate_build_list(args['binary path'], args['base_url'],
+        generate_build_list(args['binary_path'], args['base_url'],
                             args['index'], args['all'])
 
     generate.set_defaults(func=wrap_generate_build_list)
 
     # download sub-command --> downloads files listed in json index file
     download = subparsers.add_parser('download')
-    download.add_argument('binary path',
+    download.add_argument('binary_path',
                           help='Where to put the binaries')
     download.add_argument('--index',
                           help='Override the location for the download index. '
@@ -83,9 +83,9 @@ def run():
 
     def wrap_download_files(args):
         if args['index'] is None:
-            args['index'] = os.path.join(args['binary path'],
+            args['index'] = os.path.join(args['binary_path'],
                                          'index-latest.json')
-        download_files(args['binary path'], args['index'])
+        download_files(args['binary_path'], args['index'])
 
     download.set_defaults(func=wrap_download_files)
 
