@@ -43,12 +43,15 @@ class NewRelicInstaller(object):
         self._detected = False
         self.app_name = None
         self.license_key = None
-        if ctx['PHP_VM'] == 'php':
+        try:
             self._log.info("Initializing")
             self._merge_defaults()
             self._load_service_info()
             self._load_php_info()
             self._load_newrelic_info()
+        except Exception:
+            self._log.exception("Error installing NewRelic! "
+                                "NewRelic will not be available.")
 
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
