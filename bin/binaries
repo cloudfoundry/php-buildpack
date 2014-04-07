@@ -24,6 +24,7 @@ import operator
 import zipfile
 import tempfile
 import shutil
+import itertools
 from datetime import datetime
 
 
@@ -244,12 +245,20 @@ def zip_up_folder(zf, path, compress=None, altBase=None):
     if not altBase:
         altBase = os.path.basename(path)
     for root, dirs, files in os.walk(path):
-        for f in files:
-            if f.endswith('.pyc') or f == 'options.json':
+        # handles files, dirs & symlinks to dirs
+        for item in itertools.chain(dirs, files):
+            if item.endswith('.pyc') or item == 'options.json':
                 continue
-            fullPath = os.path.join(root, f)
+            fullPath = os.path.join(root, item)
             zipPath = fullPath.replace(path, altBase)
-            zf.write(fullPath, zipPath, compress)
+            if os.path.islink(fullPath):
+                info = zipfile.ZipInfo()
+                info.filename = zipPath
+                info.create_system = 3
+                info.external_attr = 2716663808L
+                zf.writestr(info, os.readlink(fullPath))
+            else:
+                zf.write(fullPath, zipPath)
 
 
 def zip_up_files(binPath, zipPath):
