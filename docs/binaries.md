@@ -70,15 +70,13 @@ If you have [PyEnv] installed on your system, you'll notice that the build pack 
 
 ### Bundling Binaries With the Build Pack
 
-While I don't generally recommend this option, it is possible to bundle the binaries with the build pack.  When doing this, the build pack is self contained and should have everything it needs to run.  The downside of this is that the build pack will be much, much larger and it'll take longer to download.  However, if you're running a private cloud and you want to install the build pack (see `cf create-buildpack`), this is not a bad option as the installed build pack would only be downloaded once and so the overhead of the larger build pack would not be an issue.
+It is possible to bundle the required binaries with the build pack.  When doing this, the build pack is self-contained and should have everything it needs to run.  This is not possible if you're using a public CF instance that is run by someone else (i.e. Pivotal Web Services), however if you're running a private cloud then you can install the build pack (see `cf create-buildpack`), which is a nice option as the installed build pack is local and will not need to download anything from the internet.
 
 Here are the steps you would need to do this.
 
-1. Clone the project:  `git clone https://github.com/dmikusa-pivotal/cf-php-build-pack`
-1. Run `bin/binaries download binaries`.  This will download the binaries into the `binaries` directory.
-1. Edit the `defaults/options.json` file.  Change DOWNLOAD_URL to `file://{BP_DIR}/binaries`.  This instructs the build pack to find the binaries locally and in the directory that we populated in the previous steps.
-1. Add, `git add binaries defaults/options.json` and commit the binaries to your repo, `git ci -m "Added binaries, changed DOWNLOAD_URL to use local binaries."`.
-1. Publish your git repo or a zip archive of the repository.
-1. Run `cf create-buildpack` pointing to either the git repo or the zip archive of the repositor.  The build pack will be installed with it's binaries.
+1. Clone the repository.  Check out a release branch, a specific commit or head.
+1. Run `bin/binaries zip --index binaries/index-latest.json`.  This will download the latest set of binaries and packagae it with the build pack that you have checked out.
+1. Run `cf create-buildpack` pointing to the file that was generated in the previous step.  This will install the build pack on your private cloud (as long as you have permissions).
+1. Now you can `cf push` a PHP application and you no longer need to set the `-b` argument or specify the build pack in your manifest file.
 
 [PyEnv]:https://github.com/yyuu/pyenv
