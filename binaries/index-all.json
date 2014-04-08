@@ -768,9 +768,9 @@
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.11/nginx-1.5.11.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.11/nginx-1.5.11.tar.gz.sha1"
         ], 
-        "1.5.10": [
-            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.10/nginx-1.5.10.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.10/nginx-1.5.10.tar.gz.sha1"
+        "1.5.13": [
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.13/nginx-1.5.13.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.13/nginx-1.5.13.tar.gz.sha1"
         ], 
         "1.5.12": [
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.12/nginx-1.5.12.tar.gz", 
