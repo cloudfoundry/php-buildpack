@@ -165,7 +165,6 @@ class TestCompile(BaseTestCompile):
             self.assert_exists(self.build_dir, 'php', 'etc', 'php.ini')
             self.assert_exists(self.build_dir, 'php', 'sbin', 'php-fpm')
             self.assert_exists(self.build_dir, 'php', 'bin')
-            self.assert_exists(self.build_dir, 'php', 'bin', 'php-cgi')
             self.assert_exists(self.build_dir, 'php', 'lib', 'php',
                                'extensions', 'no-debug-non-zts-20100525',
                                'bz2.so')
@@ -293,7 +292,6 @@ class TestCompile(BaseTestCompile):
             self.assert_exists(self.build_dir, 'php', 'etc', 'php.ini')
             self.assert_exists(self.build_dir, 'php', 'sbin', 'php-fpm')
             self.assert_exists(self.build_dir, 'php', 'bin')
-            self.assert_exists(self.build_dir, 'php', 'bin', 'php-cgi')
             self.assert_exists(self.build_dir, 'php', 'lib', 'php',
                                'extensions', 'no-debug-non-zts-20100525',
                                'bz2.so')
@@ -340,7 +338,7 @@ class TestCompileStandAlone(BaseTestCompile):
         # set web server & php version
         optsFile = os.path.join(bp.bp_dir, 'defaults', 'options.json')
         self.set_web_server(optsFile, 'none')
-        self.set_php_version(optsFile, '5.4.26-dev')
+        self.set_php_version(optsFile, '5.4.27')
         try:
             output = ''
             output = bp._compile()
