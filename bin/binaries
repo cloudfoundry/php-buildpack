@@ -142,27 +142,38 @@ def generate_build_list(binPath, urlBase, index, allPkgs):
         bins[package] = {}
         if allPkgs:
             for version in os.listdir(os.path.join(binPath, package)):
-                bins[package][version] = [os.path.join(urlBase,
-                                                       package,
-                                                       version,
-                                                       f)
-                                          for f in os.listdir(
-                                              os.path.join(binPath,
-                                                           package,
-                                                           version))
-                                          if not f.startswith(".")]
+                bins[package][version] = generate_build_for_version(binPath,
+                                                                    urlBase,
+                                                                    package,
+                                                                    version)
         else:
-            version = get_latest_version(os.path.join(binPath, package))
-            bins[package][version] = [os.path.join(urlBase,
-                                                   package,
-                                                   version,
-                                                   f)
-                                      for f in os.listdir(
-                                          os.path.join(binPath,
-                                                       package,
-                                                       version))
-                                      if not f.startswith(".")]
+            majVers = get_major_versions(os.path.join(binPath, package))
+            for majVer in majVers:
+                version = get_latest_version(
+                    os.path.join(binPath, package),
+                    like=majVer)
+                bins[package][version] = generate_build_for_version(binPath,
+                                                                    urlBase,
+                                                                    package,
+                                                                    version)
     json.dump(bins, index, indent=4)
+
+
+def generate_build_for_version(binPath, urlBase, package, version):
+    return [os.path.join(urlBase, package, version, f)
+            for f in os.listdir(os.path.join(binPath,
+                                             package,
+                                             version))
+            if not f.startswith(".")]
+
+
+def get_major_versions(pkgDir):
+    """Get the list of major versions of the package"""
+    majVersions = []
+    for d in os.listdir(pkgDir):
+        if os.path.isdir(os.path.join(pkgDir, d)):
+            majVersions.append('.'.join(d.split('.')[0:2]))
+    return list(set(majVersions))
 
 
 def get_latest_version(pkgDir, like=None):
