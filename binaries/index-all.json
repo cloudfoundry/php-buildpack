@@ -569,6 +569,8 @@
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-pspell-5.5.11.tar.gz.sha1", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-redis-5.5.11.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-redis-5.5.11.tar.gz.sha1", 
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-snmp-5.5.11.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-snmp-5.5.11.tar.gz.sha1", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-xdebug-5.5.11.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-xdebug-5.5.11.tar.gz.sha1", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.5.11/php-zlib-5.5.11.tar.gz", 
@@ -669,6 +671,8 @@
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-pspell-5.4.27.tar.gz.sha1", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-redis-5.4.27.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-redis-5.4.27.tar.gz.sha1", 
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-snmp-5.4.27.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-snmp-5.4.27.tar.gz.sha1", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-xdebug-5.4.27.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-xdebug-5.4.27.tar.gz.sha1", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/php/5.4.27/php-zlib-5.4.27.tar.gz", 
@@ -764,6 +768,14 @@
         ]
     }, 
     "nginx": {
+        "1.6.0": [
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.6.0/nginx-1.6.0.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.6.0/nginx-1.6.0.tar.gz.sha1"
+        ], 
+        "1.7.0": [
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.7.0/nginx-1.7.0.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.7.0/nginx-1.7.0.tar.gz.sha1"
+        ], 
         "1.5.11": [
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.11/nginx-1.5.11.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/nginx/1.5.11/nginx-1.5.11.tar.gz.sha1"
