@@ -1,6 +1,7 @@
 {
     "CACHE_HASH_ALGORITHM": "sha1",
-    "DOWNLOAD_URL": "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack",
+    "STACK": "lucid",
+    "DOWNLOAD_URL": "https://dl.dropboxusercontent.com/u/186123235/cf-php-buildpack/{STACK}",
     "WEB_SERVER": "httpd",
     "PHP_VM": "php",
     "ADMIN_EMAIL": "admin@localhost",

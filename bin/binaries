@@ -30,11 +30,15 @@ from datetime import datetime
 
 BPDIR = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
 
+sys.path.append(os.path.join(BPDIR, 'lib'))
+
+from build_pack_utils import utils
+
 
 def load_cfg():
     """Load's the build pack's default options.json file"""
-    return json.load(
-        open(os.path.join(BPDIR, 'defaults', 'options.json'), 'rt'))
+    return utils.FormattedDict(json.load(
+        open(os.path.join(BPDIR, 'defaults', 'options.json'), 'rt')))
 
 
 def run():
@@ -80,7 +84,7 @@ def run():
     # download sub-command --> downloads files listed in json index file
     download = subparsers.add_parser('download',
                                      help='Download files listed in the index'
-                                           ' and build a local repository.')
+                                          ' and build a local repository.')
     download.add_argument('binary_path',
                           help='Where to put the binaries')
     download.add_argument('--index',
