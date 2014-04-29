@@ -61,6 +61,9 @@ def run():
     generate.add_argument('--index',
                           help='Location of the index file.  Defaults to '
                                'stdout.')
+    generate.add_argument('--stack',
+                          help='Override the stack specified in defaults/'
+                               'options.json')
     generate.add_argument('--all',
                           action='store_true',
                           help='Generate a complete list of binaries.  '
@@ -69,7 +72,10 @@ def run():
 
     def wrap_generate_build_list(args):
         if 'base_url' not in args.keys() or args['base_url'] is None:
-            args['base_url'] = load_cfg()['DOWNLOAD_URL']
+            cfg = load_cfg()
+            if 'stack' in args.keys() and args['stack']:
+                cfg['STACK'] = args['stack']
+            args['base_url'] = cfg['DOWNLOAD_URL']
         if 'index' not in args.keys() or args['index'] is None:
             args['index'] = sys.stdout
         else:
