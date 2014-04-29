@@ -145,7 +145,7 @@ class BaseCompileNewRelic(object):
     def _set_web_server(self, optsFile, webServer):
         options = json.load(open(optsFile))
         options['WEB_SERVER'] = webServer
-        options['DOWNLOAD_URL'] = 'http://localhost:5000/binaries'
+        options['DOWNLOAD_URL'] = 'http://localhost:5000/binaries/{STACK}'
         options['NEWRELIC_DOWNLOAD_URL'] = \
             '{DOWNLOAD_URL}/newrelic/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}'
         json.dump(options, open(optsFile, 'wt'))
