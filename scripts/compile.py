@@ -21,6 +21,23 @@ from compile_helpers import setup_htdocs_if_it_doesnt_exist
 
 
 if __name__ == '__main__':
+    print ''
+    print '--------------------------------------------------------'
+    print '|                     WARNING                          |'
+    print '--------------------------------------------------------'
+    print '|                                                      |'
+    print '|          THIS VERSION HAS BEEN DEPRECATED.           |'
+    print '|                                                      |'
+    print '|             IT HAS BEEN REPLACED BY:                 |'
+    print '|                    Version 1.1                       |'
+    print '|                                                      |'
+    print '|                 PLEASE UPGRADE!!                     |'
+    print '|                                                      |'
+    print '|     THIS VERSION MAY OR MAY NOT CONTINUE TO WORK!    |'
+    print '|                                                      |'
+    print '--------------------------------------------------------'
+    print ''
+
     (Builder()
         .configure()
             .default_config()
