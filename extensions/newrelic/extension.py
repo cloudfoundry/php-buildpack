@@ -70,16 +70,14 @@ class NewRelicInstaller(object):
             service = services[0]
             creds = service.get('credentials', {})
             self.license_key = creds.get('licenseKey', None)
-            self.app_name = service.get('name', None)
-            if self.license_key and self.app_name:
+            if self.license_key:
                 self._log.debug("NewRelic service detected.")
                 self._detected = True
 
     def _load_newrelic_info(self):
-        if not self._detected:
-            vcap_app = self._ctx.get('VCAP_APPLICATION', {})
-            self.app_name = vcap_app.get('name', None)
-            self._log.debug("App Name [%s]", self.app_name)
+        vcap_app = self._ctx.get('VCAP_APPLICATION', {})
+        self.app_name = vcap_app.get('name', None)
+        self._log.debug("App Name [%s]", self.app_name)
 
         if 'NEWRELIC_LICENSE' in self._ctx.keys():
             if self._detected:
