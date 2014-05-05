@@ -60,7 +60,7 @@ class NewRelicInstaller(object):
 
     def _load_service_info(self):
         services = self._ctx.get('VCAP_SERVICES', {})
-        services = services.get('newrelic-n/a', [])
+        services = services.get('newrelic', [])
         if len(services) == 0:
             self._log.info("NewRelic services not detected.")
         if len(services) > 1:

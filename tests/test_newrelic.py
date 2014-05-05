@@ -69,11 +69,15 @@ class TestNewRelic(object):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
             'VCAP_SERVICES': {
-                'newrelic-n/a': [{'credentials': {'licenseKey': 'LICENSE'},
-                                  'label': 'newrelic-n/a',
-                                  'name': 'app-name-1',
-                                  'plan': 'standard',
-                                  'tags': []}]
+                'newrelic': [{
+                    'name': 'newrelic',
+                    'label': 'newrelic',
+                    'tags': ['Monitoring'],
+                    'plan': 'standard',
+                    'credentials': {'licenseKey': 'LICENSE'}}]
+            },
+            'VCAP_APPLICATION': {
+                'name': 'app-name-1'
             }
         })
         nr = newrelic.NewRelicInstaller(ctx)
@@ -96,11 +100,12 @@ class TestNewRelic(object):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
             'VCAP_SERVICES': {
-                'newrelic-n/a': [{'credentials': {'licenseKey': 'LICENSE1'},
-                                  'label': 'newrelic-n/a',
-                                  'name': 'app-name-1',
-                                  'plan': 'standard',
-                                  'tags': []}]
+                'newrelic': [{
+                    'name': 'newrelic',
+                    'label': 'newrelic',
+                    'tags': ['Monitoring'],
+                    'plan': 'standard',
+                    'credentials': {'licenseKey': 'LICENSE'}}]
             },
             'NEWRELIC_LICENSE': 'LICENSE2',
             'VCAP_APPLICATION': {
