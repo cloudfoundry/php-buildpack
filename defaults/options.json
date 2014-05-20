@@ -1,7 +1,7 @@
 {
     "CACHE_HASH_ALGORITHM": "sha1",
     "STACK": "lucid",
-    "DOWNLOAD_URL": "https://dl.dropboxusercontent.com/u/186123235/binaries/{STACK}",
+    "DOWNLOAD_URL": "https://php-buildpack.str.cloudn-service.com/{STACK}",
     "WEB_SERVER": "httpd",
     "PHP_VM": "php",
     "ADMIN_EMAIL": "admin@localhost",
@@ -20,7 +20,7 @@
     "NGINX_STRIP": "true",
     "HHVM_VERSION": "2014.03.20",
     "HHVM_PACKAGE": "hhvm-nightly_{HHVM_VERSION}~lucid.tgz",
-    "HHVM_DOWNLOAD_URL": "http://dl.hhvm.com/heroku/{HHVM_PACKAGE}",
+    "HHVM_DOWNLOAD_URL": "{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}",
     "HHVM_HASH_DOWNLOAD_URL": "{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}.{CACHE_HASH_ALGORITHM}",
     "PHP_54_LATEST": "5.4.28",
     "PHP_55_LATEST": "5.5.12",
