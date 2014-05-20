@@ -93,7 +93,7 @@ def service_environment(ctx):
     
     varnish = VarnishInstaller(ctx)
     if varnish.should_install():
-        env_dict['LD_LIBRARY_PATH'] = '@LD_LIBRARY_PATH:@HOME/varnish/lib'
+        env_dict['LD_LIBRARY_PATH'] = '@LD_LIBRARY_PATH:@HOME/varnish/lib:@HOME/php/lib'
         varnish_mem = ctx.get('VARNISH_MEMORY_LIMIT', None)
         if varnish_mem is None:
             log("VARNISH_MEMORY_LIMIT variable not detected.  Using application MEMORY_LIMIT")
