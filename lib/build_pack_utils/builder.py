@@ -798,12 +798,30 @@ class SaveBuilder(object):
         self._builder = builder
 
     def runtime_environment(self):
+        # run service_environment on all extensions, pool the results
+        #  into one dict, duplicates are grouped in a list and kept
+        #  in the same order.
+        all_extns_env = {}
         def process(env):
-            envPath = os.path.join(self._builder._ctx['BUILD_DIR'], '.env')
-            with open(envPath, 'at') as envFile:
-                for key, val in env.iteritems():
-                    envFile.write("%s=%s\n" % (key, val))
+            for key, val in env.iteritems():
+                if key in all_extns_env.keys():
+                    if hasattr(all_extns_env[key], 'append'):
+                        all_extns_env[key].append(val)
+                    else:
+                        vals = [all_extns_env[key], val]
+                        all_extns_env[key] = vals
+                else:
+                    all_extns_env[key] = val
         process_extensions(self._builder._ctx, 'service_environment', process)
+        # Write pool of environment items to disk, a single item is
+        #  written in 'key=val' format, while lists are written as
+        #  'key=val:val:val' where ':' is os.pathsep.
+        envPath = os.path.join(self._builder._ctx['BUILD_DIR'], '.env')
+        with open(envPath, 'at') as envFile:
+            for key, val in all_extns_env.iteritems():
+                if hasattr(val, 'append'):
+                    val = os.pathsep.join(val)
+                envFile.write("%s=%s\n" % (key, val))
         return self
 
     def process_list(self):
