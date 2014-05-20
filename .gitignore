@@ -1,5 +1,7 @@
-binaries/*
-!binaries/index.json
+binaries/lucid/*
+!binaries/lucid/index*.json
+binaries/precise/*
+!binaries/precise/index*.json
 *.pyc
 *.swp
 env

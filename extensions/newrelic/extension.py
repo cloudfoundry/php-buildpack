@@ -26,7 +26,7 @@ _log = logging.getLogger('newrelic')
 
 DEFAULTS = {
     'NEWRELIC_HOST': 'download.newrelic.com',
-    'NEWRELIC_VERSION': '4.6.5.40',
+    'NEWRELIC_VERSION': '4.8.0.47',
     'NEWRELIC_PACKAGE': 'newrelic-php5-{NEWRELIC_VERSION}-linux.tar.gz',
     'NEWRELIC_DOWNLOAD_URL': 'https://{NEWRELIC_HOST}/php_agent/'
                              'archive/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}',
@@ -43,12 +43,15 @@ class NewRelicInstaller(object):
         self._detected = False
         self.app_name = None
         self.license_key = None
-        if ctx['PHP_VM'] == 'php':
+        try:
             self._log.info("Initializing")
             self._merge_defaults()
             self._load_service_info()
             self._load_php_info()
             self._load_newrelic_info()
+        except Exception:
+            self._log.exception("Error installing NewRelic! "
+                                "NewRelic will not be available.")
 
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
@@ -57,7 +60,7 @@ class NewRelicInstaller(object):
 
     def _load_service_info(self):
         services = self._ctx.get('VCAP_SERVICES', {})
-        services = services.get('newrelic-n/a', [])
+        services = services.get('newrelic', [])
         if len(services) == 0:
             self._log.info("NewRelic services not detected.")
         if len(services) > 1:
@@ -67,16 +70,14 @@ class NewRelicInstaller(object):
             service = services[0]
             creds = service.get('credentials', {})
             self.license_key = creds.get('licenseKey', None)
-            self.app_name = service.get('name', None)
-            if self.license_key and self.app_name:
+            if self.license_key:
                 self._log.debug("NewRelic service detected.")
                 self._detected = True
 
     def _load_newrelic_info(self):
-        if not self._detected:
-            vcap_app = self._ctx.get('VCAP_APPLICATION', {})
-            self.app_name = vcap_app.get('name', None)
-            self._log.debug("App Name [%s]", self.app_name)
+        vcap_app = self._ctx.get('VCAP_APPLICATION', {})
+        self.app_name = vcap_app.get('name', None)
+        self._log.debug("App Name [%s]", self.app_name)
 
         if 'NEWRELIC_LICENSE' in self._ctx.keys():
             if self._detected:

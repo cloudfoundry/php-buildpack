@@ -29,7 +29,8 @@ def service_commands(ctx):
             'php-fpm': (
                 '$HOME/php/sbin/php-fpm',
                 '-p "$HOME/php/etc"',
-                '-y "$HOME/php/etc/php-fpm.conf"'),
+                '-y "$HOME/php/etc/php-fpm.conf"',
+                '-c "$HOME/php/etc"'),
             'php-fpm-logs': (
                 'tail',
                 '-F $HOME/../logs/php-fpm.log')

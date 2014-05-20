@@ -10,7 +10,7 @@ class BaseTestCompile(object):
     def set_web_server(self, optsFile, webServer):
         options = json.load(open(optsFile))
         options['WEB_SERVER'] = webServer
-        options['DOWNLOAD_URL'] = 'http://localhost:5000/binaries'
+        options['DOWNLOAD_URL'] = 'http://localhost:5000/binaries/{STACK}'
         options['NEWRELIC_DOWNLOAD_URL'] = \
             '{DOWNLOAD_URL}/newrelic/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}'
         json.dump(options, open(optsFile, 'wt'))
@@ -115,7 +115,7 @@ class TestCompile(BaseTestCompile):
                     '"$HOME/httpd/conf/httpd.conf" -k start -DFOREGROUND',
                     lines[0])
                 eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
-                    '"$HOME/php/etc/php-fpm.conf"', lines[1])
+                    '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"', lines[1])
                 eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
                     lines[2])
             # Check htdocs and config
@@ -165,7 +165,6 @@ class TestCompile(BaseTestCompile):
             self.assert_exists(self.build_dir, 'php', 'etc', 'php.ini')
             self.assert_exists(self.build_dir, 'php', 'sbin', 'php-fpm')
             self.assert_exists(self.build_dir, 'php', 'bin')
-            self.assert_exists(self.build_dir, 'php', 'bin', 'php-cgi')
             self.assert_exists(self.build_dir, 'php', 'lib', 'php',
                                'extensions', 'no-debug-non-zts-20100525',
                                'bz2.so')
@@ -245,7 +244,7 @@ class TestCompile(BaseTestCompile):
                 eq_('nginx: $HOME/nginx/sbin/nginx -c '
                     '"$HOME/nginx/conf/nginx.conf"', lines[0])
                 eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
-                    '"$HOME/php/etc/php-fpm.conf"', lines[1])
+                    '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"', lines[1])
                 eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
                     lines[2])
             # Test htdocs & config
@@ -293,7 +292,6 @@ class TestCompile(BaseTestCompile):
             self.assert_exists(self.build_dir, 'php', 'etc', 'php.ini')
             self.assert_exists(self.build_dir, 'php', 'sbin', 'php-fpm')
             self.assert_exists(self.build_dir, 'php', 'bin')
-            self.assert_exists(self.build_dir, 'php', 'bin', 'php-cgi')
             self.assert_exists(self.build_dir, 'php', 'lib', 'php',
                                'extensions', 'no-debug-non-zts-20100525',
                                'bz2.so')
@@ -340,7 +338,7 @@ class TestCompileStandAlone(BaseTestCompile):
         # set web server & php version
         optsFile = os.path.join(bp.bp_dir, 'defaults', 'options.json')
         self.set_web_server(optsFile, 'none')
-        self.set_php_version(optsFile, '5.4.26-dev')
+        self.set_php_version(optsFile, '5.4.27')
         try:
             output = ''
             output = bp._compile()

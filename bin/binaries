@@ -20,15 +20,25 @@ import json
 import urllib2
 import argparse
 import threading
+import operator
+import zipfile
+import tempfile
+import shutil
+import itertools
+from datetime import datetime
 
 
 BPDIR = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
 
+sys.path.append(os.path.join(BPDIR, 'lib'))
+
+from build_pack_utils import utils
+
 
 def load_cfg():
     """Load's the build pack's default options.json file"""
-    return json.load(
-        open(os.path.join(BPDIR, 'defaults', 'options.json'), 'rt'))
+    return utils.FormattedDict(json.load(
+        open(os.path.join(BPDIR, 'defaults', 'options.json'), 'rt')))
 
 
 def run():
@@ -39,99 +49,170 @@ def run():
                                        help='')
 
     # generate sub-command --> generates a json index file
-    generate = subparsers.add_parser('generate')
-    generate.add_argument('binary path',
+    generate = subparsers.add_parser('generate',
+                                     help='Generates a json index file from an'
+                                          ' existing binary repository '
+                                          'folder.')
+    generate.add_argument('binary_path',
                           help='The path to the existing binaries')
     generate.add_argument('--base-url',
                           help='Override the base URL for packages.  Defaults'
                                ' to DOWNLOAD_URL from defaults/options.json.')
+    generate.add_argument('--index',
+                          help='Location of the index file.  Defaults to '
+                               'stdout.')
+    generate.add_argument('--stack',
+                          help='Override the stack specified in defaults/'
+                               'options.json')
+    generate.add_argument('--all',
+                          action='store_true',
+                          help='Generate a complete list of binaries.  '
+                               'Defaults to false, with only the latest '
+                               'binaries being included.')
 
     def wrap_generate_build_list(args):
-        if 'base-url' not in args.keys() or args['base-url'] is None:
-            args['base-url'] = load_cfg()['DOWNLOAD_URL']
-        generate_build_list(args['binary path'], args['base-url'])
+        if 'base_url' not in args.keys() or args['base_url'] is None:
+            cfg = load_cfg()
+            if 'stack' in args.keys() and args['stack']:
+                cfg['STACK'] = args['stack']
+            args['base_url'] = cfg['DOWNLOAD_URL']
+        if 'index' not in args.keys() or args['index'] is None:
+            args['index'] = sys.stdout
+        else:
+            args['index'] = open(os.path.abspath(args['index']), 'wt')
+        if 'all' not in args.keys():
+            args['all'] = False
+        generate_build_list(args['binary_path'], args['base_url'],
+                            args['index'], args['all'])
 
     generate.set_defaults(func=wrap_generate_build_list)
 
     # download sub-command --> downloads files listed in json index file
-    download = subparsers.add_parser('download')
-    download.add_argument('binary path',
+    download = subparsers.add_parser('download',
+                                     help='Download files listed in the index'
+                                          ' and build a local repository.')
+    download.add_argument('binary_path',
                           help='Where to put the binaries')
     download.add_argument('--index',
                           help='Override the location for the download index. '
-                               'Defaults to <binary-path>/index.json.')
-    download.add_argument('--latest',
-                          default=True,
-                          type=lambda x: x.lower() in ('yes', 'true', 't', '1'),
-                          help='Only download the latest versions. Defaults to True.')
+                               'Defaults to <binary-path>/index-latest.json.')
 
     def wrap_download_files(args):
         if args['index'] is None:
-            args['index'] = os.path.join(args['binary path'], 'index.json')
-        download_files(args['binary path'], args['index'], args['latest'])
+            args['index'] = os.path.join(args['binary_path'],
+                                         'index-latest.json')
+        download_files(args['binary_path'], args['index'])
 
     download.set_defaults(func=wrap_download_files)
+
+    # zip sub-command --> downloads files listed in json index and creates
+    #                      a zip of the files and the build pack
+    zipup = subparsers.add_parser('zip',
+                                  help='Build a zip file of the build pack and'
+                                       ' its binary files.')
+    zg = zipup.add_mutually_exclusive_group(required=True)
+    zg.add_argument('--binary-path',
+                    help='Path to existing binaries.  Must specify this or'
+                         '--index.')
+    zg.add_argument('--index',
+                    help='Override the location for the download index. '
+                         'Defaults to <binary-path>/index-latest.json.'
+                         'Must specify this or --binary-path.')
+    zipup.add_argument('--zip-path',
+                       help='Location of the zip file to create.  Defaults '
+                            'to the current directory.')
+
+    def wrap_zip_up_files(args):
+        if args['binary_path'] is None:
+            if args['index'] is not None:
+                args['binary_path'] = tempfile.mkdtemp(prefix='php-binaries-')
+                download_files(args['binary_path'], args['index'])
+        if args['zip_path'] is None:
+            args['zip_path'] = os.getcwd()
+        try:
+            zip_up_files(args['binary_path'], args['zip_path'])
+        finally:
+            if args['binary_path'].startswith(tempfile.gettempdir()):
+                print 'Cleaning up temp files at %s' % args['binary_path']
+                shutil.rmtree(args['binary_path'])
+
+    zipup.set_defaults(func=wrap_zip_up_files)
 
     # parse the args and run the func for the called sub-command
     args = parser.parse_args()
     args.func(vars(args))
 
 
-def safe_makedirs(path):
-    try:
-        os.makedirs(path)
-    except OSError, e:
-        # Ignore if it exists
-        if e.errno != 17:
-            raise e
-
-
-def download(url, toPath):
-    try:
-        res = urllib2.urlopen(url)
-        print 'Downloaded [%s] to [%s]' % (url, toPath)
-        with open(toPath, 'w') as f:
-            f.write(res.read())
-    except IOError, e:
-        if e.code == 404:
-            print 'Failed [%s] not found.' % url
-        else:
-            print 'Failed [%s] [%s] [%s].' % (url, e.code, e.reason)
-
-
-def generate_build_list(binPath, urlBase):
+def generate_build_list(binPath, urlBase, index, allPkgs):
     """Generate a JSON files with the download URLS for the files in binPath"""
     bins = {}
     for package in os.listdir(binPath):
-        if package == 'index.json':
+        if package.endswith('.json'):
             continue
         bins[package] = {}
-        for version in os.listdir(os.path.join(binPath, package)):
-            bins[package][version] = [os.path.join(urlBase,
-                                                   package,
-                                                   version,
-                                                   f)
-                                      for f in os.listdir(
-                                          os.path.join(binPath,
-                                                       package,
-                                                       version))
-                                      if not f.startswith(".")]
-    json.dump(bins,
-              open(os.path.join(binPath, 'index.json'), 'wt'),
-              indent=4)
+        if allPkgs:
+            for version in os.listdir(os.path.join(binPath, package)):
+                bins[package][version] = generate_build_for_version(binPath,
+                                                                    urlBase,
+                                                                    package,
+                                                                    version)
+        else:
+            majVers = get_major_versions(os.path.join(binPath, package))
+            for majVer in majVers:
+                version = get_latest_version(
+                    os.path.join(binPath, package),
+                    like=majVer)
+                bins[package][version] = generate_build_for_version(binPath,
+                                                                    urlBase,
+                                                                    package,
+                                                                    version)
+    json.dump(bins, index, indent=4)
 
 
-def get_latest_version(package):
+def generate_build_for_version(binPath, urlBase, package, version):
+    return [os.path.join(urlBase, package, version, f)
+            for f in os.listdir(os.path.join(binPath,
+                                             package,
+                                             version))
+            if not f.startswith(".")]
+
+
+def get_major_versions(pkgDir):
+    """Get the list of major versions of the package"""
+    majVersions = []
+    for d in os.listdir(pkgDir):
+        if os.path.isdir(os.path.join(pkgDir, d)):
+            majVersions.append('.'.join(d.split('.')[0:2]))
+    return list(set(majVersions))
+
+
+def get_latest_version(pkgDir, like=None):
     """Get the latest version of a package.
 
-    Works by looking in the defaults/config/<package> directory and looking
-    at the versions listed.  It takes the version with the most recent
-    modified time.
+    Look at an existing 'binaries' directory, get version number
+    from folder name.  Return the most recent version.
+
+    Option paramater 'like' allows filtering versions.
     """
-    cfgDir = os.path.join(BPDIR, 'defaults', 'config', package)
-    dirs = [os.path.join(cfgDir, d) for d in os.listdir(cfgDir)
-            if os.path.isdir(os.path.join(cfgDir, d)) and not d.endswith('x')]
-    return os.path.basename(max(dirs, key=lambda x: os.lstat(x).st_mtime))
+    versions = {}
+    for d in os.listdir(pkgDir):
+        if os.path.isdir(os.path.join(pkgDir, d)):
+            if like is None or d.startswith(like):
+                versions[d] = tuple(map(int, (d.split("."))))
+    return max(versions.iteritems(), key=operator.itemgetter(1))[0]
+
+
+def download_files(binPath, index):
+    """Download the files listed in the JSON index file"""
+    bins = json.load(open(index, 'rt'))
+    safe_makedirs(binPath)
+    for package in bins.keys():
+        pkgPath = os.path.join(binPath, package)
+        safe_makedirs(pkgPath)
+        for version in bins[package].keys():
+            verPath = os.path.join(pkgPath, version)
+            safe_makedirs(verPath)
+            download_version(verPath, bins[package][version])
 
 
 def download_version(verPath, urls):
@@ -157,24 +238,79 @@ def download_version(verPath, urls):
         thread.join()
 
 
-def download_files(binPath, index, latest):
-    """Download the files listed in the JSON index file"""
-    bins = json.load(open(index, 'rt'))
-    safe_makedirs(binPath)
-    for package in bins.keys():
-        pkgPath = os.path.join(binPath, package)
-        safe_makedirs(pkgPath)
-        if not latest:
-            for version in bins[package].keys():
-                verPath = os.path.join(pkgPath, version)
-                safe_makedirs(verPath)
-                download_version(verPath, bins[package][version])
+def download(url, toPath):
+    try:
+        res = urllib2.urlopen(url)
+        print 'Downloaded [%s] to [%s]' % (url, toPath)
+        with open(toPath, 'w') as f:
+            f.write(res.read())
+    except IOError, e:
+        if e.code == 404:
+            print 'Failed [%s] not found.' % url
         else:
-            version = get_latest_version(package)
-            verPath = os.path.join(pkgPath, version)
-            safe_makedirs(verPath)
-            download_version(verPath, bins[package][version])
+            print 'Failed [%s] [%s] [%s].' % (url, e.code, e.reason)
 
+
+def safe_makedirs(path):
+    try:
+        os.makedirs(path)
+    except OSError, e:
+        # Ignore if it exists
+        if e.errno != 17:
+            raise e
+
+
+def zip_up_folder(zf, path, compress=None, altBase=None):
+    if not compress:
+        compress = zipfile.ZIP_STORED
+    if not altBase:
+        altBase = os.path.basename(path)
+    for root, dirs, files in os.walk(path):
+        # handles files, dirs & symlinks to dirs
+        for item in itertools.chain(dirs, files):
+            if item.endswith('.pyc') or item == 'options.json':
+                continue
+            fullPath = os.path.join(root, item)
+            zipPath = fullPath.replace(path, altBase)
+            if os.path.islink(fullPath):
+                info = zipfile.ZipInfo()
+                info.filename = zipPath
+                info.create_system = 3
+                info.external_attr = 2716663808L
+                zf.writestr(info, os.readlink(fullPath))
+            else:
+                zf.write(fullPath, zipPath)
+
+
+def zip_up_files(binPath, zipPath):
+    zipName = 'php-build-pack-%s.zip' % \
+        datetime.now().strftime('%y.%d.%m-%H.%M.%S')
+    try:
+        zf = zipfile.ZipFile(os.path.join(zipPath, zipName), 'w')
+        # zip up binaries
+        zip_up_folder(zf, binPath, altBase='binaries')
+        # zip up build pack
+        zip_up_folder(zf, os.path.join(BPDIR, 'bin'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'defaults'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'extensions'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'lib'),
+                      zipfile.ZIP_DEFLATED)
+        zip_up_folder(zf, os.path.join(BPDIR, 'scripts'),
+                      zipfile.ZIP_DEFLATED)
+        # overwrite DOWNLOAD_URL in options.json
+        cfg = load_cfg()
+        cfg['DOWNLOAD_URL'] = 'file://{BP_DIR}/binaries'
+        info = zipfile.ZipInfo('defaults/options.json')
+        info.date_time = datetime.now().timetuple()[:6]
+        info.compress_type = zipfile.ZIP_DEFLATED
+        info.external_attr = 0644 << 16L
+        zf.writestr(info, json.dumps(cfg, indent=4))
+    finally:
+        if zf:
+            zf.close()
 
 if __name__ == '__main__':
     run()
