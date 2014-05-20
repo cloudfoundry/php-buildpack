@@ -17,6 +17,8 @@
 Downloads, installs and configures Varnish reverse proxy web accelerator
 """
 import logging
+import os
+import os.path
 
 _log = logging.getLogger('varnish')
 
@@ -42,8 +44,15 @@ class VarnishInstaller(object):
             if key not in self._ctx:
                 self._ctx[key] = val    
         
-    def should_install(self):
-        return True
+    def should_install(self):       
+        # Check if there is a default.vcl file in the .bp-config/varnish directory
+        bpConfig = os.path.join(self._ctx['BUILD_DIR'], '.bp-config/varnish')
+        if os.path.exists(os.path.join(bpConfig, 'default.vcl')):
+            log("default.vcl file detected... enabling Varnish Cache")
+            return True
+        else:
+            log("default.vcl file not detected...")
+            return False        
 
 def preprocess_commands(ctx):
     log("preprocess_commands method")
@@ -52,7 +61,9 @@ def preprocess_commands(ctx):
 
 def service_commands(ctx):
     log("service_commands method")
-    tup = (
+    varnish = VarnishInstaller(ctx)
+    if varnish.should_install():
+        service_tup = (
             '/sbin/start-stop-daemon',
             '--start',
             '--verbose',
@@ -66,19 +77,32 @@ def service_commands(ctx):
             '-a *:$VCAP_APP_PORT',
             '-T 127.0.0.1:6082',
             '-f "$HOME/varnish/conf/default.vcl"',
-            '-s malloc,$MEMORY_LIMIT',
+            '-s malloc,$VARNISH_MEMORY_LIMIT',
             '-F'
-           )
-    log("service command for varnish: " + str(tup))
-    return {
-        'varnishd': ( tup )
-    }
+        )
+        log("service command for varnish: " + str(service_tup))
+        return {
+                'varnishd': ( service_tup )
+                }
+    else:
+        return { }
 
 def service_environment(ctx):
     log("service_environment method")
-    return {
-        'LD_LIBRARY_PATH': '@LD_LIBRARY_PATH:@HOME/varnish/lib'
-    }
+    env_dict = {}
+    
+    varnish = VarnishInstaller(ctx)
+    if varnish.should_install():
+        env_dict['LD_LIBRARY_PATH'] = '@LD_LIBRARY_PATH:@HOME/varnish/lib'
+        varnish_mem = ctx.get('VARNISH_MEMORY_LIMIT', None)
+        if varnish_mem is None:
+            log("VARNISH_MEMORY_LIMIT variable not detected.  Using application MEMORY_LIMIT")
+            varnish_mem = ctx.get('MEMORY_LIMIT', None)
+            env_dict['VARNISH_MEMORY_LIMIT'] = varnish_mem
+        else:
+            log("VARNISH_MEMORY_LIMIT variable detected")
+    log("service environment for varnish: " + str(env_dict))
+    return env_dict
 
 def compile(install): 
     varnish = VarnishInstaller(install.builder._ctx)
