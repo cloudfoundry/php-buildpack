@@ -88,7 +88,7 @@ def service_environment(ctx):
 
 The `service_environment` method gives extension authors the ability to contribute environment variables that will be set and available to the services.
 
-The method takes the context as an argument and should return a dictionary of the environment variables.  The key should be the variable name and the value should be the value.
+The method takes the context as an argument and should return a dictionary of the environment variables.  The key should be the variable name and the value should be the value.  The value can either be a string, in which case the environment variable will be set with the value of the string or it can be a list.  If it's a list, the contents will be combined into a string and separated by the path separation character (i.e. ':' on Unix / Linux or ';' on Windows).  Keys that are set multiple times by the same or different extensions are automatically combined into one environment variable using the same path separation character.  This is helpful when two extensions both want to contribute to the same variable, for example LD_LIBRARY_PATH.
 
 Please note that environment variables are not evaluated as they are set.  This would not work because they are set in the staging environment which is different than the execution environment.  This means you cannot do things like `PATH=$PATH:/new/path` or `NEWPATH=$HOME/some/path`.  To work around this, the build pack will rewrite the environment variable file before it's processed.  This process will replace any `@<env-var>` markers with the value of the environment variable from the execution environment.  Thus if you do `PATH=@PATH:/new/path` or `NEWPATH=@HOME/some/path`, the service end up with a correctly set `PATH` or `NEWPATH`.
 
