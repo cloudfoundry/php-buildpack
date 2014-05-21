@@ -58,7 +58,7 @@ def convert_php_extensions(ctx):
     ctx['PHP_EXTENSIONS'] = \
         "\n".join(["extension=%s.so" % ex
                    for ex in ctx['PHP_EXTENSIONS'] if ex not in SKIP])
-    path = '@{HOME}/php/lib/php/extensions/no-debug-non-zts-20100525'
+    path = '@HOME/php/lib/php/extensions/no-debug-non-zts-20100525'
     ctx['ZEND_EXTENSIONS'] = \
         "\n".join(['zend_extension="%s/%s.so"' % (path, ze)
                    for ze in ctx['ZEND_EXTENSIONS']])
