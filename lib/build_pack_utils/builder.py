@@ -3,6 +3,7 @@ import sys
 import shutil
 import re
 import logging
+from collections import defaultdict
 from subprocess import Popen
 from subprocess import PIPE
 from cloudfoundry import CloudFoundryUtil
@@ -801,17 +802,14 @@ class SaveBuilder(object):
         # run service_environment on all extensions, pool the results
         #  into one dict, duplicates are grouped in a list and kept
         #  in the same order.
-        all_extns_env = {}
+        all_extns_env = defaultdict(list)
+
         def process(env):
             for key, val in env.iteritems():
-                if key in all_extns_env.keys():
-                    if hasattr(all_extns_env[key], 'append'):
-                        all_extns_env[key].append(val)
-                    else:
-                        vals = [all_extns_env[key], val]
-                        all_extns_env[key] = vals
+                if hasattr(val, 'append'):
+                    all_extns_env[key].extend(val)
                 else:
-                    all_extns_env[key] = val
+                    all_extns_env[key].append(val)
         process_extensions(self._builder._ctx, 'service_environment', process)
         # Write pool of environment items to disk, a single item is
         #  written in 'key=val' format, while lists are written as
@@ -819,7 +817,11 @@ class SaveBuilder(object):
         envPath = os.path.join(self._builder._ctx['BUILD_DIR'], '.env')
         with open(envPath, 'at') as envFile:
             for key, val in all_extns_env.iteritems():
-                if hasattr(val, 'append'):
+                if len(val) == 0:
+                    val = ''
+                elif len(val) == 1:
+                    val = val[0]
+                elif len(val) > 1:
                     val = os.pathsep.join(val)
                 envFile.write("%s=%s\n" % (key, val))
         return self
