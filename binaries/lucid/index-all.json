@@ -800,14 +800,6 @@
         ]
     }, 
     "nginx": {
-        "1.6.0": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.6.0/nginx-1.6.0.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.6.0/nginx-1.6.0.tar.gz.sha1"
-        ], 
-        "1.7.0": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.0/nginx-1.7.0.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.0/nginx-1.7.0.tar.gz.sha1"
-        ], 
         "1.5.11": [
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.5.11/nginx-1.5.11.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.5.11/nginx-1.5.11.tar.gz.sha1"
@@ -819,6 +811,18 @@
         "1.5.12": [
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.5.12/nginx-1.5.12.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.5.12/nginx-1.5.12.tar.gz.sha1"
+        ], 
+        "1.6.0": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.6.0/nginx-1.6.0.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.6.0/nginx-1.6.0.tar.gz.sha1"
+        ], 
+        "1.7.1": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.1/nginx-1.7.1.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.1/nginx-1.7.1.tar.gz.sha1"
+        ], 
+        "1.7.0": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.0/nginx-1.7.0.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.0/nginx-1.7.0.tar.gz.sha1"
         ]
     }, 
     "newrelic": {
