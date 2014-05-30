@@ -104,8 +104,9 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, 'app.php')
         eq_(1, len(os.listdir(self.build_dir)))
 
-    def test_convert_php_extensions(self):
+    def test_convert_php_extensions_54(self):
         ctx = {
+            'PHP_VERSION': '5.4.x',
             'PHP_EXTENSIONS': ['mod1', 'mod2', 'mod3'],
             'ZEND_EXTENSIONS': ['zmod1', 'zmod2']
         }
@@ -118,8 +119,21 @@ class TestCompileHelpers(object):
             'no-debug-non-zts-20100525/zmod2.so"',
             ctx['ZEND_EXTENSIONS'])
 
-    def test_convert_php_extensions_none(self):
+    def test_convert_php_extensions_55(self):
         ctx = {
+            'PHP_VERSION': '5.5.x',
+            'PHP_EXTENSIONS': ['mod1', 'mod2', 'mod3'],
+            'ZEND_EXTENSIONS': ['zmod1', 'zmod2']
+        }
+        convert_php_extensions(ctx)
+        eq_('extension=mod1.so\nextension=mod2.so\nextension=mod3.so',
+            ctx['PHP_EXTENSIONS'])
+        eq_('zend_extension="zmod1.so"\nzend_extension="zmod2.so"',
+            ctx['ZEND_EXTENSIONS'])
+
+    def test_convert_php_extensions_54_none(self):
+        ctx = {
+            'PHP_VERSION': '5.4.x',
             'PHP_EXTENSIONS': [],
             'ZEND_EXTENSIONS': []
         }
@@ -127,8 +141,19 @@ class TestCompileHelpers(object):
         eq_('', ctx['PHP_EXTENSIONS'])
         eq_('', ctx['ZEND_EXTENSIONS'])
 
-    def test_convert_php_extensions_one(self):
+    def test_convert_php_extensions_55_none(self):
         ctx = {
+            'PHP_VERSION': '5.5.x',
+            'PHP_EXTENSIONS': [],
+            'ZEND_EXTENSIONS': []
+        }
+        convert_php_extensions(ctx)
+        eq_('', ctx['PHP_EXTENSIONS'])
+        eq_('', ctx['ZEND_EXTENSIONS'])
+
+    def test_convert_php_extensions_54_one(self):
+        ctx = {
+            'PHP_VERSION': '5.4.x',
             'PHP_EXTENSIONS': ['mod1'],
             'ZEND_EXTENSIONS': ['zmod1']
         }
@@ -136,6 +161,17 @@ class TestCompileHelpers(object):
         eq_('extension=mod1.so', ctx['PHP_EXTENSIONS'])
         eq_('zend_extension="@HOME/php/lib/php/extensions/'
             'no-debug-non-zts-20100525/zmod1.so"',
+            ctx['ZEND_EXTENSIONS'])
+
+    def test_convert_php_extensions_55_one(self):
+        ctx = {
+            'PHP_VERSION': '5.5.x',
+            'PHP_EXTENSIONS': ['mod1'],
+            'ZEND_EXTENSIONS': ['zmod1']
+        }
+        convert_php_extensions(ctx)
+        eq_('extension=mod1.so', ctx['PHP_EXTENSIONS'])
+        eq_('zend_extension="zmod1.so"',
             ctx['ZEND_EXTENSIONS'])
 
     def test_build_php_environment(self):
