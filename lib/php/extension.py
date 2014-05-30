@@ -69,7 +69,7 @@ def compile(install):
             .from_application('php/etc/php.ini')
             .find_modules_with_regex('^zend_extension=(.*).so$')
             .from_application('php/etc/php.ini')
-            .find_modules_with_regex('^zend_extension=".*/(.*).so"$')
+            .find_modules_with_regex('^zend_extension="(?:.*/)?(.*).so"$')
             .from_application('php/etc/php.ini')
             .include_modules_from('PHP_MODULES')
             .include_module(is_web_app(ctx) and 'fpm' or 'cli')
