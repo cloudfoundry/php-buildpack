@@ -52,19 +52,40 @@ class ComposerTool(object):
 
     def detect(self):
         tfs = TextFileSearch('composer.json')
-        return tfs.search(self._ctx['HOME'])
+        return tfs.search(os.path.join(self._ctx['BUILD_DIR'], 'htdocs'))
 
     def install(self):
-        self._builder.install._installer.install_binary_direct(
+        self._builder.install().modules('PHP').include_module('cli').done()
+        self._builder.install()._installer.install_binary_direct(
             self._ctx['COMPOSER_DOWNLOAD_URL'],
             self._ctx['COMPOSER_HASH_URL'],
-            os.path.join(self._ctx['HOME'], 'php', 'bin'))
+            os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
+            extract=False)
 
     def run(self):
-        check_output(
-            [os.path.join(self._ctx['HOME'], 'php', 'bin', 'php'),
-             os.path.join(self._ctx['HOME'], 'php', 'bin', 'composer.phar'),
-             'install', '--no-progress'])
+        (self._builder.move()
+            .under('{BUILD_DIR}/htdocs')
+            .where_name_is('composer.json')
+            .into('BUILD_DIR')
+         .done())
+        (self._builder.move()
+            .under('{BUILD_DIR}/htdocs')
+            .where_name_is('composer.lock')
+            .into('BUILD_DIR')
+         .done())
+        # need to rewrite a temp version of php.ini and use that as the "-c" 
+        #  argument here.  php.ini has "@{HOME}" ref, @{HOME} needs to be 
+        #  /tmp/staged/app (BUILD_DIR)
+        try:
+            output = check_output(
+                [os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php'),
+                 '-c "%s"' % os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc'),
+                 os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'composer.phar'),
+                 'install', '--no-progress'],
+                cwd=self._ctx['BUILD_DIR'])
+            _log.debug('composer output [%s]', output)
+        except Exception, e:
+            _log.error("Command Failed: %s", e.output)
 
 
 # Extension Methods
