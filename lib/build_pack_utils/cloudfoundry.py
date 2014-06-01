@@ -122,7 +122,8 @@ class CloudFoundryInstaller(object):
         return urlparse(val).scheme != ''
 
     def install_binary_direct(self, url, hsh, installDir,
-                              fileName=None, strip=False):
+                              fileName=None, strip=False,
+                              extract=True):
         self._log.debug("Installing direct [%s]", url)
         if not fileName:
             fileName = url.split('/')[-1]
@@ -141,9 +142,13 @@ class CloudFoundryInstaller(object):
             self._dwn.download(url, fileToInstall)
             digest = self._hashUtil.calculate_hash(fileToInstall)
             fileToInstall = self._dcm.put(fileName, fileToInstall, digest)
-        return self._unzipUtil.extract(fileToInstall,
-                                       installDir,
-                                       strip)
+        if extract:
+            return self._unzipUtil.extract(fileToInstall,
+                                           installDir,
+                                           strip)
+        else:
+            shutil.copy(fileToInstall, installDir)
+            return installDir
 
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)
