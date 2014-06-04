@@ -64,8 +64,8 @@ class TestComposer(object):
             ct.run()
             eq_(2, len(builder.move.calls()))
             assert co.calls().once()
-            eq_('install', co.calls()[0].args[0][2])
-            eq_('--no-progress', co.calls()[0].args[0][3])
+            eq_('install', co.calls()[0].args[0][3])
+            eq_('--no-progress', co.calls()[0].args[0][4])
         finally:
             self.ct.check_output = old_check_output
 
