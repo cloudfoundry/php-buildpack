@@ -47,8 +47,8 @@ def setup_htdocs_if_it_doesnt_exist(ctx):
                 '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp-config'))
             fu.where_name_does_not_match(
                 '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
-            fu.where_name_does_not_match(
-                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'lib'))
+            #fu.where_name_does_not_match(
+            #    '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'lib'))
             fu.done()
 
 
