@@ -47,6 +47,9 @@ class IoncubeInstaller(object):
             self._log.exception("Error installing Ioncube module! "
                                 "Ioncube module will not be available.")
 
+    def can_install(self):
+        return self._php_arch == 'x64' and int(self._php_api) >= 20100525
+
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
             if key not in self._ctx:
@@ -114,7 +117,7 @@ def service_environment(ctx):
 def compile(install):
     ioncube = IoncubeInstaller(install.builder._ctx)
     # support for x64 environnement only & PHP 54/55 for now
-    if self._php_arch == 'x64' and int(self._php_api) >= 20100525:
+    if ioncube.can_install():
         _log.info("Installing Ioncube module")
         install.package('IONCUBE')
         _log.info("Configuring Ioncube module in php.ini")
