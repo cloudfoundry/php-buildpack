@@ -47,6 +47,9 @@ class CodizyInstaller(object):
             self._log.exception("Error installing Codizy module! "
                                 "Codizy module will not be available.")
 
+    def can_install(self):
+        return self._php_arch == 'x64' and int(self._php_api) >= 20100525
+
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
             if key not in self._ctx:
@@ -111,7 +114,7 @@ def service_environment(ctx):
 def compile(install):
     codizy = CodizyInstaller(install.builder._ctx)
     # support for x64 environnement only & PHP 54/55 for now
-    if self._php_arch == 'x64' and int(self._php_api) >= 20100525:
+    if codizy.can_install():
         _log.info("Installing Codizy module")
         install.package('CODIZY')
         _log.info("Configuring Codizy module in php.ini")
