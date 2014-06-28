@@ -1,6 +1,0 @@
-# Ignore everything in this directory
-#   NewRelic has no config files.
-#   The folder is necessary though because binaries looks at the 
-#   config version folders to determine the latest version.
-#
-!.gitignore
