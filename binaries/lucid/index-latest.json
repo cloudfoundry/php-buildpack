@@ -388,9 +388,9 @@
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.6.0/nginx-1.6.0.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.6.0/nginx-1.6.0.tar.gz.sha1"
         ], 
-        "1.7.2": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.2/nginx-1.7.2.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.2/nginx-1.7.2.tar.gz.sha1"
+        "1.7.3": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.3/nginx-1.7.3.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.7.3/nginx-1.7.3.tar.gz.sha1"
         ], 
         "1.5.13": [
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/nginx/1.5.13/nginx-1.5.13.tar.gz", 
@@ -401,6 +401,6 @@
         "4.9.0.54": [
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.9.0.54/newrelic-php5-4.9.0.54-linux.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.9.0.54/newrelic-php5-4.9.0.54-linux.tar.gz.sha1"
-        ]
+        ] 
     }
 }
