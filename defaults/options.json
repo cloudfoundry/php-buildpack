@@ -1,7 +1,7 @@
 {
     "CACHE_HASH_ALGORITHM": "sha1",
     "STACK": "lucid",
-    "DOWNLOAD_URL": "https://dl.dropboxusercontent.com/u/186123235/binaries/{STACK}",
+    "DOWNLOAD_URL": "http://php-bp-proxy.cfapps.io/files/{STACK}",
     "WEB_SERVER": "httpd",
     "PHP_VM": "php",
     "ADMIN_EMAIL": "admin@localhost",
