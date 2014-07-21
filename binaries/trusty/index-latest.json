@@ -395,9 +395,8 @@
         ]
     }, 
     "newrelic": {
-        "4.9.0.54": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/newrelic/4.9.0.54/newrelic-php5-4.9.0.54-linux.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/newrelic/4.9.0.54/newrelic-php5-4.9.0.54-linux.tar.gz.sha1"
+        "4.10.1.62": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/newrelic/4.10.1.62/newrelic-php5-4.10.1.62-linux.tar.gz"
         ]
     }
 }

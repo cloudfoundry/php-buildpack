@@ -1124,17 +1124,9 @@
         ]
     }, 
     "newrelic": {
-        "4.8.0.47": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.8.0.47/newrelic-php5-4.8.0.47-linux.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.8.0.47/newrelic-php5-4.8.0.47-linux.tar.gz.sha1"
-        ], 
-        "4.9.0.54": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.9.0.54/newrelic-php5-4.9.0.54-linux.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.9.0.54/newrelic-php5-4.9.0.54-linux.tar.gz.sha1"
-        ], 
-        "4.6.5.40": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.6.5.40/newrelic-php5-4.6.5.40-linux.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.6.5.40/newrelic-php5-4.6.5.40-linux.tar.gz.sha1"
+        "4.10.1.62": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.10.1.62/newrelic-php5-4.10.1.62-linux.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/newrelic/4.10.1.62/newrelic-php5-4.10.1.62-linux.tar.gz.sha1"
         ]
     }
 }
