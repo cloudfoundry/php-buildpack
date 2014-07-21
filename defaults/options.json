@@ -5,7 +5,7 @@
     "WEB_SERVER": "httpd",
     "PHP_VM": "php",
     "ADMIN_EMAIL": "admin@localhost",
-    "HTTPD_VERSION": "2.4.9",
+    "HTTPD_VERSION": "2.4.10",
     "HTTPD_PACKAGE": "httpd-{HTTPD_VERSION}.tar.gz",
     "HTTPD_DOWNLOAD_URL": "{DOWNLOAD_URL}/httpd/{HTTPD_VERSION}/{HTTPD_PACKAGE}",
     "HTTPD_STRIP": "true",
