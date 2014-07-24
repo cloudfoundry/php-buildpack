@@ -96,6 +96,7 @@ Here are some example applications that can be used with this build pack.
   - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
   - [CodeIgniter]  CodeIgniter tutorial application running on CF
   - [Stand Alone]  An example which runs a stand alone PHP script
+  - [pgbouncer]  An example which runs the pgbouncer process in the container to pool db connections.
 
 ## Getting Help
 
@@ -142,6 +143,7 @@ The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache Lic
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
 [CodeIgniter]:https://github.com/dmikusa-pivotal/cf-ex-code-igniter
 [Stand Alone]:https://github.com/dmikusa-pivotal/cf-ex-stand-alone
+[pgbouncer]:https://github.com/dmikusa-pivotal/cf-ex-pgbouncer
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
 [vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
 [support forums]:http://support.run.pivotal.io/home
