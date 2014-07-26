@@ -12,6 +12,7 @@ from cache import DirectoryCacheManager
 from downloads import Downloader
 from downloads import CurlDownloader
 from utils import safe_makedirs
+from utils import find_git_url
 
 
 _log = logging.getLogger('cloudfoundry')
@@ -53,6 +54,9 @@ class CloudFoundryUtil(object):
         CloudFoundryUtil.init_logging(ctx)
         _log.info('CloudFoundry Initialized.')
         _log.debug("CloudFoundry Context Setup [%s]", ctx)
+        # Git URL, if one exists
+        ctx['BP_GIT_URL'] = find_git_url(ctx['BP_DIR'])
+        _log.info('Build Pack Version: %s', ctx['BP_GIT_URL'])
         return ctx
 
     @staticmethod
@@ -122,7 +126,8 @@ class CloudFoundryInstaller(object):
         return urlparse(val).scheme != ''
 
     def install_binary_direct(self, url, hsh, installDir,
-                              fileName=None, strip=False):
+                              fileName=None, strip=False,
+                              extract=True):
         self._log.debug("Installing direct [%s]", url)
         if not fileName:
             fileName = url.split('/')[-1]
@@ -141,9 +146,13 @@ class CloudFoundryInstaller(object):
             self._dwn.download(url, fileToInstall)
             digest = self._hashUtil.calculate_hash(fileToInstall)
             fileToInstall = self._dcm.put(fileName, fileToInstall, digest)
-        return self._unzipUtil.extract(fileToInstall,
-                                       installDir,
-                                       strip)
+        if extract:
+            return self._unzipUtil.extract(fileToInstall,
+                                           installDir,
+                                           strip)
+        else:
+            shutil.copy(fileToInstall, installDir)
+            return installDir
 
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)
