@@ -85,7 +85,6 @@ def rewrite_cfgs(toPath, ctx, delim='#'):
                 rewrite_with_template(RewriteTemplate, cfgPath, ctx)
     else:
         _log.info("Rewriting configuration file [%s]", toPath)
-        safe_makedirs(os.path.dirname(toPath))
         rewrite_with_template(RewriteTemplate, toPath, ctx)
 
 
