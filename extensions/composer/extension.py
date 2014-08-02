@@ -78,7 +78,8 @@ class ComposerTool(object):
         #  /tmp/staged/app (BUILD_DIR)
         try:
             output = check_output(
-                [os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php'),
+                ['HOME=%s' % self._ctx['BUILD_DIR'],
+                 os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php'),
                  '-c "%s"' % os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc'),
                  os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'composer.phar'),
                  'install', '--no-progress'],
