@@ -28,7 +28,7 @@ _log = logging.getLogger('composer')
 
 DEFAULTS = {
     'COMPOSER_HOST': 'getcomposer.org',
-    'COMPOSER_VERSION': '1.0.0-8',
+    'COMPOSER_VERSION': '1.0.0-alpha8',
     'COMPOSER_PACKAGE': 'composer.phar',
     'COMPOSER_DOWNLOAD_URL': 'https://{COMPOSER_HOST}/download/'
                              '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',
