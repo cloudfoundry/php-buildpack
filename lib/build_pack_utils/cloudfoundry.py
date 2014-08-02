@@ -12,6 +12,7 @@ from cache import DirectoryCacheManager
 from downloads import Downloader
 from downloads import CurlDownloader
 from utils import safe_makedirs
+from utils import find_git_url
 
 
 _log = logging.getLogger('cloudfoundry')
@@ -53,6 +54,9 @@ class CloudFoundryUtil(object):
         CloudFoundryUtil.init_logging(ctx)
         _log.info('CloudFoundry Initialized.')
         _log.debug("CloudFoundry Context Setup [%s]", ctx)
+        # Git URL, if one exists
+        ctx['BP_GIT_URL'] = find_git_url(ctx['BP_DIR'])
+        _log.info('Build Pack Version: %s', ctx['BP_GIT_URL'])
         return ctx
 
     @staticmethod

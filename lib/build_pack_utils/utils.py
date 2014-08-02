@@ -3,6 +3,7 @@ import shutil
 import imp
 import logging
 from string import Template
+from runner import check_output
 
 
 _log = logging.getLogger('utils')
@@ -85,6 +86,20 @@ def rewrite_cfgs(toPath, ctx, delim='#'):
     else:
         _log.info("Rewriting configuration file [%s]", toPath)
         rewrite_with_template(RewriteTemplate, toPath, ctx)
+
+
+def find_git_url(bp_dir):
+    if os.path.exists(os.path.join(bp_dir, '.git')):
+        try:
+            url = check_output(['git', '--git-dir=%s/.git' % bp_dir,
+                                'config', '--get', 'remote.origin.url'])
+            commit = check_output(['git', '--git-dir=%s/.git' % bp_dir,
+                                   'rev-parse', '--short', 'HEAD'])
+            if url and commit:
+                return "%s#%s" % (url.strip(), commit.strip())
+        except OSError:
+            _log.debug("Git does not seem to be installed / available",
+                       exc_info=True)
 
 
 class FormattedDictWrapper(object):
