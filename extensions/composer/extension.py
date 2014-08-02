@@ -19,6 +19,7 @@ Downloads, installs and runs Composer.
 import os
 import os.path
 import logging
+from build_pack_utils import utils
 from build_pack_utils import TextFileSearch
 from build_pack_utils import check_output
 
@@ -73,14 +74,17 @@ class ComposerTool(object):
             .where_name_is('composer.lock')
             .into('BUILD_DIR')
          .done())
+        # rewrite a temp copy of php.ini for use by composer
+        utils.rewrite_cfgs(os.path.join(self._ctx['BUILD_DIR'], self._ctx['TMPDIR'], 'php.ini'),
+                           self._ctx,
+                           delim='@')
         # need to rewrite a temp version of php.ini and use that as the "-c" 
         #  argument here.  php.ini has "@{HOME}" ref, @{HOME} needs to be 
         #  /tmp/staged/app (BUILD_DIR)
         try:
             output = check_output(
-                ['HOME=%s' % self._ctx['BUILD_DIR'],
-                 os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php'),
-                 '-c "%s"' % os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc'),
+                [os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php'),
+                 '-c "%s"' % os.path.join(self._ctx['TMPDIR'], 'php.ini'),
                  os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'composer.phar'),
                  'install', '--no-progress'],
                 cwd=self._ctx['BUILD_DIR'])
