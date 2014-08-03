@@ -64,6 +64,7 @@ class ComposerTool(object):
             extract=False)
 
     def run(self):
+        # Move composer files out of htdocs
         (self._builder.move()
             .under('{BUILD_DIR}/htdocs')
             .where_name_is('composer.json')
@@ -84,26 +85,32 @@ class ComposerTool(object):
                            {'TMPDIR': self._ctx['TMPDIR'],
                             'HOME': self._ctx['BUILD_DIR']},
                            delim='@')
-        # need to rewrite a temp version of php.ini and use that as the "-c" 
-        #  argument here.  php.ini has "@{HOME}" ref, @{HOME} needs to be 
-        #  /tmp/staged/app (BUILD_DIR)
-        #
         # Run from /tmp/staged/app
-        #  LD_LIBRARY_PATH=./php/lib ./php/bin/php -c "/tmp/php.ini" ./php/bin/composer.phar install
-        # add /tmp/staged/app/vendor ($HOME/vendor in runtime) to include path
         try:
-            output = check_output(
-                ' '.join([os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php'),
-                 '-c "%s"' % os.path.join(self._ctx['TMPDIR'], 'php.ini'),
-                 os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'composer.phar'),
-                 'install', '--no-progress']),
-                env={'LD_LIBRARY_PATH': os.path.join(self._ctx['BUILD_DIR'], 'php', 'lib'),
-                     'HOME': self._ctx['BUILD_DIR'],
-                     'COMPOSER_VENDOR_DIR': os.path.join(self._ctx['BUILD_DIR'], 'lib', 'vendor'),
-                     'COMPOSER_BIN_DIR': os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
-                     'COMPOSER_CACHE_DIR': os.path.join(self._ctx['CACHE_DIR'], 'composer')},
-                cwd=self._ctx['BUILD_DIR'],
-                shell=True)
+            phpPath = os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php')
+            phpCfg = os.path.join(self._ctx['TMPDIR'], 'php.ini')
+            composerPath = os.path.join(self._ctx['BUILD_DIR'], 'php',
+                                        'bin', 'composer.phar')
+            composerEnv = {
+                'LD_LIBRARY_PATH': os.path.join(self._ctx['BUILD_DIR'],
+                                                'php', 'lib'),
+                'HOME': self._ctx['BUILD_DIR'],
+                'COMPOSER_VENDOR_DIR': os.path.join(self._ctx['BUILD_DIR'],
+                                                    'lib', 'vendor'),
+                'COMPOSER_BIN_DIR': os.path.join(self._ctx['BUILD_DIR'],
+                                                 'php', 'bin'),
+                'COMPOSER_CACHE_DIR': os.path.join(self._ctx['CACHE_DIR'],
+                                                   'composer')
+            }
+            composerCmd = ' '.join([phpPath,
+                                    '-c "%s"' % phpCfg,
+                                    composerPath,
+                                    'install',
+                                    '--no-progress'])
+            output = check_output(composerCmd,
+                                  env=composerEnv,
+                                  cwd=self._ctx['BUILD_DIR'],
+                                  shell=True)
             _log.debug('composer output [%s]', output)
         except Exception, e:
             _log.error("Command Failed: %s", e.output)
