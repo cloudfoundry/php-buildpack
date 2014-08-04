@@ -27,7 +27,7 @@ _log = logging.getLogger('codizy-client')
 DEFAULTS = {
     "CODIZY_CLIENT_VERSION": "1.1",
     "CODIZY_CLIENT_PACKAGE": "Codizy-codizy.tar.gz",
-    "CODIZY_CLIENT_DOWNLOAD_URL": "https://www.codizy.com/download/marketplace-codizy/{CODIZY_PACKAGE}",
+    "CODIZY_CLIENT_DOWNLOAD_URL": "https://www.codizy.com/download/marketplace-codizy/{CODIZY_CLIENT_PACKAGE}",
     "CODIZY_CLIENT_STRIP": False
 }
 
