@@ -53,7 +53,9 @@ class ComposerTool(object):
 
     def detect(self):
         tfs = TextFileSearch('composer.json')
-        return tfs.search(os.path.join(self._ctx['BUILD_DIR'], 'htdocs'))
+        htdocs = os.path.join(self._ctx['BUILD_DIR'], 'htdocs')
+        if os.path.exists(htdocs):
+            return tfs.search(htdocs)
 
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()
