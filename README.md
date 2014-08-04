@@ -6,7 +6,7 @@ This is the next generation build pack for running PHP applications on CloudFoun
 
 ## 30 Second Tutorial
 
-Getting started with the build pack is easy.  With the cf command line utility installed, open a shell, change directories to the root of your PHP files and push your application using the argument `-b https://github.com/dmikusa-pivotal/cf-php-build-pack.git`.
+Getting started with the build pack is easy.  With the cf command line utility installed, open a shell, change directories to the root of your PHP files and push your application using the argument `-b https://github.com/codizy-software/cf-php-build-pack.git`.
 
 Example:
 
@@ -18,7 +18,7 @@ cat << EOF > index.php
   phpinfo();
 ?>
 EOF
-cf push -m 128M -b https://github.com/jocel1/cf-php-build-pack.git my-php-app
+cf push -m 128M -b https://github.com/codizy-software/cf-php-build-pack.git my-php-app
 ```
 
 Please note that you should change *my-php-app* to some unique name, otherwise you'll get an error and the push will fail.
@@ -84,6 +84,10 @@ Here's a list of the major features of the build pack.
   - allows for application developers to provide custom extensions
   - support NewRelic through an extension
   - NewRelic support works for bound services or when manually specifying a license key
+  - support Codizy through an extension
+  - support Ioncube through an extension
+  - support XHprof through an extension
+  - Codizy support works for bound services
   - easy troubleshooting with the BP_DEBUG environment variable
   - all logging output is routed through stderr & stdout which is sent to loggregator
 
@@ -116,10 +120,10 @@ applications:
   instances: 1
   host: my-php-app
   path: .
-  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack#v1.0
+  buildpack: https://github.com/codizy-software/cf-php-build-pack#v1.0
 ```
 
-The benefit of using a release branche is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
+The benefit of using a release branch is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
 
 Because this build pack is a project that I maintain in my spare time and I do not have infinite resources, I will only commit to maintaining the most recent release branch.  Older branches will continue to exist and can continue to be used, but will not receive security updates.  When a branch is no longer being maintained, the compile script will output a message when it is run to let you know that it's time to upgrade.
 
@@ -132,12 +136,12 @@ This project is managed through Github.  If you encounter any issues, bug or pro
 The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache License].
 
 
-[CF PHP & Apache Build Pack]:https://github.com/dmikusa-pivotal/cf-php-apache-buildpack
-[Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
-[Development]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md
-[Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/troubleshooting.md
-[Usage]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/usage.md
-[Binaries]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/binaries.md
+[CF PHP & Apache Build Pack]:https://github.com/codizy-software/cf-php-apache-buildpack
+[Configuration Options]:https://github.com/codizy-software/cf-php-build-pack/blob/master/docs/config.md
+[Development]:https://github.com/codizy-software/cf-php-build-pack/blob/master/docs/development.md
+[Troubleshooting]:https://github.com/codizy-software/cf-php-build-pack/blob/master/docs/troubleshooting.md
+[Usage]:https://github.com/codizy-software/cf-php-build-pack/blob/master/docs/usage.md
+[Binaries]:https://github.com/codizy-software/cf-php-build-pack/blob/master/docs/binaries.md
 [php-info]:https://github.com/dmikusa-pivotal/cf-ex-php-info
 [PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
