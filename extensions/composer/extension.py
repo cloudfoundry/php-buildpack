@@ -80,10 +80,11 @@ class ComposerTool(object):
         # Sanity Checks
         if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
                                            'composer.lock')):
-            self._log.warning(
-                'PROTIP: Include a `composer.lock` file with your application!'
-                ' This will make sure the exact same version of dependencies '
-                'are used when you deploy to CloudFoundry.')
+            msg = ('PROTIP: Include a `composer.lock` file with your '
+                'application! This will make sure the exact same version '
+                'of dependencies are used when you deploy to CloudFoundry.')
+            self._log.warning(msg)
+            print msg
         # rewrite a temp copy of php.ini for use by composer
         (self._builder.copy()
             .under('{BUILD_DIR}/php/etc')
@@ -117,6 +118,7 @@ class ComposerTool(object):
                            'install',
                            '--no-progress']
             composerCmd.extend(self._ctx['COMPOSER_INSTALL_OPTIONS'])
+            self._log.debug("Running [%s]", ' '.join(composerCmd))
             output = check_output(' '.join(composerCmd),
                                   env=composerEnv,
                                   cwd=self._ctx['BUILD_DIR'],
