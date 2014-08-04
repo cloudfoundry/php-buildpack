@@ -36,6 +36,13 @@ Here's a breakdown of what happens when you run the example above.
     - Apache HTTPD & PHP 5.4 are downloaded, configured with the build pack defaults and run.
     - Your application is accessible at the URL http://<app-name>.cfapps.io (assuming your targeted towards Pivotal Web Services).
 
+## How to use Codizy
+
+Just add ?Codizy=on on a url served by a php url.
+  - You'll be prompted to create a new Codizy Account or use an existing one
+  - Once your account created, a trial version of Codizy will be downloaded
+  - Then create a local Codizy account, and you'll access to full power of Codizy
+
 ## More Information
 
 While the *30 Second Tutorial* shows how quick and easy it is to get started using the build pack, it skips over quite a bit of what you can do to adjust, configure and extend the build pack.  The following docs and links provide a more in-depth look at the build pack.
