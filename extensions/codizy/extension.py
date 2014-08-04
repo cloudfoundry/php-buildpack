@@ -25,7 +25,7 @@ _log = logging.getLogger('codizy')
 
 
 DEFAULTS = {
-    "CODIZY_VERSION": "1.3",
+    "CODIZY_VERSION": "1.4",
     "CODIZY_PACKAGE": "codizy-{CODIZY_VERSION}.tar.gz",
     "CODIZY_DOWNLOAD_URL": "https://www.codizy.com/download/module/{CODIZY_PACKAGE}",
     "CODIZY_STRIP": False
