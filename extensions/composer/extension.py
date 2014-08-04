@@ -66,13 +66,6 @@ class ComposerTool(object):
             extract=False)
 
     def run(self):
-        # Sanity Checks
-        if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
-                                           'composer.lock')):
-            self._log.warning(
-                'PROTIP: Include a `composer.lock` file with your application!'
-                'This will make sure the exact same version of dependencies '
-                'are used when you deploy to CloudFoundry.')
         # Move composer files out of htdocs
         (self._builder.move()
             .under('{BUILD_DIR}/htdocs')
@@ -84,6 +77,13 @@ class ComposerTool(object):
             .where_name_is('composer.lock')
             .into('BUILD_DIR')
          .done())
+        # Sanity Checks
+        if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
+                                           'composer.lock')):
+            self._log.warning(
+                'PROTIP: Include a `composer.lock` file with your application!'
+                ' This will make sure the exact same version of dependencies '
+                'are used when you deploy to CloudFoundry.')
         # rewrite a temp copy of php.ini for use by composer
         (self._builder.copy()
             .under('{BUILD_DIR}/php/etc')
