@@ -35,7 +35,7 @@ DEFAULTS = {
                              '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',
     'COMPOSER_HASH_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
                          '{COMPOSER_PACKAGE}.{CACHE_HASH_ALGORITHM}',
-    'COMPOSER_INSTALL_OPTIONS': ''
+    'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev']
 }
 
 
@@ -104,12 +104,13 @@ class ComposerTool(object):
                 'COMPOSER_CACHE_DIR': os.path.join(self._ctx['CACHE_DIR'],
                                                    'composer')
             }
-            composerCmd = ' '.join([phpPath,
-                                    '-c "%s"' % phpCfg,
-                                    composerPath,
-                                    'install',
-                                    '--no-progress'])
-            output = check_output(composerCmd,
+            composerCmd = [phpPath,
+                           '-c "%s"' % phpCfg,
+                           composerPath,
+                           'install',
+                           '--no-progress']
+            composerCmd.extend(self._ctx['COMPOSER_INSTALL_OPTIONS'])
+            output = check_output(' '.join(composerCmd),
                                   env=composerEnv,
                                   cwd=self._ctx['BUILD_DIR'],
                                   shell=True)

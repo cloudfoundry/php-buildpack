@@ -67,8 +67,39 @@ class TestComposer(object):
             ct.run()
             eq_(2, len(builder.move.calls()))
             assert co.calls().once()
-            assert co.calls()[0].args[0].find('install') > 0
-            assert co.calls()[0].args[0].find('--no-progress') > 0
+            instCmd = co.calls()[0].args[0]
+            assert instCmd.find('install') > 0
+            assert instCmd.find('--no-progress') > 0
+            assert instCmd.find('--no-interaction') > 0
+            assert instCmd.find('--no-dev') > 0
+        finally:
+            self.ct.check_output = old_check_output
+
+    def test_composer_tool_run_custom_compiser_opts(self):
+        ctx =  utils.FormattedDict({
+            'DOWNLOAD_URL': 'http://server/bins',
+            'CACHE_HASH_ALGORITHM': 'sha1',
+            'BUILD_DIR': '/build/dir',
+            'CACHE_DIR': '/cache/dir',
+            'TMPDIR': tempfile.gettempdir(),
+            'COMPOSER_INSTALL_OPTIONS': ['--optimize-autoloader']
+        })
+        builder = Dingus(_ctx=ctx)
+        old_check_output = self.ct.check_output
+        co = Dingus()
+        self.ct.check_output = co
+        try:
+            ct = self.ct.ComposerTool(builder)
+            ct.run()
+            eq_(2, len(builder.move.calls()))
+            assert co.calls().once()
+            instCmd = co.calls()[0].args[0]
+            print instCmd 
+            assert instCmd.find('install') > 0
+            assert instCmd.find('--no-progress') > 0
+            assert instCmd.find('--no-interaction') == -1
+            assert instCmd.find('--no-dev') == -1
+            assert instCmd.find('--optimize-autoloader') > 0
         finally:
             self.ct.check_output = old_check_output
 
