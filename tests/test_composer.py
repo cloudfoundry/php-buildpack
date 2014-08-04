@@ -75,7 +75,7 @@ class TestComposer(object):
         finally:
             self.ct.check_output = old_check_output
 
-    def test_composer_tool_run_custom_compiser_opts(self):
+    def test_composer_tool_run_custom_composer_opts(self):
         ctx =  utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
@@ -94,12 +94,38 @@ class TestComposer(object):
             eq_(2, len(builder.move.calls()))
             assert co.calls().once()
             instCmd = co.calls()[0].args[0]
-            print instCmd 
             assert instCmd.find('install') > 0
             assert instCmd.find('--no-progress') > 0
             assert instCmd.find('--no-interaction') == -1
             assert instCmd.find('--no-dev') == -1
             assert instCmd.find('--optimize-autoloader') > 0
+        finally:
+            self.ct.check_output = old_check_output
+
+    def test_composer_tool_run_sanity_checks(self):
+        ctx =  utils.FormattedDict({
+            'DOWNLOAD_URL': 'http://server/bins',
+            'CACHE_HASH_ALGORITHM': 'sha1',
+            'BUILD_DIR': '/build/dir',
+            'CACHE_DIR': '/cache/dir',
+            'TMPDIR': tempfile.gettempdir()
+        })
+        builder = Dingus(_ctx=ctx)
+        old_check_output = self.ct.check_output
+        co = Dingus()
+        self.ct.check_output = co
+        try:
+            ct = self.ct.ComposerTool(builder)
+            ct._log = Dingus()
+            ct.run()
+            assert len(ct._log.warning.calls()) > 0
+            assert ct._log.warning.calls()[0].args[0].find('PROTIP:') == 0
+            exists = Dingus(return_value=True)
+            with patch('os.path.exists', exists):
+                ct._log = Dingus()
+                ct.run()
+            assert len(exists.calls()) == 1
+            assert len(ct._log.warning.calls()) == 0
         finally:
             self.ct.check_output = old_check_output
 
