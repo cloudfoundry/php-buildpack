@@ -21,9 +21,11 @@ class TestComposer(object):
         })
         builder = Dingus(_ctx=ctx)
         listdir = Dingus(return_value=('composer.json',))
+        exists = Dingus(return_value=True)
         with patch('os.listdir', listdir):
-            ct = self.ct.ComposerTool(builder)
-            assert ct.detect()
+            with patch('os.path.exists', exists):
+                ct = self.ct.ComposerTool(builder)
+                assert ct.detect()
         assert listdir.calls().once()
 
     def test_composer_tool_install(self):
@@ -53,7 +55,8 @@ class TestComposer(object):
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
-            'CACHE_DIR': '/cache/dir'
+            'CACHE_DIR': '/cache/dir',
+            'TMPDIR': tempfile.gettempdir()
         })
         builder = Dingus(_ctx=ctx)
         old_check_output = self.ct.check_output
@@ -64,8 +67,8 @@ class TestComposer(object):
             ct.run()
             eq_(2, len(builder.move.calls()))
             assert co.calls().once()
-            eq_('install', co.calls()[0].args[0][3])
-            eq_('--no-progress', co.calls()[0].args[0][4])
+            assert co.calls()[0].args[0].find('install') > 0
+            assert co.calls()[0].args[0].find('--no-progress') > 0
         finally:
             self.ct.check_output = old_check_output
 
