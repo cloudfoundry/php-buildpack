@@ -59,13 +59,24 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir()
         })
         builder = Dingus(_ctx=ctx)
+        # patch check_output method
         old_check_output = self.ct.check_output
         co = Dingus()
         self.ct.check_output = co
+        # patch utils.rewrite_cfg method
+        old_rewrite = self.ct.utils.rewrite_cfgs
+        rewrite = Dingus()
+        self.ct.utils.rewrite_cfgs = rewrite
         try:
             ct = self.ct.ComposerTool(builder)
             ct.run()
             eq_(2, len(builder.move.calls()))
+            eq_(1, len(builder.copy.calls()))
+            assert rewrite.calls().once()
+            rewrite_args = rewrite.calls()[0].args
+            assert rewrite_args[0].endswith('php.ini')
+            assert 'HOME' in rewrite_args[1]
+            assert 'TMPDIR' in rewrite_args[1]
             assert co.calls().once()
             instCmd = co.calls()[0].args[0]
             assert instCmd.find('install') > 0
@@ -74,6 +85,7 @@ class TestComposer(object):
             assert instCmd.find('--no-dev') > 0
         finally:
             self.ct.check_output = old_check_output
+            self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_composer_tool_run_custom_composer_opts(self):
         ctx =  utils.FormattedDict({
@@ -85,13 +97,24 @@ class TestComposer(object):
             'COMPOSER_INSTALL_OPTIONS': ['--optimize-autoloader']
         })
         builder = Dingus(_ctx=ctx)
+        # patch check_output method
         old_check_output = self.ct.check_output
         co = Dingus()
         self.ct.check_output = co
+        # patch utils.rewrite_cfg method
+        old_rewrite = self.ct.utils.rewrite_cfgs
+        rewrite = Dingus()
+        self.ct.utils.rewrite_cfgs = rewrite
         try:
             ct = self.ct.ComposerTool(builder)
             ct.run()
             eq_(2, len(builder.move.calls()))
+            eq_(1, len(builder.copy.calls()))
+            assert rewrite.calls().once()
+            rewrite_args = rewrite.calls()[0].args
+            assert rewrite_args[0].endswith('php.ini')
+            assert 'HOME' in rewrite_args[1]
+            assert 'TMPDIR' in rewrite_args[1]
             assert co.calls().once()
             instCmd = co.calls()[0].args[0]
             assert instCmd.find('install') > 0
@@ -101,6 +124,7 @@ class TestComposer(object):
             assert instCmd.find('--optimize-autoloader') > 0
         finally:
             self.ct.check_output = old_check_output
+            self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_composer_tool_run_sanity_checks(self):
         ctx =  utils.FormattedDict({
@@ -111,9 +135,14 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir()
         })
         builder = Dingus(_ctx=ctx)
+        # patch check_output method
         old_check_output = self.ct.check_output
         co = Dingus()
         self.ct.check_output = co
+        # patch utils.rewrite_cfg method
+        old_rewrite = self.ct.utils.rewrite_cfgs
+        rewrite = Dingus()
+        self.ct.utils.rewrite_cfgs = rewrite
         try:
             ct = self.ct.ComposerTool(builder)
             ct._log = Dingus()
@@ -128,6 +157,7 @@ class TestComposer(object):
             assert len(ct._log.warning.calls()) == 0
         finally:
             self.ct.check_output = old_check_output
+            self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_process_commands(self):
         eq_(0, len(self.ct.preprocess_commands({})))
