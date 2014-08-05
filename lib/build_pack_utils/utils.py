@@ -1,6 +1,6 @@
 import os
+import sys
 import shutil
-import imp
 import logging
 from string import Template
 from runner import check_output
@@ -42,8 +42,17 @@ def load_processes(path):
 
 def load_extension(path):
     _log.debug("Loading extension from [%s]", path)
-    info = imp.find_module('extension', [path])
-    return imp.load_module('extension', *info)
+    init = os.path.join(path, '__init__.py')
+    if not os.path.exists(init):
+        with open(init, 'w'):
+            pass  # just create an empty file
+    try:
+        sys.path.append(os.path.dirname(path))
+        extn = __import__('%s.extension' % os.path.basename(path),
+                          fromlist=['extension'])
+    finally:
+        sys.path.remove(os.path.dirname(path))
+    return extn
 
 
 def process_extension(path, ctx, to_call, success, args=None, ignore=False):

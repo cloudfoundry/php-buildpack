@@ -162,11 +162,17 @@ class Installer(object):
     def config(self):
         return ConfigInstaller(self)
 
-    def extension(self):
-        return ExtensionInstaller(self)
-
     def extensions(self):
-        return ExtensionInstaller(self)
+        ctx = self.builder._ctx
+        extn_reg = self.builder._extn_reg
+
+        def process(retcode):
+            if retcode != 0:
+                raise RuntimeError('Extension Failed with [%s]' % retcode)
+        for path in extn_reg._paths:
+            process_extension(path, ctx, 'compile', process, args=[self])
+        ctx['EXTENSIONS'].extend(extn_reg._paths)
+        return self
 
     def build_pack_utils(self):
         self._log.info("Installed build pack utils.")
@@ -181,6 +187,24 @@ class Installer(object):
 
     def done(self):
         return self.builder
+
+
+class Register(object):
+    def __init__(self, builder):
+        self._builder = builder
+        self._builder._extn_reg = ExtensionRegister(builder)
+
+    def extension(self):
+        return self._builder._extn_reg
+
+    def extensions(self):
+        return self._builder._extn_reg
+
+    def done(self):
+        def process(resp):
+            pass  # ignore result, don't care
+        for extn in self._builder._extn_reg._paths:
+            process_extension(extn, self._builder._ctx, 'configure', process)
 
 
 class ModuleInstaller(object):
@@ -266,13 +290,11 @@ class ModuleInstaller(object):
         return self._installer
 
 
-class ExtensionInstaller(object):
-    def __init__(self, installer):
-        self._installer = installer
-        self._ctx = installer.builder._ctx
+class ExtensionRegister(object):
+    def __init__(self, builder):
+        self._builder = builder
+        self._ctx = builder._ctx
         self._paths = []
-        self._ignore = True
-        self._log = _log
 
     def from_build_pack(self, path):
         self.from_path(os.path.join(self._ctx['BP_DIR'], path))
@@ -291,20 +313,6 @@ class ExtensionInstaller(object):
                 for p in os.listdir(path):
                     self._paths.append(os.path.abspath(os.path.join(path, p)))
         return self
-
-    def ignore_errors(self, ignore):
-        self._ignore = ignore
-        return self
-
-    def done(self):
-        def process(retcode):
-            if retcode != 0:
-                raise RuntimeError('Extension Failed with [%s]' % retcode)
-        for path in self._paths:
-            process_extension(path, self._ctx, 'compile', process,
-                              args=[self._installer])
-        self._ctx['EXTENSIONS'].extend(self._paths)
-        return self._installer
 
 
 class ConfigInstaller(object):
@@ -850,6 +858,9 @@ class Builder(object):
 
     def install(self):
         return Installer(self)
+
+    def register(self):
+        return Register(self)
 
     def run(self):
         return Runner(self)
