@@ -205,6 +205,7 @@ class Register(object):
             pass  # ignore result, don't care
         for extn in self._builder._extn_reg._paths:
             process_extension(extn, self._builder._ctx, 'configure', process)
+        return self._builder
 
 
 class ModuleInstaller(object):
