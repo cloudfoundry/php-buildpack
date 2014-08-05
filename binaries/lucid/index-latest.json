@@ -420,9 +420,9 @@
         ]
     },
     "codizy": {
-        "1.4": [
-            "https://www.codizy.com/download/module/codizy-1.4.tar.gz",
-            "https://www.codizy.com/download/module/codizy-1.4.tar.gz.sha1"
+        "1.3": [
+            "https://www.codizy.com/download/module/codizy-1.3.tar.gz",
+            "https://www.codizy.com/download/module/codizy-1.3.tar.gz.sha1"
         ],
     },
     "codizy-client": {
