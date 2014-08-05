@@ -192,7 +192,7 @@ class Installer(object):
 class Register(object):
     def __init__(self, builder):
         self._builder = builder
-        self._builder._extn_reg = ExtensionRegister(builder)
+        self._builder._extn_reg = ExtensionRegister(builder, self)
 
     def extension(self):
         return self._builder._extn_reg
@@ -291,18 +291,17 @@ class ModuleInstaller(object):
 
 
 class ExtensionRegister(object):
-    def __init__(self, builder):
+    def __init__(self, builder, reg):
         self._builder = builder
         self._ctx = builder._ctx
         self._paths = []
+        self._reg = reg
 
     def from_build_pack(self, path):
-        self.from_path(os.path.join(self._ctx['BP_DIR'], path))
-        return self
+        return self.from_path(os.path.join(self._ctx['BP_DIR'], path))
 
     def from_application(self, path):
-        self.from_path(os.path.join(self._ctx['BUILD_DIR'], path))
-        return self
+        return self.from_path(os.path.join(self._ctx['BUILD_DIR'], path))
 
     def from_path(self, path):
         path = self._ctx.format(path)
@@ -312,7 +311,7 @@ class ExtensionRegister(object):
             else:
                 for p in os.listdir(path):
                     self._paths.append(os.path.abspath(os.path.join(path, p)))
-        return self
+        return self._reg
 
 
 class ConfigInstaller(object):
