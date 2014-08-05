@@ -338,7 +338,7 @@ class TestCompileStandAlone(BaseTestCompile):
         # set web server & php version
         optsFile = os.path.join(bp.bp_dir, 'defaults', 'options.json')
         self.set_web_server(optsFile, 'none')
-        self.set_php_version(optsFile, '5.4.27')
+        self.set_php_version(optsFile, '5.4.31')
         try:
             output = ''
             output = bp._compile()
