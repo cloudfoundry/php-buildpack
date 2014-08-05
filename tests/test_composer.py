@@ -197,3 +197,19 @@ class TestComposer(object):
             eq_(0, len(composer.return_value.run.calls()))
         finally:
             self.ct.ComposerTool = old_composer_tool
+
+    def test_configure(self):
+        ctx = {}
+        self.ct.ComposerTool.configure(ctx)
+        assert 'PHP_EXTENSIONS' in ctx.keys()
+        assert list == type(ctx['PHP_EXTENSIONS'])
+        assert 1 == len(ctx['PHP_EXTENSIONS'])
+        assert 'openssl' == ctx['PHP_EXTENSIONS'][0]
+        ctx = {
+            'PHP_EXTENSIONS': ['a', 'b']
+        }
+        self.ct.ComposerTool.configure(ctx)
+        assert 'PHP_EXTENSIONS' in ctx.keys()
+        assert list == type(ctx['PHP_EXTENSIONS'])
+        assert 3 == len(ctx['PHP_EXTENSIONS'])
+        assert 'openssl' == ctx['PHP_EXTENSIONS'][2]

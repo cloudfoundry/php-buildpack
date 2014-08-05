@@ -51,6 +51,13 @@ class ComposerTool(object):
             if key not in self._ctx:
                 self._ctx[key] = val
 
+    @staticmethod
+    def configure(ctx):
+        # add 'openssl' extension
+        exts = ctx.get('PHP_EXTENSIONS', [])
+        exts.append('openssl')
+        ctx['PHP_EXTENSIONS'] = exts
+
     def detect(self):
         tfs = TextFileSearch('composer.json')
         htdocs = os.path.join(self._ctx['BUILD_DIR'], 'htdocs')
@@ -129,6 +136,10 @@ class ComposerTool(object):
 
 
 # Extension Methods
+def configure(ctx):
+    ComposerTool.configure(ctx)
+
+
 def preprocess_commands(ctx):
     return ()
 
