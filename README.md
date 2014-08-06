@@ -45,6 +45,7 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Example Applications](#examples)
   - [Usage]
   - [Configuration Options]
+  - [Composer]
   - [Binaries]
   - [Troubleshooting]
   - [Getting Help](#getting-help)
@@ -147,3 +148,4 @@ The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache Lic
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
 [vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
 [support forums]:http://support.run.pivotal.io/home
+[Composer]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/composer.md
