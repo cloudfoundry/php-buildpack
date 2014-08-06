@@ -143,6 +143,7 @@ class ComposerTool(object):
             else:
                 php_version = \
                     ComposerTool.read_php_version_from_composer_lock(lock_path)
+            _log.debug('Composer picked PHP Version [%s]', php_version)
             ctx['PHP_VERSION'] = ComposerTool.pick_php_version(ctx,
                                                                php_version)
             ctx['PHP_EXTENSIONS'] = list(set(exts))
