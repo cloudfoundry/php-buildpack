@@ -197,7 +197,8 @@ class TestComposer(object):
 
     def test_configure(self):
         ctx = utils.FormattedDict({
-            'BUILD_DIR': 'tests/data/composer'
+            'BUILD_DIR': 'tests/data/composer',
+            'PHP_54_LATEST': '5.4.31'
         })
         self.ct.ComposerTool.configure(ctx)
         assert 'PHP_EXTENSIONS' in ctx.keys()
@@ -207,9 +208,11 @@ class TestComposer(object):
         assert 'gd' in ctx['PHP_EXTENSIONS']
         assert 'fileinfo' in ctx['PHP_EXTENSIONS']
         assert 'zip' in ctx['PHP_EXTENSIONS']
+        assert '5.4.31' == ctx['PHP_VERSION']
         ctx = utils.FormattedDict({
             'BUILD_DIR': 'tests/data/composer',
-            'PHP_EXTENSIONS': ['a', 'b']
+            'PHP_EXTENSIONS': ['a', 'b'],
+            'PHP_54_LATEST': '5.4.31'
         })
         self.ct.ComposerTool.configure(ctx)
         assert 'PHP_EXTENSIONS' in ctx.keys()
@@ -221,6 +224,7 @@ class TestComposer(object):
         assert 'gd' in ctx['PHP_EXTENSIONS']
         assert 'fileinfo' in ctx['PHP_EXTENSIONS']
         assert 'zip' in ctx['PHP_EXTENSIONS']
+        assert '5.4.31' == ctx['PHP_VERSION']
 
     def test_configure_no_composer(self):
         ctx = utils.FormattedDict({
@@ -250,7 +254,8 @@ class TestComposer(object):
         def fcp_test_none(path):
             return (None, None)
         ctx = utils.FormattedDict({
-            'BUILD_DIR': 'tests/data/composer'
+            'BUILD_DIR': 'tests/data/composer',
+            'PHP_54_LATEST': '5.4.31'
         })
         fcp_orig = self.ct.ComposerTool._find_composer_paths
         # test when no composer.json or composer.lock files found
@@ -291,3 +296,43 @@ class TestComposer(object):
         assert lock_path is not None
         eq_('tests/data/composer/composer.json', json_path)
         eq_('tests/data/composer/composer.lock', lock_path)
+
+    def test_find_composer_php_version(self):
+        (json_path, lock_path) = \
+            self.ct.ComposerTool._find_composer_paths('tests')
+        php_version = \
+            self.ct.ComposerTool.read_php_version_from_composer_json(json_path)
+        eq_('>=5.3', php_version)
+        # check lock file
+        php_version = \
+            self.ct.ComposerTool.read_php_version_from_composer_lock(lock_path)
+        eq_('>=5.3', php_version)
+
+    def test_pick_php_version(self):
+        ctx = {
+            'PHP_VERSION': '5.4.31',
+            'PHP_54_LATEST': '5.4.31',
+            'PHP_55_LATEST': '5.5.15'
+        }
+        # no PHP 5.3, default to 5.4
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '>=5.3'))
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '5.3.*'))
+        # latest PHP 5.4 version
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '>=5.4'))
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '5.4.*'))
+        # extact PHP 5.4 versions
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '5.4.31'))
+        eq_('5.4.30', self.ct.ComposerTool.pick_php_version(ctx, '5.4.30'))
+        eq_('5.4.29', self.ct.ComposerTool.pick_php_version(ctx, '5.4.29'))
+        # latest PHP 5.5 version
+        eq_('5.5.15', self.ct.ComposerTool.pick_php_version(ctx, '>=5.5'))
+        eq_('5.5.15', self.ct.ComposerTool.pick_php_version(ctx, '5.5.*'))
+        # exact PHP 5.5 versions
+        eq_('5.5.15', self.ct.ComposerTool.pick_php_version(ctx, '5.5.15'))
+        eq_('5.5.14', self.ct.ComposerTool.pick_php_version(ctx, '5.5.14'))
+        # not understood, should default to PHP_VERSION
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, ''))
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, None))
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '5.6.1'))
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '<5.5'))
+        eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '<5.4'))

@@ -91,6 +91,37 @@ class ComposerTool(object):
         return exts
 
     @staticmethod
+    def read_php_version_from_composer_json(path):
+        composer_json = json.load(open(path, 'r'))
+        require = composer_json.get('require', {})
+        return require.get('php', None)
+
+    @staticmethod
+    def read_php_version_from_composer_lock(path):
+        composer_json = json.load(open(path, 'r'))
+        platform = composer_json.get('platform', {})
+        return platform.get('php', None)
+
+    @staticmethod
+    def pick_php_version(ctx, requested):
+        selected = None
+        if requested is None:
+            selected = ctx['PHP_VERSION']
+        elif requested == '5.3.*' or requested == '>=5.3':
+            selected = ctx['PHP_54_LATEST']
+        elif requested == '5.4.*' or requested == '>=5.4':
+            selected = ctx['PHP_54_LATEST']
+        elif requested == '5.5.*' or requested == '>=5.5':
+            selected = ctx['PHP_55_LATEST']
+        elif requested.startswith('5.4.'):
+            selected = requested
+        elif requested.startswith('5.5.'):
+            selected = requested
+        else:
+            selected = ctx['PHP_VERSION']
+        return selected
+
+    @staticmethod
     def configure(ctx):
         exts = []
         # include any existing extensions
@@ -106,6 +137,14 @@ class ComposerTool(object):
             exts.extend(ComposerTool.read_exts_from_composer_lock(lock_path))
         # update context with new list of extensions, if composer.json exists
         if json_path or lock_path:
+            if json_path:
+                php_version = \
+                    ComposerTool.read_php_version_from_composer_json(json_path)
+            else:
+                php_version = \
+                    ComposerTool.read_php_version_from_composer_lock(lock_path)
+            ctx['PHP_VERSION'] = ComposerTool.pick_php_version(ctx,
+                                                               php_version)
             ctx['PHP_EXTENSIONS'] = list(set(exts))
 
     def detect(self):
