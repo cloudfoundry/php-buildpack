@@ -1,7 +1,4 @@
-import shutil
 import tempfile
-import os.path
-import json
 from nose.tools import eq_
 from dingus import Dingus
 from dingus import patch
@@ -14,7 +11,7 @@ class TestComposer(object):
         self.ct = utils.load_extension('extensions/composer')
 
     def test_composer_tool_detect(self):
-        ctx =  utils.FormattedDict({
+        ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir'
@@ -29,7 +26,7 @@ class TestComposer(object):
         assert listdir.calls().once()
 
     def test_composer_tool_install(self):
-        ctx =  utils.FormattedDict({
+        ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
@@ -51,7 +48,7 @@ class TestComposer(object):
         assert installer.calls().once()
 
     def test_composer_tool_run(self):
-        ctx =  utils.FormattedDict({
+        ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
@@ -88,7 +85,7 @@ class TestComposer(object):
             self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_composer_tool_run_custom_composer_opts(self):
-        ctx =  utils.FormattedDict({
+        ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
@@ -127,7 +124,7 @@ class TestComposer(object):
             self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_composer_tool_run_sanity_checks(self):
-        ctx =  utils.FormattedDict({
+        ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
@@ -185,7 +182,7 @@ class TestComposer(object):
 
     def test_compile_detect_fails(self):
         composer = Dingus()
-        composer.return_value.detect.return_value = False 
+        composer.return_value.detect.return_value = False
         builder = Dingus()
         old_composer_tool = self.ct.ComposerTool
         self.ct.ComposerTool = composer
@@ -199,17 +196,98 @@ class TestComposer(object):
             self.ct.ComposerTool = old_composer_tool
 
     def test_configure(self):
-        ctx = {}
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': 'tests/data/composer'
+        })
         self.ct.ComposerTool.configure(ctx)
         assert 'PHP_EXTENSIONS' in ctx.keys()
         assert list == type(ctx['PHP_EXTENSIONS'])
-        assert 1 == len(ctx['PHP_EXTENSIONS'])
-        assert 'openssl' == ctx['PHP_EXTENSIONS'][0]
-        ctx = {
+        assert 4 == len(ctx['PHP_EXTENSIONS'])
+        assert 'openssl' in ctx['PHP_EXTENSIONS']
+        assert 'gd' in ctx['PHP_EXTENSIONS']
+        assert 'fileinfo' in ctx['PHP_EXTENSIONS']
+        assert 'zip' in ctx['PHP_EXTENSIONS']
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': 'tests/data/composer',
             'PHP_EXTENSIONS': ['a', 'b']
-        }
+        })
         self.ct.ComposerTool.configure(ctx)
         assert 'PHP_EXTENSIONS' in ctx.keys()
         assert list == type(ctx['PHP_EXTENSIONS'])
-        assert 3 == len(ctx['PHP_EXTENSIONS'])
-        assert 'openssl' == ctx['PHP_EXTENSIONS'][2]
+        assert 6 == len(ctx['PHP_EXTENSIONS'])
+        assert 'a' in ctx['PHP_EXTENSIONS']
+        assert 'b' in ctx['PHP_EXTENSIONS']
+        assert 'openssl' in ctx['PHP_EXTENSIONS']
+        assert 'gd' in ctx['PHP_EXTENSIONS']
+        assert 'fileinfo' in ctx['PHP_EXTENSIONS']
+        assert 'zip' in ctx['PHP_EXTENSIONS']
+
+    def test_configure_no_composer(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': 'tests/data/app-1',
+            'PHP_EXTENSIONS': ['a', 'b']
+        })
+        self.ct.ComposerTool.configure(ctx)
+        assert 'PHP_EXTENSIONS' in ctx.keys()
+        assert list == type(ctx['PHP_EXTENSIONS'])
+        assert 2 == len(ctx['PHP_EXTENSIONS'])
+        assert 'a' in ctx['PHP_EXTENSIONS']
+        assert 'b' in ctx['PHP_EXTENSIONS']
+        assert 'openssl' not in ctx['PHP_EXTENSIONS']
+
+    def test_configure_paths_missing(self):
+        @staticmethod
+        def fcp_test_json(path):
+            tmp = fcp_orig(path)
+            return (tmp[0], None)
+
+        @staticmethod
+        def fcp_test_lock(path):
+            tmp = fcp_orig(path)
+            return (None, tmp[1])
+
+        @staticmethod
+        def fcp_test_none(path):
+            return (None, None)
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': 'tests/data/composer'
+        })
+        fcp_orig = self.ct.ComposerTool._find_composer_paths
+        # test when no composer.json or composer.lock files found
+        self.ct.ComposerTool._find_composer_paths = fcp_test_none
+        try:
+            self.ct.ComposerTool.configure(ctx)
+            assert 'PHP_EXTENSIONS' not in ctx.keys()
+        finally:
+            self.ct.ComposerTool._find_composer_paths = staticmethod(fcp_orig)
+        # test when composer.json found, but no composer.lock
+        self.ct.ComposerTool._find_composer_paths = fcp_test_json
+        try:
+            self.ct.ComposerTool.configure(ctx)
+            assert 'PHP_EXTENSIONS' in ctx.keys()
+            assert 3 == len(ctx['PHP_EXTENSIONS'])
+            assert 'openssl' in ctx['PHP_EXTENSIONS']
+            assert 'fileinfo' in ctx['PHP_EXTENSIONS']
+            assert 'zip' in ctx['PHP_EXTENSIONS']
+        finally:
+            self.ct.ComposerTool._find_composer_paths = staticmethod(fcp_orig)
+        # test when composer.lock found, but no composer.json
+        self.ct.ComposerTool._find_composer_paths = fcp_test_lock
+        try:
+            self.ct.ComposerTool.configure(ctx)
+            assert 'PHP_EXTENSIONS' in ctx.keys()
+            assert 4 == len(ctx['PHP_EXTENSIONS'])
+            assert 'openssl' in ctx['PHP_EXTENSIONS']
+            assert 'gd' in ctx['PHP_EXTENSIONS']
+            assert 'fileinfo' in ctx['PHP_EXTENSIONS']
+            assert 'zip' in ctx['PHP_EXTENSIONS']
+        finally:
+            self.ct.ComposerTool._find_composer_paths = staticmethod(fcp_orig)
+
+    def test_find_composer_paths(self):
+        (json_path, lock_path) = \
+            self.ct.ComposerTool._find_composer_paths('tests')
+        assert json_path is not None
+        assert lock_path is not None
+        eq_('tests/data/composer/composer.json', json_path)
+        eq_('tests/data/composer/composer.lock', lock_path)

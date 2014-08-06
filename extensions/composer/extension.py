@@ -19,6 +19,7 @@ Downloads, installs and runs Composer.
 import os
 import os.path
 import logging
+import json
 from build_pack_utils import utils
 from build_pack_utils import TextFileSearch
 from build_pack_utils import check_output
@@ -52,11 +53,60 @@ class ComposerTool(object):
                 self._ctx[key] = val
 
     @staticmethod
+    def _find_composer_paths(path):
+        json_path = None
+        lock_path = None
+        for root, dirs, files in os.walk(path):
+            for f in files:
+                if f == 'composer.json':
+                    json_path = os.path.join(root, f)
+                if f == 'composer.lock':
+                    lock_path = os.path.join(root, f)
+                if json_path and lock_path:
+                    return (json_path, lock_path)
+        return (json_path, lock_path)
+
+    @staticmethod
+    def _find_exts(require):
+        exts = []
+        for req in require.keys():
+            if req.startswith('ext-'):
+                exts.append(req[4:])
+        return exts
+
+    @staticmethod
+    def read_exts_from_composer_json(path):
+        composer_json = json.load(open(path, 'r'))
+        return ComposerTool._find_exts(composer_json.get('require', {}))
+
+    @staticmethod
+    def read_exts_from_composer_lock(path):
+        exts = []
+        composer_json = json.load(open(path, 'r'))
+        # get platform exts
+        exts.extend(ComposerTool._find_exts(composer_json.get('platform', {})))
+        # get package exts
+        for pkg in composer_json.get('packages', []):
+            exts.extend(ComposerTool._find_exts(pkg.get('require', {})))
+        return exts
+
+    @staticmethod
     def configure(ctx):
+        exts = []
+        # include any existing extensions
+        exts.extend(ctx.get('PHP_EXTENSIONS', []))
         # add 'openssl' extension
-        exts = ctx.get('PHP_EXTENSIONS', [])
         exts.append('openssl')
-        ctx['PHP_EXTENSIONS'] = exts
+        # add platform extensions from composer.json & composer.lock
+        (json_path, lock_path) = \
+            ComposerTool._find_composer_paths(ctx['BUILD_DIR'])
+        if json_path:
+            exts.extend(ComposerTool.read_exts_from_composer_json(json_path))
+        if lock_path:
+            exts.extend(ComposerTool.read_exts_from_composer_lock(lock_path))
+        # update context with new list of extensions, if composer.json exists
+        if json_path or lock_path:
+            ctx['PHP_EXTENSIONS'] = list(set(exts))
 
     def detect(self):
         tfs = TextFileSearch('composer.json')
@@ -87,7 +137,8 @@ class ComposerTool(object):
         # Sanity Checks
         if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
                                            'composer.lock')):
-            msg = ('PROTIP: Include a `composer.lock` file with your '
+            msg = (
+                'PROTIP: Include a `composer.lock` file with your '
                 'application! This will make sure the exact same version '
                 'of dependencies are used when you deploy to CloudFoundry.')
             self._log.warning(msg)
