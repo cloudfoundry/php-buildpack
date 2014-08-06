@@ -10,6 +10,21 @@ Usage of the build pack with Composer is consistent to usage without it, so most
 
  1. You can require dependencies to packages and extensions.  Extensions should be prefixed with the standard `ext-`.  If you reference an extension that is available to the build pack, it will automatically be installed.  See the main [README] for a list of supported extensions.
 
+ 1. If you set the version of PHP to use in your `composer.json` (require -> php) or `composer.lock` (platform -> php) file, the build pack will take the version and install it.  This will override the version information you set in the `options.json` file.
+
+The following format is supported for PHP version numbers.  This is a small subset of the format supported by Composer.
+
+|   Example   |  Expected Version                 |
+------------- | ----------------------------------|
+|   5.3.*     |  latest 5.4.x release (5.3 is not supported) |
+|   >=5.3     |  latest 5.4.x release (5.3 is not supported) |
+|   5.4.*     |  latest 5.4.x release |
+|   >=5.4     |  latest 5.4.x release |
+|   5.5.*     |  latest 5.5.x release |
+|   >=5.5     |  latest 5.5.x release |
+|   5.4.x     |  specific 5.4.x release that is listed |
+|   5.5.x     |  specific 5.5.x release that is listed |
+
 ### Configuration
 
 The build pack tries to run with a good set of default values for Composer.  If you'd like to adjust things further, you can do so by adding a `.bp-config/options.json` file to your application and setting any of the following values in it.
