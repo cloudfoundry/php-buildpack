@@ -18,9 +18,9 @@ Downloads, installs and runs Composer.
 """
 import os
 import os.path
+import sys
 import logging
 import json
-import subprocess
 from build_pack_utils import utils
 from build_pack_utils import TextFileSearch
 from build_pack_utils import stream_output
@@ -218,13 +218,14 @@ class ComposerTool(object):
                            '--no-progress']
             composerCmd.extend(self._ctx['COMPOSER_INSTALL_OPTIONS'])
             self._log.debug("Running [%s]", ' '.join(composerCmd))
-            output = stream_output(' '.join(composerCmd),
+            output = stream_output(sys.stdout,
+                                   ' '.join(composerCmd),
                                    env=composerEnv,
                                    cwd=self._ctx['BUILD_DIR'],
                                    shell=True)
             _log.debug('composer output [%s]', output)
-        except Exception, e:
-            _log.error("Command Failed: %s", e.output)
+        except Exception:
+            _log.error("Command Failed: %s")
 
 
 # Extension Methods

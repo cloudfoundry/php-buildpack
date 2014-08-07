@@ -75,7 +75,7 @@ class TestComposer(object):
             assert 'HOME' in rewrite_args[1]
             assert 'TMPDIR' in rewrite_args[1]
             assert co.calls().once()
-            instCmd = co.calls()[0].args[0]
+            instCmd = co.calls()[0].args[1]
             assert instCmd.find('install') > 0
             assert instCmd.find('--no-progress') > 0
             assert instCmd.find('--no-interaction') > 0
@@ -113,7 +113,7 @@ class TestComposer(object):
             assert 'HOME' in rewrite_args[1]
             assert 'TMPDIR' in rewrite_args[1]
             assert co.calls().once()
-            instCmd = co.calls()[0].args[0]
+            instCmd = co.calls()[0].args[1]
             assert instCmd.find('install') > 0
             assert instCmd.find('--no-progress') > 0
             assert instCmd.find('--no-interaction') == -1
