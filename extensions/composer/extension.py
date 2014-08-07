@@ -20,9 +20,10 @@ import os
 import os.path
 import logging
 import json
+import subprocess
 from build_pack_utils import utils
 from build_pack_utils import TextFileSearch
-from build_pack_utils import check_output
+from build_pack_utils import stream_output
 
 
 _log = logging.getLogger('composer')
@@ -217,10 +218,10 @@ class ComposerTool(object):
                            '--no-progress']
             composerCmd.extend(self._ctx['COMPOSER_INSTALL_OPTIONS'])
             self._log.debug("Running [%s]", ' '.join(composerCmd))
-            output = check_output(' '.join(composerCmd),
-                                  env=composerEnv,
-                                  cwd=self._ctx['BUILD_DIR'],
-                                  shell=True)
+            output = stream_output(' '.join(composerCmd),
+                                   env=composerEnv,
+                                   cwd=self._ctx['BUILD_DIR'],
+                                   shell=True)
             _log.debug('composer output [%s]', output)
         except Exception, e:
             _log.error("Command Failed: %s", e.output)

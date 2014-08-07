@@ -56,10 +56,10 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir()
         })
         builder = Dingus(_ctx=ctx)
-        # patch check_output method
-        old_check_output = self.ct.check_output
+        # patch stream_output method
+        old_stream_output = self.ct.stream_output
         co = Dingus()
-        self.ct.check_output = co
+        self.ct.stream_output = co
         # patch utils.rewrite_cfg method
         old_rewrite = self.ct.utils.rewrite_cfgs
         rewrite = Dingus()
@@ -81,7 +81,7 @@ class TestComposer(object):
             assert instCmd.find('--no-interaction') > 0
             assert instCmd.find('--no-dev') > 0
         finally:
-            self.ct.check_output = old_check_output
+            self.ct.stream_output = old_stream_output
             self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_composer_tool_run_custom_composer_opts(self):
@@ -94,10 +94,10 @@ class TestComposer(object):
             'COMPOSER_INSTALL_OPTIONS': ['--optimize-autoloader']
         })
         builder = Dingus(_ctx=ctx)
-        # patch check_output method
-        old_check_output = self.ct.check_output
+        # patch stream_output method
+        old_stream_output = self.ct.stream_output
         co = Dingus()
-        self.ct.check_output = co
+        self.ct.stream_output = co
         # patch utils.rewrite_cfg method
         old_rewrite = self.ct.utils.rewrite_cfgs
         rewrite = Dingus()
@@ -120,7 +120,7 @@ class TestComposer(object):
             assert instCmd.find('--no-dev') == -1
             assert instCmd.find('--optimize-autoloader') > 0
         finally:
-            self.ct.check_output = old_check_output
+            self.ct.stream_output = old_stream_output
             self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_composer_tool_run_sanity_checks(self):
@@ -132,10 +132,10 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir()
         })
         builder = Dingus(_ctx=ctx)
-        # patch check_output method
-        old_check_output = self.ct.check_output
+        # patch stream_output method
+        old_stream_output = self.ct.stream_output
         co = Dingus()
-        self.ct.check_output = co
+        self.ct.stream_output = co
         # patch utils.rewrite_cfg method
         old_rewrite = self.ct.utils.rewrite_cfgs
         rewrite = Dingus()
@@ -153,7 +153,7 @@ class TestComposer(object):
             assert len(exists.calls()) == 1
             assert len(ct._log.warning.calls()) == 0
         finally:
-            self.ct.check_output = old_check_output
+            self.ct.stream_output = old_stream_output
             self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_process_commands(self):
