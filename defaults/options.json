@@ -1,6 +1,8 @@
 {
     "CACHE_HASH_ALGORITHM": "sha1",
     "STACK": "lucid",
+    "LIBDIR": "lib",
+    "WEBDIR": "htdocs",
     "DOWNLOAD_URL": "http://php-bp-proxy.cfapps.io/files/{STACK}",
     "WEB_SERVER": "httpd",
     "PHP_VM": "php",
