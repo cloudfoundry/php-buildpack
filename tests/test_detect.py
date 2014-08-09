@@ -29,7 +29,8 @@ class TestCompile(object):
         shutil.copytree('tests/data/app-1', self.build_dir)
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir
+            'CACHE_DIR': self.cache_dir,
+            'WEBDIR': 'htdocs'
         }, '.')
         # simulate clone, makes debugging easier
         os.rmdir(bp.bp_dir)
@@ -56,7 +57,8 @@ class TestCompile(object):
         shutil.copytree('tests/data/app-2', self.build_dir)
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir
+            'CACHE_DIR': self.cache_dir,
+            'WEBDIR': 'htdocs'
         }, '.')
         # simulate clone, makes debugging easier
         os.rmdir(bp.bp_dir)
@@ -83,7 +85,8 @@ class TestCompile(object):
         shutil.copytree('tests/data/app-3', self.build_dir)
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir
+            'CACHE_DIR': self.cache_dir,
+            'WEBDIR': 'htdocs'
         }, '.')
         # simulate clone, makes debugging easier
         os.rmdir(bp.bp_dir)
@@ -98,8 +101,6 @@ class TestCompile(object):
             print str(e)
             if hasattr(e, 'output'):
                 print e.output
-            if output:
-                print output
             raise
         finally:
             if os.path.exists(bp.bp_dir):

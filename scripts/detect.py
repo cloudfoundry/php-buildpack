@@ -18,6 +18,8 @@ from build_pack_utils import Builder
 
 (Builder()
      .configure()
+         .default_config()
+         .user_config()
          .done()
      .detect()
          .ends_with(".php")
@@ -26,6 +28,6 @@ from build_pack_utils import Builder
          .when_not_found_continue()
          .done()
      .detect()
-        .by_name('htdocs')
+        .by_name('{WEBDIR}')
         .if_found_output('STATIC')
         .done())

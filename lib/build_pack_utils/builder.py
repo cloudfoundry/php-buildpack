@@ -66,6 +66,7 @@ class Detecter(object):
         self._fullPath = False
         self._continue = False
         self._output = 'Found'
+        self._ctx = builder._ctx
         self._root = builder._ctx['BUILD_DIR']
 
     def _config(self, detecter):
@@ -74,22 +75,27 @@ class Detecter(object):
         return detecter
 
     def with_regex(self, regex):
+        regex = self._ctx.format(regex)
         self._detecter = self._config(RegexFileSearch(regex))
         return self
 
     def by_name(self, name):
+        name = self._ctx.format(name)
         self._detecter = self._config(TextFileSearch(name))
         return self
 
     def starts_with(self, text):
+        text = self._ctx.format(text)
         self._detecter = self._config(StartsWithFileSearch(text))
         return self
 
     def ends_with(self, text):
+        text = self._ctx.format(text)
         self._detecter = self._config(EndsWithFileSearch(text))
         return self
 
     def contains(self, text):
+        text = self._ctx.format(text)
         self._detecter = self._config(ContainsFileSearch(text))
         return self
 
@@ -106,7 +112,7 @@ class Detecter(object):
         return self
 
     def if_found_output(self, text):
-        self._output = text
+        self._output = self._ctx.format(text)
         return self
 
     def when_not_found_continue(self):
@@ -114,12 +120,12 @@ class Detecter(object):
         return self
 
     def under(self, root):
-        self._root = root
+        self._root = self._ctx.format(root)
         self.recursive()
         return self
 
     def at(self, root):
-        self._root = root
+        self._root = self._ctx.format(root)
         return self
 
     def done(self):

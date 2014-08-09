@@ -18,5 +18,7 @@ from build_pack_utils import Builder
 
 (Builder()
     .configure()
+        .default_config()
+        .user_config()
         .done()
     .release())
