@@ -556,8 +556,8 @@ class FileUtil(object):
             self._from_path = self._builder._ctx[path]
         else:
             self._from_path = self._builder._ctx.format(path)
-            if not self._from_path.startswith('/'):
-                self._from_path = os.path.join(os.getcwd(), path)
+        if not self._from_path.startswith('/'):
+            self._from_path = os.path.join(os.getcwd(), self._from_path)
         return self
 
     def into(self, path):
@@ -565,8 +565,8 @@ class FileUtil(object):
             self._into_path = self._builder._ctx[path]
         else:
             self._into_path = self._builder._ctx.format(path)
-            if not self._into_path.startswith('/'):
-                self._into_path = os.path.join(self._from_path, path)
+        if not self._into_path.startswith('/'):
+            self._into_path = os.path.join(self._from_path, self._into_path)
         return self
 
     def _copy_or_move(self, src, dest):
