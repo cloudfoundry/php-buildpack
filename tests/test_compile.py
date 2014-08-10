@@ -60,7 +60,9 @@ class TestCompile(BaseTestCompile):
     def test_compile_httpd(self):
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir
+            'CACHE_DIR': self.cache_dir,
+            'LIBDIR': 'lib',
+            'WEBDIR': 'htdocs'
         }, '.')
         # simulate clone, makes debugging easier
         os.rmdir(bp.bp_dir)
@@ -191,7 +193,9 @@ class TestCompile(BaseTestCompile):
     def test_compile_nginx(self):
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir
+            'CACHE_DIR': self.cache_dir,
+            'LIBDIR': 'lib',
+            'WEBDIR': 'htdocs'
         }, '.')
         # simulate clone, makes debugging easier
         os.rmdir(bp.bp_dir)
@@ -327,7 +331,9 @@ class TestCompileStandAlone(BaseTestCompile):
     def test_compile_stand_alone(self):
         bp = BuildPack({
             'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir
+            'CACHE_DIR': self.cache_dir,
+            'LIBDIR': 'lib',
+            'WEBDIR': 'htdocs'
         }, '.')
         # simulate clone, makes debugging easier
         os.rmdir(bp.bp_dir)

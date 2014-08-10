@@ -32,13 +32,13 @@ class FakeInstaller(object):
         self.builder = builder
 
 
-def setup_htdocs_if_it_doesnt_exist(ctx):
+def setup_webdir_if_it_doesnt_exist(ctx):
     if is_web_app(ctx):
-        htdocsPath = os.path.join(ctx['BUILD_DIR'], 'htdocs')
-        if not os.path.exists(htdocsPath):
+        webdirPath = os.path.join(ctx['BUILD_DIR'], ctx['WEBDIR'])
+        if not os.path.exists(webdirPath):
             fu = FileUtil(FakeBuilder(ctx), move=True)
             fu.under('BUILD_DIR')
-            fu.into('htdocs')
+            fu.into('WEBDIR')
             fu.where_name_does_not_match(
                 '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp'))
             fu.where_name_does_not_match(
@@ -48,7 +48,7 @@ def setup_htdocs_if_it_doesnt_exist(ctx):
             fu.where_name_does_not_match(
                 '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
             fu.where_name_does_not_match(
-                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'lib'))
+                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], ctx['LIBDIR']))
             fu.done()
 
 

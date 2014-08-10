@@ -16,7 +16,7 @@
 # limitations under the License.
 from datetime import datetime
 from build_pack_utils import Builder
-from compile_helpers import setup_htdocs_if_it_doesnt_exist
+from compile_helpers import setup_webdir_if_it_doesnt_exist
 
 
 if __name__ == '__main__':
@@ -26,7 +26,7 @@ if __name__ == '__main__':
             .user_config()
             .done()
         .execute()
-            .method(setup_htdocs_if_it_doesnt_exist)
+            .method(setup_webdir_if_it_doesnt_exist)
         .register()
             .extension()
                 .from_build_pack('lib/{WEB_SERVER}')

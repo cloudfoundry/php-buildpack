@@ -5,7 +5,7 @@ import shutil
 from nose.tools import eq_
 from nose.tools import with_setup
 from build_pack_utils import utils
-from compile_helpers import setup_htdocs_if_it_doesnt_exist
+from compile_helpers import setup_webdir_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
 from compile_helpers import build_php_environment
 from compile_helpers import is_web_app
@@ -35,10 +35,12 @@ class TestCompileHelpers(object):
             "Does not exists: %s" % os.path.join(*args))
 
     @with_setup(setup=setUp, teardown=tearDown)
-    def test_setup_if_htdocs_exists(self):
+    def test_setup_if_webdir_exists(self):
         shutil.copytree('tests/data/app-1', self.build_dir)
-        setup_htdocs_if_it_doesnt_exist(utils.FormattedDict({
-            'BUILD_DIR': self.build_dir
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
         }))
         self.assert_exists(self.build_dir, 'htdocs')
         self.assert_exists(self.build_dir, 'htdocs', 'index.php')
@@ -51,12 +53,34 @@ class TestCompileHelpers(object):
                            'httpd-remoteip.conf')
         eq_(2, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
+
+    @with_setup(setup=setUp, teardown=tearDown)
+    def test_setup_if_custom_webdir_exists(self):
+        shutil.copytree('tests/data/app-6', self.build_dir)
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'public',
+            'LIBDIR': 'lib'
+        }))
+        self.assert_exists(self.build_dir, 'public')
+        self.assert_exists(self.build_dir, 'public', 'index.php')
+        self.assert_exists(self.build_dir, 'public', 'info.php')
+        self.assert_exists(self.build_dir, 'public',
+                           'technical-difficulties1.jpg')
+        self.assert_exists(self.build_dir, '.bp-config')
+        self.assert_exists(self.build_dir, '.bp-config', 'options.json')
+        self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
+                           'httpd-remoteip.conf')
+        eq_(2, len(os.listdir(self.build_dir)))
+        eq_(3, len(os.listdir(os.path.join(self.build_dir, 'public'))))
 
     @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_htdocs_does_not_exist(self):
         shutil.copytree('tests/data/app-2', self.build_dir)
-        setup_htdocs_if_it_doesnt_exist(utils.FormattedDict({
-            'BUILD_DIR': self.build_dir
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
         }))
         self.assert_exists(self.build_dir, 'htdocs')
         self.assert_exists(self.build_dir, 'htdocs', 'index.php')
@@ -71,10 +95,32 @@ class TestCompileHelpers(object):
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
     @with_setup(setup=setUp, teardown=tearDown)
+    def test_setup_if_custom_webdir_does_not_exist(self):
+        shutil.copytree('tests/data/app-2', self.build_dir)
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'public',
+            'LIBDIR': 'lib'
+        }))
+        self.assert_exists(self.build_dir, 'public')
+        self.assert_exists(self.build_dir, 'public', 'index.php')
+        self.assert_exists(self.build_dir, 'public', 'info.php')
+        self.assert_exists(self.build_dir, 'public',
+                           'technical-difficulties1.jpg')
+        self.assert_exists(self.build_dir, '.bp-config')
+        self.assert_exists(self.build_dir, '.bp-config', 'options.json')
+        self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
+                           'httpd-remoteip.conf')
+        eq_(2, len(os.listdir(self.build_dir)))
+        eq_(3, len(os.listdir(os.path.join(self.build_dir, 'public'))))
+
+    @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_htdocs_does_not_exist_with_extensions(self):
         shutil.copytree('tests/data/app-4', self.build_dir)
-        setup_htdocs_if_it_doesnt_exist(utils.FormattedDict({
-            'BUILD_DIR': self.build_dir
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
         }))
         self.assert_exists(self.build_dir, 'htdocs')
         self.assert_exists(self.build_dir, 'htdocs', 'index.php')
@@ -95,9 +141,36 @@ class TestCompileHelpers(object):
         eq_(4, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
+    @with_setup(setup=setUp, teardown=tearDown)
+    def test_setup_if_custom_webdir_does_not_exist_with_extensions(self):
+        shutil.copytree('tests/data/app-4', self.build_dir)
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'public',
+            'LIBDIR': 'lib'
+        }))
+        self.assert_exists(self.build_dir, 'public')
+        self.assert_exists(self.build_dir, 'public', 'index.php')
+        self.assert_exists(self.build_dir, 'public', 'info.php')
+        self.assert_exists(self.build_dir, 'public',
+                           'technical-difficulties1.jpg')
+        self.assert_exists(self.build_dir, '.bp-config')
+        self.assert_exists(self.build_dir, '.bp-config', 'options.json')
+        self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
+                           'httpd-remoteip.conf')
+        self.assert_exists(self.build_dir, '.bp')
+        self.assert_exists(self.build_dir, '.bp', 'logs')
+        self.assert_exists(self.build_dir, '.bp', 'logs', 'some.log')
+        self.assert_exists(self.build_dir, '.extensions')
+        self.assert_exists(self.build_dir, '.extensions', 'some-ext')
+        self.assert_exists(self.build_dir, '.extensions', 'some-ext',
+                           'extension.py')
+        eq_(4, len(os.listdir(self.build_dir)))
+        eq_(3, len(os.listdir(os.path.join(self.build_dir, 'public'))))
+
     def test_setup_if_htdocs_with_stand_alone_app(self):
         shutil.copytree('tests/data/app-5', self.build_dir)
-        setup_htdocs_if_it_doesnt_exist(utils.FormattedDict({
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
             'WEB_SERVER': 'none'
         }))

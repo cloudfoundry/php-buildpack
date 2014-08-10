@@ -14,7 +14,9 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/build/dir',
-            'CACHE_DIR': '/cache/dir'
+            'CACHE_DIR': '/cache/dir',
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
         })
         builder = Dingus(_ctx=ctx)
         listdir = Dingus(return_value=('composer.json',))
@@ -53,7 +55,9 @@ class TestComposer(object):
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
-            'TMPDIR': tempfile.gettempdir()
+            'TMPDIR': tempfile.gettempdir(),
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
         })
         builder = Dingus(_ctx=ctx)
         # patch stream_output method
@@ -91,6 +95,8 @@ class TestComposer(object):
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib',
             'COMPOSER_INSTALL_OPTIONS': ['--optimize-autoloader']
         })
         builder = Dingus(_ctx=ctx)

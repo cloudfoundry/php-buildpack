@@ -151,9 +151,9 @@ class ComposerTool(object):
 
     def detect(self):
         tfs = TextFileSearch('composer.json')
-        htdocs = os.path.join(self._ctx['BUILD_DIR'], 'htdocs')
-        if os.path.exists(htdocs):
-            return tfs.search(htdocs)
+        webdir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
+        if os.path.exists(webdir):
+            return tfs.search(webdir)
 
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()
@@ -164,14 +164,14 @@ class ComposerTool(object):
             extract=False)
 
     def run(self):
-        # Move composer files out of htdocs
+        # Move composer files out of WEBDIR
         (self._builder.move()
-            .under('{BUILD_DIR}/htdocs')
+            .under('{BUILD_DIR}/{WEBDIR}')
             .where_name_is('composer.json')
             .into('BUILD_DIR')
          .done())
         (self._builder.move()
-            .under('{BUILD_DIR}/htdocs')
+            .under('{BUILD_DIR}/{WEBDIR}')
             .where_name_is('composer.lock')
             .into('BUILD_DIR')
          .done())
@@ -205,7 +205,8 @@ class ComposerTool(object):
                                                 'php', 'lib'),
                 'HOME': self._ctx['BUILD_DIR'],
                 'COMPOSER_VENDOR_DIR': os.path.join(self._ctx['BUILD_DIR'],
-                                                    'lib', 'vendor'),
+                                                    self._ctx['LIBDIR'],
+                                                    'vendor'),
                 'COMPOSER_BIN_DIR': os.path.join(self._ctx['BUILD_DIR'],
                                                  'php', 'bin'),
                 'COMPOSER_CACHE_DIR': os.path.join(self._ctx['CACHE_DIR'],
