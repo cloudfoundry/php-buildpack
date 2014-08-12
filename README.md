@@ -80,7 +80,9 @@ Here's a list of the major features of the build pack.
   - allows for application developers to control which PHP extensions are installed
   - allows for application developers to custom configure HTTPD, Nginx or PHP
   - supports running stand alone PHP scripts
+  - supports running applications that use [Composer]
   - download location is configurable, allowing users to host binaries on the same network (i.e. run without an Internet connection)
+  - supports running in ["offline" mode] where binaries are bundled with the build pack
   - supports an extension mechanism that allows the build pack to provided additional functionality
   - allows for application developers to provide custom extensions
   - support NewRelic through an extension
@@ -149,3 +151,4 @@ The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache Lic
 [vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
 [support forums]:http://support.run.pivotal.io/home
 [Composer]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/composer.md
+["offline" mode]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/binaries.md#bundling-binaries-with-the-build-pack
