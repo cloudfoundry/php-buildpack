@@ -71,7 +71,7 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, '.bp-config', 'options.json')
         self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
                            'httpd-remoteip.conf')
-        eq_(2, len(os.listdir(self.build_dir)))
+        eq_(3, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'public'))))
 
     @with_setup(setup=setUp, teardown=tearDown)
