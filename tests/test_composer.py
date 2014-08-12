@@ -348,3 +348,30 @@ class TestComposer(object):
             'tests/data/composer/composer-phalcon.lock')
         eq_(1, len(exts))
         eq_('curl', exts[0])
+
+    def test_composer_defaults(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/tmp/build',
+            'CACHE_DIR': '/tmp/cache',
+            'LIBDIR': 'lib'
+        })
+        builder = Dingus(_ctx=ctx)
+        ct = self.ct.ComposerTool(builder)
+        eq_('/tmp/build/lib/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
+        eq_('/tmp/build/php/bin', ct._ctx['COMPOSER_BIN_DIR'])
+        eq_('/tmp/cache/composer', ct._ctx['COMPOSER_CACHE_DIR'])
+
+    def test_composer_custom_values(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/tmp/build',
+            'CACHE_DIR': '/tmp/cache',
+            'LIBDIR': 'lib',
+            'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/vendor',
+            'COMPOSER_BIN_DIR': '{BUILD_DIR}/bin',
+            'COMPOSER_CACHE_DIR': '{CACHE_DIR}/custom'
+        })
+        builder = Dingus(_ctx=ctx)
+        ct = self.ct.ComposerTool(builder)
+        eq_('/tmp/build/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
+        eq_('/tmp/build/bin', ct._ctx['COMPOSER_BIN_DIR'])
+        eq_('/tmp/cache/custom', ct._ctx['COMPOSER_CACHE_DIR'])

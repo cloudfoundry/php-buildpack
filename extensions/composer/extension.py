@@ -37,7 +37,10 @@ DEFAULTS = {
                              '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',
     'COMPOSER_HASH_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
                          '{COMPOSER_PACKAGE}.{CACHE_HASH_ALGORITHM}',
-    'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev']
+    'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
+    'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/{LIBDIR}/vendor',
+    'COMPOSER_BIN_DIR': '{BUILD_DIR}/php/bin',
+    'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer'
 }
 
 
@@ -205,13 +208,9 @@ class ComposerTool(object):
                 'LD_LIBRARY_PATH': os.path.join(self._ctx['BUILD_DIR'],
                                                 'php', 'lib'),
                 'HOME': self._ctx['BUILD_DIR'],
-                'COMPOSER_VENDOR_DIR': os.path.join(self._ctx['BUILD_DIR'],
-                                                    self._ctx['LIBDIR'],
-                                                    'vendor'),
-                'COMPOSER_BIN_DIR': os.path.join(self._ctx['BUILD_DIR'],
-                                                 'php', 'bin'),
-                'COMPOSER_CACHE_DIR': os.path.join(self._ctx['CACHE_DIR'],
-                                                   'composer')
+                'COMPOSER_VENDOR_DIR': self._ctx['COMPOSER_VENDOR_DIR'],
+                'COMPOSER_BIN_DIR': self._ctx['COMPOSER_BIN_DIR'],
+                'COMPOSER_CACHE_DIR': self._ctx['COMPOSER_CACHE_DIR']
             }
             composerCmd = [phpPath,
                            '-c "%s"' % phpCfg,
