@@ -154,10 +154,9 @@ class ComposerTool(object):
             ctx['PHP_EXTENSIONS'] = list(set(exts))
 
     def detect(self):
-        tfs = TextFileSearch('composer.json')
-        webdir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
-        if os.path.exists(webdir):
-            return tfs.search(webdir)
+        (json_path, lock_path) = \
+            ComposerTool._find_composer_paths(self._ctx['BUILD_DIR'])
+        return (json_path is not None or lock_path is not None)
 
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()

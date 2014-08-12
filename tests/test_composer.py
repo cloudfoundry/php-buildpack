@@ -13,19 +13,26 @@ class TestComposer(object):
     def test_composer_tool_detect(self):
         ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
-            'BUILD_DIR': '/build/dir',
+            'BUILD_DIR': 'tests/data/composer',
             'CACHE_DIR': '/cache/dir',
             'WEBDIR': 'htdocs',
             'LIBDIR': 'lib'
         })
         builder = Dingus(_ctx=ctx)
-        listdir = Dingus(return_value=('composer.json',))
-        exists = Dingus(return_value=True)
-        with patch('os.listdir', listdir):
-            with patch('os.path.exists', exists):
-                ct = self.ct.ComposerTool(builder)
-                assert ct.detect()
-        assert listdir.calls().once()
+        ct = self.ct.ComposerTool(builder)
+        assert ct.detect()
+
+    def test_composer_tool_detect_not_found(self):
+        ctx = utils.FormattedDict({
+            'DOWNLOAD_URL': 'http://server/bins',
+            'BUILD_DIR': 'lib',
+            'CACHE_DIR': '/cache/dir',
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
+        })
+        builder = Dingus(_ctx=ctx)
+        ct = self.ct.ComposerTool(builder)
+        assert not ct.detect()
 
     def test_composer_tool_install(self):
         ctx = utils.FormattedDict({
