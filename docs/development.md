@@ -42,7 +42,7 @@ The easiest way to understand the build pack is to trace the flow of the scripts
 Of these, the `detect` and `release` script are straightforward, providing the minimal functionality required by a build pack.  The `compile` script is more complicated but works like this.
 
   - load configuration
-  - setup the htdocs directory
+  - setup the `WEBDIR` directory
   - install the build pack utils and the core extensions (HTTPD, Nginx & PHP)
   - install other extensions
   - install the `rewrite` and `start` scripts

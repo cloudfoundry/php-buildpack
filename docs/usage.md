@@ -4,7 +4,7 @@ Getting started with the build pack is simple.  It's designed to be easy to use 
 
 ### Folder Structure
 
-The easiest way to use the build pack is to put your assets and PHP files into a directory and push it to CloudFoundry.  When you do this, the build pack will take your files and automatically move them into the `htdocs` folder, which is the directory where your chosen web server looks for the files.
+The easiest way to use the build pack is to put your assets and PHP files into a directory and push it to CloudFoundry.  When you do this, the build pack will take your files and automatically move them into the `WEBDIR` (defaults to `htdocs`) folder, which is the directory where your chosen web server looks for the files.
 
 This works great for most situations, but does have some limitations.  Specifically, it will put all of your files into a publicly accessible directory.  In some cases, you might want to have PHP files that are not publicly accessible but are on the [include_path].  To do that, you simply create a `lib` directory in your project folder and place your protected files there.
 
@@ -22,7 +22,11 @@ total 0
 -rw-r--r--  1 daniel  staff     0B Feb 27 21:40 my.class.php  <-- not public, http://app.cfapps.io/lib/my.class.php == 404
 ```
 
-This comes with a catch.  If your project legitimately has a `lib` directory, these files will not be publicly available because the build pack does not copy a top-level `lib` directory into the `htdocs` folder.  If your project has a `lib` directory that needs to be publicly available then you need to make a couple additional adjustments to your application.  
+This comes with a catch.  If your project legitimately has a `lib` directory, these files will not be publicly available because the build pack does not copy a top-level `lib` directory into the `WEBDIR` folder.  If your project has a `lib` directory that needs to be publicly available then you have two options.
+
+#### Option #1
+
+In your project folder, create an `htdocs` folder (or whatever you've set for `WEBDIR`).  Then move any files that should be publicly accessible into this directory.  In the example below, the `lib/controller.php` file is publicly accessible.
 
 Example:
 
@@ -41,8 +45,6 @@ drwxr-xr-x  3 daniel  staff   102B Feb 27 21:48 lib
 total 0
 -rw-r--r--  1 daniel  staff     0B Feb 27 21:48 controller.php
 ```
-
-The first step is to create an `htdocs` folder under your project directory.  Then move any files that should be publicly accessible into this directory.  In the example above, the `lib/controller.php` file is publicly accessible.
 
 Given this setup, it is possible to have both a public `lib` directory and a protected `lib` directory.  Here's an example of that setup.
 
@@ -69,8 +71,19 @@ total 0
 -rw-r--r--  1 daniel  staff     0B Feb 27 21:51 my.class.php
 ```
 
-Beyond the `htdocs` and `lib` directories, the build pack also supports a `.bp-config` directory.  This directory should also exist at the root of your project directory and it is the location of application specific configuration files.  Application specific configuration files override the default settings used by the build pack.  This link explains [application configuration files] in depth.
+#### Option #2
+
+The second option is to pick a different name for the `LIBDIR`.  This is a configuration option that you can set (it defaults to `lib`).  Thus if you set it to something else, like `include` your application's `lib` directory would no longer be treated as a special directory and it would be placed into `WEBDIR` (i.e. become public).
+
+### Other Folders
+
+Beyond the `WEBDIR` and `LIBDIR` directories, the build pack also supports a `.bp-config` directory and a `.extensions` directory.  
+
+The `.bp-config` directory should exist at the root of your project directory and it is the location of application specific configuration files.  Application specific configuration files override the default settings used by the build pack.  This link explains [application configuration files] in depth.
+
+The `.extensions` directory should also exist at the root of your project directory and it is the location of application specific custom extensions.  Application specific custom extensions allow you, the developer, to override or enhance the behavior of the build pack.  This link explains [extensions] in more detail.
 
 [30 Second Tutorial]:https://github.com/dmikusa-pivotal/cf-php-build-pack#30-second-tutorial
 [application configuration files]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
 [include_path]:http://us1.php.net/manual/en/ini.core.php#ini.include-path
+[extensions]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md#extensions

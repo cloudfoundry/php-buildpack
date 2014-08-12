@@ -33,6 +33,9 @@ The build pack tries to run with a good set of default values for Composer.  If 
 ------------------- | -----------------------------------------------------|
 | COMPOSER_VERSION  | The version of Composer to use.  It defaults to the latest. |
 | COMPOSER_INSTALL_OPTIONS | A list of options that should be passed to `composer install`.  This defaults to `--no-interaction --no-dev --no-progress`.  The `--no-progress` option must be used due to the way the build pack calls Composer. |
+| COMPOSER_VENDIR_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to create the `vendor` directory.  Defaults to `{BUILD_DIR}/{LIBDIR}/vendor`. |
+| COMPOSER_BIN_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to place executables from packages.  Defaults to `{BUILD_DIR}/php/bin`. |
+| COMPOSER_CACHE_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to place its cache files.  Generally you should not change this value.  The default is `{CACHE_DIR}/composer` which is a sub directory of the cache folder passed into the build pack (meaning that Composer cache files will be restored on subsequent application pushes. |
 
 
 [Composer]:https://getcomposer.org

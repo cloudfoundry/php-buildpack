@@ -28,6 +28,8 @@ Here are a list of the options that an application developer might want to overr
 | ZEND_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
 | DOWNLOAD_URL | This is the base of the URL that the build pack uses to locate its binary files.  The default points to the location of the build pack's binary files.  If you want to provide your own binaries, you can point this URL at the repository that holds your custom binaries.  This should be an HTTP or HTTPS URL. |
 | APP_START_CMD | This option is used to instruct the build pack what command to run if WEB_SERVER is set to `none` (i.e. it is a stand alone app).  By default, the build pack will search for and run `app.php`, `main.php`, `run.php` or `start.php` (in that order).  This option can be the name of the script to run or the name plus arguments. |
+| WEBDIR | Set a custom location for your web or public files.  This is the root directory from which the web server will host your files and the root directory from which PHP-FPM will look for your PHP files.  Defaults to `htdocs`.  Other common settings are `public`, `static` or `html`.  Path is relative to `/home/vcap/app`. |
+| LIBDIR | Set a custom library directory.  This path is automatically added to the `include_path` by the build pack.  Defaults to `lib`.  Path is relative to `/home/vcap/app`. |
 
 ### HTTPD, Nginx and PHP configuration
 
