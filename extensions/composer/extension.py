@@ -70,7 +70,8 @@ class ComposerTool(object):
     @staticmethod
     def _find_exts(require):
         exts = []
-        for req in require.keys():
+        keys = (hasattr(require, 'keys')) and require.keys() or require
+        for req in keys:
             if req.startswith('ext-'):
                 exts.append(req[4:])
         return exts

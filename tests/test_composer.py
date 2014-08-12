@@ -342,3 +342,9 @@ class TestComposer(object):
         eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '5.6.1'))
         eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '<5.5'))
         eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '<5.4'))
+
+    def test_empty_platform_section(self):
+        exts = self.ct.ComposerTool.read_exts_from_composer_lock(
+            'tests/data/composer/composer-phalcon.lock')
+        eq_(1, len(exts))
+        eq_('curl', exts[0])
