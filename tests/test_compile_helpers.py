@@ -10,6 +10,9 @@ from compile_helpers import convert_php_extensions
 from compile_helpers import build_php_environment
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
+from compile_helpers import load_binary_index
+from compile_helpers import find_all_php_versions
+from compile_helpers import find_all_php_extensions
 
 
 class TestCompileHelpers(object):
@@ -271,3 +274,40 @@ class TestCompileHelpers(object):
         for i, res in enumerate(results):
             ctx = {'BUILD_DIR': 'tests/data/standalone/test%d' % (i + 1)}
             eq_(res, find_stand_alone_app_to_run(ctx))
+
+    def test_load_binary_index(self):
+        ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
+        json = load_binary_index(ctx)
+        assert json is not None
+        assert 'php' in json.keys()
+        eq_(6, len(json['php'].keys()))
+
+    def test_find_all_php_versions(self):
+        ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
+        json = load_binary_index(ctx)
+        versions = find_all_php_versions(json)
+        eq_(6, len(versions))
+        eq_(3, len([v for v in versions if v.startswith('5.4.')]))
+        eq_(3, len([v for v in versions if v.startswith('5.5.')]))
+
+    def test_find_php_extensions(self):
+        ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
+        json = load_binary_index(ctx)
+        exts = find_all_php_extensions(json)
+        eq_(6, len(exts.keys()))
+        tmp = exts[exts.keys()[0]]
+        assert 'amqp' in tmp
+        assert 'apc' in tmp
+        assert 'imap' in tmp
+        assert 'ldap' in tmp
+        assert 'phalcon' in tmp
+        assert 'pspell' in tmp
+        assert 'pdo_pgsql' in tmp
+        assert 'mailparse' in tmp
+        assert 'redis' in tmp
+        assert 'pgsql' in tmp
+        assert 'snmp' in tmp
+        assert 'cgi' not in tmp
+        assert 'cli' not in tmp
+        assert 'fpm' not in tmp
+        assert 'pear' not in tmp
