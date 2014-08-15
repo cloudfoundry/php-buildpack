@@ -13,6 +13,8 @@ from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_binary_index
 from compile_helpers import find_all_php_versions
 from compile_helpers import find_all_php_extensions
+from compile_helpers import validate_php_version
+from compile_helpers import validate_php_extensions
 
 
 class TestCompileHelpers(object):
@@ -311,3 +313,36 @@ class TestCompileHelpers(object):
         assert 'cli' not in tmp
         assert 'fpm' not in tmp
         assert 'pear' not in tmp
+
+    def test_validate_php_version(self):
+        ctx = {
+            'ALL_PHP_VERSIONS': ['5.4.31', '5.4.30'],
+            'PHP_54_LATEST': '5.4.31',
+            'PHP_VERSION': '5.4.30'
+        }
+        validate_php_version(ctx)
+        eq_('5.4.30', ctx['PHP_VERSION'])
+        ctx['PHP_VERSION'] = '5.4.29'
+        validate_php_version(ctx)
+        eq_('5.4.31', ctx['PHP_VERSION'])
+        ctx['PHP_VERSION'] = '5.4.30'
+        validate_php_version(ctx)
+        eq_('5.4.30', ctx['PHP_VERSION'])
+
+    def test_validate_php_extensions(self):
+        ctx = {
+            'ALL_PHP_EXTENSIONS': {
+                '5.4.31': ['curl', 'pgsql', 'snmp', 'phalcon']
+            },
+            'PHP_VERSION': '5.4.31',
+            'PHP_EXTENSIONS': ['curl', 'snmp']
+        }
+        validate_php_extensions(ctx)
+        eq_(2, len(ctx['PHP_EXTENSIONS']))
+        assert 'curl' in ctx['PHP_EXTENSIONS']
+        assert 'snmp' in ctx['PHP_EXTENSIONS']
+        ctx['PHP_EXTENSIONS'] = ['curl', 'pspell', 'imap', 'phalcon']
+        validate_php_extensions(ctx)
+        eq_(2, len(ctx['PHP_EXTENSIONS']))
+        assert 'curl' in ctx['PHP_EXTENSIONS']
+        assert 'phalcon' in ctx['PHP_EXTENSIONS']

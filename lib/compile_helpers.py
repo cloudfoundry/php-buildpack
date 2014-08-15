@@ -76,6 +76,28 @@ def find_all_php_extensions(index_json):
     return exts
 
 
+def validate_php_version(ctx):
+    if ctx['PHP_VERSION'] in ctx['ALL_PHP_VERSIONS']:
+        _log.debug('App selected PHP [%s]', ctx['PHP_VERSION'])
+    else:
+        _log.warning('Selected version of PHP [%s] not available.  Defaulting'
+                     ' to the latest version [%s]',
+                     ctx['PHP_VERSION'], ctx['PHP_54_LATEST'])
+        ctx['PHP_VERSION'] = ctx['PHP_54_LATEST']
+
+
+def validate_php_extensions(ctx):
+    extns = ctx['ALL_PHP_EXTENSIONS'][ctx['PHP_VERSION']]
+    keep = []
+    for extn in ctx['PHP_EXTENSIONS']:
+        if extn in extns:
+            _log.debug('Extension [%s] validated.', extn)
+            keep.append(extn)
+        else:
+            _log.warn('Extension [%s] is not available!', extn)
+    ctx['PHP_EXTENSIONS'] = keep
+
+
 def convert_php_extensions(ctx):
     _log.debug('Converting PHP extensions')
     SKIP = ('cli', 'pear', 'cgi')
