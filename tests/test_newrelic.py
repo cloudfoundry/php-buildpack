@@ -172,6 +172,18 @@ class BaseCompileNewRelic(object):
         os.rmdir(self.cache_dir)  # cache dir does not exist normally
         shutil.copytree('tests/data/%s' % app, self.build_dir)
 
+    def copy_build_pack(self, bp_dir):
+        # simulate clone, makes debugging easier
+        os.rmdir(bp_dir)
+        shutil.copytree('.', bp_dir,
+                        ignore=shutil.ignore_patterns("binaries",
+                                                      "env",
+                                                      "tests"))
+        binPath = os.path.join(bp_dir, 'binaries', 'lucid')
+        os.makedirs(binPath)
+        shutil.copy('binaries/lucid/index-all.json', binPath)
+        shutil.copy('binaries/lucid/index-latest.json', binPath)
+
     def cleanup(self):
         if os.path.exists(self.build_dir):
             shutil.rmtree(self.build_dir)
@@ -204,12 +216,7 @@ class TestCompileNewRelicWithPHP(BaseCompileNewRelic):
             'BUILD_DIR': self.build_dir,
             'CACHE_DIR': self.cache_dir,
         }, '.')
-        # simulate clone, makes debugging easier
-        os.rmdir(bp.bp_dir)
-        shutil.copytree('.', bp.bp_dir,
-                        ignore=shutil.ignore_patterns("binaries",
-                                                      "env",
-                                                      "tests"))
+        self.copy_build_pack(bp.bp_dir)
         # set php & web server
         optsFile = os.path.join(bp.bp_dir, 'defaults', 'options.json')
         self._set_php(optsFile, 'php')
@@ -360,12 +367,7 @@ class TestCompileNewRelicWithHHVM(BaseCompileNewRelic):
             'BUILD_DIR': self.build_dir,
             'CACHE_DIR': self.cache_dir,
         }, '.')
-        # simulate clone, makes debugging easier
-        os.rmdir(bp.bp_dir)
-        shutil.copytree('.', bp.bp_dir,
-                        ignore=shutil.ignore_patterns("binaries",
-                                                      "env",
-                                                      "tests"))
+        self.copy_build_pack(bp.bp_dir)
         # set php & web server
         optsFile = os.path.join(bp.bp_dir, 'defaults', 'options.json')
         self._set_php(optsFile, 'hhvm')
