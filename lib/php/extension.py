@@ -19,6 +19,8 @@ from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_binary_index
 from compile_helpers import find_all_php_versions
 from compile_helpers import find_all_php_extensions
+from compile_helpers import validate_php_version
+from compile_helpers import validate_php_extensions
 
 
 def configure(ctx):
@@ -63,6 +65,8 @@ def service_environment(ctx):
 def compile(install):
     print 'Installing PHP'
     ctx = install.builder._ctx
+    validate_php_version(ctx)
+    validate_php_extensions(ctx)
     convert_php_extensions(ctx)
     build_php_environment(ctx)
     (install
