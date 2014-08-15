@@ -264,7 +264,8 @@ class TestCompileNewRelicWithPHP(BaseCompileNewRelic):
                     '"$HOME/httpd/conf/httpd.conf" -k start -DFOREGROUND',
                     lines[0])
                 eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
-                    '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"', lines[1])
+                    '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"',
+                    lines[1])
                 eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
                     lines[2])
 
