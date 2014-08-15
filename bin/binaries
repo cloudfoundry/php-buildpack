@@ -16,6 +16,7 @@
 # limitations under the License.
 import sys
 import os
+import re
 import json
 import urllib2
 import argparse
@@ -29,6 +30,10 @@ from datetime import datetime
 
 
 BPDIR = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
+VERSION_FMTS = (
+    re.compile(r'^(\d+)\.(\d+)\.(\d+)$'),
+    re.compile(r'^(\d+)\.(\d+)\.(\d+)-(.+)$')
+)
 
 sys.path.append(os.path.join(BPDIR, 'lib'))
 
@@ -186,6 +191,18 @@ def get_major_versions(pkgDir):
     return list(set(majVersions))
 
 
+def split_version(version):
+    def try_convert_to_int(val):
+        try:
+            return int(val)
+        except ValueError:
+            return val
+    for fmt in VERSION_FMTS:
+        m = fmt.match(version)
+        if m:
+            return map(try_convert_to_int, m.groups())
+
+
 def get_latest_version(pkgDir, like=None):
     """Get the latest version of a package.
 
@@ -198,7 +215,7 @@ def get_latest_version(pkgDir, like=None):
     for d in os.listdir(pkgDir):
         if os.path.isdir(os.path.join(pkgDir, d)):
             if like is None or d.startswith(like):
-                versions[d] = tuple(map(int, (d.split("."))))
+                versions[d] = split_version(d)
     return max(versions.iteritems(), key=operator.itemgetter(1))[0]
 
 
