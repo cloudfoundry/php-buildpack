@@ -16,6 +16,15 @@ from compile_helpers import convert_php_extensions
 from compile_helpers import build_php_environment
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
+from compile_helpers import load_binary_index
+from compile_helpers import find_all_php_versions
+from compile_helpers import find_all_php_extensions
+
+
+def configure(ctx):
+    json = load_binary_index(ctx)
+    ctx['ALL_PHP_VERSIONS'] = find_all_php_versions(json)
+    ctx['ALL_PHP_EXTENSIONS'] = find_all_php_extensions(json)
 
 
 def preprocess_commands(ctx):
