@@ -3,6 +3,7 @@ import sys
 import shutil
 import logging
 import codecs
+import inspect
 from string import Template
 from runner import check_output
 
@@ -148,6 +149,15 @@ class FormattedDict(dict):
             return self.format(dict.get(self, *args))
         else:
             return dict.get(self, *args)
+
+    def __setitem__(self, key, val):
+        if _log.isEnabledFor(logging.DEBUG):
+            frame = inspect.currentframe()
+            caller = inspect.getouterframes(frame, 2)
+            info = caller[1]
+            _log.debug('line #%s in %s, "%s" is setting [%s] = [%s]',
+                       info[2], info[1], info[3], key, val)
+        dict.__setitem__(self, key, val)
 
 
 # This is copytree from PyPy 2.7 source code.
