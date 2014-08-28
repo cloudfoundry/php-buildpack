@@ -73,7 +73,7 @@ Here are the general goals of the build pack (in no particular order):
 Here's a list of the major features of the build pack.
 
   - supports the latest versions of Apache HTTPD 2.4 and Nginx 1.5, 1.6 & 1.7
-  - supports the latest versions of PHP 5.4 and 5.5
+  - supports the latest versions of PHP 5.4, 5.5 and 5.6.
   - supports a large set of PHP extensions, including amqp, apc, apcu, bz2, curl, dba, exif, fileinfo, ftp, gd, gettext, gmp, igbinary, imagick, imap, intl, ldap, mailparse, mbstring, mcrypt, memcache, memcached, mongo, msgpack, mysql, mysqli, opcache, openssl, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, pgsql, phalcon, phpiredis, pspell, redis, snmp, soap, sockets, sundown, twig, xcache, xdebug, zip and zlib
   - allows installing PHP runtime of choice: php cli, php cgi or php-fpm
   - versions of HTTPD, Nginx and PHP are automatically upgraded to the latest release just by re-staging an application
