@@ -118,7 +118,7 @@ class TestRewriteScriptWithNginx(BaseRewriteScript):
     def setUp(self):
         BaseRewriteScript.setUp(self)
         self.env = {'PYTHONPATH': os.path.abspath('lib'),
-                    'VCAP_APP_PORT': '80'}
+                    'PORT': '80'}
         self.env.update(os.environ)
         shutil.copytree('defaults/config/nginx/1.5.x', self.cfg_dir)
 
