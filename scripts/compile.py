@@ -27,6 +27,8 @@ if __name__ == '__main__':
             .done()
         .execute()
             .method(setup_webdir_if_it_doesnt_exist)
+        .execute()
+            .method(setup_log_dir)
         .register()
             .extension()
                 .from_build_pack('lib/{WEB_SERVER}')

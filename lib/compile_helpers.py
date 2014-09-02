@@ -54,6 +54,10 @@ def setup_webdir_if_it_doesnt_exist(ctx):
             fu.done()
 
 
+def setup_log_dir(ctx):
+    os.makedirs(os.path.join(ctx['BUILD_DIR'], 'logs'))
+
+
 def load_binary_index(ctx):
     index_path = os.path.join(ctx['BP_DIR'], 'binaries',
                               ctx['STACK'], 'index-all.json')

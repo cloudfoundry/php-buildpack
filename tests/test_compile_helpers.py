@@ -3,7 +3,6 @@ import os.path
 import tempfile
 import shutil
 from nose.tools import eq_
-from nose.tools import with_setup
 from build_pack_utils import utils
 from compile_helpers import setup_webdir_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
@@ -15,6 +14,7 @@ from compile_helpers import find_all_php_versions
 from compile_helpers import find_all_php_extensions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
+from compile_helpers import setup_log_dir
 
 
 class TestCompileHelpers(object):
@@ -39,7 +39,13 @@ class TestCompileHelpers(object):
         eq_(True, os.path.exists(os.path.join(*args)),
             "Does not exists: %s" % os.path.join(*args))
 
-    @with_setup(setup=setUp, teardown=tearDown)
+    def test_setup_log_dir(self):
+        eq_(False, os.path.exists(os.path.join(self.build_dir, 'logs')))
+        setup_log_dir({
+            'BUILD_DIR': self.build_dir
+        })
+        self.assert_exists(self.build_dir, 'logs')
+
     def test_setup_if_webdir_exists(self):
         shutil.copytree('tests/data/app-1', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
@@ -59,7 +65,6 @@ class TestCompileHelpers(object):
         eq_(2, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_custom_webdir_exists(self):
         shutil.copytree('tests/data/app-6', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
@@ -79,7 +84,6 @@ class TestCompileHelpers(object):
         eq_(3, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'public'))))
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_htdocs_does_not_exist(self):
         shutil.copytree('tests/data/app-2', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
@@ -99,7 +103,6 @@ class TestCompileHelpers(object):
         eq_(2, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_custom_webdir_does_not_exist(self):
         shutil.copytree('tests/data/app-2', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
@@ -119,7 +122,6 @@ class TestCompileHelpers(object):
         eq_(2, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'public'))))
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_htdocs_does_not_exist_with_extensions(self):
         shutil.copytree('tests/data/app-4', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
@@ -146,7 +148,6 @@ class TestCompileHelpers(object):
         eq_(4, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_setup_if_custom_webdir_does_not_exist_with_extensions(self):
         shutil.copytree('tests/data/app-4', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
@@ -282,13 +283,13 @@ class TestCompileHelpers(object):
         json = load_binary_index(ctx)
         assert json is not None
         assert 'php' in json.keys()
-        eq_(6, len(json['php'].keys()))
+        eq_(7, len(json['php'].keys()))
 
     def test_find_all_php_versions(self):
         ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
         json = load_binary_index(ctx)
         versions = find_all_php_versions(json)
-        eq_(6, len(versions))
+        eq_(7, len(versions))
         eq_(3, len([v for v in versions if v.startswith('5.4.')]))
         eq_(3, len([v for v in versions if v.startswith('5.5.')]))
 
@@ -296,7 +297,7 @@ class TestCompileHelpers(object):
         ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
         json = load_binary_index(ctx)
         exts = find_all_php_extensions(json)
-        eq_(6, len(exts.keys()))
+        eq_(7, len(exts.keys()))
         tmp = exts[exts.keys()[0]]
         assert 'amqp' in tmp
         assert 'apc' in tmp
