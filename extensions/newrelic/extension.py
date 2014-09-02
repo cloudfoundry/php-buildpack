@@ -93,7 +93,7 @@ class NewRelicInstaller(object):
                                             'agent', self._php_arch,
                                             newrelic_so_name)
             self._log.debug("PHP Extension [%s]", self.newrelic_so)
-            self.log_path = os.path.join('@{HOME}', '..', 'logs',
+            self.log_path = os.path.join('@{HOME}', 'logs',
                                          'newrelic-daemon.log')
             self._log.debug("Log Path [%s]", self.log_path)
             self.daemon_path = os.path.join(

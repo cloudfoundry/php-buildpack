@@ -59,7 +59,7 @@ class TestNewRelic(object):
         eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
         eq_('app-name-1', nr.app_name)
         eq_('JUNK_LICENSE', nr.license_key)
-        eq_('@{HOME}/../logs/newrelic-daemon.log', nr.log_path)
+        eq_('@{HOME}/logs/newrelic-daemon.log', nr.log_path)
         eq_('@{HOME}/newrelic/daemon/newrelic-daemon.x64', nr.daemon_path)
         eq_('@{HOME}/newrelic/daemon.sock', nr.socket_path)
         eq_('@{HOME}/newrelic/daemon.pid', nr.pid_path)
@@ -90,7 +90,7 @@ class TestNewRelic(object):
         eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
         eq_('app-name-1', nr.app_name)
         eq_('LICENSE', nr.license_key)
-        eq_('@{HOME}/../logs/newrelic-daemon.log', nr.log_path)
+        eq_('@{HOME}/logs/newrelic-daemon.log', nr.log_path)
         eq_('@{HOME}/newrelic/daemon/newrelic-daemon.x64', nr.daemon_path)
         eq_('@{HOME}/newrelic/daemon.sock', nr.socket_path)
         eq_('@{HOME}/newrelic/daemon.pid', nr.pid_path)
@@ -122,7 +122,7 @@ class TestNewRelic(object):
         eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
         eq_('app-name-2', nr.app_name)
         eq_('LICENSE2', nr.license_key)
-        eq_('@{HOME}/../logs/newrelic-daemon.log', nr.log_path)
+        eq_('@{HOME}/logs/newrelic-daemon.log', nr.log_path)
         eq_('@{HOME}/newrelic/daemon/newrelic-daemon.x64', nr.daemon_path)
         eq_('@{HOME}/newrelic/daemon.sock', nr.socket_path)
         eq_('@{HOME}/newrelic/daemon.pid', nr.pid_path)
@@ -266,7 +266,7 @@ class TestCompileNewRelicWithPHP(BaseCompileNewRelic):
                 eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
                     '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"',
                     lines[1])
-                eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
+                eq_('php-fpm-logs: tail -F $HOME/logs/php-fpm.log',
                     lines[2])
 
             # Check htdocs and config

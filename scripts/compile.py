@@ -17,6 +17,7 @@
 from datetime import datetime
 from build_pack_utils import Builder
 from compile_helpers import setup_webdir_if_it_doesnt_exist
+from compile_helpers import setup_log_dir
 
 
 if __name__ == '__main__':

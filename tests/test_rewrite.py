@@ -43,11 +43,10 @@ class TestRewriteScriptPhp(BaseRewriteScript):
     def tearDown(self):
         BaseRewriteScript.tearDown(self)
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_no_args(self):
         try:
             self.run.check_output(self.rewrite,
-                                  cwd=os.path.join(self.run_dir, 'bin'),
+                                  cwd=self.run_dir,
                                   env=self.env,
                                   stderr=subprocess.STDOUT,
                                   shell=True)
@@ -57,12 +56,11 @@ class TestRewriteScriptPhp(BaseRewriteScript):
                 'directory.\n', e.output)
             eq_(255, e.returncode)
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_arg_file(self):
         cfg_file = os.path.join(self.cfg_dir, 'php.ini')
         res = self.run.check_output("%s %s" % (self.rewrite, cfg_file),
                                     env=self.env,
-                                    cwd=os.path.join(self.run_dir, 'bin'),
+                                    cwd=self.run_dir,
                                     stderr=subprocess.STDOUT,
                                     shell=True)
         eq_('', res)
@@ -71,11 +69,10 @@ class TestRewriteScriptPhp(BaseRewriteScript):
             eq_(-1, cfgFile.find('@{HOME}'))
             eq_(-1, cfgFile.find('@{TMPDIR}'))
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_arg_dir(self):
         res = self.run.check_output("%s %s" % (self.rewrite, self.cfg_dir),
                                     env=self.env,
-                                    cwd=os.path.join(self.run_dir, 'bin'),
+                                    cwd=self.run_dir,
                                     stderr=subprocess.STDOUT,
                                     shell=True)
         eq_('', res)
@@ -101,11 +98,10 @@ class TestRewriteScriptWithHttpd(BaseRewriteScript):
     def tearDown(self):
         BaseRewriteScript.tearDown(self)
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite_with_sub_dirs(self):
         res = self.run.check_output("%s %s" % (self.rewrite, self.cfg_dir),
                                     env=self.env,
-                                    cwd=os.path.join(self.run_dir, 'bin'),
+                                    cwd=self.run_dir,
                                     stderr=subprocess.STDOUT,
                                     shell=True)
         eq_('', res)
@@ -129,11 +125,10 @@ class TestRewriteScriptWithNginx(BaseRewriteScript):
     def tearDown(self):
         BaseRewriteScript.tearDown(self)
 
-    @with_setup(setup=setUp, teardown=tearDown)
     def test_rewrite(self):
         res = self.run.check_output("%s %s" % (self.rewrite, self.cfg_dir),
                                     env=self.env,
-                                    cwd=os.path.join(self.run_dir, 'bin'),
+                                    cwd=self.run_dir,
                                     stderr=subprocess.STDOUT,
                                     shell=True)
         eq_('', res)

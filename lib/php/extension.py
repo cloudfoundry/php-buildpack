@@ -44,7 +44,7 @@ def service_commands(ctx):
                 '-c "$HOME/php/etc"'),
             'php-fpm-logs': (
                 'tail',
-                '-F $HOME/../logs/php-fpm.log')
+                '-F $HOME/logs/php-fpm.log')
         }
     else:
         app = find_stand_alone_app_to_run(ctx)

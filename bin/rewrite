@@ -23,7 +23,7 @@ from build_pack_utils import utils
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s [%(levelname)s] %(name)s - %(message)s',
-                        filename='../logs/rewrite.log')
+                        filename='logs/rewrite.log')
 
     if len(sys.argv) != 2:
         print 'Argument required!  Specify path to configuration directory.'

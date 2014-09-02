@@ -124,7 +124,7 @@ class TestCompile(BaseTestCompile):
                 eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
                     '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"',
                     lines[1])
-                eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
+                eq_('php-fpm-logs: tail -F $HOME/logs/php-fpm.log',
                     lines[2])
             # Check htdocs and config
             self.assert_exists(self.build_dir, 'htdocs')
@@ -249,7 +249,7 @@ class TestCompile(BaseTestCompile):
                 eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
                     '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"',
                     lines[1])
-                eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
+                eq_('php-fpm-logs: tail -F $HOME/logs/php-fpm.log',
                     lines[2])
             # Test htdocs & config
             self.assert_exists(self.build_dir, 'htdocs')
@@ -382,7 +382,7 @@ class TestCompileCustomDirs(BaseTestCompile):
                 eq_('php-fpm: $HOME/php/sbin/php-fpm -p "$HOME/php/etc" -y '
                     '"$HOME/php/etc/php-fpm.conf" -c "$HOME/php/etc"',
                     lines[1])
-                eq_('php-fpm-logs: tail -F $HOME/../logs/php-fpm.log',
+                eq_('php-fpm-logs: tail -F $HOME/logs/php-fpm.log',
                     lines[2])
             # Check public and config
             self.assert_exists(self.build_dir, 'public')
