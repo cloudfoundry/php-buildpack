@@ -45,7 +45,7 @@ class TestCodizy(object):
             'VCAP_APPLICATION': {
                 'name': 'app-name-1'
             },
-            'CODIZY_INSTALL': True
+            'CODIZY_INSTALL': '1'
         })
         cy = codizy.CodizyInstaller(ctx)
         eq_(True, cy.should_install())
@@ -93,7 +93,7 @@ class TestCodizy(object):
                     'plan': 'full',
                     'credentials': {'user': 'username', 'password' : 'password'}}]
             },
-            'CODIZY_INSTALL': True,
+            'CODIZY_INSTALL': '1',
             'VCAP_APPLICATION': {
                 'name': 'app-name-2'
             }
@@ -111,7 +111,7 @@ class TestCodizy(object):
     def testModifyPhpIni(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'CODIZY_INSTALL': True,
+            'CODIZY_INSTALL': '1',
             'VCAP_APPLICATION': {
                 'name': 'app-name-1'
             }
@@ -185,7 +185,7 @@ class TestCompileCodizyWithPHP(BaseCompileCodizy):
         BaseCompileCodizy.cleanup(self)
 
     def test_compile_httpd_with_codizy(self):
-        os.environ['CODIZY_INSTALL'] = True
+        os.environ['CODIZY_INSTALL'] = '1'
         os.environ['VCAP_APPLICATION'] = json.dumps({
             'name': 'app-name-1'
         })
@@ -331,7 +331,7 @@ class TestCompileCodizyWithHHVM(BaseCompileCodizy):
         BaseCompileCodizy.cleanup(self)
 
     def test_compile_httpd_with_codizy(self):
-        os.environ['CODIZY_INSTALL'] = True
+        os.environ['CODIZY_INSTALL'] = '1'
         os.environ['VCAP_APPLICATION'] = json.dumps({
             'name': 'app-name-1'
         })
