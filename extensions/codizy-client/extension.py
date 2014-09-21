@@ -92,7 +92,7 @@ class CodizyClientInstaller(object):
     def modify_php_ini(self):
         with open(self.php_ini_path, 'rt') as php_ini:
             lines = php_ini.readlines()
-        pos = lines.index(';auto_prepend_file =\n') + 1
+        pos = lines.index('auto_prepend_file =\n') + 1
         lines.insert(pos, 'auto_prepend_file = %s\n' %
                      '@{HOME}/codizy_client/Codizy-codizy/client/application/setup.php')
         lines.append('\n')
