@@ -39,6 +39,8 @@ class CodizyClientInstaller(object):
         self._ctx = ctx
         self._detected = False
         self.app_name = None
+        self._php_arch = ''
+        self._php_api = ''
         try:
             self._log.info("Initializing")
             self._merge_defaults()
