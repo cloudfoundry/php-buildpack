@@ -37,18 +37,20 @@ class CodizyInstaller(object):
     def __init__(self, ctx):
         self._log = _log
         self._ctx = ctx
+        self._detected = False
         self.app_name = None
         try:
             self._log.info("Initializing")
             self._merge_defaults()
+            self._load_service_info()
             self._load_php_info()
             self._load_codizy_info()
         except Exception:
             self._log.exception("Error installing Codizy module! "
                                 "Codizy module will not be available.")
 
-    def can_install(self):
-        return self._php_arch == 'x64' and int(self._php_api) >= 20100525
+    def should_install(self):
+        return self._detected and self._php_arch == 'x64' and int(self._php_api) >= 20100525
 
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
@@ -56,10 +58,15 @@ class CodizyInstaller(object):
                 self._ctx[key] = val
 
     def _load_codizy_info(self):
-        codizy_so_name = 'codizy-%s.so' % (self._php_api)
-        self.codizy_so = os.path.join('@{HOME}', 'codizy',
+        if 'CODIZY_INSTALL' in self._ctx.keys():
+            self._log.info("Codizy manual install detected.")
+            self._detected = True
+
+        if self._detected:
+            codizy_so_name = 'codizy-%s.so' % (self._php_api)
+            self.codizy_so = os.path.join('@{HOME}', 'codizy',
                                         codizy_so_name)
-        self._log.info("PHP Extension [%s]", self.codizy_so)
+            self._log.info("PHP Extension [%s]", self.codizy_so)
 
     def _load_php_info(self):
         self.php_ini_path = os.path.join(self._ctx['BUILD_DIR'],
@@ -69,6 +76,18 @@ class CodizyInstaller(object):
         self._php_arch = self._ctx.get('CODIZY_ARCH', 'x64')
         self._log.info("PHP API [%s] Arch [%s]",
                         self._php_api, self._php_arch)
+
+    def _load_service_info(self):
+        services = self._ctx.get('VCAP_SERVICES', {})
+        services = services.get('codizy', [])
+        if len(services) == 0:
+            self._log.info("Codizy services not detected.")
+        if len(services) > 1:
+            self._log.warn("Multiple Codizy services found, "
+                           "credentials from first one.")
+        if len(services) > 0:
+            self._log.info("Codizy services detected.")
+            self._detected = True
 
     def _find_php_extn_dir(self):
         with open(self.php_ini_path, 'rt') as php_ini:
@@ -114,7 +133,7 @@ def service_environment(ctx):
 def compile(install):
     codizy = CodizyInstaller(install.builder._ctx)
     # support for x64 environnement only & PHP 54/55 for now
-    if codizy.can_install():
+    if codizy.should_install():
         _log.info("Installing Codizy module")
         install.package('CODIZY')
         _log.info("Configuring Codizy module in php.ini")

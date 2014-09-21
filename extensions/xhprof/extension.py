@@ -35,18 +35,20 @@ class XhprofInstaller(object):
     def __init__(self, ctx):
         self._log = _log
         self._ctx = ctx
+        self._detected = False
         self.app_name = None
         try:
             self._log.info("Initializing")
             self._merge_defaults()
+            self._load_service_info()
             self._load_php_info()
             self._load_xhprof_info()
         except Exception:
             self._log.exception("Error installing Xhprof module! "
                                 "Xhprof module will not be available.")
 
-    def can_install(self):
-        return self._php_arch == 'x64' and int(self._php_api) >= 20100525
+    def should_install(self):
+        return self._detected and self._php_arch == 'x64' and int(self._php_api) >= 20100525
 
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
@@ -81,6 +83,34 @@ class XhprofInstaller(object):
         php_zts = (tmp.find('non-zts') == -1)
         return php_api, php_zts
 
+    def _load_service_info(self):
+        services = self._ctx.get('VCAP_SERVICES', {})
+        services = services.get('codizy', [])
+        if len(services) == 0:
+            self._log.info("Codizy services not detected.")
+        if len(services) > 1:
+            self._log.warn("Multiple Codizy services found, "
+                           "credentials from first one.")
+        if len(services) > 0:
+            self._log.info("Codizy services detected.")
+            self._detected = True
+
+        services = self._ctx.get('VCAP_SERVICES', {})
+        services = services.get('xhprof', [])
+        if len(services) == 0:
+            self._log.info("XHProf services not detected.")
+        if len(services) > 1:
+            self._log.warn("Multiple XHProf services found, "
+                           "credentials from first one.")
+        if len(services) > 0:
+            self._log.info("XHProf services detected.")
+            self._detected = True
+
+        if 'CODIZY_INSTALL' in self._ctx.keys():
+            self._log.info("Codizy manual install detected.")
+            self._detected = True
+
+
     def modify_php_ini(self):
         with open(self.php_ini_path, 'rt') as php_ini:
             lines = php_ini.readlines()
@@ -112,7 +142,7 @@ def service_environment(ctx):
 def compile(install):
     xhprof = XhprofInstaller(install.builder._ctx)
     # support for x64 environnement only & PHP 54/55 for now
-    if xhprof.can_install():
+    if xhprof.should_install():
         _log.info("Installing Xhprof module")
         install.package('XHPROF')
         _log.info("Configuring Xhprof module in php.ini")
