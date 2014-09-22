@@ -51,7 +51,7 @@ class CodizyClientInstaller(object):
                                 "Codizy-client files will not be available.")
 
     def should_install(self):
-        return self._detected and self._php_arch == 'x64' and int(self._php_api) >= 20100525
+        return self._detected and self._php_arch == 'x64' and int(self._php_api) >= 20100525 and int(self._php_api) < 20131226
 
     def _load_php_info(self):
         self.php_ini_path = os.path.join(self._ctx['BUILD_DIR'],

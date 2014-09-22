@@ -52,7 +52,7 @@ class IoncubeInstaller(object):
                                 "Ioncube module will not be available.")
 
     def should_install(self):
-        return self._detected and self._php_arch == 'x64' and int(self._php_api) >= 20100525
+        return self._detected and self._php_arch == 'x64' and int(self._php_api) >= 20100525 and int(self._php_api) < 20131226
 
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
