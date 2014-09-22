@@ -85,8 +85,9 @@ Here's a list of the major features of the build pack.
   - supports running in ["offline" mode] where binaries are bundled with the build pack
   - supports an extension mechanism that allows the build pack to provided additional functionality
   - allows for application developers to provide custom extensions
-  - support NewRelic through an extension
+  - support NewRelic, Codizy, Ioncube and XHprof through an extension
   - NewRelic support works for bound services or when manually specifying a license key
+  - Codizy support works for bound services
   - easy troubleshooting with the BP_DEBUG environment variable
   - all logging output is routed through stderr & stdout which is sent to loggregator
 
@@ -122,7 +123,7 @@ applications:
   buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack#v1.0
 ```
 
-The benefit of using a release branche is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
+The benefit of using a release branch is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
 
 Because this build pack is a project that I maintain in my spare time and I do not have infinite resources, I will only commit to maintaining the most recent release branch.  Older branches will continue to exist and can continue to be used, but will not receive security updates.  When a branch is no longer being maintained, the compile script will output a message when it is run to let you know that it's time to upgrade.
 
