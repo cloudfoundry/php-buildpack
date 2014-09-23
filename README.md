@@ -100,6 +100,8 @@ Here are some example applications that can be used with this build pack.
   - [CodeIgniter]  CodeIgniter tutorial application running on CF
   - [Stand Alone]  An example which runs a stand alone PHP script
   - [pgbouncer]  An example which runs the pgbouncer process in the container to pool db connections.
+  - [phalcon]  An example which runs a Phalcon based application.
+  - [composer] An example which uses Composer.
 
 ## Getting Help
 
@@ -152,3 +154,6 @@ The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache Lic
 [support forums]:http://support.run.pivotal.io/home
 [Composer]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/composer.md
 ["offline" mode]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/binaries.md#bundling-binaries-with-the-build-pack
+[phalcon]:https://github.com/dmikusa-pivotal/cf-ex-phalcon
+[Phalcon]:http://phalconphp.com/en/
+[composer]:https://github.com/dmikusa-pivotal/cf-ex-composer
