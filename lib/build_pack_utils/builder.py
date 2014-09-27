@@ -4,6 +4,7 @@ import shutil
 import re
 import logging
 from collections import defaultdict
+from StringIO import StringIO
 from subprocess import Popen
 from subprocess import PIPE
 from cloudfoundry import CloudFoundryUtil
@@ -853,6 +854,51 @@ class SaveBuilder(object):
         return self._builder
 
 
+class Shell(object):
+    EXIT_KEY='##exit-code##-->'
+
+    def __init__(self, shell='/bin/bash', stream=sys.stdout):
+        self._proc = Popen(shell,
+                           stdin=PIPE,
+                           stdout=PIPE,
+                           stderr=PIPE,
+                           shell=False)
+        self._stream = stream
+
+    def __getattr__(self, name):
+        def cmd(*args):
+            cmd = '"%s" %s\necho "\n%s$?"\n' % (
+                name,
+                ' '.join([(arg == '|') and arg or '"%s"' % arg for arg in args]),
+                Shell.EXIT_KEY)
+            self._proc.stdin.write(cmd)
+            for c in iter(lambda: self._proc.stdout.readline(), ''):
+                if c.startswith(Shell.EXIT_KEY):
+                    return int(c[len(Shell.EXIT_KEY):])
+                self._stream.write(c)
+        return cmd
+
+    def __getitem__(self, key):
+        oldstream = self._stream
+        self._stream = StringIO()
+        try:
+            self.echo("$%s" % key)
+            return self._stream.getvalue().strip()
+        finally:
+            self._stream = oldstream
+
+    def __setitem__(self, key, value):
+        cmd = "%s=%s\n" % (key,value)
+        self._proc.stdin.write(cmd)
+
+    def __delitem__(self, key):
+        cmd = "unset %s" % key
+        self._proc.stdin.write(cmd)
+
+    def __contains__(self, key):
+        return self[key] != ''
+
+
 class Builder(object):
     def __init__(self):
         self._installer = None
@@ -885,6 +931,9 @@ class Builder(object):
 
     def move(self):
         return FileUtil(self, move=True)
+
+    def shell(self, shell='/bin/bash'):
+        return Shell(self, shell=shell)
 
     def save(self):
         return SaveBuilder(self)
