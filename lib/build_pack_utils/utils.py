@@ -4,6 +4,7 @@ import shutil
 import logging
 import codecs
 import inspect
+import re
 from string import Template
 from runner import check_output
 
@@ -158,6 +159,44 @@ class FormattedDict(dict):
             _log.debug('line #%s in %s, "%s" is setting [%s] = [%s]',
                        info[2], info[1], info[3], key, val)
         dict.__setitem__(self, key, val)
+
+
+class ConfigFileEditor(object):
+    def __init__(self, cfgPath):
+        with open(cfgPath, 'rt') as cfg:
+            self._lines = cfg.readlines()
+
+    def find_lines_matching(self, regex):
+        if hasattr(regex, 'strip'):
+            regex = re.compile(regex)
+        if not hasattr(regex, 'match'):
+            raise ValueError("must be str or RegexObject")
+        return [line.strip() for line in self._lines if regex.match(line)]
+
+    def update_lines(self, regex, repl):
+        if hasattr(regex, 'strip'):
+            regex = re.compile(regex)
+        if not hasattr(regex, 'match'):
+            raise ValueError("must be str or RegexObject")
+        self._lines = [regex.sub(repl, line) for line in self._lines]
+
+    def append_lines(self, lines):
+        self._lines.extend(lines)
+
+    def insert_after(self, regex, lines):
+        if hasattr(regex, 'strip'):
+            regex = re.compile(regex)
+        if not hasattr(regex, 'match'):
+            raise ValueError("must be str or RegexObject")
+        for i, line in enumerate(self._lines):
+            if regex.match(line):
+                for j, item in enumerate(["%s\n" % l for l in lines]):
+                    self._lines.insert((i + j + 1), item)
+                break
+
+    def save(self, cfgPath):
+        with open(cfgPath, 'wt') as cfg:
+            cfg.writelines(self._lines)
 
 
 # This is copytree from PyPy 2.7 source code.
