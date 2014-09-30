@@ -25,11 +25,11 @@ class PHPExtensionHelper(object):
             return '20131226'
 
     def _merge_defaults(self):
-        for key, val in self.defaults().iteritems():
+        for key, val in self._defaults().iteritems():
             if key not in self._ctx:
                 self._ctx[key] = val
 
-    def defaults(self):
+    def _defaults(self):
         """Returns a set of default environment variables.
 
         Create and return a list of default environment variables.  These
@@ -40,7 +40,7 @@ class PHPExtensionHelper(object):
         """
         return {}
 
-    def should_install(self):
+    def _should_compile(self):
         """Determines if the extension should install it's payload.
 
         This check is called during the `compile` method of the extension.
@@ -49,19 +49,19 @@ class PHPExtensionHelper(object):
         """
         return False
 
-    def should_configure(self):
+    def _should_configure(self):
         """Determines if the extension should configure itself.
 
         This check is called during the `configure` method of the
         extension.  It should return true if the extension should
         configure itself (i.e. the `configure` method is called).
         """
-        return self.should_install()
+        return self._should_compile()
 
-    def install(self, installer):
+    def _compile(self, install):
         """Install the payload of this extension.
 
-        Called when `should_install` returns true.  This is responsible
+        Called when `_should_compile` returns true.  This is responsible
         for installing the payload of the extension.
 
         The argument is the installer object that is passed into the
@@ -69,36 +69,63 @@ class PHPExtensionHelper(object):
         """
         pass
 
-    def configure(self):
+    def _configure(self):
         """Configure the extension.
 
-        Called when `should_configure` returns true.  This method is
-        corresponds to the extension's `configure` method and is 
-        responsible for early configuration, like adding PHP extension
-        to the list of extensions the build pack will install.
-
-        See build pack's extension documentation for the `configure`
-        method.
+        Called when `should_configure` returns true.  Implement this
+        method for your extension.
         """
         pass
+
+    def _preprocess_commands(self):
+        """Return your list of preprocessing commands"""
+        return ()
+
+    def _service_commands(self):
+        """Return dict of commands to run x[name]=cmd"""
+        return {}
+
+    def _service_environment(self):
+        """Return dict of environment variables x[var]=val"""
+        return {}
+
+    def configure(self):
+        """Configure extension.
+
+        This method maps to the extension's `configure` method.
+        """
+        if self._should_configure():
+            self._configure()
 
     def preprocess_commands(self):
         """Return list of preprocess commands to run once.
 
         This method maps to the extension's `preprocess_commands` method.
         """
-        return ()
+        return (self._should_compile() and
+                self._preprocess_commands() or ())
 
     def service_commands(self):
         """Return dictionary of service commands to run and keep running.
 
         This method maps to the extension's `service_commands` method.
         """
-        return {}
+        return (self._should_compile() and
+                self._service_commands() or {})
 
     def service_environment(self):
         """Return dictionary of environment for the service commands.
 
         This method maps to the extension's `service_environment` method.
         """
-        return {}
+        return (self._should_compile() and
+                self._service_environment() or {})
+
+    def compile(self, install):
+        """Build and install the extension.
+
+        This method maps to the extension's `compile` method.
+        """
+        if self._should_compile():
+            self._compile(install)
+        return 0
