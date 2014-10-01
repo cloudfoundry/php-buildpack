@@ -9,12 +9,12 @@ from extension_helpers import PHPExtensionHelper
 class TestPHPExtensionHelper(object):
     def setUp(self):
         self.build_dir = tempfile.mkdtemp(prefix='build-')
-        phpCfgDir = os.path.join(self.build_dir, 'php', 'etc')
-        os.makedirs(phpCfgDir)
+        self.phpCfgDir = os.path.join(self.build_dir, 'php', 'etc')
+        os.makedirs(self.phpCfgDir)
         shutil.copy('defaults/config/php/5.4.x/php.ini',
-                    phpCfgDir)
+                    self.phpCfgDir)
         shutil.copy('defaults/config/php/5.4.x/php-fpm.conf',
-                    phpCfgDir)
+                    self.phpCfgDir)
 
     def tearDown(self):
         if os.path.exists(self.build_dir):
@@ -26,9 +26,12 @@ class TestPHPExtensionHelper(object):
             'PHP_VERSION': '5.4.32'
         })
         ext = PHPExtensionHelper(ctx)
+        ext.load_config()
         eq_(2, len(ext._ctx))
         eq_({}, ext._services)
         eq_({}, ext._application)
+        eq_(os.path.join(self.phpCfgDir, 'php.ini'), ext._php_ini_path)
+        eq_(os.path.join(self.phpCfgDir, 'php-fpm.conf'), ext._php_fpm_path)
         eq_(1822, len(ext._php_ini._lines))
         eq_(517, len(ext._php_fpm._lines))
         eq_('20100525', ext._php_api)

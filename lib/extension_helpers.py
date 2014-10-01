@@ -10,11 +10,21 @@ class PHPExtensionHelper(object):
         self._services = self._ctx.get('VCAP_SERVICES', {})
         self._application = self._ctx.get('VCAP_APPLICATION', {})
         self._merge_defaults()
-        self._php_ini = utils.ConfigFileEditor(
-            os.path.join(ctx['BUILD_DIR'], 'php', 'etc', 'php.ini'))
-        self._php_fpm = utils.ConfigFileEditor(
-            os.path.join(ctx['BUILD_DIR'], 'php', 'etc', 'php-fpm.conf'))
-        self._php_api = self._get_api()
+        self._php_ini = None
+        self._php_fpm = None
+        self._php_api = None
+        
+    def load_config(self):
+        if not self._php_ini:
+            self._php_ini_path = os.path.join(self._ctx['BUILD_DIR'], 'php',
+                                              'etc', 'php.ini')
+            self._php_ini = utils.ConfigFileEditor(self._php_ini_path)
+        if not self._php_fpm:
+            self._php_fpm_path = os.path.join(self._ctx['BUILD_DIR'], 'php',
+                                              'etc', 'php-fpm.conf')
+            self._php_fpm = utils.ConfigFileEditor(self._php_fpm_path)
+        if not self._php_api:
+            self._php_api = self._get_api()
 
     def _get_api(self):
         if self._ctx['PHP_VERSION'].startswith('5.4'):
