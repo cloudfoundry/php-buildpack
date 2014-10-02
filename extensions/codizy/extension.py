@@ -63,10 +63,19 @@ class CodizyExtension(PHPExtensionHelper):
         self._php_ini.save(self._php_ini_path)
 
     def _configure(self):
+        # add required zend extensions
+        zend_exts = []
+        zend_exts.extend(self._ctx.get('ZEND_EXTENSIONS', []))
+        zend_exts.append('ioncube')
+        # sort to make sure ioncube is always first
+        ioncube_cmp = lambda x, y: ((x == 'ioncube') and -1 or
+                                    ((y == 'ioncube') and 1 or 0))
+        self._ctx['ZEND_EXTENSIONS'] = sorted(list(set(zend_exts)),
+                                              cmp=ioncube_cmp)
+        # add required extensions
         exts = []
         exts.extend(self._ctx.get('PHP_EXTENSIONS', []))
         exts.append('xhprof')
-        exts.append('ioncube')
         exts.append('codizy')
         exts.append('curl')
         exts.append('gettext')

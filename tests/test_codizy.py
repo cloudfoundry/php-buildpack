@@ -36,24 +36,25 @@ class TestCodizyInstaller(object):
         codizy = codizy_extn.CodizyExtension(ctx)
         codizy._configure()
         eq_(True, 'xhprof' in ctx['PHP_EXTENSIONS'])
-        eq_(True, 'ioncube' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'codizy' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'curl' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'gettext' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'mbstring' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'openssl' in ctx['PHP_EXTENSIONS'])
-        eq_(7, len(ctx['PHP_EXTENSIONS']))
+        eq_(6, len(ctx['PHP_EXTENSIONS']))
+        eq_(True, 'ioncube' in ctx['ZEND_EXTENSIONS'])
+        eq_(1, len(ctx['ZEND_EXTENSIONS']))
 
     def test_configure_doesnt_override_extns(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.33',
-            'PHP_EXTENSIONS': ['a', 'b']
+            'PHP_EXTENSIONS': ['a', 'b'],
+            'ZEND_EXTENSIONS': ['opcache', 'xdebug']
         })
         codizy = codizy_extn.CodizyExtension(ctx)
         codizy._configure()
         eq_(True, 'xhprof' in ctx['PHP_EXTENSIONS'])
-        eq_(True, 'ioncube' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'codizy' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'curl' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'gettext' in ctx['PHP_EXTENSIONS'])
@@ -61,7 +62,10 @@ class TestCodizyInstaller(object):
         eq_(True, 'openssl' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'a' in ctx['PHP_EXTENSIONS'])
         eq_(True, 'b' in ctx['PHP_EXTENSIONS'])
-        eq_(9, len(ctx['PHP_EXTENSIONS']))
+        eq_(8, len(ctx['PHP_EXTENSIONS']))
+        eq_(True, 'ioncube' in ctx['ZEND_EXTENSIONS'])
+        eq_('ioncube', ctx['ZEND_EXTENSIONS'][0])
+        eq_(3, len(ctx['ZEND_EXTENSIONS']))
 
     def test_should_not_compile_php56(self):
         ctx = utils.FormattedDict({
