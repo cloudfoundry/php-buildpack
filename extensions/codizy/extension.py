@@ -81,6 +81,7 @@ class CodizyExtension(PHPExtensionHelper):
         exts.append('gettext')
         exts.append('mbstring')
         exts.append('openssl')
+        exts.append('zlib')
         self._ctx['PHP_EXTENSIONS'] = list(set(exts))
 
     def _should_compile(self):
