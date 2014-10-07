@@ -136,6 +136,10 @@ This project is managed through Github.  If you encounter any issues, bug or pro
 
 The CloudFoundry PHP Build Pack is released under version 2.0 of the [Apache License].
 
+## Third Party Code & Services Disclaimer
+
+This build pack facilitates the use of third party code and services with your application.  Please do not take this as an endorsement or guarantee of fitness for said third party code or services.  This build pack is simply striving to make your life as easy as possible if *you* decide to use third party code or a particular service.  The bottom line, it's *your* choice to use third party code or services and *you* should be diligently evaluating them to make sure the code or service fits your needs.
+
 
 [CF PHP & Apache Build Pack]:https://github.com/dmikusa-pivotal/cf-php-apache-buildpack
 [Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
