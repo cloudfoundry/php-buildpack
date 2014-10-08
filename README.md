@@ -74,7 +74,7 @@ Here's a list of the major features of the build pack.
 
   - supports the latest versions of Apache HTTPD 2.4 and Nginx 1.5, 1.6 & 1.7
   - supports the latest versions of PHP 5.4, 5.5 and 5.6.
-  - supports a large set of PHP extensions, including amqp, apc, apcu, bz2, curl, dba, exif, fileinfo, ftp, gd, gettext, gmp, igbinary, imagick, imap, intl, ldap, mailparse, mbstring, mcrypt, memcache, memcached, mongo, msgpack, mysql, mysqli, opcache, openssl, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, pgsql, phalcon, phpiredis, pspell, redis, snmp, soap, sockets, sundown, twig, xcache, xdebug, zip and zlib
+  - supports a large set of PHP extensions, including amqp, apc, apcu, bz2, curl, codizy, dba, exif, fileinfo, ftp, gd, gettext, gmp, igbinary, imagick, imap, intl, ioncube, ldap, mailparse, mbstring, mcrypt, memcache, memcached, mongo, msgpack, mysql, mysqli, opcache, openssl, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, pgsql, phalcon, phpiredis, pspell, redis, suhosin, snmp, soap, sockets, sundown, twig, xcache, xdebug, xhprof, zip and zlib
   - allows installing PHP runtime of choice: php cli, php cgi or php-fpm
   - versions of HTTPD, Nginx and PHP are automatically upgraded to the latest release just by re-staging an application
   - allows for application developers to control which PHP extensions are installed
@@ -85,8 +85,8 @@ Here's a list of the major features of the build pack.
   - supports running in ["offline" mode] where binaries are bundled with the build pack
   - supports an extension mechanism that allows the build pack to provided additional functionality
   - allows for application developers to provide custom extensions
-  - support NewRelic through an extension
-  - NewRelic support works for bound services or when manually specifying a license key
+  - support NewRelic & Codizy through an extension
+  - Codizy & NewRelic support works for bound services or when manually enabling it
   - easy troubleshooting with the BP_DEBUG environment variable
   - all logging output is routed through stderr & stdout which is sent to loggregator
 
@@ -124,7 +124,7 @@ applications:
   buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack#v1.0
 ```
 
-The benefit of using a release branche is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
+The benefit of using a release branch is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
 
 Because this build pack is a project that I maintain in my spare time and I do not have infinite resources, I will only commit to maintaining the most recent release branch.  Older branches will continue to exist and can continue to be used, but will not receive security updates.  When a branch is no longer being maintained, the compile script will output a message when it is run to let you know that it's time to upgrade.
 
