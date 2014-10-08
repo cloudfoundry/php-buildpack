@@ -34,8 +34,9 @@ For more information about how to use Codizy efficiently, see the [User Guide].
 
 ### Platform support
 
-Codizy and it's required extensions currently PHP 5.4.x & 5.5.x on x86_64 Linux.
+Codizy and it's required extensions currently PHP 5.4.x & 5.5.x on x86_64 Linux.  The current exception is with PHP 5.4.33 and 5.5.17.  These versions contain a [bug] which impacts features required by Codizy.  Please avoid using either of these versions of PHP with Codizy.
 
 
 [Codizy]:http://www.codizy.com
 [User Guide]:http://doc.codizy.com:8090/display/UG/User+guide
+[bug]:https://bugs.php.net/bug.php?id=41631
