@@ -135,7 +135,7 @@ def run():
         if args['zip_path'] is None:
             args['zip_path'] = os.getcwd()
         try:
-            zip_up_files(args['binary_path'], args['zip_path'])
+            zip_up_files(args['binary_path'], args['zip_path'], args['index'])
         finally:
             if args['binary_path'].startswith(tempfile.gettempdir()):
                 print 'Cleaning up temp files at %s' % args['binary_path']
@@ -299,13 +299,15 @@ def zip_up_folder(zf, path, compress=None, altBase=None):
                 zf.write(fullPath, zipPath)
 
 
-def zip_up_files(binPath, zipPath):
+def zip_up_files(binPath, zipPath, indexPath):
     zipName = 'php-build-pack-%s.zip' % \
         datetime.now().strftime('%y.%d.%m-%H.%M.%S')
     try:
         zf = zipfile.ZipFile(os.path.join(zipPath, zipName), 'w')
         # zip up binaries
         zip_up_folder(zf, binPath, altBase='binaries')
+        # zip up index
+        zf.write(indexPath, os.path.join('binaries', 'index-all.json'))
         # zip up build pack
         zip_up_folder(zf, os.path.join(BPDIR, 'bin'),
                       zipfile.ZIP_DEFLATED)
@@ -320,6 +322,7 @@ def zip_up_files(binPath, zipPath):
         # overwrite DOWNLOAD_URL in options.json
         cfg = load_cfg()
         cfg['DOWNLOAD_URL'] = 'file://{BP_DIR}/binaries'
+        cfg['STACK'] = ''
         info = zipfile.ZipInfo('defaults/options.json')
         info.date_time = datetime.now().timetuple()[:6]
         info.compress_type = zipfile.ZIP_DEFLATED
