@@ -111,7 +111,7 @@ If you have questions, comments or need further help with the build pack you can
 
 When using a custom build pack with CloudFoundry, you need to specify the Git URL for the build pack.  By default, this will pull down the master branch of the build pack.  With the CF PHP Build pack, the master branch is where work and new development occurs.  By using this branch it will get you all the latest and greatest developments from the build pack.
 
-If you'd like something that is a little more stable, you can select one of the release branches of the build pack.  You can specify a release branch by appending `#<branch>` to the end of the build pack's URL.  
+If you'd like something that is a little more stable, you can select one of the release tags of the build pack.  You can specify a release tag by appending `#<tag>` to the end of the build pack's URL.  
 
 ```yaml
 ---
@@ -121,12 +121,12 @@ applications:
   instances: 1
   host: my-php-app
   path: .
-  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack#v1.0
+  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack#v2.0
 ```
 
-The benefit of using a release branch is that it is stable, at least in terms of features and changes.  No new features or changes will be made to a release branch.  The only modifications are for security updates.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release branch.
+The benefit of using a release tag is that it is stable, at least it should be.  No new features or changes will be made to a release tag.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release tag.  The downfall of this is that, the tag is stuck at a point in time and won't receive updates to the binaries, like PHP, HTTPD and Nginx.
 
-Because this build pack is a project that I maintain in my spare time and I do not have infinite resources, I will only commit to maintaining the most recent release branch.  Older branches will continue to exist and can continue to be used, but will not receive security updates.  When a branch is no longer being maintained, the compile script will output a message when it is run to let you know that it's time to upgrade.
+In the past, I was maintaining releases as branches on the build pack and back porting upgrades to binaries.  Because this build pack is a project that I maintain in my spare time and I do not have infinite resources, I've switched to tags which consume less time.  The older branches will continue to exist and can continue to be used, but will not receive any further updates.  The branches are numbers 1.x, while tags will start with 2.x.
 
 ## Issues & Feature Requests
 
