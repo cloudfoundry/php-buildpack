@@ -79,4 +79,65 @@ Here are the steps you would need to do this.
 1. Run `cf create-buildpack` pointing to the file that was generated in the previous step.  This will install the build pack on your private cloud (as long as you have permissions).
 1. Now you can `cf push` a PHP application and you no longer need to set the `-b` argument or specify the build pack in your manifest file.
 
+#### Use a Build Pack Bundle
+
+If you're running your own CF installation, like with PCF or Bosh Lite, you can follow these steps to install a bundled version of this build pack.
+
+First, check if there is an existing `php_buildpack` already installed.
+
+```
+$ cf buildpacks
+Getting buildpacks...
+
+buildpack          position   enabled   locked   filename
+java_buildpack     1          true      false    java-buildpack-v2.4.zip
+ruby_buildpack     2          true      false    ruby_buildpack-offline-v1.1.0.zip
+nodejs_buildpack   3          true      false    nodejs_buildpack-offline-v1.0.1.zip
+go_buildpack       4          true      false    go_buildpack-offline-v1.0.1.zip
+python_buildpack   5          true      false    python_buildpack-offline-v1.0.1.zip
+php_buildpack      6          true      false    php_buildpack-offline-v1.0.1.zip
+```
+
+If so, disable it.
+
+```
+$ cf update-buildpack php_buildpack --disable
+$ cf buildpacks
+Getting buildpacks...
+
+buildpack          position   enabled   locked   filename
+java_buildpack     1          true      false    java-buildpack-v2.4.zip
+ruby_buildpack     2          true      false    ruby_buildpack-offline-v1.1.0.zip
+nodejs_buildpack   3          true      false    nodejs_buildpack-offline-v1.0.1.zip
+go_buildpack       4          true      false    go_buildpack-offline-v1.0.1.zip
+python_buildpack   5          true      false    python_buildpack-offline-v1.0.1.zip
+php_buildpack      6          false     false    php_buildpack-offline-v1.0.1.zip
+```
+
+Upload your bundled version of this build pack.
+
+```
+$ cf create-buildpack dm_php_buildpack php-build-pack-14.09.10-16.17.43.zip 7 --enable
+$ cf buildpacks
+Getting buildpacks...
+
+buildpack            position   enabled   locked   filename
+java_buildpack       1          true      false    java-buildpack-v2.4.zip
+ruby_buildpack       2          true      false    ruby_buildpack-offline-v1.1.0.zip
+nodejs_buildpack     3          true      false    nodejs_buildpack-offline-v1.0.1.zip
+go_buildpack         4          true      false    go_buildpack-offline-v1.0.1.zip
+python_buildpack     5          true      false    python_buildpack-offline-v1.0.1.zip
+php_buildpack        6          false     false    php_buildpack-offline-v1.0.1.zip
+dm_php_buildpack     7          true      false    php-build-pack-14.09.10-16.17.43.zip
+```
+
+Now to push an app using the build pack you installed.
+
+  - don't set the `-b` argument to cf push
+  - remove `buildpack` from manifest.yml, if it exists
+  - cf push
+
+Alternatively, push and use the `-b` argument with the name of the build pack.  From the example above, that's `dm_php_buildpack`.
+
+
 [PyEnv]:https://github.com/yyuu/pyenv
