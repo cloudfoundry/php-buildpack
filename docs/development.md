@@ -63,7 +63,7 @@ To create an extension, simply create a folder.  The name of the folder will be 
 
 #### Methods
 
-Here is an explanation of the methods offered to an extension developer.  All of them are option and if a method is not implemented, it is simply skipped.
+Here is an explanation of the methods offered to an extension developer.  All of them are optional and if a method is not implemented, it is simply skipped.
 
 ```python
 def configure(ctx):
@@ -120,6 +120,16 @@ def compile(install):
 The `compile` method is the main method and where extension authors should perform the bulk of their logic.  This method is called  by the build pack while it's installing extensions.
 
 The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
+
+##### Method Order
+
+It is sometimes useful to know what order the build pack will use to call the methods in an extension.  They are called in the following order.
+
+1. `configure`
+2. `compile`
+3. `service_environment`
+4. `service_commands`
+5. `preprocess_commands`
 
 #### Example
 
