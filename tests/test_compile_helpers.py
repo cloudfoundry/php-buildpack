@@ -283,13 +283,13 @@ class TestCompileHelpers(object):
         json = load_binary_index(ctx)
         assert json is not None
         assert 'php' in json.keys()
-        eq_(7, len(json['php'].keys()))
+        eq_(9, len(json['php'].keys()))
 
     def test_find_all_php_versions(self):
         ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
         json = load_binary_index(ctx)
         versions = find_all_php_versions(json)
-        eq_(7, len(versions))
+        eq_(9, len(versions))
         eq_(3, len([v for v in versions if v.startswith('5.4.')]))
         eq_(3, len([v for v in versions if v.startswith('5.5.')]))
 
@@ -297,8 +297,8 @@ class TestCompileHelpers(object):
         ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
         json = load_binary_index(ctx)
         exts = find_all_php_extensions(json)
-        eq_(7, len(exts.keys()))
-        tmp = exts[exts.keys()[0]]
+        eq_(9, len(exts.keys()))
+        tmp = exts[[key for key in exts.keys() if key.startswith('5.4')][0]]
         assert 'amqp' in tmp
         assert 'apc' in tmp
         assert 'imap' in tmp
