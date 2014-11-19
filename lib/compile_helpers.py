@@ -42,15 +42,15 @@ def setup_webdir_if_it_doesnt_exist(ctx):
             fu.under('BUILD_DIR')
             fu.into('WEBDIR')
             fu.where_name_does_not_match(
-                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp'))
+                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.bp'))
             fu.where_name_does_not_match(
-                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.extensions'))
+                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.extensions'))
             fu.where_name_does_not_match(
-                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], '.bp-config'))
+                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.bp-config'))
             fu.where_name_does_not_match(
-                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
+                '^%s$' % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
             fu.where_name_does_not_match(
-                '^%s.*$' % os.path.join(ctx['BUILD_DIR'], ctx['LIBDIR']))
+                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], ctx['LIBDIR']))
             fu.done()
 
 

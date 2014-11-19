@@ -103,6 +103,30 @@ class TestCompileHelpers(object):
         eq_(2, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
+    def test_setup_if_htdocs_does_not_exist_but_library_does(self):
+        shutil.copytree('tests/data/app-7', self.build_dir)
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
+        }))
+        self.assert_exists(self.build_dir, 'htdocs')
+        self.assert_exists(self.build_dir, 'htdocs', 'index.php')
+        self.assert_exists(self.build_dir, 'htdocs', 'info.php')
+        self.assert_exists(self.build_dir, 'htdocs',
+                           'technical-difficulties1.jpg')
+        self.assert_exists(self.build_dir, 'htdocs', 'library')
+        self.assert_exists(self.build_dir, 'htdocs', 'library', 'junk.php')
+        self.assert_exists(self.build_dir, 'lib')
+        self.assert_exists(self.build_dir, 'lib', 'test.php')
+        self.assert_exists(self.build_dir, '.bp-config')
+        self.assert_exists(self.build_dir, '.bp-config', 'options.json')
+        self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
+                           'httpd-remoteip.conf')
+        self.assert_exists(self.build_dir, 'manifest.yml')
+        eq_(4, len(os.listdir(self.build_dir)))
+        eq_(4, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
+
     def test_setup_if_custom_webdir_does_not_exist(self):
         shutil.copytree('tests/data/app-2', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
