@@ -1441,6 +1441,10 @@
             "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.6.1/nginx-1.6.1.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.6.1/nginx-1.6.1.tar.gz.sha1"
         ], 
+        "1.7.8": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.8/nginx-1.7.8.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.8/nginx-1.7.8.tar.gz.sha1"
+        ], 
         "1.7.7": [
             "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.7/nginx-1.7.7.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.7/nginx-1.7.7.tar.gz.sha1"
@@ -1448,10 +1452,6 @@
         "1.7.6": [
             "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.6/nginx-1.7.6.tar.gz", 
             "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.6/nginx-1.7.6.tar.gz.sha1"
-        ], 
-        "1.7.5": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.5/nginx-1.7.5.tar.gz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/trusty/nginx/1.7.5/nginx-1.7.5.tar.gz.sha1"
         ]
     }, 
     "newrelic": {
