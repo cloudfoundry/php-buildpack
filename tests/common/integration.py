@@ -142,8 +142,8 @@ class TextFileAssertHelper(object):
                 "Found [%s] but expected [%s]" % (line, expected)
         elif len(self._selection) > 1:
             assert self._method([test(line) for line in self._selection]), \
-                ("[%s] not found on any line\n" 
-                 "Choices were:\n\n\t%s" % 
+                ("[%s] not found on any line\n"
+                 "Choices were:\n\n\t%s" %
                  (expected, "\t".join(self._selection)))
 
     def expect(self):
@@ -183,6 +183,10 @@ class TextFileAssertHelper(object):
 
     def contains(self, val):
         self._check(lambda l: l.find(val) != -1, val)
+        return self
+
+    def does_not_contain(self, val):
+        self._check(lambda l: l.find(val) == -1, val)
         return self
 
     def startswith(self, val):
