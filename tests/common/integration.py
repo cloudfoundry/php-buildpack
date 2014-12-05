@@ -21,6 +21,8 @@ class OptionsHelper(object):
         """Overrides any method `set_...` methods to call `_set_key`"""
         if name.startswith('set_'):
             return lambda val: self._set_key(name[4:].upper(), val)
+        if name.startswith('get_'):
+            return lambda: self._opts[name[4:].upper()]
         return AttributeError("%s instance has no attribute '%s'" %
                               self.__class__.__name__, name)
 
