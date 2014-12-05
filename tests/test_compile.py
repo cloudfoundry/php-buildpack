@@ -4,15 +4,21 @@ from common.integration import OptionsHelper
 from common.integration import DirectoryHelper
 from common.integration import FileAssertHelper
 from common.integration import ErrorHelper
-from common.integration import TextFileAssertHelper
+from common.components import BuildPackAssertHelper
+from common.components import HttpdAssertHelper
+from common.components import NginxAssertHelper
+from common.components import PhpAssertHelper
 
 
-class TestCompileWithApp1(object):
+class TestCompileApp1(object):
+    def __init__(self):
+        self.app_name = 'app-1'
+
     def setUp(self):
         self.dh = DirectoryHelper()
         (self.build_dir,
          self.cache_dir,
-         self.temp_dir) = self.dh.create_bp_env('app-1')
+         self.temp_dir) = self.dh.create_bp_env(self.app_name)
         self.bp = BuildPack({
             'BUILD_DIR': self.build_dir,
             'CACHE_DIR': self.cache_dir,
@@ -29,299 +35,77 @@ class TestCompileWithApp1(object):
     def tearDown(self):
         self.dh.cleanup()
 
-    def test_setup(self):
-        fah = FileAssertHelper()
-        (fah.expect()
-            .path(self.build_dir)
-            .path(self.build_dir, 'htdocs')
-            .path(self.temp_dir)
-            .exists())
-        fah.expect().path(self.cache_dir).does_not_exist()
-
-    def test_compile_httpd(self):
-        fah = FileAssertHelper()
-        tfah = TextFileAssertHelper()
+    def test_with_httpd(self):
+        # helpers to confirm the environment
+        bp = BuildPackAssertHelper()
+        httpd = HttpdAssertHelper()
+        php = PhpAssertHelper()
         # set web server to httpd, since that's what we're expecting here
         self.opts.set_web_server('httpd')
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
-        # Test stdout, confirm what is downloaded & installed
-        (tfah.expect()
-            .on_string(output)
-            .line_count_equals(21, lambda l: l.startswith('Downloaded'))
-            .line_count_equals(2, lambda l: l.startswith('Installing'))
-            .line(-1)
-                .startswith('Finished:'))  # noqa
-        # Test that the start script was created properly
-        fah.expect().path(self.build_dir, 'start.sh').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, 'start.sh')
-            .line_count_equals(5)
-            .line(0)
-                .equals('export PYTHONPATH=$HOME/.bp/lib\n')  # noqa
-            .any_line()
-                .equals('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"\n')
-                .equals('$HOME/.bp/bin/rewrite "$HOME/php/etc"\n')
-                .equals('$HOME/.bp/bin/rewrite "$HOME/.env"\n')
-            .line(-1)
-                .equals('$HOME/.bp/bin/start'))
-        # Check scripts and bp are installed
-        (fah.expect()
-            .path(self.build_dir, '.bp', 'bin', 'rewrite')
-            .root(self.build_dir, '.bp', 'lib', 'build_pack_utils')
-                .directory_count_equals(22)  # noqa
-                .path('utils.py')
-                .path('process.py')
-            .exists())
-        # Check env file
-        fah.expect().path(self.build_dir, '.env').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, '.env')
-            .line_count_equals(3)
-            .any_line()
-                .equals('PATH=@PATH:@HOME/php/bin\n')  # noqa
-                .equals('HTTPD_SERVER_ADMIN=dan@mikusa.com\n')
-                .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib\n'))
-        # Check procs files
-        fah.expect().path(self.build_dir, '.procs').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, '.procs')
-            .line_count_equals(3)
-            .any_line()
-                .equals('httpd: $HOME/httpd/bin/apachectl -f '  # noqa
-                        '"$HOME/httpd/conf/httpd.conf" -k start '
-                        '-DFOREGROUND\n')
-                .equals('php-fpm: $HOME/php/sbin/php-fpm -p '
-                        '"$HOME/php/etc" -y "$HOME/php/etc/php-fpm.conf"'
-                        ' -c "$HOME/php/etc"\n')
-                .equals('php-fpm-logs: tail -F $HOME/logs/php-fpm.log\n'))
-        # Check htdocs and config
-        (fah.expect()
-            .root(self.build_dir)
-                .path('htdocs')  # noqa
-                .path('.bp-config', 'options.json')
-            .exists())
-        # Test HTTPD
-        (fah.expect()
-            .root(self.build_dir, 'httpd', 'conf')
-                .path('httpd.conf')  # noqa
-                .root('extra')
-                    .path('httpd-modules.conf')  # noqa
-                    .path('httpd-remoteip.conf')
-            .root(self.build_dir, 'httpd', 'modules', reset=True)
-                .path('mod_authz_core.so')
-                .path('mod_authz_host.so')
-                .path('mod_dir.so')
-                .path('mod_env.so')
-                .path('mod_log_config.so')
-                .path('mod_mime.so')
-                .path('mod_mpm_event.so')
-                .path('mod_proxy.so')
-                .path('mod_proxy_fcgi.so')
-                .path('mod_reqtimeout.so')
-                .path('mod_unixd.so')
-                .path('mod_remoteip.so')
-                .path('mod_rewrite.so')
-            .exists())
-        # Test PHP
-        (fah.expect()
-            .root(self.build_dir, 'php')
-                .path('etc', 'php-fpm.conf')  # noqa
-                .path('etc', 'php.ini')
-                .path('sbin', 'php-fpm')
-                .path('bin')
-            .root(self.build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20100525')
-                .path('bz2.so')
-                .path('zlib.so')
-                .path('curl.so')
-                .path('mcrypt.so')
-            .exists())
+        # confirm downloads
+        httpd.assert_downloads_from_output(output)
+        # confirm start script
+        bp.assert_start_script_is_correct(self.build_dir)
+        httpd.assert_start_script_is_correct(self.build_dir)
+        php.assert_start_script_is_correct(self.build_dir)
+        # confirm bp utils installed
+        bp.assert_scripts_are_installed(self.build_dir)
+        bp.assert_config_options(self.build_dir)
+        # check env & proc files
+        httpd.assert_contents_of_procs_file(self.build_dir)
+        httpd.assert_contents_of_env_file(self.build_dir)
+        php.assert_contents_of_procs_file(self.build_dir)
+        php.assert_contents_of_env_file(self.build_dir)
+        # webdir exists
+        httpd.assert_web_dir_exists(self.build_dir, self.opts.get_webdir())
+        # check php & httpd installed
+        httpd.assert_files_installed(self.build_dir)
+        php.assert_files_installed(self.build_dir)
 
-    def test_compile_nginx(self):
-        fah = FileAssertHelper()
-        tfah = TextFileAssertHelper()
-        # set web server to nginx, since that's what we're expecting here
+    def test_with_nginx(self):
+        # helpers to confirm the environment
+        bp = BuildPackAssertHelper()
+        nginx = NginxAssertHelper()
+        php = PhpAssertHelper()
+        # set web server to httpd, since that's what we're expecting here
         self.opts.set_web_server('nginx')
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
-        # Test stdout, confirm what is downloaded & installed
-        (tfah.expect()
-            .on_string(output)
-            .line_count_equals(7, lambda l: l.startswith('Downloaded'))
-            .line_count_equals(2, lambda l: l.startswith('Installing'))
-            .line(-1)
-                .startswith('Finished:'))  # noqa
-        # Test that the start script was created properly
-        fah.expect().path(self.build_dir, 'start.sh').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, 'start.sh')
-            .line_count_equals(5)
-            .line(0)
-                .equals('export PYTHONPATH=$HOME/.bp/lib\n')  # noqa
-            .any_line()
-                .equals('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"\n')
-                .equals('$HOME/.bp/bin/rewrite "$HOME/php/etc"\n')
-                .equals('$HOME/.bp/bin/rewrite "$HOME/.env"\n')
-            .line(-1)
-                .equals('$HOME/.bp/bin/start'))
-        # Check scripts and bp are installed
-        (fah.expect()
-            .path(self.build_dir, '.bp', 'bin', 'rewrite')
-            .root(self.build_dir, '.bp', 'lib', 'build_pack_utils')
-                .directory_count_equals(22)  # noqa
-                .path('utils.py')
-                .path('process.py')
-            .exists())
-        # Check env file
-        fah.expect().path(self.build_dir, '.env').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, '.env')
-            .line_count_equals(2)
-            .any_line()
-                .equals('PATH=@PATH:@HOME/php/bin\n')  # noqa
-                .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib\n'))
-        # Check procs files
-        fah.expect().path(self.build_dir, '.procs').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, '.procs')
-            .line_count_equals(3)
-            .any_line()
-                .equals('nginx: $HOME/nginx/sbin/nginx -c '  # noqa
-                        '"$HOME/nginx/conf/nginx.conf"\n')
-                .equals('php-fpm: $HOME/php/sbin/php-fpm -p '
-                        '"$HOME/php/etc" -y "$HOME/php/etc/php-fpm.conf"'
-                        ' -c "$HOME/php/etc"\n')
-                .equals('php-fpm-logs: tail -F $HOME/logs/php-fpm.log\n'))
-        # Check htdocs and config
-        (fah.expect()
-            .root(self.build_dir)
-                .path('htdocs')  # noqa
-                .path('.bp-config', 'options.json')
-            .exists())
-        # Test Nginx binaries and config is installed
-        (fah.expect()
-            .root(self.build_dir, 'nginx')
-                .path('logs')  # noqa
-                .path('sbin', 'nginx')
-            .root(self.build_dir, 'nginx', 'conf')
-                .directory_count_equals(10)
-                .path('fastcgi_params')
-                .path('http-logging.conf')
-                .path('http-defaults.conf')
-                .path('http-php.conf')
-            .exists())
-        # Test Nginx PHP config has some key points
-        (tfah.expect()
-            .on_file(self.build_dir, 'nginx', 'conf', 'http-php.conf')
-            .any_line()
-                .does_not_contain('#{PHP_FPM_LISTEN}')  # noqa
-                .does_not_contain('{TMPDIR}'))
-        # Test PHP
-        (fah.expect()
-            .root(self.build_dir, 'php')
-                .path('etc', 'php-fpm.conf')  # noqa
-                .path('etc', 'php.ini')
-                .path('sbin', 'php-fpm')
-                .path('bin')
-            .root(self.build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20100525')
-                .path('bz2.so')
-                .path('zlib.so')
-                .path('curl.so')
-                .path('mcrypt.so')
-            .exists())
+        # confirm downloads
+        nginx.assert_downloads_from_output(output)
+        # confirm start script
+        bp.assert_start_script_is_correct(self.build_dir)
+        nginx.assert_start_script_is_correct(self.build_dir)
+        php.assert_start_script_is_correct(self.build_dir)
+        # confirm bp utils installed
+        bp.assert_scripts_are_installed(self.build_dir)
+        bp.assert_config_options(self.build_dir)
+        # check env & proc files
+        nginx.assert_contents_of_procs_file(self.build_dir)
+        php.assert_contents_of_procs_file(self.build_dir)
+        php.assert_contents_of_env_file(self.build_dir)
+        # webdir exists
+        nginx.assert_web_dir_exists(self.build_dir, self.opts.get_webdir())
+        # check php & nginx installed
+        nginx.assert_files_installed(self.build_dir)
+        php.assert_files_installed(self.build_dir)
 
 
-class TestCompileWithApp6(object):
+class TestCompileApp6(TestCompileApp1):
+    def __init__(self):
+        self.app_name = 'app-6'
+
     def setUp(self):
-        self.dh = DirectoryHelper()
-        (self.build_dir,
-         self.cache_dir,
-         self.temp_dir) = self.dh.create_bp_env('app-6')
-        self.bp = BuildPack({
-            'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir,
-            'TMPDIR': self.temp_dir
-        }, '.')
-        self.dh.copy_build_pack_to(self.bp.bp_dir)
-        self.dh.register_to_delete(self.bp.bp_dir)
-        self.opts = OptionsHelper(os.path.join(self.bp.bp_dir,
-                                               'defaults',
-                                               'options.json'))
-        self.opts.set_download_url(
-            'http://localhost:5000/binaries/{STACK}')
+        TestCompileApp1.setUp(self)
+        self.opts.set_webdir('public')
 
     def tearDown(self):
         self.dh.cleanup()
 
-    def test_setup(self):
+    def assert_app6_specifics(self):
         fah = FileAssertHelper()
-        (fah.expect()
-            .path(self.build_dir)
-            .path(self.build_dir, 'public')
-            .path(self.temp_dir)
-            .exists())
-        fah.expect().path(self.cache_dir).does_not_exist()
-
-    def test_compile_httpd(self):
-        fah = FileAssertHelper()
-        tfah = TextFileAssertHelper()
-        # set web server to httpd, since that's what we're expecting here
-        self.opts.set_web_server('httpd')
-        # run the compile step of the build pack
-        output = ErrorHelper().compile(self.bp)
-        # Test stdout, confirm what is downloaded & installed
-        (tfah.expect()
-            .on_string(output)
-            .line_count_equals(21, lambda l: l.startswith('Downloaded'))
-            .line_count_equals(2, lambda l: l.startswith('Installing'))
-            .line(-1)
-                .startswith('Finished:'))  # noqa
-        # Test that the start script was created properly
-        fah.expect().path(self.build_dir, 'start.sh').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, 'start.sh')
-            .line_count_equals(5)
-            .line(0)
-                .equals('export PYTHONPATH=$HOME/.bp/lib\n')  # noqa
-            .any_line()
-                .equals('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"\n')
-                .equals('$HOME/.bp/bin/rewrite "$HOME/php/etc"\n')
-                .equals('$HOME/.bp/bin/rewrite "$HOME/.env"\n')
-            .line(-1)
-                .equals('$HOME/.bp/bin/start'))
-        # Check scripts and bp are installed
-        (fah.expect()
-            .path(self.build_dir, '.bp', 'bin', 'rewrite')
-            .root(self.build_dir, '.bp', 'lib', 'build_pack_utils')
-                .directory_count_equals(22)  # noqa
-                .path('utils.py')
-                .path('process.py')
-            .exists())
-        # Check env file
-        fah.expect().path(self.build_dir, '.env').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, '.env')
-            .line_count_equals(3)
-            .any_line()
-                .equals('PATH=@PATH:@HOME/php/bin\n')  # noqa
-                .equals('HTTPD_SERVER_ADMIN=dan@mikusa.com\n')
-                .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib\n'))
-        # Check procs files
-        fah.expect().path(self.build_dir, '.procs').exists()
-        (tfah.expect()
-            .on_file(self.build_dir, '.procs')
-            .line_count_equals(3)
-            .any_line()
-                .equals('httpd: $HOME/httpd/bin/apachectl -f '  # noqa
-                        '"$HOME/httpd/conf/httpd.conf" -k start '
-                        '-DFOREGROUND\n')
-                .equals('php-fpm: $HOME/php/sbin/php-fpm -p '
-                        '"$HOME/php/etc" -y "$HOME/php/etc/php-fpm.conf"'
-                        ' -c "$HOME/php/etc"\n')
-                .equals('php-fpm-logs: tail -F $HOME/logs/php-fpm.log\n'))
-        # Check public and config
         (fah.expect()
             .root(self.build_dir)
                 .path('public')  # noqa
@@ -331,39 +115,13 @@ class TestCompileWithApp6(object):
                 .path('vendor', 'lib.php')
                 .path('.bp-config', 'options.json')
             .exists())
-        # Test HTTPD
-        (fah.expect()
-            .root(self.build_dir, 'httpd', 'conf')
-                .path('httpd.conf')  # noqa
-                .root('extra')
-                    .path('httpd-modules.conf')  # noqa
-                    .path('httpd-remoteip.conf')
-            .root(self.build_dir, 'httpd', 'modules', reset=True)
-                .path('mod_authz_core.so')
-                .path('mod_authz_host.so')
-                .path('mod_dir.so')
-                .path('mod_env.so')
-                .path('mod_log_config.so')
-                .path('mod_mime.so')
-                .path('mod_mpm_event.so')
-                .path('mod_proxy.so')
-                .path('mod_proxy_fcgi.so')
-                .path('mod_reqtimeout.so')
-                .path('mod_unixd.so')
-                .path('mod_remoteip.so')
-                .path('mod_rewrite.so')
-            .exists())
-        # Test PHP
-        (fah.expect()
-            .root(self.build_dir, 'php')
-                .path('etc', 'php-fpm.conf')  # noqa
-                .path('etc', 'php.ini')
-                .path('sbin', 'php-fpm')
-                .path('bin')
-            .root(self.build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20100525')
-                .path('bz2.so')
-                .path('zlib.so')
-                .path('curl.so')
-                .path('mcrypt.so')
-            .exists())
+
+    def test_with_httpd(self):
+        TestCompileApp1.test_with_httpd(self)
+        # some app specific tests
+        self.assert_app6_specifics()
+
+    def test_with_nginx(self):
+        TestCompileApp1.test_with_nginx(self)
+        # some app specific tests
+        self.assert_app6_specifics()
