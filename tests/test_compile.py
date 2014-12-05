@@ -8,12 +8,10 @@ from common.components import BuildPackAssertHelper
 from common.components import HttpdAssertHelper
 from common.components import NginxAssertHelper
 from common.components import PhpAssertHelper
+from common.components import NoWebServerAssertHelper
 
 
-class TestCompileApp1(object):
-    def __init__(self):
-        self.app_name = 'app-1'
-
+class BaseCompileApp(object):
     def setUp(self):
         self.dh = DirectoryHelper()
         (self.build_dir,
@@ -34,6 +32,11 @@ class TestCompileApp1(object):
 
     def tearDown(self):
         self.dh.cleanup()
+
+
+class TestCompileApp1(BaseCompileApp):
+    def __init__(self):
+        self.app_name = 'app-1'
 
     def test_with_httpd(self):
         # helpers to confirm the environment
@@ -101,9 +104,6 @@ class TestCompileApp6(TestCompileApp1):
         TestCompileApp1.setUp(self)
         self.opts.set_webdir('public')
 
-    def tearDown(self):
-        self.dh.cleanup()
-
     def assert_app6_specifics(self):
         fah = FileAssertHelper()
         (fah.expect()
@@ -125,3 +125,34 @@ class TestCompileApp6(TestCompileApp1):
         TestCompileApp1.test_with_nginx(self)
         # some app specific tests
         self.assert_app6_specifics()
+
+
+class TestCompileApp5(BaseCompileApp):
+    def __init__(self):
+        self.app_name = 'app-5'
+
+    def test_standalone(self):
+        # helpers to confirm the environment
+        bp = BuildPackAssertHelper()
+        php = PhpAssertHelper()
+        none = NoWebServerAssertHelper()
+        # no web server
+        self.opts.set_web_server('none')
+        # run the compile step of the build pack
+        output = ErrorHelper().compile(self.bp)
+        # confirm downloads
+        none.assert_downloads_from_output(output)
+        # confirm httpd and nginx are not installed
+        none.assert_no_web_server_is_installed(self.build_dir)
+        # confirm start script
+        bp.assert_start_script_is_correct(self.build_dir)
+        php.assert_start_script_is_correct(self.build_dir)
+        # confirm bp utils installed
+        bp.assert_scripts_are_installed(self.build_dir)
+        # check env & proc files
+        none.assert_contents_of_procs_file(self.build_dir)
+        php.assert_contents_of_env_file(self.build_dir)
+        # webdir exists
+        none.assert_no_web_dir(self.build_dir, self.opts.get_webdir())
+        # check php cli installed
+        none.assert_files_installed(self.build_dir)

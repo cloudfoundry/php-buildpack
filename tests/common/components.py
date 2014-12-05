@@ -212,3 +212,54 @@ class NginxAssertHelper(object):
             .any_line()
                 .does_not_contain('#{PHP_FPM_LISTEN}')  # noqa
                 .does_not_contain('{TMPDIR}'))
+
+
+class NoWebServerAssertHelper(object):
+    """Helper to assert when we're not using a web server"""
+
+    def assert_no_web_server_is_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .path(build_dir, 'httpd')
+            .path(build_dir, 'nginx')
+            .does_not_exist())
+
+    def assert_downloads_from_output(self, output):
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_string(output)
+            .line_count_equals(6, lambda l: l.startswith('Downloaded'))
+            .line_count_equals(1, lambda l: l.startswith('No Web'))
+            .line_count_equals(1, lambda l: l.startswith('Installing PHP'))
+            .line_count_equals(1, lambda l: l.find('php-cli') >= 0)
+            .line(-1).startswith('Finished:'))
+
+    def assert_contents_of_procs_file(self, build_dir):
+        fah = FileAssertHelper()
+        fah.expect().path(build_dir, '.procs').exists()
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, '.procs')
+            .line(0)
+            .equals('php-app: $HOME/php/bin/php -c "$HOME/php/etc" app.php\n'))
+
+    def assert_files_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .root(build_dir, 'php')
+                .path('etc', 'php.ini')  # noqa
+                .path('bin', 'php')
+                .path('bin', 'phar.phar')
+            .root(build_dir, 'php', 'lib', 'php', 'extensions',
+                  'no-debug-non-zts-20100525')
+                .path('bz2.so')
+                .path('zlib.so')
+                .path('curl.so')
+                .path('mcrypt.so')
+            .exists())
+
+    def assert_no_web_dir(self, build_dir, webdir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .path(build_dir, webdir)
+            .does_not_exist())
