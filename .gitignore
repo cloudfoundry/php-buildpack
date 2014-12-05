@@ -7,3 +7,5 @@ binaries/trusty/*
 *.pyc
 *.swp
 env
+.idea
+*.iml
