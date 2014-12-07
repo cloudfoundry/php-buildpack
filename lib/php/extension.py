@@ -58,7 +58,9 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     env = {
-        'LD_LIBRARY_PATH': '@LD_LIBRARY_PATH:@HOME/php/lib'
+        'LD_LIBRARY_PATH': '@LD_LIBRARY_PATH:@HOME/php/lib',
+        'PATH': '@PATH:@HOME/php/bin:@HOME/php/sbin',
+        'PHPRC': '@HOME/php/etc'
     }
     if 'snmp' in ctx['PHP_EXTENSIONS']:
         env['MIBDIRS'] = '@HOME/php/mibs'

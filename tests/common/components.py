@@ -66,8 +66,9 @@ class PhpAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.env')
             .any_line()
-                .equals('PATH=@PATH:@HOME/php/bin\n')  # noqa
-                .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib\n'))
+                .equals('PATH=@PATH:@HOME/php/bin:@HOME/php/sbin\n')  # noqa
+                .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib\n')
+                .equals('PHPRC=@HOME/php/etc\n'))
 
     def assert_files_installed(self, build_dir):
         fah = FileAssertHelper()
