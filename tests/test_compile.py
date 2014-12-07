@@ -1,7 +1,3 @@
-import os.path
-from build_pack_utils import BuildPack
-from common.integration import OptionsHelper
-from common.integration import DirectoryHelper
 from common.integration import FileAssertHelper
 from common.integration import ErrorHelper
 from common.components import BuildPackAssertHelper
@@ -9,29 +5,7 @@ from common.components import HttpdAssertHelper
 from common.components import NginxAssertHelper
 from common.components import PhpAssertHelper
 from common.components import NoWebServerAssertHelper
-
-
-class BaseCompileApp(object):
-    def setUp(self):
-        self.dh = DirectoryHelper()
-        (self.build_dir,
-         self.cache_dir,
-         self.temp_dir) = self.dh.create_bp_env(self.app_name)
-        self.bp = BuildPack({
-            'BUILD_DIR': self.build_dir,
-            'CACHE_DIR': self.cache_dir,
-            'TMPDIR': self.temp_dir
-        }, '.')
-        self.dh.copy_build_pack_to(self.bp.bp_dir)
-        self.dh.register_to_delete(self.bp.bp_dir)
-        self.opts = OptionsHelper(os.path.join(self.bp.bp_dir,
-                                               'defaults',
-                                               'options.json'))
-        self.opts.set_download_url(
-            'http://localhost:5000/binaries/{STACK}')
-
-    def tearDown(self):
-        self.dh.cleanup()
+from common.base import BaseCompileApp
 
 
 class TestCompileApp1(BaseCompileApp):
