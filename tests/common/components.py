@@ -2,6 +2,24 @@ from common.integration import FileAssertHelper
 from common.integration import TextFileAssertHelper
 
 
+class DownloadAssertHelper(object):
+    """Helper to assert download counts"""
+
+    def __init__(self, download, install):
+        self.download = download
+        self.install = install
+
+    def assert_downloads_from_output(self, output):
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_string(output)
+            .line_count_equals(self.download,
+                               lambda l: l.startswith('Downloaded'))
+            .line_count_equals(self.install,
+                               lambda l: l.startswith('Installing'))
+            .line(-1).startswith('Finished:'))
+
+
 class BuildPackAssertHelper(object):
     """Helper to assert build pack is working"""
 
@@ -264,3 +282,78 @@ class NoWebServerAssertHelper(object):
         (fah.expect()
             .path(build_dir, webdir)
             .does_not_exist())
+
+
+class NewRelicAssertHelper(object):
+    """Helper to assert NewRelic is installed and configured correctly"""
+
+    def assert_files_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .root(build_dir, 'newrelic')  # noqa
+                .path('daemon', 'newrelic-daemon.x64')
+                .path('agent', 'x64', 'newrelic-20100525.so')
+            .exists())
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, 'php', 'etc', 'php.ini')
+            .any_line()
+            .equals(
+                'extension=@{HOME}/newrelic/agent/x64/newrelic-20100525.so\n')
+            .equals('[newrelic]\n')
+            .equals('newrelic.license=JUNK_LICENSE\n')
+            .equals('newrelic.appname=app-name-1\n'))
+
+    def is_not_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .path(build_dir, 'newrelic')
+            .does_not_exist())
+
+
+class HhvmAssertHelper(object):
+    """Helper to assert HHVM is installed and configured correctly."""
+
+    def assert_start_script_is_correct(self, build_dir):
+        fah = FileAssertHelper()
+        fah.expect().path(build_dir, 'start.sh').exists()
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, 'start.sh')
+            .any_line()
+            .equals('$HOME/.bp/bin/rewrite "$HOME/hhvm/etc"\n'))
+
+    def assert_contents_of_procs_file(self, build_dir):
+        fah = FileAssertHelper()
+        fah.expect().path(build_dir, '.procs').exists()
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, '.procs')
+            .any_line()
+                .equals('hhvm: $HOME/hhvm/hhvm --mode server -c '
+                        '$HOME/hhvm/etc/config.hdf\n'))
+
+    def assert_contents_of_env_file(self, build_dir):
+        fah = FileAssertHelper()
+        fah.expect().path(build_dir, '.env').exists()
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, '.env')
+            .any_line()
+            .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/hhvm\n'))
+
+    def assert_files_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .root(build_dir, 'hhvm')
+                .path('hhvm')
+                .path('etc', 'config.hdf')
+                .path('libmemcached.so.11')
+                .path('libevent-1.4.so.2.2.0')
+                .path('libevent-1.4.so.2')
+                .path('libboost_system.so.1.55.0')
+                .path('libc-client.so.2007e.0')
+                .path('libstdc++.so.6')
+                .path('libMagickWand.so.2')
+                .path('libicui18n.so.48')
+            .exists())
