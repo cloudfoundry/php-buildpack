@@ -1,5 +1,6 @@
 import os
 import os.path
+import sys
 import tempfile
 import subprocess
 import logging
@@ -109,10 +110,11 @@ def stream_output(*popenargs, **kwargs):
 
 
 class BuildPack(object):
-    def __init__(self, ctx, url, branch=None):
+    def __init__(self, ctx, url, branch=None, stream=sys.stdout):
         self._ctx = ctx
         self._url = url
         self._branch = branch
+        self._stream = stream
         self.bp_dir = tempfile.mkdtemp(prefix='buildpack')
         self._log = logging.getLogger('runner')
 
@@ -120,15 +122,21 @@ class BuildPack(object):
         if self._url:
             self._clone()
             self.framework = self._detect()
-            print self._compile()
+            self._compile()
             self.start_yml = self._release()
 
     def _clone(self):
         self._log.debug("Clongin [%s] to [%s]", self._url, self.bp_dir)
-        subprocess.call(['git', 'clone', self._url, self.bp_dir])
+        stream_output(self._stream,
+                      " ".join(['git', 'clone', self._url, self.bp_dir]),
+                      stderr=subprocess.STDOUT,
+                      shell=True)
         if self._branch:
             self._log.debug("Branching to [%s]", self._branch)
-            subprocess.call(['git', 'checkout', self._branch])
+            stream_output(self._stream,
+                          " ".join(['git', 'checkout', self._branch]),
+                          stderr=subprocess.STDOUT,
+                          shell=True)
 
     def _detect(self):
         self._log.debug("Running detect script")
@@ -146,9 +154,10 @@ class BuildPack(object):
         cmd = [os.path.join(self.bp_dir, 'bin', 'compile'),
                self._ctx['BUILD_DIR'],
                self._ctx['CACHE_DIR']]
-        return check_output(" ".join(cmd),
-                            stderr=subprocess.STDOUT,
-                            shell=True).strip()
+        stream_output(self._stream,
+                      " ".join(cmd),
+                      stderr=subprocess.STDOUT,
+                      shell=True)
 
     def _release(self):
         self._log.debug("Running release script")

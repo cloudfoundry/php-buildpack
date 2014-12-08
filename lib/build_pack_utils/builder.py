@@ -758,7 +758,7 @@ class EnvironmentVariableBuilder(object):
 
     def from_context(self, name):
         builder = self._scriptBuilder.builder
-        if not name in builder._ctx.keys():
+        if name not in builder._ctx.keys():
             raise ValueError('[%s] is not in the context' % name)
         value = builder._ctx[name]
         value = value.replace(builder._ctx['BUILD_DIR'], '$HOME')
@@ -802,10 +802,13 @@ class BuildPackManager(object):
         self._bp._branch = branch
         return self
 
+    def using_stream(self, stream):
+        self._bp._stream = stream
+
     def done(self):
         if self._bp:
             self._bp._clone()
-            print self._bp._compile()
+            self._bp._compile()
         return self._builder
 
 
@@ -855,7 +858,7 @@ class SaveBuilder(object):
 
 
 class Shell(object):
-    EXIT_KEY='##exit-code##-->'
+    EXIT_KEY = '##exit-code##-->'
 
     def __init__(self, shell='/bin/bash', stream=sys.stdout):
         self._proc = Popen(shell,
@@ -869,7 +872,8 @@ class Shell(object):
         def cmd(*args):
             cmd = '"%s" %s\necho "\n%s$?"\n' % (
                 name,
-                ' '.join([(arg == '|') and arg or '"%s"' % arg for arg in args]),
+                ' '.join([(arg == '|') and arg or '"%s"' %
+                          arg for arg in args]),
                 Shell.EXIT_KEY)
             self._proc.stdin.write(cmd)
             for c in iter(lambda: self._proc.stdout.readline(), ''):
@@ -888,7 +892,7 @@ class Shell(object):
             self._stream = oldstream
 
     def __setitem__(self, key, value):
-        cmd = "%s=%s\n" % (key,value)
+        cmd = "%s=%s\n" % (key, value)
         self._proc.stdin.write(cmd)
 
     def __delitem__(self, key):

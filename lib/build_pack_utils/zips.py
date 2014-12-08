@@ -215,6 +215,10 @@ class UnzipUtil(object):
             return self._bunzip2
         if zipFile.endswith('.zip') and zipfile.is_zipfile(zipFile):
             return self._unzip
+        if zipFile.endswith('.war') and zipfile.is_zipfile(zipFile):
+            return self._unzip
+        if zipFile.endswith('.jar') and zipfile.is_zipfile(zipFile):
+            return self._unzip
 
     def extract(self, zipFile, intoDir, strip=False, method=None):
         """Extract files from the archive.
