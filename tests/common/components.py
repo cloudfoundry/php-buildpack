@@ -117,14 +117,6 @@ class HttpdAssertHelper(object):
             .any_line()
             .equals('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"\n'))
 
-    def assert_downloads_from_output(self, output):
-        tfah = TextFileAssertHelper()
-        (tfah.expect()
-            .on_string(output)
-            .line_count_equals(21, lambda l: l.startswith('Downloaded'))
-            .line_count_equals(2, lambda l: l.startswith('Installing'))
-            .line(-1).startswith('Finished:'))
-
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
         fah.expect().path(build_dir, '.procs').exists()
@@ -187,14 +179,6 @@ class NginxAssertHelper(object):
             .on_file(build_dir, 'start.sh')
             .any_line()
             .equals('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"\n'))
-
-    def assert_downloads_from_output(self, output):
-        tfah = TextFileAssertHelper()
-        (tfah.expect()
-            .on_string(output)
-            .line_count_equals(7, lambda l: l.startswith('Downloaded'))
-            .line_count_equals(2, lambda l: l.startswith('Installing'))
-            .line(-1).startswith('Finished:'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()

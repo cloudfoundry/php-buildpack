@@ -5,6 +5,7 @@ from common.components import HttpdAssertHelper
 from common.components import NginxAssertHelper
 from common.components import PhpAssertHelper
 from common.components import NoWebServerAssertHelper
+from common.components import DownloadAssertHelper
 from common.base import BaseCompileApp
 
 
@@ -22,7 +23,7 @@ class TestCompileApp1(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        httpd.assert_downloads_from_output(output)
+        DownloadAssertHelper(21, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         httpd.assert_start_script_is_correct(self.build_dir)
@@ -51,7 +52,7 @@ class TestCompileApp1(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        nginx.assert_downloads_from_output(output)
+        DownloadAssertHelper(7, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         nginx.assert_start_script_is_correct(self.build_dir)
