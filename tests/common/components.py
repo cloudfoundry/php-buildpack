@@ -341,3 +341,30 @@ class HhvmAssertHelper(object):
                 .path('libMagickWand.so.2')
                 .path('libicui18n.so.48')
             .exists())
+
+
+class CodizyAssertHelper(object):
+    """Helper to assert HHVM is installed and configured correctly."""
+
+    def assert_files_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .root(build_dir, 'codizy', 'client', 'application')
+                .path('setup.php')
+                .path('class', 'Codizy_utils.php')
+            .root(build_dir, 'php', 'lib', 'php', 'extensions',
+                  'no-debug-non-zts-20100525', reset=True)
+                .path('xhprof.so')
+                .path('ioncube.so')
+                .path('codizy.so')
+                .path('curl.so')
+                .path('gettext.so')
+                .path('mbstring.so')
+                .path('openssl.so')
+            .exists())
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, 'php', 'etc', 'php.ini')
+            .any_line()
+            .equals('auto_prepend_file = '
+                    '@{HOME}/codizy/client/application/setup.php\n'))
