@@ -10,6 +10,7 @@ class DownloadAssertHelper(object):
         self.install = install
 
     def assert_downloads_from_output(self, output):
+        assert output is not None, "Output is None"
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_string(output)
