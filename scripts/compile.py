@@ -39,6 +39,8 @@ if __name__ == '__main__':
                 .from_build_pack('extensions')
             .extensions()
                 .from_application('.extensions')
+            .extension()
+                .from_build_pack('lib/additional_commands')
             .done()
         .install()
             .build_pack_utils()
