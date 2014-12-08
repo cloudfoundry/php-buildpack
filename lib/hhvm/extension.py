@@ -40,7 +40,7 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     return {
-        'LD_LIBRARY_PATH': '@LD_LIBRARY_PATH:@HOME/hhvm'
+        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/hhvm'
     }
 
 
