@@ -35,6 +35,8 @@ if __name__ == '__main__':
                 .from_build_pack('lib/{WEB_SERVER}')
             .extension()
                 .from_build_pack('lib/{PHP_VM}')
+            .extension()
+                .from_build_pack('lib/env')
             .extensions()
                 .from_build_pack('extensions')
             .extensions()

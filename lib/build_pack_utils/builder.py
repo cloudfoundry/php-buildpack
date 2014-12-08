@@ -838,7 +838,7 @@ class SaveBuilder(object):
                     val = val[0]
                 elif len(val) > 1:
                     val = os.pathsep.join(val)
-                envFile.write("%s=%s\n" % (key, val))
+                envFile.write("export %s=%s\n" % (key, val))
         return self
 
     def process_list(self):
