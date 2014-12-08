@@ -3,6 +3,7 @@ import tempfile
 import shutil
 import os
 import itertools
+from StringIO import StringIO
 
 
 class OptionsHelper(object):
@@ -206,10 +207,11 @@ class ErrorHelper(object):
     """Helper for catching, logging and debugging errors"""
 
     def compile(self, bp):
-        output = None
+        buf = StringIO()
         try:
-            output = bp._compile()
-            return output
+            bp._stream = buf
+            bp._compile()
+            return buf.getvalue().strip()
         except Exception, e:
             if output:
                 print "Command Output"
