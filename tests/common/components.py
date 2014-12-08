@@ -32,8 +32,6 @@ class BuildPackAssertHelper(object):
             .on_file(build_dir, 'start.sh')
             .line(0)
                 .equals('export PYTHONPATH=$HOME/.bp/lib\n')  # noqa
-            .any_line()
-                .equals('$HOME/.bp/bin/rewrite "$HOME/.env"\n')
             .line(-1)
                 .equals('$HOME/.bp/bin/start'))
 
@@ -85,9 +83,11 @@ class PhpAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.env')
             .any_line()
-                .equals('PATH=@PATH:@HOME/php/bin:@HOME/php/sbin\n')  # noqa
-                .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/php/lib\n')
-                .equals('PHPRC=@HOME/php/etc\n'))
+                .equals('export '
+                        'PATH=$PATH:$HOME/php/bin:$HOME/php/sbin\n')  # noqa
+                .equals('export '
+                        'LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/php/lib\n')
+                .equals('export PHPRC=$HOME/php/etc\n'))
 
     def assert_files_installed(self, build_dir):
         fah = FileAssertHelper()
@@ -136,7 +136,7 @@ class HttpdAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.env')
             .any_line()
-            .equals('HTTPD_SERVER_ADMIN=dan@mikusa.com\n'))
+            .equals('export HTTPD_SERVER_ADMIN=dan@mikusa.com\n'))
 
     def assert_web_dir_exists(self, build_dir, web_dir):
         fah = FileAssertHelper()
@@ -325,7 +325,7 @@ class HhvmAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.env')
             .any_line()
-            .equals('LD_LIBRARY_PATH=@LD_LIBRARY_PATH:@HOME/hhvm\n'))
+            .equals('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/hhvm\n'))
 
     def assert_files_installed(self, build_dir):
         fah = FileAssertHelper()
