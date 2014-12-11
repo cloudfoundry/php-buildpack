@@ -20,6 +20,7 @@ import os
 import os.path
 import sys
 import logging
+import re
 import json
 from build_pack_utils import utils
 from build_pack_utils import TextFileSearch
@@ -71,28 +72,15 @@ class ComposerTool(object):
         return (json_path, lock_path)
 
     @staticmethod
-    def _find_exts(require):
+    def read_exts_from_path(path):
         exts = []
-        keys = (hasattr(require, 'keys')) and require.keys() or require
-        for req in keys:
-            if req.startswith('ext-'):
-                exts.append(req[4:])
-        return exts
-
-    @staticmethod
-    def read_exts_from_composer_json(path):
-        composer_json = json.load(open(path, 'r'))
-        return ComposerTool._find_exts(composer_json.get('require', {}))
-
-    @staticmethod
-    def read_exts_from_composer_lock(path):
-        exts = []
-        composer_json = json.load(open(path, 'r'))
-        # get platform exts
-        exts.extend(ComposerTool._find_exts(composer_json.get('platform', {})))
-        # get package exts
-        for pkg in composer_json.get('packages', []):
-            exts.extend(ComposerTool._find_exts(pkg.get('require', {})))
+        req_pat = re.compile(r'"require"\: \{(.*?)\}', re.DOTALL)
+        ext_pat = re.compile(r'"ext-(.*?)"')
+        with open(path, 'rt') as fp:
+            data = fp.read()
+        for req_match in req_pat.finditer(data):
+            for ext_match in ext_pat.finditer(req_match.group(1)):
+                exts.append(ext_match.group(1))
         return exts
 
     @staticmethod
@@ -137,9 +125,9 @@ class ComposerTool(object):
         (json_path, lock_path) = \
             ComposerTool._find_composer_paths(ctx['BUILD_DIR'])
         if json_path:
-            exts.extend(ComposerTool.read_exts_from_composer_json(json_path))
+            exts.extend(ComposerTool.read_exts_from_path(json_path))
         if lock_path:
-            exts.extend(ComposerTool.read_exts_from_composer_lock(lock_path))
+            exts.extend(ComposerTool.read_exts_from_path(lock_path))
         # update context with new list of extensions, if composer.json exists
         if json_path or lock_path:
             if json_path:
@@ -151,7 +139,7 @@ class ComposerTool(object):
             _log.debug('Composer picked PHP Version [%s]', php_version)
             ctx['PHP_VERSION'] = ComposerTool.pick_php_version(ctx,
                                                                php_version)
-            ctx['PHP_EXTENSIONS'] = list(set(exts))
+            ctx['PHP_EXTENSIONS'] = utils.unique(exts)
 
     def detect(self):
         (json_path, lock_path) = \

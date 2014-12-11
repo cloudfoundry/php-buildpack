@@ -217,10 +217,10 @@ class TestComposer(object):
         assert 'PHP_EXTENSIONS' in ctx.keys()
         assert list == type(ctx['PHP_EXTENSIONS'])
         assert 4 == len(ctx['PHP_EXTENSIONS'])
-        assert 'openssl' in ctx['PHP_EXTENSIONS']
-        assert 'gd' in ctx['PHP_EXTENSIONS']
-        assert 'fileinfo' in ctx['PHP_EXTENSIONS']
-        assert 'zip' in ctx['PHP_EXTENSIONS']
+        assert 'openssl' == ctx['PHP_EXTENSIONS'][0]
+        assert 'zip' == ctx['PHP_EXTENSIONS'][1]
+        assert 'fileinfo' == ctx['PHP_EXTENSIONS'][2]
+        assert 'gd' == ctx['PHP_EXTENSIONS'][3]
         assert '5.4.31' == ctx['PHP_VERSION']
         ctx = utils.FormattedDict({
             'BUILD_DIR': 'tests/data/composer',
@@ -231,12 +231,12 @@ class TestComposer(object):
         assert 'PHP_EXTENSIONS' in ctx.keys()
         assert list == type(ctx['PHP_EXTENSIONS'])
         assert 6 == len(ctx['PHP_EXTENSIONS'])
-        assert 'a' in ctx['PHP_EXTENSIONS']
-        assert 'b' in ctx['PHP_EXTENSIONS']
-        assert 'openssl' in ctx['PHP_EXTENSIONS']
-        assert 'gd' in ctx['PHP_EXTENSIONS']
-        assert 'fileinfo' in ctx['PHP_EXTENSIONS']
-        assert 'zip' in ctx['PHP_EXTENSIONS']
+        assert 'a' == ctx['PHP_EXTENSIONS'][0]
+        assert 'b' == ctx['PHP_EXTENSIONS'][1]
+        assert 'openssl' == ctx['PHP_EXTENSIONS'][2]
+        assert 'zip' == ctx['PHP_EXTENSIONS'][3]
+        assert 'fileinfo' == ctx['PHP_EXTENSIONS'][4]
+        assert 'gd' == ctx['PHP_EXTENSIONS'][5]
         assert '5.4.31' == ctx['PHP_VERSION']
 
     def test_configure_no_composer(self):
@@ -351,10 +351,11 @@ class TestComposer(object):
         eq_('5.4.31', self.ct.ComposerTool.pick_php_version(ctx, '<5.4'))
 
     def test_empty_platform_section(self):
-        exts = self.ct.ComposerTool.read_exts_from_composer_lock(
+        exts = self.ct.ComposerTool.read_exts_from_path(
             'tests/data/composer/composer-phalcon.lock')
-        eq_(1, len(exts))
+        eq_(2, len(exts))
         eq_('curl', exts[0])
+        eq_('tokenizer', exts[1])
 
     def test_composer_defaults(self):
         ctx = utils.FormattedDict({
