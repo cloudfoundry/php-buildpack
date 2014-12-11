@@ -5,7 +5,6 @@ import shutil
 import subprocess
 import imp
 from nose.tools import eq_
-from nose.tools import with_setup
 
 
 class BaseRewriteScript(object):

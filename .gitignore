@@ -6,6 +6,6 @@ binaries/trusty/*
 !binaries/trusty/index*.json
 *.pyc
 *.swp
-env
+/env
 .idea
 *.iml

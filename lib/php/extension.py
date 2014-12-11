@@ -30,8 +30,7 @@ def configure(ctx):
 
 
 def preprocess_commands(ctx):
-    return (('$HOME/.bp/bin/rewrite', '"$HOME/php/etc"'),
-            ('$HOME/.bp/bin/rewrite', '"$HOME/.env"'))
+    return (('$HOME/.bp/bin/rewrite', '"$HOME/php/etc"'),)
 
 
 def service_commands(ctx):
@@ -58,12 +57,12 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     env = {
-        'LD_LIBRARY_PATH': '@LD_LIBRARY_PATH:@HOME/php/lib',
-        'PATH': '@PATH:@HOME/php/bin',
-        'PHPRC': '@HOME/php/etc'
+        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/php/lib',
+        'PATH': '$PATH:$HOME/php/bin:$HOME/php/sbin',
+        'PHPRC': '$HOME/php/etc'
     }
     if 'snmp' in ctx['PHP_EXTENSIONS']:
-        env['MIBDIRS'] = '@HOME/php/mibs'
+        env['MIBDIRS'] = '$HOME/php/mibs'
     return env
 
 
@@ -77,7 +76,7 @@ def compile(install):
     (install
         .package('PHP')
         .config()
-            .from_application('.bp-config/php')
+            .from_application('.bp-config/php')  # noqa
             .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
             .to('php/etc')
             .rewrite()

@@ -6,6 +6,7 @@ from nose.tools import eq_
 from build_pack_utils import utils
 from extension_helpers import PHPExtensionHelper
 
+
 class TestPHPExtensionHelper(object):
     def setUp(self):
         self.build_dir = tempfile.mkdtemp(prefix='build-')
@@ -49,6 +50,7 @@ class TestPHPExtensionHelper(object):
             'PHP_VERSION': '5.4.32',
             'SOME_JUNK': 'jkl;'
         })
+
         class MyExtn(PHPExtensionHelper):
             def _defaults(self):
                 return {
@@ -66,8 +68,10 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _compile = Dingus()
+
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
@@ -79,8 +83,10 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _compile = Dingus()
+
             def _should_compile(self):
                 return False
         ext = MyExtn(ctx)
@@ -92,10 +98,12 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _configure = Dingus()
+
             def _should_configure(self):
-                return True 
+                return True
         ext = MyExtn(ctx)
         ext.configure()
         eq_(1, len(MyExtn._configure.calls()))
@@ -105,10 +113,12 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _configure = Dingus()
+
             def _should_configure(self):
-                return False 
+                return False
         ext = MyExtn(ctx)
         ext.configure()
         eq_(0, len(MyExtn._configure.calls()))
@@ -118,8 +128,10 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _preprocess_commands = Dingus()
+
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
@@ -131,10 +143,12 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _preprocess_commands = Dingus()
+
             def _should_compile(self):
-                return False 
+                return False
         ext = MyExtn(ctx)
         ext.preprocess_commands()
         eq_(0, len(MyExtn._preprocess_commands.calls()))
@@ -144,8 +158,10 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _service_commands = Dingus()
+
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
@@ -157,8 +173,10 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _service_commands = Dingus()
+
             def _should_compile(self):
                 return False
         ext = MyExtn(ctx)
@@ -170,8 +188,10 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _service_environment = Dingus()
+
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
@@ -183,8 +203,10 @@ class TestPHPExtensionHelper(object):
             'BUILD_DIR': self.build_dir,
             'PHP_VERSION': '5.4.32'
         })
+
         class MyExtn(PHPExtensionHelper):
             _service_environment = Dingus()
+
             def _should_compile(self):
                 return False
         ext = MyExtn(ctx)

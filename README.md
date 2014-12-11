@@ -81,6 +81,7 @@ Here's a list of the major features of the build pack.
   - allows for application developers to custom configure HTTPD, Nginx or PHP
   - supports running stand alone PHP scripts
   - supports running applications that use [Composer]
+  - supports running commands or mirgration scripts prior to application startup
   - download location is configurable, allowing users to host binaries on the same network (i.e. run without an Internet connection)
   - supports running in ["offline" mode] where binaries are bundled with the build pack
   - supports an extension mechanism that allows the build pack to provided additional functionality

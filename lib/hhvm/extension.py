@@ -40,7 +40,7 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     return {
-        'LD_LIBRARY_PATH': '@LD_LIBRARY_PATH:@HOME/hhvm'
+        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/hhvm'
     }
 
 
@@ -57,7 +57,7 @@ def compile(install):
     (install
         .package('HHVM')
         .config()
-            .from_application('.bp-config/hhvm')
+            .from_application('.bp-config/hhvm')  # noqa
             .or_from_build_pack('defaults/config/hhvm/{HHVM_VERSION}')
             .to('hhvm/etc')
             .rewrite()

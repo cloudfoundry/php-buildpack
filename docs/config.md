@@ -32,6 +32,7 @@ Here are a list of the options that an application developer might want to overr
 | LIBDIR | Set a custom library directory.  This path is automatically added to the `include_path` by the build pack.  Defaults to `lib`.  Path is relative to `/home/vcap/app`. |
 | HTTP_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via http. |
 | HTTPS_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via https. |
+| ADDITIONAL_PREPROCESS_CMDS | A list of additional commands that should be run prior to the application.  This allows developers a way to run things like migration scripts prior to the application being run. |
 
 ### HTTPD, Nginx and PHP configuration
 

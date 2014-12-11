@@ -1,3 +1,4 @@
+# flake8: noqa
 from cache import *
 from cloudfoundry import *
 from detecter import *

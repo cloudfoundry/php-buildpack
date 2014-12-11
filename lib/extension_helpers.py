@@ -13,7 +13,7 @@ class PHPExtensionHelper(object):
         self._php_ini = None
         self._php_fpm = None
         self._php_api = None
-        
+
     def load_config(self):
         if not self._php_ini:
             self._php_ini_path = os.path.join(self._ctx['BUILD_DIR'], 'php',

@@ -23,7 +23,7 @@ from compile_helpers import setup_log_dir
 if __name__ == '__main__':
     (Builder()
         .configure()
-            .default_config()
+            .default_config()  # noqa
             .user_config()
             .done()
         .execute()
@@ -35,10 +35,14 @@ if __name__ == '__main__':
                 .from_build_pack('lib/{WEB_SERVER}')
             .extension()
                 .from_build_pack('lib/{PHP_VM}')
+            .extension()
+                .from_build_pack('lib/env')
             .extensions()
                 .from_build_pack('extensions')
             .extensions()
                 .from_application('.extensions')
+            .extension()
+                .from_build_pack('lib/additional_commands')
             .done()
         .install()
             .build_pack_utils()
