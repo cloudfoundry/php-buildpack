@@ -239,6 +239,20 @@ class TestComposer(object):
         assert 'gd' == ctx['PHP_EXTENSIONS'][5]
         assert '5.4.31' == ctx['PHP_VERSION']
 
+    def test_configure_composer_without_php_version(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': 'tests/data/composer-no-php',
+            'PHP_VERSION': '5.4.31'  # uses bp default
+        })
+        self.ct.ComposerTool.configure(ctx)
+        assert 'PHP_EXTENSIONS' in ctx.keys()
+        assert list == type(ctx['PHP_EXTENSIONS'])
+        assert 3 == len(ctx['PHP_EXTENSIONS'])
+        assert 'openssl' == ctx['PHP_EXTENSIONS'][0]
+        assert 'zip' == ctx['PHP_EXTENSIONS'][1]
+        assert 'fileinfo' == ctx['PHP_EXTENSIONS'][2]
+        assert '5.4.31' == ctx['PHP_VERSION']
+
     def test_configure_no_composer(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': 'tests/data/app-1',
