@@ -50,7 +50,7 @@ class CodizyExtension(PHPExtensionHelper):
                     'auto_prepend_file = '
                     '@{HOME}/codizy/client/application/setup.php')
             else:
-                with open(os.path.join(self._ctx['BUILD_DIR'], 'php', 
+                with open(os.path.join(self._ctx['BUILD_DIR'], 'php',
                                        'auto_prepend_file.php'), 'wt') as fp:
                     fp.write('<?php\n')
                     fp.write('    require("%s");\n' % cur.strip())

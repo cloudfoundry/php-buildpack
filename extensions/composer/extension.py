@@ -23,7 +23,6 @@ import logging
 import re
 import json
 from build_pack_utils import utils
-from build_pack_utils import TextFileSearch
 from build_pack_utils import stream_output
 
 

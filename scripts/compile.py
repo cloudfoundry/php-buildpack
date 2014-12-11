@@ -23,7 +23,7 @@ from compile_helpers import setup_log_dir
 if __name__ == '__main__':
     (Builder()
         .configure()
-            .default_config()
+            .default_config()  # noqa
             .user_config()
             .done()
         .execute()

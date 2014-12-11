@@ -315,7 +315,7 @@ class HhvmAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.procs')
             .any_line()
-                .equals('hhvm: $HOME/hhvm/hhvm --mode server -c '
+                .equals('hhvm: $HOME/hhvm/hhvm --mode server -c '  # noqa
                         '$HOME/hhvm/etc/config.hdf\n'))
 
     def assert_contents_of_env_file(self, build_dir):
@@ -331,7 +331,7 @@ class HhvmAssertHelper(object):
         fah = FileAssertHelper()
         (fah.expect()
             .root(build_dir, 'hhvm')
-                .path('hhvm')
+                .path('hhvm')  # noqa
                 .path('etc', 'config.hdf')
                 .path('libmemcached.so.11')
                 .path('libevent-1.4.so.2.2.0')
@@ -351,7 +351,7 @@ class CodizyAssertHelper(object):
         fah = FileAssertHelper()
         (fah.expect()
             .root(build_dir, 'codizy', 'client', 'application')
-                .path('setup.php')
+                .path('setup.php')  # noqa
                 .path('class', 'Codizy_utils.php')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
                   'no-debug-non-zts-20100525', reset=True)

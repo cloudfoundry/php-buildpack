@@ -57,7 +57,7 @@ def compile(install):
     (install
         .package('HHVM')
         .config()
-            .from_application('.bp-config/hhvm')
+            .from_application('.bp-config/hhvm')  # noqa
             .or_from_build_pack('defaults/config/hhvm/{HHVM_VERSION}')
             .to('hhvm/etc')
             .rewrite()

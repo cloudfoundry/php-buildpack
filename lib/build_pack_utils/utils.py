@@ -204,7 +204,7 @@ def unique(seq):
     # http://stackoverflow.com/a/480227
     seen = set()
     seen_add = seen.add
-    return [ x for x in seq if not (x in seen or seen_add(x))]
+    return [x for x in seq if not (x in seen or seen_add(x))]
 
 
 # This is copytree from PyPy 2.7 source code.

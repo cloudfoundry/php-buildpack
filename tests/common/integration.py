@@ -213,9 +213,8 @@ class ErrorHelper(object):
             bp._compile()
             return buf.getvalue().strip()
         except Exception, e:
-            if output:
-                print "Command Output"
-                print output
+            print "Command Output:"
+            print buf.getvalue().strip()
             if hasattr(e, 'output'):
                 print e.output
             raise

@@ -18,7 +18,7 @@ from build_pack_utils import Builder
 
 (Builder()
     .configure()
-        .default_config()
+        .default_config()  # noqa
         .user_config()
         .done()
     .release())
