@@ -199,6 +199,14 @@ class ConfigFileEditor(object):
             cfg.writelines(self._lines)
 
 
+def unique(seq):
+    """Return only the unique items in the given list, but preserve order"""
+    # http://stackoverflow.com/a/480227
+    seen = set()
+    seen_add = seen.add
+    return [ x for x in seq if not (x in seen or seen_add(x))]
+
+
 # This is copytree from PyPy 2.7 source code.
 #   https://bitbucket.org/pypy/pypy/src/9d88b4875d6e/lib-python/2.7/shutil.py
 # Modifying this so that it doesn't care about an initial directory existing
