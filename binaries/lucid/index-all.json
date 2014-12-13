@@ -1726,9 +1726,9 @@
         ]
     }, 
     "hhvm": {
-        "2014.03.20": [
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/hhvm/2014.03.20/hhvm-nightly_2014.03.20~lucid.tgz", 
-            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/hhvm/2014.03.20/hhvm-nightly_2014.03.20~lucid.tgz.sha1"
+        "3.2.0": [
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/hhvm/3.2.0/hhvm-3.2.0.tar.gz", 
+            "https://dl.dropboxusercontent.com/u/186123235/binaries/lucid/hhvm/3.2.0/hhvm-3.2.0.tar.gz.sha1"
         ]
     }
 }
