@@ -25,7 +25,7 @@ def service_commands(ctx):
     if is_web_app(ctx):
         return {
             'hhvm': (
-                '$HOME/hhvm/hhvm',
+                '$HOME/hhvm/usr/bin/hhvm',
                 '--mode server',
                 '-c $HOME/hhvm/etc/config.hdf')
         }
@@ -33,14 +33,14 @@ def service_commands(ctx):
         app = find_stand_alone_app_to_run(ctx)
         return {
             'hhvm-app': (
-                '$HOME/hhvm/hhvm',
+                '$HOME/hhvm/usr/bin/hhvm',
                 app)
         }
 
 
 def service_environment(ctx):
     return {
-        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/hhvm'
+        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/hhvm/usr/lib/hhvm'
     }
 
 
