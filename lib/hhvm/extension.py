@@ -17,8 +17,7 @@ from compile_helpers import find_stand_alone_app_to_run
 
 
 def preprocess_commands(ctx):
-    return (('$HOME/.bp/bin/rewrite', '"$HOME/.env"'),
-            ('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'))
+    return (('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'),)
 
 
 def service_commands(ctx):
@@ -27,13 +26,15 @@ def service_commands(ctx):
             'hhvm': (
                 '$HOME/hhvm/usr/bin/hhvm',
                 '--mode server',
-                '-c $HOME/hhvm/etc/config.hdf')
+                '-c $HOME/hhvm/etc/server.ini',
+                '-c $HOME/hhvm/etc/php.ini')
         }
     else:
         app = find_stand_alone_app_to_run(ctx)
         return {
             'hhvm-app': (
                 '$HOME/hhvm/usr/bin/hhvm',
+                '-c $HOME/hhvm/etc/php.ini',
                 app)
         }
 
@@ -47,12 +48,6 @@ def service_environment(ctx):
 def compile(install):
     print 'Installing HHVM'
     ctx = install.builder._ctx
-    # pick how to connect, tcp or unix socket
-    if ctx['WEB_SERVER'] == 'httpd':
-        ctx['HHVM_LISTEN_TYPE'] = 'Port'
-        ctx['PHP_FPM_LISTEN'] = ctx['PHP_FPM_LISTEN'].split(':')[-1]
-    elif ctx['WEB_SERVER'] == 'nginx':
-        ctx['HHVM_LISTEN_TYPE'] = 'FileSocket'
     # install HHVM & config
     (install
         .package('HHVM')
