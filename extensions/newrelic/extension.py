@@ -45,10 +45,11 @@ class NewRelicInstaller(object):
         self.license_key = None
         try:
             self._log.info("Initializing")
-            self._merge_defaults()
-            self._load_service_info()
-            self._load_php_info()
-            self._load_newrelic_info()
+            if ctx['PHP_VM'] == 'php':
+                self._merge_defaults()
+                self._load_service_info()
+                self._load_php_info()
+                self._load_newrelic_info()
         except Exception:
             self._log.exception("Error installing NewRelic! "
                                 "NewRelic will not be available.")
