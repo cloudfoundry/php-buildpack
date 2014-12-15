@@ -18,7 +18,8 @@ from compile_helpers import find_stand_alone_app_to_run
 
 def preprocess_commands(ctx):
     return (('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'),
-            ('alias', 'hhvm="hhvm -c $HOME/hhvm/etc/php.ini"'))
+            ('hhvm() {', '$HOME/hhvm/usr/bin/hhvm',
+             '-c "$HOME/hhvm/etc/php.ini" "$@";', '}'))
 
 
 def service_commands(ctx):
@@ -49,7 +50,6 @@ def service_environment(ctx):
 
 def compile(install):
     print 'Installing HHVM'
-    ctx = install.builder._ctx
     # install HHVM & config
     (install
         .package('HHVM')
