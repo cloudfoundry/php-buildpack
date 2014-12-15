@@ -33,7 +33,8 @@ class TestNewRelic(object):
 
     def testDefaults(self):
         nr = newrelic.NewRelicInstaller(utils.FormattedDict({
-            'BUILD_DIR': self.build_dir
+            'BUILD_DIR': self.build_dir,
+            'PHP_VM': 'php'
         }))
         eq_(True, 'NEWRELIC_HOST' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
@@ -55,7 +56,8 @@ class TestNewRelic(object):
             'NEWRELIC_LICENSE': 'JUNK_LICENSE',
             'VCAP_APPLICATION': {
                 'name': 'app-name-1'
-            }
+            },
+            'PHP_VM': 'php'
         })
         nr = newrelic.NewRelicInstaller(ctx)
         eq_(True, nr.should_install())
@@ -86,7 +88,8 @@ class TestNewRelic(object):
             },
             'VCAP_APPLICATION': {
                 'name': 'app-name-1'
-            }
+            },
+            'PHP_VM': 'php'
         })
         nr = newrelic.NewRelicInstaller(ctx)
         eq_(True, nr.should_install())
@@ -118,7 +121,8 @@ class TestNewRelic(object):
             'NEWRELIC_LICENSE': 'LICENSE2',
             'VCAP_APPLICATION': {
                 'name': 'app-name-2'
-            }
+            },
+            'PHP_VM': 'php'
         })
         nr = newrelic.NewRelicInstaller(ctx)
         eq_(True, nr.should_install())
@@ -142,7 +146,8 @@ class TestNewRelic(object):
             'NEWRELIC_LICENSE': 'JUNK_LICENSE',
             'VCAP_APPLICATION': {
                 'name': 'app-name-1'
-            }
+            },
+            'PHP_VM': 'php'
         })
         nr = newrelic.NewRelicInstaller(ctx)
         nr.modify_php_ini()

@@ -17,7 +17,8 @@ from compile_helpers import find_stand_alone_app_to_run
 
 
 def preprocess_commands(ctx):
-    return (('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'),)
+    return (('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'),
+            ('alias hhvm="hhvm -c \"$HOME/hhvm/etc/php.ini\""'))
 
 
 def service_commands(ctx):
@@ -41,7 +42,8 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     return {
-        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/hhvm/usr/lib/hhvm'
+        'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/hhvm/usr/lib/hhvm',
+        'PATH': "$PATH:$HOME/hhvm/usr/bin"
     }
 
 

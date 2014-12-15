@@ -315,8 +315,9 @@ class HhvmAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.procs')
             .any_line()
-                .equals('hhvm: $HOME/hhvm/hhvm --mode server -c '  # noqa
-                        '$HOME/hhvm/etc/config.hdf\n'))
+                .equals('hhvm: $HOME/hhvm/usr/bin/hhvm --mode server ' # noqa
+                        '-c $HOME/hhvm/etc/server.ini '
+                        '-c $HOME/hhvm/etc/php.ini\n'))
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
@@ -325,22 +326,26 @@ class HhvmAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.env')
             .any_line()
-            .equals('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/hhvm\n'))
+            .equals('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'
+                    '$HOME/hhvm/usr/lib/hhvm\n')
+            .equals('export PATH=$PATH:$HOME/hhvm/usr/bin\n'))
 
     def assert_files_installed(self, build_dir):
         fah = FileAssertHelper()
         (fah.expect()
             .root(build_dir, 'hhvm')
-                .path('hhvm')  # noqa
-                .path('etc', 'config.hdf')
-                .path('libmemcached.so.11')
-                .path('libevent-1.4.so.2.2.0')
-                .path('libevent-1.4.so.2')
-                .path('libboost_system.so.1.55.0')
-                .path('libc-client.so.2007e.0')
+                .path('usr', 'bin', 'hhvm')  # noqa
+            .root(build_dir, 'hhvm', 'usr', 'lib', 'hhvm', reset=True)
+                .path('libboost_program_options.so.1.55.0')
+                .path('libevent-2.0.so.5')
+                .path('libicuuc.so.48')
+                .path('libjemalloc.so.1')
+                .path('libcurl.so.4')
+                .path('libicudata.so.48')
+                .path('libMagickWand-6.Q16.so.2')
+                .path('libonig.so.2')
+                .path('libmcrypt.so.4')
                 .path('libstdc++.so.6')
-                .path('libMagickWand.so.2')
-                .path('libicui18n.so.48')
             .exists())
 
 
