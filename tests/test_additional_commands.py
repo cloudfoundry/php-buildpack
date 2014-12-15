@@ -10,6 +10,14 @@ class TestAdditionalCommandsExtension(object):
         tmp = extn.preprocess_commands(ctx)
         assert tmp == []
 
+    def test_one_command_as_string(self):
+        ctx = {
+            'ADDITIONAL_PREPROCESS_CMDS': 'env'
+        }
+        tmp = extn.preprocess_commands(ctx)
+        assert len(tmp) == 1
+        assert tmp[0] == ['env']
+
     def test_one_additional_command(self):
         ctx = {
             'ADDITIONAL_PREPROCESS_CMDS': ['env']

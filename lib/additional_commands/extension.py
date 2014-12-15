@@ -15,8 +15,11 @@
 
 
 def preprocess_commands(ctx):
+    preprocs = ctx.get('ADDITIONAL_PREPROCESS_CMDS', [])
+    if hasattr(preprocs, 'split'):
+        preprocs = [preprocs]
     cmds = []
-    for cmd in ctx.get('ADDITIONAL_PREPROCESS_CMDS', []):
+    for cmd in preprocs:
         if hasattr(cmd, 'split'):
             cmd = [cmd]
         cmds.append(cmd)
