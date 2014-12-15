@@ -306,7 +306,8 @@ class HhvmAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, 'start.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/hhvm/etc"\n'))
+            .equals('$HOME/.bp/bin/rewrite "$HOME/hhvm/etc"\n')
+            .equals('alias hhvm="hhvm -c $HOME/hhvm/etc/php.ini"\n'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
