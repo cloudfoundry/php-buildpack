@@ -82,7 +82,11 @@ class CloudFoundryUtil(object):
         if os.path.exists(cfgPath):
             _log.debug("Loading config from [%s]", cfgPath)
             with open(cfgPath, 'rt') as cfgFile:
-                return json.load(cfgFile)
+                try:
+                    return json.load(cfgFile)
+                except ValueError, e:
+                    _log.warn("Error reading [%s]", cfgPath)
+                    _log.debug("Error reading [%s]", cfgPath, exc_info=e)
         return {}
 
 
