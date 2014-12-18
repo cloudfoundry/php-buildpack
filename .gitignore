@@ -7,3 +7,4 @@ binaries/trusty/*
 *.pyc
 *.swp
 /env
+*_buildpack*.zip
