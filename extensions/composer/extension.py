@@ -178,31 +178,38 @@ class ComposerTool(object):
         (self._builder.copy()
             .under('{BUILD_DIR}/php/etc')
             .where_name_is('php.ini')
-            .into('TMPDIR')
+            .into('{TMPDIR}/php/etc')
          .done())
-        utils.rewrite_cfgs(os.path.join(self._ctx['TMPDIR'], 'php.ini'),
+
+        phpCfgDir = os.path.join(self._ctx['TMPDIR'], 'php', 'etc')
+        phpCfg = os.path.join(phpCfgDir, 'php.ini')
+
+        utils.rewrite_cfgs(os.path.join(self._ctx['TMPDIR'], 'php', 'etc', 'php.ini'),
                            {'TMPDIR': self._ctx['TMPDIR'],
                             'HOME': self._ctx['BUILD_DIR']},
                            delim='@')
         # Run from /tmp/staged/app
         try:
-            phpPath = os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php')
-            phpCfg = os.path.join(self._ctx['TMPDIR'], 'php.ini')
-            composerPath = os.path.join(self._ctx['BUILD_DIR'], 'php',
-                                        'bin', 'composer.phar')
+            phpDir = os.path.join(self._ctx['BUILD_DIR'], 'php')
+            phpBinDir = os.path.join(phpDir, 'bin')
+            phpPath = os.path.join(phpBinDir, 'php')
+            composerPath = os.path.join(phpBinDir, 'composer.phar')
+
             composerEnv = {
-                'LD_LIBRARY_PATH': os.path.join(self._ctx['BUILD_DIR'],
-                                                'php', 'lib'),
+                'PATH': os.getenv('PATH') + os.pathsep + phpBinDir,
+                'PHPRC': phpCfgDir,
+                'LD_LIBRARY_PATH': os.path.join(phpDir, 'lib'),
                 'HOME': self._ctx['BUILD_DIR'],
                 'COMPOSER_VENDOR_DIR': self._ctx['COMPOSER_VENDOR_DIR'],
                 'COMPOSER_BIN_DIR': self._ctx['COMPOSER_BIN_DIR'],
                 'COMPOSER_CACHE_DIR': self._ctx['COMPOSER_CACHE_DIR']
             }
+
             composerCmd = [phpPath,
                            '-c "%s"' % phpCfg,
                            composerPath,
                            'install',
-                           '--no-progress']
+                           '--no-progress', '--no-ansi']
             composerCmd.extend(self._ctx['COMPOSER_INSTALL_OPTIONS'])
             self._log.debug("Running [%s]", ' '.join(composerCmd))
             output = stream_output(sys.stdout,
@@ -211,8 +218,8 @@ class ComposerTool(object):
                                    cwd=self._ctx['BUILD_DIR'],
                                    shell=True)
             _log.debug('composer output [%s]', output)
-        except Exception:
-            _log.error("Command Failed: %s")
+        except Exception as e:
+            _log.error("Composer failed: %s" % e)
 
 
 # Extension Methods
