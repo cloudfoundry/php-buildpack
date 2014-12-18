@@ -6,7 +6,7 @@ This is the next generation build pack for running PHP applications on CloudFoun
 
 ## 30 Second Tutorial
 
-Getting started with the build pack is easy.  With the cf command line utility installed, open a shell, change directories to the root of your PHP files and push your application using the argument `-b https://github.com/dmikusa-pivotal/cf-php-build-pack.git`.
+Getting started with the build pack is easy.  With the cf command line utility installed, open a shell, change directories to the root of your PHP files and push your application using the argument `-b https://github.com/cloudfoundry/php-buildpack.git`.
 
 Example:
 
@@ -18,7 +18,7 @@ cat << EOF > index.php
   phpinfo();
 ?>
 EOF
-cf push -m 128M -b https://github.com/dmikusa-pivotal/cf-php-build-pack.git my-php-app
+cf push -m 128M -b https://github.com/cloudfoundry/php-buildpack.git my-php-app
 ```
 
 Please note that you should change *my-php-app* to some unique name, otherwise you'll get an error and the push will fail.
@@ -49,10 +49,10 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Binaries]
   - [Troubleshooting]
   - [Getting Help](#getting-help)
-  - [Issues & Feature Requests](#issues--feature-requests)
   - [Development]
   - [Releases](#releases)
   - [License](#license)
+  - [Contributing](#contributing)
 
 ## Goals
 
@@ -122,16 +122,12 @@ applications:
   instances: 1
   host: my-php-app
   path: .
-  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack#v2.0
+  buildpack: https://github.com/cloudfoundry/php-buildpack#v2.0
 ```
 
 The benefit of using a release tag is that it is stable, at least it should be.  No new features or changes will be made to a release tag.  This means if your app pushes OK now, it should push OK six months from now as long as you're using the same release tag.  The downfall of this is that, the tag is stuck at a point in time and won't receive updates to the binaries, like PHP, HTTPD and Nginx.
 
 In the past, I was maintaining releases as branches on the build pack and back porting upgrades to binaries.  Because this build pack is a project that I maintain in my spare time and I do not have infinite resources, I've switched to tags which consume less time.  The older branches will continue to exist and can continue to be used, but will not receive any further updates.  The branches are numbers 1.x, while tags will start with 2.x.
-
-## Issues & Feature Requests
-
-This project is managed through Github.  If you encounter any issues, bug or problems with the build pack please open an issue.  Feature requests can also be submitted this way too.
 
 ## License
 
@@ -143,11 +139,11 @@ This build pack facilitates the use of third party code and services with your a
 
 
 [CF PHP & Apache Build Pack]:https://github.com/dmikusa-pivotal/cf-php-apache-buildpack
-[Configuration Options]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
-[Development]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md
-[Troubleshooting]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/troubleshooting.md
-[Usage]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/usage.md
-[Binaries]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/binaries.md
+[Configuration Options]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/config.md
+[Development]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md
+[Troubleshooting]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/troubleshooting.md
+[Usage]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/usage.md
+[Binaries]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/binaries.md
 [php-info]:https://github.com/dmikusa-pivotal/cf-ex-php-info
 [PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
@@ -157,8 +153,27 @@ This build pack facilitates the use of third party code and services with your a
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
 [vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
 [support forums]:http://support.run.pivotal.io/home
-[Composer]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/composer.md
-["offline" mode]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/binaries.md#bundling-binaries-with-the-build-pack
+[Composer]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/composer.md
+["offline" mode]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/binaries.md#bundling-binaries-with-the-build-pack
 [phalcon]:https://github.com/dmikusa-pivotal/cf-ex-phalcon
 [Phalcon]:http://phalconphp.com/en/
 [composer]:https://github.com/dmikusa-pivotal/cf-ex-composer
+
+## Contributing
+
+### Run the Tests
+
+See the [Machete](https://github.com/cf-buildpacks/machete) CF buildpack test framework for more information.
+
+### Pull Requests
+
+1. Fork the project
+1. Submit a pull request
+
+## Reporting Issues
+
+This project is managed through Github.  If you encounter any issues, bug or problems with the build pack please open an issue.
+
+## Active Development
+
+The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/projects/1042066)
