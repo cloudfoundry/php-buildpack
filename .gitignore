@@ -8,3 +8,4 @@ binaries/trusty/*
 *.swp
 /env
 *_buildpack*.zip
+log/
