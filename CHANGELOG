@@ -1,0 +1,11 @@
+v3.0.0 Dec 18, 2014
+====================
+
+* Migrated [dmikusa-pivotal/cf-php-build-pack](https://github.com/dmikusa-pivotal/cf-php-build-pack) to [cloudfoundry/php-buildpack](https://github.com/cloudfoundry/php-buildpack)
+  (https://www.pivotaltracker.com/story/show/83101106)
+
+* Updated README with Cloud Foundry contribution instructions
+  (https://www.pivotaltracker.com/story/show/83101106)
+
+* Changed zip file name to be CF release compliant
+  (https://www.pivotaltracker.com/story/show/84419616)

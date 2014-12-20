@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+mode=${1:-''}
+
+if [ $# -eq 0 ] || ([ $mode != "online" ] && [ $mode != "offline" ]); then
+  echo "Usage:"
+  echo "  $0 online|offline"
+  exit 1
+fi
+
+if [ "$mode" == "offline" ]; then
+  ./bin/binaries zip --index binaries/lucid/index-all.json
+  exit 0
+else
+  zip -r php_buildpack-v`cat VERSION`.zip . \
+    --include bin/* \
+    --include defaults/* \
+    --include extensions/* \
+    --include lib/* \
+    --include scripts/*
+  exit 0
+fi
+

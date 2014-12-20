@@ -300,8 +300,9 @@ def zip_up_folder(zf, path, compress=None, altBase=None):
 
 
 def zip_up_files(binPath, zipPath, indexPath):
-    zipName = 'php-build-pack-%s.zip' % \
-        datetime.now().strftime('%y.%d.%m-%H.%M.%S')
+    with open('VERSION', 'r') as versionFile:
+        zipName = 'php_buildpack-offline-v%s.zip' % \
+            versionFile.read().rstrip()
     try:
         zf = zipfile.ZipFile(os.path.join(zipPath, zipName), 'w')
         # zip up binaries
