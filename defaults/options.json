@@ -3,7 +3,7 @@
     "STACK": "lucid",
     "LIBDIR": "lib",
     "WEBDIR": "htdocs",
-    "DOWNLOAD_URL": "http://php-bp-proxy.cfapps.io/files/{STACK}",
+    "DOWNLOAD_URL": "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/{STACK}",
     "WEB_SERVER": "httpd",
     "PHP_VM": "php",
     "ADMIN_EMAIL": "admin@localhost",
