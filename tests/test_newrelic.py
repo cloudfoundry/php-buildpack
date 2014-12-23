@@ -165,8 +165,6 @@ class TestNewRelicCompiled(BaseCompileApp):
 
     def setUp(self):
         BaseCompileApp.setUp(self)
-        self.opts.set_newrelic_download_url(
-            '{DOWNLOAD_URL}/newrelic/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}')
         os.environ['NEWRELIC_LICENSE'] = 'JUNK_LICENSE'
         os.environ['VCAP_APPLICATION'] = json.dumps({
             'name': 'app-name-1'
@@ -245,8 +243,6 @@ class TestNewRelicWithApp5(BaseCompileApp):
 
     def setUp(self):
         BaseCompileApp.setUp(self)
-        self.opts.set_newrelic_download_url(
-            '{DOWNLOAD_URL}/newrelic/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}')
         os.environ['NEWRELIC_LICENSE'] = 'JUNK_LICENSE'
         os.environ['VCAP_APPLICATION'] = json.dumps({
             'name': 'app-name-1'
