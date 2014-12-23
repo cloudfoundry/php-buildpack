@@ -199,7 +199,8 @@ class TextFileAssertHelper(object):
     def line_count_equals(self, num, test=None):
         found = len([item for item in itertools.ifilter(test, self._contents)])
         assert num == found, \
-            "Found [%d] lines, not [%d] in [%s]" % (found, num, self._path)
+            "Found [%d] lines, not [%d] in [%s]\n\nContents:\n%s" % \
+            (found, num, self._path, "\n".join(self._contents))
         return self
 
 
