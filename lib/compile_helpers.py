@@ -74,7 +74,7 @@ def find_all_php_extensions(index_json):
     for version, files in index_json['php'].iteritems():
         for f in files:
             if f.endswith('.tar.gz'):
-                tmp = f.split('-')
+                tmp = os.path.basename(f).split('-')
                 if len(tmp) == 3 and tmp[1] not in SKIP:
                     exts[version].append(tmp[1])
     return exts
