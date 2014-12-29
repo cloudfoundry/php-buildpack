@@ -9,7 +9,7 @@ if [ $# -eq 0 ] || ([ $mode != "online" ] && [ $mode != "offline" ]); then
 fi
 
 if [ "$mode" == "offline" ]; then
-  ./bin/binaries zip --index binaries/lucid/index-all.json
+  ./bin/binaries zip --index binaries/lucid/index-all.json --cache
   exit 0
 else
   zip -r php_buildpack-v`cat VERSION`.zip \

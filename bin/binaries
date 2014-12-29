@@ -123,6 +123,9 @@ def run():
                     help='Override the location for the download index. '
                          'Defaults to <binary-path>/index-latest.json.'
                          'Must specify this or --binary-path.')
+    zipup.add_argument('--cache',
+                       action='store_true',
+                       help='Any files downloaded will be stored in cache for subsequent builds.')
     zipup.add_argument('--zip-path',
                        help='Location of the zip file to create.  Defaults '
                             'to the current directory.')
@@ -131,7 +134,7 @@ def run():
         if args['binary_path'] is None:
             if args['index'] is not None:
                 args['binary_path'] = tempfile.mkdtemp(prefix='php-binaries-')
-                download_files(args['binary_path'], args['index'])
+                download_files(args['binary_path'], args['index'], args['cache'])
         if args['zip_path'] is None:
             args['zip_path'] = os.getcwd()
         try:
@@ -219,7 +222,7 @@ def get_latest_version(pkgDir, like=None):
     return max(versions.iteritems(), key=operator.itemgetter(1))[0]
 
 
-def download_files(binPath, index):
+def download_files(binPath, index, cache=False):
     """Download the files listed in the JSON index file"""
     bins = json.load(open(index, 'rt'))
     safe_makedirs(binPath)
@@ -229,10 +232,10 @@ def download_files(binPath, index):
         for version in bins[package].keys():
             verPath = os.path.join(pkgPath, version)
             safe_makedirs(verPath)
-            download_version(verPath, bins[package][version])
+            download_version(verPath, bins[package][version], cache)
 
 
-def download_version(verPath, urls):
+def download_version(verPath, urls, cache):
     """Download all the files for a version of a packages.
 
     Downloads all of the files for a particular version of a package.  Each
@@ -247,13 +250,24 @@ def download_version(verPath, urls):
         while len([t for t in threads if t.is_alive()]) > 4:
             for thread in threads:
                 thread.join(0.25)
-        t = threading.Thread(target=download,
-                             args=(url, toPath))
+        t = threading.Thread(target=cached_download,
+                             args=(url, toPath, cache))
         t.start()
         threads.append(t)
     for thread in threads:
         thread.join()
 
+def cached_download(url, toPath, cache):
+    if cache:
+        cachedPath = os.path.expanduser('~/.buildpack-packager')
+        safe_makedirs(cachedPath)
+        cachedFilePath = os.path.join(cachedPath, os.path.basename(url))
+
+        if not os.path.exists(cachedFilePath):
+            download(url, cachedFilePath)
+        shutil.copy(cachedFilePath, toPath)
+    else:
+        download(url, toPath)
 
 def download(url, toPath):
     try:
