@@ -1,3 +1,9 @@
+v3.0.2 Dec 29, 2014
+====================
+
+* Fixed online buildpack to include full directories
+  (https://www.pivotaltracker.com/story/show/84415126)
+
 v3.0.1 Dec 23, 2014
 ====================
 
