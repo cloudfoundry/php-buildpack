@@ -10,6 +10,12 @@ v3.0.3 Jan 05, 2015
 * Print buildpack version
   (https://www.pivotaltracker.com/story/show/84397250)
 
+v3.0.2 Dec 29, 2014
+====================
+
+* Fixed online buildpack to include full directories
+  (https://www.pivotaltracker.com/story/show/84415126)
+
 v3.0.1 Dec 23, 2014
 ====================
 
