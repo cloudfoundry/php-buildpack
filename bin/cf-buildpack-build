@@ -18,7 +18,8 @@ else
     defaults/* \
     extensions/* \
     lib/* \
-    scripts/*
+    scripts/* \
+    -x *.pyc*
   exit 0
 fi
 
