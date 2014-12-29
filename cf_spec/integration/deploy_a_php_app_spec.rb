@@ -15,6 +15,7 @@ describe 'CF PHP Buildpack' do
     specify do
       expect(app).to be_running
 
+      expect(app).to have_logged '-------> Buildpack version 3'
       expect(app).to have_logged 'Installing PHP'
       expect(app).to have_logged 'PHP 5.4.36'
 

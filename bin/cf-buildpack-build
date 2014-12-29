@@ -19,6 +19,7 @@ else
     extensions/* \
     lib/* \
     scripts/* \
+    VERSION \
     -x *.pyc*
   exit 0
 fi

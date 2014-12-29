@@ -309,6 +309,8 @@ def zip_up_files(binPath, zipPath, indexPath):
         zip_up_folder(zf, binPath, altBase='binaries')
         # zip up index
         zf.write(indexPath, os.path.join('binaries', 'index-all.json'))
+        # zip uo VERSION
+        zf.write('VERSION')
         # zip up build pack
         zip_up_folder(zf, os.path.join(BPDIR, 'bin'),
                       zipfile.ZIP_DEFLATED)
