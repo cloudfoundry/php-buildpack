@@ -98,6 +98,9 @@ def run():
                                           ' and build a local repository.')
     download.add_argument('binary_path',
                           help='Where to put the binaries')
+    download.add_argument('--cache',
+                       action='store_true',
+                       help='Any files downloaded will be stored in cache for subsequent builds.')
     download.add_argument('--index',
                           help='Override the location for the download index. '
                                'Defaults to <binary-path>/index-latest.json.')
@@ -106,7 +109,7 @@ def run():
         if args['index'] is None:
             args['index'] = os.path.join(args['binary_path'],
                                          'index-latest.json')
-        download_files(args['binary_path'], args['index'])
+        download_files(args['binary_path'], args['index'], args['cache'])
 
     download.set_defaults(func=wrap_download_files)
 
