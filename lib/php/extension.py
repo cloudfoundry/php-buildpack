@@ -73,6 +73,7 @@ def compile(install):
     validate_php_extensions(ctx)
     convert_php_extensions(ctx)
     build_php_environment(ctx)
+    print 'PHP %s' % (ctx['PHP_VERSION'])
     (install
         .package('PHP')
         .config()
