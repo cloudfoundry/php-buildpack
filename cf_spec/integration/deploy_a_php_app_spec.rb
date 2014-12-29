@@ -16,6 +16,7 @@ describe 'CF PHP Buildpack' do
       expect(app).to be_running
 
       expect(app).to have_logged 'Installing PHP'
+      expect(app).to have_logged 'PHP 5.4.36'
 
       browser.visit_path('/')
       expect(browser).to have_body('Hello world!')
