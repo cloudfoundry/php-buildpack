@@ -19,7 +19,7 @@ from extension_helpers import ExtensionHelper
 
 class HHVMExtension(ExtensionHelper):
     def _should_compile(self):
-        return True
+        return self._ctx['PHP_VM'] == 'hhvm'
 
     def _preprocess_commands(self):
         return (('$HOME/.bp/bin/rewrite', '"$HOME/hhvm/etc"'),

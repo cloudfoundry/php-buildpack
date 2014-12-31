@@ -25,7 +25,7 @@ from extension_helpers import ExtensionHelper
 
 class PHPExtension(ExtensionHelper):
     def _should_compile(self):
-        return True
+        return self._ctx['PHP_VM'] == 'php'
 
     def _configure(self):
         json = load_binary_index(self._ctx)
