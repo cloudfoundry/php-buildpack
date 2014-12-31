@@ -44,6 +44,90 @@ DEFAULTS = {
 }
 
 
+def find_composer_paths(path):
+    json_path = None
+    lock_path = None
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            if f == 'composer.json':
+                json_path = os.path.join(root, f)
+            if f == 'composer.lock':
+                lock_path = os.path.join(root, f)
+            if json_path and lock_path:
+                return (json_path, lock_path)
+    return (json_path, lock_path)
+
+
+class ComposerConfiguration(object):
+    def __init__(self, ctx):
+        self._ctx = ctx
+        self._log = _log
+
+    def read_exts_from_path(self, path):
+        exts = []
+        req_pat = re.compile(r'"require"\: \{(.*?)\}', re.DOTALL)
+        ext_pat = re.compile(r'"ext-(.*?)"')
+        with open(path, 'rt') as fp:
+            data = fp.read()
+        for req_match in req_pat.finditer(data):
+            for ext_match in ext_pat.finditer(req_match.group(1)):
+                exts.append(ext_match.group(1))
+        return exts
+
+    def read_php_version_from_composer_json(self, path):
+        composer_json = json.load(open(path, 'r'))
+        require = composer_json.get('require', {})
+        return require.get('php', None)
+
+    def read_php_version_from_composer_lock(self, path):
+        composer_json = json.load(open(path, 'r'))
+        platform = composer_json.get('platform', {})
+        return platform.get('php', None)
+
+    def pick_php_version(self, requested):
+        selected = None
+        if requested is None:
+            selected = self._ctx['PHP_VERSION']
+        elif requested == '5.3.*' or requested == '>=5.3':
+            selected = self._ctx['PHP_54_LATEST']
+        elif requested == '5.4.*' or requested == '>=5.4':
+            selected = self._ctx['PHP_54_LATEST']
+        elif requested == '5.5.*' or requested == '>=5.5':
+            selected = self._ctx['PHP_55_LATEST']
+        elif requested.startswith('5.4.'):
+            selected = requested
+        elif requested.startswith('5.5.'):
+            selected = requested
+        else:
+            selected = self._ctx['PHP_VERSION']
+        return selected
+
+    def configure(self):
+        exts = []
+        # include any existing extensions
+        exts.extend(self._ctx.get('PHP_EXTENSIONS', []))
+        # add 'openssl' extension
+        exts.append('openssl')
+        # add platform extensions from composer.json & composer.lock
+        (json_path, lock_path) = \
+            find_composer_paths(self._ctx['BUILD_DIR'])
+        if json_path:
+            exts.extend(self.read_exts_from_path(json_path))
+        if lock_path:
+            exts.extend(self.read_exts_from_path(lock_path))
+        # update context with new list of extensions, if composer.json exists
+        if json_path or lock_path:
+            if json_path:
+                php_version = \
+                    self.read_php_version_from_composer_json(json_path)
+            else:
+                php_version = \
+                    self.read_php_version_from_composer_lock(lock_path)
+            self._log.debug('Composer picked PHP Version [%s]', php_version)
+            self._ctx['PHP_VERSION'] = self.pick_php_version(php_version)
+            self._ctx['PHP_EXTENSIONS'] = utils.unique(exts)
+
+
 class ComposerTool(object):
     def __init__(self, builder):
         self._log = _log
@@ -56,93 +140,9 @@ class ComposerTool(object):
             if key not in self._ctx:
                 self._ctx[key] = val
 
-    @staticmethod
-    def _find_composer_paths(path):
-        json_path = None
-        lock_path = None
-        for root, dirs, files in os.walk(path):
-            for f in files:
-                if f == 'composer.json':
-                    json_path = os.path.join(root, f)
-                if f == 'composer.lock':
-                    lock_path = os.path.join(root, f)
-                if json_path and lock_path:
-                    return (json_path, lock_path)
-        return (json_path, lock_path)
-
-    @staticmethod
-    def read_exts_from_path(path):
-        exts = []
-        req_pat = re.compile(r'"require"\: \{(.*?)\}', re.DOTALL)
-        ext_pat = re.compile(r'"ext-(.*?)"')
-        with open(path, 'rt') as fp:
-            data = fp.read()
-        for req_match in req_pat.finditer(data):
-            for ext_match in ext_pat.finditer(req_match.group(1)):
-                exts.append(ext_match.group(1))
-        return exts
-
-    @staticmethod
-    def read_php_version_from_composer_json(path):
-        composer_json = json.load(open(path, 'r'))
-        require = composer_json.get('require', {})
-        return require.get('php', None)
-
-    @staticmethod
-    def read_php_version_from_composer_lock(path):
-        composer_json = json.load(open(path, 'r'))
-        platform = composer_json.get('platform', {})
-        return platform.get('php', None)
-
-    @staticmethod
-    def pick_php_version(ctx, requested):
-        selected = None
-        if requested is None:
-            selected = ctx['PHP_VERSION']
-        elif requested == '5.3.*' or requested == '>=5.3':
-            selected = ctx['PHP_54_LATEST']
-        elif requested == '5.4.*' or requested == '>=5.4':
-            selected = ctx['PHP_54_LATEST']
-        elif requested == '5.5.*' or requested == '>=5.5':
-            selected = ctx['PHP_55_LATEST']
-        elif requested.startswith('5.4.'):
-            selected = requested
-        elif requested.startswith('5.5.'):
-            selected = requested
-        else:
-            selected = ctx['PHP_VERSION']
-        return selected
-
-    @staticmethod
-    def configure(ctx):
-        exts = []
-        # include any existing extensions
-        exts.extend(ctx.get('PHP_EXTENSIONS', []))
-        # add 'openssl' extension
-        exts.append('openssl')
-        # add platform extensions from composer.json & composer.lock
-        (json_path, lock_path) = \
-            ComposerTool._find_composer_paths(ctx['BUILD_DIR'])
-        if json_path:
-            exts.extend(ComposerTool.read_exts_from_path(json_path))
-        if lock_path:
-            exts.extend(ComposerTool.read_exts_from_path(lock_path))
-        # update context with new list of extensions, if composer.json exists
-        if json_path or lock_path:
-            if json_path:
-                php_version = \
-                    ComposerTool.read_php_version_from_composer_json(json_path)
-            else:
-                php_version = \
-                    ComposerTool.read_php_version_from_composer_lock(lock_path)
-            _log.debug('Composer picked PHP Version [%s]', php_version)
-            ctx['PHP_VERSION'] = ComposerTool.pick_php_version(ctx,
-                                                               php_version)
-            ctx['PHP_EXTENSIONS'] = utils.unique(exts)
-
     def detect(self):
         (json_path, lock_path) = \
-            ComposerTool._find_composer_paths(self._ctx['BUILD_DIR'])
+            find_composer_paths(self._ctx['BUILD_DIR'])
         return (json_path is not None or lock_path is not None)
 
     def install(self):
@@ -217,7 +217,8 @@ class ComposerTool(object):
 
 # Extension Methods
 def configure(ctx):
-    ComposerTool.configure(ctx)
+    config = ComposerConfiguration(ctx)
+    config.configure()
 
 
 def preprocess_commands(ctx):
