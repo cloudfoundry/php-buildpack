@@ -22,6 +22,20 @@ describe 'CF PHP Buildpack' do
       expect(browser).to have_body('Hello world!')
     end
   end
+
+  context 'deploying a basic HHVM app with runtime defined in composer.json' do
+    let(:app_name) { 'composer_hhvm_app' }
+
+    specify do
+      expect(app).to be_running
+
+      expect(app).to have_logged 'Installing HHVM'
+      expect(app).to have_logged 'HHVM 3.2'
+
+      browser.visit_path('/')
+      expect(browser).to have_body('Hello world!')
+    end
+  end
 end
 
 

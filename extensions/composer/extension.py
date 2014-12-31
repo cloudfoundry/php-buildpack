@@ -33,8 +33,8 @@ DEFAULTS = {
     'COMPOSER_HOST': 'getcomposer.org',
     'COMPOSER_VERSION': '1.0.0-alpha8',
     'COMPOSER_PACKAGE': 'composer.phar',
-    'COMPOSER_DOWNLOAD_URL': 'https://{COMPOSER_HOST}/download/'
-                             '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',
+    'COMPOSER_DOWNLOAD_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
+                             '{COMPOSER_PACKAGE}',
     'COMPOSER_HASH_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
                          '{COMPOSER_PACKAGE}.{CACHE_HASH_ALGORITHM}',
     'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
@@ -47,14 +47,15 @@ DEFAULTS = {
 def find_composer_paths(path):
     json_path = None
     lock_path = None
-    for root, dirs, files in os.walk(path):
-        for f in files:
-            if f == 'composer.json':
-                json_path = os.path.join(root, f)
-            if f == 'composer.lock':
-                lock_path = os.path.join(root, f)
-            if json_path and lock_path:
-                return (json_path, lock_path)
+    if path:
+        for root, dirs, files in os.walk(path):
+            for f in files:
+                if f == 'composer.json':
+                    json_path = os.path.join(root, f)
+                if f == 'composer.lock':
+                    lock_path = os.path.join(root, f)
+                if json_path and lock_path:
+                    return (json_path, lock_path)
     return (json_path, lock_path)
 
 
@@ -62,27 +63,33 @@ class ComposerConfiguration(object):
     def __init__(self, ctx):
         self._ctx = ctx
         self._log = _log
+        self._init_composer_paths()
+
+    def _init_composer_paths(self):
+        (self.json_path, self.lock_path) = \
+            find_composer_paths(self._ctx.get('BUILD_DIR', None))
 
     def read_exts_from_path(self, path):
         exts = []
-        req_pat = re.compile(r'"require"\: \{(.*?)\}', re.DOTALL)
-        ext_pat = re.compile(r'"ext-(.*?)"')
-        with open(path, 'rt') as fp:
-            data = fp.read()
-        for req_match in req_pat.finditer(data):
-            for ext_match in ext_pat.finditer(req_match.group(1)):
-                exts.append(ext_match.group(1))
+        if path:
+            req_pat = re.compile(r'"require"\: \{(.*?)\}', re.DOTALL)
+            ext_pat = re.compile(r'"ext-(.*?)"')
+            with open(path, 'rt') as fp:
+                data = fp.read()
+            for req_match in req_pat.finditer(data):
+                for ext_match in ext_pat.finditer(req_match.group(1)):
+                    exts.append(ext_match.group(1))
         return exts
 
-    def read_php_version_from_composer_json(self, path):
-        composer_json = json.load(open(path, 'r'))
+    def read_version_from_composer_json(self, key):
+        composer_json = json.load(open(self.json_path, 'r'))
         require = composer_json.get('require', {})
-        return require.get('php', None)
+        return require.get(key, None)
 
-    def read_php_version_from_composer_lock(self, path):
-        composer_json = json.load(open(path, 'r'))
+    def read_version_from_composer_lock(self, key):
+        composer_json = json.load(open(self.lock_path, 'r'))
         platform = composer_json.get('platform', {})
-        return platform.get('php', None)
+        return platform.get(key, None)
 
     def pick_php_version(self, requested):
         selected = None
@@ -102,30 +109,35 @@ class ComposerConfiguration(object):
             selected = self._ctx['PHP_VERSION']
         return selected
 
+    def _read_version_from_composer(self, key):
+        if self.json_path:
+            return self.read_version_from_composer_json(key)
+
+        elif self.lock_path:
+            return self.read_version_from_composer_lock(key)
+
     def configure(self):
-        exts = []
-        # include any existing extensions
-        exts.extend(self._ctx.get('PHP_EXTENSIONS', []))
-        # add 'openssl' extension
-        exts.append('openssl')
-        # add platform extensions from composer.json & composer.lock
-        (json_path, lock_path) = \
-            find_composer_paths(self._ctx['BUILD_DIR'])
-        if json_path:
-            exts.extend(self.read_exts_from_path(json_path))
-        if lock_path:
-            exts.extend(self.read_exts_from_path(lock_path))
-        # update context with new list of extensions, if composer.json exists
-        if json_path or lock_path:
-            if json_path:
-                php_version = \
-                    self.read_php_version_from_composer_json(json_path)
+        if self.json_path or self.lock_path:
+            exts = []
+            # include any existing extensions
+            exts.extend(self._ctx.get('PHP_EXTENSIONS', []))
+            # add 'openssl' extension
+            exts.append('openssl')
+            # add platform extensions from composer.json & composer.lock
+            exts.extend(self.read_exts_from_path(self.json_path))
+            exts.extend(self.read_exts_from_path(self.lock_path))
+            hhvm_version = self._read_version_from_composer('hhvm')
+            if hhvm_version:
+                self._ctx['PHP_VM'] = 'hhvm'
             else:
-                php_version = \
-                    self.read_php_version_from_composer_lock(lock_path)
-            self._log.debug('Composer picked PHP Version [%s]', php_version)
-            self._ctx['PHP_VERSION'] = self.pick_php_version(php_version)
-            self._ctx['PHP_EXTENSIONS'] = utils.unique(exts)
+                # update context with new list of extensions,
+                # if composer.json exists
+                php_version = self._read_version_from_composer('php')
+                self._log.debug('Composer picked PHP Version [%s]',
+                                php_version)
+                self._ctx['PHP_VERSION'] = self.pick_php_version(php_version)
+                self._ctx['PHP_EXTENSIONS'] = utils.unique(exts)
+                self._ctx['PHP_VM'] = 'php'
 
 
 class ComposerTool(object):
@@ -144,6 +156,14 @@ class ComposerTool(object):
         (json_path, lock_path) = \
             find_composer_paths(self._ctx['BUILD_DIR'])
         return (json_path is not None or lock_path is not None)
+
+    def binary_path(self):
+        if self._ctx['PHP_VM'] == 'hhvm':
+            return os.path.join(
+                self._ctx['BUILD_DIR'], 'hhvm', 'usr', 'bin', 'hhvm')
+        else:
+            return os.path.join(
+                self._ctx['BUILD_DIR'], 'php', 'bin', 'php')
 
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()
@@ -174,19 +194,20 @@ class ComposerTool(object):
                 'of dependencies are used when you deploy to CloudFoundry.')
             self._log.warning(msg)
             print msg
-        # rewrite a temp copy of php.ini for use by composer
-        (self._builder.copy()
-            .under('{BUILD_DIR}/php/etc')
-            .where_name_is('php.ini')
-            .into('TMPDIR')
-         .done())
-        utils.rewrite_cfgs(os.path.join(self._ctx['TMPDIR'], 'php.ini'),
-                           {'TMPDIR': self._ctx['TMPDIR'],
-                            'HOME': self._ctx['BUILD_DIR']},
-                           delim='@')
+        if self._ctx['PHP_VM'] == 'php':
+            # rewrite a temp copy of php.ini for use by composer
+            (self._builder.copy()
+                .under('{BUILD_DIR}/php/etc')
+                .where_name_is('php.ini')
+                .into('TMPDIR')
+             .done())
+            utils.rewrite_cfgs(os.path.join(self._ctx['TMPDIR'], 'php.ini'),
+                               {'TMPDIR': self._ctx['TMPDIR'],
+                                'HOME': self._ctx['BUILD_DIR']},
+                               delim='@')
         # Run from /tmp/staged/app
         try:
-            phpPath = os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin', 'php')
+            phpPath = self.binary_path()
             phpCfg = os.path.join(self._ctx['TMPDIR'], 'php.ini')
             composerPath = os.path.join(self._ctx['BUILD_DIR'], 'php',
                                         'bin', 'composer.phar')
