@@ -22,5 +22,4 @@
 #  python scripts, like install Python.
 BP=$(dirname $(dirname $0))
 export PYTHONPATH=$BP/lib
-echo "-------> Buildpack version $(cat $BP/VERSION)"
 python $BP/scripts/compile.py $1 $2
