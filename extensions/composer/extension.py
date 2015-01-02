@@ -24,38 +24,23 @@ import re
 import json
 from build_pack_utils import utils
 from build_pack_utils import stream_output
+from extension_helpers import ExtensionHelper
 
 
 _log = logging.getLogger('composer')
 
 
-DEFAULTS = {
-    'COMPOSER_HOST': 'getcomposer.org',
-    'COMPOSER_VERSION': '1.0.0-alpha8',
-    'COMPOSER_PACKAGE': 'composer.phar',
-    'COMPOSER_DOWNLOAD_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
-                             '{COMPOSER_PACKAGE}',
-    'COMPOSER_HASH_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
-                         '{COMPOSER_PACKAGE}.{CACHE_HASH_ALGORITHM}',
-    'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
-    'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/{LIBDIR}/vendor',
-    'COMPOSER_BIN_DIR': '{BUILD_DIR}/php/bin',
-    'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer'
-}
-
-
 def find_composer_paths(path):
     json_path = None
     lock_path = None
-    if path:
-        for root, dirs, files in os.walk(path):
-            for f in files:
-                if f == 'composer.json':
-                    json_path = os.path.join(root, f)
-                if f == 'composer.lock':
-                    lock_path = os.path.join(root, f)
-                if json_path and lock_path:
-                    return (json_path, lock_path)
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            if f == 'composer.json':
+                json_path = os.path.join(root, f)
+            if f == 'composer.lock':
+                lock_path = os.path.join(root, f)
+            if json_path and lock_path:
+                return (json_path, lock_path)
     return (json_path, lock_path)
 
 
@@ -67,7 +52,7 @@ class ComposerConfiguration(object):
 
     def _init_composer_paths(self):
         (self.json_path, self.lock_path) = \
-            find_composer_paths(self._ctx.get('BUILD_DIR', None))
+            find_composer_paths(self._ctx['BUILD_DIR'])
 
     def read_exts_from_path(self, path):
         exts = []
@@ -140,19 +125,26 @@ class ComposerConfiguration(object):
                 self._ctx['PHP_VM'] = 'php'
 
 
-class ComposerTool(object):
-    def __init__(self, builder):
+class ComposerExtension(ExtensionHelper):
+    def __init__(self, ctx):
+        ExtensionHelper.__init__(self, ctx)
         self._log = _log
-        self._builder = builder
-        self._ctx = builder._ctx
-        self._merge_defaults()
 
-    def _merge_defaults(self):
-        for key, val in DEFAULTS.iteritems():
-            if key not in self._ctx:
-                self._ctx[key] = val
+    def _defaults(self):
+        return {
+            'COMPOSER_VERSION': '1.0.0-alpha8',
+            'COMPOSER_PACKAGE': 'composer.phar',
+            'COMPOSER_DOWNLOAD_URL': '{DOWNLOAD_URL}/composer/'
+                                     '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',
+            'COMPOSER_HASH_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
+                                 '{COMPOSER_PACKAGE}.{CACHE_HASH_ALGORITHM}',
+            'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
+            'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/{LIBDIR}/vendor',
+            'COMPOSER_BIN_DIR': '{BUILD_DIR}/php/bin',
+            'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer'
+        }
 
-    def detect(self):
+    def _should_compile(self):
         (json_path, lock_path) = \
             find_composer_paths(self._ctx['BUILD_DIR'])
         return (json_path is not None or lock_path is not None)
@@ -164,6 +156,11 @@ class ComposerTool(object):
         else:
             return os.path.join(
                 self._ctx['BUILD_DIR'], 'php', 'bin', 'php')
+
+    def _compile(self, install):
+        self._builder = install.builder
+        self.install()
+        self.run()
 
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()
@@ -243,20 +240,20 @@ def configure(ctx):
 
 
 def preprocess_commands(ctx):
-    return ()
+    composer = ComposerExtension(ctx)
+    return composer.preprocess_commands()
 
 
 def service_commands(ctx):
-    return {}
+    composer = ComposerExtension(ctx)
+    return composer.service_commands()
 
 
 def service_environment(ctx):
-    return {}
+    composer = ComposerExtension(ctx)
+    return composer.service_environment()
 
 
 def compile(install):
-    composer = ComposerTool(install.builder)
-    if composer.detect():
-        composer.install()
-        composer.run()
-    return 0
+    composer = ComposerExtension(install.builder._ctx)
+    return composer.compile(install)
