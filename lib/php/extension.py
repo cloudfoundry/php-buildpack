@@ -23,6 +23,7 @@ from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
 from extension_helpers import ExtensionHelper
 
+
 class PHPExtension(ExtensionHelper):
     def _should_compile(self):
         return self._ctx['PHP_VM'] == 'php'
@@ -56,7 +57,6 @@ class PHPExtension(ExtensionHelper):
                     app)
             }
 
-
     def _service_environment(self):
         env = {
             'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/php/lib',
@@ -66,7 +66,6 @@ class PHPExtension(ExtensionHelper):
         if 'snmp' in self._ctx['PHP_EXTENSIONS']:
             env['MIBDIRS'] = '$HOME/php/mibs'
         return env
-
 
     def _compile(self, install):
         print 'Installing PHP'
