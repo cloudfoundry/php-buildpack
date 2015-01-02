@@ -15,6 +15,7 @@
 import os
 from build_pack_utils import utils
 
+
 class ExtensionHelper(object):
     """A helper class for making extensions to the cf-php-build-pack"""
 
@@ -130,9 +131,10 @@ class ExtensionHelper(object):
             self._compile(install)
         return 0
 
+
 class PHPExtensionHelper(ExtensionHelper):
     def __init__(self, ctx):
-        super(PHPExtensionHelper, self).__init__(ctx)
+        ExtensionHelper.__init__(self, ctx)
         self._php_ini = None
         self._php_fpm = None
         self._php_api = None
