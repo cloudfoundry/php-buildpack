@@ -6,6 +6,8 @@ class ExtensionHelper(object):
 
     def __init__(self, ctx):
         self._ctx = ctx
+        self._services = self._ctx.get('VCAP_SERVICES', {})
+        self._application = self._ctx.get('VCAP_APPLICATION', {})
         self._merge_defaults()
 
     def _merge_defaults(self):
@@ -117,8 +119,6 @@ class ExtensionHelper(object):
 class PHPExtensionHelper(ExtensionHelper):
     def __init__(self, ctx):
         super(PHPExtensionHelper, self).__init__(ctx)
-        self._services = self._ctx.get('VCAP_SERVICES', {})
-        self._application = self._ctx.get('VCAP_APPLICATION', {})
         self._php_ini = None
         self._php_fpm = None
         self._php_api = None
