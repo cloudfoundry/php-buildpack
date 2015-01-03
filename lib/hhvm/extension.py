@@ -65,27 +65,5 @@ class HHVMExtension(ExtensionHelper):
         return 0
 
 
-# Extension Methods
-def configure(ctx):
-    hhvm = HHVMExtension(ctx)
-    return hhvm.configure()
-
-
-def preprocess_commands(ctx):
-    hhvm = HHVMExtension(ctx)
-    return hhvm.preprocess_commands()
-
-
-def service_commands(ctx):
-    hhvm = HHVMExtension(ctx)
-    return hhvm.service_commands()
-
-
-def service_environment(ctx):
-    hhvm = HHVMExtension(ctx)
-    return hhvm.service_environment()
-
-
-def compile(install):
-    hhvm = HHVMExtension(install.builder._ctx)
-    return hhvm.compile(install)
+# Register extension methods
+HHVMExtension.register(__name__)
