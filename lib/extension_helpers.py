@@ -25,6 +25,28 @@ class ExtensionHelper(object):
         self._application = self._ctx.get('VCAP_APPLICATION', {})
         self._merge_defaults()
 
+    @classmethod
+    def _make_helper(cls, method):
+        return lambda ctx: getattr(cls(ctx), method)()
+
+    @classmethod
+    def register(cls, module):
+        """Register the extension methods with the module"""
+        if hasattr(module, 'strip'):
+            import sys
+            module = sys.modules[module]
+        # register four methods that take a ctx param
+        for method in ('configure',
+                       'preprocess_commands',
+                       'service_commands',
+                       'service_environment'):
+            setattr(module, method, cls._make_helper(method))
+        # register 'compile' method, which takes install
+        def extension_helper_wrapper(install):
+            inst = cls(install.builder._ctx)
+            return getattr(inst, 'compile')(install)
+        setattr(module, 'compile', extension_helper_wrapper)
+
     def _merge_defaults(self):
         for key, val in self._defaults().iteritems():
             if key not in self._ctx:

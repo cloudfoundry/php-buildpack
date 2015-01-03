@@ -96,27 +96,5 @@ class PHPExtension(ExtensionHelper):
         return 0
 
 
-# Extension Methods
-def configure(ctx):
-    php = PHPExtension(ctx)
-    return php.configure()
-
-
-def preprocess_commands(ctx):
-    php = PHPExtension(ctx)
-    return php.preprocess_commands()
-
-
-def service_commands(ctx):
-    php = PHPExtension(ctx)
-    return php.service_commands()
-
-
-def service_environment(ctx):
-    php = PHPExtension(ctx)
-    return php.service_environment()
-
-
-def compile(install):
-    php = PHPExtension(install.builder._ctx)
-    return php.compile(install)
+# Register extension methods
+PHPExtension.register(__name__)

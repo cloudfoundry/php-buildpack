@@ -1,9 +1,11 @@
 import os
+import sys
 import tempfile
 import shutil
 from dingus import Dingus
 from nose.tools import eq_
 from build_pack_utils import utils
+from extension_helpers import ExtensionHelper
 from extension_helpers import PHPExtensionHelper
 
 
@@ -212,3 +214,16 @@ class TestPHPExtensionHelper(object):
         ext = MyExtn(ctx)
         ext.service_environment()
         eq_(0, len(MyExtn._service_environment.calls()))
+
+    def test_register_extension_methods(self):
+        ExtensionHelper.register(__name__)
+        module = sys.modules[__name__]
+        assert hasattr(module, 'configure')
+        assert hasattr(module, 'preprocess_commands')
+        assert hasattr(module, 'service_commands')
+        assert hasattr(module, 'service_environment')
+        assert hasattr(module, 'compile')
+        assert None is configure({})
+        assert {} == service_commands({})
+        assert {} == service_environment({})
+        assert () == preprocess_commands({})
