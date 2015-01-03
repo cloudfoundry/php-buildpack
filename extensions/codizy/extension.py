@@ -101,27 +101,5 @@ class CodizyExtension(PHPExtensionHelper):
         self._setup_codizy()
 
 
-# Extension Methods
-def configure(ctx):
-    codizy = CodizyExtension(ctx)
-    return codizy.configure()
-
-
-def preprocess_commands(ctx):
-    codizy = CodizyExtension(ctx)
-    return codizy.preprocess_commands()
-
-
-def service_commands(ctx):
-    codizy = CodizyExtension(ctx)
-    return codizy.service_commands()
-
-
-def service_environment(ctx):
-    codizy = CodizyExtension(ctx)
-    return codizy.service_environment()
-
-
-def compile(install):
-    codizy = CodizyExtension(install.builder._ctx)
-    return codizy.compile(install)
+# Register extension methods
+CodizyExtension.register(__name__)
