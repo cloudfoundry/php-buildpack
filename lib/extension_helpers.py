@@ -41,6 +41,7 @@ class ExtensionHelper(object):
                        'service_commands',
                        'service_environment'):
             setattr(module, method, cls._make_helper(method))
+
         # register 'compile' method, which takes install
         def extension_helper_wrapper(install):
             inst = cls(install.builder._ctx)
