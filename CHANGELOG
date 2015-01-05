@@ -1,3 +1,15 @@
+v3.0.3 Jan 05, 2015
+====================
+
+* Select HHVM when specified in composer.json
+  (https://www.pivotaltracker.com/story/show/84396680)
+
+* Run Composer with HHVM
+  (https://www.pivotaltracker.com/story/show/84395366)
+
+* Print buildpack version
+  (https://www.pivotaltracker.com/story/show/84397250)
+
 v3.0.0 Dec 18, 2014
 ====================
 
