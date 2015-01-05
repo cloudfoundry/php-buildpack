@@ -116,7 +116,7 @@ class TestComposer(object):
 
     def test_composer_run_streams_output(self):
         ctx = utils.FormattedDict({
-            'PHP_VM': 'hhvm', # PHP strategy does other stuff
+            'PHP_VM': 'hhvm',  # PHP strategy does other stuff
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
