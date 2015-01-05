@@ -394,3 +394,21 @@ class TestComposer(object):
         eq_('/tmp/build/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
         eq_('/tmp/build/bin', ct._ctx['COMPOSER_BIN_DIR'])
         eq_('/tmp/cache/custom', ct._ctx['COMPOSER_CACHE_DIR'])
+
+    def test_binary_path_for_hhvm(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome/',
+            'PHP_VM': 'hhvm'
+        })
+        ct = self.ct.ComposerExtension(ctx)
+        path = ct.binary_path()
+        eq_('/usr/awesome/hhvm/usr/bin/hhvm', path)
+
+    def test_binary_path_for_php(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php'
+        })
+        ct = self.ct.ComposerExtension(ctx)
+        path = ct.binary_path()
+        eq_('/usr/awesome/php/bin/php', path)
