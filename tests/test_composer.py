@@ -15,6 +15,7 @@ class TestComposer(object):
             'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': 'tests/data/composer',
             'CACHE_DIR': '/cache/dir',
+            'PHP_VM': 'will_default_to_php_strategy',
             'WEBDIR': 'htdocs',
             'LIBDIR': 'lib'
         })
@@ -26,6 +27,7 @@ class TestComposer(object):
             'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': 'lib',
             'CACHE_DIR': '/cache/dir',
+            'PHP_VM': 'will_default_to_php_strategy',
             'WEBDIR': 'htdocs',
             'LIBDIR': 'lib'
         })
@@ -36,6 +38,7 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
+            'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir'
         })
@@ -113,7 +116,7 @@ class TestComposer(object):
 
     def test_composer_run_streams_output(self):
         ctx = utils.FormattedDict({
-            'PHP_VM': 'runtime_doesnt_matter',
+            'PHP_VM': 'hhvm', # PHP strategy does other stuff
             'DOWNLOAD_URL': 'http://server/bins',
             'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
@@ -219,13 +222,22 @@ class TestComposer(object):
             self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_process_commands(self):
-        eq_(0, len(self.ct.preprocess_commands({'BUILD_DIR': ''})))
+        eq_(0, len(self.ct.preprocess_commands({
+            'BUILD_DIR': '',
+            'PHP_VM': ''
+            })))
 
     def test_service_commands(self):
-        eq_(0, len(self.ct.service_commands({'BUILD_DIR': ''})))
+        eq_(0, len(self.ct.service_commands({
+            'BUILD_DIR': '',
+            'PHP_VM': ''
+            })))
 
     def test_service_environment(self):
-        eq_(0, len(self.ct.service_environment({'BUILD_DIR': ''})))
+        eq_(0, len(self.ct.service_environment({
+            'BUILD_DIR': '',
+            'PHP_VM': ''
+            })))
 
     def test_configure_composer_with_php_version(self):
         ctx = utils.FormattedDict({
@@ -418,6 +430,7 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'BUILD_DIR': '/tmp/build',
             'CACHE_DIR': '/tmp/cache',
+            'PHP_VM': 'will_default_to_php_strategy',
             'LIBDIR': 'lib'
         })
         ct = self.ct.ComposerExtension(ctx)
@@ -432,6 +445,7 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/vendor',
             'COMPOSER_BIN_DIR': '{BUILD_DIR}/bin',
+            'PHP_VM': 'will_default_to_php_strategy',
             'COMPOSER_CACHE_DIR': '{CACHE_DIR}/custom'
         })
         ct = self.ct.ComposerExtension(ctx)

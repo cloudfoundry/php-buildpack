@@ -129,6 +129,10 @@ class ComposerExtension(ExtensionHelper):
     def __init__(self, ctx):
         ExtensionHelper.__init__(self, ctx)
         self._log = _log
+        if ctx['PHP_VM'] == 'hhvm':
+            self.composer_strategy = HHVMComposerStrategy(ctx)
+        else:
+            self.composer_strategy = PHPComposerStrategy(ctx)
 
     def _defaults(self):
         return {
@@ -150,12 +154,7 @@ class ComposerExtension(ExtensionHelper):
         return (json_path is not None or lock_path is not None)
 
     def binary_path(self):
-        if self._ctx['PHP_VM'] == 'hhvm':
-            return os.path.join(
-                self._ctx['BUILD_DIR'], 'hhvm', 'usr', 'bin', 'hhvm')
-        else:
-            return os.path.join(
-                self._ctx['BUILD_DIR'], 'php', 'bin', 'php')
+        return self.composer_strategy.binary_path()
 
     def _compile(self, install):
         self._builder = install.builder
@@ -191,17 +190,7 @@ class ComposerExtension(ExtensionHelper):
                 'of dependencies are used when you deploy to CloudFoundry.')
             self._log.warning(msg)
             print msg
-        if self._ctx['PHP_VM'] == 'php':
-            # rewrite a temp copy of php.ini for use by composer
-            (self._builder.copy()
-                .under('{BUILD_DIR}/php/etc')
-                .where_name_is('php.ini')
-                .into('TMPDIR')
-             .done())
-            utils.rewrite_cfgs(os.path.join(self._ctx['TMPDIR'], 'php.ini'),
-                               {'TMPDIR': self._ctx['TMPDIR'],
-                                'HOME': self._ctx['BUILD_DIR']},
-                               delim='@')
+        self.composer_strategy.write_config(self._builder)
         # Run from /tmp/staged/app
         try:
             phpPath = self.binary_path()
@@ -231,6 +220,39 @@ class ComposerExtension(ExtensionHelper):
             _log.debug('composer output [%s]', output)
         except Exception as e:
             _log.error("Command Failed: %s", e)
+
+
+class HHVMComposerStrategy(object):
+    def __init__(self, ctx):
+        self._ctx = ctx
+
+    def binary_path(self):
+        return os.path.join(
+            self._ctx['BUILD_DIR'], 'hhvm', 'usr', 'bin', 'hhvm')
+
+    def write_config(self, builder):
+        pass
+
+
+class PHPComposerStrategy(object):
+    def __init__(self, ctx):
+        self._ctx = ctx
+
+    def binary_path(self):
+        return os.path.join(
+            self._ctx['BUILD_DIR'], 'php', 'bin', 'php')
+
+    def write_config(self, builder):
+        # rewrite a temp copy of php.ini for use by composer
+        (builder.copy()
+            .under('{BUILD_DIR}/php/etc')
+            .where_name_is('php.ini')
+            .into('TMPDIR')
+         .done())
+        utils.rewrite_cfgs(os.path.join(self._ctx['TMPDIR'], 'php.ini'),
+                           {'TMPDIR': self._ctx['TMPDIR'],
+                            'HOME': self._ctx['BUILD_DIR']},
+                           delim='@')
 
 
 # Extension Methods
