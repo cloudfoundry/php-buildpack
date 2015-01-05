@@ -246,7 +246,7 @@ class TestComposer(object):
         assert '3.2.0' == ctx['HHVM_VERSION']
         assert 'hhvm' == ctx['PHP_VM']
 
-    def test_configure_no_composer(self):
+    def test_configure_does_not_run_when_no_composer_json(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': 'tests/data/app-1',
             'PHP_EXTENSIONS': ['a', 'b']
