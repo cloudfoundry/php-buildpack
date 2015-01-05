@@ -55,7 +55,7 @@ class TestComposer(object):
         eq_('cli', call.return_value.calls()[0].args[0])
         assert installer.calls().once()
 
-    def test_composer_tool_run(self):
+    def test_composer_tool_run_with_php(self):
         ctx = utils.FormattedDict({
             'PHP_VM': 'php',
             'DOWNLOAD_URL': 'http://server/bins',
@@ -67,10 +67,6 @@ class TestComposer(object):
             'LIBDIR': 'lib'
         })
         builder = Dingus(_ctx=ctx)
-        # patch stream_output method
-        old_stream_output = self.ct.stream_output
-        co = Dingus()
-        self.ct.stream_output = co
         # patch utils.rewrite_cfg method
         old_rewrite = self.ct.utils.rewrite_cfgs
         rewrite = Dingus()
@@ -86,6 +82,55 @@ class TestComposer(object):
             assert rewrite_args[0].endswith('php.ini')
             assert 'HOME' in rewrite_args[1]
             assert 'TMPDIR' in rewrite_args[1]
+        finally:
+            self.ct.utils.rewrite_cfgs = old_rewrite
+
+    def test_composer_tool_run_with_hhvm(self):
+        ctx = utils.FormattedDict({
+            'PHP_VM': 'hhvm',
+            'DOWNLOAD_URL': 'http://server/bins',
+            'CACHE_HASH_ALGORITHM': 'sha1',
+            'BUILD_DIR': '/build/dir',
+            'CACHE_DIR': '/cache/dir',
+            'TMPDIR': tempfile.gettempdir(),
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
+        })
+        builder = Dingus(_ctx=ctx)
+        # patch utils.rewrite_cfg method
+        old_rewrite = self.ct.utils.rewrite_cfgs
+        rewrite = Dingus()
+        self.ct.utils.rewrite_cfgs = rewrite
+        try:
+            ct = self.ct.ComposerExtension(ctx)
+            ct._builder = builder
+            ct.run()
+            eq_(2, len(builder.move.calls()))
+            eq_(0, len(builder.copy.calls()))
+            eq_(0, len(rewrite.calls()))
+        finally:
+            self.ct.utils.rewrite_cfgs = old_rewrite
+
+    def test_composer_run_streams_output(self):
+        ctx = utils.FormattedDict({
+            'PHP_VM': 'runtime_doesnt_matter',
+            'DOWNLOAD_URL': 'http://server/bins',
+            'CACHE_HASH_ALGORITHM': 'sha1',
+            'BUILD_DIR': '/build/dir',
+            'CACHE_DIR': '/cache/dir',
+            'TMPDIR': tempfile.gettempdir(),
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
+        })
+        builder = Dingus(_ctx=ctx)
+        # patch stream_output method
+        old_stream_output = self.ct.stream_output
+        co = Dingus()
+        self.ct.stream_output = co
+        try:
+            ct = self.ct.ComposerExtension(ctx)
+            ct._builder = builder
+            ct.run()
             assert co.calls().once()
             instCmd = co.calls()[0].args[1]
             assert instCmd.find('install') > 0
@@ -94,7 +139,6 @@ class TestComposer(object):
             assert instCmd.find('--no-dev') > 0
         finally:
             self.ct.stream_output = old_stream_output
-            self.ct.utils.rewrite_cfgs = old_rewrite
 
     def test_composer_tool_run_custom_composer_opts(self):
         ctx = utils.FormattedDict({
