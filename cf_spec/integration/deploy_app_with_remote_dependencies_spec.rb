@@ -17,6 +17,8 @@ describe 'CF PHP Buildpack' do
 
       browser.visit_path("/")
       expect(browser).to have_body 'App with remote dependencies running'
+
+      assert_offline_mode_has_no_internet_traffic
     end
   end
 end

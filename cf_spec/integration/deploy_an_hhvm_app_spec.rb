@@ -20,6 +20,8 @@ describe 'CF PHP Buildpack' do
 
       browser.visit_path('/')
       expect(browser).to have_body('Hello world!')
+
+      assert_offline_mode_has_no_internet_traffic
     end
   end
 
@@ -34,6 +36,8 @@ describe 'CF PHP Buildpack' do
 
       browser.visit_path('/')
       expect(browser).to have_body('Hello world!')
+
+      assert_offline_mode_has_no_internet_traffic
     end
   end
 end

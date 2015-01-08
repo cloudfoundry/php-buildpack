@@ -6,7 +6,7 @@ require 'machete/matchers'
 Machete.logger = Machete::Logger.new("log/integration.log")
 
 RSpec.configure do |config|
-  config.after(:each) do
+  def assert_offline_mode_has_no_internet_traffic
     expect(app.host).not_to have_internet_traffic if Machete::BuildpackMode.offline?
   end
 end
