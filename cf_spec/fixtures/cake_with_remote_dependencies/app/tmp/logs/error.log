@@ -1,0 +1,5 @@
+2012-04-05 13:11:20 Error: [MissingActionException] Action UsersController::login() could not be found.
+#0 C:\wamp\www\mike\CakePhp2Crud\lib\Cake\Routing\Dispatcher.php(103): Controller->invokeAction(Object(CakeRequest))
+#1 C:\wamp\www\mike\CakePhp2Crud\lib\Cake\Routing\Dispatcher.php(85): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\wamp\www\mike\CakePhp2Crud\app\webroot\index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}

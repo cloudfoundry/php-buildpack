@@ -1,0 +1,2 @@
+1404245916
+a:2:{i:0;b:0;s:3:"app";a:2:{s:58:"fileUserspivotalDownloadsexample_cakelibCakeConsoleCommand";a:13:{i:0;s:8:"AclShell";i:1;s:8:"ApiShell";i:2;s:8:"AppShell";i:3;s:9:"BakeShell";i:4;s:16:"CommandListShell";i:5;s:15:"CompletionShell";i:6;s:12:"ConsoleShell";i:7;s:9:"I18nShell";i:8;s:11:"SchemaShell";i:9;s:11:"ServerShell";i:10;s:9:"TestShell";i:11;s:14:"TestsuiteShell";i:12;s:12:"UpgradeShell";}s:15:"Console/Command";a:1:{i:0;s:8:"AppShell";}}}
