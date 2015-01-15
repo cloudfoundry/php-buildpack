@@ -216,10 +216,10 @@ class ComposerExtension(ExtensionHelper):
                 'HOME': self._ctx['BUILD_DIR'],
                 'COMPOSER_VENDOR_DIR': self._ctx['COMPOSER_VENDOR_DIR'],
                 'COMPOSER_BIN_DIR': self._ctx['COMPOSER_BIN_DIR'],
-                'COMPOSER_CACHE_DIR': self._ctx['COMPOSER_CACHE_DIR']
+                'COMPOSER_CACHE_DIR': self._ctx['COMPOSER_CACHE_DIR'],
+                'PHPRC': self._ctx['TMPDIR']
             }
             composerCmd = [phpPath,
-                           '-c "%s"' % phpCfg,
                            composerPath,
                            'install',
                            '--no-progress']
