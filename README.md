@@ -78,7 +78,7 @@ Here's a list of the major features of the buildpack.
 
   - supports the latest versions of Apache HTTPD 2.4 and Nginx 1.5, 1.6 & 1.7
   - supports the latest versions of PHP 5.4, 5.5 and 5.6.
-  - supports a large set of PHP extensions, including amqp, apc, apcu, bz2, curl, codizy, dba, exif, fileinfo, ftp, gd, gettext, gmp, igbinary, imagick, imap, intl, ioncube, ldap, mailparse, mbstring, mcrypt, memcache, memcached, mongo, msgpack, mysql, mysqli, opcache, openssl, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, pgsql, phalcon, phpiredis, pspell, redis, suhosin, snmp, soap, sockets, sundown, twig, xcache, xdebug, xhprof, zip and zlib
+  - supports a large set of PHP extensions, including amqp, apc, apcu, bz2, curl, dba, exif, fileinfo, ftp, gd, gettext, gmp, igbinary, imagick, imap, intl, ioncube, ldap, mailparse, mbstring, mcrypt, memcache, memcached, mongo, msgpack, mysql, mysqli, opcache, openssl, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, pgsql, phalcon, phpiredis, pspell, redis, suhosin, snmp, soap, sockets, sundown, twig, xcache, xdebug, xhprof, zip and zlib
   - allows installing PHP runtime of choice: php cli, php cgi or php-fpm
   - versions of HTTPD, Nginx and PHP are automatically upgraded to the latest release just by re-staging an application
   - allows for application developers to control which PHP extensions are installed
@@ -90,8 +90,8 @@ Here's a list of the major features of the buildpack.
   - supports running in ["offline" mode] where binaries are bundled with the buildpack
   - supports an extension mechanism that allows the buildpack to provided additional functionality
   - allows for application developers to provide custom extensions
-  - support NewRelic & Codizy through an extension
-  - Codizy & NewRelic support works for bound services or when manually enabling it
+  - support NewRelic through an extension
+  - NewRelic support works for bound services or when manually enabling it
   - easy troubleshooting with the BP_DEBUG environment variable
   - all logging output is routed through stderr & stdout which is sent to loggregator
 
@@ -116,7 +116,7 @@ If you have questions, comments or need further help with the buildpack you can 
 
 When using a custom buildpack with CloudFoundry, you need to specify the Git URL for the buildpack.  By default, this will pull down the master branch of the buildpack.  With the CF PHP Buildpack, the master branch is where work and new development occurs.  By using this branch it will get you all the latest and greatest developments from the buildpack.
 
-If you'd like something that is a little more stable, you can select one of the release tags of the buildpack.  You can specify a release tag by appending `#<tag>` to the end of the buildpack's URL.  
+If you'd like something that is a little more stable, you can select one of the release tags of the buildpack.  You can specify a release tag by appending `#<tag>` to the end of the buildpack's URL.
 
 ```yaml
 ---

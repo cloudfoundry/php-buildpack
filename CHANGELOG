@@ -10,6 +10,26 @@ v3.0.3 Jan 05, 2015
 * Print buildpack version
   (https://www.pivotaltracker.com/story/show/84397250)
 
+v3.0.2 Dec 29, 2014
+====================
+
+* Fixed online buildpack to include full directories
+  (https://www.pivotaltracker.com/story/show/84415126)
+
+v3.0.1 Dec 23, 2014
+====================
+
+* Switch from Dropbox to S3 as resource store for buildpack
+  (https://www.pivotaltracker.com/story/show/84419046)
+
+* Temporarily disables Codizy extension
+
+* Add PHP 5.4.36, 5.5.20 & 5.6.4.
+  (https://github.com/cloudfoundry/php-buildpack/commit/33990ba60ba90918d607c450af92dddcc620463a)
+
+* Remove PHP PHP 5.4.33, 5.5.17 & 5.6.1.
+  (https://github.com/cloudfoundry/php-buildpack/commit/551ee812becf32dfe3234230374ba240b967d216)
+
 v3.0.0 Dec 18, 2014
 ====================
 
