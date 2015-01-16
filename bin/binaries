@@ -177,7 +177,7 @@ def generate_build_list(binPath, urlBase, index, allPkgs):
                                                                     urlBase,
                                                                     package,
                                                                     version)
-    json.dump(bins, index, indent=4)
+    json.dump(bins, index, indent=4, separators=(',',': '))
 
 
 def generate_build_for_version(binPath, urlBase, package, version):
@@ -347,7 +347,7 @@ def zip_up_files(binPath, zipPath, indexPath):
         info.date_time = datetime.now().timetuple()[:6]
         info.compress_type = zipfile.ZIP_DEFLATED
         info.external_attr = 0644 << 16L
-        zf.writestr(info, json.dumps(cfg, indent=4))
+        zf.writestr(info, json.dumps(cfg, indent=4, separators=(',',': ')))
     finally:
         if zf:
             zf.close()

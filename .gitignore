@@ -8,5 +8,5 @@ binaries/trusty/*
 *.swp
 /env
 *_buildpack*.zip
-log/
+/log/
 vendor
