@@ -12,8 +12,8 @@ To get setup developing the build pack, you'll need some tools.  Here's the setu
 With those tools installed, you should be able to run these commands to get up and running.
 
 ```bash
-git clone https://github.com/dmikusa-pivotal/cf-php-build-pack
-cd cf-php-build-pack
+git clone https://github.com/cloudfoundry/php-buildpack
+cd php-buildpack
 python -V  # should report 2.6.6, if not fix PyEnv before creating the virtualenv
 virtualenv `pwd`/env
 . ./env/bin/activate
@@ -21,6 +21,22 @@ pip install -r requirements.txt
 ```
 
 That's it.  You should now be able to run the [unit tests].  Go ahead and do that now (try the `run_tests.sh` script), and if they all pass and you're all set.
+```bash
+export TMPDIR=/tmp
+
+# download the binaries (this might take a few mins)
+./bin/binaries download binaries/lucid 
+./bin/binaries download binaries/precise
+./bin/binaries download binaries/trusty
+
+# start local file server, in a separate terminal session at the root of this the cloned 
+python -m SimpleHTTPServer 5000
+
+# start tests
+./run_tests.sh
+```
+
+
 
 ### Project Structure
 
