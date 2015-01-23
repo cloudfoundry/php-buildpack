@@ -180,6 +180,18 @@ def compile(install):
 
 ### Testing
 
+#### Preqrequisites
+
+Integration tests expect to have a web server running on port 5000.  This is where they will download binaries.  Tests will fail if the server is not running.
+
+In a seperate shell:
+```shell
+cd path/to/php-buildpack
+python -m SimpleHTTPServer 5000
+```
+
+#### Running tests
+
 The build pack makes use of [Nose] for testing.  You can run the full suite of tests with this command.
 
 ```
@@ -195,8 +207,6 @@ nosetests tests/test_<name>.py
 To debug tests or see the output, you can run with the `-s` option.  This will prevent nose from capturing the output of stdout.  Alternatively, you can use the `--pdb` argument to drop to a debugger when a test fails.
 
 Data for all tests is stored under `tests/data`.
-
-Integration tests expect to have a web server running on port 5000.  This is where they will download binaries.  Tests will fail if the server is not running.
 
 ### Tips
 
