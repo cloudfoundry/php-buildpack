@@ -425,7 +425,7 @@ class TestComposer(object):
             'BUILD_DIR': '/usr/awesome/',
             'PHP_VM': 'hhvm'
         })
-        ct = self.ct.ComposerExtension(ctx)
+        ct = self.extension_module.ComposerExtension(ctx)
         path = ct.ld_library_path()
         eq_('/usr/awesome/hhvm/usr/lib/hhvm', path)
 
@@ -434,6 +434,6 @@ class TestComposer(object):
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php'
         })
-        ct = self.ct.ComposerExtension(ctx)
+        ct = self.extension_module.ComposerExtension(ctx)
         path = ct.ld_library_path()
         eq_('/usr/awesome/php/lib', path)

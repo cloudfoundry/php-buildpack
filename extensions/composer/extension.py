@@ -156,6 +156,9 @@ class ComposerExtension(ExtensionHelper):
     def binary_path(self):
         return self.composer_strategy.binary_path()
 
+    def ld_library_path(self):
+        return self.composer_strategy.ld_library_path()
+
     def _compile(self, install):
         self._builder = install.builder
         self.move_local_vendor_folder()
@@ -211,8 +214,7 @@ class ComposerExtension(ExtensionHelper):
             composerPath = os.path.join(self._ctx['BUILD_DIR'], 'php',
                                         'bin', 'composer.phar')
             composerEnv = {
-                'LD_LIBRARY_PATH': os.path.join(self._ctx['BUILD_DIR'],
-                                                'php', 'lib'),
+                'LD_LIBRARY_PATH': self.ld_library_path(),
                 'HOME': self._ctx['BUILD_DIR'],
                 'COMPOSER_VENDOR_DIR': self._ctx['COMPOSER_VENDOR_DIR'],
                 'COMPOSER_BIN_DIR': self._ctx['COMPOSER_BIN_DIR'],
@@ -248,6 +250,10 @@ class HHVMComposerStrategy(object):
     def write_config(self, builder):
         pass
 
+    def ld_library_path(self):
+        return os.path.join(
+            self._ctx['BUILD_DIR'], 'hhvm', 'usr', 'lib', 'hhvm')
+
 
 class PHPComposerStrategy(object):
     def __init__(self, ctx):
@@ -268,6 +274,11 @@ class PHPComposerStrategy(object):
                            {'TMPDIR': self._ctx['TMPDIR'],
                             'HOME': self._ctx['BUILD_DIR']},
                            delim='@')
+
+    def ld_library_path(self):
+        return os.path.join(
+            self._ctx['BUILD_DIR'], 'php', 'lib')
+
 
 
 # Extension Methods
