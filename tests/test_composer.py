@@ -434,7 +434,7 @@ class TestComposer(object):
         oldenv = os.environ
         try:
             os.environ = {'OUR_SPECIAL_KEY': 'ORIGINAL_SPECIAL_VALUE'}
-            ct = self.ct.ComposerExtension(ctx)
+            ct = self.extension_module.ComposerExtension(ctx)
             built_environment = ct._build_composer_environment()
         finally:
             os.environ = oldenv
@@ -449,7 +449,7 @@ class TestComposer(object):
             'TMPDIR': '/tmp',
             'PHP_VM': 'php'
         })
-        ct = self.ct.ComposerExtension(ctx)
+        ct = self.extension_module.ComposerExtension(ctx)
         built_environment = ct._build_composer_environment()
 
         assert 'COMPOSER_VENDOR_DIR' in built_environment, \
@@ -468,7 +468,7 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'PHPRC': '/usr/awesome/phpini',
         })
-        ct = self.ct.ComposerExtension(ctx)
+        ct = self.extension_module.ComposerExtension(ctx)
         built_environment = ct._build_composer_environment()
 
         eq_(built_environment['LD_LIBRARY_PATH'], '/usr/awesome/php/lib')
@@ -484,7 +484,7 @@ class TestComposer(object):
             'PHPRC': '/usr/awesome/phpini',
             'MY_DICTIONARY': {'KEY': 'VALUE'},
         })
-        ct = self.ct.ComposerExtension(ctx)
+        ct = self.extension_module.ComposerExtension(ctx)
         built_environment = ct._build_composer_environment()
 
         for key, val in built_environment.iteritems():
@@ -492,3 +492,20 @@ class TestComposer(object):
                 "Expected [%s]:[%s] to be type `str`, but found type [%s]" % (
                     key, val, type(val))
 
+    def test_ld_library_path_for_hhvm(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome/',
+            'PHP_VM': 'hhvm'
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        path = ct.ld_library_path()
+        eq_('/usr/awesome/hhvm/usr/lib/hhvm', path)
+
+    def test_ld_library_path_for_php(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php'
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        path = ct.ld_library_path()
+        eq_('/usr/awesome/php/lib', path)
