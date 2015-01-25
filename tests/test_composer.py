@@ -470,3 +470,21 @@ class TestComposer(object):
         ct = self.ct.ComposerExtension(ctx)
         path = ct.binary_path()
         eq_('/usr/awesome/php/bin/php', path)
+
+    def test_ld_library_path_for_hhvm(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome/',
+            'PHP_VM': 'hhvm'
+        })
+        ct = self.ct.ComposerExtension(ctx)
+        path = ct.ld_library_path()
+        eq_('/usr/awesome/hhvm/usr/lib/hhvm', path)
+
+    def test_ld_library_path_for_php(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php'
+        })
+        ct = self.ct.ComposerExtension(ctx)
+        path = ct.ld_library_path()
+        eq_('/usr/awesome/php/lib', path)
