@@ -1,9 +1,4 @@
 {
-  "require": {
-      "monolog/monolog": ">=1.0.0",
-      "ext-fileinfo": "*"
-  },
-
   "scripts": {
     "post-install-cmd": "echo \"MANIFEST_VARIABLE: '$MANIFEST_VARIABLE'\""
   }

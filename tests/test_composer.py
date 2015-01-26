@@ -492,6 +492,24 @@ class TestComposer(object):
                 "Expected [%s]:[%s] to be type `str`, but found type [%s]" % (
                     key, val, type(val))
 
+    def test_build_composer_environment_converts_vars_to_str(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+            'PHPRC': '/usr/awesome/phpini',
+            'MY_DICTIONARY': {'KEY': 'VALUE'},
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        built_environment = ct._build_composer_environment()
+
+        for key, val in built_environment.iteritems():
+            assert type(val) == str, \
+                "Expected [%s]:[%s] to be type `str`, but found type [%s]" % (
+                    key, val, type(val))
+
     def test_ld_library_path_for_hhvm(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': '/usr/awesome/',
