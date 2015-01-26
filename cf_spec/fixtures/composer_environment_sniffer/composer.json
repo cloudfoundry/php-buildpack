@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "post-install-cmd": "echo \"MANIFEST_VARIABLE: '$MANIFEST_VARIABLE'\""
+  }
+}
