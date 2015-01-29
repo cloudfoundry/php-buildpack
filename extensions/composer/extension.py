@@ -182,6 +182,20 @@ class ComposerExtension(ExtensionHelper):
             os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
             extract=False)
 
+    def _build_composer_environment(self):
+        env = {}
+        for key in os.environ.keys():
+            val = self._ctx.get(key, '')
+            if type(val) != str:
+                env[key] = json.dumps(val)
+            else:
+                env[key] = self._ctx.get(key, '')
+        # prevent key system variables from being overridden
+        env['LD_LIBRARY_PATH'] = os.path.join(self._ctx['BUILD_DIR'],
+                                              'php', 'lib')
+        env['PHPRC'] = self._ctx['TMPDIR']
+        return env
+
     def run(self):
         # Move composer files out of WEBDIR
         (self._builder.move()
@@ -207,27 +221,21 @@ class ComposerExtension(ExtensionHelper):
         # Run from /tmp/staged/app
         try:
             phpPath = self.binary_path()
-            phpCfg = os.path.join(self._ctx['TMPDIR'], 'php.ini')
+    #TODO delete this line        phpCfg = os.path.join(self._ctx['TMPDIR'], 'php.ini')
             composerPath = os.path.join(self._ctx['BUILD_DIR'], 'php',
                                         'bin', 'composer.phar')
-            composerEnv = {
-                'LD_LIBRARY_PATH': os.path.join(self._ctx['BUILD_DIR'],
-                                                'php', 'lib'),
-                'HOME': self._ctx['BUILD_DIR'],
-                'COMPOSER_VENDOR_DIR': self._ctx['COMPOSER_VENDOR_DIR'],
-                'COMPOSER_BIN_DIR': self._ctx['COMPOSER_BIN_DIR'],
-                'COMPOSER_CACHE_DIR': self._ctx['COMPOSER_CACHE_DIR'],
-                'PHPRC': self._ctx['TMPDIR']
-            }
             composerCmd = [phpPath,
                            composerPath,
                            'install',
                            '--no-progress']
             composerCmd.extend(self._ctx['COMPOSER_INSTALL_OPTIONS'])
             self._log.debug("Running [%s]", ' '.join(composerCmd))
+            self._log.debug("ENV IS: %s",
+                            '\n'.join(["%s=%s (%s)" % (key, val, type(val))
+                                       for (key, val) in self._build_composer_environment().iteritems()]))
             output = stream_output(sys.stdout,
                                    ' '.join(composerCmd),
-                                   env=composerEnv,
+                                   env=self._build_composer_environment(),
                                    cwd=self._ctx['BUILD_DIR'],
                                    shell=True)
             _log.debug('composer output [%s]', output)

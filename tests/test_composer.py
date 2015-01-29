@@ -502,3 +502,20 @@ class TestComposer(object):
 
         eq_(built_environment['LD_LIBRARY_PATH'], '/usr/awesome/php/lib')
         eq_(built_environment['PHPRC'], 'tmp')
+
+    def test_build_composer_environment_converts_vars_to_str(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'PHPRC': '/usr/awesome/phpini',
+            'MY_DICTIONARY': {'KEY': 'VALUE'},
+        })
+        ct = self.ct.ComposerExtension(ctx)
+        built_environment = ct._build_composer_environment()
+
+        for key, val in built_environment.iteritems():
+            assert type(val) == str, \
+                "Expected [%s]:[%s] to be type `str`, but found type [%s]" % (
+                    key, val, type(val))
+
