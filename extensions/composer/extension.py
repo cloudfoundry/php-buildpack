@@ -190,6 +190,12 @@ class ComposerExtension(ExtensionHelper):
                 env[key] = json.dumps(val)
             else:
                 env[key] = self._ctx.get(key, '')
+
+        # add basic composer vars
+        env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
+        env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
+        env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
+
         # prevent key system variables from being overridden
         env['LD_LIBRARY_PATH'] = os.path.join(self._ctx['BUILD_DIR'],
                                               'php', 'lib')
