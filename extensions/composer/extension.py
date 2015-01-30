@@ -231,10 +231,10 @@ class ComposerExtension(ExtensionHelper):
                                    cwd=self._ctx['BUILD_DIR'],
                                    shell=True)
             _log.debug('composer output [%s]', output)
-        except Exception as e:
+        except:
             print "-----> Composer command failed"
             _log.exception("Composer failed")
-            raise e
+            raise
 
 
 class HHVMComposerStrategy(object):
