@@ -232,7 +232,9 @@ class ComposerExtension(ExtensionHelper):
                                    shell=True)
             _log.debug('composer output [%s]', output)
         except Exception as e:
-            _log.error("Command Failed: %s", e)
+            print "-----> Composer command failed"
+            _log.exception("Composer failed")
+            raise e
 
 
 class HHVMComposerStrategy(object):
