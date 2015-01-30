@@ -1,0 +1,5 @@
+{
+    "require": {
+        "lobsters_in_my_pants": ">=1.2.3"
+    }
+}
