@@ -122,8 +122,5 @@
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
-    "platform": {
-        "ext-fileinfo": "*"
-    },
     "platform-dev": []
 }
