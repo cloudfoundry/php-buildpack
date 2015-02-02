@@ -1,6 +1,6 @@
 {
     "require": {
-        "hhvm": "3.2"
+        "hhvm": "3.2",
+        "monolog/monolog": ">=1.0.0"
     }
 }
-

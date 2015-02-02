@@ -114,6 +114,8 @@ class ComposerConfiguration(object):
             hhvm_version = self._read_version_from_composer('hhvm')
             if hhvm_version:
                 self._ctx['PHP_VM'] = 'hhvm'
+                self._log.debug('Composer picked HHVM Version [%s]',
+                                hhvm_version)
             else:
                 # update context with new list of extensions,
                 # if composer.json exists
@@ -200,8 +202,7 @@ class ComposerExtension(ExtensionHelper):
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
 
         # prevent key system variables from being overridden
-        env['LD_LIBRARY_PATH'] = os.path.join(self._ctx['BUILD_DIR'],
-                                              'php', 'lib')
+        env['LD_LIBRARY_PATH'] = self.ld_library_path()
         env['PHPRC'] = self._ctx['TMPDIR']
         return env
 
