@@ -231,7 +231,6 @@ class ComposerExtension(ExtensionHelper):
         # Run from /tmp/staged/app
         try:
             phpPath = self.binary_path()
-    #TODO delete this line        phpCfg = os.path.join(self._ctx['TMPDIR'], 'php.ini')
             composerPath = os.path.join(self._ctx['BUILD_DIR'], 'php',
                                         'bin', 'composer.phar')
             composerCmd = [phpPath,
