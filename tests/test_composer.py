@@ -1,3 +1,4 @@
+import os
 import tempfile
 from nose.tools import eq_
 from dingus import Dingus
@@ -419,6 +420,77 @@ class TestComposer(object):
         ct = self.extension_module.ComposerExtension(ctx)
         path = ct.binary_path()
         eq_('/usr/awesome/php/bin/php', path)
+
+    def test_build_composer_environment_inherits_from_ctx(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHPRC': '/usr/awesome/phpini',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+            'OUR_SPECIAL_KEY': 'SPECIAL_VALUE'
+        })
+        oldenv = os.environ
+        try:
+            os.environ = {'OUR_SPECIAL_KEY': 'ORIGINAL_SPECIAL_VALUE'}
+            ct = self.extension_module.ComposerExtension(ctx)
+            built_environment = ct._build_composer_environment()
+        finally:
+            os.environ = oldenv
+        assert 'OUR_SPECIAL_KEY' in built_environment, \
+            'OUR_SPECIAL_KEY was not found in the built_environment variable'
+
+    def test_build_composer_environment_sets_composer_env_vars(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/tmp/build',
+            'CACHE_DIR': '/tmp/cache',
+            'LIBDIR': 'lib',
+            'TMPDIR': '/tmp',
+            'PHP_VM': 'php'
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        built_environment = ct._build_composer_environment()
+
+        assert 'COMPOSER_VENDOR_DIR' in built_environment, \
+            'Expect to find COMPOSER_VENDOR_DIR in built_environment'
+        assert 'COMPOSER_BIN_DIR' in built_environment, \
+            'Expect to find COMPOSER_BIN_DIR in built_environment'
+        assert 'COMPOSER_CACHE_DIR' in built_environment, \
+            'Expect to find COMPOSER_CACHE_DIR in built_environment'
+
+    def test_build_composer_environment_forbids_overwriting_key_vars(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+            'PHPRC': '/usr/awesome/phpini',
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        built_environment = ct._build_composer_environment()
+
+        eq_(built_environment['LD_LIBRARY_PATH'], '/usr/awesome/php/lib')
+        eq_(built_environment['PHPRC'], 'tmp')
+
+    def test_build_composer_environment_converts_vars_to_str(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+            'PHPRC': '/usr/awesome/phpini',
+            'MY_DICTIONARY': {'KEY': 'VALUE'},
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        built_environment = ct._build_composer_environment()
+
+        for key, val in built_environment.iteritems():
+            assert type(val) == str, \
+                "Expected [%s]:[%s] to be type `str`, but found type [%s]" % (
+                    key, val, type(val))
 
     def test_ld_library_path_for_hhvm(self):
         ctx = utils.FormattedDict({

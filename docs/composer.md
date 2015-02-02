@@ -38,5 +38,21 @@ The build pack tries to run with a good set of default values for Composer.  If 
 | COMPOSER_CACHE_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to place its cache files.  Generally you should not change this value.  The default is `{CACHE_DIR}/composer` which is a sub directory of the cache folder passed into the build pack (meaning that Composer cache files will be restored on subsequent application pushes. |
 
 
+### Staging Environment
+
+Composer runs in the buildpack staging environment. Variables that have been set with `cf set-env` or with [a `manifest.yml env:` block](http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html#env-block) will be visible to Composer.
+
+For example:
+
+    $ cf push a_symfony_app --no-start
+    $ cf set-env a_symfony_app SYMFONY_ENV "prod"
+    $ cf start a_symfony_app
+
+In this example, `a_symfony_app` will be supplied with an environment variable, `SYMFONY_ENV`, that will be visible to Composer and any scripts started by Composer.
+
+#### Non-configurable Environment Variables
+
+There are two special variables that cannot be configured: `LD_LIBRARY_PATH` and `PHPRC`. This is because these variables have different values at staging time and run time, but any variable set by a user is injected into both environments.
+
 [Composer]:https://getcomposer.org
 [README]:https://github.com/dmikusa-pivotal/cf-php-build-pack#features
