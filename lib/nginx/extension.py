@@ -15,8 +15,11 @@
 
 
 def preprocess_commands(ctx):
+    web_port = '$PORT'
+    if ctx['CACHE_SERVER'] == 'varnish':
+         web_port = '8080'
     return ((
-        '$HOME/.bp/bin/rewrite',
+        'WEB_PORT=' + web_port, '$HOME/.bp/bin/rewrite',
         '"$HOME/nginx/conf"'),)
 
 
