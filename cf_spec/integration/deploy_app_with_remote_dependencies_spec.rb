@@ -2,7 +2,7 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'CF PHP Buildpack' do
-  subject(:app) { Machete.deploy_app(app_name) }
+  subject(:app) { Machete.deploy_app(app_name, {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}) }
   let(:browser) { Machete::Browser.new(app) }
 
   after do

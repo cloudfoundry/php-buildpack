@@ -2,7 +2,7 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'CF PHP Buildpack' do
-  subject(:app) { Machete.deploy_app(app_name) }
+  subject(:app) { Machete.deploy_app(app_name, options) }
   let(:browser) { Machete::Browser.new(app) }
 
   after do
@@ -32,7 +32,8 @@ describe 'CF PHP Buildpack' do
     let(:app_name) { 'cake_with_remote_dependencies' }
     let(:options) do
       {
-        with_pg: true
+        with_pg: true,
+        env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}
       }
     end
 

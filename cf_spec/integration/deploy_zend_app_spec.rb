@@ -2,7 +2,7 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'CF PHP Buildpack' do
-  subject(:app) { Machete.deploy_app(app_name) }
+  subject(:app) { Machete.deploy_app(app_name, options) }
   let(:browser) { Machete::Browser.new(app) }
 
   after do
@@ -11,6 +11,9 @@ describe 'CF PHP Buildpack' do
 
   context 'deploying a Zend app with locally-vendored dependencies', if: Machete::BuildpackMode.offline? do
     let(:app_name) { 'zend_framework_hello_world_with_local_dependencies' }
+    let(:options) do
+      {}
+    end
 
     specify do
       expect(app).to be_running
@@ -24,6 +27,9 @@ describe 'CF PHP Buildpack' do
 
   context 'deploying a Zend app with remote dependencies', if: Machete::BuildpackMode.online? do
     let(:app_name) { 'zend_framework_hello_world_with_remote_dependencies' }
+    let(:options) do
+      {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
+    end
 
     specify do
       expect(app).to be_running

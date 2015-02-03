@@ -2,7 +2,7 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'CF PHP Buildpack' do
-  subject(:app) { Machete.deploy_app(app_name) }
+  subject(:app) { Machete.deploy_app(app_name, {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}) }
   let(:browser) { Machete::Browser.new(app) }
 
   after do
@@ -17,7 +17,7 @@ describe 'CF PHP Buildpack' do
 
       expect(app).to have_logged '-------> Buildpack version 3'
       expect(app).to have_logged 'Installing PHP'
-      expect(app).to have_logged 'PHP 5.4.36'
+      expect(app).to have_logged 'PHP 5.4.37'
 
       browser.visit_path('/')
       expect(browser).to have_body('Hello world!')
