@@ -184,9 +184,10 @@ def compile(install):
 
 Integration tests expect to have a web server running on port 5000.  This is where they will download binaries.  Tests will fail if the server is not running.
 
-In a seperate shell:
+In a separate shell:
 ```shell
 cd path/to/php-buildpack
+./bin/binaries download binaries/lucid
 python -m SimpleHTTPServer 5000
 ```
 
