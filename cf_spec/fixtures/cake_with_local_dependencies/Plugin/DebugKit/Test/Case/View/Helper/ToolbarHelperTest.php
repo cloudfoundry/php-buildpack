@@ -14,12 +14,13 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         DebugKit 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- **/
+ */
 
 App::uses('View', 'View');
 App::uses('Controller', 'Controller');
 App::uses('Helper', 'View');
 App::uses('ToolbarHelper', 'DebugKit.View/Helper');
+App::uses('ConnectionManager', 'Manager');
 
 /**
  * Class MockBackendHelper
@@ -46,8 +47,12 @@ class ToolbarHelperTestCase extends CakeTestCase {
  * setUp
  *
  * @return void
- **/
+ */
 	public function setUp() {
+		parent::setUp();
+		$db = ConnectionManager::getDatasource('test');
+		$db->fullDebug = true;
+
 		Configure::write('Cache.disable', false);
 		Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 		Router::parse('/');
@@ -61,9 +66,6 @@ class ToolbarHelperTestCase extends CakeTestCase {
 		));
 		$this->Toolbar->MockBackend = $this->getMock('Helper', array('testMethod'), array($this->View));
 
-		if (isset($this->_debug)) {
-			Configure::write('debug', $this->_debug);
-		}
 		$this->_viewPaths = App::path('views');
 		App::build(array(
 			'View' => array(
@@ -71,14 +73,24 @@ class ToolbarHelperTestCase extends CakeTestCase {
 				APP . 'Plugin' . DS . 'DebugKit' . DS . 'View' . DS,
 				CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'View' . DS
 		)), true);
-		$this->_debug = Configure::read('debug');
+	}
+
+/**
+ * tearDown
+ *
+ * @return void
+ */
+	public function tearDown() {
+		parent::tearDown();
+		Cache::delete('debug_kit_toolbar_test_case', 'default');
+		unset($this->Toolbar, $this->Controller);
 	}
 
 /**
  * test cache writing for views.
  *
  * @return void
- **/
+ */
 	public function testCacheWrite() {
 		$result = $this->Toolbar->writeCache('test', array('stuff', 'to', 'cache'));
 		$this->assertTrue($result);
@@ -89,7 +101,7 @@ class ToolbarHelperTestCase extends CakeTestCase {
  * top most level of the history stack. As this is where the current request is stored.
  *
  * @return void
- **/
+ */
 	public function testOnlyWritingToFirstElement() {
 		$values = array(
 			array('test' => array('content' => array('first', 'values'))),
@@ -109,7 +121,7 @@ class ToolbarHelperTestCase extends CakeTestCase {
  * test cache reading for views
  *
  * @return void
- **/
+ */
 	public function testCacheRead() {
 		$result = $this->Toolbar->writeCache('test', array('stuff', 'to', 'cache'));
 		$this->assertTrue($result, 'Cache write failed %s');
@@ -128,7 +140,7 @@ class ToolbarHelperTestCase extends CakeTestCase {
  * Test that reading/writing doesn't work with no cache config.
  *
  * @return void
- **/
+ */
 	public function testNoCacheConfigPresent() {
 		$this->Toolbar = new ToolbarHelper($this->View, array('output' => 'MockBackendHelper'));
 
@@ -164,14 +176,4 @@ class ToolbarHelperTestCase extends CakeTestCase {
 		$this->assertEquals($cached[$model->useDbConfig]['queries'][0], $result['queries'][0]);
 	}
 
-/**
- * tearDown
- *
- * @return void
- */
-	public function tearDown() {
-		parent::tearDown();
-		Cache::delete('debug_kit_toolbar_test_case', 'default');
-		unset($this->Toolbar, $this->Controller);
-	}
 }

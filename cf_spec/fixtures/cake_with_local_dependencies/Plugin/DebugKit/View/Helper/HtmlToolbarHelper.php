@@ -21,7 +21,6 @@ App::uses('Security', 'Utility');
  * Injects the toolbar elements into HTML layouts.
  * Contains helper methods for
  *
- *
  * @since         DebugKit 0.1
  */
 class HtmlToolbarHelper extends ToolbarHelper {
@@ -188,12 +187,16 @@ class HtmlToolbarHelper extends ToolbarHelper {
 				}
 			}
 		}
-		if (preg_match('#</head>#', $view->output)) {
-			$view->output = preg_replace('#</head>#', $head . "\n</head>", $view->output, 1);
+		$search = '</head>';
+		$pos = strpos($view->output, $search);
+		if ($pos !== false) {
+			$view->output = substr_replace($view->output, $head . "\n</head>", $pos, strlen($search));
 		}
 		$toolbar = $view->element('debug_toolbar', array('disableTimer' => true), array('plugin' => 'DebugKit'));
-		if (preg_match('#</body>#', $view->output)) {
-			$view->output = preg_replace('#</body>#', $toolbar . "\n</body>", $view->output, 1);
+		$search = '</body>';
+		$pos = strrpos($view->output, $search);
+		if ($pos !== false) {
+			$view->output = substr_replace($view->output, $toolbar . "\n</body>", $pos, strlen($search));
 		}
 	}
 
@@ -208,6 +211,7 @@ class HtmlToolbarHelper extends ToolbarHelper {
 		if (!preg_match('/^[\s()]*SELECT/i', $sql)) {
 			return '';
 		}
+		$sql = str_replace(array("\n", "\t"), ' ', $sql);
 		$hash = Security::hash($sql . $connection, 'sha1', true);
 		$url = array(
 			'plugin' => 'debug_kit',
