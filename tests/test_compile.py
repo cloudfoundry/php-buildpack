@@ -131,3 +131,14 @@ class TestCompileApp5(BaseCompileApp):
         none.assert_no_web_dir(self.build_dir, self.opts.get_webdir())
         # check php cli installed
         none.assert_files_installed(self.build_dir)
+
+
+class TestCompileWithProfileD(BaseCompileApp):
+    def __init__(self):
+        self.app_name = 'app-with-profile-d'
+
+    def testProfileDNotOverridden(self):
+        ErrorHelper().compile(self.bp)
+        fah = FileAssertHelper()
+        fah.expect().path(self.build_dir, '.profile.d', 'dontdelete.sh').exists()
+

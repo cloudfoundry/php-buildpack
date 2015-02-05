@@ -78,10 +78,10 @@ class PhpAssertHelper(object):
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.env').exists()
+        fah.expect().path(build_dir, '.profile.d', 'bp_env_vars.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.env')
+            .on_file(build_dir, '.profile.d', 'bp_env_vars.sh')
             .any_line()
                 .equals('export '
                         'PATH=$PATH:$HOME/php/bin:$HOME/php/sbin\n')  # noqa
@@ -131,10 +131,10 @@ class HttpdAssertHelper(object):
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.env').exists()
+        fah.expect().path(build_dir, '.profile.d', 'bp_env_vars.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.env')
+            .on_file(build_dir, '.profile.d', 'bp_env_vars.sh')
             .any_line()
             .equals('export HTTPD_SERVER_ADMIN=dan@mikusa.com\n'))
 
@@ -323,10 +323,10 @@ class HhvmAssertHelper(object):
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.env').exists()
+        fah.expect().path(build_dir, '.profile.d', 'bp_env_vars.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.env')
+            .on_file(build_dir, '.profile.d', 'bp_env_vars.sh')
             .any_line()
             .equals('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'
                     '$HOME/hhvm/usr/lib/hhvm\n')

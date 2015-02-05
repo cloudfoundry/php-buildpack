@@ -20,6 +20,7 @@ describe 'CF PHP Buildpack' do
 
       browser.visit_path('/')
       expect(browser).to have_body('HipHop')
+      expect(browser).to have_body('Expect .profile.d to set HTTPD_SERVER_ADMIN=admin@localhost')
 
       assert_offline_mode_has_no_internet_traffic
     end
