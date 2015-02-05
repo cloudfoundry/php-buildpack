@@ -1728,6 +1728,16 @@
         "3.2.0": [
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/hhvm/3.2.0/hhvm-3.2.0.tar.gz",
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/hhvm/3.2.0/hhvm-3.2.0.tar.gz.sha1"
+        ],
+        "3.5.0": [
+            "https://raw.githubusercontent.com/chregu/cf-update-hhvm-for-php-build-pack/master/vendor/hhvm-3.5.0.tar.gz",
+            "https://raw.githubusercontent.com/chregu/cf-update-hhvm-for-php-build-pack/master/vendor/hhvm-3.5.0.tar.gz.sha1"
+        ]
+    },
+    "varnish": {
+        "3.0.6": [
+            "https://raw.githubusercontent.com/chregu/cf-varnish-buildpack/master/vendor/varnish-3.0.6.tar.gz",
+            "https://raw.githubusercontent.com/chregu/cf-varnish-buildpack/master/vendor/varnish-3.0.6.tar.gz.sha1"
         ]
     }
 }
