@@ -83,7 +83,7 @@ The `.bp-config` directory should exist at the root of your project directory an
 
 The `.extensions` directory should also exist at the root of your project directory and it is the location of application specific custom extensions.  Application specific custom extensions allow you, the developer, to override or enhance the behavior of the build pack.  This link explains [extensions] in more detail.
 
-[30 Second Tutorial]:https://github.com/dmikusa-pivotal/cf-php-build-pack#30-second-tutorial
-[application configuration files]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
+[30 Second Tutorial]:https://github.com/cloudfoundry/php-buildpack#30-second-tutorial
+[application configuration files]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/config.md
 [include_path]:http://us1.php.net/manual/en/ini.core.php#ini.include-path
-[extensions]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md#extensions
+[extensions]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md#extensions

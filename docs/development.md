@@ -12,8 +12,8 @@ To get setup developing the build pack, you'll need some tools.  Here's the setu
 With those tools installed, you should be able to run these commands to get up and running.
 
 ```bash
-git clone https://github.com/dmikusa-pivotal/cf-php-build-pack
-cd cf-php-build-pack
+git clone https://github.com/cloudfoundry/php-buildpack
+cd php-buildpack
 python -V  # should report 2.6.6, if not fix PyEnv before creating the virtualenv
 virtualenv `pwd`/env
 . ./env/bin/activate
@@ -219,11 +219,11 @@ Data for all tests is stored under `tests/data`.
 [PyEnv]:https://github.com/yyuu/pyenv
 [virtualenv]:http://www.virtualenv.org/en/latest/
 [pip]:http://www.pip-installer.org/en/latest/
-[required packages]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/requirements.txt
+[required packages]:https://github.com/cloudfoundry/php-buildpack/blob/master/requirements.txt
 [bosh-lite]:https://github.com/cloudfoundry/bosh-lite
-[HTTPD]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/httpd
-[Nginx]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/nginx
-[PHP]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/lib/php
-[NewRelic]:https://github.com/dmikusa-pivotal/cf-php-build-pack/tree/master/extensions/newrelic
-[unit tests]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md#testing
+[HTTPD]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/httpd
+[Nginx]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/nginx
+[PHP]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/php
+[NewRelic]:https://github.com/cloudfoundry/php-buildpack/tree/master/extensions/newrelic
+[unit tests]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md#testing
 
