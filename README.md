@@ -78,7 +78,7 @@ Here's a list of the major features of the buildpack.
 
   - supports the latest versions of Apache HTTPD 2.4 and Nginx 1.5, 1.6 & 1.7
   - supports the latest versions of PHP 5.4, 5.5 and 5.6.
-  - supports a large set of PHP extensions, including amqp, apc, apcu, bz2, curl, dba, exif, fileinfo, ftp, gd, gettext, gmp, igbinary, imagick, imap, intl, ioncube, ldap, mailparse, mbstring, mcrypt, memcache, memcached, mongo, msgpack, mysql, mysqli, opcache, openssl, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, pgsql, phalcon, phpiredis, pspell, redis, suhosin, snmp, soap, sockets, sundown, twig, xcache, xdebug, xhprof, zip and zlib
+  - supports a large set of PHP extensions, including amqp, apc, apcu, bz2, curl, dba, exif, fileinfo, ftp, gd, gettext, gmp, igbinary, imagick, imap, intl, ioncube, ldap, lua, mailparse, mbstring, mcrypt, memcache, memcached, mongo, msgpack, mysql, mysqli, opcache, openssl, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, pgsql, phalcon, phpiredis, pspell, redis, snmp, soap, sockets, suhosin, sundown, twig, xcache, xdebug, xhprof, xsl, yaf, zip, zlib and zookeeper.
   - allows installing PHP runtime of choice: php cli, php cgi or php-fpm
   - versions of HTTPD, Nginx and PHP are automatically upgraded to the latest release just by re-staging an application
   - allows for application developers to control which PHP extensions are installed
