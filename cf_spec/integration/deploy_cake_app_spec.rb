@@ -26,6 +26,12 @@ describe 'CF PHP Buildpack' do
 
       expect(app.host).not_to have_internet_traffic
     end
+
+    specify 'visiting a non-root path' do
+      browser.visit_path('/users/add')
+
+      expect(browser).to have_body('Add New User')
+    end
   end
 
   context 'deploying a Cake application with remote dependencies', if: Machete::BuildpackMode.online? do

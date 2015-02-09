@@ -55,4 +55,4 @@ In this example, `a_symfony_app` will be supplied with an environment variable, 
 There are two special variables that cannot be configured: `LD_LIBRARY_PATH` and `PHPRC`. This is because these variables have different values at staging time and run time, but any variable set by a user is injected into both environments.
 
 [Composer]:https://getcomposer.org
-[README]:https://github.com/dmikusa-pivotal/cf-php-build-pack#features
+[README]:https://github.com/cloudfoundry/php-buildpack#features

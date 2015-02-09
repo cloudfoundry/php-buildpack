@@ -1,12 +1,20 @@
-## Usage
+# Usage
 
 Getting started with the build pack is simple.  It's designed to be easy to use and minimally invasive.  For a quick start, see the [30 Second Tutorial].  This document will go into further detail and explain the more advanced options.
 
-### Folder Structure
+## Folder Structure
 
 The easiest way to use the build pack is to put your assets and PHP files into a directory and push it to CloudFoundry.  When you do this, the build pack will take your files and automatically move them into the `WEBDIR` (defaults to `htdocs`) folder, which is the directory where your chosen web server looks for the files.
 
-This works great for most situations, but does have some limitations.  Specifically, it will put all of your files into a publicly accessible directory.  In some cases, you might want to have PHP files that are not publicly accessible but are on the [include_path].  To do that, you simply create a `lib` directory in your project folder and place your protected files there.
+### URL Rewriting
+
+If you select Apache as your webserver, you can include `.htaccess` files with your application. 
+
+Alternatively, you can [provide your own Apache or Nginx configurations].
+
+### Preventing Access To PHP Files
+
+The buildpack will put all of your files into a publicly accessible directory.  In some cases, you might want to have PHP files that are not publicly accessible but are on the [include_path].  To do that, you simply create a `lib` directory in your project folder and place your protected files there.
 
 Example:
 
@@ -75,7 +83,7 @@ total 0
 
 The second option is to pick a different name for the `LIBDIR`.  This is a configuration option that you can set (it defaults to `lib`).  Thus if you set it to something else, like `include` your application's `lib` directory would no longer be treated as a special directory and it would be placed into `WEBDIR` (i.e. become public).
 
-### Other Folders
+#### Other Folders
 
 Beyond the `WEBDIR` and `LIBDIR` directories, the build pack also supports a `.bp-config` directory and a `.extensions` directory.  
 
@@ -83,7 +91,8 @@ The `.bp-config` directory should exist at the root of your project directory an
 
 The `.extensions` directory should also exist at the root of your project directory and it is the location of application specific custom extensions.  Application specific custom extensions allow you, the developer, to override or enhance the behavior of the build pack.  This link explains [extensions] in more detail.
 
-[30 Second Tutorial]:https://github.com/dmikusa-pivotal/cf-php-build-pack#30-second-tutorial
-[application configuration files]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/config.md
+[30 Second Tutorial]:https://github.com/cloudfoundry/php-buildpack#30-second-tutorial
+[application configuration files]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/config.md
 [include_path]:http://us1.php.net/manual/en/ini.core.php#ini.include-path
-[extensions]:https://github.com/dmikusa-pivotal/cf-php-build-pack/blob/master/docs/development.md#extensions
+[extensions]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md#extensions
+[provide your own Apache or Nginx configurations]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/config.md#httpd-nginx-and-php-configurations
