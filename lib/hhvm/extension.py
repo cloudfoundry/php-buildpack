@@ -53,6 +53,14 @@ class HHVMExtension(ExtensionHelper):
     def _compile(self, install):
         print 'Installing HHVM'
         print 'HHVM %s' % (self._ctx['HHVM_VERSION'])
+
+        if self._ctx['WEB_SERVER'] == 'httpd':
+            self._ctx['HHVM_LISTEN_TYPE'] = 'port'
+            self._ctx['PHP_FPM_LISTEN'] = \
+                self._ctx['PHP_FPM_LISTEN'].split(':')[-1]
+        elif self._ctx['WEB_SERVER'] == 'nginx':
+            self._ctx['HHVM_LISTEN_TYPE'] = 'file_socket'
+
         # install HHVM & config
         (install
             .package('HHVM')

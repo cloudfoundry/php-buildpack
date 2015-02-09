@@ -349,3 +349,10 @@ class HhvmAssertHelper(object):
                 .path('libmcrypt.so.4')
                 .path('libstdc++.so.6')
             .exists())
+
+    def assert_server_ini_contains(self, build_dir, expected_listener):
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, 'hhvm', 'etc', 'server.ini')
+            .any_line()
+            .contains(expected_listener))
