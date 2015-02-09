@@ -1,6 +1,6 @@
 ## Binaries
 
-To reduce the time it takes for the build pack to run and setup a usable environment, the build pack makes use of precompiled binaries.  For general use, these binaries are hosted on DropBox.  If you're running on a public cloud like Pivotal Web Services, you should be able to use these binaries without any problems and you probably do not need to read any further.  If you are running in a private environment or if for security reasons, you'd like to compile your own binaries, this document will explain what you need to do.
+To reduce the time it takes for the build pack to run and setup a usable environment, the build pack makes use of precompiled binaries.  For general use, these binaries are hosted on S3.  If you're running on a public cloud like Pivotal Web Services, you should be able to use these binaries without any problems and you probably do not need to read any further.  If you are running in a private environment or if for security reasons, you'd like to compile your own binaries, this document will explain what you need to do.
 
 ### Binary Repo Structure
 
@@ -24,7 +24,7 @@ The `DOWNLOAD_URL` would be `http://server/cf/php-repo`.
 
 ### Building Your Own Repository
 
-The easiest way to build your own repository is to run the `bin/binaries download` command.  This is a script that is included with the build pack and when run it will read the file `binaries/index-latest.json` and download the latest set of binaries from DropBox.  When it completes, you'll have a working set of binaries on your local machine.  
+The easiest way to build your own repository is to run the `bin/binaries download` command.  This is a script that is included with the build pack and when run it will read the file `binaries/index-latest.json` and download the latest set of binaries from S3.  When it completes, you'll have a working set of binaries on your local machine.  
 
 To use the downloaded files with the build pack, you just need to copy them to your web server and set the `DOWNLOAD_URL` to point to your web server.  Setting `DOWNLOAD_URL` can be done per application, in `.bp-config/options.json`, or by forking the build pack and modifying `defaults/options.json`.
 
