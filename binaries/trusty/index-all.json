@@ -1437,6 +1437,10 @@
         ]
     },
     "nginx": {
+        "1.7.10": [
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.10/nginx-1.7.10.tar.gz",
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.10/nginx-1.7.10.tar.gz.sha1"
+        ],
         "1.5.13": [
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.5.13/nginx-1.5.13.tar.gz",
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.5.13/nginx-1.5.13.tar.gz.sha1"
