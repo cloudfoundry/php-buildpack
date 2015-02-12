@@ -1,3 +1,40 @@
+v3.0.4 Feb 12, 2015
+====================
+
+This is the first official release of the new PHP buildpack, as approved
+by [Cloud Foundry CAB in December
+2014](http://www.activestate.com/blog/2014/12/cloud-foundry-advisory-board-meeting-2014-december).
+
+This release completely replaces the [legacy
+buildpack](https://github.com/cloudfoundry/php-buildpack-legacy).
+
+* Removed Apache HTTPD 2.4.7 and 2.4.9 because 2.4.10 is the minimum version
+  that supports our new configuration
+  (https://www.pivotaltracker.com/story/show/84393328)
+
+* Introduce support for .htaccess files in Apache
+  (https://www.pivotaltracker.com/story/show/84393328)
+
+* Binaries are now served directly from S3
+  (https://www.pivotaltracker.com/story/show/84419046)
+
+* Environment variables provided by set-env or manifest.yml are visible to
+  apps
+  (https://www.pivotaltracker.com/story/show/86043094)
+  (https://www.pivotaltracker.com/story/show/86800222)
+
+* Add XSL to extensions
+  (https://github.com/cloudfoundry/php-buildpack/commit/0860ba1390c9b7e47c19b24fbb634e859d057125)
+
+* Users can provide a Github OAuth token for Composer
+  (https://www.pivotaltracker.com/story/show/86670590)
+
+* Staging fails on Composer errors
+  (https://www.pivotaltracker.com/story/show/85465540)
+
+* Codizy module is not bundled for licensing reasons
+  (https://www.pivotaltracker.com/story/show/85122672)
+
 v3.0.3 Jan 05, 2015
 ====================
 
