@@ -582,13 +582,13 @@
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.6.2/nginx-1.6.2.tar.gz",
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.6.2/nginx-1.6.2.tar.gz.sha1"
         ],
-        "1.7.9": [
-            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.7.9/nginx-1.7.9.tar.gz",
-            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.7.9/nginx-1.7.9.tar.gz.sha1"
-        ],
         "1.5.13": [
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.5.13/nginx-1.5.13.tar.gz",
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.5.13/nginx-1.5.13.tar.gz.sha1"
+        ],
+        "1.7.10": [
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.7.10/nginx-1.7.10.tar.gz",
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.7.10/nginx-1.7.10.tar.gz.sha1"
         ]
     },
     "composer": {

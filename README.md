@@ -10,10 +10,6 @@ If you only need Varnish and nothing else, you can also try my much smaller [cf-
 
 The following is from the official README.
 
-# Prerelease Notice
-
-This is a prerelease of the official Cloud Foundry PHP buildpack. Please keep in mind that changes may be forthcoming.
-
 ## CloudFoundry PHP Buildpack
 
 A buildpack for CloudFoundry to deploy PHP based applications.
