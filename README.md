@@ -1,7 +1,3 @@
-# Prerelease Notice
-
-This is a prerelease of the official Cloud Foundry PHP buildpack. Please keep in mind that changes may be forthcoming.
-
 ## CloudFoundry PHP Buildpack
 
 A buildpack for CloudFoundry to deploy PHP based applications.
