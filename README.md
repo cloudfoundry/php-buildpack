@@ -156,6 +156,23 @@ If you have questions, comments or need further help with the buildpack you can 
 
 The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache License].
 
+## Contributing
+
+### Run the Tests
+
+See the [Machete](https://github.com/cf-buildpacks/machete) CF buildpack test framework for more information.
+
+### Pull Requests
+
+1. Fork the project
+1. Submit a pull request
+
+### Reporting Issues
+
+This project is managed through Github.  If you encounter any issues, bug or problems with the buildpack please open an issue.
+
+The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/projects/1042066)
+
 [Configuration Options]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/config.md
 [Development]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md
 [Troubleshooting]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/troubleshooting.md
@@ -175,20 +192,3 @@ The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache Lic
 [phalcon]:https://github.com/dmikusa-pivotal/cf-ex-phalcon
 [Phalcon]:http://phalconphp.com/en/
 [composer]:https://github.com/dmikusa-pivotal/cf-ex-composer
-
-## Contributing
-
-### Run the Tests
-
-See the [Machete](https://github.com/cf-buildpacks/machete) CF buildpack test framework for more information.
-
-### Pull Requests
-
-1. Fork the project
-1. Submit a pull request
-
-### Reporting Issues
-
-This project is managed through Github.  If you encounter any issues, bug or problems with the buildpack please open an issue.
-
-The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/projects/1042066)
