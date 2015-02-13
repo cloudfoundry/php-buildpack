@@ -39,7 +39,7 @@ Here's a breakdown of what happens when you run the example above.
 
 While the *30 Second Tutorial* shows how quick and easy it is to get started using the buildpack, it skips over quite a bit of what you can do to adjust, configure and extend the buildpack.  The following docs and links provide a more in-depth look at the buildpack.
 
-  - [Goals](#goals)
+  - [Supported Software](#supported-software)
   - [Features](#features)
   - [Example Applications](#examples)
   - [Usage]
@@ -49,7 +49,6 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Troubleshooting]
   - [Getting Help](#getting-help)
   - [Development]
-  - [Releases](#releases)
   - [License](#license)
   - [Contributing](#contributing)
 
