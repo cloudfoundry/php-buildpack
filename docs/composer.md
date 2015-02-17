@@ -41,7 +41,7 @@ The build pack tries to run with a good set of default values for Composer.  If 
 
 Composer uses Github's API to retrive zip files for installation into the application folder. If you do not vendor dependencies before pushing an app, Composer will fetch dependencies at staging time using the Github API.
 
-Github's API is request-limited. Once you have reached your daily allowance of API requests (typically, 60), Github's API will begin to return 403 errors and staging will fail.
+Github's API is request-limited. Once you have reached your hourly allowance of API requests (typically, 60), Github's API will begin to return 403 errors and staging will fail.
 
 To avoid this situation, there are two alternatives.
 
@@ -54,7 +54,7 @@ To vendor dependencies, you will need to run `composer install` before you push 
 
 #### Supply a Github Token
 
-Composer can use [Github API OAuth tokens](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) to greatly increase your daily request limit (typically to 5000).
+Composer can use [Github API OAuth tokens](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) to greatly increase your hourly request limit (typically to 5000).
 
 During staging, the buildpack looks for this token in the environment variable `COMPOSER_GITHUB_OAUTH_TOKEN`. If you supply a valid token, Composer will use it during staging. This mechanism will not work if the token is invalid.
 
