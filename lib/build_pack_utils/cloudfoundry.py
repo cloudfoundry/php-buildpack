@@ -5,6 +5,7 @@ import tempfile
 import shutil
 import utils
 import logging
+import fcntl
 from urlparse import urlparse
 from zips import UnzipUtil
 from hashes import HashUtil
@@ -13,6 +14,7 @@ from downloads import Downloader
 from downloads import CurlDownloader
 from utils import safe_makedirs
 from utils import find_git_url
+from utils import wrap
 
 
 _log = logging.getLogger('cloudfoundry')
@@ -21,19 +23,19 @@ _log = logging.getLogger('cloudfoundry')
 class CloudFoundryUtil(object):
     @staticmethod
     def initialize():
-        # Open stdout unbuffered
+        # set stdout as non-buffered
         if hasattr(sys.stdout, 'fileno'):
-            sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb', 0)
+            fl = fcntl.fcntl(sys.stdout.fileno(), fcntl.F_GETFL)
+            fl |= os.O_DSYNC
+            fcntl.fcntl(sys.stdout.fileno(), fcntl.F_SETFL)
         ctx = utils.FormattedDict()
         # Add environment variables
-        ctx.update(os.environ)
+        for key, val in os.environ.iteritems():
+            ctx[key] = wrap(val)
         # Convert JSON env variables
         ctx['VCAP_APPLICATION'] = json.loads(ctx.get('VCAP_APPLICATION',
-                                                     '{}',
-                                                     format=False))
-        ctx['VCAP_SERVICES'] = json.loads(ctx.get('VCAP_SERVICES',
-                                                  '{}',
-                                                  format=False))
+                                             wrap('{}')))
+        ctx['VCAP_SERVICES'] = json.loads(ctx.get('VCAP_SERVICES', wrap('{}')))
         # Build Pack Location
         ctx['BP_DIR'] = os.path.dirname(os.path.dirname(sys.argv[0]))
         # User's Application Files, build droplet here

@@ -138,9 +138,7 @@ class FormattedDict(dict):
                 val = newVal
                 newVal = newVal.format(**self)
             return val
-        if hasattr(val, 'unwrap'):
-            return val.unwrap()
-        return val
+        return val.unwrap() if hasattr(val, 'unwrap') else val
 
     def __getitem__(self, key):
         return self.format(dict.__getitem__(self, key))
@@ -149,7 +147,8 @@ class FormattedDict(dict):
         if kwargs.get('format', True):
             return self.format(dict.get(self, *args))
         else:
-            return dict.get(self, *args)
+            tmp = dict.get(self, *args)
+            return tmp.unwrap() if hasattr(tmp, 'unwrap') else tmp
 
     def __setitem__(self, key, val):
         if _log.isEnabledFor(logging.DEBUG):
