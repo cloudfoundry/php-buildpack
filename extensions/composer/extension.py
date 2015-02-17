@@ -192,10 +192,7 @@ class ComposerExtension(ExtensionHelper):
         env = {}
         for key in os.environ.keys():
             val = self._ctx.get(key, '')
-            if type(val) != str:
-                env[key] = json.dumps(val)
-            else:
-                env[key] = self._ctx.get(key, '')
+            env[key] = val if type(val) == str else json.dumps(val)
 
         # add basic composer vars
         env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
