@@ -499,6 +499,26 @@ class TestComposer(object):
                 "Expected [%s]:[%s] to be type `str`, but found type [%s]" % (
                     key, val, type(val))
 
+    def test_build_composer_environment_has_missing_key(self):
+        os.environ['SOME_KEY'] = 'does not matter'
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+            'SOME_KEY': utils.wrap('{exact_match}')
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        try:
+            built_environment = ct._build_composer_environment()
+            assert "{exact_match}" == built_environment['SOME_KEY'], \
+                "value should match"
+        except KeyError, e:
+            assert 'exact_match' != e.message, \
+                "Should not try to evaluate value [%s]" % e
+            raise
+
     def test_ld_library_path_for_hhvm(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': '/usr/awesome/',
