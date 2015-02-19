@@ -121,6 +121,12 @@ class FormattedDictWrapper(object):
     def unwrap(self):
         return self.obj
 
+    def __str__(self):
+        return self.obj.__str__()
+
+    def __repr__(self):
+        return self.obj.__repr__()
+
 
 def wrap(obj):
     return FormattedDictWrapper(obj)
