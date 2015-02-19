@@ -519,6 +519,37 @@ class TestComposer(object):
                 "Should not try to evaluate value [%s]" % e
             raise
 
+    def test_build_composer_environment_no_path(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache'
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        built_environment = ct._build_composer_environment()
+        assert 'PATH' in built_environment, "should have PATH set"
+        assert "/usr/awesome/php/bin" == built_environment['PATH'], \
+            "PATH should contain path to PHP, found [%s]" \
+            % built_environment['PATH']
+
+    def test_build_composer_environment_existing_path(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': '/usr/awesome',
+            'PHP_VM': 'php',
+            'TMPDIR': 'tmp',
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+            'PATH': '/bin:/usr/bin'
+        })
+        ct = self.extension_module.ComposerExtension(ctx)
+        built_environment = ct._build_composer_environment()
+        assert 'PATH' in built_environment, "should have PATH set"
+        assert built_environment['PATH'].endswith(":/usr/awesome/php/bin"), \
+            "PATH should contain path to PHP, found [%s]" \
+            % built_environment['PATH']
+
     def test_ld_library_path_for_hhvm(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': '/usr/awesome/',

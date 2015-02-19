@@ -202,6 +202,9 @@ class ComposerExtension(ExtensionHelper):
         # prevent key system variables from being overridden
         env['LD_LIBRARY_PATH'] = self.ld_library_path()
         env['PHPRC'] = self._ctx['TMPDIR']
+        env['PATH'] = ':'.join(filter(None,
+                                      [env.get('PATH', ''),
+                                       os.path.dirname(self.binary_path())]))
         return env
 
     def _github_oauth_token_is_valid(self, candidate_oauth_token):
