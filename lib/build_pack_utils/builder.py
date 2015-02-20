@@ -591,7 +591,8 @@ class FileUtil(object):
             if not os.path.exists(self._from_path):
                 raise ValueError("Source path [%s] does not exist"
                                  % self._from_path)
-            for root, dirs, files in os.walk(self._from_path, topdown=False):
+            for root, dirs, files in os.walk(self._from_path.decode('utf-8'),
+                                             topdown=False):
                 for f in files:
                     fromPath = os.path.join(root, f)
                     toPath = fromPath.replace(self._from_path, self._into_path)
