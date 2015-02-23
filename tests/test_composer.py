@@ -382,6 +382,23 @@ class TestComposer(object):
         }).read_exts_from_path(None)
         eq_(0, len(exts))
 
+    def test_with_extensions(self):
+        exts = self.extension_module.ComposerConfiguration({
+            'BUILD_DIR': ''
+        }).read_exts_from_path(
+            'tests/data/composer/composer.json')
+        eq_(2, len(exts))
+        eq_('zip', exts[0])
+        eq_('fileinfo', exts[1])
+
+    def test_with_oddly_formatted_composer_file(self):
+        exts = self.extension_module.ComposerConfiguration({
+            'BUILD_DIR': ''
+        }).read_exts_from_path(
+            'tests/data/composer/composer-format.json')
+        eq_(1, len(exts))
+        eq_('mysqli', exts[0])
+
     def test_composer_defaults(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': '/tmp/build',

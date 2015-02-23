@@ -58,7 +58,7 @@ class ComposerConfiguration(object):
     def read_exts_from_path(self, path):
         exts = []
         if path:
-            req_pat = re.compile(r'"require"\: \{(.*?)\}', re.DOTALL)
+            req_pat = re.compile(r'"require"\s?\:\s?\{(.*?)\}', re.DOTALL)
             ext_pat = re.compile(r'"ext-(.*?)"')
             with open(path, 'rt') as fp:
                 data = fp.read()
