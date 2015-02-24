@@ -123,12 +123,6 @@ def convert_php_extensions(ctx):
                    for ze in ctx['ZEND_EXTENSIONS']])
 
 
-def build_php_environment(ctx):
-    _log.debug('Building PHP environment variables')
-    ctx["PHP_ENV"] = \
-        "\n".join(["env[%s] = $%s" % (k, k) for k in os.environ.keys()])
-
-
 def is_web_app(ctx):
     return ctx.get('WEB_SERVER', '') != 'none'
 

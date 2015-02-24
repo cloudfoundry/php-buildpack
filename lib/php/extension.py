@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from compile_helpers import convert_php_extensions
-from compile_helpers import build_php_environment
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_binary_index
@@ -70,7 +69,6 @@ class PHPExtension(ExtensionHelper):
         validate_php_version(ctx)
         validate_php_extensions(ctx)
         convert_php_extensions(ctx)
-        build_php_environment(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
         (install
             .package('PHP')
