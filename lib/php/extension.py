@@ -43,10 +43,7 @@ class PHPExtension(ExtensionHelper):
                     '$HOME/php/sbin/php-fpm',
                     '-p "$HOME/php/etc"',
                     '-y "$HOME/php/etc/php-fpm.conf"',
-                    '-c "$HOME/php/etc"'),
-                'php-fpm-logs': (
-                    'tail',
-                    '-F $HOME/logs/php-fpm.log')
+                    '-c "$HOME/php/etc"')
             }
         else:
             app = find_stand_alone_app_to_run(self._ctx)

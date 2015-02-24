@@ -73,8 +73,7 @@ class PhpAssertHelper(object):
             .any_line()
                 .equals('php-fpm: $HOME/php/sbin/php-fpm -p '  # noqa
                         '"$HOME/php/etc" -y "$HOME/php/etc/php-fpm.conf"'
-                        ' -c "$HOME/php/etc"\n')
-                .equals('php-fpm-logs: tail -F $HOME/logs/php-fpm.log\n'))
+                        ' -c "$HOME/php/etc"\n'))
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
