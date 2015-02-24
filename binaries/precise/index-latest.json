@@ -592,9 +592,9 @@
         ]
     },
     "composer": {
-        "1.0.0-alpha8": [
-            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/precise/composer/1.0.0-alpha8/composer.phar",
-            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/precise/composer/1.0.0-alpha8/composer.phar.sha1"
+        "1.0.0-alpha9": [
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/precise/composer/1.0.0-alpha9/composer.phar",
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/precise/composer/1.0.0-alpha9/composer.phar.sha1"
         ]
     },
     "newrelic": {
