@@ -1284,8 +1284,8 @@
         ]
     },
     "newrelic": {
-        "4.15.0.74": [
-            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/newrelic/4.15.0.74/newrelic-php5-4.15.0.74-linux.tar.gz.sha1"
+        "4.18.0.89": [
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/newrelic/4.18.0.89/newrelic-php5-4.18.0.89-linux.tar.gz.sha1"
         ]
     },
     "hhvm": {
