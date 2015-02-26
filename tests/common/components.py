@@ -368,38 +368,29 @@ class BlackfireAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.procs')
             .any_line()
-                .equals('blackfire-agent: $HOME/blackfire/agent/blackfire-agent '  # noqa
-                        '-config="$HOME/blackfire/agent/config.ini" '
-                        '-socket="unix://$HOME/blackfire/agent/agent.sock"\n'))
+                .equals('blackfire-agent: $HOME/blackfire_agent/agent '  # noqa
+                        '-config="$HOME/blackfire_agent/config.ini" '
+                        '-socket="unix://$HOME/blackfire_agent/agent.sock"\n'))
 
     def assert_files_installed(self, build_dir):
         fah = FileAssertHelper()
         (fah.expect()
-            .root(build_dir, 'blackfire')
-                .path('agent', 'blackfire-agent')
-                .path('agent', 'config.ini')
-                .path('agent', 'agent.sock')
-            .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20100525', reset=True)
-                .path('blackfire.so')
+            .root(build_dir, 'blackfire_agent')
+                .path('agent')
+            .root(build_dir, 'blackfire_probe_20100525')
+                .path('blackfire-20100525.so')
             .exists())
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_file(build_dir, 'php', 'etc', 'php.ini')
             .any_line()
+                .equals('extension=%s/blackfire_probe_20100525/blackfire-20100525.so\n' % build_dir)
                 .equals('[blackfire]\n')
-                .equals('server-id=TEST_SERVER_ID\n')
-                .equals('server-token=TEST_SERVER_TOKEN\n')
-                .equals('agent-socket=@{HOME}/blackfire/agent/agent.sock\n')
-            .on_file(build_dir, 'blackfire', 'agent', 'config.ini')
+                .equals('blackfire.server_id=TEST_SERVER_ID\n')
+                .equals('blackfire.server_token=TEST_SERVER_TOKEN\n')
+                .equals('blackfire.agent_socket=unix://%s/blackfire_agent/agent.sock\n' % build_dir)
+            .on_file(build_dir, 'blackfire_agent', 'config.ini')
             .any_line()
                 .equals('[blackfire]\n')
                 .equals('server-id=e92fc80d-dc52-4cfb-8f4c-a8db940706f8\n')
                 .equals('server-token=101af42ab9afcd468a3d3e9f87565008b21262b6a3d7f50812d52c911ba3d698\n'))
-
-    def assert_is_not_installed(self, build_dir):
-         fah = FileAssertHelper()
-         (fah.expect()
-             .path(build_dir, 'blackfire')
-             .path(build_dir, 'php', 'lib', 'php', 'extensions', 'no-debug-non-zts-20100525', 'blackfire.so')
-             .does_not_exist())

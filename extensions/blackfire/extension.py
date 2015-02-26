@@ -34,8 +34,21 @@ class BlackfireExtension(PHPExtensionHelper):
 
     def _defaults(self):
         return {
-            "BLACKFIRE_DOWNLOAD_URL": "",
-            "BLACKFIRE_STRIP": True
+            'BLACKFIRE_DOWNLOAD_HOST': 'packages.blackfire.io',
+            'BLACKFIRE_AGENT_VERSION': '0.20.0',
+            'BLACKFIRE_PROBE_VERSION': '0.20.5',
+            'BLACKFIRE_AGENT_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-agent/{BLACKFIRE_AGENT_VERSION}/blackfire-agent-linux_amd64.tar.gz',
+            'BLACKFIRE_AGENT_HASH_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-agent/{BLACKFIRE_AGENT_VERSION}/blackfire-agent-linux_amd64.sha1',
+            'BLACKFIRE_AGENT_STRIP': False,
+            'BLACKFIRE_PROBE_20100525_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-php/{BLACKFIRE_PROBE_VERSION}/blackfire-php-linux_amd64-php-54.tar.gz',
+            'BLACKFIRE_PROBE_20100525_HASH_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-php/{BLACKFIRE_PROBE_VERSION}/blackfire-php-linux_amd64-php-54.sha',
+            'BLACKFIRE_PROBE_20100525_STRIP': False,
+            'BLACKFIRE_PROBE_20121212_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-php/{BLACKFIRE_PROBE_VERSION}/blackfire-php-linux_amd64-php-55.tar.gz',
+            'BLACKFIRE_PROBE_20121212_HASH_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-php/{BLACKFIRE_PROBE_VERSION}/blackfire-php-linux_amd64-php-55.sha',
+            'BLACKFIRE_PROBE_20121212_STRIP': False,
+            'BLACKFIRE_PROBE_20131226_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-php/{BLACKFIRE_PROBE_VERSION}/blackfire-php-linux_amd64-php-56.tar.gz',
+            'BLACKFIRE_PROBE_20131226_HASH_DOWNLOAD_URL': 'http://{BLACKFIRE_DOWNLOAD_HOST}/binaries/blackfire-php/{BLACKFIRE_PROBE_VERSION}/blackfire-php-linux_amd64-php-56.sha',
+            'BLACKFIRE_PROBE_20131226_STRIP': False
         }
 
     def _should_compile(self):
@@ -64,19 +77,20 @@ class BlackfireExtension(PHPExtensionHelper):
             enabled = True
 
         if enabled:
-            self.agent_path = os.path.join('@{HOME}',
-                                           'blackfire',
-                                           'agent',
-                                           'blackfire-agent')
+            self.blackfire_so = os.path.join(self._ctx['BUILD_DIR'],
+                                             'blackfire_probe_%s' % self._get_api(),
+                                             'blackfire-%s.so' % self._get_api())
+            self._log.debug("PHP Extension [%s]", self.blackfire_so)
+            self.agent_path = os.path.join(self._ctx['BUILD_DIR'],
+                                           'blackfire_agent',
+                                           'agent')
             self._log.debug("Agent [%s]", self.agent_path)
-            self.agent_config_path = os.path.join('@{HOME}',
-                                                  'blackfire',
-                                                  'agent'
+            self.agent_config_path = os.path.join(self._ctx['BUILD_DIR'],
+                                                  'blackfire_agent',
                                                   'config.ini')
             self._log.debug("Agent configuration [%s]", self.agent_config_path)
-            self.agent_socket_path = os.path.join('@{HOME}',
-                                                  'blackfire',
-                                                  'agent'
+            self.agent_socket_path = os.path.join(self._ctx['BUILD_DIR'],
+                                                  'blackfire_agent',
                                                   'agent.sock')
             self._log.debug("Agent socket [%s]", self.agent_socket_path)
 
@@ -85,18 +99,22 @@ class BlackfireExtension(PHPExtensionHelper):
     def _service_commands(self):
         return {
             'blackfire-agent': (
-                '$HOME/blackfire/agent/blackfire-agent',
-                '-config="$HOME/blackfire/agent/config.ini"',
-                '-socket="unix://$HOME/blackfire/agent/agent.sock"')
+                '$HOME/blackfire_agent/agent',
+                '-config="$HOME/blackfire_agent/config.ini"',
+                '-socket="unix://$HOME/blackfire_agent/agent.sock"')
         }
 
     def _compile(self, install):
+        install.package('BLACKFIRE_AGENT')
+        install.package('BLACKFIRE_PROBE_%s' % self._get_api())
         self._update_php_ini()
         self._write_agent_configuration(self.agent_config_path)
 
     def _update_php_ini(self):
         self.load_config()
         self._php_ini.append_lines((
+            'extension=%s\n' % self.blackfire_so,
+            '\n'
             '[blackfire]\n',
             'blackfire.server_id=%s\n' % self.server_id,
             'blackfire.server_token=%s\n' % self.server_token,
@@ -115,12 +133,6 @@ class BlackfireExtension(PHPExtensionHelper):
                 'server-token=101af42ab9afcd468a3d3e9f87565008b21262b6a3d7f50812d52c911ba3d698\n'
             ))
             fd.close()
-
-    def _configure(self):
-        # add blackfire php extension
-        exts = self._ctx.get('PHP_EXTENSIONS', [])[:]
-        exts.append('blackfire')
-        self._ctx['PHP_EXTENSIONS'] = exts
 
 # Register extension methods
 BlackfireExtension.register(__name__)

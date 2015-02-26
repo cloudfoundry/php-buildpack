@@ -116,7 +116,7 @@ class TestBlackfire(object):
             'BLACKFIRE_SERVER_TOKEN': 'TEST_SERVER_TOKEN'
         })
         ext = blackfire.BlackfireExtension(ctx)
-        agent_config_path = os.path.join(self.build_dir, 'home', 'blackfire', 'agent', 'conf.ini')
+        agent_config_path = os.path.join(self.build_dir, 'blackfire_agent', 'conf.ini')
         ext._should_compile()
         ext._write_agent_configuration(agent_config_path)
         with open(agent_config_path, 'rt') as agent_config:
@@ -133,13 +133,14 @@ class TestCompileBlackfireWithPHP(BaseCompileApp):
         BaseCompileApp.setUp(self)
         os.environ['BLACKFIRE_SERVER_ID'] = 'TEST_SERVER_ID'
         os.environ['BLACKFIRE_SERVER_TOKEN'] = 'TEST_SERVER_TOKEN'
+        os.environ['VCAP_APPLICATION'] = json.dumps({
+            'name': 'app-name-1'
+        })
 
     def test_compile_php_with_blackfire(self):
         bp = BuildPackAssertHelper()
         blackfire = BlackfireAssertHelper()
         self.opts.set_web_server('httpd')
         output = ErrorHelper().compile(self.bp)
-        # check env & proc files
         blackfire.assert_contents_of_procs_file(self.build_dir)
-        # check php & httpd installed
-        #blackfire.assert_files_installed(self.build_dir)
+        blackfire.assert_files_installed(self.build_dir)
