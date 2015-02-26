@@ -6,7 +6,6 @@ from nose.tools import eq_
 from build_pack_utils import utils
 from compile_helpers import setup_webdir_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
-from compile_helpers import build_php_environment
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_binary_index
@@ -276,13 +275,6 @@ class TestCompileHelpers(object):
         eq_('extension=mod1.so', ctx['PHP_EXTENSIONS'])
         eq_('zend_extension="zmod1.so"',
             ctx['ZEND_EXTENSIONS'])
-
-    def test_build_php_environment(self):
-        ctx = {}
-        build_php_environment(ctx)
-        eq_(True, 'PHP_ENV' in ctx.keys())
-        eq_(True, ctx['PHP_ENV'].find('env[HOME]') >= 0)
-        eq_(True, ctx['PHP_ENV'].find('env[PATH]') >= 0)
 
     def test_is_web_app(self):
         ctx = {}
