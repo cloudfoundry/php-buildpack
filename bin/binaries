@@ -39,6 +39,18 @@ sys.path.append(os.path.join(BPDIR, 'lib'))
 
 from build_pack_utils import utils
 
+def get_index_paths():
+    for idx, arg in enumerate(sys.argv):
+        if arg == '--index':
+            return sys.argv[idx + 1].split(',')
+        
+
+def get_stack(index_path):
+    if 'lucid' in index_path:
+        return 'lucid'
+    elif 'trusty' in index_path:
+        return 'trusty'
+
 
 def load_cfg():
     """Load's the build pack's default options.json file"""
@@ -137,7 +149,10 @@ def run():
         if args['binary_path'] is None:
             if args['index'] is not None:
                 args['binary_path'] = tempfile.mkdtemp(prefix='php-binaries-')
-                download_files(args['binary_path'], args['index'], args['cache'])
+
+                index_paths = get_index_paths()
+                for idx, path in enumerate(index_paths):
+                    download_files(os.path.join(args['binary_path'], get_stack(path)), path, args['cache'])
         if args['zip_path'] is None:
             args['zip_path'] = os.getcwd()
         try:
@@ -322,10 +337,12 @@ def zip_up_files(binPath, zipPath, indexPath):
             versionFile.read().rstrip()
     try:
         zf = zipfile.ZipFile(os.path.join(zipPath, zipName), 'w')
-        # zip up binaries
-        zip_up_folder(zf, binPath, altBase='binaries')
-        # zip up index
-        zf.write(indexPath, os.path.join('binaries', 'index-all.json'))
+
+        for path in get_index_paths(): 
+            # zip up binaries
+            zip_up_folder(zf, os.path.join(binPath, get_stack(path)), altBase=os.path.join('binaries', get_stack(path)))
+            # zip up index
+            zf.write(path, os.path.join('binaries', get_stack(path), 'index-all.json'))
         # zip uo VERSION
         zf.write('VERSION')
         # zip up build pack
@@ -341,8 +358,7 @@ def zip_up_files(binPath, zipPath, indexPath):
                       zipfile.ZIP_DEFLATED)
         # overwrite DOWNLOAD_URL in options.json
         cfg = load_cfg()
-        cfg['DOWNLOAD_URL'] = 'file://{BP_DIR}/binaries'
-        cfg['STACK'] = ''
+        cfg['DOWNLOAD_URL'] = 'file://{BP_DIR}/binaries/{STACK}'
         info = zipfile.ZipInfo('defaults/options.json')
         info.date_time = datetime.now().timetuple()[:6]
         info.compress_type = zipfile.ZIP_DEFLATED

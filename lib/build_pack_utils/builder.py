@@ -44,6 +44,11 @@ class Configurer(object):
                 'defaults/options.json'))
         return self
 
+    def stack_config(self):
+        if os.environ.get('CF_STACK') == 'cflinuxfs2':
+            self._merge({'STACK': 'trusty'})
+        return self
+
     def user_config(self, path=None):
         if path is None:
             path = os.path.join('.bp-config', 'options.json')

@@ -25,6 +25,7 @@ if __name__ == '__main__':
     (Builder()
         .configure()
             .default_config()  # noqa
+            .stack_config()
             .user_config()
             .done()
         .execute()
