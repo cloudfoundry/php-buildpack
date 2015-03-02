@@ -116,7 +116,7 @@ class TestBlackfire(object):
             'BLACKFIRE_SERVER_TOKEN': 'TEST_SERVER_TOKEN'
         })
         ext = blackfire.BlackfireExtension(ctx)
-        agent_config_path = os.path.join(self.build_dir, 'blackfire_agent', 'conf.ini')
+        agent_config_path = os.path.join(self.build_dir, 'blackfire', 'agent', 'conf.ini')
         ext._should_compile()
         ext._write_agent_configuration(agent_config_path)
         with open(agent_config_path, 'rt') as agent_config:

@@ -368,28 +368,29 @@ class BlackfireAssertHelper(object):
         (tfah.expect()
             .on_file(build_dir, '.procs')
             .any_line()
-                .equals('blackfire-agent: $HOME/blackfire_agent/agent '  # noqa
-                        '-config="$HOME/blackfire_agent/config.ini" '
-                        '-socket="unix://$HOME/blackfire_agent/agent.sock"\n'))
+                .equals('blackfire-agent: $HOME/blackfire/agent/agent '  # noqa
+                        '-config="$HOME/blackfire/agent/config.ini" '
+                        '-socket="unix://$HOME/blackfire/agent/agent.sock"\n'))
 
     def assert_files_installed(self, build_dir):
         fah = FileAssertHelper()
         (fah.expect()
-            .root(build_dir, 'blackfire_agent')
+            .root(build_dir, 'blackfire', 'agent')
                 .path('agent')
-            .root(build_dir, 'blackfire_probe_20100525')
+                .path('config.ini')
+            .root(build_dir, 'blackfire', 'probe')
                 .path('blackfire-20100525.so')
             .exists())
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_file(build_dir, 'php', 'etc', 'php.ini')
             .any_line()
-                .equals('extension=%s/blackfire_probe_20100525/blackfire-20100525.so\n' % build_dir)
+                .equals('extension=%s/blackfire/probe/blackfire-20100525.so\n' % build_dir)
                 .equals('[blackfire]\n')
                 .equals('blackfire.server_id=TEST_SERVER_ID\n')
                 .equals('blackfire.server_token=TEST_SERVER_TOKEN\n')
-                .equals('blackfire.agent_socket=unix://%s/blackfire_agent/agent.sock\n' % build_dir)
-            .on_file(build_dir, 'blackfire_agent', 'config.ini')
+                .equals('blackfire.agent_socket=unix://%s/blackfire/agent/agent.sock\n' % build_dir)
+            .on_file(build_dir, 'blackfire', 'agent', 'config.ini')
             .any_line()
                 .equals('[blackfire]\n')
                 .equals('server-id=e92fc80d-dc52-4cfb-8f4c-a8db940706f8\n')
