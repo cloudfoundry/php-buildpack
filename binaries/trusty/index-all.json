@@ -1489,10 +1489,6 @@
         "1.7.8": [
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.8/nginx-1.7.8.tar.gz",
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.8/nginx-1.7.8.tar.gz.sha1"
-        ],
-        "1.7.7": [
-            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.7/nginx-1.7.7.tar.gz",
-            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.7/nginx-1.7.7.tar.gz.sha1"
         ]
     },
     "composer": {
