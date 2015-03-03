@@ -1502,5 +1502,10 @@
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/newrelic/4.18.0.89/newrelic-php5-4.18.0.89-linux.tar.gz.sha1"
         ]
     },
-    "hhvm": {}
+    "hhvm": {
+        "3.5.0": [
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.5.0/hhvm-3.5.0.tar.gz",
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.5.0/hhvm-3.5.0.tar.gz.sha1"
+        ]
+    }
 }
