@@ -46,7 +46,10 @@ class Configurer(object):
 
     def stack_config(self):
         if os.environ.get('CF_STACK') == 'cflinuxfs2':
-            self._merge({'STACK': 'trusty'})
+            self._merge({
+                'STACK': 'trusty',
+                'HHVM_VERSION': '3.5.0'
+                })
         return self
 
     def user_config(self, path=None):

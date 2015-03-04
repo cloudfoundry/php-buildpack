@@ -16,7 +16,6 @@ describe 'CF PHP Buildpack' do
       expect(app).to be_running
 
       expect(app).to have_logged 'Installing HHVM'
-      expect(app).to have_logged 'HHVM 3.2'
 
       browser.visit_path('/')
       expect(browser).to have_body('HipHop')
@@ -33,7 +32,6 @@ describe 'CF PHP Buildpack' do
       expect(app).to be_running
 
       expect(app).to have_logged 'Installing HHVM'
-      expect(app).to have_logged 'HHVM 3.2'
 
       browser.visit_path('/')
       expect(browser).to have_body('HipHop')

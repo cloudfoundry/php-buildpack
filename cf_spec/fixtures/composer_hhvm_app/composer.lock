@@ -122,7 +122,7 @@
     "stability-flags": [],
     "prefer-stable": false,
     "platform": {
-        "hhvm": "3.2"
+        "hhvm": ">=3.2"
     },
     "platform-dev": []
 }
