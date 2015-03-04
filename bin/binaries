@@ -277,7 +277,7 @@ def download_version(verPath, urls, cache):
 
 def cached_download(url, toPath, cache):
     if cache:
-        cachedPath = os.path.expanduser('~/.buildpack-packager')
+        cachedPath = os.path.join(os.path.expanduser('~/.buildpack-packager'), get_stack(url))
         safe_makedirs(cachedPath)
         cachedFilePath = os.path.join(cachedPath, os.path.basename(url))
 
@@ -294,10 +294,10 @@ def download(url, toPath):
         with open(toPath, 'w') as f:
             f.write(res.read())
     except IOError, e:
-        if e.code == 404:
+        if e.errno == 404:
             print 'Failed [%s] not found.' % url
         else:
-            print 'Failed [%s] [%s] [%s].' % (url, e.code, e.reason)
+            print 'Failed [%s] [%s] [%s].' % (url, e.errno, e.strerror)
 
 
 def safe_makedirs(path):
