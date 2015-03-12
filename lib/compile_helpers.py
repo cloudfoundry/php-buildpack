@@ -69,6 +69,7 @@ def setup_log_dir(ctx):
 def load_binary_index(ctx):
     index_path = os.path.join(ctx['BP_DIR'], 'binaries',
                               ctx['STACK'], 'index-all.json')
+    _log.debug('Loading binary index from %s', (index_path))
     return json.load(open(index_path))
 
 
