@@ -223,7 +223,7 @@ class TestPHPExtensionHelper(object):
         assert hasattr(module, 'service_commands')
         assert hasattr(module, 'service_environment')
         assert hasattr(module, 'compile')
-        assert None is configure({})
-        assert {} == service_commands({})
-        assert {} == service_environment({})
-        assert () == preprocess_commands({})
+        assert None is configure({})  # noqa
+        assert {} == service_commands({})  # noqa
+        assert {} == service_environment({})  # noqa
+        assert () == preprocess_commands({})  # noqa

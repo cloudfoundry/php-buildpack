@@ -141,7 +141,8 @@ class TestCompileWithProfileD(BaseCompileApp):
     def testProfileDNotOverridden(self):
         ErrorHelper().compile(self.bp)
         fah = FileAssertHelper()
-        fah.expect().path(self.build_dir, '.profile.d', 'dontdelete.sh').exists()
+        fah.expect().path(self.build_dir, '.profile.d',
+                          'dontdelete.sh').exists()
 
 
 class TestCompileUsingHHVM(BaseCompileApp):
@@ -178,7 +179,8 @@ class TestCompileUsingHHVM(BaseCompileApp):
         httpd.assert_files_installed(self.build_dir)
         hhvm.assert_files_installed(self.build_dir)
         # check for Apache TCP port
-        hhvm.assert_server_ini_contains(self.build_dir, 'hhvm.server.port = 9000')
+        hhvm.assert_server_ini_contains(self.build_dir,
+                                        'hhvm.server.port = 9000')
 
     def test_with_nginx(self):
         # helpers to confirm the environment
@@ -208,5 +210,6 @@ class TestCompileUsingHHVM(BaseCompileApp):
         nginx.assert_files_installed(self.build_dir)
         hhvm.assert_files_installed(self.build_dir)
         # check for Nginx socket config
-        hhvm.assert_server_ini_contains(self.build_dir, 'hhvm.server.file_socket')
+        hhvm.assert_server_ini_contains(self.build_dir,
+                                        'hhvm.server.file_socket')
         hhvm.assert_server_ini_contains(self.build_dir, 'php-fpm.socket')

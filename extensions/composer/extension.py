@@ -173,7 +173,8 @@ class ComposerExtension(ExtensionHelper):
                                    self._ctx['WEBDIR'],
                                    'vendor')
         if os.path.exists(vendor_path):
-            self._log.debug("Vendor [%s] exists, moving to LIBDIR", vendor_path)
+            self._log.debug("Vendor [%s] exists, moving to LIBDIR",
+                            vendor_path)
             (self._builder.move()
                 .under('{BUILD_DIR}/{WEBDIR}')
                 .into('{BUILD_DIR}/{LIBDIR}')
@@ -205,12 +206,16 @@ class ComposerExtension(ExtensionHelper):
         env['PATH'] = ':'.join(filter(None,
                                       [env.get('PATH', ''),
                                        os.path.dirname(self.binary_path())]))
+        self._log.debug("ENV IS: %s",
+                        '\n'.join(["%s=%s (%s)" % (key, val, type(val))
+                                   for (key, val) in env.iteritems()]))
         return env
 
     def _github_oauth_token_is_valid(self, candidate_oauth_token):
         stringio_writer = StringIO.StringIO()
 
-        curl_command = 'curl -H "Authorization: token %s" https://api.github.com/rate_limit' % candidate_oauth_token
+        curl_command = 'curl -H "Authorization: token %s" ' \
+            'https://api.github.com/rate_limit' % candidate_oauth_token
 
         stream_output(stringio_writer,
                       curl_command,
@@ -254,28 +259,25 @@ class ComposerExtension(ExtensionHelper):
             if os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN', False):
                 github_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
                 if self._github_oauth_token_is_valid(github_oauth_token):
-                    print('-----> Using custom GitHub OAuth token in $COMPOSER_GITHUB_OAUTH_TOKEN')
-                    composer_oauth_config_command = [phpPath,
-                       composerPath,
-                       'config',
-                       '-g',
-                       'github-oauth.github.com',
-                       '"%s"' % github_oauth_token]
-                    output = stream_output(sys.stdout,
-                                           ' '.join(composer_oauth_config_command),
-                                           env=self._build_composer_environment(),
-                                           cwd=self._ctx['BUILD_DIR'],
-                                           shell=True)
-
-            composer_install_command = [phpPath,
-                           composerPath,
-                           'install',
-                           '--no-progress']
-            composer_install_command.extend(self._ctx['COMPOSER_INSTALL_OPTIONS'])
+                    print('-----> Using custom GitHub OAuth token in'
+                          '$COMPOSER_GITHUB_OAUTH_TOKEN')
+                    composer_oauth_config_command = \
+                        [phpPath,
+                         composerPath,
+                         'config', '-g',
+                         'github-oauth.github.com',
+                         '"%s"' % github_oauth_token]
+                    output = stream_output(
+                        sys.stdout,
+                        ' '.join(composer_oauth_config_command),
+                        env=self._build_composer_environment(),
+                        cwd=self._ctx['BUILD_DIR'],
+                        shell=True)
+            composer_install_command = \
+                [phpPath, composerPath, 'install', '--no-progress']
+            composer_install_command.extend(
+                self._ctx['COMPOSER_INSTALL_OPTIONS'])
             self._log.debug("Running [%s]", ' '.join(composer_install_command))
-            self._log.debug("ENV IS: %s",
-                            '\n'.join(["%s=%s (%s)" % (key, val, type(val))
-                                       for (key, val) in self._build_composer_environment().iteritems()]))
             output = stream_output(sys.stdout,
                                    ' '.join(composer_install_command),
                                    env=self._build_composer_environment(),
@@ -327,7 +329,6 @@ class PHPComposerStrategy(object):
     def ld_library_path(self):
         return os.path.join(
             self._ctx['BUILD_DIR'], 'php', 'lib')
-
 
 
 # Extension Methods

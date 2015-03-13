@@ -1,11 +1,10 @@
 import os
 import tempfile
-import StringIO
-from pprint import pprint
 from nose.tools import eq_
 from dingus import Dingus
 from dingus import patch
 from build_pack_utils import utils
+
 
 class TestComposer(object):
 
@@ -160,13 +159,15 @@ class TestComposer(object):
         self.extension_module.utils.rewrite_cfgs = rewrite_stub
 
         try:
-            composer_extension = self.extension_module.ComposerExtension(context)
+            composer_extension = \
+                self.extension_module.ComposerExtension(context)
             composer_extension._log = Dingus()
             composer_extension._builder = builder
             composer_extension.run()
 
-            assert len(composer_extension._log.warning.calls()) > 0
-            assert composer_extension._log.warning.calls()[0].args[0].find('PROTIP:') == 0
+            composer_extension_calls = composer_extension._log.warning.calls()
+            assert len(composer_extension_calls) > 0
+            assert composer_extension_calls[0].args[0].find('PROTIP:') == 0
             exists = Dingus(return_value=True)
             with patch('os.path.exists', exists):
                 composer_extension._log = Dingus()
@@ -343,7 +344,8 @@ class TestComposer(object):
             'BUILD_DIR': '',
             'PHP_55_LATEST': '5.5.15'
         }
-        pick_php_version = self.extension_module.ComposerConfiguration(ctx).pick_php_version
+        pick_php_version = \
+            self.extension_module.ComposerConfiguration(ctx).pick_php_version
         # no PHP 5.3, default to 5.4
         eq_('5.4.31', pick_php_version('>=5.3'))
         eq_('5.4.31', pick_php_version('5.3.*'))
@@ -606,7 +608,7 @@ class TestComposer(object):
         self.extension_module.utils.rewrite_cfgs = rewrite
 
         old_environment = os.environ
-        os.environ = { 'COMPOSER_GITHUB_OAUTH_TOKEN': 'MADE_UP_TOKEN_VALUE'}
+        os.environ = {'COMPOSER_GITHUB_OAUTH_TOKEN': 'MADE_UP_TOKEN_VALUE'}
 
         try:
             ct = self.extension_module.ComposerExtension(ctx)
@@ -614,7 +616,9 @@ class TestComposer(object):
             builder_stub = Dingus(_ctx=ctx)
             ct._builder = builder_stub
 
-            github_oauth_token_is_valid_stub = Dingus('test_run_sets_github_oauth_token_if_present:github_oauth_token_is_valid_stub')
+            github_oauth_token_is_valid_stub = Dingus(
+                'test_run_sets_github_oauth_token_if_present:'
+                'github_oauth_token_is_valid_stub')
             github_oauth_token_is_valid_stub._set_return_value(True)
             ct._github_oauth_token_is_valid = github_oauth_token_is_valid_stub
 
@@ -628,8 +632,10 @@ class TestComposer(object):
 
         assert executed_command.find('config') > 0, 'did not see "config"'
         assert executed_command.find('-g') > 0, 'did not see "-g"'
-        assert executed_command.find('github-oauth.github.com') > 0, 'did not see "github-oauth.github.com"'
-        assert executed_command.find('"MADE_UP_TOKEN_VALUE"') > 0, 'did not see "MADE_UP_TOKEN_VALUE"'
+        assert executed_command.find('github-oauth.github.com') > 0, \
+            'did not see "github-oauth.github.com"'
+        assert executed_command.find('"MADE_UP_TOKEN_VALUE"') > 0, \
+            'did not see "MADE_UP_TOKEN_VALUE"'
 
     def test_run_does_not_set_github_oauth_if_missing(self):
         ctx = utils.FormattedDict({
@@ -657,13 +663,12 @@ class TestComposer(object):
             ct._builder = builder_stub
 
             ct.run()
-
-            executed_command = stream_output_stub.calls()[0].args[1]
         finally:
             self.extension_module.stream_output = old_stream_output
             self.extension_module.utils.rewrite_cfgs = old_rewrite
 
-        assert stream_output_stub.calls().once(), 'stream_output() was called more than once'
+        assert stream_output_stub.calls().once(), \
+            'stream_output() was called more than once'
 
     def test_github_oauth_token_is_valid_uses_curl(self):
         ctx = utils.FormattedDict({
@@ -677,7 +682,8 @@ class TestComposer(object):
         instance_stub = Dingus()
         instance_stub._set_return_value("""{"resources": {}}""")
 
-        stream_output_stub = Dingus('test_github_oauth_token_uses_curl : stream_output')
+        stream_output_stub = Dingus(
+            'test_github_oauth_token_uses_curl : stream_output')
 
         with patch('StringIO.StringIO.getvalue', instance_stub):
             with patch('composer.extension.stream_output', stream_output_stub):
@@ -685,12 +691,17 @@ class TestComposer(object):
                 ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
                 executed_command = stream_output_stub.calls()[0].args[1]
 
-        assert stream_output_stub.calls().once(), 'stream_output() was called more than once'
-        assert executed_command.find('curl') == 0, 'Curl was not called, executed_command was %s' % executed_command
-        assert executed_command.find('-H "Authorization: token MADE_UP_TOKEN_VALUE"') > 0, 'No token was passed to curl. Command was: %s' % executed_command
-        assert executed_command.find('https://api.github.com/rate_limit') > 0, 'No URL was passed to curl. Command was: %s' % executed_command
+        assert stream_output_stub.calls().once(), \
+            'stream_output() was called more than once'
+        assert executed_command.find('curl') == 0, \
+            'Curl was not called, executed_command was %s' % executed_command
+        assert executed_command.find(
+            '-H "Authorization: token MADE_UP_TOKEN_VALUE"') > 0, \
+            'No token was passed to curl. Command was: %s' % executed_command
+        assert executed_command.find('https://api.github.com/rate_limit') > 0,\
+            'No URL was passed to curl. Command was: %s' % executed_command
 
-    def test_github_oauth_token_is_valid_interprets_github_api_200_as_true(self):
+    def test_github_oauth_token_is_valid_interprets_github_api_200_as_true(self):  # noqa
         ctx = utils.FormattedDict({
             'BUILD_DIR': tempfile.gettempdir(),
             'PHP_VM': 'php',
@@ -702,16 +713,18 @@ class TestComposer(object):
         instance_stub = Dingus()
         instance_stub._set_return_value("""{"resources": {}}""")
 
-        stream_output_stub = Dingus('test_github_oauth_token_uses_curl : stream_output')
+        stream_output_stub = Dingus(
+            'test_github_oauth_token_uses_curl : stream_output')
 
         with patch('StringIO.StringIO.getvalue', instance_stub):
             with patch('composer.extension.stream_output', stream_output_stub):
                 ct = self.extension_module.ComposerExtension(ctx)
                 result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
 
-        assert result == True, '_github_oauth_token_is_valid returned %s, expected True' % result
+        assert result is True, \
+            '_github_oauth_token_is_valid returned %s, expected True' % result
 
-    def test_github_oauth_token_is_valid_interprets_github_api_401_as_false(self):
+    def test_github_oauth_token_is_valid_interprets_github_api_401_as_false(self):  # noqa
         ctx = utils.FormattedDict({
             'BUILD_DIR': tempfile.gettempdir(),
             'PHP_VM': 'php',
@@ -723,12 +736,13 @@ class TestComposer(object):
         instance_stub = Dingus()
         instance_stub._set_return_value("""{}""")
 
-        stream_output_stub = Dingus('test_github_oauth_token_uses_curl : stream_output')
+        stream_output_stub = Dingus(
+            'test_github_oauth_token_uses_curl : stream_output')
 
         with patch('StringIO.StringIO.getvalue', instance_stub):
             with patch('composer.extension.stream_output', stream_output_stub):
                 ct = self.extension_module.ComposerExtension(ctx)
                 result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
 
-        assert result == False, '_github_oauth_token_is_valid returned %s, expected False' % result
-
+        assert result is False, \
+            '_github_oauth_token_is_valid returned %s, expected False' % result
