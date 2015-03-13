@@ -262,7 +262,7 @@ class ComposerExtension(ExtensionHelper):
                 github_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
                 if self._github_oauth_token_is_valid(github_oauth_token):
                     print('-----> Using custom GitHub OAuth token in'
-                          '$COMPOSER_GITHUB_OAUTH_TOKEN')
+                          ' $COMPOSER_GITHUB_OAUTH_TOKEN')
                     composer_oauth_config_command = \
                         [phpPath,
                          composerPath,
