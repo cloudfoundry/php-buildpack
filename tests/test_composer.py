@@ -1,5 +1,6 @@
 import os
 import tempfile
+import shutil
 from nose.tools import eq_
 from dingus import Dingus
 from dingus import patch
@@ -327,6 +328,21 @@ class TestComposer(object):
         assert lock_path is not None
         eq_('tests/data/composer/composer.json', json_path)
         eq_('tests/data/composer/composer.lock', lock_path)
+
+    def test_find_composer_paths_not_in_vendor(self):
+        tmpdir = None
+        try:
+            tmpdir = tempfile.mkdtemp(prefix="test_composer-")
+            vendor = os.path.join(tmpdir, 'vendor')
+            utils.safe_makedirs(vendor)
+            with open(os.path.join(vendor, 'composer.json'), 'wt') as fp:
+                fp.write("{}")
+            (json_path, lock_path) = \
+                self.extension_module.find_composer_paths(tmpdir)
+            assert json_path is None, "Found [%s]" % json_path
+            assert lock_path is None, "Found [%s]" % index_path
+        finally:
+            shutil.rmtree(tmpdir)
 
     def test_find_composer_php_version(self):
         ctx = {'BUILD_DIR': 'tests'}
