@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+cf delete-buildpack php-test-buildpack -f
+cf delete php-test-app -f
+
+rm php_buildpack-cached-v3.0.4.zip
+BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager cached
+
+wait
+cf create-buildpack php-test-buildpack php_buildpack-cached-v3.0.4.zip 100
+pushd cf_spec/fixtures/php_app
+cf push php-test-app -b php-test-buildpack
+popd

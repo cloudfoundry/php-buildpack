@@ -1,4 +1,6 @@
 ---
+language: php
+
 exclude_files:
   - .git/
   - .gitignore
@@ -11,7 +13,7 @@ exclude_files:
   - bin/package
   - buildpack-packager/
   - binaries/*/[^index-*.json]
-  - php_buildpack-*v*.zip
+  - php_buildpack-*v*
 
 url_to_dependency_map:
   - match: "([^\\/]*)-(\\d+\\.\\d+\\.\\d+)"
@@ -8558,7 +8560,7 @@ dependencies:
     version: 5.4.38
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.38/php-imagick-5.4.38.tar.gz
     cf_stacks:
-     s - cflinuxfs2
+      - cflinuxfs2
     md5: 40b628d26c80ca1a6618ccee0c766e7a
   - name: php-imap
     version: 5.4.38
