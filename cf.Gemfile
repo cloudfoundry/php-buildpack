@@ -2,5 +2,5 @@ source "https://rubygems.org"
 
 ruby '2.1.1'
 
-gem 'machete', github: 'cf-buildpacks/machete', branch: 'master'
+gem 'machete', git: 'https://github.com/cf-buildpacks/machete', branch: 'master'
 
