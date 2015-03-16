@@ -615,6 +615,10 @@
         ]
     },
     "hhvm": {
+        "3.6.0": [
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.6.0/hhvm-3.6.0.tar.gz",
+            "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.6.0/hhvm-3.6.0.tar.gz.sha1"
+        ],
         "3.5.0": [
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.5.0/hhvm-3.5.0.tar.gz",
             "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.5.0/hhvm-3.5.0.tar.gz.sha1"
