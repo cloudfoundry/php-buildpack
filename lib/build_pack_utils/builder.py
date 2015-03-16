@@ -45,11 +45,12 @@ class Configurer(object):
         return self
 
     def stack_config(self):
-        if os.environ.get('CF_STACK') == 'cflinuxfs2':
-            self._merge({
-                'STACK': 'trusty',
-                'HHVM_VERSION': '3.5.0'
-                })
+        stack = os.environ.get('CF_STACK', None)
+        if stack:
+            self._merge(
+                CloudFoundryUtil.load_json_config_file_from(
+                    self.builder._ctx['BP_DIR'],
+                    'defaults/%s/options.json' % stack))
         return self
 
     def user_config(self, path=None):
@@ -841,7 +842,8 @@ class SaveBuilder(object):
         # Write pool of environment items to disk, a single item is
         #  written in 'key=val' format, while lists are written as
         #  'key=val:val:val' where ':' is os.pathsep.
-        profile_d_directory = os.path.join(self._builder._ctx['BUILD_DIR'], '.profile.d')
+        profile_d_directory = os.path.join(self._builder._ctx['BUILD_DIR'],
+                                           '.profile.d')
         if not os.path.exists(profile_d_directory):
             os.makedirs(profile_d_directory)
         envPath = os.path.join(profile_d_directory, 'bp_env_vars.sh')
@@ -956,5 +958,5 @@ class Builder(object):
 
     def release(self):
         print 'default_process_types:'
-        print '  web: %s' % self._ctx.get('START_SCRIPT_NAME',
-                                          '$HOME/start.sh')
+        print '  web: $HOME/%s' % self._ctx.get('START_SCRIPT_NAME',
+                                                'start.sh')
