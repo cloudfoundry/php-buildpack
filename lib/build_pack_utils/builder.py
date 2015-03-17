@@ -294,8 +294,7 @@ class ModuleInstaller(object):
             try:
                 self._ctx['MODULE_NAME'] = module
                 url = self._ctx['%s_MODULES_PATTERN' % self._moduleKey]
-                hashUrl = "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM'])
-                self._cf.install_binary_direct(url, hashUrl, toPath,
+                self._cf.install_binary_direct(url, toPath,
                                                strip=strip)
             except Exception:
                 self._log.warning('Module %s failed to install', module)

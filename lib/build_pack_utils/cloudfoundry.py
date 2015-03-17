@@ -5,6 +5,7 @@ import tempfile
 import shutil
 import utils
 import logging
+import subprocess
 from urlparse import urlparse
 from zips import UnzipUtil
 from hashes import HashUtil
@@ -123,58 +124,56 @@ class CloudFoundryInstaller(object):
                     return getattr(m, clsName)
                 except AttributeError:
                     self._log.exception(
-                        'WARNING: DOWNLOAD_CLASS not found!')
+                            'WARNING: DOWNLOAD_CLASS not found!')
             else:
                 self._log.error(
-                    'WARNING: DOWNLOAD_CLASS invalid, must include '
-                    'package name!')
-        return Downloader
+                        'WARNING: DOWNLOAD_CLASS invalid, must include '
+                        'package name!')
+                return Downloader
 
     def _is_url(self, val):
         return urlparse(val).scheme != ''
 
-    def install_binary_direct(self, url, hsh, installDir,
-                              fileName=None, strip=False,
-                              extract=True):
+    def install_binary_direct(self, url, installDir,
+            fileName=None, strip=False,
+            extract=True):
+        url = self.translate_dependency_url(url)
         self._log.debug("Installing direct [%s]", url)
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
-        if self._is_url(hsh):
-            digest = self._dwn.download_direct(hsh)
-        else:
-            digest = hsh
-        self._log.debug(
-            "Installing [%s] with digest [%s] into [%s] with "
-            "name [%s] stripping [%s]",
-            url, digest, installDir, fileName, strip)
-        fileToInstall = self._dcm.get(fileName, digest)
-        if fileToInstall is None:
-            self._log.debug('File [%s] not in cache.', fileName)
-            fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
-            self._dwn.download(url, fileToInstall)
-            digest = self._hashUtil.calculate_hash(fileToInstall)
-            fileToInstall = self._dcm.put(fileName, fileToInstall, digest)
+        fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
+        self._dwn.download(url, fileToInstall)
+
         if extract:
             return self._unzipUtil.extract(fileToInstall,
-                                           installDir,
-                                           strip)
+                    installDir,
+                    strip)
         else:
             shutil.copy(fileToInstall, installDir)
             return installDir
 
+    def translate_dependency_url(self, url):
+        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', 'translate_dependency_url'), url], stdout=subprocess.PIPE)
+        exit_code = process.wait()
+        translate_url_output = process.stdout.read().rstrip()
+        if exit_code != 0:
+            print "Could not get translated url, exited with: %s", translate_url_output
+            exit(1)
+        else:
+            return translate_url_output
+
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)
         url = self._ctx['%s_DOWNLOAD_URL' % installKey]
-        hashUrl = self._ctx.get(
-            '%s_HASH_DOWNLOAD_URL' % installKey,
-            "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM']))
+
         installDir = os.path.join(self._ctx['BUILD_DIR'],
-                                  self._ctx.get(
-                                      '%s_PACKAGE_INSTALL_DIR' % installKey,
-                                      installKey.lower()))
+                self._ctx.get(
+                    '%s_PACKAGE_INSTALL_DIR' % installKey,
+                    installKey.lower()))
         strip = self._ctx.get('%s_STRIP' % installKey, False)
-        return self.install_binary_direct(url, hashUrl, installDir,
-                                          strip=strip)
+
+        return self.install_binary_direct(url, installDir,
+                strip=strip)
 
     def _install_from(self, fromPath, fromLoc, toLocation=None, ignore=None):
         """Copy file or directory from a location to the droplet
