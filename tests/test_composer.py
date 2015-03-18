@@ -136,6 +136,43 @@ class TestComposer(object):
         finally:
             self.extension_module.stream_output = old_stream_output
 
+    def test_composer_run_streams_debug_output(self):
+        ctx = utils.FormattedDict({
+            'PHP_VM': 'hhvm',  # PHP strategy does other stuff
+            'DOWNLOAD_URL': 'http://server/bins',
+            'CACHE_HASH_ALGORITHM': 'sha1',
+            'BUILD_DIR': '/build/dir',
+            'CACHE_DIR': '/cache/dir',
+            'TMPDIR': tempfile.gettempdir(),
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib',
+            'BP_DEBUG': 'True'
+        })
+        builder = Dingus(_ctx=ctx)
+        # patch stream_output method
+        old_stream_output = self.extension_module.stream_output
+        co = Dingus()
+        self.extension_module.stream_output = co
+        try:
+            ct = self.extension_module.ComposerExtension(ctx)
+            ct._builder = builder
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder)
+            ct.run()
+            assert 2 == len(co.calls())
+            # first is called `composer -V`
+            verCmd = co.calls()[0].args[1]
+            assert verCmd.find('composer.phar -V')
+            # then composer install
+            instCmd = co.calls()[1].args[1]
+            assert instCmd.find('/build/dir/php/bin/composer.phar') > 0
+            assert instCmd.find('install') > 0
+            assert instCmd.find('--no-progress') > 0
+            assert instCmd.find('--no-interaction') > 0
+            assert instCmd.find('--no-dev') > 0
+        finally:
+            self.extension_module.stream_output = old_stream_output
+
     def test_composer_tool_run_custom_composer_opts(self):
         ctx = utils.FormattedDict({
             'PHP_VM': 'php',

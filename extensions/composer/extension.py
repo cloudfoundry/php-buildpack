@@ -233,6 +233,9 @@ class ComposerExtension(ExtensionHelper):
                 'of dependencies are used when you deploy to CloudFoundry.')
             self._log.warning(msg)
             print msg
+        # dump composer version, if in debug mode
+        if self._ctx.get('BP_DEBUG', False):
+            self.composer_runner.run('-V')
         # config composer to use github token, if provided
         if os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN', False):
             self.setup_composer_github_token()
