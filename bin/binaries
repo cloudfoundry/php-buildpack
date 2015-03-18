@@ -317,9 +317,9 @@ def zip_up_folder(zf, path, compress=None, altBase=None):
     for root, dirs, files in os.walk(path):
         # handles files, dirs & symlinks to dirs
         for item in itertools.chain(dirs, files):
-            if item.endswith('.pyc') or item == 'options.json':
-                continue
             fullPath = os.path.join(root, item)
+            if item.endswith('.pyc') or fullPath.endswith('defaults/options.json'):
+                continue
             zipPath = fullPath.replace(path, altBase)
             if os.path.islink(fullPath):
                 info = zipfile.ZipInfo()
