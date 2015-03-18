@@ -185,6 +185,10 @@ class ComposerExtension(ExtensionHelper):
 
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()
+        if self._ctx['COMPOSER_VERSION'] == 'latest':
+            self._ctx['COMPOSER_DOWNLOAD_URL'] = \
+                'https://getcomposer.org/composer.phar'
+            self._ctx['COMPOSER_HASH_URL'] = 'ignored'
         self._builder.install()._installer.install_binary_direct(
             self._ctx['COMPOSER_DOWNLOAD_URL'],
             self._ctx['COMPOSER_HASH_URL'],

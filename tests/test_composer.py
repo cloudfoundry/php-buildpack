@@ -70,6 +70,40 @@ class TestComposer(object):
             'http://server/bins/composer/1.0.0-alpha9/composer.phar', \
             "was %s" % installer._installer.calls()[0].args[0]
 
+    def test_composer_tool_install_latest(self):
+        ctx = utils.FormattedDict({
+            'DOWNLOAD_URL': 'http://server/bins',
+            'CACHE_HASH_ALGORITHM': 'sha1',
+            'PHP_VM': 'will_default_to_php_strategy',
+            'BUILD_DIR': '/build/dir',
+            'CACHE_DIR': '/cache/dir',
+            'COMPOSER_VERSION': 'latest'
+        })
+        builder = Dingus(_ctx=ctx)
+        installer = Dingus()
+        cfInstaller = Dingus()
+        builder.install = Dingus(_installer=cfInstaller,
+                                 return_value=installer)
+        ct = self.extension_module.ComposerExtension(ctx)
+        ct._builder = builder
+        ct.install()
+        eq_(2, len(builder.install.calls()))
+        # make sure PHP cli is installed
+        assert installer.modules.calls().once()
+        eq_('PHP', installer.modules.calls()[0].args[0])
+        call = installer.modules.calls()[0]
+        assert call.return_value.calls().once()
+        eq_('cli', call.return_value.calls()[0].args[0])
+        assert installer.calls().once()
+        # make sure composer is installed
+        assert installer._installer.calls().once()
+        assert installer._installer.calls()[0].args[0] == \
+            'https://getcomposer.org/composer.phar', \
+            "was %s" % installer._installer.calls()[0].args[0]
+        assert installer._installer.calls()[0].args[1] == \
+            'ignored', \
+            "was %s" % installer._installer.calls()[0].args[1]
+
     def test_composer_run_streams_output(self):
         ctx = utils.FormattedDict({
             'PHP_VM': 'hhvm',  # PHP strategy does other stuff
