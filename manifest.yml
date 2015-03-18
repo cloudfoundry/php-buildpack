@@ -8863,6 +8863,12 @@ dependencies:
       - cflinuxfs2
     md5: 05df355b5277c8c9012470e699fa5494
   - name: hhvm
+    version: 3.6.0
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.6.0/hhvm-3.6.0.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: a2ead8a4ff63fad7d4aebc3a340e5a56
+  - name: hhvm
     version: 3.5.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.5.0/hhvm-3.5.0.tar.gz
     cf_stacks:
