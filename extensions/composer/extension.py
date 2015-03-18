@@ -134,10 +134,6 @@ class ComposerExtension(ExtensionHelper):
     def __init__(self, ctx):
         ExtensionHelper.__init__(self, ctx)
         self._log = _log
-        if ctx['PHP_VM'] == 'hhvm':
-            self.composer_strategy = HHVMComposerStrategy(ctx)
-        else:
-            self.composer_strategy = PHPComposerStrategy(ctx)
 
     def _defaults(self):
         return {
@@ -158,14 +154,9 @@ class ComposerExtension(ExtensionHelper):
             find_composer_paths(self._ctx['BUILD_DIR'])
         return (json_path is not None or lock_path is not None)
 
-    def binary_path(self):
-        return self.composer_strategy.binary_path()
-
-    def ld_library_path(self):
-        return self.composer_strategy.ld_library_path()
-
     def _compile(self, install):
         self._builder = install.builder
+        self.composer_runner = ComposerCommandRunner(self._ctx, self._builder)
         self.move_local_vendor_folder()
         self.install()
         self.run()
@@ -195,28 +186,6 @@ class ComposerExtension(ExtensionHelper):
             os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
             extract=False)
 
-    def _build_composer_environment(self):
-        env = {}
-        for key in os.environ.keys():
-            val = self._ctx.get(key, '')
-            env[key] = val if type(val) == str else json.dumps(val)
-
-        # add basic composer vars
-        env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
-        env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
-        env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
-
-        # prevent key system variables from being overridden
-        env['LD_LIBRARY_PATH'] = self.ld_library_path()
-        env['PHPRC'] = self._ctx['TMPDIR']
-        env['PATH'] = ':'.join(filter(None,
-                                      [env.get('PATH', ''),
-                                       os.path.dirname(self.binary_path())]))
-        self._log.debug("ENV IS: %s",
-                        '\n'.join(["%s=%s (%s)" % (key, val, type(val))
-                                   for (key, val) in env.iteritems()]))
-        return env
-
     def _github_oauth_token_is_valid(self, candidate_oauth_token):
         stringio_writer = StringIO.StringIO()
 
@@ -233,6 +202,15 @@ class ComposerExtension(ExtensionHelper):
 
         github_response_json = json.loads(github_response)
         return 'resources' in github_response_json
+
+    def setup_composer_github_token(self):
+        github_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
+        if self._github_oauth_token_is_valid(github_oauth_token):
+            print('-----> Using custom GitHub OAuth token in'
+                  ' $COMPOSER_GITHUB_OAUTH_TOKEN')
+            self.composer_runner.run('config', '-g',
+                                     'github-oauth.github.com',
+                                     '"%s"' % github_oauth_token)
 
     def run(self):
         # Move composer files out of WEBDIR
@@ -255,44 +233,59 @@ class ComposerExtension(ExtensionHelper):
                 'of dependencies are used when you deploy to CloudFoundry.')
             self._log.warning(msg)
             print msg
-        self.composer_strategy.write_config(self._builder)
-        # Run from /tmp/staged/app
-        try:
-            phpPath = self.binary_path()
-            composerPath = os.path.join(self._ctx['BUILD_DIR'], 'php',
-                                        'bin', 'composer.phar')
+        # config composer to use github token, if provided
+        if os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN', False):
+            self.setup_composer_github_token()
+        # install dependencies w/Composer
+        self.composer_runner.run('install', '--no-progress',
+                                 *self._ctx['COMPOSER_INSTALL_OPTIONS'])
 
-            if os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN', False):
-                github_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
-                if self._github_oauth_token_is_valid(github_oauth_token):
-                    print('-----> Using custom GitHub OAuth token in'
-                          ' $COMPOSER_GITHUB_OAUTH_TOKEN')
-                    composer_oauth_config_command = \
-                        [phpPath,
-                         composerPath,
-                         'config', '-g',
-                         'github-oauth.github.com',
-                         '"%s"' % github_oauth_token]
-                    output = stream_output(
-                        sys.stdout,
-                        ' '.join(composer_oauth_config_command),
-                        env=self._build_composer_environment(),
-                        cwd=self._ctx['BUILD_DIR'],
-                        shell=True)
-            composer_install_command = \
-                [phpPath, composerPath, 'install', '--no-progress']
-            composer_install_command.extend(
-                self._ctx['COMPOSER_INSTALL_OPTIONS'])
-            self._log.debug("Running [%s]", ' '.join(composer_install_command))
-            output = stream_output(sys.stdout,
-                                   ' '.join(composer_install_command),
-                                   env=self._build_composer_environment(),
-                                   cwd=self._ctx['BUILD_DIR'],
-                                   shell=True)
-            _log.debug('composer output [%s]', output)
+
+class ComposerCommandRunner(object):
+    def __init__(self, ctx, builder):
+        self._log = _log
+        self._ctx = ctx
+        self._strategy = HHVMComposerStrategy(ctx) \
+            if ctx['PHP_VM'] == 'hhvm' else PHPComposerStrategy(ctx)
+        self._php_path = self._strategy.binary_path()
+        self._composer_path = os.path.join(ctx['BUILD_DIR'], 'php',
+                                           'bin', 'composer.phar')
+        self._strategy.write_config(builder)
+
+    def _build_composer_environment(self):
+        env = {}
+        for key in os.environ.keys():
+            val = self._ctx.get(key, '')
+            env[key] = val if type(val) == str else json.dumps(val)
+
+        # add basic composer vars
+        env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
+        env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
+        env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
+
+        # prevent key system variables from being overridden
+        env['LD_LIBRARY_PATH'] = self._strategy.ld_library_path()
+        env['PHPRC'] = self._ctx['TMPDIR']
+        env['PATH'] = ':'.join(filter(None,
+                                      [env.get('PATH', ''),
+                                       os.path.dirname(self._php_path)]))
+        self._log.debug("ENV IS: %s",
+                        '\n'.join(["%s=%s (%s)" % (key, val, type(val))
+                                   for (key, val) in env.iteritems()]))
+        return env
+
+    def run(self, *args):
+        try:
+            cmd = [self._php_path, self._composer_path]
+            cmd.extend(args)
+            self._log.debug("Running command [%s]", ' '.join(cmd))
+            stream_output(sys.stdout,
+                          ' '.join(cmd),
+                          env=self._build_composer_environment(),
+                          cwd=self._ctx['BUILD_DIR'],
+                          shell=True)
         except:
             print "-----> Composer command failed"
-            _log.exception("Composer failed")
             raise
 
 

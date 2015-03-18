@@ -123,6 +123,8 @@ class TestComposer(object):
         try:
             ct = self.extension_module.ComposerExtension(ctx)
             ct._builder = builder
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder)
             ct.run()
             assert co.calls().once()
             instCmd = co.calls()[0].args[1]
@@ -158,6 +160,8 @@ class TestComposer(object):
         try:
             ct = self.extension_module.ComposerExtension(ctx)
             ct._builder = builder
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder)
             ct.run()
             eq_(2, len(builder.move.calls()))
             eq_(1, len(builder.copy.calls()))
@@ -204,6 +208,8 @@ class TestComposer(object):
                 self.extension_module.ComposerExtension(context)
             composer_extension._log = Dingus()
             composer_extension._builder = builder
+            composer_extension.composer_runner = \
+                self.extension_module.ComposerCommandRunner(context, builder)
             composer_extension.run()
 
             composer_extension_calls = composer_extension._log.warning.calls()
@@ -380,7 +386,7 @@ class TestComposer(object):
             (json_path, lock_path) = \
                 self.extension_module.find_composer_paths(tmpdir)
             assert json_path is None, "Found [%s]" % json_path
-            assert lock_path is None, "Found [%s]" % index_path
+            assert lock_path is None, "Found [%s]" % lock_path
         finally:
             shutil.rmtree(tmpdir)
 
@@ -489,8 +495,8 @@ class TestComposer(object):
             'BUILD_DIR': '/usr/awesome/',
             'PHP_VM': 'hhvm'
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        path = ct.binary_path()
+        stg = self.extension_module.HHVMComposerStrategy(ctx)
+        path = stg.binary_path()
         eq_('/usr/awesome/hhvm/usr/bin/hhvm', path)
 
     def test_binary_path_for_php(self):
@@ -498,8 +504,8 @@ class TestComposer(object):
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php'
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        path = ct.binary_path()
+        stg = self.extension_module.PHPComposerStrategy(ctx)
+        path = stg.binary_path()
         eq_('/usr/awesome/php/bin/php', path)
 
     def test_build_composer_environment_inherits_from_ctx(self):
@@ -513,12 +519,19 @@ class TestComposer(object):
             'OUR_SPECIAL_KEY': 'SPECIAL_VALUE'
         })
         oldenv = os.environ
+        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
         try:
             os.environ = {'OUR_SPECIAL_KEY': 'ORIGINAL_SPECIAL_VALUE'}
-            ct = self.extension_module.ComposerExtension(ctx)
-            built_environment = ct._build_composer_environment()
+            self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
+            self.extension_module.ComposerExtension(ctx)
+            cr = self.extension_module.ComposerCommandRunner(ctx, None)
+
+            built_environment = cr._build_composer_environment()
         finally:
             os.environ = oldenv
+            self.extension_module.PHPComposerStrategy.write_config = \
+                old_write_cfg
 
         assert 'OUR_SPECIAL_KEY' in built_environment, \
             'OUR_SPECIAL_KEY was not found in the built_environment variable'
@@ -531,8 +544,18 @@ class TestComposer(object):
             'TMPDIR': '/tmp',
             'PHP_VM': 'php'
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        built_environment = ct._build_composer_environment()
+
+        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
+        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
+        try:
+            self.extension_module.ComposerExtension(ctx)
+            cr = self.extension_module.ComposerCommandRunner(ctx, None)
+
+            built_environment = cr._build_composer_environment()
+        finally:
+            self.extension_module.PHPComposerStrategy.write_config = \
+                old_write_cfg
 
         assert 'COMPOSER_VENDOR_DIR' in built_environment, \
             'Expect to find COMPOSER_VENDOR_DIR in built_environment'
@@ -550,8 +573,18 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'PHPRC': '/usr/awesome/phpini',
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        built_environment = ct._build_composer_environment()
+
+        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
+        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
+        try:
+            self.extension_module.ComposerExtension(ctx)
+            cr = self.extension_module.ComposerCommandRunner(ctx, None)
+
+            built_environment = cr._build_composer_environment()
+        finally:
+            self.extension_module.PHPComposerStrategy.write_config = \
+                old_write_cfg
 
         eq_(built_environment['LD_LIBRARY_PATH'], '/usr/awesome/php/lib')
         eq_(built_environment['PHPRC'], 'tmp')
@@ -566,8 +599,18 @@ class TestComposer(object):
             'PHPRC': '/usr/awesome/phpini',
             'MY_DICTIONARY': {'KEY': 'VALUE'},
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        built_environment = ct._build_composer_environment()
+
+        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
+        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
+        try:
+            self.extension_module.ComposerExtension(ctx)
+            cr = self.extension_module.ComposerCommandRunner(ctx, None)
+
+            built_environment = cr._build_composer_environment()
+        finally:
+            self.extension_module.PHPComposerStrategy.write_config = \
+                old_write_cfg
 
         for key, val in built_environment.iteritems():
             assert type(val) == str, \
@@ -584,15 +627,24 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'SOME_KEY': utils.wrap('{exact_match}')
         })
-        ct = self.extension_module.ComposerExtension(ctx)
+        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
+        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
         try:
-            built_environment = ct._build_composer_environment()
-            assert "{exact_match}" == built_environment['SOME_KEY'], \
-                "value should match"
-        except KeyError, e:
-            assert 'exact_match' != e.message, \
-                "Should not try to evaluate value [%s]" % e
-            raise
+            self.extension_module.ComposerExtension(ctx)
+            cr = self.extension_module.ComposerCommandRunner(ctx, None)
+
+            try:
+                built_environment = cr._build_composer_environment()
+                assert "{exact_match}" == built_environment['SOME_KEY'], \
+                    "value should match"
+            except KeyError, e:
+                assert 'exact_match' != e.message, \
+                    "Should not try to evaluate value [%s]" % e
+                raise
+        finally:
+            self.extension_module.PHPComposerStrategy.write_config = \
+                old_write_cfg
 
     def test_build_composer_environment_no_path(self):
         ctx = utils.FormattedDict({
@@ -602,8 +654,18 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache'
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        built_environment = ct._build_composer_environment()
+        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
+        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
+        try:
+            self.extension_module.ComposerExtension(ctx)
+            cr = self.extension_module.ComposerCommandRunner(ctx, None)
+
+            built_environment = cr._build_composer_environment()
+        finally:
+            self.extension_module.PHPComposerStrategy.write_config = \
+                old_write_cfg
+
         assert 'PATH' in built_environment, "should have PATH set"
         assert "/usr/awesome/php/bin" == built_environment['PATH'], \
             "PATH should contain path to PHP, found [%s]" \
@@ -618,8 +680,18 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'PATH': '/bin:/usr/bin'
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        built_environment = ct._build_composer_environment()
+        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
+        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
+        try:
+            self.extension_module.ComposerExtension(ctx)
+            cr = self.extension_module.ComposerCommandRunner(ctx, None)
+
+            built_environment = cr._build_composer_environment()
+        finally:
+            self.extension_module.PHPComposerStrategy.write_config = \
+                old_write_cfg
+
         assert 'PATH' in built_environment, "should have PATH set"
         assert built_environment['PATH'].endswith(":/usr/awesome/php/bin"), \
             "PATH should contain path to PHP, found [%s]" \
@@ -630,8 +702,8 @@ class TestComposer(object):
             'BUILD_DIR': '/usr/awesome/',
             'PHP_VM': 'hhvm'
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        path = ct.ld_library_path()
+        stg = self.extension_module.HHVMComposerStrategy(ctx)
+        path = stg.ld_library_path()
         eq_('/usr/awesome/hhvm/usr/lib/hhvm', path)
 
     def test_ld_library_path_for_php(self):
@@ -639,8 +711,8 @@ class TestComposer(object):
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php'
         })
-        ct = self.extension_module.ComposerExtension(ctx)
-        path = ct.ld_library_path()
+        stg = self.extension_module.PHPComposerStrategy(ctx)
+        path = stg.ld_library_path()
         eq_('/usr/awesome/php/lib', path)
 
     def test_run_sets_github_oauth_token_if_present(self):
@@ -671,6 +743,8 @@ class TestComposer(object):
 
             builder_stub = Dingus(_ctx=ctx)
             ct._builder = builder_stub
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder_stub)
 
             github_oauth_token_is_valid_stub = Dingus(
                 'test_run_sets_github_oauth_token_if_present:'
@@ -717,6 +791,8 @@ class TestComposer(object):
 
             builder_stub = Dingus(_ctx=ctx)
             ct._builder = builder_stub
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder_stub)
 
             ct.run()
         finally:
