@@ -5,7 +5,6 @@ import tempfile
 import shutil
 import utils
 import logging
-import fcntl
 from urlparse import urlparse
 from zips import UnzipUtil
 from hashes import HashUtil
@@ -25,9 +24,12 @@ class CloudFoundryUtil(object):
     def initialize():
         # set stdout as non-buffered
         if hasattr(sys.stdout, 'fileno'):
-            fl = fcntl.fcntl(sys.stdout.fileno(), fcntl.F_GETFL)
-            fl |= os.O_DSYNC
-            fcntl.fcntl(sys.stdout.fileno(), fcntl.F_SETFL)
+             fileno = sys.stdout.fileno()
+             tmp_fd = os.dup(fileno)
+             sys.stdout.close()
+             os.dup2(tmp_fd, fileno)
+             os.close(tmp_fd)
+             sys.stdout = os.fdopen(fileno, "w", 0)
         ctx = utils.FormattedDict()
         # Add environment variables
         for key, val in os.environ.iteritems():
