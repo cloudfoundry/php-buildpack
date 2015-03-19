@@ -295,22 +295,25 @@ class TestCompileHelpers(object):
             eq_(res, find_stand_alone_app_to_run(ctx))
 
     def test_load_binary_index(self):
-        ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
-        json = load_binary_index(ctx)
-        assert json is not None
-        assert 'php' in json.keys()
-        eq_(9, len(json['php'].keys()))
+        ctx = {'BP_DIR': '.'}
+        manifest = load_binary_index(ctx)
+        assert manifest is not None
+        assert 'dependencies' in manifest.keys()
+        assert 'language' in manifest.keys()
+        assert 'url_to_dependency_map' in manifest.keys()
+        assert 'exclude_files' in manifest.keys()
+        # eq_(9, len(json['php'].keys()))
 
     def test_find_all_php_versions(self):
-        ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
+        ctx = {'BP_DIR': '.'}
         json = load_binary_index(ctx)
         versions = find_all_php_versions(json)
-        eq_(9, len(versions))
-        eq_(3, len([v for v in versions if v.startswith('5.4.')]))
-        eq_(3, len([v for v in versions if v.startswith('5.5.')]))
+        eq_(18, len(versions))
+        eq_(6, len([v for v in versions if v.startswith('5.4.')]))
+        eq_(6, len([v for v in versions if v.startswith('5.5.')]))
 
     def test_find_php_extensions(self):
-        ctx = {'BP_DIR': '.', 'STACK': 'lucid'}
+        ctx = {'BP_DIR': '.'}
         json = load_binary_index(ctx)
         exts = find_all_php_extensions(json)
         eq_(9, len(exts.keys()))

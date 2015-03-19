@@ -100,9 +100,6 @@ class TestComposer(object):
         assert installer._installer.calls()[0].args[0] == \
             'https://getcomposer.org/composer.phar', \
             "was %s" % installer._installer.calls()[0].args[0]
-        assert installer._installer.calls()[0].args[1] == \
-            'ignored', \
-            "was %s" % installer._installer.calls()[0].args[1]
 
     def test_composer_run_streams_output(self):
         ctx = utils.FormattedDict({
