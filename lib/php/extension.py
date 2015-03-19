@@ -28,9 +28,9 @@ class PHPExtension(ExtensionHelper):
         return self._ctx['PHP_VM'] == 'php'
 
     def _configure(self):
-        json = load_binary_index(self._ctx)
-        self._ctx['ALL_PHP_VERSIONS'] = find_all_php_versions(json)
-        self._ctx['ALL_PHP_EXTENSIONS'] = find_all_php_extensions(json)
+        manifest = load_binary_index(self._ctx)
+        self._ctx['ALL_PHP_VERSIONS'] = find_all_php_versions(manifest)
+        self._ctx['ALL_PHP_EXTENSIONS'] = find_all_php_extensions(manifest)
 
     def _preprocess_commands(self):
         return (('$HOME/.bp/bin/rewrite', '"$HOME/php/etc"'),)

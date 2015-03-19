@@ -15,6 +15,7 @@
 import os
 import os.path
 import json
+import yaml
 import logging
 from collections import defaultdict
 from build_pack_utils import FileUtil
@@ -67,25 +68,38 @@ def setup_log_dir(ctx):
 
 
 def load_binary_index(ctx):
-    index_path = os.path.join(ctx['BP_DIR'], 'binaries',
-                              ctx['STACK'], 'index-all.json')
-    _log.debug('Loading binary index from %s', (index_path))
-    return json.load(open(index_path))
+    manifest_path = os.path.join(ctx['BP_DIR'], 'manifest.yml')
+    _log.debug('Loading binary index from %s', manifest_path)
+    return yaml.load(open(manifest_path))
 
 
-def find_all_php_versions(index_json):
-    return index_json['php'].keys()
+def find_all_php_versions(manifest):
+    dependencies = manifest['dependencies']
+    versions = []
+
+    for dependency in dependencies:
+        if dependency['name'] == 'php':
+            versions.append(dependency['version'])
+
+    return versions
 
 
-def find_all_php_extensions(index_json):
+def find_all_php_extensions(manifest):
     SKIP = ('cli', 'pear', 'cgi', 'fpm')
     exts = defaultdict(list)
-    for version, files in index_json['php'].iteritems():
-        for f in files:
-            if f.endswith('.tar.gz'):
-                tmp = os.path.basename(f).split('-')
-                if len(tmp) == 3 and tmp[1] not in SKIP:
-                    exts[version].append(tmp[1])
+
+    dependencies = manifest['dependencies']
+    for dependency in dependencies:
+        name = dependency['name']
+        uri = dependency['uri']
+        version = dependency['version']
+
+        if 'php-' in name and uri.endswith('.tar.gz'):
+            ext_name = name.split('-')[1]
+
+            if ext_name not in SKIP:
+                exts[version].append(ext_name)
+
     return exts
 
 
