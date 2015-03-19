@@ -164,7 +164,7 @@ See the [Machete](https://github.com/cf-buildpacks/machete) CF buildpack test fr
 
 ### Package your own buildpack from this repo
 
-`./bin/cf-buildpack-build [ online | offline ]`
+`BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ cached | uncached ]`
 
 
 ### Pull Requests

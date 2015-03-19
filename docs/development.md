@@ -27,7 +27,6 @@ That's it.  You should now be able to run the [unit tests].  Go ahead and do tha
 The project is broken down into the following directories:
 
   - `bin` contains executable scripts, including `compile`, `release` and `detect`
-  - `binaries` contains the index files for the binaries used by the build pack
   - `defaults` contains the default configuration
   - `docs` contains project documentation
   - `extensions` contains non-core extensions
