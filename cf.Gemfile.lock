@@ -27,6 +27,8 @@ GEM
     rspec-expectations (3.2.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
+    rspec-instafail (0.2.6)
+      rspec
     rspec-mocks (3.2.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
@@ -37,3 +39,4 @@ PLATFORMS
 
 DEPENDENCIES
   machete!
+  rspec-instafail
