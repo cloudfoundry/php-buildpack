@@ -210,6 +210,9 @@ class ComposerExtension(ExtensionHelper):
             self.composer_runner.run('config', '-g',
                                      'github-oauth.github.com',
                                      '"%s"' % github_oauth_token)
+        else:
+            print('-----> The GitHub OAuth token supplied from '
+                  '$COMPOSER_GITHUB_OATH_TOKEN is invalid')
 
     def run(self):
         # Move composer files out of WEBDIR
