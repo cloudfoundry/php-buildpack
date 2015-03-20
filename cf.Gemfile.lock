@@ -10,10 +10,10 @@ GIT
 
 GIT
   remote: https://github.com/cf-buildpacks/machete
-  revision: 148ce08cb6ba25c23bf7fb577b138e868a6f337e
-  branch: master
+  revision: 1950db01ebc25a203f9b53fd0777607b32ad03fb
+  tag: v0.0.2
   specs:
-    machete (0.0.1)
+    machete (0.0.2)
       httparty
       rrrretry
       rspec
