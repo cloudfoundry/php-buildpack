@@ -18,7 +18,7 @@ describe 'CF PHP Buildpack' do
       expect(app).to have_logged '-------> Buildpack version 3'
       expect(app).to have_logged 'Installing Nginx'
       expect(app).to have_logged 'Installing PHP'
-      expect(app).to have_logged 'PHP 5.4.38'
+      expect(app).to have_logged 'PHP 5.4'
 
       browser.visit_path('/')
       expect(browser).to have_body('PHP Version')
