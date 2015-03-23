@@ -656,10 +656,6 @@ class StartScriptBuilder(object):
 
         self._process_extensions()
 
-        if self._use_pm:
-            self._log.debug("Adding process manager to start script")
-            self.content.append('$HOME/.bp/bin/start')
-
         if self._debug_console:
             self._log.debug("Enabling debug console, if start script fails.")
             self.content.append(
@@ -673,9 +669,9 @@ class StartScriptBuilder(object):
             self.content.append("done")
 
         scriptName = self.builder._ctx.get('START_SCRIPT_NAME',
-                                           'start.sh')
+                                           'rewrite.sh')
         startScriptPath = os.path.join(
-            self.builder._ctx['BUILD_DIR'], scriptName)
+            self.builder._ctx['BUILD_DIR'], '.profile.d', scriptName)
         self._log.debug('Writing start script to [%s]', startScriptPath)
         with open(startScriptPath, 'wt') as out:
             if self.content:
@@ -958,4 +954,4 @@ class Builder(object):
     def release(self):
         print 'default_process_types:'
         print '  web: $HOME/%s' % self._ctx.get('START_SCRIPT_NAME',
-                                                'start.sh')
+                                                '.bp/bin/start')
