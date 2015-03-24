@@ -26,14 +26,12 @@ class BuildPackAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .line(0)
-                .equals('export PYTHONPATH=$HOME/.bp/lib\n')  # noqa
-            .line(-1)
-                .equals('$HOME/.bp/bin/start'))
+                .contains('export PYTHONPATH=$HOME/.bp/lib'))  # noqa
 
     def assert_scripts_are_installed(self, build_dir):
         fah = FileAssertHelper()
@@ -57,12 +55,12 @@ class PhpAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/php/etc"\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/php/etc"'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
@@ -110,12 +108,12 @@ class HttpdAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
@@ -173,12 +171,12 @@ class NginxAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
@@ -300,14 +298,14 @@ class HhvmAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/hhvm/etc"\n')
-            .equals('hhvm() { $HOME/hhvm/usr/bin/hhvm '
-                    '-c "$HOME/hhvm/etc/php.ini" "$@"; }\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/hhvm/etc"')
+            .contains('hhvm() { $HOME/hhvm/usr/bin/hhvm '
+                    '-c "$HOME/hhvm/etc/php.ini" "$@"; }'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
