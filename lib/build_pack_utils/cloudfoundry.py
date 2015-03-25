@@ -78,12 +78,12 @@ class CloudFoundryUtil(object):
                                 filename=os.path.join(logDir, 'bp.log'))
 
     @staticmethod
-    def load_json_config_file_from(folder, cfgFile):
+    def load_json_config_file_from(folder, cfgFile, step=None):
         return CloudFoundryUtil.load_json_config_file(os.path.join(folder,
-                                                                   cfgFile))
+                                                                   cfgFile), step)
 
     @staticmethod
-    def load_json_config_file(cfgPath):
+    def load_json_config_file(cfgPath, step=None):
         if os.path.exists(cfgPath):
             _log.debug("Loading config from [%s]", cfgPath)
             with open(cfgPath, 'rt') as cfgFile:
@@ -92,6 +92,8 @@ class CloudFoundryUtil(object):
                 except ValueError, e:
                     _log.warn("Error reading [%s]", cfgPath)
                     _log.debug("Error reading [%s]", cfgPath, exc_info=e)
+                    if step != 'detect':
+                        exit(1)
         return {}
 
 

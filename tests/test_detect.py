@@ -6,7 +6,7 @@ from nose.tools import with_setup
 from build_pack_utils import BuildPack
 
 
-class TestCompile(object):
+class TestDetect(object):
     def setUp(self):
         self.build_dir = tempfile.mkdtemp(prefix='build-')
         self.cache_dir = tempfile.mkdtemp(prefix='cache-')
@@ -102,6 +102,33 @@ class TestCompile(object):
             if hasattr(e, 'output'):
                 print e.output
             raise
+        finally:
+            if os.path.exists(bp.bp_dir):
+                shutil.rmtree(bp.bp_dir)
+
+    @with_setup(setup=setUp, teardown=tearDown)
+    def test_detect_with_invalid_json(self):
+        shutil.copytree('tests/data/app-invalid-json', self.build_dir)
+        bp = BuildPack({
+            'BUILD_DIR': self.build_dir,
+            'CACHE_DIR': self.cache_dir,
+            'WEBDIR': 'htdocs'
+        }, '.')
+        # simulate clone, makes debugging easier
+        os.rmdir(bp.bp_dir)
+        shutil.copytree('.', bp.bp_dir,
+                        ignore=shutil.ignore_patterns("binaries",
+                                                      "env",
+                                                      "tests"))
+        try:
+            output = bp._detect().strip()
+            eq_('PHP', output)
+        except Exception, e:
+            print str(e)
+            if hasattr(e, 'output'):
+                print e.output
+            if output:
+                print output
         finally:
             if os.path.exists(bp.bp_dir):
                 shutil.rmtree(bp.bp_dir)

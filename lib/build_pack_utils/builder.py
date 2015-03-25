@@ -53,12 +53,12 @@ class Configurer(object):
                     'defaults/%s/options.json' % stack))
         return self
 
-    def user_config(self, path=None):
+    def user_config(self, path=None, step=None):
         if path is None:
             path = os.path.join('.bp-config', 'options.json')
         self._merge(
             CloudFoundryUtil.load_json_config_file_from(
-                self.builder._ctx['BUILD_DIR'], path))
+                self.builder._ctx['BUILD_DIR'], path, step))
         return self
 
     def done(self):
