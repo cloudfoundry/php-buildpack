@@ -912,3 +912,49 @@ class TestComposer(object):
 
         assert result is False, \
             '_github_oauth_token_is_valid returned %s, expected False' % result
+
+    def test_github_download_rate_not_exceeded(self):  # noqa
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': tempfile.gettempdir(),
+            'PHP_VM': 'php',
+            'TMPDIR': tempfile.gettempdir(),
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+        })
+
+        instance_stub = Dingus()
+        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
+
+        stream_output_stub = Dingus(
+            'test_github_oauth_token_uses_curl : stream_output')
+
+        with patch('StringIO.StringIO.getvalue', instance_stub):
+            with patch('composer.extension.stream_output', stream_output_stub):
+                ct = self.extension_module.ComposerExtension(ctx)
+                result = ct._github_rate_exceeded()
+
+        assert result is False, \
+            '_github_oauth_token_is_valid returned %s, expected False' % result
+
+    def test_github_download_rate_is_exceeded(self):  # noqa
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': tempfile.gettempdir(),
+            'PHP_VM': 'php',
+            'TMPDIR': tempfile.gettempdir(),
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+        })
+
+        instance_stub = Dingus()
+        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 0}}""")
+
+        stream_output_stub = Dingus(
+            'test_github_oauth_token_uses_curl : stream_output')
+
+        with patch('StringIO.StringIO.getvalue', instance_stub):
+            with patch('composer.extension.stream_output', stream_output_stub):
+                ct = self.extension_module.ComposerExtension(ctx)
+                result = ct._github_rate_exceeded()
+
+        assert result is True, \
+            '_github_oauth_token_is_valid returned %s, expected True' % result
