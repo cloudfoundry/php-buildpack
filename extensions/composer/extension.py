@@ -202,11 +202,10 @@ class ComposerExtension(ExtensionHelper):
         github_response_json = json.loads(github_response)
         return 'resources' in github_response_json
 
-    def _github_rate_exceeded(self):
+    def _github_rate_exceeded(self, token_is_valid):
         stringio_writer = StringIO.StringIO()
-        candidate_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
-
-        if candidate_oauth_token:
+        if token_is_valid:
+            candidate_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
             curl_command = 'curl -H "Authorization: token %s" ' \
                 'https://api.github.com/rate_limit' % candidate_oauth_token
         else:
@@ -234,17 +233,19 @@ class ComposerExtension(ExtensionHelper):
             self.composer_runner.run('config', '-g',
                                      'github-oauth.github.com',
                                      '"%s"' % github_oauth_token)
+            return True
         else:
             print('-----> The GitHub OAuth token supplied from '
                   '$COMPOSER_GITHUB_OATH_TOKEN is invalid')
+            return False
 
-    def check_github_rate_exceeded(self):
-        if self._github_rate_exceeded():
+    def check_github_rate_exceeded(self, token_is_valid):
+        if self._github_rate_exceeded(token_is_valid):
             print('-----> The GitHub api rate limit has been exceeded. '
                   'You can increase your rate limit with a GitHub OAuth token. '
                   'Please obtain a GitHub OAuth token by registering your application at '
                   'https://github.com/settings/applications/new. '
-                  'Then set COMPOSER_GITHUB_OAUTH_TOKEN in your environment to the value of this token'.)
+                  'Then set COMPOSER_GITHUB_OAUTH_TOKEN in your environment to the value of this token.')
             exit(1)
 
     def run(self):
@@ -272,10 +273,11 @@ class ComposerExtension(ExtensionHelper):
         if self._ctx.get('BP_DEBUG', False):
             self.composer_runner.run('-V')
         # config composer to use github token, if provided
+        token_is_valid = False
         if os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN', False):
-            self.setup_composer_github_token()
+            token_is_valid = self.setup_composer_github_token()
         # check that the api rate limit has not been exceeded, otherwise exit
-        self.check_github_rate_exceeded()
+        self.check_github_rate_exceeded(token_is_valid)
         # install dependencies w/Composer
         self.composer_runner.run('install', '--no-progress',
                                  *self._ctx['COMPOSER_INSTALL_OPTIONS'])
