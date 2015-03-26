@@ -5,6 +5,7 @@ from nose.tools import eq_
 from dingus import Dingus
 from dingus import patch
 from build_pack_utils import utils
+from common.dingus_extension import patches
 
 
 class TestComposer(object):
@@ -120,22 +121,24 @@ class TestComposer(object):
 
         builder = Dingus(_ctx=ctx)
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                ct = self.extension_module.ComposerExtension(ctx)
-                ct._builder = builder
-                ct.composer_runner = \
-                        self.extension_module.ComposerCommandRunner(ctx, builder)
-                ct.run()
-                stream_output_calls = stream_output_stub.calls()
-                assert 2 == len(stream_output_calls), \
-                        "The number of stream_output calls returned %s, expected 2" % len(stream_output_stub.calls())
-                instCmd = stream_output_calls[-1].args[1]
-                assert instCmd.find('/build/dir/php/bin/composer.phar') > 0
-                assert instCmd.find('install') > 0
-                assert instCmd.find('--no-progress') > 0
-                assert instCmd.find('--no-interaction') > 0
-                assert instCmd.find('--no-dev') > 0
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            ct._builder = builder
+            ct.composer_runner = \
+                    self.extension_module.ComposerCommandRunner(ctx, builder)
+            ct.run()
+            stream_output_calls = stream_output_stub.calls()
+            assert 2 == len(stream_output_calls), \
+                    "The number of stream_output calls returned %s, expected 2" % len(stream_output_stub.calls())
+            instCmd = stream_output_calls[-1].args[1]
+            assert instCmd.find('/build/dir/php/bin/composer.phar') > 0
+            assert instCmd.find('install') > 0
+            assert instCmd.find('--no-progress') > 0
+            assert instCmd.find('--no-interaction') > 0
+            assert instCmd.find('--no-dev') > 0
 
     def test_composer_run_streams_debug_output(self):
         ctx = utils.FormattedDict({
@@ -157,26 +160,28 @@ class TestComposer(object):
 
         builder = Dingus(_ctx=ctx)
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                ct = self.extension_module.ComposerExtension(ctx)
-                ct._builder = builder
-                ct.composer_runner = \
-                    self.extension_module.ComposerCommandRunner(ctx, builder)
-                ct.run()
-                stream_output_calls = stream_output_stub.calls()
-                assert 3 == len(stream_output_calls), \
-                        "The number of stream_output calls returned %s, expected 3" % len(stream_output_stub.calls())
-                # first is called `composer -V`
-                verCmd = stream_output_calls[0].args[1]
-                assert verCmd.find('composer.phar -V')
-                # then composer install
-                instCmd = stream_output_calls[-1].args[1]
-                assert instCmd.find('/build/dir/php/bin/composer.phar') > 0
-                assert instCmd.find('install') > 0
-                assert instCmd.find('--no-progress') > 0
-                assert instCmd.find('--no-interaction') > 0
-                assert instCmd.find('--no-dev') > 0
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            ct._builder = builder
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder)
+            ct.run()
+            stream_output_calls = stream_output_stub.calls()
+            assert 3 == len(stream_output_calls), \
+                "The number of stream_output calls returned %s, expected 3" % len(stream_output_stub.calls())
+            # first is called `composer -V`
+            verCmd = stream_output_calls[0].args[1]
+            assert verCmd.find('composer.phar -V')
+            # then composer install
+            instCmd = stream_output_calls[-1].args[1]
+            assert instCmd.find('/build/dir/php/bin/composer.phar') > 0
+            assert instCmd.find('install') > 0
+            assert instCmd.find('--no-progress') > 0
+            assert instCmd.find('--no-interaction') > 0
+            assert instCmd.find('--no-dev') > 0
 
     def test_composer_tool_run_custom_composer_opts(self):
         ctx = utils.FormattedDict({
@@ -200,23 +205,25 @@ class TestComposer(object):
 
         builder = Dingus(_ctx=ctx)
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                with patch('composer.extension.utils.rewrite_cfgs', rewrite_stub):
-                    ct = self.extension_module.ComposerExtension(ctx)
-                    ct._builder = builder
-                    ct.composer_runner = \
-                        self.extension_module.ComposerCommandRunner(ctx, builder)
-                    ct.run()
-                    eq_(2, len(builder.move.calls()))
-                    eq_(1, len(builder.copy.calls()))
-                    assert rewrite_stub.calls().once()
-                    rewrite_args = rewrite_stub.calls()[0].args
-                    assert rewrite_args[0].endswith('php.ini')
-                    assert 'HOME' in rewrite_args[1]
-                    assert 'TMPDIR' in rewrite_args[1]
-                    instCmd = stream_output_stub.calls()[-1].args[1]
-                    assert instCmd.find('--optimize-autoloader') > 0
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+            'composer.extension.utils.rewrite_cfgs': rewrite_stub
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            ct._builder = builder
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder)
+            ct.run()
+            eq_(2, len(builder.move.calls()))
+            eq_(1, len(builder.copy.calls()))
+            assert rewrite_stub.calls().once()
+            rewrite_args = rewrite_stub.calls()[0].args
+            assert rewrite_args[0].endswith('php.ini')
+            assert 'HOME' in rewrite_args[1]
+            assert 'TMPDIR' in rewrite_args[1]
+            instCmd = stream_output_stub.calls()[-1].args[1]
+            assert instCmd.find('--optimize-autoloader') > 0
 
     def test_composer_tool_run_sanity_checks(self):
         ctx = utils.FormattedDict({
@@ -240,27 +247,29 @@ class TestComposer(object):
         
         exists_stub = Dingus()
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                with patch('composer.extension.utils.rewrite_cfgs', rewrite_stub):
-                    composer_extension = \
-                        self.extension_module.ComposerExtension(ctx)
-                    composer_extension._log = Dingus()
-                    composer_extension._builder = builder
-                    composer_extension.composer_runner = \
-                        self.extension_module.ComposerCommandRunner(ctx, builder)
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+            'composer.extension.utils.rewrite_cfgs': rewrite_stub
+        }):
+            composer_extension = \
+                self.extension_module.ComposerExtension(ctx)
+            composer_extension._log = Dingus()
+            composer_extension._builder = builder
+            composer_extension.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder)
 
-                    composer_extension.run()
+            composer_extension.run()
 
-                    composer_extension_calls = composer_extension._log.warning.calls()
-                    assert len(composer_extension_calls) > 0
-                    assert composer_extension_calls[0].args[0].find('PROTIP:') == 0
-                    exists = Dingus(return_value=True)
-                    with patch('os.path.exists', exists_stub):
-                        composer_extension._log = Dingus()
-                        composer_extension.run()
-                    assert len(exists_stub.calls()) == 1
-                    assert len(composer_extension._log.warning.calls()) == 0
+            composer_extension_calls = composer_extension._log.warning.calls()
+            assert len(composer_extension_calls) > 0
+            assert composer_extension_calls[0].args[0].find('PROTIP:') == 0
+            exists = Dingus(return_value=True)
+            with patch('os.path.exists', exists_stub):
+                composer_extension._log = Dingus()
+                composer_extension.run()
+            assert len(exists_stub.calls()) == 1
+            assert len(composer_extension._log.warning.calls()) == 0
 
     def test_process_commands(self):
         eq_(0, len(self.extension_module.preprocess_commands({
@@ -555,23 +564,26 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'OUR_SPECIAL_KEY': 'SPECIAL_VALUE'
         })
-        oldenv = os.environ
-        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
-        try:
-            os.environ = {'OUR_SPECIAL_KEY': 'ORIGINAL_SPECIAL_VALUE'}
-            self.extension_module.PHPComposerStrategy.write_config = Dingus()
+
+        environ_stub = Dingus()
+        environ_stub._set_return_value(['OUR_SPECIAL_KEY'])
+
+        write_config_stub = Dingus()
+
+        with patches({
+            'os.environ.keys': environ_stub,
+            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
+        }):
 
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
             built_environment = cr._build_composer_environment()
-        finally:
-            os.environ = oldenv
-            self.extension_module.PHPComposerStrategy.write_config = \
-                old_write_cfg
 
         assert 'OUR_SPECIAL_KEY' in built_environment, \
             'OUR_SPECIAL_KEY was not found in the built_environment variable'
+        assert built_environment['OUR_SPECIAL_KEY'] == 'SPECIAL_VALUE',  \
+            '"OUR_SPECIAL_KEY" key in built_environment was %s; expected "SPECIAL_VALUE"' % built_environment['OUR_SPECIAL_KEY']
 
     def test_build_composer_environment_sets_composer_env_vars(self):
         ctx = utils.FormattedDict({
@@ -582,17 +594,16 @@ class TestComposer(object):
             'PHP_VM': 'php'
         })
 
-        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
-        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+        write_config_stub = Dingus()
 
-        try:
+        with patches({
+            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
+        }):
+
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
             built_environment = cr._build_composer_environment()
-        finally:
-            self.extension_module.PHPComposerStrategy.write_config = \
-                old_write_cfg
 
         assert 'COMPOSER_VENDOR_DIR' in built_environment, \
             'Expect to find COMPOSER_VENDOR_DIR in built_environment'
@@ -611,17 +622,15 @@ class TestComposer(object):
             'PHPRC': '/usr/awesome/phpini',
         })
 
-        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
-        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+        write_config_stub = Dingus()
 
-        try:
+        with patches({
+            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
+        }):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
             built_environment = cr._build_composer_environment()
-        finally:
-            self.extension_module.PHPComposerStrategy.write_config = \
-                old_write_cfg
 
         eq_(built_environment['LD_LIBRARY_PATH'], '/usr/awesome/php/lib')
         eq_(built_environment['PHPRC'], 'tmp')
@@ -637,17 +646,15 @@ class TestComposer(object):
             'MY_DICTIONARY': {'KEY': 'VALUE'},
         })
 
-        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
-        self.extension_module.PHPComposerStrategy.write_config = Dingus()
+        write_config_stub = Dingus()
 
-        try:
+        with patches({
+            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
+        }):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
             built_environment = cr._build_composer_environment()
-        finally:
-            self.extension_module.PHPComposerStrategy.write_config = \
-                old_write_cfg
 
         for key, val in built_environment.iteritems():
             assert type(val) == str, \
@@ -664,10 +671,12 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'SOME_KEY': utils.wrap('{exact_match}')
         })
-        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
-        self.extension_module.PHPComposerStrategy.write_config = Dingus()
 
-        try:
+        write_config_stub = Dingus()
+
+        with patches({
+            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
+        }):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
@@ -679,9 +688,6 @@ class TestComposer(object):
                 assert 'exact_match' != e.message, \
                     "Should not try to evaluate value [%s]" % e
                 raise
-        finally:
-            self.extension_module.PHPComposerStrategy.write_config = \
-                old_write_cfg
 
     def test_build_composer_environment_no_path(self):
         ctx = utils.FormattedDict({
@@ -691,17 +697,16 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache'
         })
-        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
-        self.extension_module.PHPComposerStrategy.write_config = Dingus()
 
-        try:
+        write_config_stub = Dingus()
+
+        with patches({
+            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
+        }):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
             built_environment = cr._build_composer_environment()
-        finally:
-            self.extension_module.PHPComposerStrategy.write_config = \
-                old_write_cfg
 
         assert 'PATH' in built_environment, "should have PATH set"
         assert "/usr/awesome/php/bin" == built_environment['PATH'], \
@@ -717,17 +722,16 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'PATH': '/bin:/usr/bin'
         })
-        old_write_cfg = self.extension_module.PHPComposerStrategy.write_config
-        self.extension_module.PHPComposerStrategy.write_config = Dingus()
 
-        try:
+        write_config_stub = Dingus()
+
+        with patches({
+            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
+        }):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
             built_environment = cr._build_composer_environment()
-        finally:
-            self.extension_module.PHPComposerStrategy.write_config = \
-                old_write_cfg
 
         assert 'PATH' in built_environment, "should have PATH set"
         assert built_environment['PATH'].endswith(":/usr/awesome/php/bin"), \
@@ -771,35 +775,31 @@ class TestComposer(object):
 
         rewrite_stub = Dingus()
 
-        builder = Dingus(_ctx=ctx)
-
-        setup_composer_github_token_stub = Dingus()
-
         environ_stub = Dingus()
         environ_stub._set_return_value('MADE_UP_TOKEN_VALUE')
 
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+            'composer.extension.utils.rewrite_cfgs': rewrite_stub,
+            'os.environ.get': environ_stub
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                with patch('composer.extension.utils.rewrite_cfgs', rewrite_stub):
-                    with patch('os.environ.get', environ_stub):
+            builder_stub = Dingus(_ctx=ctx)
+            ct._builder = builder_stub
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder_stub)
 
-                        ct = self.extension_module.ComposerExtension(ctx)
+            github_oauth_token_is_valid_stub = Dingus(
+                'test_run_sets_github_oauth_token_if_present:'
+                'github_oauth_token_is_valid_stub')
+            github_oauth_token_is_valid_stub._set_return_value(True)
+            ct._github_oauth_token_is_valid = github_oauth_token_is_valid_stub
 
-                        builder_stub = Dingus(_ctx=ctx)
-                        ct._builder = builder_stub
-                        ct.composer_runner = \
-                            self.extension_module.ComposerCommandRunner(ctx, builder_stub)
+            ct.run()
 
-                        github_oauth_token_is_valid_stub = Dingus(
-                            'test_run_sets_github_oauth_token_if_present:'
-                            'github_oauth_token_is_valid_stub')
-                        github_oauth_token_is_valid_stub._set_return_value(True)
-                        ct._github_oauth_token_is_valid = github_oauth_token_is_valid_stub
-
-                        ct.run()
-
-                        executed_command = stream_output_stub.calls()[0].args[1]
+            executed_command = stream_output_stub.calls()[0].args[1]
 
         assert executed_command.find('config') > 0, 'did not see "config"'
         assert executed_command.find('-g') > 0, 'did not see "-g"'
@@ -829,18 +829,20 @@ class TestComposer(object):
 
         setup_composer_github_token_stub = Dingus()
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                with patch('composer.extension.utils.rewrite_cfgs', rewrite_stub):
-                    with patch('composer.extension.ComposerExtension.setup_composer_github_token', setup_composer_github_token_stub):
-                        ct = self.extension_module.ComposerExtension(ctx)
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+            'composer.extension.utils.rewrite_cfgs': rewrite_stub,
+            'composer.extension.ComposerExtension.setup_composer_github_token': setup_composer_github_token_stub
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
 
-                        ct._builder = builder
-                        ct.composer_runner = \
-                            self.extension_module.ComposerCommandRunner(ctx, builder)
-                        ct.run()
+            ct._builder = builder
+            ct.composer_runner = \
+                self.extension_module.ComposerCommandRunner(ctx, builder)
+            ct.run()
 
-                        setup_composer_github_token_calls = setup_composer_github_token_stub.calls()
+            setup_composer_github_token_calls = setup_composer_github_token_stub.calls()
 
         assert 0 == len(setup_composer_github_token_calls), \
             'setup_composer_github_token() was called %s times, expected 0' % len(setup_composer_github_token_calls)
@@ -860,11 +862,13 @@ class TestComposer(object):
         stream_output_stub = Dingus(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                ct = self.extension_module.ComposerExtension(ctx)
-                ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
-                executed_command = stream_output_stub.calls()[0].args[1]
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
+            executed_command = stream_output_stub.calls()[0].args[1]
 
         assert stream_output_stub.calls().once(), \
             'stream_output() was called more than once'
@@ -891,10 +895,12 @@ class TestComposer(object):
         stream_output_stub = Dingus(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                ct = self.extension_module.ComposerExtension(ctx)
-                result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
 
         assert result is True, \
             '_github_oauth_token_is_valid returned %s, expected True' % result
@@ -914,10 +920,12 @@ class TestComposer(object):
         stream_output_stub = Dingus(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                ct = self.extension_module.ComposerExtension(ctx)
-                result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
 
         assert result is False, \
             '_github_oauth_token_is_valid returned %s, expected False' % result
@@ -937,10 +945,12 @@ class TestComposer(object):
         stream_output_stub = Dingus(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                ct = self.extension_module.ComposerExtension(ctx)
-                result = ct._github_rate_exceeded(False)
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            result = ct._github_rate_exceeded(False)
 
         assert result is False, \
             '_github_oauth_token_is_valid returned %s, expected False' % result
@@ -960,10 +970,12 @@ class TestComposer(object):
         stream_output_stub = Dingus(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patch('StringIO.StringIO.getvalue', instance_stub):
-            with patch('composer.extension.stream_output', stream_output_stub):
-                ct = self.extension_module.ComposerExtension(ctx)
-                result = ct._github_rate_exceeded(False)
+        with patches({
+            'StringIO.StringIO.getvalue': instance_stub,
+            'composer.extension.stream_output': stream_output_stub,
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            result = ct._github_rate_exceeded(False)
 
         assert result is True, \
             '_github_oauth_token_is_valid returned %s, expected True' % result
