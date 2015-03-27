@@ -236,7 +236,7 @@ class ComposerExtension(ExtensionHelper):
             return True
         else:
             print('-----> The GitHub OAuth token supplied from '
-                  '$COMPOSER_GITHUB_OATH_TOKEN is invalid')
+                  '$COMPOSER_GITHUB_OAUTH_TOKEN is invalid')
             return False
 
     def check_github_rate_exceeded(self, token_is_valid):

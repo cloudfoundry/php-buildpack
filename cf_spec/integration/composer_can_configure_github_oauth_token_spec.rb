@@ -22,7 +22,7 @@ describe 'Composer' do
     let(:oauth_token) { 'badtoken123123' }
 
     specify do
-      expect(app).to have_logged "-----> The GitHub OAuth token supplied from $COMPOSER_GITHUB_OATH_TOKEN is invalid"
+      expect(app).to have_logged "-----> The GitHub OAuth token supplied from $COMPOSER_GITHUB_OAUTH_TOKEN is invalid"
     end
   end
 end
