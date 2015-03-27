@@ -21,14 +21,11 @@ describe 'CF PHP Buildpack' do
       browser.visit_path("/")
       expect(browser).to have_body 'Running on Symfony!'
 
+      browser.visit_path('/hello/foo')
+       expect(browser).to have_body "Hello foo!\n\nRunning on Symfony!"
+
       expect(app.host).not_to have_internet_traffic
     end
-
-   specify 'visiting a non-root path' do
-     browser.visit_path('/hello/foo')
-
-     expect(browser).to have_body "Hello foo!\n\nRunning on Symfony!"
-   end
   end
 
   context 'deploying a symfony app with remotely-sourced dependencies', if: Machete::BuildpackMode.online? do

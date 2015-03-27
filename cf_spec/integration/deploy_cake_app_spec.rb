@@ -6,7 +6,7 @@ describe 'CF PHP Buildpack' do
   let(:browser) { Machete::Browser.new(app) }
 
   after do
-    # Machete::CF::DeleteApp.new.execute(app)
+    Machete::CF::DeleteApp.new.execute(app)
   end
 
   context 'deploying a Cake application with local dependencies', if: Machete::BuildpackMode.offline? do
@@ -25,13 +25,10 @@ describe 'CF PHP Buildpack' do
       expect(browser).to have_body 'CakePHP'
       expect(browser).not_to have_body 'Missing Database Table'
 
-      expect(app.host).not_to have_internet_traffic
-    end
-
-    specify 'visiting a non-root path' do
       browser.visit_path('/users/add')
-
       expect(browser).to have_body('Add New User')
+
+      expect(app.host).not_to have_internet_traffic
     end
   end
 

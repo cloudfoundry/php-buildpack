@@ -111,7 +111,8 @@ class TestComposer(object):
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
             'WEBDIR': 'htdocs',
-            'LIBDIR': 'lib'
+            'LIBDIR': 'lib',
+            'BP_DIR': ''
         })
 
         instance_stub = Dingus()
@@ -150,11 +151,11 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'WEBDIR': 'htdocs',
             'LIBDIR': 'lib',
-            'BP_DEBUG': 'True'
+            'BP_DEBUG': 'True',
+            'BP_DIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
+        instance_stub = Dingus(return_value="""{"rate": {"limit": 60, "remaining": 60}}""")
 
         stream_output_stub = Dingus()
 
@@ -193,7 +194,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'WEBDIR': 'htdocs',
             'LIBDIR': 'lib',
-            'COMPOSER_INSTALL_OPTIONS': ['--optimize-autoloader']
+            'COMPOSER_INSTALL_OPTIONS': ['--optimize-autoloader'],
+            'BP_DIR': ''
         })
 
         instance_stub = Dingus()
@@ -233,7 +235,8 @@ class TestComposer(object):
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
-            'LIBDIR': 'lib'
+            'LIBDIR': 'lib',
+            'BP_DIR': ''
         })
 
         instance_stub = Dingus()
@@ -268,7 +271,7 @@ class TestComposer(object):
             with patch('os.path.exists', exists_stub):
                 composer_extension._log = Dingus()
                 composer_extension.run()
-            assert len(exists_stub.calls()) == 1
+            assert len(exists_stub.calls()) == 2
             assert len(composer_extension._log.warning.calls()) == 0
 
     def test_process_commands(self):
@@ -765,7 +768,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'COMPOSER_GITHUB_OAUTH_TOKEN': 'MADE_UP_TOKEN_VALUE'
+            'COMPOSER_GITHUB_OAUTH_TOKEN': 'MADE_UP_TOKEN_VALUE',
+            'BP_DIR': ''
         })
 
         instance_stub = Dingus()
@@ -817,6 +821,7 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
+            'BP_DIR': ''
         })
         instance_stub = Dingus()
         instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
@@ -929,6 +934,46 @@ class TestComposer(object):
 
         assert result is False, \
             '_github_oauth_token_is_valid returned %s, expected False' % result
+
+    def test_no_github_api_call_with_cached_buildpack(self):
+        ctx = utils.FormattedDict({
+            'BUILD_DIR': tempfile.gettempdir(),
+            'PHP_VM': 'php',
+            'TMPDIR': tempfile.gettempdir(),
+            'LIBDIR': 'lib',
+            'CACHE_DIR': 'cache',
+            'BP_DIR': ''
+        })
+
+        builder = Dingus(_ctx=ctx)
+
+        path_exists_stub = Dingus()
+        path_exists_stub._set_return_value(True)
+
+        setup_composer_github_token_stub = Dingus()
+        check_github_rate_exceeded_stub = Dingus()
+
+        rewrite_stub = Dingus()
+
+        stream_output_stub = Dingus(
+            'test_github_oauth_token_uses_curl : stream_output')
+        with patches({
+            'os.path.exists': path_exists_stub,
+            'composer.extension.ComposerExtension.setup_composer_github_token': setup_composer_github_token_stub,
+            'composer.extension.ComposerExtension.check_github_rate_exceeded': check_github_rate_exceeded_stub,
+            'composer.extension.utils.rewrite_cfgs': rewrite_stub,
+            'composer.extension.stream_output': stream_output_stub
+        }):
+            ct = self.extension_module.ComposerExtension(ctx)
+            ct._builder = builder
+            ct.composer_runner = \
+                    self.extension_module.ComposerCommandRunner(ctx, builder)
+            ct.run()
+
+        assert 0 == len(setup_composer_github_token_stub.calls()), \
+                'setup_composer_github_token was called, expected no calls'
+        assert 0 == len(check_github_rate_exceeded_stub.calls()), \
+                'check_github_rate_exceeded was called, expected no calls'
 
     def test_github_download_rate_not_exceeded(self):  # noqa
         ctx = utils.FormattedDict({

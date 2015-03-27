@@ -219,7 +219,7 @@ class ComposerExtension(ExtensionHelper):
 
         github_response = stringio_writer.getvalue()
         github_response_json = json.loads(github_response)
-        
+
         rate = github_response_json['rate']
         num_remaining = rate['remaining']
 
@@ -272,12 +272,13 @@ class ComposerExtension(ExtensionHelper):
         # dump composer version, if in debug mode
         if self._ctx.get('BP_DEBUG', False):
             self.composer_runner.run('-V')
-        # config composer to use github token, if provided
-        token_is_valid = False
-        if os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN', False):
-            token_is_valid = self.setup_composer_github_token()
-        # check that the api rate limit has not been exceeded, otherwise exit
-        self.check_github_rate_exceeded(token_is_valid)
+        if not os.path.exists(os.path.join(self._ctx['BP_DIR'], 'dependencies')):
+            token_is_valid = False
+            # config composer to use github token, if provided
+            if os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN', False):
+                token_is_valid = self.setup_composer_github_token()
+            # check that the api rate limit has not been exceeded, otherwise exit
+            self.check_github_rate_exceeded(token_is_valid)
         # install dependencies w/Composer
         self.composer_runner.run('install', '--no-progress',
                                  *self._ctx['COMPOSER_INSTALL_OPTIONS'])

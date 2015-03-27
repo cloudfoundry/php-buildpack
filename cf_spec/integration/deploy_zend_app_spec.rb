@@ -23,12 +23,6 @@ describe 'CF PHP Buildpack' do
 
       expect(app.host).not_to have_internet_traffic
     end
-
-    specify 'visiting a non-root path' do
-      browser.visit_path('/user/login')
-
-      expect(browser).to have_body 'Zend Technologies Ltd. All rights reserved.'
-    end
   end
 
   context 'deploying a Zend app with remote dependencies', if: Machete::BuildpackMode.online? do
