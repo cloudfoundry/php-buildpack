@@ -93,6 +93,10 @@ class CloudFoundryUtil(object):
                     _log.warn("Error reading [%s]", cfgPath)
                     _log.debug("Error reading [%s]", cfgPath, exc_info=e)
                     if step != 'detect':
+                        print 'Incorrectly formatted JSON object at: %s' % cfgPath
+                        cfgFile.seek(0)
+                        for line in cfgFile:
+                            print line
                         exit(1)
         return {}
 
