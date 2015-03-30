@@ -8,8 +8,6 @@ import logging
 import subprocess
 from urlparse import urlparse
 from zips import UnzipUtil
-from hashes import HashUtil
-from cache import DirectoryCacheManager
 from downloads import Downloader
 from downloads import CurlDownloader
 from utils import safe_makedirs
@@ -106,8 +104,6 @@ class CloudFoundryInstaller(object):
         self._log = _log
         self._ctx = ctx
         self._unzipUtil = UnzipUtil(ctx)
-        self._hashUtil = HashUtil(ctx)
-        self._dcm = DirectoryCacheManager(ctx)
         self._dwn = self._get_downloader(ctx)(ctx)
 
     def _get_downloader(self, ctx):

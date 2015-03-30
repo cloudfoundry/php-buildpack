@@ -40,7 +40,6 @@ class TestNewRelic(object):
         eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_PACKAGE' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_DOWNLOAD_URL' in nr._ctx.keys())
-        eq_(True, 'NEWRELIC_HASH_DOWNLOAD_URL' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_STRIP' in nr._ctx.keys())
 
     def testShouldNotInstall(self):

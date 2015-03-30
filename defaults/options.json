@@ -1,5 +1,4 @@
 {
-    "CACHE_HASH_ALGORITHM": "sha1",
     "STACK": "lucid",
     "LIBDIR": "lib",
     "WEBDIR": "htdocs",
@@ -23,7 +22,6 @@
     "HHVM_VERSION": "3.2.0",
     "HHVM_PACKAGE": "hhvm-{HHVM_VERSION}.tar.gz",
     "HHVM_DOWNLOAD_URL": "{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}",
-    "HHVM_HASH_DOWNLOAD_URL": "{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}.{CACHE_HASH_ALGORITHM}",
     "HHVM_STRIP": "true",
     "PHP_54_LATEST": "5.4.39",
     "PHP_55_LATEST": "5.5.23",

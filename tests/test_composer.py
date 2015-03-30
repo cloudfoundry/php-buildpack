@@ -44,7 +44,6 @@ class TestComposer(object):
     def test_composer_tool_install(self):
         ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir'
@@ -74,7 +73,6 @@ class TestComposer(object):
     def test_composer_tool_install_latest(self):
         ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
@@ -106,7 +104,6 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'PHP_VM': 'hhvm',  # PHP strategy does other stuff
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
@@ -145,7 +142,6 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'PHP_VM': 'hhvm',  # PHP strategy does other stuff
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
@@ -188,7 +184,6 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'PHP_VM': 'php',
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
@@ -231,7 +226,6 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'PHP_VM': 'php',
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
@@ -762,7 +756,6 @@ class TestComposer(object):
     def test_run_sets_github_oauth_token_if_present(self):
         ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
@@ -815,7 +808,6 @@ class TestComposer(object):
     def test_run_does_not_set_github_oauth_if_missing(self):
         ctx = utils.FormattedDict({
             'DOWNLOAD_URL': 'http://server/bins',
-            'CACHE_HASH_ALGORITHM': 'sha1',
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
