@@ -302,7 +302,6 @@ class TestCompileHelpers(object):
         assert 'language' in manifest.keys()
         assert 'url_to_dependency_map' in manifest.keys()
         assert 'exclude_files' in manifest.keys()
-        # eq_(9, len(json['php'].keys()))
 
     def test_find_all_php_versions(self):
         ctx = {'BP_DIR': '.'}
