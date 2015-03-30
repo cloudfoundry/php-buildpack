@@ -1,3 +1,4 @@
+import os
 import urllib2
 import re
 import logging
@@ -28,11 +29,25 @@ class Downloader(object):
             urllib2.install_opener(opener)
 
     def download(self, url, toFile):
-        res = urllib2.urlopen(url)
-        with open(toFile, 'w') as f:
-            f.write(res.read())
-        print 'Downloaded [%s] to [%s]' % (url, toFile)
-        self._log.info('Downloaded [%s] to [%s]', url, toFile)
+        path_to_download_executable = os.path.join(
+            self._ctx['BP_DIR'],
+            'compile-extensions',
+            'bin',
+            'download_dependency')
+
+        command_arguments = [
+            path_to_download_executable,
+            url,
+            toFile]
+
+        process = Popen(command_arguments, stdout=PIPE)
+        exit_code = process.wait()
+
+        if exit_code != 0:
+            print "Could not download dependency: %s" % url
+            exit(1)
+        else:
+            print "Downloaded [%s] to [%s]" % (url, toFile)
 
     def download_direct(self, url):
         buf = urllib2.urlopen(url).read()
@@ -46,13 +61,13 @@ class CurlDownloader(object):
     def __init__(self, config):
         self._ctx = config
         self._status_pattern = re.compile(r'^(.*)<!-- Status: (\d+) -->$',
-                                          re.DOTALL)
+                re.DOTALL)
         self._log = logging.getLogger('downloads')
 
     def download(self, url, toFile):
         cmd = ["curl", "-s",
-               "-o", toFile,
-               "-w", '%{http_code}']
+                "-o", toFile,
+                "-w", '%{http_code}']
         for key in self._ctx.keys():
             if key.lower().endswith('_proxy'):
                 cmd.extend(['-x', self._ctx[key]])
@@ -64,14 +79,14 @@ class CurlDownloader(object):
         self._log.debug("Curl returned [%s]", output)
         if output and \
                 (output.startswith('4') or
-                 output.startswith('5')):
-            raise RuntimeError("curl says [%s]" % output)
+                        output.startswith('5')):
+                    raise RuntimeError("curl says [%s]" % output)
         print 'Downloaded [%s] to [%s]' % (url, toFile)
         self._log.info('Downloaded [%s] to [%s]', url, toFile)
 
     def download_direct(self, url):
         cmd = ["curl", "-s",
-               "-w", '<!-- Status: %{http_code} -->']
+                "-w", '<!-- Status: %{http_code} -->']
         for key in self._ctx.keys():
             if key.lower().endswith('_proxy'):
                 cmd.extend(['-x', self._ctx[key]])

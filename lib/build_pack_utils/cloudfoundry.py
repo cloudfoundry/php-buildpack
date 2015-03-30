@@ -143,11 +143,11 @@ class CloudFoundryInstaller(object):
     def install_binary_direct(self, url, installDir,
             strip=False,
             extract=True):
-        url = self.translate_dependency_url(url)
         self._log.debug("Installing direct [%s]", url)
+        self._dwn.download(url, self._ctx['TMPDIR'])
+
         fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
-        self._dwn.download(url, fileToInstall)
 
         if extract:
             return self._unzipUtil.extract(fileToInstall,
