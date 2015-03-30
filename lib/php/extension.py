@@ -15,7 +15,7 @@
 from compile_helpers import convert_php_extensions
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
-from compile_helpers import load_binary_index
+from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
 from compile_helpers import find_all_php_extensions
 from compile_helpers import validate_php_version
@@ -28,9 +28,10 @@ class PHPExtension(ExtensionHelper):
         return self._ctx['PHP_VM'] == 'php'
 
     def _configure(self):
-        manifest = load_binary_index(self._ctx)
-        self._ctx['ALL_PHP_VERSIONS'] = find_all_php_versions(manifest)
-        self._ctx['ALL_PHP_EXTENSIONS'] = find_all_php_extensions(manifest)
+        manifest = load_manifest(self._ctx)
+        dependencies = manifest['dependencies']
+        self._ctx['ALL_PHP_VERSIONS'] = find_all_php_versions(dependencies)
+        self._ctx['ALL_PHP_EXTENSIONS'] = find_all_php_extensions(dependencies)
 
     def _preprocess_commands(self):
         return (('$HOME/.bp/bin/rewrite', '"$HOME/php/etc"'),)

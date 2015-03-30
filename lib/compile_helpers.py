@@ -67,14 +67,13 @@ def setup_log_dir(ctx):
     os.makedirs(os.path.join(ctx['BUILD_DIR'], 'logs'))
 
 
-def load_binary_index(ctx):
+def load_manifest(ctx):
     manifest_path = os.path.join(ctx['BP_DIR'], 'manifest.yml')
-    _log.debug('Loading binary index from %s', manifest_path)
+    _log.debug('Loading manifest from %s', manifest_path)
     return yaml.load(open(manifest_path))
 
 
-def find_all_php_versions(manifest):
-    dependencies = manifest['dependencies']
+def find_all_php_versions(dependencies):
     versions = []
 
     for dependency in dependencies:
@@ -84,11 +83,10 @@ def find_all_php_versions(manifest):
     return versions
 
 
-def find_all_php_extensions(manifest):
+def find_all_php_extensions(dependencies):
     SKIP = ('cli', 'pear', 'cgi', 'fpm')
     exts = defaultdict(list)
 
-    dependencies = manifest['dependencies']
     for dependency in dependencies:
         name = dependency['name']
         uri = dependency['uri']

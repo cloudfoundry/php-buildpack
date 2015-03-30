@@ -8,7 +8,7 @@ from compile_helpers import setup_webdir_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
-from compile_helpers import load_binary_index
+from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
 from compile_helpers import find_all_php_extensions
 from compile_helpers import validate_php_version
@@ -294,9 +294,9 @@ class TestCompileHelpers(object):
             ctx = {'BUILD_DIR': 'tests/data/standalone/test%d' % (i + 1)}
             eq_(res, find_stand_alone_app_to_run(ctx))
 
-    def test_load_binary_index(self):
+    def test_load_manifest(self):
         ctx = {'BP_DIR': '.'}
-        manifest = load_binary_index(ctx)
+        manifest = load_manifest(ctx)
         assert manifest is not None
         assert 'dependencies' in manifest.keys()
         assert 'language' in manifest.keys()
@@ -306,16 +306,18 @@ class TestCompileHelpers(object):
 
     def test_find_all_php_versions(self):
         ctx = {'BP_DIR': '.'}
-        json = load_binary_index(ctx)
-        versions = find_all_php_versions(json)
+        manifest = load_manifest(ctx)
+        dependencies = manifest['dependencies']
+        versions = find_all_php_versions(dependencies)
         eq_(18, len(versions))
         eq_(6, len([v for v in versions if v.startswith('5.4.')]))
         eq_(6, len([v for v in versions if v.startswith('5.5.')]))
 
     def test_find_php_extensions(self):
         ctx = {'BP_DIR': '.'}
-        json = load_binary_index(ctx)
-        exts = find_all_php_extensions(json)
+        manifest = load_manifest(ctx)
+        dependencies = manifest['dependencies']
+        exts = find_all_php_extensions(dependencies)
         eq_(9, len(exts.keys()))
         tmp = exts[[key for key in exts.keys() if key.startswith('5.4')][0]]
         assert 'amqp' in tmp
