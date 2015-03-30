@@ -12,7 +12,6 @@ exclude_files:
   - cf.Gemfile.lock
   - bin/package
   - buildpack-packager/
-  - binaries/*/[^index-*.json]
   - php_buildpack-*v*
 
 url_to_dependency_map:
