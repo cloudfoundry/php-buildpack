@@ -660,7 +660,7 @@ class StartScriptBuilder(object):
             self._log.debug("Enabling debug console, if start script fails.")
             self.content.append(
                 'curl -s https://raw.github.com/dmikusa-pivotal/'
-                'cf-debug-console/master/debug.sh | bash')
+                'cf-debug-tools/master/debug-console.sh | bash')
 
         if wait_forever:
             self._log.debug('Adding wait-for-ever to start script')
