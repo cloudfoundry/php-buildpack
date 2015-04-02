@@ -242,11 +242,11 @@ class ComposerExtension(ExtensionHelper):
     def check_github_rate_exceeded(self, token_is_valid):
         if self._github_rate_exceeded(token_is_valid):
             print('-----> The GitHub api rate limit has been exceeded. '
+                  'Composer will continue by downloading from source, which might result in slower downloads. ' 
                   'You can increase your rate limit with a GitHub OAuth token. '
                   'Please obtain a GitHub OAuth token by registering your application at '
                   'https://github.com/settings/applications/new. '
                   'Then set COMPOSER_GITHUB_OAUTH_TOKEN in your environment to the value of this token.')
-            exit(1)
 
     def run(self):
         # Move composer files out of WEBDIR
