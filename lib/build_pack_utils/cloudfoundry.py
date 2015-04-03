@@ -140,10 +140,44 @@ class CloudFoundryInstaller(object):
     def _is_url(self, val):
         return urlparse(val).scheme != ''
 
-    def install_binary_direct(self, url, installDir,
+    def install_binary_direct(self, url, hsh, installDir,
             fileName=None, strip=False,
             extract=True):
-        url = self.translate_dependency_url(url)
+        exit_code, translated_url = self.translate_dependency_url(url)
+        if exit_code == 0:
+            url = translated_url
+
+        self._log.debug("Installing direct [%s]", url)
+        if not fileName:
+            fileName = urlparse(url).path.split('/')[-1]
+        fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
+        self._dwn.download(url, fileToInstall)
+
+        if extract:
+            return self._unzipUtil.extract(fileToInstall,
+                    installDir,
+                    strip)
+        else:
+            shutil.copy(fileToInstall, installDir)
+            return installDir
+
+    def _install_binary_from_manifest(self, url, installDir,
+            fileName=None, strip=False,
+            extract=True):
+        """
+            To support backwards compatibility with apps calling this method
+            in their custom extension configs, we made this internal method
+            which has no need to check for a hash and will not hit the internet
+            if the dependency is missing from the manifest.
+
+            The other 'exposed' method does make requests to the internet should the
+            dependency not exist in the manifest and intentionally takes the hash sha 
+            argument but makes no use of it.
+        """
+        exit_code, url = self.translate_dependency_url(url)
+        if exit_code != 0:
+            print "Could not get translated url, exited with: %s", translate_url_output
+            exit(1)
         self._log.debug("Installing direct [%s]", url)
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
@@ -162,11 +196,7 @@ class CloudFoundryInstaller(object):
         process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', 'translate_dependency_url'), url], stdout=subprocess.PIPE)
         exit_code = process.wait()
         translate_url_output = process.stdout.read().rstrip()
-        if exit_code != 0:
-            print "Could not get translated url, exited with: %s", translate_url_output
-            exit(1)
-        else:
-            return translate_url_output
+        return (exit_code, translate_url_output)
 
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)
@@ -178,7 +208,7 @@ class CloudFoundryInstaller(object):
                     installKey.lower()))
         strip = self._ctx.get('%s_STRIP' % installKey, False)
 
-        return self.install_binary_direct(url, installDir,
+        return self._install_binary_from_manifest(url, installDir,
                 strip=strip)
 
     def _install_from(self, fromPath, fromLoc, toLocation=None, ignore=None):
