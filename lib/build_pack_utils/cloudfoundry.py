@@ -147,11 +147,12 @@ class CloudFoundryInstaller(object):
         if exit_code == 0:
             url = translated_url
 
-        self._log.debug("Installing direct [%s]", url)
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
-        self._dwn.download(url, fileToInstall)
+
+        self._log.debug("Installing direct [%s]", url)
+        self._dwn.custom_extension_download(url, fileToInstall)
 
         if extract:
             return self._unzipUtil.extract(fileToInstall,
@@ -174,15 +175,12 @@ class CloudFoundryInstaller(object):
             dependency not exist in the manifest and intentionally takes the hash sha 
             argument but makes no use of it.
         """
-        exit_code, url = self.translate_dependency_url(url)
-        if exit_code != 0:
-            print "Could not get translated url, exited with: %s", translate_url_output
-            exit(1)
-        self._log.debug("Installing direct [%s]", url)
-        if not fileName:
-            fileName = urlparse(url).path.split('/')[-1]
+
+        self._log.debug("Installing binary from manifest [%s]", url)
+        self._dwn.download(url, self._ctx['TMPDIR'])
+
+        fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
-        self._dwn.download(url, fileToInstall)
 
         if extract:
             return self._unzipUtil.extract(fileToInstall,

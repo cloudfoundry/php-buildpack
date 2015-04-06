@@ -182,7 +182,6 @@ class ComposerExtension(ExtensionHelper):
         self._builder.install()._installer._install_binary_from_manifest(
             self._ctx['COMPOSER_DOWNLOAD_URL'],
             os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
-            fileName='composer.phar',
             extract=False)
 
     def _github_oauth_token_is_valid(self, candidate_oauth_token):

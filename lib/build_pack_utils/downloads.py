@@ -1,3 +1,4 @@
+import os
 import urllib2
 import re
 import logging
@@ -28,6 +29,27 @@ class Downloader(object):
             urllib2.install_opener(opener)
 
     def download(self, url, toFile):
+        path_to_download_executable = os.path.join(
+            self._ctx['BP_DIR'],
+            'compile-extensions',
+            'bin',
+            'download_dependency')
+
+        command_arguments = [
+            path_to_download_executable,
+            url,
+            toFile]
+
+        process = Popen(command_arguments, stdout=PIPE)
+        exit_code = process.wait()
+
+        if exit_code != 0:
+            print "Could not download dependency: %s" % url
+            exit(1)
+        else:
+            print "Downloaded [%s] to [%s]" % (url, toFile)
+
+    def custom_extension_download(self, url, toFile):
         res = urllib2.urlopen(url)
         with open(toFile, 'w') as f:
             f.write(res.read())
