@@ -159,7 +159,7 @@ class CloudFoundryInstaller(object):
             return installDir
 
     def _install_binary_from_manifest(self, url, installDir,
-            fileName=None, strip=False,
+            strip=False,
             extract=True):
         """
             To support backwards compatibility with apps calling this method
