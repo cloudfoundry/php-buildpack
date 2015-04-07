@@ -1,0 +1,1995 @@
+---
+language: php
+
+url_to_dependency_map:
+  - match: "newrelic-php5-(\\d+\\.\\d+\\.\\d+\\.\\d+)-linux"
+    name: newrelic
+    version: "$1"
+  - match: "([^\\/]*)-(\\d+\\.\\d+\\.\\d+)"
+    name: "$1"
+    version: "$2"
+  - match: "\\/composer\\/(.*)\\/composer.phar"
+    name: composer
+    version: "$1"
+
+dependencies:
+  - name: php
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 689bf5c8ff8e9fdb461b9caf5aa10317
+  - name: php-amqp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-amqp-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 925a4e3b95bc52bfbd9debc426ca5e93
+  - name: php-bz2
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-bz2-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: dd9947c593ce427d398480eebd2afe80
+  - name: php-cgi
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-cgi-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 7535bcdd01ac61184ebfeb4aad52526d
+  - name: php-cli
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-cli-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: bd65f5650f25e088440154cffe736282
+  - name: php-curl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-curl-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 1c608491b1e8c48e604af67388d15462
+  - name: php-dba
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-dba-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ec8e9ef694e61dfe9f8cc17252ea4fca
+  - name: php-exif
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-exif-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 9be8609e801e6b5a675c93f1b18ff4ed
+  - name: php-fileinfo
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-fileinfo-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e7e7b9c5c58497ffadf1022c10c33a59
+  - name: php-fpm
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-fpm-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 59781827956937d3677bc508d9a80e18
+  - name: php-ftp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-ftp-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 463c413a2cdb1fa80ee164a3424a1b34
+  - name: php-gd
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-gd-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a7dc66154f3fee34b7290e29a51585fc
+  - name: php-gettext
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-gettext-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 904a49a7e6b84600b73eb8b6a04ac958
+  - name: php-gmp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-gmp-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: edd363642613850b8bdf97a1494bfc10
+  - name: php-igbinary
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-igbinary-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f7e0897b39e8940ff94f6b46bfba26bf
+  - name: php-imagick
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-imagick-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f96d82d1efaa4dd145951619c24cb29f
+  - name: php-imap
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-imap-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0263858d0619d2f21e593f73b941f99c
+  - name: php-intl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-intl-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: bc2c7faad9a469b7ac30bb0a4a72b5f2
+  - name: php-ioncube
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-ioncube-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f886bb5cc29fb0244c229a1d37b91aa7
+  - name: php-ldap
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-ldap-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ace5c86ac47278c52a47fee777a1acf1
+  - name: php-lua
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-lua-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 34f10886fcadea45d6f9c0ca1d16e529
+  - name: php-mailparse
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-mailparse-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e3f0b154017c499d81c3262d4af48d8b
+  - name: php-mbstring
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-mbstring-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2367d466dd6dec8e25d12fb4284927fa
+  - name: php-mcrypt
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-mcrypt-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8023998c0a90b0aeea0cfc198764fbd8
+  - name: php-memcache
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-memcache-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 66940fe129936f595879b1d9e8dd4159
+  - name: php-memcached
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-memcached-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 125abd5bbabe2803f2e969ab0f86d94d
+  - name: php-mongo
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-mongo-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f392bff775d1ee09bd8a6c7f8b42393e
+  - name: php-msgpack
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-msgpack-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 947e26496ee5f023411604b4492f1aa9
+  - name: php-mysql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-mysql-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5b9a961e489becd555c02f49feee11c0
+  - name: php-mysqli
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-mysqli-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 650782b80b832f3ec1805ccaa2c2fbcb
+  - name: php-opcache
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-opcache-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6e93e48a1b55e6c545f8bc6ac1157e76
+  - name: php-openssl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-openssl-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 122695c981edd1cf7008aee4ff4f99af
+  - name: php-pdo
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-pdo-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 28cf99cf65d562d16db24118f361d507
+  - name: php-pdo_mysql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-pdo_mysql-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 27bbb49463dd94803b99c548c328c8db
+  - name: php-pdo_pgsql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-pdo_pgsql-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e4b5fec9298e1188ae96a97a6ad42db1
+  - name: php-pdo_sqlite
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-pdo_sqlite-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0f1bff318db8733002180561a1934428
+  - name: php-pear
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-pear-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 72aed7d94e901afdf6023b5ff3597132
+  - name: php-pgsql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-pgsql-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b78f138721a418083cf47d702a6db889
+  - name: php-phalcon
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-phalcon-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4b8b131474f6d00f39e9e46b783a3db1
+  - name: php-phpiredis
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-phpiredis-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4999ca60822527627cd665651a465da8
+  - name: php-pspell
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-pspell-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3df1e1a90a6a4b7fcabc212a3e2327b8
+  - name: php-redis
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-redis-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a868afda11bab2dc664b0cce8c671ea2
+  - name: php-snmp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-snmp-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e0cc244aebeb207ad7d6061114262392
+  - name: php-soap
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-soap-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b158f6ed639388b81c9773a91001a27e
+  - name: php-sockets
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-sockets-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8e441f464b39db0c1f024c89fd1865f9
+  - name: php-suhosin
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-suhosin-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d015090c40ff8d1fa3db060d80e924fb
+  - name: php-sundown
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-sundown-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 47f12776ccd669ab270d48ef6b01d398
+  - name: php-twig
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-twig-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8c81b9e6f3ca801d73eb4c25f38415b3
+  - name: php-xcache
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-xcache-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ea924143e1c7b3d883178edf3f8daf2f
+  - name: php-xdebug
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-xdebug-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0532813629feb820fe7c7adc0e05c1c5
+  - name: php-xhprof
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-xhprof-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 422f504f5ed43f7715a82b6eac32d1b0
+  - name: php-xsl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-xsl-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c5b0b1a2a077e9d138a4276bac222089
+  - name: php-yaf
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-yaf-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f7dd92f36f7eb4e58971d9757e7675ef
+  - name: php-zip
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-zip-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4fc45032e91d79355bbe3b11e06ceb20
+  - name: php-zlib
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.5.21/php-zlib-5.5.21.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2625d73ec77f89b15bb60cde93066cf2
+  - name: php
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d00b56893411286c83fdc2fa0ac67648
+  - name: php-amqp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-amqp-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a7f3f6ab62ff6fdf96855ab3dd8fa94d
+  - name: php-bz2
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-bz2-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d35875d76718f636f2dd29b2a3ee813a
+  - name: php-cgi
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-cgi-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: edb2dcab5937a9295e5dfc13b913e09a
+  - name: php-cli
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-cli-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2ba874d34781f257675b11ac2a31fba4
+  - name: php-curl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-curl-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0e2dd5fc4d24d0bca180013fcf2b2dfc
+  - name: php-dba
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-dba-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5b910918b61e54690d4b36c791c3d666
+  - name: php-exif
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-exif-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 81d341f692fb82c94c93e085b8baaf0e
+  - name: php-fileinfo
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-fileinfo-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ea1065e144343fe33c9ae9cd360f886f
+  - name: php-fpm
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-fpm-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8ea5025d50d19a0d976c5b1749a46354
+  - name: php-ftp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-ftp-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 31338274769f7037ddaa462211eadf86
+  - name: php-gd
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-gd-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 415374b98fd601bf329d75475ddab40d
+  - name: php-gettext
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-gettext-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: fd254d6300e338f783896f9aa5e05ec9
+  - name: php-gmp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-gmp-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 64f6c86538469c3d690342853afc1ec6
+  - name: php-igbinary
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-igbinary-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c05d98e3bc6b277b84d2c95bb4a85ef0
+  - name: php-imagick
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-imagick-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0b287c3687fa2418464fc6ba0a7209e0
+  - name: php-imap
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-imap-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 9f5d1f787474dd14431b408c892bf799
+  - name: php-intl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-intl-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: dc296ff3c2fcc46c031a8f1a2fdef595
+  - name: php-ioncube
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-ioncube-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 528f5c76a65a5ff45cecf8087bc0a3f5
+  - name: php-ldap
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-ldap-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 643a9e3939e31441eec51787b3a54732
+  - name: php-lua
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-lua-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2624e9027cbe40d1e2bba8d11a851b01
+  - name: php-mailparse
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-mailparse-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 25a8b6fbe129dcaf5c60b9d8f1523da8
+  - name: php-mbstring
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-mbstring-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: bd280bef1621782f59e25db43f76388c
+  - name: php-mcrypt
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-mcrypt-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 21e878091d30e049a918fae5179c1a86
+  - name: php-memcache
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-memcache-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b116289e7b2273292d1c9844368b9974
+  - name: php-memcached
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-memcached-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 44442e5eacac0d5c4bee41ed31bad560
+  - name: php-mongo
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-mongo-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d9d91666ff60f46949c9f9b4573c1227
+  - name: php-msgpack
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-msgpack-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 712c7c4fe688172f3138a3219de852be
+  - name: php-mysql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-mysql-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: bac66dba889a151abef47f58b640dfc3
+  - name: php-mysqli
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-mysqli-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d5c928a18fe38170f08451f09acc883e
+  - name: php-opcache
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-opcache-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 91fd7d6870fd18fa890b547ab0c0202a
+  - name: php-openssl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-openssl-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 40d0c321583eaf4d9a6c6ea313b3aff7
+  - name: php-pdo
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-pdo-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2715002d0705765526fb7ffda280b591
+  - name: php-pdo_mysql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-pdo_mysql-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e71d30a097cbdb6582c3b690c84a93da
+  - name: php-pdo_pgsql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-pdo_pgsql-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 94c9b362d2006adf6d38c1118c4433c1
+  - name: php-pdo_sqlite
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-pdo_sqlite-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 615a0e5da0b2199b46cae2302d9f0efe
+  - name: php-pear
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-pear-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 74ac36b7291cf32a1c71a18890b6a1e5
+  - name: php-pgsql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-pgsql-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 37673f0d36bce183a78a3b0a6bbec1bc
+  - name: php-phalcon
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-phalcon-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ad5d97aa875f7f3c1d59ae36275d2712
+  - name: php-phpiredis
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-phpiredis-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6b2473696a9c9be102643492a9792cf8
+  - name: php-pspell
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-pspell-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5da44fa89c55053e502a8fceda57b2fa
+  - name: php-redis
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-redis-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 963aa57fbde9c244f1f960e2d192b375
+  - name: php-snmp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-snmp-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 17247e483d02a5771302b4d97c8b65f7
+  - name: php-soap
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-soap-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0166039a23bc5a2320d37d7e3044c21d
+  - name: php-sockets
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-sockets-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f01fea587b274e17e409e4e822f68833
+  - name: php-suhosin
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-suhosin-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: fc2f3fd53e14851eb2a39636aa1bcdab
+  - name: php-sundown
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-sundown-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d52777f1d1310ee488af822e0ca89c50
+  - name: php-twig
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-twig-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a192c15f685095f71d14ae77fc2534c7
+  - name: php-xdebug
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-xdebug-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 43e5c4aee53d75b5107c34edbdfa9872
+  - name: php-xsl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-xsl-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d5698b377be80d5dee7215e8e866fc63
+  - name: php-yaf
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-yaf-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 91257d55813ce6e761df683ae88e428d
+  - name: php-zip
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-zip-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3ebd4be1f1993270d807a155bd6fc15b
+  - name: php-zlib
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.6.5/php-zlib-5.6.5.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0464f9a3adf44bc815c512447db1745b
+  - name: php
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a37d8569035c7e72843673e6a95dff3f
+  - name: php-amqp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-amqp-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f255996aedd1e1f797d53a2fb305902e
+  - name: php-apc
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-apc-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 34b6907906f1de2f61e29a549915064d
+  - name: php-apcu
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-apcu-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: edfaa5b04536244b08d204f036600ff0
+  - name: php-bz2
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-bz2-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 78dd698ecbb7847e08c2851edf20db2d
+  - name: php-cgi
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-cgi-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 717da62589b741c478d180157e68b72f
+  - name: php-cli
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-cli-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a80d873a49cc66ab5372b0aebb3ff788
+  - name: php-curl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-curl-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6e54fd3f58eb9519388b5714c6895e98
+  - name: php-dba
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-dba-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8cbe6e0190e3f718981b67faee20ccff
+  - name: php-exif
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-exif-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 593430fb21a3ab88b11d2a84b07366d6
+  - name: php-fileinfo
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-fileinfo-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 05bee789c5946e5f0df520d76eafec60
+  - name: php-fpm
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-fpm-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 73410a4c2a35a9aec637aca27188261a
+  - name: php-ftp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-ftp-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 44662bec67a44a4dfab4fa38a350b269
+  - name: php-gd
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-gd-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 61e7053d5b2fc3714c81c98e77f56bcc
+  - name: php-gettext
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-gettext-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4635022fdabe4f52a30854c742dbd66f
+  - name: php-gmp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-gmp-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b1c90307e728612839970a4d6a038d46
+  - name: php-igbinary
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-igbinary-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f318083c37c446600bf94fb57f387047
+  - name: php-imagick
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-imagick-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6143a6c4399b56e977f8b0b5a3411450
+  - name: php-imap
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-imap-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5a64bc226aa840a1671448bbfd5a437c
+  - name: php-intl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-intl-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f525ceaab6ab358c3bc43f606df590e3
+  - name: php-ioncube
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-ioncube-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 637d2c44c314a3825b2b3d8a5b4c7fd5
+  - name: php-ldap
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-ldap-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: cdf710be3a53bce5791503d782af382a
+  - name: php-lua
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-lua-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: fc4fe2b235ef79de1f860b550a706d41
+  - name: php-mailparse
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-mailparse-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b861c67d24e6f26768bc3205f6d05e6e
+  - name: php-mbstring
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-mbstring-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f390425babe4aa31ed1ab83b7d60b3e0
+  - name: php-mcrypt
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-mcrypt-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 85f4ce7a38874e2a231d0213d829da3c
+  - name: php-memcache
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-memcache-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 56e1a6fa815993a28b12ee02e817e4b1
+  - name: php-memcached
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-memcached-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 68a310ab41004f49f2ceec59bd5ccb4c
+  - name: php-mongo
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-mongo-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f1c1b9aea0949a57bb8851e507942c40
+  - name: php-msgpack
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-msgpack-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 01ba739279f95e0249b2dd95428033dc
+  - name: php-mysql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-mysql-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ef30acfcb2176e826298f79d78498b47
+  - name: php-mysqli
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-mysqli-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: aaa2a98c99d53fc001d17fa5d77b6ceb
+  - name: php-opcache
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-opcache-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4ec62b0ff1f4e0db10d7236318c0f0dc
+  - name: php-openssl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-openssl-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 21f1dd082c5ee59a7c0d35aedb79b9a0
+  - name: php-pdo
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-pdo-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 642417f78c7e616edd9c512d44c2e602
+  - name: php-pdo_mysql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-pdo_mysql-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e902870bcc8bd227234060d6dd2db3d2
+  - name: php-pdo_pgsql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-pdo_pgsql-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3541227adfb80011760435760d275eb7
+  - name: php-pdo_sqlite
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-pdo_sqlite-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4101af3d7048dcb7389b563436905e67
+  - name: php-pear
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-pear-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: cd370ef0a30a51c6c50be20794e831b5
+  - name: php-pgsql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-pgsql-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 552b1503bc5188e1f41a8476c4fe1c70
+  - name: php-phalcon
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-phalcon-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6d591db3c35c76e360e669d38429a52f
+  - name: php-phpiredis
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-phpiredis-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4701906443440131bd2248adb464eda4
+  - name: php-pspell
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-pspell-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 44354f74ba234d50544b5846c5677ff5
+  - name: php-redis
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-redis-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 18e1290c16d17acc53284a1e327a983c
+  - name: php-snmp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-snmp-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 47297304593366b3b8b335ccae5ce1cf
+  - name: php-soap
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-soap-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e893536b31cb276d53bf6cd05c955a71
+  - name: php-sockets
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-sockets-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4a0d588e29dd0a707cebb7ad0cf59fd8
+  - name: php-suhosin
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-suhosin-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 61cff76e2a80e766d2d23e2750af9209
+  - name: php-sundown
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-sundown-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 25d93c55a6d47eaaa82ad810cdf58148
+  - name: php-twig
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-twig-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4e09cc8276198a6a9621dc800383dc68
+  - name: php-xcache
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-xcache-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 358785529efc758459519f1576a23bdf
+  - name: php-xdebug
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-xdebug-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d203b6e9591ebc0a4cd9119b00bdbc7f
+  - name: php-xhprof
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-xhprof-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f1b71432664a989549049503c8f3f994
+  - name: php-xsl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-xsl-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 7528165035745308c525082e46a05d47
+  - name: php-yaf
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-yaf-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2e783fcb33b857fdd039070bb8532375
+  - name: php-zip
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-zip-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 9fb9b181241e6c1e304e167ccc647f06
+  - name: php-zlib
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-zlib-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: cc9b8d0a7f748a221be7f1336d04b6bd
+  - name: php-zookeeper
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/php/5.4.37/php-zookeeper-5.4.37.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3a8c26686f6725d8f803c4281d900a50
+  - name: php
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: a6716e9a5e4f5d9a4e732f210473d98a
+  - name: php-amqp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-amqp-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 7f3ae9448254e9802701c7081ea8a45f
+  - name: php-bz2
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-bz2-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 494d5e6803215eb7ef1fd73b780b696d
+  - name: php-cgi
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-cgi-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d9a15c606e111ff1f101b14e4d8468e2
+  - name: php-cli
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-cli-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 95959c07df3ab687e2e43e58f390e77b
+  - name: php-curl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-curl-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 19a70f8bbe911486cfd778c856469cb0
+  - name: php-dba
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-dba-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0f3453ec4b3621649280c992546bcb26
+  - name: php-exif
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-exif-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f3e445b0979ba6da199e1903029d1643
+  - name: php-fileinfo
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-fileinfo-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 07a08a88d8816d74b06158186cf87574
+  - name: php-fpm
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-fpm-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9ca1b57433c7cac047b554dc8f3d7e02
+  - name: php-ftp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-ftp-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ef2255f08252a3fd5f82cb78d3b07b97
+  - name: php-gd
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-gd-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 44fad8e683b1b6804ffdabf1b4cdf42d
+  - name: php-gettext
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-gettext-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 4dc7ad2e8c540b2cd2c6b9f3db9ae2d4
+  - name: php-gmp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-gmp-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ce3e154b9058abce7ed82a982106622e
+  - name: php-igbinary
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-igbinary-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 15740a7425813086b79cff0fcbded591
+  - name: php-imagick
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-imagick-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 7ca61d0005a42846304261325f3a84a0
+  - name: php-imap
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-imap-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 44c550a6f97385fa63d9ef0022f367ae
+  - name: php-intl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-intl-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2ae1ed7d8bf87495128e338be38dc9e4
+  - name: php-ioncube
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-ioncube-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 09254076ea7775124634cd53e2aee180
+  - name: php-ldap
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-ldap-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 59647e83d56cba32e73221441aee1bbf
+  - name: php-lua
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-lua-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9e36f8359f34b7ef2d98ced9669b0294
+  - name: php-mailparse
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-mailparse-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 87d2cf15b0dda0333b278bb8f7f8934f
+  - name: php-mbstring
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-mbstring-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 331109a81a02861a4ee178f3301b61e7
+  - name: php-mcrypt
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-mcrypt-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: af6d36cd4abf87c1fd10359ada85de16
+  - name: php-memcache
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-memcache-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 94660145b4c4b8b45fcfe6d7e9adb72f
+  - name: php-memcached
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-memcached-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ff25fa6a0519fe6d060d09ae287257e7
+  - name: php-mongo
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-mongo-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c566db7e57e7455bbe75d77bd2b9e9d3
+  - name: php-msgpack
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-msgpack-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 830f31f3b9f9ab5840fd20b190e67542
+  - name: php-mysql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-mysql-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 99088617ad6bc79e6208e67c8a4c1b95
+  - name: php-mysqli
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-mysqli-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9896ab8f40ebd8762208823f8af95e44
+  - name: php-opcache
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-opcache-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: a94a50a69ee02e1d7ff3358b494410e2
+  - name: php-openssl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-openssl-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: aed55a8c1179d7646164b3079aa50eb6
+  - name: php-pdo
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-pdo-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: cbb34a493b26ee8da2bc5733ff137ec0
+  - name: php-pdo_mysql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-pdo_mysql-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 47857b3c4e0726158505b5a3d8a71521
+  - name: php-pdo_pgsql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-pdo_pgsql-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1589383edc2c4eb9531d320d71dc88ef
+  - name: php-pdo_sqlite
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-pdo_sqlite-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f6971cc20d4686f982d56cf19770b2fa
+  - name: php-pear
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-pear-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: be88960c11050a0645bb7154400fe53f
+  - name: php-pgsql
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-pgsql-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: bbc6aa0856ebb355c774ad22ac28411a
+  - name: php-phalcon
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-phalcon-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 54e5e46c582a9b9dc65a406d1fa49a60
+  - name: php-phpiredis
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-phpiredis-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3c3a37a18d9928815a540768f4b0a561
+  - name: php-pspell
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-pspell-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9d414b075ddda44e3087c8bab9a9f32f
+  - name: php-redis
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-redis-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 10420d7f437272e46f10fedb13e6042d
+  - name: php-snmp
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-snmp-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: be35b0ec3fb521a8d13b148751d23753
+  - name: php-soap
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-soap-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1dee25b4efa3bb3ca34e885115b13b8e
+  - name: php-sockets
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-sockets-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: aeeedcc0602a6b1dd733d42ed2e91269
+  - name: php-suhosin
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-suhosin-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1dde03ab429295aa1f894c682cded2fa
+  - name: php-sundown
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-sundown-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e3bffa88775d316a552e8a4a6e1dc105
+  - name: php-twig
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-twig-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f592e4a8e7c6b15497a55376ec5e68f4
+  - name: php-xcache
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-xcache-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9d0e407ca2cdb48f63d311fb78936be4
+  - name: php-xdebug
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-xdebug-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ba0d94b5d8ccf48749e1ddd8c3600885
+  - name: php-xhprof
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-xhprof-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 14a1517d1288395a2db1b04ee4b2d466
+  - name: php-xsl
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-xsl-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e249fee2a4961b825e24e8454aa44b41
+  - name: php-yaf
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-yaf-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3494530dfd3f721d30f182e555468b3c
+  - name: php-zip
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-zip-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 33da93fd35f27f05a4a824e920d5a5dc
+  - name: php-zlib
+    version: 5.5.21
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-zlib-5.5.21.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2f3be843012e45b4f326d37e94053d36
+  - name: php
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e0fa2eac1beb560ecda946948b46933c
+  - name: php-amqp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-amqp-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9d63178ff0f553b9c05a56b20b205e32
+  - name: php-bz2
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-bz2-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0e6e1a3c92a7186ef075fe959e3b4437
+  - name: php-cgi
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-cgi-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d16437e3d30fb5e247393ffcc3304f21
+  - name: php-cli
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-cli-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c6d6ae61fee81dbb100638b57609bfb2
+  - name: php-curl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-curl-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 119501a6c55ce6ed791fe10d488a457c
+  - name: php-dba
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-dba-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3e6573d137614f7bb7bcea2df7ca9962
+  - name: php-exif
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-exif-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 8e63112ad5bb032339fc768f7cdc5454
+  - name: php-fileinfo
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-fileinfo-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0be17f6102c66a52ab8693b628d487d4
+  - name: php-fpm
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-fpm-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: aa827a2797ffe717dd10f62882fa181a
+  - name: php-ftp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-ftp-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 269af19384f7abae7f359203fdeff6f8
+  - name: php-gd
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-gd-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6a9da9ab73b1210412c222974cf0b38c
+  - name: php-gettext
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-gettext-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 7dbaec5c0515a6a50df8d06d5cf098d8
+  - name: php-gmp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-gmp-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1849a01c4a1a9e6b9be6164093718d20
+  - name: php-igbinary
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-igbinary-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: a8c4b417241831ce0323403800871abd
+  - name: php-imagick
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-imagick-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c4ce4db54c6a5e7ac41bd2cae6482355
+  - name: php-imap
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-imap-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: b18fdd3610995cc8d05835a0b79bda2c
+  - name: php-intl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-intl-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c4c02893278069e23cb0d3f906bb88d9
+  - name: php-ioncube
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-ioncube-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 80d5b65c842c033397066c544b6e3f3f
+  - name: php-ldap
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-ldap-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 705813515bb9e631a3e76b51a66199f7
+  - name: php-lua
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-lua-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 45193684459b2929028d1fef8a270b5b
+  - name: php-mailparse
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-mailparse-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f7bba940dded52abe745aa27e8cb4d9b
+  - name: php-mbstring
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-mbstring-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 293d437cb7426154a7b61e13d7929513
+  - name: php-mcrypt
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-mcrypt-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3b48c5daaf7115c568111f764f29e9c1
+  - name: php-memcache
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-memcache-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3d39a18cceb1e0865465298f8c797c38
+  - name: php-memcached
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-memcached-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e2a58551f089937f86791e98f138ac82
+  - name: php-mongo
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-mongo-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: a044a6cf004fdb1df638cfb859d51267
+  - name: php-msgpack
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-msgpack-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c520efeb44927ed4a0db625c3a0f0075
+  - name: php-mysql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-mysql-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0c64ae60d2f611c22d558122064c0af1
+  - name: php-mysqli
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-mysqli-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 8dfe6b05029e964990c132dea6a99523
+  - name: php-opcache
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-opcache-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e0b1a66bcad1cea049dfce119e0a24f8
+  - name: php-openssl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-openssl-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 27f82c6c808c3b8faed8021cc2049b47
+  - name: php-pdo
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-pdo-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 74f41c7b31bd68f91e80fa2e9dc4816e
+  - name: php-pdo_mysql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-pdo_mysql-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 04c3728ddd0d60ffa5af3dd314f0ce9a
+  - name: php-pdo_pgsql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-pdo_pgsql-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3851456791565263209717dfb3a9e5dd
+  - name: php-pdo_sqlite
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-pdo_sqlite-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 315747e43b014d3ae092de908ffa2720
+  - name: php-pear
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-pear-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 391350008165774bc03daf160776d94f
+  - name: php-pgsql
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-pgsql-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: dcc9b07cbde2f1c4c37df4052355133e
+  - name: php-phalcon
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-phalcon-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5b5ef687af707f9f4ca91f752161a371
+  - name: php-phpiredis
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-phpiredis-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 808150a39bd794cac894645353b31a13
+  - name: php-pspell
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-pspell-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c6b5b37df11d0e48b82efd7248663d55
+  - name: php-redis
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-redis-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 68e485e87349a10427f77e28d1009861
+  - name: php-snmp
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-snmp-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c375dd66738c6ea6978591b1fb9b345a
+  - name: php-soap
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-soap-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 298838183b4b99402152b3c07771c089
+  - name: php-sockets
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-sockets-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 83590ab3190293899c2dac700cf33863
+  - name: php-suhosin
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-suhosin-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d1dc483161aa65eea1fe89fdd72761c6
+  - name: php-sundown
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-sundown-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 62ea440da7fd4ca659c91e244c92d54a
+  - name: php-twig
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-twig-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 538786ef4ee7e9a826deb2d8d84ac48d
+  - name: php-xdebug
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-xdebug-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 45134a468dc6444b3913e0f791fc07f8
+  - name: php-xsl
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-xsl-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f5bf92df94557f34a6ca4bf56437f5a5
+  - name: php-yaf
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-yaf-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 232a73561e893cb3ba5b47c2a1f796e5
+  - name: php-zip
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-zip-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f1488dff10a2602e50942c50839d9cb8
+  - name: php-zlib
+    version: 5.6.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.6.5/php-zlib-5.6.5.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5acefa2b3486ece35217df627590a63a
+  - name: php
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 32b405bb569513accc967d58e079c7da
+  - name: php-amqp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-amqp-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e62c8d9cb1955bce4f3004e732f1150e
+  - name: php-apc
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-apc-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: b8b027ca32d808b6002dec490357177b
+  - name: php-apcu
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-apcu-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5e14edd5321528e818084753c00f7ed0
+  - name: php-bz2
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-bz2-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 762a06d73e01cc4235478fe73e912b19
+  - name: php-cgi
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-cgi-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: fd3163647e2a18187821bd29258f0c13
+  - name: php-cli
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-cli-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6801d8fc32f0190bda4a0e50ec531167
+  - name: php-curl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-curl-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c326bcab606416f2f3a885a183bb27c5
+  - name: php-dba
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-dba-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: fab23f4cf0f108d95b09a3c2cc248543
+  - name: php-exif
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-exif-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5eb040a2f0ff7144e76024ae08254dd4
+  - name: php-fileinfo
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-fileinfo-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 14ade7e3a9a283be203873367e734e81
+  - name: php-fpm
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-fpm-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 31db83b3eb60bde630f18339fdeb8771
+  - name: php-ftp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-ftp-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: bf09afd2b0e6816aaa25e741bbd97931
+  - name: php-gd
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-gd-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 19e78b4f758d58c798f3fed5b4d2610c
+  - name: php-gettext
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-gettext-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 604e3d67e02516e9a09d843fbe89e463
+  - name: php-gmp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-gmp-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 57eac03af09ea21d94913a65a750de43
+  - name: php-igbinary
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-igbinary-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9a9e554d387661f4896436c641c7ce0c
+  - name: php-imagick
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-imagick-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 56c38f3d1cf999d5ba3e580899064b60
+  - name: php-imap
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-imap-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 4ce0b51bc84524ae504abdf7d963f1ee
+  - name: php-intl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-intl-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d856630e32f56d96295f96c60879fbf1
+  - name: php-ioncube
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-ioncube-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2eedcbe64e73821a82b4455f4ff255ae
+  - name: php-ldap
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-ldap-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6de8992e9a57d3f7015dd17bdecdc45e
+  - name: php-lua
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-lua-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: a7a01eed8a0141a9fbd4fe4cd7c80299
+  - name: php-mailparse
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-mailparse-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 26769c77e1c2abc9e51014e507ab917b
+  - name: php-mbstring
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-mbstring-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 97b16abc4c68397d02a6360d6d85d957
+  - name: php-mcrypt
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-mcrypt-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1c204bb1d4584419c8a61998126b9ada
+  - name: php-memcache
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-memcache-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 19e2933c18e4ad385dd68f15d86f4a69
+  - name: php-memcached
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-memcached-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 4d74a1437b824e41f97a8506b83e8640
+  - name: php-mongo
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-mongo-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f591b563cfad754b123e52ce8d661f21
+  - name: php-msgpack
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-msgpack-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 76506359af2f1f5a1762596e659c2fbb
+  - name: php-mysql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-mysql-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e227831ba5ccaf10dcacdf75923500ff
+  - name: php-mysqli
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-mysqli-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: fdbf1a0711f6cfcf6ad7d5386abd45a5
+  - name: php-opcache
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-opcache-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 754c756854b1fb65298c793bc26dd6ed
+  - name: php-openssl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-openssl-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 75307d3538b45d411bbb76cb2d7213df
+  - name: php-pdo
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-pdo-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: b0604bbe8d0f690bcb69d1cc9f158e2b
+  - name: php-pdo_mysql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-pdo_mysql-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5c6636c3131fb5ed0e38e0a375e6c9fc
+  - name: php-pdo_pgsql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-pdo_pgsql-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 22cf19ee169cf8434ab31205064dec60
+  - name: php-pdo_sqlite
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-pdo_sqlite-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: cb9211930a591735542cef063b3b2d9d
+  - name: php-pear
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-pear-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: bd0ca64d8b97a409ad0220a10593d42d
+  - name: php-pgsql
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-pgsql-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ec942b748324b25450696350e6ca4f2a
+  - name: php-phalcon
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-phalcon-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 27f04cb3e9587af59d1e9e70e2c7de60
+  - name: php-phpiredis
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-phpiredis-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 801cbe536b5defada59ee7927698a018
+  - name: php-pspell
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-pspell-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 30d56f1357ad41a1346a365e2509f225
+  - name: php-redis
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-redis-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 28fec73778764faa385fee5628ff0478
+  - name: php-snmp
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-snmp-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d4fa2d30776b84a32d1db0c707774cc4
+  - name: php-suhosin
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-suhosin-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9e8749b5d4b5d654b769c640713b5621
+  - name: php-sundown
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-sundown-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 961c36655ef1c882fe6ae91124414320
+  - name: php-twig
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-twig-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f4ea47b163655e527b9c3bc7b86bf2d5
+  - name: php-xcache
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-xcache-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 432597d1d26c80e0b7c09896195a2f26
+  - name: php-xdebug
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-xdebug-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: adc6e9e789cf260c95ed9dbd5fd85b6c
+  - name: php-xhprof
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-xhprof-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2c84a5b9d0614a097a92f691c64d0242
+  - name: php-xsl
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-xsl-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6c7fee96ace73886f05c6a2d56dd56b4
+  - name: php-yaf
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-yaf-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1552469edac029374e41519c5c950122
+  - name: php-zip
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-zip-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 583e0fc1f39d7f7237c4131cb182627f
+  - name: php-zlib
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-zlib-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1c8f7979348cb28c1e3c626d2db30f5b
+  - name: php-zookeeper
+    version: 5.4.37
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.37/php-zookeeper-5.4.37.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: aa8e68ca33768ac413f6522137d2e27a
