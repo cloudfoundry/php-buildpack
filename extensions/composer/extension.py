@@ -144,7 +144,7 @@ class ComposerExtension(ExtensionHelper):
             'COMPOSER_HASH_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
                                  '{COMPOSER_PACKAGE}.{CACHE_HASH_ALGORITHM}',
             'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
-            'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/{LIBDIR}/vendor',
+            'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/vendor',
             'COMPOSER_BIN_DIR': '{BUILD_DIR}/php/bin',
             'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer'
         }
