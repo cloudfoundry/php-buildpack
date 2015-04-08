@@ -33,6 +33,7 @@ Here are a list of the options that an application developer might want to overr
 | HTTP_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via http. |
 | HTTPS_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via https. |
 | ADDITIONAL_PREPROCESS_CMDS | A list of additional commands that should be run prior to the application.  This allows developers a way to run things like migration scripts prior to the application being run. |
+| COMPOSER_VENDOR_DIR | Location of `vendor` directory that is created by composer upon staging. |
 
 ### HTTPD, Nginx and PHP configuration
 
