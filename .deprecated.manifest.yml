@@ -1009,6 +1009,714 @@ dependencies:
     cf_stacks:
       - lucid64
     md5: 3a8c26686f6725d8f803c4281d900a50
+  - name: httpd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5faf24e046a469fde6dcfcc0e61c5e3a
+  - name: httpd-mod_access_compat
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_access_compat-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e782ac1ac97ce4452ca7da550b9bb6cf
+  - name: httpd-mod_actions
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_actions-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: db60f3f61a3e13ee472b5e0734699bbc
+  - name: httpd-mod_alias
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_alias-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 26ee3da2e1f12ac2a47d58a344aaa6fb
+  - name: httpd-mod_allowmethods
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_allowmethods-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 26dbfe030617ffd767590b99556ad29d
+  - name: httpd-mod_asis
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_asis-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: fc65db5e78b06cc0385b7713541b8267
+  - name: httpd-mod_auth_basic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_auth_basic-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 7367fff204d30464ffdafd6820708292
+  - name: httpd-mod_auth_digest
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_auth_digest-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c83ac14e883d8f1a0951c0295b379dd2
+  - name: httpd-mod_auth_form
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_auth_form-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b20da9b9458093b77d5f8e0d97aeee1f
+  - name: httpd-mod_authn_anon
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authn_anon-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b208604992cb4c57011185d421ee78d5
+  - name: httpd-mod_authn_core
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authn_core-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8e4e74d1e548a26c0c15115363fd386c
+  - name: httpd-mod_authn_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authn_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d862dc4a0784bfb5311f006f48b3afb4
+  - name: httpd-mod_authn_dbm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authn_dbm-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 53467a59be57a44a24e452574eceb641
+  - name: httpd-mod_authn_file
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authn_file-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 44a29e0051183a13767e386e6ceee5b3
+  - name: httpd-mod_authn_socache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authn_socache-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0e8423cbb7f4326e47f08c8d42fa7cc9
+  - name: httpd-mod_authnz_fcgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authnz_fcgi-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b55d36709777bc18dbf83504c4576230
+  - name: httpd-mod_authnz_ldap
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authnz_ldap-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 26d207c8a95eca9f20b5d1db70c7249e
+  - name: httpd-mod_authz_core
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authz_core-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b06eb5596c1fe1177389e227473e8fe3
+  - name: httpd-mod_authz_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authz_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 25ced6b92a4282ca19df81a224ffc42b
+  - name: httpd-mod_authz_dbm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authz_dbm-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d3249b5f298c4f1009a4497f570fa995
+  - name: httpd-mod_authz_groupfile
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authz_groupfile-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6a650e485d28eff4efa12e4cf30b2e52
+  - name: httpd-mod_authz_host
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authz_host-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 7a44a4864fc0559888f051bef916342c
+  - name: httpd-mod_authz_owner
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authz_owner-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 265f74061021317a566d754eaf425017
+  - name: httpd-mod_authz_user
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_authz_user-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d410078f7a2dc2dace02b70133b7e8af
+  - name: httpd-mod_autoindex
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_autoindex-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6a9a5c8e63f9b76808443f966f8ba545
+  - name: httpd-mod_bucketeer
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_bucketeer-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f293410cf4c9649b733960aff55f5b23
+  - name: httpd-mod_buffer
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_buffer-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c13447144851297d85151f8cea954255
+  - name: httpd-mod_cache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_cache-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 7b3b6e501412cae436e70b23eb4e6783
+  - name: httpd-mod_cache_disk
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_cache_disk-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ea5c0da15cd31e968de2548cb5bffb0a
+  - name: httpd-mod_cache_socache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_cache_socache-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 320e2b73e63ef46e5911bb51f5f7e5c5
+  - name: httpd-mod_case_filter
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_case_filter-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f638ceab923caf154fd53ca5fb55ab77
+  - name: httpd-mod_case_filter_in
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_case_filter_in-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3e0cf02e23049256dd93ac099df19599
+  - name: httpd-mod_cern_meta
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_cern_meta-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ee0f8e309da83b014857870841da7944
+  - name: httpd-mod_cgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_cgi-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: cbd0fc4c593e5e2b1eb8760d4c4b3c50
+  - name: httpd-mod_cgid
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_cgid-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5a14498218d12685632def3f15505f80
+  - name: httpd-mod_charset_lite
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_charset_lite-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c5c388bfbcd9ab83f1bf065fec3cd070
+  - name: httpd-mod_data
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_data-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3bec312c56976d0b0d492ead3c77be4d
+  - name: httpd-mod_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c9abf0c11740a81dba8064aa972495cd
+  - name: httpd-mod_deflate
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_deflate-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 831b77c8db0138b3cabf12d3fe3ec657
+  - name: httpd-mod_dir
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_dir-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4ad28f6691ee53eaed03acc6683d453e
+  - name: httpd-mod_dumpio
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_dumpio-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 50f41f57466f800bc5251538762898c8
+  - name: httpd-mod_echo
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_echo-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: db9f0fd94600efd08ed77b3ecfd60ad3
+  - name: httpd-mod_env
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_env-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 936a036b1e57d3e76b26e56251c7ab20
+  - name: httpd-mod_example_hooks
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_example_hooks-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 92a5a05cc6123c856aa16232b881d747
+  - name: httpd-mod_example_ipc
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_example_ipc-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: daa236d155a541260d96bb1600646edd
+  - name: httpd-mod_expires
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_expires-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d448a473088dfa695643aa3b2a43e14a
+  - name: httpd-mod_ext_filter
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_ext_filter-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 77ff6e0ea78d6863ee09fed030b05975
+  - name: httpd-mod_file_cache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_file_cache-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 327ac1f71230623d746209f713db665e
+  - name: httpd-mod_filter
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_filter-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: dbea66fa1fa11903c570a8612082f551
+  - name: httpd-mod_headers
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_headers-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 16fef3de96462e459edab2443b2a27a8
+  - name: httpd-mod_heartbeat
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_heartbeat-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 03b851bac2a070dc67ab19e5483c50cf
+  - name: httpd-mod_heartmonitor
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_heartmonitor-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 38559887b125d0d92877ed634c9a2183
+  - name: httpd-mod_ident
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_ident-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0e5c58ee871dbff9cba8dc407a4390b3
+  - name: httpd-mod_imagemap
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_imagemap-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8ce59b10fe54167c9e2565fab3a6815b
+  - name: httpd-mod_include
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_include-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 9571f4e825ee6dab00290ad9719a8676
+  - name: httpd-mod_info
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_info-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2d6d8a95796c78d2e50e72685a6fb5c4
+  - name: httpd-mod_lbmethod_bybusyness
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_lbmethod_bybusyness-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 95a7ef0e4b4d78980fad2663ab802ce0
+  - name: httpd-mod_lbmethod_byrequests
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_lbmethod_byrequests-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 85b4da87906cef5b61c17e170398355e
+  - name: httpd-mod_lbmethod_bytraffic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_lbmethod_bytraffic-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8b9391371bec8a9c853651fd209971fa
+  - name: httpd-mod_lbmethod_heartbeat
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_lbmethod_heartbeat-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 63a35df0c92eff057af7a8529fce991a
+  - name: httpd-mod_ldap
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_ldap-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c61a5ce363032f775ca7232c1b509a82
+  - name: httpd-mod_log_config
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_log_config-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 893c5931bcc58958e9e280a8918b95fe
+  - name: httpd-mod_log_debug
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_log_debug-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 31307ca2fd57472918b5de3ca168a472
+  - name: httpd-mod_log_forensic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_log_forensic-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 9bed9f011e9dc301160e05fd8c54f8da
+  - name: httpd-mod_logio
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_logio-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 55f2f4644bb920ebdbe6ce93c85a302c
+  - name: httpd-mod_lua
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_lua-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 64434d60905385634022571b3b8e1b2f
+  - name: httpd-mod_macro
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_macro-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 281e73bafac81b086eb99cd1110cdc06
+  - name: httpd-mod_mime
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_mime-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 0163201ebb6d8544ff38d2b641322d7a
+  - name: httpd-mod_mime_magic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_mime_magic-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c8feafff8bdb43f7976d3a15fa814a2d
+  - name: httpd-mod_mpm_event
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_mpm_event-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ebe36af3b2117524c446b209d48557c4
+  - name: httpd-mod_mpm_worker
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_mpm_worker-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 6bfe73ef7bf75085517ce4478cf94bc5
+  - name: httpd-mod_negotiation
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_negotiation-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a1783a43b677cff23220632446cd707b
+  - name: httpd-mod_optional_fn_export
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_optional_fn_export-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d69342da647ed7fd3605867e2b275d13
+  - name: httpd-mod_optional_fn_import
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_optional_fn_import-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 740b589054cc1e05b5e09aa0fb0ff14a
+  - name: httpd-mod_optional_hook_export
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_optional_hook_export-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3fa1733fd600c6d8eb4849d4892a5d35
+  - name: httpd-mod_optional_hook_import
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_optional_hook_import-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 1ff630fd5f58cd21bfcdadada7df0366
+  - name: httpd-mod_proxy
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 54e15fbbd833f57d71793b819803d9cd
+  - name: httpd-mod_proxy_ajp
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_ajp-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4bbc83fbebe479d65ff3e1c7ad5bb580
+  - name: httpd-mod_proxy_balancer
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_balancer-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 519f01febb46aaa32cad2e3a56e1452b
+  - name: httpd-mod_proxy_connect
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_connect-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e7661160450a87ae6980f5b4dae015d4
+  - name: httpd-mod_proxy_express
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_express-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a8ec94ec6a9d09f5ddfd8c195060a310
+  - name: httpd-mod_proxy_fcgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_fcgi-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 854230b756f2929745427ae232f93572
+  - name: httpd-mod_proxy_fdpass
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_fdpass-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 34448ccaf7faa59e5dbf7d6f01415876
+  - name: httpd-mod_proxy_ftp
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_ftp-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: e88a60eaf38076b9e30533bfe906c47b
+  - name: httpd-mod_proxy_html
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_html-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 2780fd8759adc40a9e1f4bb68c3c4ed8
+  - name: httpd-mod_proxy_http
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_http-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 4a6bf3c00382eb7de79d78b29cef33eb
+  - name: httpd-mod_proxy_scgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_scgi-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: df5dd111882c348d02769cef1c8a0d7b
+  - name: httpd-mod_proxy_wstunnel
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_proxy_wstunnel-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: cda0b33fabe089cd961b6db19ee52d80
+  - name: httpd-mod_ratelimit
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_ratelimit-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ef7ac58535c7b038d616f103a8f8f51a
+  - name: httpd-mod_reflector
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_reflector-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 40f86f6f6e7ba8a1114141e9550b9014
+  - name: httpd-mod_remoteip
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_remoteip-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 05c9abc2a8a02a28a76e02011b046db2
+  - name: httpd-mod_reqtimeout
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_reqtimeout-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b7a8da9e0e2192eaaa391a7428bf9603
+  - name: httpd-mod_request
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_request-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 819bd75a05edd64b3cd64693b801e61d
+  - name: httpd-mod_rewrite
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_rewrite-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 569522340c66467bebbe89700591ec9c
+  - name: httpd-mod_sed
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_sed-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: d25a9b0c522d8de92117cfcb29fed07d
+  - name: httpd-mod_session
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_session-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c39ffe30b5abc52c8f1cc1f944d18803
+  - name: httpd-mod_session_cookie
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_session_cookie-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5d9efd8b3bc12f2fc6858a39febad823
+  - name: httpd-mod_session_crypto
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_session_crypto-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a185ce52f7c091003cca123f2f74db9b
+  - name: httpd-mod_session_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_session_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 486542264333b700e9eb4863ae69f226
+  - name: httpd-mod_setenvif
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_setenvif-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: acf36cbf691aea262291f3a804fafb7f
+  - name: httpd-mod_slotmem_plain
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_slotmem_plain-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 8475d148451009e252e7698f9b7dc082
+  - name: httpd-mod_slotmem_shm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_slotmem_shm-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 114f1822d882f4415eff2c5236e2a9dc
+  - name: httpd-mod_socache_dbm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_socache_dbm-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5fedcda0d576ad56136a82bb0c217cfd
+  - name: httpd-mod_socache_memcache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_socache_memcache-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a5edf74ac806ab08e16dcd4b501f0ee7
+  - name: httpd-mod_socache_shmcb
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_socache_shmcb-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b1b60f92e712b42ac6362f30031ae336
+  - name: httpd-mod_speling
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_speling-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5e6d4c1cfef0f7831c7d87ff081a3a42
+  - name: httpd-mod_ssl
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_ssl-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: ed8773121ea5df4d7336008ac170c0b5
+  - name: httpd-mod_status
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_status-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: bf029b9ff88be43208fa3646709659c4
+  - name: httpd-mod_substitute
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_substitute-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 54d8d70a9b0a08214a6209f594f14101
+  - name: httpd-mod_suexec
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_suexec-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 94c9bb598f1b3754b5cd8a3b7b423ed4
+  - name: httpd-mod_unique_id
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_unique_id-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 832d41edef9ad4caceb87837a1b2bc21
+  - name: httpd-mod_unixd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_unixd-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a7dab937c8de90a82e395ab1eca92cc5
+  - name: httpd-mod_userdir
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_userdir-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a15a2bb291725957215777cb7e09b410
+  - name: httpd-mod_usertrack
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_usertrack-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: a844cdc461bb46c87e662a89c1222c34
+  - name: httpd-mod_version
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_version-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5ebe04f6099963b3c145d69f10c773bd
+  - name: httpd-mod_vhost_alias
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_vhost_alias-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 3f0ad7f446c8686623a26e5d189e67ac
+  - name: httpd-mod_watchdog
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_watchdog-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c4c8ff9fb9b2fe584fa127ac54109669
+  - name: httpd-mod_xml2enc
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-mod_xml2enc-2.4.10.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: b427edfb236a3fe9be751893159f95da
   - name: php
     version: 5.5.21
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.21/php-5.5.21.tar.gz
@@ -2023,4 +2731,705 @@ dependencies:
     cf_stacks:
       - cflinuxfs2
     md5: a8d10a557dade6bacbbead5ebdf1904f
-
+  - name: httpd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 88e9c5cd73efc431fe73fcef6373d436
+  - name: httpd-mod_access_compat
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_access_compat-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5b3089f8ddf410f9219ba0da0ed209fb
+  - name: httpd-mod_actions
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_actions-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5ce80792f3ce152b2b70d0ac99ee3934
+  - name: httpd-mod_alias
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_alias-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6ef369d1770be9fffb278f3b77010339
+  - name: httpd-mod_allowmethods
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_allowmethods-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 219b0c8feccb6732377d5f9b813b7d55
+  - name: httpd-mod_asis
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_asis-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: b898f9e5211875c7dfe5e4967cc8eb86
+  - name: httpd-mod_auth_basic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_auth_basic-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 7909438beedaf040758d56a236493c59
+  - name: httpd-mod_auth_digest
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_auth_digest-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 064ef3e234dacbb629c201d1e6085e81
+  - name: httpd-mod_auth_form
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_auth_form-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 648cc96273a5cd42d629264b9cabb8c0
+  - name: httpd-mod_authn_anon
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authn_anon-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1dde6ed76d147c59d454166a41ad9a1a
+  - name: httpd-mod_authn_core
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authn_core-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 66644986fa808a0894f8d33e686cbf71
+  - name: httpd-mod_authn_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authn_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 8afe39bc9a070831d98700a12b02b511
+  - name: httpd-mod_authn_dbm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authn_dbm-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6b45d79e4290793e0d97f99d4cc49606
+  - name: httpd-mod_authn_file
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authn_file-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3bac17a30fdce8dcc129c4d71c67ef77
+  - name: httpd-mod_authn_socache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authn_socache-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ff568f16b39a631790441b5b8e5d6f1f
+  - name: httpd-mod_authnz_fcgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authnz_fcgi-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 24f29ceec1de9a370e4bebafc1e1495e
+  - name: httpd-mod_authnz_ldap
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authnz_ldap-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 215e6b05d387b89c2aa378929940b7b9
+  - name: httpd-mod_authz_core
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authz_core-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 201f8abba348a7f0ca470cda271934b7
+  - name: httpd-mod_authz_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authz_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3495ec8ef17a00ab906a250d0d485c6a
+  - name: httpd-mod_authz_dbm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authz_dbm-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: bb122538b2233bf5ac7d8ce3a759d26a
+  - name: httpd-mod_authz_groupfile
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authz_groupfile-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 40f72e40458dcbdf0896a98adf05bb74
+  - name: httpd-mod_authz_host
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authz_host-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 4152cd8cbeef4bd98877b9b0bdbbfcdb
+  - name: httpd-mod_authz_owner
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authz_owner-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5bc7f7af5e987d77adc481d5eec9ee20
+  - name: httpd-mod_authz_user
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_authz_user-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 68bf5620366fc5a5f75bfd499c6bb726
+  - name: httpd-mod_autoindex
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_autoindex-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 316dc9e8fbd5f54ea3b857cf3674b227
+  - name: httpd-mod_bucketeer
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_bucketeer-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 583f8e73f487ddbc34bf3eec74e69e21
+  - name: httpd-mod_buffer
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_buffer-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1133d11100c46d6b2bf02ef5f52d2248
+  - name: httpd-mod_cache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_cache-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 683b2b5aa35528990bb4fc18412f77c6
+  - name: httpd-mod_cache_disk
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_cache_disk-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 53051293ba9330eb040b666102ab2373
+  - name: httpd-mod_cache_socache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_cache_socache-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 13ad07253e4ffd8d940c1f167aa48a73
+  - name: httpd-mod_case_filter
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_case_filter-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f812ba5f23a8b7e85ba127311c5b8e64
+  - name: httpd-mod_case_filter_in
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_case_filter_in-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5815492d8bc5252190f00b2974ccd5a1
+  - name: httpd-mod_cern_meta
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_cern_meta-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: bfd54c63f93fbbbaf901f8ddf1e6cb59
+  - name: httpd-mod_cgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_cgi-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 393de5c14c4bc703ebefa273b0b4148a
+  - name: httpd-mod_cgid
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_cgid-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 830c754add6fcd174238f77a167b3354
+  - name: httpd-mod_charset_lite
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_charset_lite-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 7a099cda353ae3addbe931cbff9c477a
+  - name: httpd-mod_data
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_data-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: b8d5f1d32f6f14bb68c4de31804c69ef
+  - name: httpd-mod_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 39cce3f2d96f77d5975cc44c9724ffdc
+  - name: httpd-mod_deflate
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_deflate-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ff01e131e884e5ada8c26e524a1494fb
+  - name: httpd-mod_dir
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_dir-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d463b82328f69eb711b9918f667e1ec7
+  - name: httpd-mod_dumpio
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_dumpio-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9b79f882026d5c8c4f0da71127f3468a
+  - name: httpd-mod_echo
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_echo-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 57dfc9b850ba13a8bdf5cc60b3a6a651
+  - name: httpd-mod_env
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_env-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: da0da4b08c9e562351d959dd2bded2ff
+  - name: httpd-mod_example_hooks
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_example_hooks-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 574a83015bcdf5e4616d59ca44a9046f
+  - name: httpd-mod_example_ipc
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_example_ipc-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0dbab77ce8c1326c079668844604bb6a
+  - name: httpd-mod_expires
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_expires-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2b0e5d24f5b92f7a6e68b3493b140684
+  - name: httpd-mod_ext_filter
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_ext_filter-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 34b99cc33fa841a17278eb4b6ce97e21
+  - name: httpd-mod_file_cache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_file_cache-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 516d42af5128061b182f2078cc537be9
+  - name: httpd-mod_filter
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_filter-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 82ecb3eb54b4916d4b68319153acce7e
+  - name: httpd-mod_headers
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_headers-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e6d35fd34cc9c181360363e8ea0f3ab9
+  - name: httpd-mod_heartbeat
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_heartbeat-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 354fad6accbeff62f131233fcb64444c
+  - name: httpd-mod_heartmonitor
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_heartmonitor-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9778f7657e685bcc84b1627e46a0bc23
+  - name: httpd-mod_ident
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_ident-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 4b3608b495d7c2e5692ee72ec80c2f77
+  - name: httpd-mod_imagemap
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_imagemap-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 94bccb54702522fa56579154530cc56a
+  - name: httpd-mod_include
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_include-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d457b4e6f13e7ed0e9f5f93175b25576
+  - name: httpd-mod_info
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_info-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 22e52b54417ef2ec772dfc4ad4a3ce90
+  - name: httpd-mod_lbmethod_bybusyness
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_lbmethod_bybusyness-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2e064c5c5f224d8189c020a9f0de0e10
+  - name: httpd-mod_lbmethod_byrequests
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_lbmethod_byrequests-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6fb91ee7fac441911564342f599669b4
+  - name: httpd-mod_lbmethod_bytraffic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_lbmethod_bytraffic-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c2aeab87fd83da9982dd90d56cb52dc7
+  - name: httpd-mod_lbmethod_heartbeat
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_lbmethod_heartbeat-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 7a47168b8ee214f6cdb3bec9b5ca284d
+  - name: httpd-mod_ldap
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_ldap-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d658dc1fb2cff8116022c35ad0381ee2
+  - name: httpd-mod_log_config
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_log_config-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9100bc4d114e55b8ec73d9e48b3a94e6
+  - name: httpd-mod_log_debug
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_log_debug-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2e13f0f0e196a83bdd3077932f2f90a8
+  - name: httpd-mod_log_forensic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_log_forensic-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 223d4406679de2708899f0b1d517e5d0
+  - name: httpd-mod_logio
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_logio-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 4afb4b4895fbb73d3771644450d2c09a
+  - name: httpd-mod_macro
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_macro-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 8c139aaf5c0f9ea023049f361cbe796a
+  - name: httpd-mod_mime
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_mime-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: cbe1b1870f7a6db9632b93e1f5b54ec3
+  - name: httpd-mod_mime_magic
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_mime_magic-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 047c02caf5775fc3e563c3dc79560d44
+  - name: httpd-mod_mpm_event
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_mpm_event-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 9352dc8318cc280a04f83e1bd1026b3f
+  - name: httpd-mod_mpm_worker
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_mpm_worker-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: fd5e00f1f5fb321dc7d38a2a27d9c397
+  - name: httpd-mod_negotiation
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_negotiation-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d5713142fdb31e4785389a979d88f845
+  - name: httpd-mod_optional_fn_export
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_optional_fn_export-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 18b460ac72d7ff3f7f542cc998a848c5
+  - name: httpd-mod_optional_fn_import
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_optional_fn_import-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0df3f8e785d029ff5eaa6b9cf5e59430
+  - name: httpd-mod_optional_hook_export
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_optional_hook_export-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: b1d72d0cd50d44ebe1053e94d4ebfe7c
+  - name: httpd-mod_optional_hook_import
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_optional_hook_import-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d2cab7df1d6b9cc38be4dd3ffa96da29
+  - name: httpd-mod_proxy
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1b5b43875988af62122b37476be77387
+  - name: httpd-mod_proxy_ajp
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_ajp-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e41156e89c216e12af65e24687cfdc62
+  - name: httpd-mod_proxy_balancer
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_balancer-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2bfe9a6c31f48b66cabb4af2e413bcb4
+  - name: httpd-mod_proxy_connect
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_connect-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2751d997ad3fb293ab634cb3e23fa426
+  - name: httpd-mod_proxy_express
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_express-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0f30a1ba55bac1aedee0a46035860997
+  - name: httpd-mod_proxy_fcgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_fcgi-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: cff1da49785f25ecb9df70e0272c8763
+  - name: httpd-mod_proxy_fdpass
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_fdpass-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3f114e6d5b4d361f3e1cbfaeb43dd905
+  - name: httpd-mod_proxy_ftp
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_ftp-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1ee91e8d9266f9f1f279eb5a1dd70041
+  - name: httpd-mod_proxy_html
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_html-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: c669c830a38a27a15e5f246ebee5fda1
+  - name: httpd-mod_proxy_http
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_http-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0c05f29223b38e6f70119efa79f92a13
+  - name: httpd-mod_proxy_scgi
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_scgi-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e79299a6fb232ac3e442bcb71f39466a
+  - name: httpd-mod_proxy_wstunnel
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_proxy_wstunnel-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: d6e40a8c4fbc774c52fc9552ac98c192
+  - name: httpd-mod_ratelimit
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_ratelimit-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: efb34707b058d0be4a2c2231d37e2336
+  - name: httpd-mod_reflector
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_reflector-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f627c889ac181d25f5ffe1a807189c83
+  - name: httpd-mod_remoteip
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_remoteip-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: acca0d1c2721c856f32e6e4c4d12d2c0
+  - name: httpd-mod_reqtimeout
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_reqtimeout-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1fafc0c28ae4a43877dbc1a9ddb1fad0
+  - name: httpd-mod_request
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_request-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: b4d76b2807f01c162a9974bbfe6b38bb
+  - name: httpd-mod_rewrite
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_rewrite-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 530303209172871900e865f3fd0c3a26
+  - name: httpd-mod_sed
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_sed-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: ea754d1f4738eadf53ff9a724a7bfb55
+  - name: httpd-mod_session
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_session-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 87b37c4072a885312477af800d30494c
+  - name: httpd-mod_session_cookie
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_session_cookie-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0499c1c9c60dfaa268f0c902378aa4a7
+  - name: httpd-mod_session_crypto
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_session_crypto-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: afaef575fd5018b597ceaaaf0c62d65f
+  - name: httpd-mod_session_dbd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_session_dbd-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 2b8be438ca57f1148b2b277eea4b607b
+  - name: httpd-mod_setenvif
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_setenvif-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 798b2af5d83a7ad6ceb16d6b7091a2a1
+  - name: httpd-mod_slotmem_plain
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_slotmem_plain-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 49276207c270a7fa5537ef0fad421065
+  - name: httpd-mod_slotmem_shm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_slotmem_shm-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 14572afbbe1756bd21e423095d338ecd
+  - name: httpd-mod_socache_dbm
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_socache_dbm-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 0231ddb2021979546482cd7a0a7859a1
+  - name: httpd-mod_socache_memcache
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_socache_memcache-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: f13fbed5cefa8153816d6d53949413a3
+  - name: httpd-mod_socache_shmcb
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_socache_shmcb-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1b62e3ec085e4b174eac603986a5f6f2
+  - name: httpd-mod_speling
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_speling-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6f43ce95ae2f6dc45d72a6f45dcbb3b5
+  - name: httpd-mod_ssl
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_ssl-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6c51dba5ea0d0a2c57e032cc3d7bc568
+  - name: httpd-mod_status
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_status-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 3e674cff3139e018b59218107e009773
+  - name: httpd-mod_substitute
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_substitute-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 1f4f0c5ca3a4b022cd5bdec614ec7837
+  - name: httpd-mod_suexec
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_suexec-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 94cdcbabad6611c4232e6857fbbb945a
+  - name: httpd-mod_unique_id
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_unique_id-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 01f0279d68d3b20adc7bba8d129e0809
+  - name: httpd-mod_unixd
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_unixd-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6369b3729740d48852523d2797ed10a3
+  - name: httpd-mod_userdir
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_userdir-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 94d2131927a61a8f3c8478e3319794dd
+  - name: httpd-mod_usertrack
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_usertrack-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 106d9ed7cd8474dceae092542391c38b
+  - name: httpd-mod_version
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_version-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 5cf1a8a7c9ed50109ef5792c25c23508
+  - name: httpd-mod_vhost_alias
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_vhost_alias-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: a58234d67dfe01f78067fd13315ef9d1
+  - name: httpd-mod_watchdog
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_watchdog-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 469e149d928a06debde8b0d739e61789
+  - name: httpd-mod_xml2enc
+    version: 2.4.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-mod_xml2enc-2.4.10.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 6e4d94d46f1ea37de16ae6c6e6e6be18
