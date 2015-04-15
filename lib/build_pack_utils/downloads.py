@@ -43,12 +43,15 @@ class Downloader(object):
         process = Popen(command_arguments, stdout=PIPE)
         exit_code = process.wait()
 
-        if exit_code != 0:
+        if exit_code == 0:
+            print "Downloaded [%s] to [%s]" % (url, toFile)
+        elif exit_code == 1:
             print "Could not download dependency: %s" % url
             exit(1)
-        else:
-            print "Downloaded [%s] to [%s]" % (url, toFile)
-
+        elif exit_code == 3:
+            print "MD5 of downloaded dependency does not match expected value"
+            exit(1)
+ 
     def custom_extension_download(self, url, toFile):
         res = urllib2.urlopen(url)
         with open(toFile, 'w') as f:
