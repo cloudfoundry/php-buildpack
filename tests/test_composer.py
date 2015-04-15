@@ -447,7 +447,8 @@ class TestComposer(object):
             'PHP_VERSION': '5.4.31',
             'PHP_54_LATEST': '5.4.31',
             'BUILD_DIR': '',
-            'PHP_55_LATEST': '5.5.15'
+            'PHP_55_LATEST': '5.5.15',
+            'PHP_56_LATEST': '5.6.7'
         }
         pick_php_version = \
             self.extension_module.ComposerConfiguration(ctx).pick_php_version
@@ -467,6 +468,12 @@ class TestComposer(object):
         # exact PHP 5.5 versions
         eq_('5.5.15', pick_php_version('5.5.15'))
         eq_('5.5.14', pick_php_version('5.5.14'))
+        # latest PHP 5.6 version
+        eq_('5.6.7', pick_php_version('>=5.6'))
+        eq_('5.6.7', pick_php_version('5.6.*'))
+        # exact PHP 5.6 versions
+        eq_('5.6.7', pick_php_version('5.6.7'))
+        eq_('5.6.6', pick_php_version('5.6.6'))
         # not understood, should default to PHP_VERSION
         eq_('5.4.31', pick_php_version(''))
         eq_('5.4.31', pick_php_version(None))
