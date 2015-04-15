@@ -46,12 +46,10 @@ class Downloader(object):
         if exit_code == 0:
             print "Downloaded [%s] to [%s]" % (url, toFile)
         elif exit_code == 1:
-            print "Could not download dependency: %s" % url
-            exit(1)
+            raise RuntimeError("Could not download dependency: %s" % url)
         elif exit_code == 3:
-            print "MD5 of downloaded dependency does not match expected value"
-            exit(1)
- 
+            raise RuntimeError("MD5 of downloaded dependency does not match expected value")
+
     def custom_extension_download(self, url, toFile):
         res = urllib2.urlopen(url)
         with open(toFile, 'w') as f:

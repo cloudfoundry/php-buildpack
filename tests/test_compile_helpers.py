@@ -308,16 +308,16 @@ class TestCompileHelpers(object):
         manifest = load_manifest(ctx)
         dependencies = manifest['dependencies']
         versions = find_all_php_versions(dependencies)
-        eq_(18, len(versions))
-        eq_(6, len([v for v in versions if v.startswith('5.4.')]))
-        eq_(6, len([v for v in versions if v.startswith('5.5.')]))
+        eq_(12, len(versions))
+        eq_(4, len([v for v in versions if v.startswith('5.4.')]))
+        eq_(4, len([v for v in versions if v.startswith('5.5.')]))
 
     def test_find_php_extensions(self):
         ctx = {'BP_DIR': '.'}
         manifest = load_manifest(ctx)
         dependencies = manifest['dependencies']
         exts = find_all_php_extensions(dependencies)
-        eq_(9, len(exts.keys()))
+        eq_(6, len(exts.keys()))
         tmp = exts[[key for key in exts.keys() if key.startswith('5.4')][0]]
         assert 'amqp' in tmp
         assert 'apc' in tmp
