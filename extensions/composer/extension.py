@@ -141,7 +141,7 @@ class ComposerExtension(ExtensionHelper):
 
     def _defaults(self):
         return {
-            'COMPOSER_VERSION': '1.0.0-alpha9',
+            'COMPOSER_VERSION': '1.0.0-alpha10',
             'COMPOSER_PACKAGE': 'composer.phar',
             'COMPOSER_DOWNLOAD_URL': '{DOWNLOAD_URL}/composer/'
                                      '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',

@@ -230,3 +230,4 @@ class TestCompileWithInvalidJSON(BaseCompileApp):
     @raises(CalledProcessError)
     def test_compile_with_invalid_json(self):
         ErrorHelper().compile(self.bp)
+

@@ -4564,11 +4564,11 @@ dependencies:
       - lucid64
     md5: 97def843ac1e010714a865c7e5dacc47
   - name: composer
-    version: 1.0.0-alpha9
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/composer/1.0.0-alpha9/composer.phar
+    version: 1.0.0-alpha10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/composer/1.0.0-alpha10/composer.phar
     cf_stacks:
       - lucid64
-    md5: 05df355b5277c8c9012470e699fa5494
+    md5: dea8681b6f54dca9bb3a5b7deb179cca
   - name: hhvm
     version: 3.2.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/hhvm/3.2.0/hhvm-3.2.0.tar.gz
@@ -9070,11 +9070,11 @@ dependencies:
       - cflinuxfs2
     md5: a8d10a557dade6bacbbead5ebdf1904f
   - name: composer
-    version: 1.0.0-alpha9
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/composer/1.0.0-alpha9/composer.phar
+    version: 1.0.0-alpha10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/composer/1.0.0-alpha10/composer.phar
     cf_stacks:
       - cflinuxfs2
-    md5: 05df355b5277c8c9012470e699fa5494
+    md5: dea8681b6f54dca9bb3a5b7deb179cca
   - name: hhvm
     version: 3.6.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/hhvm/3.6.0/hhvm-3.6.0.tar.gz
