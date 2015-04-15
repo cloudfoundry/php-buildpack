@@ -1009,6 +1009,30 @@ dependencies:
     cf_stacks:
       - lucid64
     md5: 3a8c26686f6725d8f803c4281d900a50
+  - name: nginx
+    version: 1.7.9
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.7.9/nginx-1.7.9.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 5fdf64ad483275d9f26aa5d31d99e8dd
+  - name: nginx
+    version: 1.6.1
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.6.1/nginx-1.6.1.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: f192a3569464d5a7d5966889d6ebb895
+  - name: nginx
+    version: 1.5.12
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.5.12/nginx-1.5.12.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: c8b07016ad71bc73c080886fa020114d
+  - name: nginx
+    version: 1.5.11
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.5.11/nginx-1.5.11.tar.gz
+    cf_stacks:
+      - lucid64
+    md5: 68bf9475279e627365f26a271e6e8887
   - name: httpd
     version: 2.4.10
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/httpd/2.4.10/httpd-2.4.10.tar.gz
@@ -2702,35 +2726,23 @@ dependencies:
       - cflinuxfs2
     md5: aa8e68ca33768ac413f6522137d2e27a
   - name: nginx
-    version: 1.5.11
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.5.11/nginx-1.5.11.tar.gz
-    cf_stacks:
-      - lucid64
-    md5: 68bf9475279e627365f26a271e6e8887
-  - name: nginx
-    version: 1.6.0
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.6.0/nginx-1.6.0.tar.gz
-    cf_stacks:
-      - lucid64
-    md5: 576eb8f7236b6f34781f487bea361e87
-  - name: nginx
-    version: 1.7.8
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/lucid/nginx/1.7.8/nginx-1.7.8.tar.gz
-    cf_stacks:
-      - lucid64
-    md5: 97def843ac1e010714a865c7e5dacc47
-  - name: nginx
-    version: 1.6.0
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.6.0/nginx-1.6.0.tar.gz
+    version: 1.7.9
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.9/nginx-1.7.9.tar.gz
     cf_stacks:
       - cflinuxfs2
-    md5: 9adb122fc36af7f66d6ae9d2fb4f8e71
+    md5: 2a35de130528c146aaee9b81892f606e
   - name: nginx
     version: 1.7.8
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.8/nginx-1.7.8.tar.gz
     cf_stacks:
       - cflinuxfs2
     md5: a8d10a557dade6bacbbead5ebdf1904f
+  - name: nginx
+    version: 1.6.1
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.6.1/nginx-1.6.1.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: bc047498da8ada094cdc5715a3c932de
   - name: httpd
     version: 2.4.10
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/httpd/2.4.10/httpd-2.4.10.tar.gz
