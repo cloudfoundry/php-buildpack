@@ -159,19 +159,7 @@ The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache Lic
 
 ## Contributing
 
-### Run the Tests
-
-See the [Machete](https://github.com/cf-buildpacks/machete) CF buildpack test framework for more information.
-
-### Package your own buildpack from this repo
-
-`BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ cached | uncached ]`
-
-
-### Pull Requests
-
-1. Fork the project
-1. Submit a pull request
+Find our guidelines [here](./CONTRIBUTING.md).
 
 ### Reporting Issues
 
