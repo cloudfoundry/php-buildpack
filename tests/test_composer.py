@@ -483,7 +483,7 @@ class TestComposer(object):
         # not understood, should default to PHP_VERSION
         eq_('5.4.31', pick_php_version(''))
         eq_('5.4.31', pick_php_version(None))
-        eq_('5.4.31', pick_php_version('5.6.1'))
+        eq_('5.4.31', pick_php_version('5.61.1'))
         eq_('5.4.31', pick_php_version('<5.5'))
         eq_('5.4.31', pick_php_version('<5.4'))
 
