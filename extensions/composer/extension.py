@@ -148,9 +148,10 @@ class ComposerExtension(ExtensionHelper):
             'COMPOSER_HASH_URL': '{DOWNLOAD_URL}/composer/{COMPOSER_VERSION}/'
                                  '{COMPOSER_PACKAGE}.{CACHE_HASH_ALGORITHM}',
             'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
-            'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/{LIBDIR}/vendor',
-            'COMPOSER_BIN_DIR': '{BUILD_DIR}/php/bin',
-            'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer'
+            'COMPOSER_VENDOR_DIR': '',
+            'COMPOSER_BIN_DIR': '',
+            'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer',
+            'MANAGED_COMPOSER': 'false'
         }
 
     def _should_compile(self):
@@ -253,26 +254,32 @@ class ComposerExtension(ExtensionHelper):
                   'Then set COMPOSER_GITHUB_OAUTH_TOKEN in your environment to the value of this token.')
 
     def run(self):
-        # Move composer files out of WEBDIR
-        (self._builder.move()
-         .under('{BUILD_DIR}/{WEBDIR}')
-         .where_name_is('composer.json')
-         .into('BUILD_DIR')
-         .done())
-        (self._builder.move()
-         .under('{BUILD_DIR}/{WEBDIR}')
-         .where_name_is('composer.lock')
-         .into('BUILD_DIR')
-         .done())
+        webDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
+        if not self._ctx['MANAGED_COMPOSER'] == 'false':
+            # Move composer files out of WEBDIR
+            (self._builder.move()
+             .under('{BUILD_DIR}/{WEBDIR}')
+             .where_name_is('composer.json')
+             .into('BUILD_DIR')
+             .done())
+            (self._builder.move()
+             .under('{BUILD_DIR}/{WEBDIR}')
+             .where_name_is('composer.lock')
+             .into('BUILD_DIR')
+             .done())
+            webDir = os.path.join(self._ctx['BUILD_DIR'])
+
         # Sanity Checks
-        if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
+
+        if not os.path.exists(os.path.join(webDir,
                                            'composer.lock')):
             msg = (
                 'PROTIP: Include a `composer.lock` file with your '
                 'application! This will make sure the exact same version '
                 'of dependencies are used when you deploy to CloudFoundry.')
             self._log.warning(msg)
-            print msg
+            print
+            msg
         # dump composer version, if in debug mode
         if self._ctx.get('BP_DEBUG', False):
             self.composer_runner.run('-V')
@@ -306,8 +313,10 @@ class ComposerCommandRunner(object):
             env[key] = val if type(val) == str else json.dumps(val)
 
         # add basic composer vars
-        # env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
-        #env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
+        if not self._ctx['COMPOSER_VENDOR_DIR']:
+            env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
+        if not env['COMPOSER_BIN_DIR']:
+            env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
 
         # prevent key system variables from being overridden
@@ -322,6 +331,9 @@ class ComposerCommandRunner(object):
         return env
 
     def run(self, *args):
+        buildDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
+        if not self._ctx['MANAGED_COMPOSER'] == 'false':
+            buildDir = self._ctx['BUILD_DIR']
         try:
             cmd = [self._php_path, self._composer_path]
             cmd.extend(args)
@@ -329,10 +341,11 @@ class ComposerCommandRunner(object):
             stream_output(sys.stdout,
                           ' '.join(cmd),
                           env=self._build_composer_environment(),
-                          cwd=self._ctx['BUILD_DIR'],
+                          cwd=buildDir,
                           shell=True)
         except:
-            print "-----> Composer command failed"
+            print
+            "-----> Composer command failed"
             raise
 
 
