@@ -9,10 +9,9 @@ script:
 - ls -la
 deploy:
   provider: releases
-  user: ArthurHlt
+  api_key:
+    secure: E0r8SC4yVJqkHlv+HwTAanLxFDq+8nlPGNQKWcS+dNPnneb+G121J6zJpt67M/PTiXkCdOGTzEyzk20nW/BD6ZgTcSQPpe8ulkNOCyurKt2Dhf72mx4jIa8IaODccWE0luT4gckwFHVa4/fOn6MH7aDhweOsTKCinbHadZafugg=
   file: php-buildpack-offline.zip
   on:
     tags: true
     all_branches: true
-  password:
-    secure: knSYETz8xHwnTUdk4MDIou1Ne1FGckRG5eACegDC/UbIjSRABwS0+YDT5wpf0xrY+9u8tLJxV4NwW45Iavb2WUPZUmvlQDgS/BSOYU0wc9qgZmiF6OKgkkAJeE0nWyI4HbNEVwB+zXLE2QGmtrfZIgBa3nA2B7xT1+WdTDCNsKI=
