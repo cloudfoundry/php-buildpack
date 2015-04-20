@@ -10,7 +10,7 @@ deploy:
   provider: releases
   api_key:
     secure: BH4xKkb1TLwwtrxEszP84Kev0npl8njkTSDMl5Mr6797NuklkDIaHq3BmBrZKWvufwMM/9mKzEIeNojUm9RiibE1SmvqVfAF8rccDIycOeU+5nDVNuvPICK9XfHwV0FG2F9jod/iAdDWpwZgHyWqJQCzfHeWaS07o38o0cgGo/c=
-  file: php-buildpack-offline
+  file: php-buildpack-offline.zip
   on:
     tags: true
     all_branches: true
