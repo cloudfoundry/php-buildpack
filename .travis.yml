@@ -3,6 +3,7 @@ rvm:
 - 2.1.5
 install:
 - git submodule update --init
+- BUNDLE_GEMFILE=cf.Gemfile bundle install
 - BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager
 - mv ./*.zip php-buildpack-offline.zip
 deploy:
