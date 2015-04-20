@@ -6,6 +6,7 @@ script:
 - BUNDLE_GEMFILE=cf.Gemfile bundle install
 - BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager cached
 - mv ./*.zip php-buildpack-offline.zip
+- 'ls -la'
 deploy:
   provider: releases
   api_key:
@@ -14,3 +15,4 @@ deploy:
   on:
     tags: true
     all_branches: true
+
