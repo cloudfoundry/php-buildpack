@@ -9,10 +9,10 @@ script:
 - ls -la
 deploy:
   provider: releases
-  user: "ArthurHlt"
+  user: ArthurHlt
   file: php-buildpack-offline.zip
   on:
     tags: true
     all_branches: true
   password:
-    secure: FSg9Ggpu8fd1s1V+tGQeJxp8vhaFuMayM2QrTE2qGqqdp3pKEgqAove5Ez8QPFgXXJfozcmIxDJbKltZZ+XM3Q1yauYA1iLNQgxqkwGhbs+OdYrWDOJchQoyhq+hkvyREF9FExUbEW9y4xlmjjTOYqzzGFvGeaMOXTqpS9zbAyk=
+    secure: knSYETz8xHwnTUdk4MDIou1Ne1FGckRG5eACegDC/UbIjSRABwS0+YDT5wpf0xrY+9u8tLJxV4NwW45Iavb2WUPZUmvlQDgS/BSOYU0wc9qgZmiF6OKgkkAJeE0nWyI4HbNEVwB+zXLE2QGmtrfZIgBa3nA2B7xT1+WdTDCNsKI=
