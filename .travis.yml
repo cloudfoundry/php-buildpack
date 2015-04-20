@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+- 2.1.5
+install:
+- git submodule update --init
+- BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager
+- mv ./*.zip php-buildpack-offline.zip
+deploy:
+  provider: releases
+  api_key:
+    secure: BH4xKkb1TLwwtrxEszP84Kev0npl8njkTSDMl5Mr6797NuklkDIaHq3BmBrZKWvufwMM/9mKzEIeNojUm9RiibE1SmvqVfAF8rccDIycOeU+5nDVNuvPICK9XfHwV0FG2F9jod/iAdDWpwZgHyWqJQCzfHeWaS07o38o0cgGo/c=
+  file: php-buildpack-offline
+  on:
+    tags: true
+    all_branches: true
