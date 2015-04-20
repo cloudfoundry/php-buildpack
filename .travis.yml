@@ -6,13 +6,13 @@ script:
 - BUNDLE_GEMFILE=cf.Gemfile bundle install
 - BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager cached
 - mv ./*.zip php-buildpack-offline.zip
-- 'ls -la'
+- ls -la
 deploy:
   provider: releases
-  api_key:
-    secure: BH4xKkb1TLwwtrxEszP84Kev0npl8njkTSDMl5Mr6797NuklkDIaHq3BmBrZKWvufwMM/9mKzEIeNojUm9RiibE1SmvqVfAF8rccDIycOeU+5nDVNuvPICK9XfHwV0FG2F9jod/iAdDWpwZgHyWqJQCzfHeWaS07o38o0cgGo/c=
+  user: "ArthurHlt"
   file: php-buildpack-offline.zip
   on:
     tags: true
     all_branches: true
-
+  password:
+    secure: FSg9Ggpu8fd1s1V+tGQeJxp8vhaFuMayM2QrTE2qGqqdp3pKEgqAove5Ez8QPFgXXJfozcmIxDJbKltZZ+XM3Q1yauYA1iLNQgxqkwGhbs+OdYrWDOJchQoyhq+hkvyREF9FExUbEW9y4xlmjjTOYqzzGFvGeaMOXTqpS9zbAyk=
