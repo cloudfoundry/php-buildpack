@@ -150,8 +150,7 @@ class ComposerExtension(ExtensionHelper):
             'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
             'COMPOSER_VENDOR_DIR': '',
             'COMPOSER_BIN_DIR': '',
-            'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer',
-            'MANAGED_COMPOSER': ''
+            'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer'
         }
 
     def _should_compile(self):
@@ -167,6 +166,8 @@ class ComposerExtension(ExtensionHelper):
         self.run()
 
     def move_local_vendor_folder(self):
+        if self._ctx['NO_WEBDIR_SET']:
+            return
         vendor_path = os.path.join(self._ctx['BUILD_DIR'],
                                    self._ctx['WEBDIR'],
                                    'vendor')
@@ -255,7 +256,7 @@ class ComposerExtension(ExtensionHelper):
 
     def run(self):
         webDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
-        if self._ctx['MANAGED_COMPOSER']:
+        if not self._ctx['NO_WEBDIR_SET']:
             # Move composer files out of WEBDIR
             (self._builder.move()
              .under('{BUILD_DIR}/{WEBDIR}')
@@ -332,7 +333,7 @@ class ComposerCommandRunner(object):
 
     def run(self, *args):
         buildDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
-        if self._ctx['MANAGED_COMPOSER']:
+        if not self._ctx['NO_WEBDIR_SET']:
             buildDir = self._ctx['BUILD_DIR']
         try:
             cmd = [self._php_path, self._composer_path]
