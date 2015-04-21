@@ -151,7 +151,7 @@ class ComposerExtension(ExtensionHelper):
             'COMPOSER_VENDOR_DIR': '',
             'COMPOSER_BIN_DIR': '',
             'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer',
-            'MANAGED_COMPOSER': 'false'
+            'MANAGED_COMPOSER': ''
         }
 
     def _should_compile(self):
@@ -255,7 +255,7 @@ class ComposerExtension(ExtensionHelper):
 
     def run(self):
         webDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
-        if not self._ctx['MANAGED_COMPOSER'] == 'false':
+        if self._ctx['MANAGED_COMPOSER']:
             # Move composer files out of WEBDIR
             (self._builder.move()
              .under('{BUILD_DIR}/{WEBDIR}')
@@ -315,7 +315,7 @@ class ComposerCommandRunner(object):
         # add basic composer vars
         if not self._ctx['COMPOSER_VENDOR_DIR']:
             env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
-        if not env['COMPOSER_BIN_DIR']:
+        if not self._ctx['COMPOSER_BIN_DIR']:
             env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
 
@@ -332,7 +332,7 @@ class ComposerCommandRunner(object):
 
     def run(self, *args):
         buildDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
-        if not self._ctx['MANAGED_COMPOSER'] == 'false':
+        if self._ctx['MANAGED_COMPOSER']:
             buildDir = self._ctx['BUILD_DIR']
         try:
             cmd = [self._php_path, self._composer_path]
