@@ -6,7 +6,7 @@ script:
 - BUNDLE_GEMFILE=cf.Gemfile bundle install
 - BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager cached
 - mv ./*.zip php-buildpack-offline.zip
-- 'split -b 600m php-buildpack-offline.zip php-buildpack-offline.zip.part-*'
+- 'split -b 600m php-buildpack-offline.zip php-buildpack-offline.zip.part-'
 - 'ls -la'
 deploy:
   provider: releases
