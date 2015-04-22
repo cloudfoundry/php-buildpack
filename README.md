@@ -141,6 +141,7 @@ Here are some example applications that can be used with this buildpack.
 
   - [php-info]  This app has a basic index page and shows the output of phpinfo()
   - [PHPMyAdmin]  A deployment of PHPMyAdmin that uses bound MySQL services
+  - [PHPPgAdmin] A deployment of PHPPgAdmin that uses bound Postgres services
   - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
   - [CodeIgniter]  CodeIgniter tutorial application running on CF
   - [Stand Alone]  An example which runs a stand alone PHP script
@@ -158,19 +159,7 @@ The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache Lic
 
 ## Contributing
 
-### Run the Tests
-
-See the [Machete](https://github.com/cf-buildpacks/machete) CF buildpack test framework for more information.
-
-### Package your own buildpack from this repo
-
-`BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ cached | uncached ]`
-
-
-### Pull Requests
-
-1. Fork the project
-1. Submit a pull request
+Find our guidelines [here](./CONTRIBUTING.md).
 
 ### Reporting Issues
 
@@ -185,6 +174,7 @@ The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/proje
 [Binaries]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/binaries.md
 [php-info]:https://github.com/dmikusa-pivotal/cf-ex-php-info
 [PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
+[PHPPgAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phppgadmin
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
 [CodeIgniter]:https://github.com/dmikusa-pivotal/cf-ex-code-igniter
 [Stand Alone]:https://github.com/dmikusa-pivotal/cf-ex-stand-alone
