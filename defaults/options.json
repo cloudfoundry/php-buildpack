@@ -34,5 +34,6 @@
     "PHP_MODULES_STRIP": "true",
     "PHP_MODULES": [],
     "PHP_EXTENSIONS": [ "bz2", "zlib", "curl", "mcrypt"],
-    "ZEND_EXTENSIONS": []
+    "ZEND_EXTENSIONS": [],
+  "NO_WEBDIR_SET": "false"
 }

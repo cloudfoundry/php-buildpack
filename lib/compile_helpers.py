@@ -5,7 +5,7 @@
 # (the "License"); you may not use this file except in compliance with
 # the License.  You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,6 +39,7 @@ def setup_webdir_if_it_doesnt_exist(ctx):
     if is_web_app(ctx):
         webdirPath = os.path.join(ctx['BUILD_DIR'], ctx['WEBDIR'])
         if not os.path.exists(webdirPath):
+            ctx['NO_WEBDIR_SET'] = True
             fu = FileUtil(FakeBuilder(ctx), move=True)
             fu.under('BUILD_DIR')
             fu.into('WEBDIR')
@@ -130,7 +131,7 @@ def convert_php_extensions(ctx):
         "\n".join(["extension=%s.so" % ex
                    for ex in ctx['PHP_EXTENSIONS'] if ex not in SKIP])
     path = (ctx['PHP_VERSION'].startswith('5.4')) and \
-        '@HOME/php/lib/php/extensions/no-debug-non-zts-20100525' or ''
+           '@HOME/php/lib/php/extensions/no-debug-non-zts-20100525' or ''
     ctx['ZEND_EXTENSIONS'] = \
         "\n".join(['zend_extension="%s"' % os.path.join(path, "%s.so" % ze)
                    for ze in ctx['ZEND_EXTENSIONS']])
