@@ -35,5 +35,5 @@
     "PHP_MODULES": [],
     "PHP_EXTENSIONS": [ "bz2", "zlib", "curl", "mcrypt"],
     "ZEND_EXTENSIONS": [],
-  "NO_WEBDIR_SET": "false"
+    "NO_WEBDIR_SET": "false"
 }
