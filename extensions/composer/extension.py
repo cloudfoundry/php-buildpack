@@ -312,8 +312,7 @@ class ComposerCommandRunner(object):
         # add basic composer vars
         if not self._ctx['COMPOSER_VENDOR_DIR']:
             env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
-        if not self._ctx['COMPOSER_BIN_DIR']:
-            env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
+        env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
 
         # prevent key system variables from being overridden
@@ -328,9 +327,9 @@ class ComposerCommandRunner(object):
         return env
 
     def run(self, *args):
-        buildDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
-        if not self._ctx['NO_WEBDIR_SET']:
-            buildDir = self._ctx['BUILD_DIR']
+        buildDir = self._ctx['BUILD_DIR']
+        if self._ctx['NO_WEBDIR_SET']:
+            buildDir = os.path.join(buildDir, self._ctx['WEBDIR'])
         try:
             cmd = [self._php_path, self._composer_path]
             cmd.extend(args)
