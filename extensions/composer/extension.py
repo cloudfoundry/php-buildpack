@@ -5,7 +5,7 @@
 # (the "License"); you may not use this file except in compliance with
 # the License.  You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -168,22 +168,8 @@ class ComposerExtension(ExtensionHelper):
     def _compile(self, install):
         self._builder = install.builder
         self.composer_runner = ComposerCommandRunner(self._ctx, self._builder)
-        self.move_local_vendor_folder()
         self.install()
         self.run()
-
-    def move_local_vendor_folder(self):
-        vendor_path = os.path.join(self._ctx['BUILD_DIR'],
-                                   self._ctx['WEBDIR'],
-                                   'vendor')
-        if os.path.exists(vendor_path):
-            self._log.debug("Vendor [%s] exists, moving to LIBDIR",
-                            vendor_path)
-            (self._builder.move()
-                .under('{BUILD_DIR}/{WEBDIR}')
-                .into('{BUILD_DIR}/{LIBDIR}')
-                .where_name_matches('^%s/.*$' % vendor_path)
-                .done())
 
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()
@@ -210,7 +196,7 @@ class ComposerExtension(ExtensionHelper):
         stringio_writer = StringIO.StringIO()
 
         curl_command = 'curl -H "Authorization: token %s" ' \
-            'https://api.github.com/rate_limit' % candidate_oauth_token
+                       'https://api.github.com/rate_limit' % candidate_oauth_token
 
         stream_output(stringio_writer,
                       curl_command,
@@ -228,7 +214,7 @@ class ComposerExtension(ExtensionHelper):
         if token_is_valid:
             candidate_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
             curl_command = 'curl -H "Authorization: token %s" ' \
-                'https://api.github.com/rate_limit' % candidate_oauth_token
+                           'https://api.github.com/rate_limit' % candidate_oauth_token
         else:
             curl_command = 'curl https://api.github.com/rate_limit'
 
@@ -263,24 +249,25 @@ class ComposerExtension(ExtensionHelper):
     def check_github_rate_exceeded(self, token_is_valid):
         if self._github_rate_exceeded(token_is_valid):
             print('-----> The GitHub api rate limit has been exceeded. '
-                  'Composer will continue by downloading from source, which might result in slower downloads. ' 
+                  'Composer will continue by downloading from source, which might result in slower downloads. '
                   'You can increase your rate limit with a GitHub OAuth token. '
                   'Please obtain a GitHub OAuth token by registering your application at '
                   'https://github.com/settings/applications/new. '
                   'Then set COMPOSER_GITHUB_OAUTH_TOKEN in your environment to the value of this token.')
 
     def run(self):
-        # Move composer files out of WEBDIR
-        (self._builder.move()
-            .under('{BUILD_DIR}/{WEBDIR}')
-            .where_name_is('composer.json')
-            .into('BUILD_DIR')
-         .done())
-        (self._builder.move()
-            .under('{BUILD_DIR}/{WEBDIR}')
-            .where_name_is('composer.lock')
-            .into('BUILD_DIR')
-         .done())
+        if not self._ctx['NO_WEBDIR_SET']:
+            # Move composer files out of WEBDIR
+            (self._builder.move()
+             .under('{BUILD_DIR}/{WEBDIR}')
+             .where_name_is('composer.json')
+             .into('BUILD_DIR')
+             .done())
+            (self._builder.move()
+             .under('{BUILD_DIR}/{WEBDIR}')
+             .where_name_is('composer.lock')
+             .into('BUILD_DIR')
+             .done())
         # Sanity Checks
         if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
                                            'composer.lock')):
@@ -323,8 +310,10 @@ class ComposerCommandRunner(object):
             env[key] = val if type(val) == str else json.dumps(val)
 
         # add basic composer vars
-        env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
-        env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
+        if not self._ctx['COMPOSER_VENDOR_DIR']:
+            env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
+        if not self._ctx['COMPOSER_BIN_DIR']:
+            env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
 
         # prevent key system variables from being overridden
@@ -339,6 +328,9 @@ class ComposerCommandRunner(object):
         return env
 
     def run(self, *args):
+        buildDir = os.path.join(self._ctx['BUILD_DIR'], self._ctx['WEBDIR'])
+        if not self._ctx['NO_WEBDIR_SET']:
+            buildDir = self._ctx['BUILD_DIR']
         try:
             cmd = [self._php_path, self._composer_path]
             cmd.extend(args)
@@ -346,7 +338,7 @@ class ComposerCommandRunner(object):
             stream_output(sys.stdout,
                           ' '.join(cmd),
                           env=self._build_composer_environment(),
-                          cwd=self._ctx['BUILD_DIR'],
+                          cwd=buildDir,
                           shell=True)
         except:
             print "-----> Composer command failed"
@@ -380,9 +372,9 @@ class PHPComposerStrategy(object):
     def write_config(self, builder):
         # rewrite a temp copy of php.ini for use by composer
         (builder.copy()
-            .under('{BUILD_DIR}/php/etc')
-            .where_name_is('php.ini')
-            .into('TMPDIR')
+         .under('{BUILD_DIR}/php/etc')
+         .where_name_is('php.ini')
+         .into('TMPDIR')
          .done())
         utils.rewrite_cfgs(os.path.join(self._ctx['TMPDIR'], 'php.ini'),
                            {'TMPDIR': self._ctx['TMPDIR'],
