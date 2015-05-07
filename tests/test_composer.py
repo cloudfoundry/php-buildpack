@@ -76,7 +76,8 @@ class TestComposer(object):
             'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
-            'COMPOSER_VERSION': 'latest'
+            'COMPOSER_VERSION': 'latest',
+            'BP_DIR': ''
         })
         builder = Dingus(_ctx=ctx)
         installer = Dingus()

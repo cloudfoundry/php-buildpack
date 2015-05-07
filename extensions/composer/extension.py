@@ -179,12 +179,23 @@ class ComposerExtension(ExtensionHelper):
     def install(self):
         self._builder.install().modules('PHP').include_module('cli').done()
         if self._ctx['COMPOSER_VERSION'] == 'latest':
+            dependencies_path = os.path.join(self._ctx['BP_DIR'],
+                                             'dependencies')
+            if os.path.exists(dependencies_path):
+                raise RuntimeError('"COMPOSER_VERSION": "latest" ' \
+                    'is not supported in the cached buildpack. Please vendor your preferred version of composer with your app, or use the provided default composer version.')
+
             self._ctx['COMPOSER_DOWNLOAD_URL'] = \
                 'https://getcomposer.org/composer.phar'
-        self._builder.install()._installer._install_binary_from_manifest(
-            self._ctx['COMPOSER_DOWNLOAD_URL'],
-            os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
-            extract=False)
+            self._builder.install()._installer.install_binary_direct(
+                self._ctx['COMPOSER_DOWNLOAD_URL'], None,
+                os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
+                extract=False)
+        else:
+            self._builder.install()._installer._install_binary_from_manifest(
+                self._ctx['COMPOSER_DOWNLOAD_URL'],
+                os.path.join(self._ctx['BUILD_DIR'], 'php', 'bin'),
+                extract=False)
 
     def _github_oauth_token_is_valid(self, candidate_oauth_token):
         stringio_writer = StringIO.StringIO()

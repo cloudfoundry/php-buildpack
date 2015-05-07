@@ -10,3 +10,4 @@ binaries/trusty/*
 *_buildpack*.zip
 /log/
 vendor
+*.DS_Store
