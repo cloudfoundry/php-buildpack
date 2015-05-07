@@ -1,3 +1,12 @@
+v3.2.1 May 07, 2015
+====================
+
+* Update default PHP version to latest 5.4 release
+  (https://www.pivotaltracker.com/story/show/92540904)
+
+* Bump buildpack-packager to support custom buildpack manifests.
+  (https://www.pivotaltracker.com/story/show/93717296)
+
 v3.2.0 Apr 24, 2015
 ====================
 
