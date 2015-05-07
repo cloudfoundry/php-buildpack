@@ -187,6 +187,12 @@ The buildpack only supports the two most stable patches for each dependency in t
     cf create-buildpack custom_php_buildpack php_buildpack-cached-custom.zip 1
     cf push my_app -b custom_php_buildpack
 
+## Supported binary dependencies
+
+The PHP buildpack only supports the two most recent stable patches for each dependency in the [manifest.yml](manifest.yml).
+
+If you want to use previously supported dependency versions, provide the `--use-custom-manifest=manifest-including-unsupported.yml` option to `buildpack-packager`.
+    
 ## Contributing
 
 Find our guidelines [here](./CONTRIBUTING.md).
