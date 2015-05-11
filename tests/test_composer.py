@@ -411,13 +411,31 @@ class TestComposer(object):
         finally:
             self.extension_module.find_composer_paths = fcp_orig
 
-    def test_find_composer_paths(self):
+    """returns the path of the folder that has both composer.json and composer.lock in the same path while transversing a root path"""
+    def test_prioritize_path_with_both_composer_json_and_lock_file(self):
         (json_path, lock_path) = \
             self.extension_module.find_composer_paths('tests')
-        assert json_path is not None
-        assert lock_path is not None
         eq_('tests/data/composer/composer.json', json_path)
         eq_('tests/data/composer/composer.lock', lock_path)
+
+    """returns both composer.json and composer.lock when specified a directory that contains them"""
+    def test_find_paths_for_both_composer_json_and_lockfile_in_same_directory(self):
+        (json_path, lock_path) = \
+            self.extension_module.find_composer_paths('tests/data/composer')
+        eq_('tests/data/composer/composer.json', json_path)
+        eq_('tests/data/composer/composer.lock', lock_path)
+    
+    def test_find_path_only_for_composer_json(self):
+        (json_path, lock_path) = \
+            self.extension_module.find_composer_paths('tests/data/composer-no-php')
+        assert json_path is not None
+        eq_('tests/data/composer-no-php/composer.json', json_path)
+
+    def test_find_path_only_for_composer_json(self):
+        (json_path, lock_path) = \
+            self.extension_module.find_composer_paths('tests/data/composer-lock')
+        assert json_path is None
+        eq_('tests/data/composer-lock/composer.lock', lock_path)
 
     def test_find_composer_paths_not_in_vendor(self):
         tmpdir = None
