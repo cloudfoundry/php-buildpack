@@ -35,15 +35,24 @@ def find_composer_paths(path):
     json_path = None
     lock_path = None
     for root, dirs, files in os.walk(path):
+        files.sort()
+
         if 'vendor' in dirs:
             dirs.remove('vendor')
-        for f in files:
-            if f == 'composer.json':
-                json_path = os.path.join(root, f)
-            if f == 'composer.lock':
-                lock_path = os.path.join(root, f)
-            if json_path and lock_path:
-                return (json_path, lock_path)
+
+        contains_json = 'composer.json' in files
+        contains_lock = 'composer.lock' in files
+
+        if contains_json and contains_lock:
+            json_path = os.path.join(root, 'composer.json')
+            lock_path = os.path.join(root, 'composer.lock')
+            return (json_path, lock_path)
+        elif contains_json:
+            json_path = os.path.join(root, 'composer.json')
+            lock_path = None
+        elif contains_lock:
+            lock_path = os.path.join(root, 'composer.lock')
+            json_path = None
     return (json_path, lock_path)
 
 
