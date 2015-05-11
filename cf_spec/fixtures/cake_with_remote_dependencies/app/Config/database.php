@@ -63,16 +63,10 @@ class DATABASE_CONFIG {
     public $default;
 
     function __construct() {
-       	$result = parse_url(env('DATABASE_URL'));
-
        	$this->default = array(
-            'datasource' => 'Database/Postgres',
+            'datasource' => 'Database/Sqlite',
             'persistent' => false,
-            'host' => $result['host'],
-            'port' => $result['port'],
-            'login' => $result['user'],
-            'password' => $result['pass'],
-            'database' => substr($result['path'], 1),
+            'database' => '/tmp/test.db',
             'prefix' => ''
         );
    }

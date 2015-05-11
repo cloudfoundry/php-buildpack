@@ -13,7 +13,6 @@ describe 'CF PHP Buildpack' do
     let(:app_name) { 'cake_with_local_dependencies' }
     let(:options) do
       {
-        with_pg: true,
         start_command: "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
       }
     end
@@ -36,8 +35,9 @@ describe 'CF PHP Buildpack' do
     let(:app_name) { 'cake_with_remote_dependencies' }
     let(:options) do
       {
-        with_pg: true,
-        env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']},
+        env: {
+          'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'],
+        },
         start_command: "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
       }
     end
