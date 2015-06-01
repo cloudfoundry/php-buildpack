@@ -11,3 +11,4 @@ binaries/trusty/*
 /log/
 vendor
 *.DS_Store
+.bundle
