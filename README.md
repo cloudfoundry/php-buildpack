@@ -143,6 +143,7 @@ Here are some example applications that can be used with this buildpack.
   - [PHPMyAdmin]  A deployment of PHPMyAdmin that uses bound MySQL services
   - [PHPPgAdmin] A deployment of PHPPgAdmin that uses bound Postgres services
   - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
+  - [Drupal] A deployment of Drupal that uses bound MySQL service
   - [CodeIgniter]  CodeIgniter tutorial application running on CF
   - [Stand Alone]  An example which runs a stand alone PHP script
   - [pgbouncer]  An example which runs the pgbouncer process in the container to pool db connections.
@@ -212,6 +213,7 @@ The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/proje
 [PHPMyAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phpmyadmin
 [PHPPgAdmin]:https://github.com/dmikusa-pivotal/cf-ex-phppgadmin
 [Wordpress]:https://github.com/dmikusa-pivotal/cf-ex-worpress
+[Drupal]:https://github.com/dmikusa-pivotal/cf-ex-drupal
 [CodeIgniter]:https://github.com/dmikusa-pivotal/cf-ex-code-igniter
 [Stand Alone]:https://github.com/dmikusa-pivotal/cf-ex-stand-alone
 [pgbouncer]:https://github.com/dmikusa-pivotal/cf-ex-pgbouncer
