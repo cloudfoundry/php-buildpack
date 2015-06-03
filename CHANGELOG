@@ -1,3 +1,17 @@
+v3.2.2 Jun 03, 2015
+====================
+
+* Update buildpack with newest php interpreters and modules
+  (https://www.pivotaltracker.com/story/show/93652226)
+
+* Exclude PHP version on generated pages by default
+  (https://www.pivotaltracker.com/story/show/95368312)
+
+* Merge upstream changes
+
+* Add support for using the lastest version of composer
+  (https://www.pivotaltracker.com/story/show/92519522)
+
 v3.2.1 May 07, 2015
 ====================
 
