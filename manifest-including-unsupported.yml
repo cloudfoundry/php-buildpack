@@ -6231,6 +6231,342 @@ dependencies:
       - cflinuxfs2
     md5: 4fe499076b7773c16f81827ebe228f02
   - name: php
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-5.5.24.tar.gz
+    md5: 060b5d8302eff1b279da6d871ce1f667
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-amqp
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-amqp-5.5.24.tar.gz
+    md5: 20c5ef4b61e44831d81d47822f10cd90
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-bz2
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-bz2-5.5.24.tar.gz
+    md5: dfbfcb1b7a9bb02bfcd05fe74f2a0ba1
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-cgi
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-cgi-5.5.24.tar.gz
+    md5: 7f45727a81862e3ea3b5011388666c1f
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-cli
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-cli-5.5.24.tar.gz
+    md5: 67aee791ba9dddfc9c5d92dc7e680344
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-curl
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-curl-5.5.24.tar.gz
+    md5: 60f1f921f905ce6c074f357326e90e64
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-dba
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-dba-5.5.24.tar.gz
+    md5: ff6bb641dafc027316f33cf17f5e7493
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-exif
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-exif-5.5.24.tar.gz
+    md5: 1dfde3a7b2ae8d5feaac61742bc9adff
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-fileinfo
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-fileinfo-5.5.24.tar.gz
+    md5: a07ffc87e948a11913cee301926a8075
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-fpm
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-fpm-5.5.24.tar.gz
+    md5: 45fed9ce2abe52c184922c864bb505f7
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-ftp
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-ftp-5.5.24.tar.gz
+    md5: 9bfc6e2ecf4366f3bb2d38cb04673fee
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-gd
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-gd-5.5.24.tar.gz
+    md5: 4e27b16f2405c3de707078bbcf507be1
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-gettext
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-gettext-5.5.24.tar.gz
+    md5: 631c523062125f9017a7e487094d5a86
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-gmp
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-gmp-5.5.24.tar.gz
+    md5: 137ea6e61f7b9e341422b5c4bd1d9125
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-igbinary
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-igbinary-5.5.24.tar.gz
+    md5: efc995a055da985b0928d0ca95ae3a36
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-imagick
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-imagick-5.5.24.tar.gz
+    md5: e756db5109d1cd73d5cad19c5efa829e
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-imap
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-imap-5.5.24.tar.gz
+    md5: 840dea357762281c6e901705cfc33c59
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-intl
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-intl-5.5.24.tar.gz
+    md5: 6a402f796684db850a52921767c2dad0
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-ioncube
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-ioncube-5.5.24.tar.gz
+    md5: d264b70537cfcf95c73876622e95250e
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-ldap
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-ldap-5.5.24.tar.gz
+    md5: 36460be53ff8e16658c6638b4f0a7e72
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-lua
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-lua-5.5.24.tar.gz
+    md5: de62370537bc1280adb4dbcebeef3ec7
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-mailparse
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-mailparse-5.5.24.tar.gz
+    md5: f3e818b3fd3e216e1736a2a565201d39
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-mbstring
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-mbstring-5.5.24.tar.gz
+    md5: 3ca3ad20802c4561f4931a4efbe2df86
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-mcrypt
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-mcrypt-5.5.24.tar.gz
+    md5: ca901271565c5c9c16e205421d6cb25f
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-memcache
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-memcache-5.5.24.tar.gz
+    md5: 83f42aa0ae95ae8618a95efde2811eb4
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-memcached
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-memcached-5.5.24.tar.gz
+    md5: d59ecd9e858b42387881ce45702e8940
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-mongo
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-mongo-5.5.24.tar.gz
+    md5: e6e98ec3412125efa9d6ea183f3cdcc9
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-msgpack
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-msgpack-5.5.24.tar.gz
+    md5: dffa10ac0b09f1f89b404f5903b1471d
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-mysql
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-mysql-5.5.24.tar.gz
+    md5: a8ff28b7a6269546f334918786b178a5
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-mysqli
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-mysqli-5.5.24.tar.gz
+    md5: b3378b7fb947dac9811400703f8098ad
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-opcache
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-opcache-5.5.24.tar.gz
+    md5: 0d18d877e34a0ed47f1e0c448886961d
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-openssl
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-openssl-5.5.24.tar.gz
+    md5: 156589509aab9f31e53a8d5c9e99b9a7
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-pdo
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-pdo-5.5.24.tar.gz
+    md5: 08c4fc53daf752bb74cd9ef1c3676081
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-pdo_mysql
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-pdo_mysql-5.5.24.tar.gz
+    md5: d2cc7420883cde6a9dc6e656fb7bb4c5
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-pdo_pgsql
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-pdo_pgsql-5.5.24.tar.gz
+    md5: f6ec02cd3c33da6eb538d59753f805a0
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-pdo_sqlite
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-pdo_sqlite-5.5.24.tar.gz
+    md5: 1d37478aaa90f8c3290a9745f270d1a5
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-pear
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-pear-5.5.24.tar.gz
+    md5: b8f6ef2db4703f64f79f3337fd0d1728
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-pgsql
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-pgsql-5.5.24.tar.gz
+    md5: cb265f5e8f3048215e9d41979bf427cd
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-phalcon
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-phalcon-5.5.24.tar.gz
+    md5: 029401350653805f7a2af3144a9d447b
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-phpiredis
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-phpiredis-5.5.24.tar.gz
+    md5: 311ce29f01d20e52751c8b2cc5e0fe6d
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-protobuf
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-protobuf-5.5.24.tar.gz
+    md5: 2f9b25abc56231278ce36f9f8c7d4a17
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-protocolbuffers
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-protocolbuffers-5.5.24.tar.gz
+    md5: 91db45b4fc34678b034a27831ee14b8f
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-pspell
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-pspell-5.5.24.tar.gz
+    md5: 40fc844d75e9882355507a18d8c57033
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-redis
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-redis-5.5.24.tar.gz
+    md5: 8263a33e06be503797e14682352ad934
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-snmp
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-snmp-5.5.24.tar.gz
+    md5: 30f966be16e3aebd98a04c886edc6047
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-soap
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-soap-5.5.24.tar.gz
+    md5: aca320dc7fb0bdddcc620436c7d49820
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-sockets
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-sockets-5.5.24.tar.gz
+    md5: ffe2c73b04ec172813a97053710170de
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-suhosin
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-suhosin-5.5.24.tar.gz
+    md5: f88c8163e01bd239a6cd01a2edc7ff6f
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-sundown
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-sundown-5.5.24.tar.gz
+    md5: 9d3502ff0823a773b087821132854105
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-twig
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-twig-5.5.24.tar.gz
+    md5: b613752341a1f4fbca0d3e38ce4d7aec
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-xcache
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-xcache-5.5.24.tar.gz
+    md5: 94104e89d290d374958ffb8e10b4b043
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-xdebug
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-xdebug-5.5.24.tar.gz
+    md5: f42b42edf0f758bdb264d42145c20f99
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-xhprof
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-xhprof-5.5.24.tar.gz
+    md5: 21b2a6728b2449a044d219d495260e8f
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-xsl
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-xsl-5.5.24.tar.gz
+    md5: c5e2457bf4585bfb7232d54e37031376
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-yaf
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-yaf-5.5.24.tar.gz
+    md5: 2ba2e1a8163c38ff7ab6ea659dd93108
+    cf_stacks:
+      - cflinuxfs2
+  - name: php-zlib
+    version: 5.5.24
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.24/php-zlib-5.5.24.tar.gz
+    md5: 2a689b8610bcdaf4fb1c8262c93ce8bc
+    cf_stacks:
+      - cflinuxfs2
+  - name: php
     version: 5.5.25
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.5.25/php-5.5.25.tar.gz
     cf_stacks:
