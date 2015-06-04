@@ -20,7 +20,8 @@ describe 'CF PHP Buildpack' do
       expect(app).to have_logged 'PHP 5.5'
 
       browser.visit_path('/')
-      expect(browser).to have_body('PHP Version')
+      expect(browser).to have_body 'PHP Version'
+      expect(browser).not_to have_header 'X-Powered-By'
 
       assert_offline_mode_has_no_internet_traffic
     end
