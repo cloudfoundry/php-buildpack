@@ -95,7 +95,7 @@ class PhpAssertHelper(object):
                 .path('sbin', 'php-fpm')
                 .path('bin')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20121212') # this timestamp is PHP5.5 specific
+                  'no-debug-non-zts-20121212')  # this timestamp is PHP5.5 specific
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
