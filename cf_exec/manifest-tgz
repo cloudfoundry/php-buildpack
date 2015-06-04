@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'digest/md5'
+
+php_dir = ARGV[0]
+
+puts(Dir["#{php_dir}/*.tar.gz"].map do |filename|
+  {
+    'name' => File.basename(filename, '.tar.gz').gsub(/-\d+\.\d+\.\d+/, ''),
+    'version' => php_dir,
+    'uri' => "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/#{filename}",
+    'md5' => Digest::MD5.hexdigest(File.read(filename)),
+    'cf_stacks' => ['cflinuxfs2']
+  }
+end.to_yaml.gsub('- cflinuxfs2','  - cflinuxfs2'))
