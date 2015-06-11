@@ -1,5 +1,5 @@
 {
-    "STACK": "lucid",
+    "STACK": "trusty",
     "LIBDIR": "lib",
     "WEBDIR": "htdocs",
     "DOWNLOAD_URL": "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/{STACK}",
@@ -19,7 +19,7 @@
     "NGINX_PACKAGE": "nginx-{NGINX_VERSION}.tar.gz",
     "NGINX_DOWNLOAD_URL": "{DOWNLOAD_URL}/nginx/{NGINX_VERSION}/{NGINX_PACKAGE}",
     "NGINX_STRIP": "true",
-    "HHVM_VERSION": "3.2.0",
+    "HHVM_VERSION": "3.6.0",
     "HHVM_PACKAGE": "hhvm-{HHVM_VERSION}.tar.gz",
     "HHVM_DOWNLOAD_URL": "{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}",
     "HHVM_STRIP": "true",
