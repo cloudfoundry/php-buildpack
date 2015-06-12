@@ -57,12 +57,11 @@ class TestComposer(object):
         ct._builder = builder
         ct.install()
         eq_(2, len(builder.install.calls()))
-        # make sure PHP cli is installed
-        assert installer.modules.calls().once()
-        eq_('PHP', installer.modules.calls()[0].args[0])
-        call = installer.modules.calls()[0]
+        # make sure PHP is installed
+        assert installer.package.calls().once()
+        eq_('PHP', installer.package.calls()[0].args[0])
+        call = installer.package.calls()[0]
         assert call.return_value.calls().once()
-        eq_('cli', call.return_value.calls()[0].args[0])
         assert installer.calls().once()
         # make sure composer is installed
         assert installer._installer.calls().once()
@@ -88,12 +87,11 @@ class TestComposer(object):
         ct._builder = builder
         ct.install()
         eq_(2, len(builder.install.calls()))
-        # make sure PHP cli is installed
-        assert installer.modules.calls().once()
-        eq_('PHP', installer.modules.calls()[0].args[0])
-        call = installer.modules.calls()[0]
+        # make sure PHP is installed
+        assert installer.package.calls().once()
+        eq_('PHP', installer.package.calls()[0].args[0])
+        call = installer.package.calls()[0]
         assert call.return_value.calls().once()
-        eq_('cli', call.return_value.calls()[0].args[0])
         assert installer.calls().once()
         # make sure composer is installed
         assert installer._installer.calls().once()
