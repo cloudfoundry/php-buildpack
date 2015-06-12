@@ -179,18 +179,7 @@ def compile(install):
 
 ### Testing
 
-#### Preqrequisites
-
-Integration tests expect to have a web server running on port 5000.  This is where they will download binaries.  Tests will fail if the server is not running.
-
-In a separate shell:
-```shell
-cd path/to/php-buildpack
-./bin/binaries download binaries/lucid
-python -m SimpleHTTPServer 5000
-```
-
-#### Running tests
+#### Running unit tests
 
 The build pack makes use of [Nose] for testing.  You can run the full suite of tests with this command.
 
