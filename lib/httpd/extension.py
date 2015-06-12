@@ -46,10 +46,5 @@ def compile(install):
             .or_from_build_pack('defaults/config/httpd/{HTTPD_VERSION}')
             .to('httpd/conf')
             .rewrite()
-            .done()
-        .modules('HTTPD')
-            .filter_files_by_extension('.conf')
-            .find_modules_with_regex('^LoadModule .* modules/(.*).so$')
-            .from_application('httpd/conf')
             .done())
     return 0
