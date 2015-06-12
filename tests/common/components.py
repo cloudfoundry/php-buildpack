@@ -229,10 +229,10 @@ class NoWebServerAssertHelper(object):
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_string(output)
-            .line_count_equals(6, lambda l: l.startswith('Downloaded'))
+            .line_count_equals(1, lambda l: l.startswith('Downloaded'))
             .line_count_equals(1, lambda l: l.startswith('No Web'))
             .line_count_equals(1, lambda l: l.startswith('Installing PHP'))
-            .line_count_equals(1, lambda l: l.find('php-cli') >= 0)
+            .line_count_equals(0, lambda l: l.find('php-cli') >= 0)
             .line(-1).startswith('Finished:'))
 
     def assert_contents_of_procs_file(self, build_dir):

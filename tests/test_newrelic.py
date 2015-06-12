@@ -180,7 +180,7 @@ class TestNewRelicCompiled(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(22, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(17, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         httpd.assert_start_script_is_correct(self.build_dir)
@@ -258,7 +258,7 @@ class TestNewRelicWithApp5(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(7, 1).assert_downloads_from_output(output)
+        DownloadAssertHelper(2, 1).assert_downloads_from_output(output)
         # confirm httpd and nginx are not installed
         none.assert_no_web_server_is_installed(self.build_dir)
         # confirm start script

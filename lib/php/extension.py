@@ -78,16 +78,6 @@ class PHPExtension(ExtensionHelper):
                 .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
                 .to('php/etc')
                 .rewrite()
-                .done()
-            .modules('PHP')
-                .find_modules_with_regex('^extension=(.*).so$')
-                .from_application('php/etc/php.ini')
-                .find_modules_with_regex('^zend_extension=(.*).so$')
-                .from_application('php/etc/php.ini')
-                .find_modules_with_regex('^zend_extension="(?:.*/)?(.*).so"$')
-                .from_application('php/etc/php.ini')
-                .include_modules_from('PHP_MODULES')
-                .include_module(is_web_app(ctx) and 'fpm' or 'cli')
                 .done())
         return 0
 

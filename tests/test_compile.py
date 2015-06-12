@@ -32,7 +32,7 @@ class TestCompileApp1(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(21, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(16, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         httpd.assert_start_script_is_correct(self.build_dir)
@@ -61,7 +61,7 @@ class TestCompileApp1(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(7, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(2, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         nginx.assert_start_script_is_correct(self.build_dir)
