@@ -21,5 +21,6 @@
 #  build pack needs to do anything to bootstrap the
 #  python scripts, like install Python.
 BP=$(dirname $(dirname $0))
+$BP/compile-extensions/bin/check_stack_support
 export PYTHONPATH=$BP/lib
 python $BP/scripts/compile.py $1 $2
