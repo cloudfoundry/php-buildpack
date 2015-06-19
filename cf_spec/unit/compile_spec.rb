@@ -13,7 +13,7 @@ describe 'Compile' do
     end
 
     it 'fails with a helpful error message' do
-      output = run('./bin/compile /tmp /tmp 2>&1', env: {CF_STACK: 'unsupported'})
+      output = run("./bin/compile #{Dir.mktmpdir} #{Dir.mktmpdir} 2>&1", env: {CF_STACK: 'unsupported'})
       expect(output).to include('not supported by this buildpack')
     end
   end
