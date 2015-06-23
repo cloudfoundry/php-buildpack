@@ -15,6 +15,7 @@ describe 'Compile' do
     it 'fails with a helpful error message' do
       output = run("./bin/compile #{Dir.mktmpdir} #{Dir.mktmpdir} 2>&1", env: {CF_STACK: 'unsupported'})
       expect(output).to include('not supported by this buildpack')
+      expect($?.exitstatus).to eq 44
     end
   end
 end
