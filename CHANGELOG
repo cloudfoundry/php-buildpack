@@ -1,3 +1,15 @@
+v3.3.0 Jun 24, 2015
+====================
+
+* Fail with helpful error message for incompatible stack
+  (https://www.pivotaltracker.com/story/show/96590154)
+
+* Remove lucid-specific binaries from manifest.yml
+  (https://www.pivotaltracker.com/story/show/96135874)
+
+* Add PHP 5.6.8, 5.5.24, 5.4.40 to unsupported manifest
+  (https://www.pivotaltracker.com/story/show/94988124)
+
 v3.2.2 Jun 03, 2015
 ====================
 
