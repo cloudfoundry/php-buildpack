@@ -83,24 +83,6 @@ def find_all_php_versions(dependencies):
     return versions
 
 
-def find_all_php_extensions(dependencies):
-    SKIP = ('cli', 'pear', 'cgi', 'fpm')
-    exts = defaultdict(list)
-
-    for dependency in dependencies:
-        name = dependency['name']
-        uri = dependency['uri']
-        version = dependency['version']
-
-        if 'php-' in name and uri.endswith('.tar.gz'):
-            ext_name = name.split('-')[1]
-
-            if ext_name not in SKIP:
-                exts[version].append(ext_name)
-
-    return exts
-
-
 def validate_php_version(ctx):
     if ctx['PHP_VERSION'] in ctx['ALL_PHP_VERSIONS']:
         _log.debug('App selected PHP [%s]', ctx['PHP_VERSION'])
@@ -109,18 +91,6 @@ def validate_php_version(ctx):
                      ' to the latest version [%s]',
                      ctx['PHP_VERSION'], ctx['PHP_54_LATEST'])
         ctx['PHP_VERSION'] = ctx['PHP_54_LATEST']
-
-
-def validate_php_extensions(ctx):
-    extns = ctx['ALL_PHP_EXTENSIONS'][ctx['PHP_VERSION']]
-    keep = []
-    for extn in ctx['PHP_EXTENSIONS']:
-        if extn in extns:
-            _log.debug('Extension [%s] validated.', extn)
-            keep.append(extn)
-        else:
-            _log.warn('Extension [%s] is not available!', extn)
-    ctx['PHP_EXTENSIONS'] = keep
 
 
 def convert_php_extensions(ctx):

@@ -10,9 +10,7 @@ from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
-from compile_helpers import find_all_php_extensions
 from compile_helpers import validate_php_version
-from compile_helpers import validate_php_extensions
 from compile_helpers import setup_log_dir
 
 
@@ -312,29 +310,6 @@ class TestCompileHelpers(object):
         eq_(2, len([v for v in versions if v.startswith('5.5.')]))
         eq_(2, len([v for v in versions if v.startswith('5.6.')]))
 
-    def test_find_php_extensions(self):
-        ctx = {'BP_DIR': '.'}
-        manifest = load_manifest(ctx)
-        dependencies = manifest['dependencies']
-        exts = find_all_php_extensions(dependencies)
-        eq_(6, len(exts.keys()))
-        tmp = exts[[key for key in exts.keys() if key.startswith('5.4')][0]]
-        assert 'amqp' in tmp
-        assert 'apc' in tmp
-        assert 'imap' in tmp
-        assert 'ldap' in tmp
-        assert 'phalcon' in tmp
-        assert 'pspell' in tmp
-        assert 'pdo_pgsql' in tmp
-        assert 'mailparse' in tmp
-        assert 'redis' in tmp
-        assert 'pgsql' in tmp
-        assert 'snmp' in tmp
-        assert 'cgi' not in tmp
-        assert 'cli' not in tmp
-        assert 'fpm' not in tmp
-        assert 'pear' not in tmp
-
     def test_validate_php_version(self):
         ctx = {
             'ALL_PHP_VERSIONS': ['5.4.31', '5.4.30'],
@@ -349,21 +324,3 @@ class TestCompileHelpers(object):
         ctx['PHP_VERSION'] = '5.4.30'
         validate_php_version(ctx)
         eq_('5.4.30', ctx['PHP_VERSION'])
-
-    def test_validate_php_extensions(self):
-        ctx = {
-            'ALL_PHP_EXTENSIONS': {
-                '5.4.31': ['curl', 'pgsql', 'snmp', 'phalcon']
-            },
-            'PHP_VERSION': '5.4.31',
-            'PHP_EXTENSIONS': ['curl', 'snmp']
-        }
-        validate_php_extensions(ctx)
-        eq_(2, len(ctx['PHP_EXTENSIONS']))
-        assert 'curl' in ctx['PHP_EXTENSIONS']
-        assert 'snmp' in ctx['PHP_EXTENSIONS']
-        ctx['PHP_EXTENSIONS'] = ['curl', 'pspell', 'imap', 'phalcon']
-        validate_php_extensions(ctx)
-        eq_(2, len(ctx['PHP_EXTENSIONS']))
-        assert 'curl' in ctx['PHP_EXTENSIONS']
-        assert 'phalcon' in ctx['PHP_EXTENSIONS']
