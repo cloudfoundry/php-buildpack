@@ -9963,6 +9963,12 @@ dependencies:
       - cflinuxfs2
     md5: 976b1f4c706d4d7c4cd679a5e86adb77
   - name: nginx
+    version: 1.8.0
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.0-linux-x64.tgz
+    cf_stacks:
+      - cflinuxfs2
+    md5: e12cddcba72d5008f94b298a02a8e6d4
+  - name: nginx
     version: 1.7.10
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/nginx/1.7.10/nginx-1.7.10.tar.gz
     cf_stacks:
