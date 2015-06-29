@@ -9,7 +9,7 @@ describe 'CF PHP Buildpack' do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  context 'deploying a Cake application with local dependencies', if: Machete::BuildpackMode.offline? do
+  context 'deploying a Cake application with local dependencies', if: Machete::BuildpackMode.cached? do
     let(:app_name) { 'cake_with_local_dependencies' }
     let(:options) do
       {
@@ -31,7 +31,7 @@ describe 'CF PHP Buildpack' do
     end
   end
 
-  context 'deploying a Cake application with remote dependencies', if: Machete::BuildpackMode.online? do
+  context 'deploying a Cake application with remote dependencies', if: Machete::BuildpackMode.uncached? do
     let(:app_name) { 'cake_with_remote_dependencies' }
     let(:options) do
       {

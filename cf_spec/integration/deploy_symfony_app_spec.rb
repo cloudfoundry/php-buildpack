@@ -9,7 +9,7 @@ describe 'CF PHP Buildpack' do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  context 'deploying a symfony app with locally-vendored dependencies', if: Machete::BuildpackMode.offline? do
+  context 'deploying a symfony app with locally-vendored dependencies', if: Machete::BuildpackMode.cached? do
     let(:app_name) { 'symfony_hello_world_with_local_dependencies' }
     let(:options) do
       {}
@@ -28,7 +28,7 @@ describe 'CF PHP Buildpack' do
     end
   end
 
-  context 'deploying a symfony app with remotely-sourced dependencies', if: Machete::BuildpackMode.online? do
+  context 'deploying a symfony app with remotely-sourced dependencies', if: Machete::BuildpackMode.uncached? do
     let(:app_name) { 'symfony_hello_world_with_remote_dependencies' }
     let(:options) do
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
