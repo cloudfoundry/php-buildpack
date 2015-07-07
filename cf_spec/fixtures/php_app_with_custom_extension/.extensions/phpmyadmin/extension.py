@@ -15,9 +15,9 @@ DEFAULTS = utils.FormattedDict({
     'PHPMYADMIN_VERSION': '4.3.12',
     'PHPMYADMIN_PACKAGE': 'phpMyAdmin-{PHPMYADMIN_VERSION}-english.tar.gz',
     'PHPMYADMIN_HASH': '707064d1efc37acc8e6fd7ddcc9030616ae32562',
-    'PHPMYADMIN_URL': 'http://sourceforge.net/projects/phpmyadmin/'
-                      'files/phpMyAdmin/{PHPMYADMIN_VERSION}/'
-                      '{PHPMYADMIN_PACKAGE}/download#'
+    'PHPMYADMIN_URL': 'https://files.phpmyadmin.net/'
+                      '/phpMyAdmin/{PHPMYADMIN_VERSION}/'
+                      '{PHPMYADMIN_PACKAGE}'
 })
 
 
