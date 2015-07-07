@@ -14,7 +14,7 @@ describe 'CF PHP Buildpack' do
 
     specify 'deploys successfully' do
       expect(app).to be_running
-      expect(app).to have_logged 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.3.12/phpMyAdmin-4.3.12-english.tar.gz/download#'
+      expect(app).to have_logged 'https://files.phpmyadmin.net//phpMyAdmin/4.3.12/phpMyAdmin-4.3.12-english.tar.gz'
     end
   end
 end
