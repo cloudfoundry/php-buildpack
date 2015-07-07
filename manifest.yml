@@ -2439,365 +2439,365 @@ dependencies:
       - cflinuxfs2
     md5: 976b1f4c706d4d7c4cd679a5e86adb77
   - name: php
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-5.4.42.tar.gz
+    md5: d7b810cad54127ecbe9e6c72081e46ab
     cf_stacks:
       - cflinuxfs2
-    md5: 3fd5a850ae147044430514e857e64b79
   - name: php-amqp
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-amqp-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-amqp-5.4.42.tar.gz
+    md5: 214009ed373f7db55f608107fbc8d693
     cf_stacks:
       - cflinuxfs2
-    md5: f3c3bee6a30e6c63c89ed9dec8af60b7
   - name: php-apc
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-apc-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-apc-5.4.42.tar.gz
+    md5: 4ef6a8207324ddaa30fb595ca2e0bcae
     cf_stacks:
       - cflinuxfs2
-    md5: ca7db7249078e94bd0fbd9db474bc612
   - name: php-apcu
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-apcu-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-apcu-5.4.42.tar.gz
+    md5: 4c943caef250a86debcf420eb4499181
     cf_stacks:
       - cflinuxfs2
-    md5: 151012771bbe9feadf6a017897c8a54d
   - name: php-bz2
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-bz2-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-bz2-5.4.42.tar.gz
+    md5: d3dfd65b827d0d45b11e605592ae83dd
     cf_stacks:
       - cflinuxfs2
-    md5: 1f8b20e2c9fcf9e182cd33c0f76c2d10
   - name: php-cgi
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-cgi-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-cgi-5.4.42.tar.gz
+    md5: 12afeb1db48a003a1e38c55ebdf0ec6c
     cf_stacks:
       - cflinuxfs2
-    md5: e2c9604b994dd020aa891db3e56dc782
   - name: php-cli
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-cli-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-cli-5.4.42.tar.gz
+    md5: cb18c0835190c96888cdddfc570261c3
     cf_stacks:
       - cflinuxfs2
-    md5: 59139d0665982781477aa14315e5e8ab
   - name: php-curl
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-curl-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-curl-5.4.42.tar.gz
+    md5: 5af0547f246e81013dd03f79d4e7cd2d
     cf_stacks:
       - cflinuxfs2
-    md5: 345bac502d5bca17bee7f569113d2d10
   - name: php-dba
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-dba-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-dba-5.4.42.tar.gz
+    md5: 3dae2015a7322a8fecc979117b7a4abf
     cf_stacks:
       - cflinuxfs2
-    md5: a3ca8ae087c6482ed4e6676d5ebdac26
   - name: php-exif
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-exif-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-exif-5.4.42.tar.gz
+    md5: 060629e31c11f20a9e61ca6b7da193a8
     cf_stacks:
       - cflinuxfs2
-    md5: e8d2dcbd1f08dd8b837826d624f656ed
   - name: php-fileinfo
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-fileinfo-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-fileinfo-5.4.42.tar.gz
+    md5: 5c0aec070a37fc6e5dfa7c93b615d5c3
     cf_stacks:
       - cflinuxfs2
-    md5: 606129b10d36befa7040248b98ea6c87
   - name: php-fpm
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-fpm-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-fpm-5.4.42.tar.gz
+    md5: a7dfbdb7934ebca5ce146b10ea1fd44c
     cf_stacks:
       - cflinuxfs2
-    md5: a6fae3a84cd2b5e8ad81517e556594fc
   - name: php-ftp
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-ftp-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-ftp-5.4.42.tar.gz
+    md5: 31f4e6872ac2ed933f6596c81af30b7f
     cf_stacks:
       - cflinuxfs2
-    md5: b76f9ef8b605aa8c36be53ff6aa27f14
   - name: php-gd
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-gd-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-gd-5.4.42.tar.gz
+    md5: 338ee80f25ee6a926b873ebc8679815d
     cf_stacks:
       - cflinuxfs2
-    md5: ad6eeb74efe3bd7cef4a685a9684e3f0
   - name: php-gettext
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-gettext-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-gettext-5.4.42.tar.gz
+    md5: 0d66105d84292e94ddc60b79ee087cfa
     cf_stacks:
       - cflinuxfs2
-    md5: ee96836a2f6a02c7656b1161839eb712
   - name: php-gmp
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-gmp-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-gmp-5.4.42.tar.gz
+    md5: 58354678136f85e53a85e52143c683c1
     cf_stacks:
       - cflinuxfs2
-    md5: 1b5fa41257be027eb2644a577ff8efb2
   - name: php-igbinary
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-igbinary-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-igbinary-5.4.42.tar.gz
+    md5: 676627add60bcb3de004c8954f8602af
     cf_stacks:
       - cflinuxfs2
-    md5: 3e84c8019cd066131a8162df6e2170b9
   - name: php-imagick
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-imagick-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-imagick-5.4.42.tar.gz
+    md5: 4519de2caf705ac43c38a3e0b9fc003d
     cf_stacks:
       - cflinuxfs2
-    md5: 577df5c4dbb3bb18415d53273689f0df
   - name: php-imap
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-imap-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-imap-5.4.42.tar.gz
+    md5: 450fbc96a68fee21a579a865056b3bc6
     cf_stacks:
       - cflinuxfs2
-    md5: 7d28e7fd879a5fb46c41b51e1a8db58d
   - name: php-intl
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-intl-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-intl-5.4.42.tar.gz
+    md5: 8814ef3223bd8135870fe4a0f5d39692
     cf_stacks:
       - cflinuxfs2
-    md5: 50f04b752cda149b9f5e4e6b580eabbd
   - name: php-ioncube
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-ioncube-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-ioncube-5.4.42.tar.gz
+    md5: 06c187e3bdd1d4a827e7be861702604a
     cf_stacks:
       - cflinuxfs2
-    md5: d68bf69a731eefa2200f99964d8b9bb3
   - name: php-ldap
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-ldap-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-ldap-5.4.42.tar.gz
+    md5: 8b7c97821605e27e75a1bc92f0c0db07
     cf_stacks:
       - cflinuxfs2
-    md5: 4631bcbd1ed99bb4598436d413844f86
   - name: php-lua
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-lua-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-lua-5.4.42.tar.gz
+    md5: 52d4c992ed2c173230c9508451805518
     cf_stacks:
       - cflinuxfs2
-    md5: 7f32303518132f198bb230cf57a1a3c0
   - name: php-mailparse
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-mailparse-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-mailparse-5.4.42.tar.gz
+    md5: b0f9087d04df8b789c85066d129b1635
     cf_stacks:
       - cflinuxfs2
-    md5: 0955e70b92de207170bd3b71877d6368
   - name: php-mbstring
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-mbstring-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-mbstring-5.4.42.tar.gz
+    md5: cff837931dd78977a35087b425eac5fe
     cf_stacks:
       - cflinuxfs2
-    md5: 0b58e77eee038c688776a8d57c6dcef6
   - name: php-mcrypt
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-mcrypt-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-mcrypt-5.4.42.tar.gz
+    md5: 7228826ad14025fdcb8ed7ae9d878b85
     cf_stacks:
       - cflinuxfs2
-    md5: 00b02f54367d3b07206e764840bb7d76
   - name: php-memcache
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-memcache-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-memcache-5.4.42.tar.gz
+    md5: 1da93f2ee62038ff28363e83aed10dfc
     cf_stacks:
       - cflinuxfs2
-    md5: f16ab32a3c9e618cceca8e8b944fb89d
   - name: php-memcached
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-memcached-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-memcached-5.4.42.tar.gz
+    md5: 6d0ab5612424578c95288d28a8746223
     cf_stacks:
       - cflinuxfs2
-    md5: 111e032ef710c2e7cc8eb8836418d448
   - name: php-mongo
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-mongo-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-mongo-5.4.42.tar.gz
+    md5: 775c756a55bd56b4d148dfe7e197ecb0
     cf_stacks:
       - cflinuxfs2
-    md5: ee713464f2a35ca8f90347116aae8721
   - name: php-msgpack
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-msgpack-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-msgpack-5.4.42.tar.gz
+    md5: c0c1fd549b8e32186bce07c6ed941a4a
     cf_stacks:
       - cflinuxfs2
-    md5: 0513ab81a0a64a17142e5f478a182adb
   - name: php-mysql
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-mysql-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-mysql-5.4.42.tar.gz
+    md5: aca91af939f742edb933382123b90b7d
     cf_stacks:
       - cflinuxfs2
-    md5: 51779f31960c2d6c98c57ea37956437d
   - name: php-mysqli
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-mysqli-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-mysqli-5.4.42.tar.gz
+    md5: 490724ecb004636b20581d1df92af4ad
     cf_stacks:
       - cflinuxfs2
-    md5: e45eb71acb4a0640fa2624a88d99d320
   - name: php-opcache
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-opcache-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-opcache-5.4.42.tar.gz
+    md5: 0576424f7c65681765e64b8674b1dd55
     cf_stacks:
       - cflinuxfs2
-    md5: 8e210a047c0704742f1e12634fd0662e
   - name: php-openssl
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-openssl-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-openssl-5.4.42.tar.gz
+    md5: e65e03de7e77f9d90fe409782866c618
     cf_stacks:
       - cflinuxfs2
-    md5: 2ae4f5ed22f2951d6566fbe3556aeb58
   - name: php-pdo
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-pdo-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-pdo-5.4.42.tar.gz
+    md5: 448d1042e11c230bf12a706a3109c1cd
     cf_stacks:
       - cflinuxfs2
-    md5: 6f86a7f826619d33e608893546ee6c4c
   - name: php-pdo_mysql
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-pdo_mysql-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-pdo_mysql-5.4.42.tar.gz
+    md5: 4ba82fec37923f46b995fd445c9b2c13
     cf_stacks:
       - cflinuxfs2
-    md5: f21ac9e9bc9b9a4c5067bb133cc09fa6
   - name: php-pdo_pgsql
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-pdo_pgsql-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-pdo_pgsql-5.4.42.tar.gz
+    md5: c339b703c6f79066cc25628bb27bdf7e
     cf_stacks:
       - cflinuxfs2
-    md5: 625181054b708fc51e23d9b143cad9e8
   - name: php-pdo_sqlite
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-pdo_sqlite-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-pdo_sqlite-5.4.42.tar.gz
+    md5: 6bdead3a50793dbf60074272761d6517
     cf_stacks:
       - cflinuxfs2
-    md5: e07de77e2a8f31b663a2b05d69fb6802
   - name: php-pear
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-pear-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-pear-5.4.42.tar.gz
+    md5: 941fba87b1392fe4caf7f2150f98d740
     cf_stacks:
       - cflinuxfs2
-    md5: 8ac57344d56e32053ba55c6138b2ebad
   - name: php-pgsql
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-pgsql-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-pgsql-5.4.42.tar.gz
+    md5: 3239fe8b7b9fe27bf0a172381f9da9be
     cf_stacks:
       - cflinuxfs2
-    md5: d017f80773ba3d5d0e4c0a514e363620
   - name: php-phalcon
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-phalcon-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-phalcon-5.4.42.tar.gz
+    md5: 16f8213771f19da18d12e49cad05cc43
     cf_stacks:
       - cflinuxfs2
-    md5: a3762ded55d5942dc6ab8f0feba8c415
   - name: php-phpiredis
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-phpiredis-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-phpiredis-5.4.42.tar.gz
+    md5: 564447241bb2fa5a12d1eebb19396b1c
     cf_stacks:
       - cflinuxfs2
-    md5: 7dbf3290b59c6929efc95e288af0df34
   - name: php-protobuf
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-protobuf-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-protobuf-5.4.42.tar.gz
+    md5: 8e3e840a5074fbe69ace90c9df5d4668
     cf_stacks:
       - cflinuxfs2
-    md5: a1d5d2bf88a6f20aec77273173249eb4
   - name: php-protocolbuffers
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-protocolbuffers-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-protocolbuffers-5.4.42.tar.gz
+    md5: 26fc3f58ee8d87d6b7d487a86e367e1c
     cf_stacks:
       - cflinuxfs2
-    md5: d3b43cbbea3da498c10f9c348b6d77cd
   - name: php-pspell
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-pspell-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-pspell-5.4.42.tar.gz
+    md5: 9f4ab9172d9923e33b1bf4baecedbfe4
     cf_stacks:
       - cflinuxfs2
-    md5: 2ed1ad1cf8b92068f08617a5b8056a1e
   - name: php-redis
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-redis-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-redis-5.4.42.tar.gz
+    md5: b03ca5918eeb5028bcb5fda4c20d3a7e
     cf_stacks:
       - cflinuxfs2
-    md5: 79c9bf39cf130a11837927b5da59fa69
   - name: php-snmp
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-snmp-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-snmp-5.4.42.tar.gz
+    md5: 0cb5da706470c2dcd7f7bca8b0a6a6ff
     cf_stacks:
       - cflinuxfs2
-    md5: 8576675a25c3d1f676b2603acf716fd2
   - name: php-soap
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-soap-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-soap-5.4.42.tar.gz
+    md5: 61d1f9027d9da79ee1a88b0641f822a3
     cf_stacks:
       - cflinuxfs2
-    md5: 2c5e26d1f3d2b078eaa61aa16f3a29cb
   - name: php-sockets
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-sockets-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-sockets-5.4.42.tar.gz
+    md5: 36e827c0db1f2e8ce5ef66d8b8b54426
     cf_stacks:
       - cflinuxfs2
-    md5: 22d7da49ee3eabe8e41af03a91798712
   - name: php-suhosin
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-suhosin-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-suhosin-5.4.42.tar.gz
+    md5: 57d815ddf3c9401e1cb23a117ccf4f46
     cf_stacks:
       - cflinuxfs2
-    md5: 562bd9a4becb729f139aabee8d579299
   - name: php-sundown
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-sundown-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-sundown-5.4.42.tar.gz
+    md5: f212b4b296140bc7b4edd0d3897326e8
     cf_stacks:
       - cflinuxfs2
-    md5: 1ffd7ff081876cc9cd846d69a6ce2898
   - name: php-twig
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-twig-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-twig-5.4.42.tar.gz
+    md5: 131896cb98d2d227e3ec5479bc866fb7
     cf_stacks:
       - cflinuxfs2
-    md5: 73d19648cd0be98dbbd952de8d96ac05
   - name: php-xcache
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-xcache-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-xcache-5.4.42.tar.gz
+    md5: 8ab55e4aef794d50ed2ce3d6afa8d9bb
     cf_stacks:
       - cflinuxfs2
-    md5: 414ea4b6d0bc26cb78175100f4fca997
   - name: php-xdebug
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-xdebug-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-xdebug-5.4.42.tar.gz
+    md5: 46f913ed0512fee315072a6f8f09574d
     cf_stacks:
       - cflinuxfs2
-    md5: 65ddd113958c838c52e485e2259cd19d
   - name: php-xhprof
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-xhprof-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-xhprof-5.4.42.tar.gz
+    md5: ae5a53ec16718b05398afe41b3f859dc
     cf_stacks:
       - cflinuxfs2
-    md5: 0869ed89ee7497231cf8db979bb3a11b
   - name: php-xsl
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-xsl-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-xsl-5.4.42.tar.gz
+    md5: 99b333cd57614f8c4f81d09f5281e466
     cf_stacks:
       - cflinuxfs2
-    md5: 01563c9ddb672d02210cfe90dbf4bf68
   - name: php-yaf
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-yaf-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-yaf-5.4.42.tar.gz
+    md5: cefc52dfdc76f30a81bd1f048d184556
     cf_stacks:
       - cflinuxfs2
-    md5: 3b9fbe6a909230b835b91a14a58fa34f
   - name: php-zip
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-zip-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-zip-5.4.42.tar.gz
+    md5: 2b95c100bec832821caa6ef4cf6a1447
     cf_stacks:
       - cflinuxfs2
-    md5: 9361f081608b4459247993b0412fa5a5
   - name: php-zlib
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-zlib-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-zlib-5.4.42.tar.gz
+    md5: aa9d6c0dd04a1a4aa7470cbe0b11d08c
     cf_stacks:
       - cflinuxfs2
-    md5: 938900e74b0e5f704b84bb0c658cb347
   - name: php-zookeeper
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/5.4.39/php-zookeeper-5.4.39.tar.gz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php//Users/pivotal/workspace/cf-php-buildpack-binary-build-scripts/output/Ubuntu-14.04/5.4.42/php-zookeeper-5.4.42.tar.gz
+    md5: d78ed3bf54aba7cdcc1a4057ae4219d8
     cf_stacks:
       - cflinuxfs2
-    md5: 27397deeb4c60f808a87153a1bc9a3d3
   - name: nginx
     version: 1.8.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.0-linux-x64.tgz
