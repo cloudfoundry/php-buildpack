@@ -39,17 +39,23 @@ dependencies:
       - cflinuxfs2
     md5: 8c1ad4fe19a019d3e8fd9039d8f2f79a
   - name: php
+    version: 5.5.26
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.5.26-linux-x64.tgz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 871fb5ced578723790ac1129e5c0b652
+  - name: php
     version: 5.5.25
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.5.25-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
     md5: 6a25d4af0106a3685e9a7fbfdad88f83
   - name: php
-    version: 5.5.23
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.5.23-linux-x64.tgz
+    version: 5.6.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.6.10-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 3c83638f575fc522f423fac12a35169e
+    md5: c3af0ed69bb381eebad21ea9158f2b6c
   - name: php
     version: 5.6.9
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.6.9-linux-x64.tgz
@@ -57,23 +63,17 @@ dependencies:
       - cflinuxfs2
     md5: 54248ebd90e7867fd509f7758a8e35cc
   - name: php
-    version: 5.6.7
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.6.7-linux-x64.tgz
+    version: 5.4.42
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.4.42-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: dcc33e5eec81b4407498213945d04a98
+    md5: ff38daf606f04fd1eefd12ec30325493
   - name: php
     version: 5.4.41
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.4.41-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
     md5: 8887124b4318d1e3bc5fc40b670bda2f
-  - name: php
-    version: 5.4.39
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.4.39-linux-x64.tgz
-    cf_stacks:
-      - cflinuxfs2
-    md5: c38b113d854eb1e46130c0a5fe0326cc
   - name: nginx
     version: 1.8.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.0-linux-x64.tgz
