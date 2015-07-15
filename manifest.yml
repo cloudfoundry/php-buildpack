@@ -43,37 +43,37 @@ dependencies:
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.5.26-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 871fb5ced578723790ac1129e5c0b652
+    md5: 3c8fc2d10805213259a395f12f5a095e
   - name: php
-    version: 5.5.25
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.5.25-linux-x64.tgz
+    version: 5.5.27
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.5.27-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 6a25d4af0106a3685e9a7fbfdad88f83
+    md5: 0939c13ac9f69bafd78adf1baf25ecee
   - name: php
     version: 5.6.10
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.6.10-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: c3af0ed69bb381eebad21ea9158f2b6c
+    md5: dabf0946c2b822c6eb01c49c650ab6ea
   - name: php
-    version: 5.6.9
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.6.9-linux-x64.tgz
+    version: 5.6.11
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.6.11-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 54248ebd90e7867fd509f7758a8e35cc
+    md5: 3adf99be800cb798c7843166d595eafc
   - name: php
     version: 5.4.42
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.4.42-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: ff38daf606f04fd1eefd12ec30325493
+    md5: aba6caa1811701ee5c12f804bbab08b8
   - name: php
-    version: 5.4.41
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.4.41-linux-x64.tgz
+    version: 5.4.43
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/beta-binaries/cflinuxfs2/php-5.4.43-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 8887124b4318d1e3bc5fc40b670bda2f
+    md5: 635a31db43dd369d984bafa5d82c5fde
   - name: nginx
     version: 1.8.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.0-linux-x64.tgz
