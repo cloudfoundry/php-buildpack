@@ -1,3 +1,27 @@
+v4.0.0 Jul 20, 2015
+====================
+
+* upgrade PHP 5.6.11, 5.5.27, and 5.4.43
+  (https://www.pivotaltracker.com/story/show/98855368)
+
+* Package all PHP modules in a single tarball
+
+  Instead of downloading PHP modules individually, include all modules in a
+  single tarball to make the manifest more manageable.
+  (https://www.pivotaltracker.com/story/show/95473520)
+
+* Package all httpd modules in a single tarball
+
+  Instead of downloading httpd modules individually, include all modules
+  in a single tarball to make the manifest more manageable.
+  (https://www.pivotaltracker.com/story/show/95473520)
+
+* Add nginx 1.9.2, upgrade to 1.6.3; drop 1.7.x
+  (https://www.pivotaltracker.com/story/show/98855608)
+
+* Include current stack in unsupported stack message
+  (https://www.pivotaltracker.com/story/show/98579464)
+
 v3.3.1 Jul 08, 2015
 ====================
 
