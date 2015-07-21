@@ -31,28 +31,28 @@ from extension_helpers import ExtensionHelper
 _log = logging.getLogger('composer')
 
 
-def find_composer_paths(path):
+def find_composer_paths(ctx):
+    build_dir = ctx['BUILD_DIR']
+    webdir = ctx['WEBDIR']
+
     json_path = None
     lock_path = None
-    for root, dirs, files in os.walk(path):
-        files.sort()
+    json_paths = [
+      os.path.join(build_dir, 'composer.json'),
+      os.path.join(build_dir, webdir, 'composer.json')
+    ]
+    lock_paths = [
+      os.path.join(build_dir, 'composer.lock'),
+      os.path.join(build_dir, webdir, 'composer.lock')
+    ]
 
-        if 'vendor' in dirs:
-            dirs.remove('vendor')
+    for path in json_paths:
+        if os.path.exists(path):
+            json_path = path
+    for path in lock_paths:
+        if os.path.exists(path):
+            lock_path = path
 
-        contains_json = 'composer.json' in files
-        contains_lock = 'composer.lock' in files
-
-        if contains_json and contains_lock:
-            json_path = os.path.join(root, 'composer.json')
-            lock_path = os.path.join(root, 'composer.lock')
-            return (json_path, lock_path)
-        elif contains_json:
-            json_path = os.path.join(root, 'composer.json')
-            lock_path = None
-        elif contains_lock:
-            lock_path = os.path.join(root, 'composer.lock')
-            json_path = None
     return (json_path, lock_path)
 
 
@@ -64,7 +64,7 @@ class ComposerConfiguration(object):
 
     def _init_composer_paths(self):
         (self.json_path, self.lock_path) = \
-            find_composer_paths(self._ctx['BUILD_DIR'])
+            find_composer_paths(self._ctx)
 
     def read_exts_from_path(self, path):
         exts = []
@@ -162,7 +162,7 @@ class ComposerExtension(ExtensionHelper):
 
     def _should_compile(self):
         (json_path, lock_path) = \
-            find_composer_paths(self._ctx['BUILD_DIR'])
+            find_composer_paths(self._ctx)
         return (json_path is not None or lock_path is not None)
 
     def _compile(self, install):
@@ -263,7 +263,7 @@ class ComposerExtension(ExtensionHelper):
     def check_github_rate_exceeded(self, token_is_valid):
         if self._github_rate_exceeded(token_is_valid):
             print('-----> The GitHub api rate limit has been exceeded. '
-                  'Composer will continue by downloading from source, which might result in slower downloads. ' 
+                  'Composer will continue by downloading from source, which might result in slower downloads. '
                   'You can increase your rate limit with a GitHub OAuth token. '
                   'Please obtain a GitHub OAuth token by registering your application at '
                   'https://github.com/settings/applications/new. '
