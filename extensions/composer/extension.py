@@ -38,13 +38,26 @@ def find_composer_paths(ctx):
     json_path = None
     lock_path = None
     json_paths = [
-      os.path.join(build_dir, 'composer.json'),
-      os.path.join(build_dir, webdir, 'composer.json')
+        os.path.join(build_dir, 'composer.json'),
+        os.path.join(build_dir, webdir, 'composer.json')
     ]
+
     lock_paths = [
-      os.path.join(build_dir, 'composer.lock'),
-      os.path.join(build_dir, webdir, 'composer.lock')
+        os.path.join(build_dir, 'composer.lock'),
+        os.path.join(build_dir, webdir, 'composer.lock')
     ]
+
+    env_path = os.getenv('COMPOSER_PATH')
+    if env_path is not None:
+        json_paths = json_paths + [
+            os.path.join(build_dir, env_path, 'composer.json'),
+            os.path.join(build_dir, webdir, env_path, 'composer.json')
+        ]
+
+        lock_paths = lock_paths + [
+            os.path.join(build_dir, env_path, 'composer.lock'),
+            os.path.join(build_dir, webdir, env_path, 'composer.lock')
+        ]
 
     for path in json_paths:
         if os.path.exists(path):
@@ -78,16 +91,6 @@ class ComposerConfiguration(object):
                     exts.append(ext_match.group(1))
         return exts
 
-    def read_version_from_composer_json(self, key):
-        composer_json = json.load(open(self.json_path, 'r'))
-        require = composer_json.get('require', {})
-        return require.get(key, None)
-
-    def read_version_from_composer_lock(self, key):
-        composer_json = json.load(open(self.lock_path, 'r'))
-        platform = composer_json.get('platform', {})
-        return platform.get(key, None)
-
     def pick_php_version(self, requested):
         selected = None
         if requested is None:
@@ -110,12 +113,17 @@ class ComposerConfiguration(object):
             selected = self._ctx['PHP_VERSION']
         return selected
 
-    def _read_version_from_composer(self, key):
-        if self.json_path:
-            return self.read_version_from_composer_json(key)
-
-        elif self.lock_path:
-            return self.read_version_from_composer_lock(key)
+    def read_version_from_composer(self, key):
+        (json_path, lock_path) = find_composer_paths(self._ctx)
+        if json_path is not None:
+            composer = json.load(open(json_path, 'r'))
+            require = composer.get('require', {})
+            return require.get(key, None)
+        if lock_path is not None:
+            composer = json.load(open(lock_path, 'r'))
+            platform = composer.get('platform', {})
+            return platform.get(key, None)
+        return None
 
     def configure(self):
         if self.json_path or self.lock_path:
@@ -127,7 +135,7 @@ class ComposerConfiguration(object):
             # add platform extensions from composer.json & composer.lock
             exts.extend(self.read_exts_from_path(self.json_path))
             exts.extend(self.read_exts_from_path(self.lock_path))
-            hhvm_version = self._read_version_from_composer('hhvm')
+            hhvm_version = self.read_version_from_composer('hhvm')
             if hhvm_version:
                 self._ctx['PHP_VM'] = 'hhvm'
                 self._log.debug('Composer picked HHVM Version [%s]',
@@ -135,7 +143,7 @@ class ComposerConfiguration(object):
             else:
                 # update context with new list of extensions,
                 # if composer.json exists
-                php_version = self._read_version_from_composer('php')
+                php_version = self.read_version_from_composer('php')
                 self._log.debug('Composer picked PHP Version [%s]',
                                 php_version)
                 self._ctx['PHP_VERSION'] = self.pick_php_version(php_version)
@@ -270,17 +278,20 @@ class ComposerExtension(ExtensionHelper):
                   'Then set COMPOSER_GITHUB_OAUTH_TOKEN in your environment to the value of this token.')
 
     def run(self):
-        # Move composer files out of WEBDIR
-        (self._builder.move()
-            .under('{BUILD_DIR}/{WEBDIR}')
-            .where_name_is('composer.json')
-            .into('BUILD_DIR')
-         .done())
-        (self._builder.move()
-            .under('{BUILD_DIR}/{WEBDIR}')
-            .where_name_is('composer.lock')
-            .into('BUILD_DIR')
-         .done())
+        # Move composer files into root directory
+        (json_path, lock_path) = find_composer_paths(self._ctx)
+        if json_path is not None and os.path.dirname(json_path) != self._ctx['BUILD_DIR']:
+            (self._builder.move()
+                .under(os.path.dirname(json_path))
+                .where_name_is('composer.json')
+                .into('BUILD_DIR')
+             .done())
+        if lock_path is not None and os.path.dirname(lock_path) != self._ctx['BUILD_DIR']:
+            (self._builder.move()
+                .under(os.path.dirname(lock_path))
+                .where_name_is('composer.lock')
+                .into('BUILD_DIR')
+             .done())
         # Sanity Checks
         if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
                                            'composer.lock')):
