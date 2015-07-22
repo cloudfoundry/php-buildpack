@@ -60,6 +60,10 @@ Second, you need to take care when adjusting the configurations.  It is possible
 
 As mentioned in the chart above, PHP extensions can easily be enabled by setting the `PHP_EXTENSIONS` or `ZEND_EXTENSIONS` option in `.bp-config/options.json`.  This option allows you to make sure that any of the bundled PHP extensions are installed and configured for your environment.
 
+#### Composer
+
+The PHP Buildpack also has support for using composer files within your PHP application. By default, it will utilize composer files (json, lock) that reside inside the root directory or the directory specified as `WEBDIR` in your `options.json`. In the event that you have your composer files a directory inside your app but not in the default directories, then you can specify this custom location via an environment variable for your app called `COMPOSER_PATH` (relative to the app root directory). Please note that your composer lock and json files must be in the same directory
+
 ### PHP Modules
 
 In addition to extensions, there are a few PHP modules that can be installed.  These are parts of the traditional PHP install that have been split out into their own download to decrease the size of the binaries used by the build pack by default.  If you need one of these you can manually install the module by adding it to the `PHP_MODULES` list.
