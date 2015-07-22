@@ -62,7 +62,7 @@ As mentioned in the chart above, PHP extensions can easily be enabled by setting
 
 #### Composer
 
-The PHP Buildpack also has support for using composer files within your PHP application. By default, it will utilize composer files (json, lock) that reside inside the root directory or the directory specified as `WEBDIR` in your `options.json`. In the event that you have your composer files a directory inside your app but not in the default directories, then you can specify this custom location via an environment variable for your app called `COMPOSER_PATH` (relative to the app root directory). Please note that your composer lock and json files must be in the same directory
+The PHP Buildpack also has support for using composer files within your PHP application. By default, it will utilize composer files (json, lock) that reside inside the app root directory or the directory specified as `WEBDIR` in your `options.json`. In the event that you have your composer files inside your app directory but not in the default directories, you can specify this custom location via an environment variable for your app called `COMPOSER_PATH` (relative to the app root directory). Please note that your composer lock and json files must be in the same directory.
 
 ### PHP Modules
 
