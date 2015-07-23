@@ -34,7 +34,7 @@ dependencies:
     md5: 069eb3a0a3522a6461c011bcd98f99a6
   - name: httpd
     version: 2.4.16
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/httpd/beta-binaries/cflinuxfs2/httpd-2.4.16-linux-x64.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/httpd/httpd-2.4.16-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
     md5: 48a9635de867f1473e1f1e1f3e93af86
@@ -82,10 +82,10 @@ dependencies:
     md5: e12cddcba72d5008f94b298a02a8e6d4
   - name: nginx
     version: 1.9.3
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/nginx/cflinuxfs2/nginx-1.9.3-linux-x64.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.9.3-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: d41d8cd98f00b204e9800998ecf8427e
+    md5: aa66f9eecb538afc938bf5cb9cd01200
   - name: nginx
     version: 1.6.3
     uri: https://pivotal-buildpacks.s3.amazonaws.com/nginx/cflinuxfs2/nginx-1.6.3-linux-x64.tgz
