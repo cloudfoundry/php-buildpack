@@ -13,7 +13,7 @@ describe "Composer with version set to 'latest'" do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  context 'with an uncached buildpack', if: Machete::BuildpackMode.uncached? do
+  context 'with an uncached buildpack', :uncached do
     let(:app_name) { 'composer_with_version_set_to_latest' }
 
     specify do
@@ -22,7 +22,7 @@ describe "Composer with version set to 'latest'" do
     end
   end
 
-  context 'with a cached buildpack', if: Machete::BuildpackMode.cached? do
+  context 'with a cached buildpack', :cached do
     let(:app_name) { 'composer_with_version_set_to_latest' }
 
     specify do

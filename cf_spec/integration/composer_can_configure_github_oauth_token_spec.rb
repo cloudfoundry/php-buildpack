@@ -9,7 +9,7 @@ describe 'Composer' do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  context 'deploying an app with valid $COMPOSER_GITHUB_OAUTH_TOKEN variable set', if: Machete::BuildpackMode.uncached? do
+  context 'deploying an app with valid $COMPOSER_GITHUB_OAUTH_TOKEN variable set', :uncached do
     let(:oauth_token) { ENV['COMPOSER_GITHUB_OAUTH_TOKEN'] }
     specify do
       expect(app).to be_running
@@ -18,7 +18,7 @@ describe 'Composer' do
     end
   end
 
-  context 'deploying an app with an invalid $COMPOSER_GITHUB_OAUTH_TOKEN', if: Machete::BuildpackMode.uncached? do
+  context 'deploying an app with an invalid $COMPOSER_GITHUB_OAUTH_TOKEN', :uncached do
     let(:oauth_token) { 'badtoken123123' }
 
     specify do
