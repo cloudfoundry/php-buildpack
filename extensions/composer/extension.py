@@ -172,18 +172,6 @@ class ComposerExtension(ExtensionHelper):
         self.install()
         self.run()
 
-    def move_local_vendor_folder(self):
-        vendor_path = os.path.join(self._ctx['BUILD_DIR'],
-                                   self._ctx['WEBDIR'],
-                                   'vendor')
-        if os.path.exists(vendor_path):
-            self._log.debug("Vendor [%s] exists, moving to LIBDIR",
-                            vendor_path)
-            (self._builder.move()
-                .under('{BUILD_DIR}/{WEBDIR}')
-                .into('{BUILD_DIR}/{LIBDIR}')
-                .where_name_matches('^%s/.*$' % vendor_path)
-                .done())
 
     def install(self):
         self._builder.install().package('PHP').done()
