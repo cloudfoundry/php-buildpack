@@ -168,7 +168,6 @@ class ComposerExtension(ExtensionHelper):
     def _compile(self, install):
         self._builder = install.builder
         self.composer_runner = ComposerCommandRunner(self._ctx, self._builder)
-        self.move_local_vendor_folder()
         self.install()
         self.run()
 
