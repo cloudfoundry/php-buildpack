@@ -104,6 +104,7 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   * pgsql
   * phalcon
   * phpiredis
+  * protobuf
   * pspell
   * redis
   * snmp
