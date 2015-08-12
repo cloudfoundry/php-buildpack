@@ -41,7 +41,7 @@ describe 'CF PHP Buildpack' do
     end
 
     it 'downloads the binaries directly from the buildpack' do
-      expect(@app).to have_logged %r{Downloaded \[file://.*/dependencies/https___pivotal-buildpacks.s3.amazonaws.com_php_beta-binaries_cflinuxfs2_php-5.5.27-linux-x64.tgz\] to \[/tmp\]}
+      expect(@app).to have_logged %r{Downloaded \[file://.*/dependencies/https___pivotal-buildpacks.s3.amazonaws.com_concourse-binaries_php_php-5.5.\d+-linux-x64-\d+.tgz\] to \[/tmp\]}
     end
   end
 end
