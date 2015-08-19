@@ -14,10 +14,8 @@
 # limitations under the License.
 import os
 import os.path
-import json
 import yaml
 import logging
-from collections import defaultdict
 from build_pack_utils import FileUtil
 
 
