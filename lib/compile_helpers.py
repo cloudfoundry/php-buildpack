@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import print_function
 import os
 import os.path
 import yaml
@@ -58,7 +59,7 @@ def setup_webdir_if_it_doesnt_exist(ctx):
 def log_bp_version(ctx):
     version_file = os.path.join(ctx['BP_DIR'], 'VERSION')
     if os.path.exists(version_file):
-        print '-------> Buildpack version %s' % open(version_file).read()
+        print('-------> Buildpack version %s' % open(version_file).read())
 
 
 def setup_log_dir(ctx):
@@ -108,7 +109,7 @@ def validate_php_extensions(ctx):
 
     for extension in requested_extensions:
         if extension not in supported_extensions:
-            print "The extension '%s' is not provided by this buildpack." % extension
+            print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
         else:
             filtered_extensions.append(extension)
     ctx['PHP_EXTENSIONS'] = filtered_extensions
@@ -140,7 +141,7 @@ def find_stand_alone_app_to_run(ctx):
                 app = pf
                 break
         if not app:
-            print 'Build pack could not find a PHP file to execute!'
+            print('Build pack could not find a PHP file to execute!')
             _log.info('Build pack could not find a file to execute.  Either '
                       'set "APP_START_CMD" or include one of these files [%s]',
                       ", ".join(possible_files))
