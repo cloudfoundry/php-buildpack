@@ -1,0 +1,4 @@
+{
+	"WEB_SERVER": "nginx",
+  "PHP_EXTENSIONS": [ "meatball", "hotdog", "amqp" ]
+}

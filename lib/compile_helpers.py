@@ -93,6 +93,29 @@ def validate_php_version(ctx):
         ctx['PHP_VERSION'] = ctx['PHP_54_LATEST']
 
 
+def _get_supported_php_extensions(ctx):
+    php_extensions = []
+    php_extension_directory = os.path.join(ctx["PHP_INSTALL_PATH"], 'lib/php/extensions/no-debug-non-zts-20121212/')
+    for root, dirs, files in os.walk(php_extension_directory):
+        for f in files:
+            if '.so' in f:
+                php_extensions.append(f.replace('.so', ''))
+    return php_extensions
+
+
+def validate_php_extensions(ctx):
+    filtered_extensions = []
+    requested_extensions = ctx['PHP_EXTENSIONS']
+    supported_extensions = _get_supported_php_extensions(ctx)
+
+    for extension in requested_extensions:
+        if extension not in supported_extensions:
+            print "The extension '%s' is not provided by this buildpack." % extension
+        else:
+            filtered_extensions.append(extension)
+    ctx['PHP_EXTENSIONS'] = filtered_extensions
+
+
 def convert_php_extensions(ctx):
     _log.debug('Converting PHP extensions')
     SKIP = ('cli', 'pear', 'cgi')

@@ -18,6 +18,7 @@ from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
+from compile_helpers import validate_php_extensions
 from extension_helpers import ExtensionHelper
 
 
@@ -65,10 +66,13 @@ class PHPExtension(ExtensionHelper):
         print 'Installing PHP'
         ctx = install.builder._ctx
         validate_php_version(ctx)
-        convert_php_extensions(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
         (install
             .package('PHP')
+            .done())
+        validate_php_extensions(ctx)
+        convert_php_extensions(ctx)
+        (install
             .config()
                 .from_application('.bp-config/php')  # noqa
                 .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
