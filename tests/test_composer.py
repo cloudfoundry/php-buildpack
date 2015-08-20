@@ -19,7 +19,6 @@ class TestComposer(object):
 
     def test_composer_tool_should_compile(self):
         ctx = utils.FormattedDict({
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': 'tests/data/composer',
             'CACHE_DIR': '/cache/dir',
             'PHP_VM': 'will_default_to_php_strategy',
@@ -31,7 +30,6 @@ class TestComposer(object):
 
     def test_composer_tool_should_compile_not_found(self):
         ctx = utils.FormattedDict({
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': 'lib',
             'CACHE_DIR': '/cache/dir',
             'PHP_VM': 'will_default_to_php_strategy',
@@ -43,7 +41,6 @@ class TestComposer(object):
 
     def test_composer_tool_install(self):
         ctx = utils.FormattedDict({
-            'DOWNLOAD_URL': 'http://server/bins',
             'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
@@ -67,12 +64,11 @@ class TestComposer(object):
         # make sure composer is installed
         assert installer._installer.calls().once()
         assert installer._installer.calls()[0].args[0] == \
-            'http://server/bins/composer/1.0.0-alpha10/composer.phar', \
+            '/composer/1.0.0-alpha10/composer.phar', \
             "was %s" % installer._installer.calls()[0].args[0]
 
     def test_composer_tool_install_latest(self):
         ctx = utils.FormattedDict({
-            'DOWNLOAD_URL': 'http://server/bins',
             'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
@@ -104,7 +100,6 @@ class TestComposer(object):
     def test_composer_run_streams_output(self):
         ctx = utils.FormattedDict({
             'PHP_VM': 'hhvm',  # PHP strategy does other stuff
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
@@ -142,7 +137,6 @@ class TestComposer(object):
     def test_composer_run_streams_debug_output(self):
         ctx = utils.FormattedDict({
             'PHP_VM': 'hhvm',  # PHP strategy does other stuff
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
@@ -184,7 +178,6 @@ class TestComposer(object):
     def test_composer_tool_run_custom_composer_opts(self):
         ctx = utils.FormattedDict({
             'PHP_VM': 'php',
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'TMPDIR': tempfile.gettempdir(),
@@ -225,7 +218,6 @@ class TestComposer(object):
     def test_composer_tool_run_sanity_checks(self):
         ctx = utils.FormattedDict({
             'PHP_VM': 'php',
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
             'WEBDIR': '',
@@ -763,7 +755,6 @@ class TestComposer(object):
 
     def test_run_sets_github_oauth_token_if_present(self):
         ctx = utils.FormattedDict({
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
@@ -816,7 +807,6 @@ class TestComposer(object):
 
     def test_run_does_not_set_github_oauth_if_missing(self):
         ctx = utils.FormattedDict({
-            'DOWNLOAD_URL': 'http://server/bins',
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),

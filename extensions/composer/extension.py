@@ -160,7 +160,7 @@ class ComposerExtension(ExtensionHelper):
         return {
             'COMPOSER_VERSION': '1.0.0-alpha10',
             'COMPOSER_PACKAGE': 'composer.phar',
-            'COMPOSER_DOWNLOAD_URL': '{DOWNLOAD_URL}/composer/'
+            'COMPOSER_DOWNLOAD_URL': '/composer/'
                                      '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',
             'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
             'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/{LIBDIR}/vendor',
