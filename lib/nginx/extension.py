@@ -39,7 +39,7 @@ def compile(install):
         .package('NGINX')
         .config()
             .from_application('.bp-config/nginx')  # noqa
-            .or_from_build_pack('defaults/config/nginx/{NGINX_VERSION}')
+            .or_from_build_pack('defaults/config/nginx')
             .to('nginx/conf')
             .rewrite()
             .done())

@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'tmpdir'
+
+def php_modules_from(url:)
+  Dir.mktmpdir do |dir|
+    Dir.chdir(dir) do
+      `wget #{url} && tar xzf #{File.basename(url)}`
+      Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
+        File.basename(file, '.so')
+      end
+    end
+  end
+end
+
+manifest = YAML.load_file('manifest.yml')
+
+manifest['dependencies'].each do |dependency|
+  if dependency.fetch('name') == 'php' && !dependency.has_key?('modules')
+    dependency['modules'] = php_modules_from(url: dependency.fetch('uri'))
+    File.write('manifest.yml',
+      File.read('manifest.yml')
+        .gsub(
+          "uri: #{dependency['uri']}",
+          "uri: #{dependency['uri']}\n    modules: #{dependency['modules'].inspect}"
+        )
+    )
+  end
+end
+

@@ -6,7 +6,6 @@ require 'machete/matchers'
 Machete.logger = Machete::Logger.new("log/integration.log")
 
 RSpec.configure do |config|
-  def assert_cached_mode_has_no_internet_traffic
-    expect(app.host).not_to have_internet_traffic if Machete::BuildpackMode.cached?
-  end
+  config.filter_run_excluding :cached => ENV['BUILDPACK_MODE'] == 'uncached'
+  config.filter_run_excluding :uncached => ENV['BUILDPACK_MODE'] == 'cached'
 end

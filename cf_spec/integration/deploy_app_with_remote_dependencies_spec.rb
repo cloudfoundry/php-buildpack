@@ -9,7 +9,7 @@ describe 'CF PHP Buildpack' do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  context 'the application has remote dependencies', if: Machete::BuildpackMode.uncached? do
+  context 'the application has remote dependencies', :uncached do
     let(:app_name) { 'app_with_remote_dependencies' }
 
     specify do
@@ -17,8 +17,6 @@ describe 'CF PHP Buildpack' do
 
       browser.visit_path("/")
       expect(browser).to have_body 'App with remote dependencies running'
-
-      assert_cached_mode_has_no_internet_traffic
     end
   end
 end

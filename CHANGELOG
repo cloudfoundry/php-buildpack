@@ -1,3 +1,84 @@
+v4.1.5 Oct 09, 2015
+====================
+
+* Update nginx to 1.9.5, drop 1.9.4
+  (https://www.pivotaltracker.com/story/show/103916116)
+
+* Add PHP 5.6.14 and 5.5.30, drop 5.6.12 and 5.5.28
+  (https://www.pivotaltracker.com/story/show/104524088)
+
+v4.1.4 Sep 18, 2015
+====================
+
+* update binaries for ICU vulnerabilities:
+  USN-2740-1, CVE-2015-1270, CVE-2015-2632, CVE-2015-4760
+  this commit removes libicu from the buildpack, and instead relies
+  upon the libraries delivered by the rootfs (note that rootfs 1.9.0
+  addresses this vulnerability).
+  (https://www.pivotaltracker.com/story/show/103531876)
+
+v4.1.3 Sep 14, 2015
+====================
+Please note that PHP 5.4 will reach "End of Life" on 2015-09-14. We intend to remove support for this version of PHP on or before 2015-10-16.
+
+* Updating PHP binaries for redis 2.2.7
+  (https://www.pivotaltracker.com/story/show/100925176)
+
+* Add support for PHP 5.4.45, 5.5.29, 5.6.13
+
+* Remove support for PHP 4.4.43, 5.5.27, 5.6.11
+  (https://www.pivotaltracker.com/story/show/102517700)
+
+* Upgrade nginx to 1.9.4
+
+
+
+v4.1.2 Aug 31, 2015
+====================
+
+Note that 4.1.0 and 4.1.1 were not released.
+
+* Introduce *non-backwards* compatible change to composer detection.
+  The buildpack will now, by default, detect composer files in the root directory of
+  a php application or a configured `WEBDIR` directory. For the buildpack to detect
+  composer files in another directory, one must explicitly set this directory via the
+  `COMPOSER_PATH` environment variable. For more information please refer to the
+  documentation here: http://docs.cloudfoundry.org/buildpacks/php/gsg-php-composer.html
+  (https://www.pivotaltracker.com/story/show/99170278)
+
+* Remove application developer's ability to override the buildpack's
+  binaries via DOWNLOAD_URL option.
+  (https://www.pivotaltracker.com/story/show/101243110)
+    
+* Remove default php startup warnings in the event of unsupported extensions
+  within an application. The warnings have been replaced with a more explicit
+  'unsupported extension' message printed to standard error.
+  (https://www.pivotaltracker.com/story/show/100180478)
+
+* Add support for PHP versions: 5.6.12, 5.5.28, and 5.4.44.
+  Remove support for PHP versions: 5.6.10, 5.5.26, and 5.4.42.
+  Update all bundled PHPs with readline-ext built as a shared module.
+  (https://www.pivotaltracker.com/story/show/101121820)
+  (https://www.pivotaltracker.com/story/show/99436586)
+
+* Correct logging of downloaded resource sources
+  (https://www.pivotaltracker.com/story/show/100516510)
+
+* Document support for protobuf extension
+  (https://www.pivotaltracker.com/story/show/100244194)
+
+* `bin/detect` emits the buildpack version
+  (https://www.pivotaltracker.com/story/show/100757820)
+
+* Update Nginx binary to 1.9.3,
+  Apache HTTPD to 2.4.16,
+  NewRrelic to 4.23.3.111
+  (https://www.pivotaltracker.com/story/show/99507244)
+
+* PHP Updates for libsnmp vulnerability
+  (https://www.pivotaltracker.com/story/show/102276186)
+
+
 v4.0.0 Jul 20, 2015
 ====================
 

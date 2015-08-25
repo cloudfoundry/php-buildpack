@@ -9,7 +9,7 @@ describe 'CF PHP Buildpack' do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  context 'deploying a Zend app with locally-vendored dependencies', if: Machete::BuildpackMode.cached? do
+  context 'deploying a Zend app with locally-vendored dependencies', :cached do
     let(:app_name) { 'zend_framework_hello_world_with_local_dependencies' }
     let(:options) do
       {}
@@ -25,7 +25,7 @@ describe 'CF PHP Buildpack' do
     end
   end
 
-  context 'deploying a Zend app with remote dependencies', if: Machete::BuildpackMode.uncached? do
+  context 'deploying a Zend app with remote dependencies', :uncached do
     let(:app_name) { 'zend_framework_hello_world_with_remote_dependencies' }
     let(:options) do
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
