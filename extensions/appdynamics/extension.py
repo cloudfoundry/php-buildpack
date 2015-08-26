@@ -58,22 +58,22 @@ class AppDynamicsInstaller(object):
 
     def _load_service_info(self):
         services = self._ctx.get('VCAP_SERVICES', {})
-        services = services.get('appdynamics', [])
-        if len(services) == 0:
+        service_defs = services.get('appdynamics', [])
+        if len(service_defs) == 0:
             self._log.info("AppDynamics services with tag appdynamics not detected.")
             self._log.info("Looking for app-dynamics service.")
-            services = services.get('app-dynamics', [])
-            if len(services) == 0:
+            service_defs = services.get('app-dynamics', [])
+            if len(service_defs) == 0:
                self._log.info("AppDynamics services with tag app-dynamics not detected.")
                self._log.info("Looking for user-provided service.")
-               services = services.get('user-provided', [])
-               if len(services) == 0:
+               service_defs = services.get('user-provided', [])
+               if len(service_defs) == 0:
                    self._log.info("AppDynamics services not detected.")
-        if len(services) > 1:
+        if len(service_defs) > 1:
             self._log.warn("Multiple AppDynamics services found, "
                            "credentials from first one.")
-        if len(services) > 0:
-            service = services[0]
+        if len(service_defs) > 0:
+            service = service_defs[0]
             creds = service.get('credentials', {})
             self.license_key = creds.get('licenseKey', None)
             if self.license_key:
