@@ -1,3 +1,43 @@
+v4.1.0 Aug 26, 2015
+====================
+
+* Introduce *non-backwards* compatible change to composer detection.
+  The buildpack will now, by default, detect composer files in the root directory of
+  a php application or a configured `WEBDIR` directory. For the buildpack to detect
+  composer files in another directory, one must explicitly set this directory via the
+  `COMPOSER_PATH` environment variable. For more information please refer to the
+  documentation here: http://docs.cloudfoundry.org/buildpacks/php/gsg-php-composer.html
+  (https://www.pivotaltracker.com/story/show/99170278)
+
+* Remove application developer's ability to override the buildpack's
+  binaries via DOWNLOAD_URL option.
+  (https://www.pivotaltracker.com/story/show/101243110)
+    
+* Remove default php startup warnings in the event of unsupported extensions
+  within an application. The warnings have been replaced with a more explicit
+  'unsupported extension' message printed to standard error.
+  (https://www.pivotaltracker.com/story/show/100180478)
+
+* Add support for PHP versions: 5.6.12, 5.5.28, and 5.4.44.
+  Remove support for PHP versions: 5.6.10, 5.5.26, and 5.4.42.
+  Update all bundled PHPs with readline-ext built as a shared module.
+  (https://www.pivotaltracker.com/story/show/101121820)
+  (https://www.pivotaltracker.com/story/show/99436586)
+
+* Correct logging of downloaded resource sources
+  (https://www.pivotaltracker.com/story/show/100516510)
+
+* Document support for protobuf extension
+  (https://www.pivotaltracker.com/story/show/100244194)
+
+* `bin/detect` emits the buildpack version
+  (https://www.pivotaltracker.com/story/show/100757820)
+
+* Update Nginx binary to 1.9.3,
+  Apache HTTPD to 2.4.16,
+  NewRrelic to 4.23.3.111
+  (https://www.pivotaltracker.com/story/show/99507244)
+
 v4.0.0 Jul 20, 2015
 ====================
 
