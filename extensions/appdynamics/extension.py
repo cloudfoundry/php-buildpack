@@ -60,7 +60,15 @@ class AppDynamicsInstaller(object):
         services = self._ctx.get('VCAP_SERVICES', {})
         services = services.get('appdynamics', [])
         if len(services) == 0:
-            self._log.info("AppDynamics services not detected.")
+            self._log.info("AppDynamics services with tag appdynamics not detected.")
+            self._log.info("Looking for app-dynamics service.")
+            services = services.get('app-dynamics', [])
+            if len(services) == 0:
+               self._log.info("AppDynamics services with tag app-dynamics not detected.")
+               self._log.info("Looking for user-provided service.")
+               services = services.get('user-provided', [])
+               if len(services) == 0:
+                   self._log.info("AppDynamics services not detected.")
         if len(services) > 1:
             self._log.warn("Multiple AppDynamics services found, "
                            "credentials from first one.")
