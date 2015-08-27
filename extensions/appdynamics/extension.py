@@ -57,6 +57,7 @@ class AppDynamicsInstaller(object):
                 self._ctx[key] = val
 
     def _load_service_info(self):
+        self._log.info("Loading AppDynamics service info.")
         services = self._ctx.get('VCAP_SERVICES', {})
         service_defs = services.get('appdynamics', [])
         if len(service_defs) == 0:
