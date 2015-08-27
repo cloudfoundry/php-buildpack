@@ -1,4 +1,5 @@
 {
 	"WEB_SERVER": "nginx",
-  "PHP_EXTENSIONS": [ "meatball", "hotdog", "amqp" ]
+  "PHP_EXTENSIONS": [ "meatball", "hotdog", "amqp" ],
+  "PHP_VERSION": "{PHP_56_LATEST}"
 }

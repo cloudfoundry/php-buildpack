@@ -17,6 +17,7 @@ import os
 import os.path
 import yaml
 import logging
+import glob
 from build_pack_utils import FileUtil
 
 
@@ -94,7 +95,8 @@ def validate_php_version(ctx):
 
 def _get_supported_php_extensions(ctx):
     php_extensions = []
-    php_extension_directory = os.path.join(ctx["PHP_INSTALL_PATH"], 'lib/php/extensions/no-debug-non-zts-20121212/')
+    php_extension_glob = os.path.join(ctx["PHP_INSTALL_PATH"], 'lib', 'php', 'extensions', 'no-debug-non-zts-*')
+    php_extension_directory = glob.glob(php_extension_glob)[0]
     for root, dirs, files in os.walk(php_extension_directory):
         for f in files:
             if '.so' in f:
