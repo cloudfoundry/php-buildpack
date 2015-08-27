@@ -23,8 +23,14 @@ describe 'An app deployed specifying unsupported extensions' do
 
   context 'and valid extensions' do
     it 'should say which extensions are not supported' do
-      expect(@app).not_to have_logged 'The extension \'amqp\' is not provided by this buildpack.'
+      expect(@app).not_to have_logged 'The extension \'curl\' is not provided by this buildpack.'
     end
+
+    it 'should load the module without issue' do
+      @browser.visit_path('/')
+      expect(@browser).to have_body('curl module has been loaded successfully')
+    end
+
   end
 
   after(:all) do
