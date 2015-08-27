@@ -62,7 +62,7 @@ class AppDynamicsInstaller(object):
         service_defs = services.get('appdynamics', [])
         if len(service_defs) == 0:
             self._log.info("AppDynamics services with tag appdynamics not detected.")
-            self._log.info("Looking for app-dynamics service.")
+            self._log.info("Looking for tag app-dynamics service.")
             service_defs = services.get('app-dynamics', [])
             if len(service_defs) == 0:
                self._log.info("AppDynamics services with tag app-dynamics not detected.")
