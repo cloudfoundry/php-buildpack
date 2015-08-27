@@ -39,7 +39,7 @@ class AppDynamicsInstaller(object):
         self._ctx = ctx
         self._detected = False
         self.app_name = None
-        self.account-access-key = None
+        self.account_access_key = None
         try:
             self._log.info("Initializing")
             if ctx['PHP_VM'] == 'php':
@@ -76,8 +76,8 @@ class AppDynamicsInstaller(object):
         if len(service_defs) > 0:
             service = service_defs[0]
             creds = service.get('credentials', {})
-            self.account-access-key = creds.get('account-access-key', None)
-            if self.account-access-key:
+            self.account_access_key = creds.get('account_access_key', None)
+            if self.account_access_key:
                 self._log.debug("AppDynamics service detected.")
                 self._detected = True
 
