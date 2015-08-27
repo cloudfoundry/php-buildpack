@@ -76,7 +76,7 @@ class AppDynamicsInstaller(object):
         if len(service_defs) > 0:
             service = service_defs[0]
             creds = service.get('credentials', {})
-            self.account_access_key = creds.get('account_access_key', None)
+            self.account_access_key = creds.get('account-access-key', None)
             if self.account_access_key:
                 self._log.debug("AppDynamics service detected.")
                 self._detected = True
