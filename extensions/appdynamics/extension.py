@@ -169,6 +169,7 @@ class AppDynamicsInstaller(object):
 
 # Extension Methods
 def preprocess_commands(ctx):
+    exit_code = os.system("!!!! preprocess_commands")
     return ()
 
 
@@ -179,10 +180,12 @@ def service_commands(ctx):
 
 
 def service_environment(ctx):
+    exit_code = os.system("!!!! service_environment")
     return {}
 
 
 def compile(install):
+    exit_code = os.system("!!!! compile ")
     appdynamics = AppDynamicsInstaller(install.builder._ctx)
     if appdynamics.should_install():
         _log.info("Installing AppDynamics")
