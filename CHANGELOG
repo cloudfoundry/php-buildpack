@@ -1,3 +1,9 @@
+v4.1.1 Aug 28, 2015
+====================
+
+* Fixes inability to load php extensions in 5.4.x and 5.6.x series
+  (https://www.pivotaltracker.com/story/show/102098794)
+
 v4.1.0 Aug 26, 2015
 ====================
 
