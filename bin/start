@@ -41,4 +41,5 @@ if __name__ == '__main__':
         pm.add_process(name, cmd)
 
     # Start Everything
+    exit_code = os.system("echo in Start; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini")
     sys.exit(pm.loop())
