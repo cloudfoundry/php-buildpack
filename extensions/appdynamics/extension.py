@@ -177,7 +177,7 @@ def preprocess_commands(ctx):
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = 'echo ${VCAP_APPLICATION} | sed -e "s/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g"'
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g' && echo Hello"
-    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "chmod 777 /home/vcap/app && chmod 777 /home/vcap/appdynamics/logs && export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'` && echo Hello"
+    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "pwd && chmod 777 /home/vcap/app && chmod 777 /home/vcap/app/appdynamics/logs && export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'` && echo Hello"
      
     return ()
 
