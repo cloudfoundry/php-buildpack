@@ -171,7 +171,7 @@ class AppDynamicsInstaller(object):
 def preprocess_commands(ctx):
     exit_code = os.system("echo !!! preprocess_commands")
     exit_code = os.system("pwd; ls -al; env ; echo VCAP_APPLICATION; echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'") 
-    ctx.put("ADDITIONAL_PREPROCESS_CMDS","env")
+    ctx.add("ADDITIONAL_PREPROCESS_CMDS","env")
     return ()
 
 def service_commands(ctx):
