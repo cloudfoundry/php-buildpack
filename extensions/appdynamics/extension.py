@@ -176,8 +176,8 @@ def preprocess_commands(ctx):
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "export APPDYNAMICS_NODENAME=$(expr \"$VCAP_APPLICATION\" : ''.*instance_index[\": ]*\([[:digit:]]*\).*'') ; echo HI ; echo $APPDYNAMICS_NODENAME"
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = 'echo ${VCAP_APPLICATION} | sed -e "s/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g"'
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
-    #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
-    ctx['ADDITIONAL_PREPROCESS_CMDS'] = ctx['ADDITIONAL_PREPROCESS_CMDS']+"echo HI"
+    #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g' && echo Hello"
+    #ctx['ADDITIONAL_PREPROCESS_CMDS'] = ctx['ADDITIONAL_PREPROCESS_CMDS']+"echo HI"
      
     return ()
 
