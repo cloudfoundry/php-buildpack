@@ -159,13 +159,13 @@ class AppDynamicsInstaller(object):
 #        with open(self.php_ini_path, 'wt') as php_ini:
 #            for line in lines:
 #                php_ini.write(line)
-
-    	exit_code = os.system("echo calling out env; env")
-    	exit_code = os.system("echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'")
-    	exit_code = os.system("echo $HOSTNAME")
-    	exit_code = os.system("ps -auxw; cd /home/vcap; chmod -R 755 ./app; chmod 777 ./app/appdynamics/logs; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 php-machineagentPCF $APP_TIERNAME $APP_HOSTNAME")
-    	exit_code = os.system("echo sleep 5; sleep 5; ps -auxw; php -i")
-    	exit_code = os.system("echo adding to phpini; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini")
+#
+#    	exit_code = os.system("echo calling out env; env")
+#    	exit_code = os.system("echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'")
+#    	exit_code = os.system("echo $HOSTNAME")
+#    	exit_code = os.system("ps -auxw; cd /home/vcap; chmod -R 755 ./app; chmod 777 ./app/appdynamics/logs; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 php-machineagentPCF $APP_TIERNAME $APP_HOSTNAME")
+#    	exit_code = os.system("echo sleep 5; sleep 5; ps -auxw; php -i")
+#    	exit_code = os.system("echo adding to phpini; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini")
 
 # Extension Methods
 def preprocess_commands(ctx):
@@ -174,19 +174,17 @@ def preprocess_commands(ctx):
     #ctx.add("ADDITIONAL_PREPROCESS_CMDS","env")
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "export APPDYNAMICS_NODENAME=$(expr \"$VCAP_APPLICATION\" : ''.*instance_index[\": ]*\([[:digit:]]*\).*'') ; echo HI ; echo $APPDYNAMICS_NODENAME"
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = 'echo ${VCAP_APPLICATION} | sed -e "s/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g"'
-    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
+    #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
+    #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
+    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo Hi"
      
     return ()
 
 def service_commands(ctx):
-    exit_code = os.system("echo !!!! service_commands")
-    exit_code = os.system("pwd; ls -al; env ; echo VCAP_APPLICATION; echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'") 
     return {}
 
 
 def service_environment(ctx):
-    exit_code = os.system("echo !!!! service_environment")
-    exit_code = os.system("pwd; ls -al; env ;echo VCAP_APPLICATION; echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'") 
     return {}
 
 
