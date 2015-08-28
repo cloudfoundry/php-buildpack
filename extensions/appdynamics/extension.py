@@ -172,7 +172,7 @@ def preprocess_commands(ctx):
     exit_code = os.system("echo !!! preprocess_commands")
     exit_code = os.system("pwd; ls -al; env ; echo VCAP_APPLICATION; echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'") 
     #ctx.add("ADDITIONAL_PREPROCESS_CMDS","env")
-    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "export APPDYNAMICS_NODENAME='$(expr "$VCAP_APPLICATION" : ''.*instance_index[": ]*\([[:digit:]]*\).*'')' && echo $APPDYNAMICS_NODENAME"
+    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "export APPDYNAMICS_NODENAME='$(expr \"$VCAP_APPLICATION\" : ''.*instance_index[\": ]*\([[:digit:]]*\).*'')' && echo $APPDYNAMICS_NODENAME"
     return ()
 
 def service_commands(ctx):
