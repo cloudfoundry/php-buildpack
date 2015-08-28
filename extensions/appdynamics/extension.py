@@ -177,7 +177,7 @@ def preprocess_commands(ctx):
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = 'echo ${VCAP_APPLICATION} | sed -e "s/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g"'
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g' && echo Hello"
-    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "chmod -R 777 /home/vcap/app ; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; env; export APP_NAME=ENV['application_name']; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 $APP_NAME $APP_TIERNAME $APP_HOSTNAME ; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini"
+    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "chmod -R 777 /home/vcap/app ; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; env; echo print appname; export APP_NAME=$application_name; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 $APP_NAME $APP_TIERNAME $APP_HOSTNAME ; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini"
      
     return ()
 
