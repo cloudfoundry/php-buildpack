@@ -177,7 +177,7 @@ def preprocess_commands(ctx):
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = 'echo ${VCAP_APPLICATION} | sed -e "s/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g"'
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'"
     #ctx['ADDITIONAL_PREPROCESS_CMDS'] = "echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g' && echo Hello"
-    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "chmod 777 /home/vcap/app/appdynamics ; chmod 777 /home/vcap/app/appdynamics/logs ; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 php-machineagentPCF $APP_TIERNAME $APP_HOSTNAME ; echo Done"
+    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "chmod 777 /home/vcap/app/appdynamics ; ls -la app/ ; chmod 777 /home/vcap/app/appdynamics/logs ; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 php-machineagentPCF $APP_TIERNAME $APP_HOSTNAME ; echo Done"
      
     return ()
 
