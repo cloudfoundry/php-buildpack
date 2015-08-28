@@ -174,7 +174,7 @@ def preprocess_commands(ctx):
 
 def service_commands(ctx):
     exit_code = os.system("!!!! service_commands; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini")
-    _log.debug("!!!! in service_commands")
+#   _log.debug("!!!! in service_commands")
     return {}
 
 
