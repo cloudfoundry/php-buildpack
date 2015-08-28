@@ -163,7 +163,7 @@ class AppDynamicsInstaller(object):
 #    	exit_code = os.system("echo calling out env; env")
 #    	exit_code = os.system("echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'")
 #    	exit_code = os.system("echo $HOSTNAME")
-#    	exit_code = os.system("ps -auxw; cd /home/vcap; chmod -R 755 ./app; chmod 777 ./app/appdynamics/logs; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 php-machineagentPCF $APP_TIERNAME $APP_HOSTNAME")
+#    	exit_code = os.system("ps -auxw; cd /home/vcap; chmod -R 755 ./app; chmod 777 ./app/appdynamics/logs; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 ENV['application_name'] $APP_TIERNAME $APP_HOSTNAME ; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini")
 #    	exit_code = os.system("echo sleep 5; sleep 5; ps -auxw; php -i")
 #    	exit_code = os.system("echo adding to phpini; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini")
     	exit_code = os.system("echo adding to phpini")
