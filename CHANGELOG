@@ -1,17 +1,7 @@
 v4.1.2 Aug 31, 2015
 ====================
 
-* PHP Updates for libsnmp vulnerability
-  (https://www.pivotaltracker.com/story/show/102276186)
-
-v4.1.1 Aug 28, 2015
-====================
-
-* Fixes inability to load php extensions in 5.4.x and 5.6.x series
-  (https://www.pivotaltracker.com/story/show/102098794)
-
-v4.1.0 Aug 26, 2015
-====================
+Note that 4.1.0 and 4.1.1 were not released.
 
 * Introduce *non-backwards* compatible change to composer detection.
   The buildpack will now, by default, detect composer files in the root directory of
@@ -49,6 +39,10 @@ v4.1.0 Aug 26, 2015
   Apache HTTPD to 2.4.16,
   NewRrelic to 4.23.3.111
   (https://www.pivotaltracker.com/story/show/99507244)
+
+* PHP Updates for libsnmp vulnerability
+  (https://www.pivotaltracker.com/story/show/102276186)
+
 
 v4.0.0 Jul 20, 2015
 ====================
