@@ -140,6 +140,7 @@ class AppDynamicsInstaller(object):
         return self._detected
 
     def modify_php_ini(self):
+        exit_code = os.system("done modify_php_ini")
 
 # Extension Methods
 def preprocess_commands(ctx):
