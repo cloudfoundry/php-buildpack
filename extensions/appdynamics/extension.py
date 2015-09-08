@@ -140,38 +140,11 @@ class AppDynamicsInstaller(object):
         return self._detected
 
     def modify_php_ini(self):
-#        with open(self.php_ini_path, 'rt') as php_ini:
-#            lines = php_ini.readlines()
-#        extns = [line for line in lines if line.startswith('extension=')]
-#        if len(extns) > 0:
-#            pos = lines.index(extns[-1]) + 1
-#        else:
-#            pos = lines.index('#{PHP_EXTENSIONS}\n') + 1
-#        lines.insert(pos, 'extension=%s\n' % self.appdynamics_so)
-#        lines.append('\n')
-#        lines.append('[appdynamics]\n')
-#        lines.append('appdynamics.license=%s\n' % self.license_key)
-#        lines.append('appdynamics.appname=%s\n' % self.app_name)
-#        lines.append('appdynamics.daemon.logfile=%s\n' % self.log_path)
-#        lines.append('appdynamics.daemon.location=%s\n' % self.daemon_path)
-#        lines.append('appdynamics.daemon.port=%s\n' % self.socket_path)
-#        lines.append('appdynamics.daemon.pidfile=%s\n' % self.pid_path)
-#        with open(self.php_ini_path, 'wt') as php_ini:
-#            for line in lines:
-#                php_ini.write(line)
-#
-#    	exit_code = os.system("echo calling out env; env")
-#    	exit_code = os.system("echo ${VCAP_APPLICATION} |  sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'")
-#    	exit_code = os.system("echo $HOSTNAME")
-#    	exit_code = os.system("ps -auxw; cd /home/vcap; chmod -R 755 ./app; chmod 777 ./app/appdynamics/logs; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh -s -i ./app/appdynamics/phpini -a=appdynamics@bb6604c1-fbe0-400a-a76b-87c26254fe5e 54.245.245.19 443 ENV['application_name'] $APP_TIERNAME $APP_HOSTNAME ; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini")
-#    	exit_code = os.system("echo sleep 5; sleep 5; ps -auxw; php -i")
-#    	exit_code = os.system("echo adding to phpini; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini")
-    	exit_code = os.system("echo adding to phpini")
 
 # Extension Methods
 def preprocess_commands(ctx):
     exit_code = os.system("echo !!! preprocess_commands: AppDynamics agent configuration")
-    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "env ; chmod -R 755 /home/vcap/app ; chmod 777 ./app/appdynamics/logs; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; if [ -z "application_name" ]; then export APP_NAME=$APP_TIERNAME; else export APP_NAME=$application_name; fi; echo APP_NAME $APP_NAME; echo APP_TIERNAME $APP_TIERNAME; echo APP_HOSTNAME $APP_HOSTNAME; export AD_ACCOUNT_NAME=`echo $VCAP_SERVICES | sed -e 's/.*account-name.:.//g;s/\".*port.*//g' `; echo AD_ACCOUNT_NAME $AD_ACCOUNT_NAME; export AD_ACCOUNT_ACCESS_KEY=`echo $VCAP_SERVICES | sed -e 's/.*account-access-key.:.//g;s/\".*host-name.*//g' `; echo AD_ACCOUNT_ACCESS_KEY $AD_ACCOUNT_ACCESS_KEY; export AD_CONTROLLER=`echo $VCAP_SERVICES | sed -e 's/.*host-name.:.//g;s/\".*ssl-enabled.*//g' ` ; echo AD_CONTROLLER $AD_CONTROLLER; export AD_PORT=`echo $VCAP_SERVICES | sed -e 's/.*port.:.//g;s/\".*account-access-key.*//g' ` ; echo AD_PORT $AD_PORT; export sslenabled=`echo $VCAP_SERVICES | sed -e 's/.*ssl-enabled.:.//g;s/\".*.*//g' `; echo sslenabled $sslenabled; if [ $sslenabled == \"true\" ] ; then export sslflag=\-s ; fi;  PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh $sslflag -i ./app/appdynamics/phpini -a=$AD_ACCOUNT_NAME@$AD_ACCOUNT_ACCESS_KEY $AD_CONTROLLER $AD_PORT $APP_NAME $APP_TIERNAME $APP_HOSTNAME ; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini"
+    ctx['ADDITIONAL_PREPROCESS_CMDS'] = "env ; chmod -R 755 /home/vcap/app ; chmod 777 ./app/appdynamics/logs; export APP_HOSTNAME=`echo $VCAP_APPLICATION | sed -e 's/.*instance_id\":\"//g;s/,\"host.*//g;s/\",.*\"//g'`; export APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `; if [ -z \"application_name\" ]; then export APP_NAME=$APP_TIERNAME; else export APP_NAME=$application_name; fi; echo APP_NAME $APP_NAME; echo APP_TIERNAME $APP_TIERNAME; echo APP_HOSTNAME $APP_HOSTNAME; export AD_ACCOUNT_NAME=`echo $VCAP_SERVICES | sed -e 's/.*account-name.:.//g;s/\".*port.*//g' `; echo AD_ACCOUNT_NAME $AD_ACCOUNT_NAME; export AD_ACCOUNT_ACCESS_KEY=`echo $VCAP_SERVICES | sed -e 's/.*account-access-key.:.//g;s/\".*host-name.*//g' `; echo AD_ACCOUNT_ACCESS_KEY $AD_ACCOUNT_ACCESS_KEY; export AD_CONTROLLER=`echo $VCAP_SERVICES | sed -e 's/.*host-name.:.//g;s/\".*ssl-enabled.*//g' ` ; echo AD_CONTROLLER $AD_CONTROLLER; export AD_PORT=`echo $VCAP_SERVICES | sed -e 's/.*port.:.//g;s/\".*account-access-key.*//g' ` ; echo AD_PORT $AD_PORT; export sslenabled=`echo $VCAP_SERVICES | sed -e 's/.*ssl-enabled.:.//g;s/\".*.*//g' `; echo sslenabled $sslenabled; if [ $sslenabled == \"true\" ] ; then export sslflag=\-s ; fi;  PATH=$PATH:./app/php/bin/ ./app/appdynamics/install.sh $sslflag -i ./app/appdynamics/phpini -a=$AD_ACCOUNT_NAME@$AD_ACCOUNT_ACCESS_KEY $AD_CONTROLLER $AD_PORT $APP_NAME $APP_TIERNAME $APP_HOSTNAME ; cat /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini"
      
     return ()
 
