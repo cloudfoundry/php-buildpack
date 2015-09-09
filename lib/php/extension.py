@@ -67,6 +67,13 @@ class PHPExtension(ExtensionHelper):
         ctx = install.builder._ctx
         validate_php_version(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
+
+        if ctx['PHP_VERSION'].startswith('5.4'):
+            print('DEPRECATION WARNING: PHP 5.4 is being declared "End of Life" as of 2015-09-14')
+            print('DEPRECATION WARNING: See https://secure.php.net/supported-versions.php for more details')
+            print('DEPRECATION WARNING: Upgrade guide can be found at https://secure.php.net/manual/en/migration55.php')
+            print('DEPRECATION WARNING: The php-buildpack will no longer support PHP 5.4 after this date')
+
         (install
             .package('PHP')
             .done())
