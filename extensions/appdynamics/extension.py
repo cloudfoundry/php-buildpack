@@ -150,26 +150,17 @@ def preprocess_commands(ctx):
     service_defs = service.get('appdynamics', [])
     detected = False
     if len(service_defs) == 0:
-       #self._log.info("AppDynamics services with tag appdynamics not detected.")
-       #self._log.info("Looking for tag app-dynamics service.")
+       _log.info("AppDynamics services with tag appdynamics not detected.")
+       _log.info("Looking for tag app-dynamics service.")
        service_defs = service.get('app-dynamics', [])
        if len(service_defs) == 0:
-          #self._log.info("AppDynamics services with tag app-dynamics not detected.")
-          #self._log.info("Looking for Appdynamics user-provided service.")
+          _log.info("AppDynamics services with tag app-dynamics not detected.")
+          _log.info("Looking for Appdynamics user-provided service.")
           service_defs = service.get('user-provided', [])
           if len(service_defs) == 0:
-             #self._log.info("AppDynamics services not detected.")
-             detected = False
-          if len(service_defs) > 1:
-             #self._log.warn("Multiple AppDynamics services found, "
-             #              "credentials from first one.")
-             detected = False
+             _log.info("AppDynamics services not detected.")
           if len(service_defs) > 0:
-            #service = service_defs[0]
-            #creds = service.get('credentials', {})
-            #account_access_key = creds.get('account-access-key', None)
-            #if self.account_access_key:
-            #   self._log.debug("AppDynamics service detected.")
+            _log.debug("AppDynamics service detected.")
             detected = True
 
     if detected == True: 
