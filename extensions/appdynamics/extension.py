@@ -159,16 +159,18 @@ def preprocess_commands(ctx):
           service_defs = services.get('user-provided', [])
           if len(service_defs) == 0:
              #self._log.info("AppDynamics services not detected.")
+             detected = False
           if len(service_defs) > 1:
              #self._log.warn("Multiple AppDynamics services found, "
              #              "credentials from first one.")
+             detected = False
           if len(service_defs) > 0:
             #service = service_defs[0]
             #creds = service.get('credentials', {})
             #account_access_key = creds.get('account-access-key', None)
             #if self.account_access_key:
             #   self._log.debug("AppDynamics service detected.")
-               detected = True
+            detected = True
 
     if detected == True: 
     	exit_code = os.system("echo !!! preprocess_commands: AppDynamics agent configuration")
