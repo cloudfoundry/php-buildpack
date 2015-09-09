@@ -152,11 +152,11 @@ def preprocess_commands(ctx):
     if len(service_defs) == 0:
        #self._log.info("AppDynamics services with tag appdynamics not detected.")
        #self._log.info("Looking for tag app-dynamics service.")
-       service_defs = services.get('app-dynamics', [])
+       service_defs = service.get('app-dynamics', [])
        if len(service_defs) == 0:
           #self._log.info("AppDynamics services with tag app-dynamics not detected.")
           #self._log.info("Looking for Appdynamics user-provided service.")
-          service_defs = services.get('user-provided', [])
+          service_defs = service.get('user-provided', [])
           if len(service_defs) == 0:
              #self._log.info("AppDynamics services not detected.")
              detected = False
