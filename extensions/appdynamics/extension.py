@@ -147,7 +147,7 @@ class AppDynamicsInstaller(object):
 def preprocess_commands(ctx):
 
     service = ctx.get('VCAP_SERVICES', {})
-    service_defs = services.get('appdynamics', [])
+    service_defs = service.get('appdynamics', [])
     detected = False
     if len(service_defs) == 0:
        #self._log.info("AppDynamics services with tag appdynamics not detected.")
