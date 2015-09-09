@@ -159,9 +159,9 @@ def preprocess_commands(ctx):
           service_defs = service.get('user-provided', [])
           if len(service_defs) == 0:
              _log.info("AppDynamics services not detected.")
-          if len(service_defs) > 0:
-            _log.debug("AppDynamics service detected.")
-            detected = True
+    if len(service_defs) > 0:
+        _log.debug("AppDynamics service detected.")
+        detected = True
 
     if detected == True: 
     	exit_code = os.system("echo !!! preprocess_commands: AppDynamics agent configuration")
