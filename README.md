@@ -53,74 +53,13 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Contributing](#contributing)
 
 ## Supported Software
-* **Composer**
-  * Composer 0.8
-* **Web servers**
-  * Apache 2.4
-  * Nginx 1.5, 1.6, 1.7
-* **PHP Versions**
-  * PHP 5.4, 5.5, 5.6
-  * HHVM 3.2
+The [release notes page](https://github.com/cloudfoundry/php-buildpack/releases) has a list of currently supported modules and packages.
+
 * **PHP Runtimes**
   * php-cli
   * php-cgi
   * php-fpm
   * hhvm
-* **PHP Extensions**
-  * amqp
-  * apc
-  * apcu
-  * bz2
-  * curl
-  * dba
-  * exif
-  * fileinfo
-  * ftp
-  * gd
-  * gettext
-  * gmp
-  * igbinary
-  * imagick
-  * imap
-  * intl
-  * ioncube
-  * ldap
-  * lua
-  * mailparse
-  * mbstring
-  * mcrypt
-  * memcache
-  * memcached
-  * mongo
-  * msgpack
-  * mysql
-  * mysqli
-  * opcache
-  * openssl
-  * pdo
-  * pdo_mysql
-  * pdo_pgsql
-  * pdo_sqlite
-  * pgsql
-  * phalcon
-  * phpiredis
-  * protobuf
-  * pspell
-  * redis
-  * snmp
-  * soap
-  * sockets
-  * suhosin
-  * sundown
-  * twig
-  * xcache
-  * xdebug
-  * xhprof
-  * xsl
-  * yaf
-  * zip
-  * zlib
-  * zookeeper
 * **Third-Party Modules**
   * New Relic, in connected environments only.
 
