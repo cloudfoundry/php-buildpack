@@ -1,3 +1,11 @@
+import shutil
+import tempfile
+import os.path
+from nose.tools import eq_
+from nose.tools import raises
+from nose.tools import with_setup
+from build_pack_utils import BuildPack
+from build_pack_utils.runner import CalledProcessError 
 from common.integration import FileAssertHelper
 from common.integration import ErrorHelper
 from common.components import BuildPackAssertHelper
@@ -24,7 +32,7 @@ class TestCompileApp1(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(21, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(2, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         httpd.assert_start_script_is_correct(self.build_dir)
@@ -53,7 +61,7 @@ class TestCompileApp1(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(7, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(2, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         nginx.assert_start_script_is_correct(self.build_dir)
@@ -141,7 +149,8 @@ class TestCompileWithProfileD(BaseCompileApp):
     def testProfileDNotOverridden(self):
         ErrorHelper().compile(self.bp)
         fah = FileAssertHelper()
-        fah.expect().path(self.build_dir, '.profile.d', 'dontdelete.sh').exists()
+        fah.expect().path(self.build_dir, '.profile.d',
+                          'dontdelete.sh').exists()
 
 
 class TestCompileUsingHHVM(BaseCompileApp):
@@ -159,7 +168,7 @@ class TestCompileUsingHHVM(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(16, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(2, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         httpd.assert_start_script_is_correct(self.build_dir)
@@ -178,7 +187,8 @@ class TestCompileUsingHHVM(BaseCompileApp):
         httpd.assert_files_installed(self.build_dir)
         hhvm.assert_files_installed(self.build_dir)
         # check for Apache TCP port
-        hhvm.assert_server_ini_contains(self.build_dir, 'hhvm.server.port = 9000')
+        hhvm.assert_server_ini_contains(self.build_dir,
+                                        'hhvm.server.port = 9000')
 
     def test_with_nginx(self):
         # helpers to confirm the environment
@@ -208,5 +218,16 @@ class TestCompileUsingHHVM(BaseCompileApp):
         nginx.assert_files_installed(self.build_dir)
         hhvm.assert_files_installed(self.build_dir)
         # check for Nginx socket config
-        hhvm.assert_server_ini_contains(self.build_dir, 'hhvm.server.file_socket')
+        hhvm.assert_server_ini_contains(self.build_dir,
+                                        'hhvm.server.file_socket')
         hhvm.assert_server_ini_contains(self.build_dir, 'php-fpm.socket')
+
+
+class TestCompileWithInvalidJSON(BaseCompileApp):
+    def __init__(self):
+        self.app_name = 'app-invalid-json'
+
+    @raises(CalledProcessError)
+    def test_compile_with_invalid_json(self):
+        ErrorHelper().compile(self.bp)
+

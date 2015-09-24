@@ -68,8 +68,9 @@ def process_extension(path, ctx, to_call, success, args=None, ignore=False):
         if hasattr(extn, to_call):
             success(getattr(extn, to_call)(*args))
     except Exception:
-        _log.exception("Error with extension [%s]" % path)
-        if not ignore:
+        if ignore:
+            _log.exception("Error with extension [%s]" % path)
+        else:
             raise
 
 
@@ -121,6 +122,12 @@ class FormattedDictWrapper(object):
     def unwrap(self):
         return self.obj
 
+    def __str__(self):
+        return self.obj.__str__()
+
+    def __repr__(self):
+        return self.obj.__repr__()
+
 
 def wrap(obj):
     return FormattedDictWrapper(obj)
@@ -138,9 +145,7 @@ class FormattedDict(dict):
                 val = newVal
                 newVal = newVal.format(**self)
             return val
-        if hasattr(val, 'unwrap'):
-            return val.unwrap()
-        return val
+        return val.unwrap() if hasattr(val, 'unwrap') else val
 
     def __getitem__(self, key):
         return self.format(dict.__getitem__(self, key))
@@ -149,7 +154,8 @@ class FormattedDict(dict):
         if kwargs.get('format', True):
             return self.format(dict.get(self, *args))
         else:
-            return dict.get(self, *args)
+            tmp = dict.get(self, *args)
+            return tmp.unwrap() if hasattr(tmp, 'unwrap') else tmp
 
     def __setitem__(self, key, val):
         if _log.isEnabledFor(logging.DEBUG):

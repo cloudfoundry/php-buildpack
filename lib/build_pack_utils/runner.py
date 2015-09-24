@@ -126,7 +126,7 @@ class BuildPack(object):
             self.start_yml = self._release()
 
     def _clone(self):
-        self._log.debug("Clongin [%s] to [%s]", self._url, self.bp_dir)
+        self._log.debug("Cloning [%s] to [%s]", self._url, self.bp_dir)
         stream_output(self._stream,
                       " ".join(['git', 'clone', self._url, self.bp_dir]),
                       stderr=subprocess.STDOUT,

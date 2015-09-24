@@ -44,12 +44,21 @@ class Configurer(object):
                 'defaults/options.json'))
         return self
 
-    def user_config(self, path=None):
+    def stack_config(self):
+        stack = os.environ.get('CF_STACK', None)
+        if stack:
+            self._merge(
+                CloudFoundryUtil.load_json_config_file_from(
+                    self.builder._ctx['BP_DIR'],
+                    'defaults/%s/options.json' % stack))
+        return self
+
+    def user_config(self, path=None, step=None):
         if path is None:
             path = os.path.join('.bp-config', 'options.json')
         self._merge(
             CloudFoundryUtil.load_json_config_file_from(
-                self.builder._ctx['BUILD_DIR'], path))
+                self.builder._ctx['BUILD_DIR'], path, step))
         return self
 
     def done(self):
@@ -285,8 +294,7 @@ class ModuleInstaller(object):
             try:
                 self._ctx['MODULE_NAME'] = module
                 url = self._ctx['%s_MODULES_PATTERN' % self._moduleKey]
-                hashUrl = "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM'])
-                self._cf.install_binary_direct(url, hashUrl, toPath,
+                self._cf._install_binary_from_manifest(url, toPath,
                                                strip=strip)
             except Exception:
                 self._log.warning('Module %s failed to install', module)
@@ -591,7 +599,8 @@ class FileUtil(object):
             if not os.path.exists(self._from_path):
                 raise ValueError("Source path [%s] does not exist"
                                  % self._from_path)
-            for root, dirs, files in os.walk(self._from_path, topdown=False):
+            for root, dirs, files in os.walk(self._from_path.decode('utf-8'),
+                                             topdown=False):
                 for f in files:
                     fromPath = os.path.join(root, f)
                     toPath = fromPath.replace(self._from_path, self._into_path)
@@ -647,15 +656,11 @@ class StartScriptBuilder(object):
 
         self._process_extensions()
 
-        if self._use_pm:
-            self._log.debug("Adding process manager to start script")
-            self.content.append('$HOME/.bp/bin/start')
-
         if self._debug_console:
             self._log.debug("Enabling debug console, if start script fails.")
             self.content.append(
                 'curl -s https://raw.github.com/dmikusa-pivotal/'
-                'cf-debug-console/master/debug.sh | bash')
+                'cf-debug-tools/master/debug-console.sh | bash')
 
         if wait_forever:
             self._log.debug('Adding wait-for-ever to start script')
@@ -664,9 +669,9 @@ class StartScriptBuilder(object):
             self.content.append("done")
 
         scriptName = self.builder._ctx.get('START_SCRIPT_NAME',
-                                           'start.sh')
+                                           'rewrite.sh')
         startScriptPath = os.path.join(
-            self.builder._ctx['BUILD_DIR'], scriptName)
+            self.builder._ctx['BUILD_DIR'], '.profile.d', scriptName)
         self._log.debug('Writing start script to [%s]', startScriptPath)
         with open(startScriptPath, 'wt') as out:
             if self.content:
@@ -832,7 +837,8 @@ class SaveBuilder(object):
         # Write pool of environment items to disk, a single item is
         #  written in 'key=val' format, while lists are written as
         #  'key=val:val:val' where ':' is os.pathsep.
-        profile_d_directory = os.path.join(self._builder._ctx['BUILD_DIR'], '.profile.d')
+        profile_d_directory = os.path.join(self._builder._ctx['BUILD_DIR'],
+                                           '.profile.d')
         if not os.path.exists(profile_d_directory):
             os.makedirs(profile_d_directory)
         envPath = os.path.join(profile_d_directory, 'bp_env_vars.sh')
@@ -947,5 +953,5 @@ class Builder(object):
 
     def release(self):
         print 'default_process_types:'
-        print '  web: %s' % self._ctx.get('START_SCRIPT_NAME',
-                                          '$HOME/start.sh')
+        print '  web: $HOME/%s' % self._ctx.get('START_SCRIPT_NAME',
+                                                '.bp/bin/start')

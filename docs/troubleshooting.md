@@ -12,4 +12,12 @@ The build pack should work in most situations, although nothings perfect so you 
 
  The output from this log is a little more detailed than what is written to stdout, but does skip some information which might be helpful to understand the state of the build pack when it fails.
  
- 1. To get the most information from the build pack, you can put it into debug mode.  To do this, simply set the `BP_DEBUG` environment variable to `true` (or anything really, it just needs to be set).  This will instruct the build pack to set it's log level to DEBUG and it'll write to stdout.  The combination of these two should provide quite a bit of detail about the state of the build pack as it runs.
+### Enable Debug Mode
+
+To get the most information from the build pack, you can put it into debug mode.  To do this, simply set the `BP_DEBUG` environment variable to `true` (or anything really, it just needs to be set).  This will instruct the build pack to set it's log level to DEBUG and it'll write to stdout.  The combination of these two should provide quite a bit of detail about the state of the build pack as it runs. 
+
+```
+cf se <app> BP_DEBUG true
+```
+
+**NOTE:** if you enable debug logging it might include sensitive information like usernames, passwords, tokens, service info and file names from your application. Be careful where you post those logs and if necessary, redact any sensitive information first.

@@ -25,5 +25,9 @@ class BaseCompileApp(object):
         self.opts.set_download_url(
             'http://localhost:5000/binaries/{STACK}')
 
+        os.environ["CF_STACK"] = "cflinuxfs2"
+
     def tearDown(self):
         self.dh.cleanup()
+
+        del os.environ["CF_STACK"]

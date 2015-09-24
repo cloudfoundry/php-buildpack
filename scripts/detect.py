@@ -15,19 +15,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from build_pack_utils import Builder
+import sys
 
 (Builder()
      .configure()  # noqa
          .default_config()
-         .user_config()
+         .user_config(step='detect')
+         .done()
+     .detect()
+         .by_name("composer.json")
+         .recursive()
+         .if_found_output('php ' + sys.argv[2])
+         .when_not_found_continue()
          .done()
      .detect()
          .ends_with(".php")
          .recursive()
-         .if_found_output('PHP')
+         .if_found_output('php ' + sys.argv[2])
          .when_not_found_continue()
          .done()
      .detect()
         .by_name('{WEBDIR}')
-        .if_found_output('STATIC')
+        .if_found_output('php ' + sys.argv[2])
         .done())

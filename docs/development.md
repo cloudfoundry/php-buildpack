@@ -27,7 +27,6 @@ That's it.  You should now be able to run the [unit tests].  Go ahead and do tha
 The project is broken down into the following directories:
 
   - `bin` contains executable scripts, including `compile`, `release` and `detect`
-  - `binaries` contains the index files for the binaries used by the build pack
   - `defaults` contains the default configuration
   - `docs` contains project documentation
   - `extensions` contains non-core extensions
@@ -180,18 +179,7 @@ def compile(install):
 
 ### Testing
 
-#### Preqrequisites
-
-Integration tests expect to have a web server running on port 5000.  This is where they will download binaries.  Tests will fail if the server is not running.
-
-In a separate shell:
-```shell
-cd path/to/php-buildpack
-./bin/binaries download binaries/lucid
-python -m SimpleHTTPServer 5000
-```
-
-#### Running tests
+#### Running unit tests
 
 The build pack makes use of [Nose] for testing.  You can run the full suite of tests with this command.
 

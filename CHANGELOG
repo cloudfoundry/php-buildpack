@@ -1,3 +1,213 @@
+v4.1.4 Sep 18, 2015
+====================
+
+* update binaries for ICU vulnerabilities
+(https://www.pivotaltracker.com/story/show/103531876)
+
+v4.1.3 Sep 14, 2015
+====================
+Please note that PHP 5.4 will reach "End of Life" on 2015-09-14. We intend to remove support for this version of PHP on or before 2015-10-16.
+
+* Updating PHP binaries for redis 2.2.7
+  (https://www.pivotaltracker.com/story/show/100925176)
+
+* Add support for PHP 5.4.45, 5.5.29, 5.6.13
+
+* Remove support for PHP 4.4.43, 5.5.27, 5.6.11
+  (https://www.pivotaltracker.com/story/show/102517700)
+
+* Upgrade nginx to 1.9.4
+
+
+
+v4.1.2 Aug 31, 2015
+====================
+
+Note that 4.1.0 and 4.1.1 were not released.
+
+* Introduce *non-backwards* compatible change to composer detection.
+  The buildpack will now, by default, detect composer files in the root directory of
+  a php application or a configured `WEBDIR` directory. For the buildpack to detect
+  composer files in another directory, one must explicitly set this directory via the
+  `COMPOSER_PATH` environment variable. For more information please refer to the
+  documentation here: http://docs.cloudfoundry.org/buildpacks/php/gsg-php-composer.html
+  (https://www.pivotaltracker.com/story/show/99170278)
+
+* Remove application developer's ability to override the buildpack's
+  binaries via DOWNLOAD_URL option.
+  (https://www.pivotaltracker.com/story/show/101243110)
+    
+* Remove default php startup warnings in the event of unsupported extensions
+  within an application. The warnings have been replaced with a more explicit
+  'unsupported extension' message printed to standard error.
+  (https://www.pivotaltracker.com/story/show/100180478)
+
+* Add support for PHP versions: 5.6.12, 5.5.28, and 5.4.44.
+  Remove support for PHP versions: 5.6.10, 5.5.26, and 5.4.42.
+  Update all bundled PHPs with readline-ext built as a shared module.
+  (https://www.pivotaltracker.com/story/show/101121820)
+  (https://www.pivotaltracker.com/story/show/99436586)
+
+* Correct logging of downloaded resource sources
+  (https://www.pivotaltracker.com/story/show/100516510)
+
+* Document support for protobuf extension
+  (https://www.pivotaltracker.com/story/show/100244194)
+
+* `bin/detect` emits the buildpack version
+  (https://www.pivotaltracker.com/story/show/100757820)
+
+* Update Nginx binary to 1.9.3,
+  Apache HTTPD to 2.4.16,
+  NewRrelic to 4.23.3.111
+  (https://www.pivotaltracker.com/story/show/99507244)
+
+* PHP Updates for libsnmp vulnerability
+  (https://www.pivotaltracker.com/story/show/102276186)
+
+
+v4.0.0 Jul 20, 2015
+====================
+
+* upgrade PHP 5.6.11, 5.5.27, and 5.4.43
+  (https://www.pivotaltracker.com/story/show/98855368)
+
+* Package all PHP modules in a single tarball
+
+  Instead of downloading PHP modules individually, include all modules in a
+  single tarball to make the manifest more manageable.
+  (https://www.pivotaltracker.com/story/show/95473520)
+
+* Package all httpd modules in a single tarball
+
+  Instead of downloading httpd modules individually, include all modules
+  in a single tarball to make the manifest more manageable.
+  (https://www.pivotaltracker.com/story/show/95473520)
+
+* Add nginx 1.9.2, upgrade to 1.6.3; drop 1.7.x
+  (https://www.pivotaltracker.com/story/show/98855608)
+
+* Include current stack in unsupported stack message
+  (https://www.pivotaltracker.com/story/show/98579464)
+
+v3.3.1 Jul 08, 2015
+====================
+
+* Include php versions 5.6.10, 5.5.26, 5.4.42
+  Remove support for 5.4.39, 5.5.23, 5.6.7
+  Change the default PHP version to 5.5.26
+  (https://www.pivotaltracker.com/story/show/98547428)
+
+* Support nginx 1.8
+  (https://www.pivotaltracker.com/story/show/96911902)
+
+* Fix boolean values in options.json
+  (https://www.pivotaltracker.com/story/show/98199628)
+
+v3.3.0 Jun 24, 2015
+====================
+
+* Fail with helpful error message for incompatible stack
+  (https://www.pivotaltracker.com/story/show/96590154)
+
+* Remove lucid-specific binaries from manifest.yml
+  (https://www.pivotaltracker.com/story/show/96135874)
+
+* Add PHP 5.6.8, 5.5.24, 5.4.40 to unsupported manifest
+  (https://www.pivotaltracker.com/story/show/94988124)
+
+v3.2.2 Jun 03, 2015
+====================
+
+* Update buildpack with newest php interpreters and modules
+  (https://www.pivotaltracker.com/story/show/93652226)
+
+* Exclude PHP version on generated pages by default
+  (https://www.pivotaltracker.com/story/show/95368312)
+
+* Merge upstream changes
+
+* Add support for using the lastest version of composer
+  (https://www.pivotaltracker.com/story/show/92519522)
+
+v3.2.1 May 07, 2015
+====================
+
+* Update default PHP version to latest 5.4 release
+  (https://www.pivotaltracker.com/story/show/92540904)
+
+* Bump buildpack-packager to support custom buildpack manifests.
+  (https://www.pivotaltracker.com/story/show/93717296)
+
+v3.2.0 Apr 24, 2015
+====================
+
+* Updated supported PHP versions. Currently supported versions:
+	(https://www.pivotaltracker.com/story/show/90697202)
+	* 5.6.7
+	* 5.6.6
+	* 5.5.23
+	* 5.5.22
+	* 5.4.39
+	* 5.4.38
+
+* Updated supported HHVM versions. Currently supported versions:
+	(https://www.pivotaltracker.com/story/show/90697204)
+	* lucid64 stack
+		* 3.2.0
+	* cflinuxfs2 stack
+		* 3.5.0
+		* 3.5.1
+		* 3.6.0
+		* 3.6.1
+
+* Updated supported HTTPD versions. Currently supported versions:
+	(https://www.pivotaltracker.com/story/show/90697208)
+	* 2.4.12
+
+* Updated supported Nginx versions. Currently supported versions:
+	(https://www.pivotaltracker.com/story/show/90697210)
+	* 1.7.10
+	* 1.6.2
+	* 1.5.13
+
+v3.1.1 Apr 22, 2015
+====================
+
+* Updated to New Relic 4.20.2.95
+  (https://www.pivotaltracker.com/story/show/92462510)
+
+* Updated to composer 1.0.0-alpha10
+  (https://www.pivotaltracker.com/story/show/92504742)
+
+* Fix bug that supports PHP 5.6 being specified in `composer.json`
+  (https://github.com/cloudfoundry/php-buildpack/commit/c173c129466f48bb4a571f3983799e156658d000)
+
+* Composer fallback to checking out Github source via HTTPS
+  (https://www.pivotaltracker.com/story/show/88515170)
+
+* Add support for PHP 5.4.39, 5.5.23 & 5.6.7
+
+* Drop support for PHP 5.4.36, 5.5.20 & 5.6.4 
+
+v3.1.0 Mar 18, 2015
+====================
+
+* Support cflinuxfs2 stack.
+  (https://www.pivotaltracker.com/story/show/90196104)
+	(https://www.pivotaltracker.com/story/show/88174348)
+
+* Reference git repos by https in cf.Gemfile
+  (https://www.pivotaltracker.com/story/show/90365848)
+
+* Support HHVM 3.6.0 on cflinuxfs2 only
+  (https://www.pivotaltracker.com/story/show/89029952)
+
+* Added config for PHP 5.4.38, 5.5.22 and 5.6.6.
+* Removed old versions of PHP: 5.4.35, 5.5.19 & 5.6.3.
+* Added protobuf extensions
+* Upgraded the version of NewRelic to 4.18.0.89.
+
 v3.0.4 Feb 12, 2015
 ====================
 

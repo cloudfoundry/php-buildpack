@@ -5,14 +5,14 @@ import tempfile
 import shutil
 import utils
 import logging
+import subprocess
 from urlparse import urlparse
 from zips import UnzipUtil
-from hashes import HashUtil
-from cache import DirectoryCacheManager
 from downloads import Downloader
 from downloads import CurlDownloader
 from utils import safe_makedirs
 from utils import find_git_url
+from utils import wrap
 
 
 _log = logging.getLogger('cloudfoundry')
@@ -21,19 +21,22 @@ _log = logging.getLogger('cloudfoundry')
 class CloudFoundryUtil(object):
     @staticmethod
     def initialize():
-        # Open stdout unbuffered
+        # set stdout as non-buffered
         if hasattr(sys.stdout, 'fileno'):
-            sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb', 0)
+             fileno = sys.stdout.fileno()
+             tmp_fd = os.dup(fileno)
+             sys.stdout.close()
+             os.dup2(tmp_fd, fileno)
+             os.close(tmp_fd)
+             sys.stdout = os.fdopen(fileno, "w", 0)
         ctx = utils.FormattedDict()
         # Add environment variables
-        ctx.update(os.environ)
+        for key, val in os.environ.iteritems():
+            ctx[key] = wrap(val)
         # Convert JSON env variables
         ctx['VCAP_APPLICATION'] = json.loads(ctx.get('VCAP_APPLICATION',
-                                                     '{}',
-                                                     format=False))
-        ctx['VCAP_SERVICES'] = json.loads(ctx.get('VCAP_SERVICES',
-                                                  '{}',
-                                                  format=False))
+                                             wrap('{}')))
+        ctx['VCAP_SERVICES'] = json.loads(ctx.get('VCAP_SERVICES', wrap('{}')))
         # Build Pack Location
         ctx['BP_DIR'] = os.path.dirname(os.path.dirname(sys.argv[0]))
         # User's Application Files, build droplet here
@@ -73,12 +76,12 @@ class CloudFoundryUtil(object):
                                 filename=os.path.join(logDir, 'bp.log'))
 
     @staticmethod
-    def load_json_config_file_from(folder, cfgFile):
+    def load_json_config_file_from(folder, cfgFile, step=None):
         return CloudFoundryUtil.load_json_config_file(os.path.join(folder,
-                                                                   cfgFile))
+                                                                   cfgFile), step)
 
     @staticmethod
-    def load_json_config_file(cfgPath):
+    def load_json_config_file(cfgPath, step=None):
         if os.path.exists(cfgPath):
             _log.debug("Loading config from [%s]", cfgPath)
             with open(cfgPath, 'rt') as cfgFile:
@@ -87,6 +90,12 @@ class CloudFoundryUtil(object):
                 except ValueError, e:
                     _log.warn("Error reading [%s]", cfgPath)
                     _log.debug("Error reading [%s]", cfgPath, exc_info=e)
+                    if step != 'detect':
+                        print 'Incorrectly formatted JSON object at: %s' % cfgPath
+                        cfgFile.seek(0)
+                        for line in cfgFile:
+                            print line
+                        exit(1)
         return {}
 
 
@@ -95,8 +104,6 @@ class CloudFoundryInstaller(object):
         self._log = _log
         self._ctx = ctx
         self._unzipUtil = UnzipUtil(ctx)
-        self._hashUtil = HashUtil(ctx)
-        self._dcm = DirectoryCacheManager(ctx)
         self._dwn = self._get_downloader(ctx)(ctx)
 
     def _get_downloader(self, ctx):
@@ -119,58 +126,84 @@ class CloudFoundryInstaller(object):
                     return getattr(m, clsName)
                 except AttributeError:
                     self._log.exception(
-                        'WARNING: DOWNLOAD_CLASS not found!')
+                            'WARNING: DOWNLOAD_CLASS not found!')
             else:
                 self._log.error(
-                    'WARNING: DOWNLOAD_CLASS invalid, must include '
-                    'package name!')
-        return Downloader
+                        'WARNING: DOWNLOAD_CLASS invalid, must include '
+                        'package name!')
+                return Downloader
 
     def _is_url(self, val):
         return urlparse(val).scheme != ''
 
     def install_binary_direct(self, url, hsh, installDir,
-                              fileName=None, strip=False,
-                              extract=True):
-        self._log.debug("Installing direct [%s]", url)
+            fileName=None, strip=False,
+            extract=True):
+        exit_code, translated_url = self.translate_dependency_url(url)
+        if exit_code == 0:
+            url = translated_url
+
         if not fileName:
-            fileName = url.split('/')[-1]
-        if self._is_url(hsh):
-            digest = self._dwn.download_direct(hsh)
-        else:
-            digest = hsh
-        self._log.debug(
-            "Installing [%s] with digest [%s] into [%s] with "
-            "name [%s] stripping [%s]",
-            url, digest, installDir, fileName, strip)
-        fileToInstall = self._dcm.get(fileName, digest)
-        if fileToInstall is None:
-            self._log.debug('File [%s] not in cache.', fileName)
-            fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
-            self._dwn.download(url, fileToInstall)
-            digest = self._hashUtil.calculate_hash(fileToInstall)
-            fileToInstall = self._dcm.put(fileName, fileToInstall, digest)
+            fileName = urlparse(url).path.split('/')[-1]
+        fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
+
+        self._log.debug("Installing direct [%s]", url)
+        self._dwn.custom_extension_download(url, fileToInstall)
+
         if extract:
             return self._unzipUtil.extract(fileToInstall,
-                                           installDir,
-                                           strip)
+                    installDir,
+                    strip)
         else:
             shutil.copy(fileToInstall, installDir)
             return installDir
 
+    def _install_binary_from_manifest(self, url, installDir,
+            strip=False,
+            extract=True):
+        """
+            To support backwards compatibility with apps calling this method
+            in their custom extension configs, we made this internal method
+            which has no need to check for a hash and will not hit the internet
+            if the dependency is missing from the manifest.
+
+            The other 'exposed' method does make requests to the internet should the
+            dependency not exist in the manifest and intentionally takes the hash sha 
+            argument but makes no use of it.
+        """
+
+        self._log.debug("Installing binary from manifest [%s]", url)
+        self._dwn.download(url, self._ctx['TMPDIR'])
+
+        fileName = urlparse(url).path.split('/')[-1]
+        fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
+
+        if extract:
+            return self._unzipUtil.extract(fileToInstall,
+                    installDir,
+                    strip)
+        else:
+            shutil.copy(fileToInstall, installDir)
+            return installDir
+
+    def translate_dependency_url(self, url):
+        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', 'translate_dependency_url'), url], stdout=subprocess.PIPE)
+        exit_code = process.wait()
+        translate_url_output = process.stdout.read().rstrip()
+        return (exit_code, translate_url_output)
+
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)
         url = self._ctx['%s_DOWNLOAD_URL' % installKey]
-        hashUrl = self._ctx.get(
-            '%s_HASH_DOWNLOAD_URL' % installKey,
-            "%s.%s" % (url, self._ctx['CACHE_HASH_ALGORITHM']))
+
         installDir = os.path.join(self._ctx['BUILD_DIR'],
-                                  self._ctx.get(
-                                      '%s_PACKAGE_INSTALL_DIR' % installKey,
-                                      installKey.lower()))
+                self._ctx.get(
+                    '%s_PACKAGE_INSTALL_DIR' % installKey,
+                    installKey.lower()))
         strip = self._ctx.get('%s_STRIP' % installKey, False)
-        return self.install_binary_direct(url, hashUrl, installDir,
-                                          strip=strip)
+
+        return self._install_binary_from_manifest(url, installDir,
+                strip=strip)
 
     def _install_from(self, fromPath, fromLoc, toLocation=None, ignore=None):
         """Copy file or directory from a location to the droplet

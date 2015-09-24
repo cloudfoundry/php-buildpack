@@ -12,11 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import print_function
 import os
 import os.path
-import json
+import yaml
 import logging
-from collections import defaultdict
+import glob
 from build_pack_utils import FileUtil
 
 
@@ -59,33 +60,27 @@ def setup_webdir_if_it_doesnt_exist(ctx):
 def log_bp_version(ctx):
     version_file = os.path.join(ctx['BP_DIR'], 'VERSION')
     if os.path.exists(version_file):
-        print '-------> Buildpack version %s' % open(version_file).read()
+        print('-------> Buildpack version %s' % open(version_file).read())
 
 
 def setup_log_dir(ctx):
     os.makedirs(os.path.join(ctx['BUILD_DIR'], 'logs'))
 
 
-def load_binary_index(ctx):
-    index_path = os.path.join(ctx['BP_DIR'], 'binaries',
-                              ctx['STACK'], 'index-all.json')
-    return json.load(open(index_path))
+def load_manifest(ctx):
+    manifest_path = os.path.join(ctx['BP_DIR'], 'manifest.yml')
+    _log.debug('Loading manifest from %s', manifest_path)
+    return yaml.load(open(manifest_path))
 
 
-def find_all_php_versions(index_json):
-    return index_json['php'].keys()
+def find_all_php_versions(dependencies):
+    versions = []
 
+    for dependency in dependencies:
+        if dependency['name'] == 'php':
+            versions.append(dependency['version'])
 
-def find_all_php_extensions(index_json):
-    SKIP = ('cli', 'pear', 'cgi', 'fpm')
-    exts = defaultdict(list)
-    for version, files in index_json['php'].iteritems():
-        for f in files:
-            if f.endswith('.tar.gz'):
-                tmp = os.path.basename(f).split('-')
-                if len(tmp) == 3 and tmp[1] not in SKIP:
-                    exts[version].append(tmp[1])
-    return exts
+    return versions
 
 
 def validate_php_version(ctx):
@@ -98,16 +93,28 @@ def validate_php_version(ctx):
         ctx['PHP_VERSION'] = ctx['PHP_54_LATEST']
 
 
+def _get_supported_php_extensions(ctx):
+    php_extensions = []
+    php_extension_glob = os.path.join(ctx["PHP_INSTALL_PATH"], 'lib', 'php', 'extensions', 'no-debug-non-zts-*')
+    php_extension_directory = glob.glob(php_extension_glob)[0]
+    for root, dirs, files in os.walk(php_extension_directory):
+        for f in files:
+            if '.so' in f:
+                php_extensions.append(f.replace('.so', ''))
+    return php_extensions
+
+
 def validate_php_extensions(ctx):
-    extns = ctx['ALL_PHP_EXTENSIONS'][ctx['PHP_VERSION']]
-    keep = []
-    for extn in ctx['PHP_EXTENSIONS']:
-        if extn in extns:
-            _log.debug('Extension [%s] validated.', extn)
-            keep.append(extn)
+    filtered_extensions = []
+    requested_extensions = ctx['PHP_EXTENSIONS']
+    supported_extensions = _get_supported_php_extensions(ctx)
+
+    for extension in requested_extensions:
+        if extension not in supported_extensions:
+            print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
         else:
-            _log.warn('Extension [%s] is not available!', extn)
-    ctx['PHP_EXTENSIONS'] = keep
+            filtered_extensions.append(extension)
+    ctx['PHP_EXTENSIONS'] = filtered_extensions
 
 
 def convert_php_extensions(ctx):
@@ -123,12 +130,6 @@ def convert_php_extensions(ctx):
                    for ze in ctx['ZEND_EXTENSIONS']])
 
 
-def build_php_environment(ctx):
-    _log.debug('Building PHP environment variables')
-    ctx["PHP_ENV"] = \
-        "\n".join(["env[%s] = $%s" % (k, k) for k in os.environ.keys()])
-
-
 def is_web_app(ctx):
     return ctx.get('WEB_SERVER', '') != 'none'
 
@@ -142,7 +143,7 @@ def find_stand_alone_app_to_run(ctx):
                 app = pf
                 break
         if not app:
-            print 'Build pack could not find a PHP file to execute!'
+            print('Build pack could not find a PHP file to execute!')
             _log.info('Build pack could not find a file to execute.  Either '
                       'set "APP_START_CMD" or include one of these files [%s]',
                       ", ".join(possible_files))

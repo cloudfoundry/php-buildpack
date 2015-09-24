@@ -22,4 +22,5 @@
 #  python scripts, like install Python.
 BP=$(dirname $(dirname $0))
 export PYTHONPATH=$BP/lib
-python $BP/scripts/detect.py $1
+VERSION=`cat $BP/VERSION`
+python $BP/scripts/detect.py $1 $VERSION

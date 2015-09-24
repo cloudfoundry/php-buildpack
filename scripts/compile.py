@@ -25,6 +25,7 @@ if __name__ == '__main__':
     (Builder()
         .configure()
             .default_config()  # noqa
+            .stack_config()
             .user_config()
             .done()
         .execute()
@@ -67,4 +68,5 @@ if __name__ == '__main__':
         .create_start_script()
             .using_process_manager()
             .write())
+
     print 'Finished: [%s]' % datetime.now()

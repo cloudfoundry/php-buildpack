@@ -26,12 +26,10 @@ _log = logging.getLogger('newrelic')
 
 DEFAULTS = {
     'NEWRELIC_HOST': 'download.newrelic.com',
-    'NEWRELIC_VERSION': '4.15.0.74',
+    'NEWRELIC_VERSION': '4.23.3.111',
     'NEWRELIC_PACKAGE': 'newrelic-php5-{NEWRELIC_VERSION}-linux.tar.gz',
     'NEWRELIC_DOWNLOAD_URL': 'https://{NEWRELIC_HOST}/php_agent/'
                              'archive/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}',
-    'NEWRELIC_HASH_DOWNLOAD_URL': '{DOWNLOAD_URL}/newrelic/{NEWRELIC_VERSION}/'
-                                  '{NEWRELIC_PACKAGE}.{CACHE_HASH_ALGORITHM}',
     'NEWRELIC_STRIP': True
 }
 

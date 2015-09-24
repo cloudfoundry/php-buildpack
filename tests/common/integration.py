@@ -80,8 +80,6 @@ class DirectoryHelper(object):
                                                       "tests"))
         binPath = os.path.join(bp_dir, 'binaries', 'lucid')
         os.makedirs(binPath)
-        shutil.copy('binaries/lucid/index-all.json', binPath)
-        shutil.copy('binaries/lucid/index-latest.json', binPath)
 
     def cleanup(self):
         """Removes all of the temp files and directories that were created"""

@@ -13,12 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from compile_helpers import convert_php_extensions
-from compile_helpers import build_php_environment
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
-from compile_helpers import load_binary_index
+from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
-from compile_helpers import find_all_php_extensions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
 from extension_helpers import ExtensionHelper
@@ -29,9 +27,9 @@ class PHPExtension(ExtensionHelper):
         return self._ctx['PHP_VM'] == 'php'
 
     def _configure(self):
-        json = load_binary_index(self._ctx)
-        self._ctx['ALL_PHP_VERSIONS'] = find_all_php_versions(json)
-        self._ctx['ALL_PHP_EXTENSIONS'] = find_all_php_extensions(json)
+        manifest = load_manifest(self._ctx)
+        dependencies = manifest['dependencies']
+        self._ctx['ALL_PHP_VERSIONS'] = find_all_php_versions(dependencies)
 
     def _preprocess_commands(self):
         return (('$HOME/.bp/bin/rewrite', '"$HOME/php/etc"'),)
@@ -43,10 +41,7 @@ class PHPExtension(ExtensionHelper):
                     '$HOME/php/sbin/php-fpm',
                     '-p "$HOME/php/etc"',
                     '-y "$HOME/php/etc/php-fpm.conf"',
-                    '-c "$HOME/php/etc"'),
-                'php-fpm-logs': (
-                    'tail',
-                    '-F $HOME/logs/php-fpm.log')
+                    '-c "$HOME/php/etc"')
             }
         else:
             app = find_stand_alone_app_to_run(self._ctx)
@@ -71,27 +66,25 @@ class PHPExtension(ExtensionHelper):
         print 'Installing PHP'
         ctx = install.builder._ctx
         validate_php_version(ctx)
-        validate_php_extensions(ctx)
-        convert_php_extensions(ctx)
-        build_php_environment(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
+
+        if ctx['PHP_VERSION'].startswith('5.4'):
+            print('DEPRECATION WARNING: PHP 5.4 is being declared "End of Life" as of 2015-09-14')
+            print('DEPRECATION WARNING: See https://secure.php.net/supported-versions.php for more details')
+            print('DEPRECATION WARNING: Upgrade guide can be found at https://secure.php.net/manual/en/migration55.php')
+            print('DEPRECATION WARNING: The php-buildpack will no longer support PHP 5.4 after this date')
+
         (install
             .package('PHP')
+            .done())
+        validate_php_extensions(ctx)
+        convert_php_extensions(ctx)
+        (install
             .config()
                 .from_application('.bp-config/php')  # noqa
                 .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
                 .to('php/etc')
                 .rewrite()
-                .done()
-            .modules('PHP')
-                .find_modules_with_regex('^extension=(.*).so$')
-                .from_application('php/etc/php.ini')
-                .find_modules_with_regex('^zend_extension=(.*).so$')
-                .from_application('php/etc/php.ini')
-                .find_modules_with_regex('^zend_extension="(?:.*/)?(.*).so"$')
-                .from_application('php/etc/php.ini')
-                .include_modules_from('PHP_MODULES')
-                .include_module(is_web_app(ctx) and 'fpm' or 'cli')
                 .done())
         return 0
 

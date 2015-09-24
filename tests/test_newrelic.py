@@ -40,7 +40,6 @@ class TestNewRelic(object):
         eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_PACKAGE' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_DOWNLOAD_URL' in nr._ctx.keys())
-        eq_(True, 'NEWRELIC_HASH_DOWNLOAD_URL' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_STRIP' in nr._ctx.keys())
 
     def testShouldNotInstall(self):
@@ -181,7 +180,7 @@ class TestNewRelicCompiled(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(22, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(3, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         httpd.assert_start_script_is_correct(self.build_dir)
@@ -210,12 +209,12 @@ class TestNewRelicCompiled(BaseCompileApp):
         # set web server to httpd, since that's what we're expecting here
         self.opts.set_php_vm('hhvm')
         self.opts.set_hhvm_download_url(
-            '{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}')
+            '/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}')
         self.opts.set_web_server('httpd')
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(16, 2).assert_downloads_from_output(output)
+        DownloadAssertHelper(2, 2).assert_downloads_from_output(output)
         # confirm start script
         bp.assert_start_script_is_correct(self.build_dir)
         httpd.assert_start_script_is_correct(self.build_dir)
@@ -259,7 +258,7 @@ class TestNewRelicWithApp5(BaseCompileApp):
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)
         # confirm downloads
-        DownloadAssertHelper(7, 1).assert_downloads_from_output(output)
+        DownloadAssertHelper(2, 1).assert_downloads_from_output(output)
         # confirm httpd and nginx are not installed
         none.assert_no_web_server_is_installed(self.build_dir)
         # confirm start script

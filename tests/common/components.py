@@ -26,21 +26,19 @@ class BuildPackAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .line(0)
-                .equals('export PYTHONPATH=$HOME/.bp/lib\n')  # noqa
-            .line(-1)
-                .equals('$HOME/.bp/bin/start'))
+                .contains('export PYTHONPATH=$HOME/.bp/lib'))  # noqa
 
     def assert_scripts_are_installed(self, build_dir):
         fah = FileAssertHelper()
         (fah.expect()
             .path(build_dir, '.bp', 'bin', 'rewrite')
             .root(build_dir, '.bp', 'lib', 'build_pack_utils')
-                .directory_count_equals(22)  # noqa
+                .directory_count_equals(18)  # noqa
                 .path('utils.py')
                 .path('process.py')
             .exists())
@@ -57,12 +55,12 @@ class PhpAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/php/etc"\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/php/etc"'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
@@ -73,8 +71,7 @@ class PhpAssertHelper(object):
             .any_line()
                 .equals('php-fpm: $HOME/php/sbin/php-fpm -p '  # noqa
                         '"$HOME/php/etc" -y "$HOME/php/etc/php-fpm.conf"'
-                        ' -c "$HOME/php/etc"\n')
-                .equals('php-fpm-logs: tail -F $HOME/logs/php-fpm.log\n'))
+                        ' -c "$HOME/php/etc"\n'))
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
@@ -98,7 +95,7 @@ class PhpAssertHelper(object):
                 .path('sbin', 'php-fpm')
                 .path('bin')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20100525')
+                  'no-debug-non-zts-20121212')  # this timestamp is PHP5.5 specific
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
@@ -111,12 +108,12 @@ class HttpdAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
@@ -174,12 +171,12 @@ class NginxAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
@@ -232,10 +229,10 @@ class NoWebServerAssertHelper(object):
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_string(output)
-            .line_count_equals(6, lambda l: l.startswith('Downloaded'))
+            .line_count_equals(1, lambda l: l.startswith('Downloaded'))
             .line_count_equals(1, lambda l: l.startswith('No Web'))
             .line_count_equals(1, lambda l: l.startswith('Installing PHP'))
-            .line_count_equals(1, lambda l: l.find('php-cli') >= 0)
+            .line_count_equals(0, lambda l: l.find('php-cli') >= 0)
             .line(-1).startswith('Finished:'))
 
     def assert_contents_of_procs_file(self, build_dir):
@@ -255,7 +252,7 @@ class NoWebServerAssertHelper(object):
                 .path('bin', 'php')
                 .path('bin', 'phar.phar')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20100525')
+                  'no-debug-non-zts-20121212') # this timestamp is PHP5.5.x specific
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
@@ -277,14 +274,14 @@ class NewRelicAssertHelper(object):
         (fah.expect()
             .root(build_dir, 'newrelic')  # noqa
                 .path('daemon', 'newrelic-daemon.x64')
-                .path('agent', 'x64', 'newrelic-20100525.so')
+                .path('agent', 'x64', 'newrelic-20121212.so')
             .exists())
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_file(build_dir, 'php', 'etc', 'php.ini')
             .any_line()
             .equals(
-                'extension=@{HOME}/newrelic/agent/x64/newrelic-20100525.so\n')
+                'extension=@{HOME}/newrelic/agent/x64/newrelic-20121212.so\n')
             .equals('[newrelic]\n')
             .equals('newrelic.license=JUNK_LICENSE\n')
             .equals('newrelic.appname=app-name-1\n'))
@@ -301,14 +298,14 @@ class HhvmAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, 'start.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, 'start.sh')
+            .on_file(build_dir, '.profile.d/rewrite.sh')
             .any_line()
-            .equals('$HOME/.bp/bin/rewrite "$HOME/hhvm/etc"\n')
-            .equals('hhvm() { $HOME/hhvm/usr/bin/hhvm '
-                    '-c "$HOME/hhvm/etc/php.ini" "$@"; }\n'))
+            .contains('$HOME/.bp/bin/rewrite "$HOME/hhvm/etc"')
+            .contains('hhvm() { $HOME/hhvm/usr/bin/hhvm '
+                    '-c "$HOME/hhvm/etc/php.ini" "$@"; }'))
 
     def assert_contents_of_procs_file(self, build_dir):
         fah = FileAssertHelper()
@@ -338,13 +335,13 @@ class HhvmAssertHelper(object):
             .root(build_dir, 'hhvm')
                 .path('usr', 'bin', 'hhvm')  # noqa
             .root(build_dir, 'hhvm', 'usr', 'lib', 'hhvm', reset=True)
-                .path('libboost_program_options.so.1.55.0')
+                .path('libboost_program_options.so.1.54.0')
                 .path('libevent-2.0.so.5')
-                .path('libicuuc.so.48')
+                .path('libicuuc.so.52')
                 .path('libjemalloc.so.1')
                 .path('libcurl.so.4')
-                .path('libicudata.so.48')
-                .path('libMagickWand-6.Q16.so.2')
+                .path('libicudata.so.52')
+                .path('libMagickWand.so.5')
                 .path('libonig.so.2')
                 .path('libmcrypt.so.4')
                 .path('libstdc++.so.6')

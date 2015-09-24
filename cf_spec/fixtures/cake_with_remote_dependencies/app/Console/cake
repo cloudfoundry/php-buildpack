@@ -26,8 +26,7 @@ while [ -h "$LIB" ]; do
 done
 
 LIB=$(dirname -- "$LIB")/
-APP=`pwd`
 
-exec php -q "$LIB"cake.php -working "$APP" "$@"
+exec php -q "$LIB"cake.php -working "$HOME/app" "$@"
 
 exit;

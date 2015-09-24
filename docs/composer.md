@@ -37,10 +37,32 @@ The build pack tries to run with a good set of default values for Composer.  If 
 | COMPOSER_BIN_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to place executables from packages.  Defaults to `{BUILD_DIR}/php/bin`. |
 | COMPOSER_CACHE_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to place its cache files.  Generally you should not change this value.  The default is `{CACHE_DIR}/composer` which is a sub directory of the cache folder passed into the build pack (meaning that Composer cache files will be restored on subsequent application pushes. |
 
+### Github API Request Limits
+
+Composer uses Github's API to retrive zip files for installation into the application folder. If you do not vendor dependencies before pushing an app, Composer will fetch dependencies at staging time using the Github API.
+
+Github's API is request-limited. Once you have reached your hourly allowance of API requests (typically, 60), Github's API will begin to return 403 errors and staging will fail.
+
+To avoid this situation, there are two alternatives.
+
+1. Vendor dependencies before pushing your application. 
+2. Supply a Github OAuth API token.
+
+#### Vendoring Dependencies
+
+To vendor dependencies, you will need to run `composer install` before you push your application. You may also need to configure `COMPOSER_VENDOR_DIR` to "vendor".
+
+#### Supply a Github Token
+
+Composer can use [Github API OAuth tokens](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) to greatly increase your hourly request limit (typically to 5000).
+
+During staging, the buildpack looks for this token in the environment variable `COMPOSER_GITHUB_OAUTH_TOKEN`. If you supply a valid token, Composer will use it during staging. This mechanism will not work if the token is invalid.
+
+To supply the token, you can either use `cf set-env <your-app-name> COMPOSER_GITHUB_OAUTH_TOKEN "<oauth-token-value>"`, or you can add it to the `env:` block of your application manifest.
 
 ### Staging Environment
 
-Composer runs in the buildpack staging environment. Variables that have been set with `cf set-env` or with [a `manifest.yml env:` block](http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html#env-block) will be visible to Composer.
+Composer runs in the buildpack staging environment. Variables that have been set with `cf set-env` or with [a `manifest.yml env:` block](http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html#env-block) will be visible to Composer (including `COMPOSER_GITHUB_OAUTH_TOKEN`).
 
 For example:
 
