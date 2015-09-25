@@ -44,7 +44,7 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Example Applications](#examples)
   - [Usage]
   - [Configuration Options]
-  - [Composer]
+  - [Composer support]
   - [Binaries]
   - [Troubleshooting]
   - [Getting Help](#getting-help)
@@ -160,7 +160,7 @@ The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/proje
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
 [vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
 [support forums]:http://support.run.pivotal.io/home
-[Composer]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/composer.md
+[Composer support]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/composer.md
 ["offline" mode]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/binaries.md#bundling-binaries-with-the-build-pack
 [phalcon]:https://github.com/dmikusa-pivotal/cf-ex-phalcon
 [Phalcon]:http://phalconphp.com/en/
