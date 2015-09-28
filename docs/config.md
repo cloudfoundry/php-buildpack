@@ -24,7 +24,7 @@ Here are a list of the options that an application developer might want to overr
 | PHP\_56\_LATEST | Set by the buildpack, this provides the latest PHP 5.6.x release supported by the buildpack.  By setting PHP_VERSION to `{PHP_56_LATEST}`, your configuration will always use the latest PHP 5.6.x release. |
 | PHP\_70\_LATEST | Set by the buildpack, this provides the latest PHP 7.0.x release supported by the buildpack.  By setting PHP_VERSION to `{PHP_70_LATEST}`, your configuration will always use the latest PHP 7.0.x release. |
 | PHP\_VERSION | Sets the version of PHP to use. |
-| PHP\_EXTENSIONS | A list of the [extensions](#php-extensions) to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
+| PHP\_EXTENSIONS | A list of the [extensions](#php-extensions) to enable. The [default](https://github.com/cloudfoundry/php-buildpack/blob/master/defaults/options.json#L35) is to enable "bz2", "zlib", "curl" and "mcrypt". |
 | PHP\_MODULES | A list of the [modules](#php-modules) to enable.  The default is nothing.  The buildpack will automatically enable either the `fpm` or `cli` modules.  If you want to force this, you can set this list to contain `fpm`, `cli`, `cgi` and / or `pear`.  |
 | ZEND\_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
 | APP\_START\_CMD | This option is used to instruct the buildpack what command to run if WEB_SERVER is set to `none` (i.e. it is a stand alone app).  By default, the buildpack will search for and run `app.php`, `main.php`, `run.php` or `start.php` (in that order).  This option can be the name of the script to run or the name plus arguments. |
@@ -62,11 +62,15 @@ Second, you need to take care when adjusting the configurations.  It is possible
 
 ### PHP Extensions
 
-As mentioned in the chart above, PHP extensions can easily be enabled by setting the `PHP_EXTENSIONS` or `ZEND_EXTENSIONS` option in `.bp-config/options.json`.  This option allows you to make sure that any of the bundled PHP extensions are installed and configured for your environment.
+As mentioned in the chart above, PHP extensions can easily be enabled by setting the `PHP_EXTENSIONS` or `ZEND_EXTENSIONS` option in `.bp-config/options.json`.  This option allows you to make sure that any of the bundled PHP extensions are installed and configured for your environment. The list of bundled php extensions is available in the [manifest.yml](https://github.com/cloudfoundry/php-buildpack/blob/master/manifest.yml#L65).
+
+Alternatively, PHP extensions can also be enabled through [standard portable composer syntax](docs/composer.md).
 
 #### Composer
 
 The PHP Buildpack also has support for using composer files within your PHP application. By default, it will utilize composer files (json, lock) that reside inside the app root directory or the directory specified as `WEBDIR` in your `options.json`. In the event that you have your composer files inside your app directory but not in the default directories, you can specify this custom location via an environment variable for your app called `COMPOSER_PATH` (relative to the app root directory). Please note that your composer lock and json files must be in the same directory.
+
+See [full composer support details](docs/composer.md).
 
 ### PHP Modules
 
