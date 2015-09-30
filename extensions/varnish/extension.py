@@ -28,26 +28,32 @@ DEFAULTS = {
 }
 
 
-class VarnishExtension(ExtensionHelper):
+class VarnishInstaller(object):
 
     def __init__(self, ctx):
         self._log = _log
         self._ctx = ctx
+        self._merge_defaults()
+
+
+    def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():
             if key not in self._ctx:
-                self._ctx[key] = val 
-    
-    def _should_compile(self):
+                self._ctx[key] = val
+                
+    def should_install(self):
         return self._ctx['CACHE_SERVER'] == 'varnish'
 
-    def _preprocess_commands(self):
-        return ((
-            '$HOME/.bp/bin/rewrite',
-            '"$HOME/varnish/etc/varnish"'),)
+        
+
+def preprocess_commands(ctx):
+    return ((
+        '$HOME/.bp/bin/rewrite',
+        '"$HOME/varnish/etc/varnish"'),)
 
 
-    def _service_commands(self):
-        return {
+def service_commands(ctx):
+    return {
             'varnish': (
                 '$HOME/varnish/sbin/varnishd',
                 '-n $TMPDIR/varnish/',
@@ -62,26 +68,21 @@ class VarnishExtension(ExtensionHelper):
                 )
         }
 
-    def _service_environment(self):
-        return {}
+def service_environment(ctx):
+    return {}
 
 
-    def _compile(self, install):
-        print 'Installing varnish'
+def compile(install):
+    varnish = VarnishInstaller(install.builder._ctx)
+    if varnish.should_install():
+        _log.info("Installing Varnish")
         (install
-            .package('VARNISH')
+            .package('Varnish')
             .config()
                 .from_application('.bp-config/varnish')  # noqa
                 .or_from_build_pack('defaults/config/varnish/{VARNISH_VERSION}')
                 .to('varnish/etc/varnish')
                 .rewrite()
                 .done())
-        return 0
-        
-    def install(self):
-        self._builder.install()._installer._install_binary_from_manifest(
-            self._ctx['VARNISH_DOWNLOAD_URL'],
-            os.path.join(self._ctx['BUILD_DIR']),
-            extract=True)
-
-VarnishExtension.register(__name__)
+        _log.info("Varnish Installed.")
+    return 0
