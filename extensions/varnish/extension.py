@@ -24,7 +24,7 @@ DEFAULTS = {
     'VARNISH_HOST': 'raw.githubusercontent.com',
     'VARNISH_VERSION': '3.0.6',
     'VARNISH_PACKAGE': 'varnish-{VARNISH_VERSION}.tar.gz',
-    'VARNISH_DOWNLOAD_URL': 'https://{VARNISH_HOST}/chregu/cf-varnish-buildpack/master/vendor/{VARNISH_PACKAGE}',
+    'VARNISH_DOWNLOAD_URL': '/varnish/{VARNISH_PACKAGE}',
 }
 
 
