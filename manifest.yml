@@ -18,14 +18,14 @@ url_to_dependency_map:
   - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
     name: newrelic
     version: "$1"
-  - match: "\\/varnish\\/varnish-(.*).tar.gz"
-    name: varnish
-    version: "$1"
   - match: "([^\\/]*)-(\\d+\\.\\d+\\.\\d+)"
     name: "$1"
     version: "$2"
   - match: "\\/composer\\/(.*)\\/composer.phar"
     name: composer
+    version: "$1"
+  - match: "varnish-(.*).tar.gz"
+    name: varnish
     version: "$1"
 
 dependencies:

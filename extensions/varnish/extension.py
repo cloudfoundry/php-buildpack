@@ -13,10 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+import os.path
 import logging
-
-
-from extension_helpers import ExtensionHelper
     
 _log = logging.getLogger('varnish')
 
@@ -24,7 +23,7 @@ DEFAULTS = {
     'VARNISH_HOST': 'raw.githubusercontent.com',
     'VARNISH_VERSION': '3.0.6',
     'VARNISH_PACKAGE': 'varnish-{VARNISH_VERSION}.tar.gz',
-    'VARNISH_DOWNLOAD_URL': '/varnish/{VARNISH_PACKAGE}',
+    'VARNISH_DOWNLOAD_URL': 'https://raw.githubusercontent.com/chregu/cf-varnish-buildpack/master/vendor/varnish-{VARNISH_VERSION}.tar.gz',
 }
 
 
