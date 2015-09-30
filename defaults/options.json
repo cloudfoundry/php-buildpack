@@ -17,8 +17,6 @@
     "NGINX_18_LATEST": "1.8.0",
     "NGINX_19_LATEST": "1.9.4",
     "NGINX_PACKAGE": "nginx-{NGINX_VERSION}.tar.gz",
-    "VARNISH_VERSION": "3.0.6",
-    "VARNISH_PACKAGE": "varnish-{VARNISH_VERSION}.tar.gz",
     "NGINX_DOWNLOAD_URL": "/nginx/{NGINX_VERSION}/{NGINX_PACKAGE}",
     "NGINX_STRIP": true,
     "HHVM_VERSION": "3.6.0",
