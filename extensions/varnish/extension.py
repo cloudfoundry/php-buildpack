@@ -77,7 +77,7 @@ def compile(install):
     if varnish.should_install():
         _log.info("Installing Varnish")
         (install
-            .package('Varnish')
+            .package('VARNISH')
             .config()
                 .from_application('.bp-config/varnish')  # noqa
                 .or_from_build_pack('defaults/config/varnish/{VARNISH_VERSION}')
