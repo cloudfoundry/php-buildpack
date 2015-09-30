@@ -77,5 +77,11 @@ class VarnishExtension(ExtensionHelper):
                 .rewrite()
                 .done())
         return 0
+        
+    def install(self):
+        self._builder.install()._installer._install_binary_from_manifest(
+            self._ctx['VARNISH_DOWNLOAD_URL'],
+            os.path.join(self._ctx['BUILD_DIR']),
+            extract=True)
 
 VarnishExtension.register(__name__)
