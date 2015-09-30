@@ -13,12 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
+
+
 from extension_helpers import ExtensionHelper
+    
+_log = logging.getLogger('varnish')
+
+DEFAULTS = {
+    'VARNISH_HOST': 'raw.githubusercontent.com',
+    'VARNISH_VERSION': '3.0.6',
+    'VARNISH_PACKAGE': 'varnish-{VARNISH_VERSION}.tar.gz',
+    'VARNISH_DOWNLOAD_URL': 'https://{VARNISH_HOST}/chregu/cf-varnish-buildpack/master/vendor/{VARNISH_PACKAGE}',
+}
 
 
 class VarnishExtension(ExtensionHelper):
 
-
+    def __init__(self, ctx):
+        self._log = _log
+        self._ctx = ctx
+        for key, val in DEFAULTS.iteritems():
+            if key not in self._ctx:
+                self._ctx[key] = val 
+    
     def _should_compile(self):
         return self._ctx['CACHE_SERVER'] == 'varnish'
 
