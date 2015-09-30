@@ -39,6 +39,7 @@ def setup_webdir_if_it_doesnt_exist(ctx):
     if is_web_app(ctx):
         webdirPath = os.path.join(ctx['BUILD_DIR'], ctx['WEBDIR'])
         if not os.path.exists(webdirPath):
+            ctx['NO_WEBDIR_SET'] = True
             fu = FileUtil(FakeBuilder(ctx), move=True)
             fu.under('BUILD_DIR')
             fu.into('WEBDIR')

@@ -1,8 +1,12 @@
 v4.1.4 Sep 18, 2015
 ====================
 
-* update binaries for ICU vulnerabilities
-(https://www.pivotaltracker.com/story/show/103531876)
+* update binaries for ICU vulnerabilities:
+  USN-2740-1, CVE-2015-1270, CVE-2015-2632, CVE-2015-4760
+  this commit removes libicu from the buildpack, and instead relies
+  upon the libraries delivered by the rootfs (note that rootfs 1.9.0
+  addresses this vulnerability).
+  (https://www.pivotaltracker.com/story/show/103531876)
 
 v4.1.3 Sep 14, 2015
 ====================
