@@ -42,6 +42,13 @@ class VarnishInstaller(object):
                 
     def should_install(self):
         return self._ctx['CACHE_SERVER'] == 'varnish'
+    
+    def install(self):
+        _log.info("Installing Varnish METHOD")
+        self._builder.install()._installer._install_binary_from_manifest(
+                self._ctx['VARNISH_DOWNLOAD_URL'],
+                os.path.join('app'),
+                extract=True)
 
         
 
