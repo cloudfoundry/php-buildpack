@@ -71,6 +71,7 @@ def service_commands(ctx):
                 '-s malloc,128M',
                 '-T 127.0.0.1:6082',
                 '-p http_resp_hdr_len=32768'
+                '2>&1'
                 )
         }
 
