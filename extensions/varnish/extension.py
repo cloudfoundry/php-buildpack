@@ -61,7 +61,7 @@ def preprocess_commands(ctx):
 def service_commands(ctx):
     return {
             'varnish': (
-                '$HOME/varnish/varnish/sbin/varnishd',
+                '$HOME/varnish/sbin/varnishd',
                 '-n $TMPDIR/',
                 '-F',
                 '-f $HOME/varnish/etc/varnish/default.vcl',
@@ -76,7 +76,7 @@ def service_commands(ctx):
 
 def service_environment(ctx):
     env = {
-            'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/varnish/varnish/lib/varnish',
+            'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/varnish/lib/varnish',
     }
     return env
 

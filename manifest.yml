@@ -136,5 +136,5 @@ dependencies:
     uri: https://raw.githubusercontent.com/chregu/cf-varnish-buildpack/master/vendor/varnish-3.0.6.tar.gz
     cf_stacks:
       - cflinuxfs2
-    md5: 9135edcabf0c1ca4dfc49af8e4807737
+    md5: 810de202f47135faa64aeab549ab52d5
 
