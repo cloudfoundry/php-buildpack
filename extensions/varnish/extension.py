@@ -55,20 +55,23 @@ def service_commands(ctx):
     return {
             'varnish': (
                 '$HOME/varnish/varnish/sbin/varnishd',
-                '-n $TMPDIR/varnish/',
+                '-n $TMPDIR/',
                 '-F',
                 '-f $HOME/varnish/etc/varnish/default.vcl',
                 '-a 0.0.0.0:$VCAP_APP_PORT',
                 '-t 120',
                 '-w 50,1000,120',
-                '-s malloc,128m',
+                '-s malloc,128M',
                 '-T 127.0.0.1:6082',
                 '-p http_resp_hdr_len=32768'
                 )
         }
 
 def service_environment(ctx):
-    return {}
+    env = {
+            'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/varnish/varnish/lib/varnish',
+    }
+    return env
 
 
 def compile(install):
