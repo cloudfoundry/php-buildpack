@@ -62,7 +62,7 @@ def service_commands(ctx):
     return {
             'varnish': (
                 '$HOME/varnish/sbin/varnishd',
-                '-n $TMPDIR/',
+                '-n $TMPDIR/varnish/',
                 '-F',
                 '-f $HOME/varnish/etc/varnish/default.vcl',
                 '-a 0.0.0.0:$VCAP_APP_PORT',
