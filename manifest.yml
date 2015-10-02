@@ -39,12 +39,11 @@ dependencies:
       - cflinuxfs2
     md5: 48a9635de867f1473e1f1e1f3e93af86
   - name: php
-    version: 5.5.28
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.28-linux-x64-1442440487.tgz 
-    modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "opcache", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "lua", "suhosin", "msgpack", "xdebug", "imagick", "yaf", "redis", "memcache", "igbinary", "ioncube", "phpiredis", "xcache", "protobuf", "protocolbuffers", "mailparse", "mongo", "amqp", "phalcon", "xhprof", "twig", "sundown", "memcached", "intl"]
+    version: 5.5.30
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.30-linux-x64-1443817385.tgz 
     cf_stacks:
       - cflinuxfs2
-    md5: 74d0ea2c423e866905a2850b00cf2efa
+    md5: 9a64404f2bd2504d1aca9bfd453553a4
   - name: php
     version: 5.5.29
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.29-linux-x64-1442441030.tgz 
@@ -53,12 +52,11 @@ dependencies:
       - cflinuxfs2
     md5: 058479a013186c740d9bb5ad9ae5d274
   - name: php
-    version: 5.6.12
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.12-linux-x64-1442441627.tgz 
-    modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "opcache", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "lua", "suhosin", "msgpack", "xdebug", "imagick", "yaf", "redis", "memcache", "igbinary", "ioncube", "phpiredis", "xcache", "protobuf", "protocolbuffers", "mailparse", "mongo", "amqp", "phalcon", "twig", "sundown", "memcached", "intl"]
+    version: 5.6.14
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.14-linux-x64-1443816888.tgz 
     cf_stacks:
       - cflinuxfs2
-    md5: 55e70b1c22c0853d75cb146efcaefe8d
+    md5: cce784e83c0d979129baaeee7eaec729
   - name: php
     version: 5.6.13
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.13-linux-x64-1442442154.tgz 
