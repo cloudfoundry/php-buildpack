@@ -87,11 +87,11 @@ dependencies:
       - cflinuxfs2
     md5: e12cddcba72d5008f94b298a02a8e6d4
   - name: nginx
-    version: 1.9.4
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.9.4-linux-x64.tgz
+    version: 1.9.5
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.9.5-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: e03250aabdc35290bbe5754a1ddfebdb
+    md5: 549e7a96c800106093f598864e83802d
   - name: nginx
     version: 1.6.3
     uri: https://pivotal-buildpacks.s3.amazonaws.com/nginx/cflinuxfs2/nginx-1.6.3-linux-x64.tgz

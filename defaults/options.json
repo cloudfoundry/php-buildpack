@@ -14,7 +14,7 @@
     "NGINX_VERSION": "{NGINX_18_LATEST}",
     "NGINX_16_LATEST": "1.6.3",
     "NGINX_18_LATEST": "1.8.0",
-    "NGINX_19_LATEST": "1.9.4",
+    "NGINX_19_LATEST": "1.9.5",
     "NGINX_PACKAGE": "nginx-{NGINX_VERSION}.tar.gz",
     "NGINX_DOWNLOAD_URL": "/nginx/{NGINX_VERSION}/{NGINX_PACKAGE}",
     "NGINX_STRIP": true,
