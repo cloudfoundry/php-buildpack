@@ -18,6 +18,7 @@ from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
+from compile_helpers import validate_php_extensions
 from extension_helpers import ExtensionHelper
 
 
@@ -65,10 +66,20 @@ class PHPExtension(ExtensionHelper):
         print 'Installing PHP'
         ctx = install.builder._ctx
         validate_php_version(ctx)
-        convert_php_extensions(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
+
+        if ctx['PHP_VERSION'].startswith('5.4'):
+            print('DEPRECATION WARNING: PHP 5.4 is being declared "End of Life" as of 2015-09-14')
+            print('DEPRECATION WARNING: See https://secure.php.net/supported-versions.php for more details')
+            print('DEPRECATION WARNING: Upgrade guide can be found at https://secure.php.net/manual/en/migration55.php')
+            print('DEPRECATION WARNING: The php-buildpack will no longer support PHP 5.4 after this date')
+
         (install
             .package('PHP')
+            .done())
+        validate_php_extensions(ctx)
+        convert_php_extensions(ctx)
+        (install
             .config()
                 .from_application('.bp-config/php')  # noqa
                 .or_from_build_pack('defaults/config/php/{PHP_VERSION}')

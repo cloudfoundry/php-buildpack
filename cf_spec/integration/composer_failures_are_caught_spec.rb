@@ -9,7 +9,7 @@ describe 'Composer failures' do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  context 'deploying an app with an impossible dependency in composer.json', if: Machete::BuildpackMode.uncached? do
+  context 'deploying an app with an impossible dependency in composer.json', :uncached do
     let(:app_name) { 'composer_with_impossible_dependency' }
 
     specify do

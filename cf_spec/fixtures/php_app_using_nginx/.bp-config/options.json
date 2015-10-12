@@ -1,3 +1,4 @@
 {
-	"WEB_SERVER": "nginx"
+	"WEB_SERVER": "nginx",
+  "PHP_VERSION": "{PHP_54_LATEST}"
 }

@@ -209,7 +209,7 @@ class TestNewRelicCompiled(BaseCompileApp):
         # set web server to httpd, since that's what we're expecting here
         self.opts.set_php_vm('hhvm')
         self.opts.set_hhvm_download_url(
-            '{DOWNLOAD_URL}/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}')
+            '/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}')
         self.opts.set_web_server('httpd')
         # run the compile step of the build pack
         output = ErrorHelper().compile(self.bp)

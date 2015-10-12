@@ -1,7 +1,7 @@
 import shutil
 import tempfile
 import os.path
-from nose.tools import eq_
+import re
 from nose.tools import with_setup
 from build_pack_utils import BuildPack
 
@@ -40,7 +40,7 @@ class TestDetect(object):
                                                       "tests"))
         try:
             output = bp._detect().strip()
-            eq_('PHP', output)
+            assert re.match('php*', output)
         except Exception, e:
             print str(e)
             if hasattr(e, 'output'):
@@ -68,7 +68,7 @@ class TestDetect(object):
                                                       "tests"))
         try:
             output = bp._detect().strip()
-            eq_('PHP', output)
+            assert re.match('php*', output)
         except Exception, e:
             print str(e)
             if hasattr(e, 'output'):
@@ -96,7 +96,7 @@ class TestDetect(object):
                                                       "tests"))
         try:
             output = bp._detect().strip()
-            eq_('STATIC', output)
+            assert re.match('php*', output)
         except Exception, e:
             print str(e)
             if hasattr(e, 'output'):
@@ -122,7 +122,7 @@ class TestDetect(object):
                                                       "tests"))
         try:
             output = bp._detect().strip()
-            eq_('PHP', output)
+            assert re.match('php*', output)
         except Exception, e:
             print str(e)
             if hasattr(e, 'output'):
