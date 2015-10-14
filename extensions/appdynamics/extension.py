@@ -179,7 +179,7 @@ def preprocess_commands(ctx):
 	['env'], 
 	[ 'chmod', '" -R 755 /home/vcap/app"'],
 	[ 'chmod', '" 777 ./app/appdynamics/appdynamics-php-agent/logs"'],
-	[ 'export', '"APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e 's/.*application_name.:.//g;s/\".*application_uri.*//g' `"'],
+	[ 'export', '"APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e \'s/.*application_name.:.//g;s/\".*application_uri.*//g\' `"'],
 	[ 'echo', '" done preprocess;"'],
 	['env']]
 
