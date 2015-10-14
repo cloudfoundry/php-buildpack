@@ -174,7 +174,9 @@ def preprocess_commands(ctx):
             'ADDITIONAL_PREPROCESS_CMDS':  ['env', 'ls -al']
         }
 
-    return ()
+    return (('echo','" in preprocess"', 'env', 'ls'))
+
+    #return ()
 
 def service_commands(ctx):
     return {}
