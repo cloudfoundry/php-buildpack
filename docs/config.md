@@ -17,12 +17,10 @@ Here are a list of the options that an application developer might want to overr
 |      Variable     |   Explanation                                        |
 ------------------- | -----------------------------------------------------|
 | WEB_SERVER | Sets the web server to use.  Should be one of 'httpd', 'nginx' or 'none'.  This value defaults to 'httpd'. |
-| HTTPD_VERSION | Sets the version of Apache HTTPD to use. Currently the build pack supports the 2.4.x branch.  This value will default to the latest release that is supported by the build pack. |
+| HTTPD_VERSION | Sets the version of Apache HTTPD to use. Currently the build pack supports the latest stable version.  This value will default to the latest release that is supported by the build pack. |
 | ADMIN_EMAIL | The value used in HTTPD's configuration for [ServerAdmin] |
-| NGINX_VERSION | Sets the version of Nginx to use.  Currently the build pack supports the 1.5.x branch.  This value will default to the latest release that is supported by the build pack. |
-| PHP_VERSION | Sets the version of PHP to use.  Currently the build pack supports the 5.4.x and 5.5.x branches.  This value will default to the latest release of the 5.4.x branch. |
-| PHP_54_LATEST | Set by the build pack, this provides the latest PHP 5.4.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_54_LATEST}`, your configuration will always use the latest PHP 5.4.x release. |
-| PHP_55_LATEST | Set by the build pack, this provides the latest PHP 5.5.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_55_LATEST}`, your configuration will always use the latest PHP 5.5.x release. |
+| NGINX_VERSION | Sets the version of Nginx to use.  Currently the build pack supports the latest stable version.  This value will default to the latest release that is supported by the build pack. |
+| PHP_VERSION | Sets the version of PHP to use. |
 | PHP_EXTENSIONS | A list of the [extensions](#php-extensions) to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
 | PHP_MODULES | A list of the [modules](#php-modules) to enable.  The default is nothing.  The build pack will automatically enable either the `fpm` or `cli` modules.  If you want to force this, you can set this list to contain `fpm`, `cli`, `cgi` and / or `pear`.  |
 | ZEND_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
@@ -32,6 +30,10 @@ Here are a list of the options that an application developer might want to overr
 | HTTP_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via http. |
 | HTTPS_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via https. |
 | ADDITIONAL_PREPROCESS_CMDS | A list of additional commands that should be run prior to the application.  This allows developers a way to run things like migration scripts prior to the application being run. |
+
+For details about supported versions, please read the [release notes](https://github.com/cloudfoundry/php-buildpack/releases) for your buildpack version.
+
+
 
 ### HTTPD, Nginx and PHP configuration
 

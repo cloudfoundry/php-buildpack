@@ -32,7 +32,7 @@ Here's a breakdown of what happens when you run the example above.
   - On Cloud Foundry...
     - The buildpack is executed.
     - Application files are copied to the `htdocs` folder.
-    - Apache HTTPD & PHP 5.4 are downloaded, configured with the buildpack defaults and run.
+    - Apache HTTPD & PHP are downloaded, configured with the buildpack defaults and run.
     - Your application is accessible at the URL http://<app-name>.cfapps.io (assuming your targeted towards Pivotal Web Services).
 
 ## More Information
