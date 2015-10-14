@@ -176,7 +176,7 @@ def preprocess_commands(ctx):
 
     return ((
 	'echo',
-	'" in preprocess"',
+	'" in preprocess;"',
 	'env', 
 	'ls'),)
 
