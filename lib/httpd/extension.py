@@ -43,7 +43,7 @@ def compile(install):
         .package('HTTPD')
         .config()
             .from_application('.bp-config/httpd')  # noqa
-            .or_from_build_pack('defaults/config/httpd/{HTTPD_VERSION}')
+            .or_from_build_pack('defaults/config/httpd')
             .to('httpd/conf')
             .rewrite()
             .done())

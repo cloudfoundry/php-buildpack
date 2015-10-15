@@ -92,7 +92,7 @@ class TestRewriteScriptWithHttpd(BaseRewriteScript):
 
     def setUp(self):
         BaseRewriteScript.setUp(self)
-        shutil.copytree('defaults/config/httpd/2.4.x', self.cfg_dir)
+        shutil.copytree('defaults/config/httpd', self.cfg_dir)
 
     def tearDown(self):
         BaseRewriteScript.tearDown(self)
