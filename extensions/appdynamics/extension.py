@@ -183,7 +183,6 @@ def preprocess_commands(ctx):
 		[ 'PATH=$PATH:./app/php/bin/ ./app/appdynamics/appdynamics-php-agent/install.sh $sslflag -i ./app/appdynamics/phpini -a=$AD_ACCOUNT_NAME@$AD_ACCOUNT_ACCESS_KEY $AD_CONTROLLER $AD_PORT $APP_NAME $APP_TIERNAME $APP_HOSTNAME' ],
 		[ 'cat', ' /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini'],
 		[ 'cat', ' /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini'],
-		[ 'echo $sslflag'],
 		[ 'echo', '"done preprocess"'],
 		['env']]
 
