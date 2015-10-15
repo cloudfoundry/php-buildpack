@@ -124,6 +124,7 @@ The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache Lic
     ```bash
     cf create-buildpack custom_php_buildpack php_buildpack-cached-custom.zip 1
     cf push my_app -b custom_php_buildpack
+    ```
 
 ## Supported binary dependencies
 
