@@ -33,7 +33,7 @@ Here's a breakdown of what happens when you run the example above.
     - The buildpack is executed.
     - Application files are copied to the `htdocs` folder.
     - Apache HTTPD & PHP are downloaded, configured with the buildpack defaults and run.
-    - Your application is accessible at the URL http://<app-name>.cfapps.io (assuming your targeted towards Pivotal Web Services).
+    - Your application is accessible at the URL `http://my-php-app.cfapps.io` (assuming your targeted towards Pivotal Web Services).
 
 ## More Information
 
@@ -70,10 +70,9 @@ The [release notes page](https://github.com/cloudfoundry/php-buildpack/releases)
 Here's a list of some special features of the buildpack.
 
   - supports running commands or migration scripts prior to application startup
-  - download location is configurable, allowing users to host binaries on the same network (i.e. run without an Internet connection)
   - supports an extension mechanism that allows the buildpack to provided additional functionality
   - allows for application developers to provide custom extensions
-  - easy troubleshooting with the BP_DEBUG environment variable
+  - easy troubleshooting with the `BP_DEBUG` environment variable
 
 ## Examples
 
@@ -100,8 +99,6 @@ The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache Lic
 
 ## Building
 
-The buildpack only supports the two most stable patches for each dependency in the [manifest.yml](manifest.yml).
-
 1. Make sure you have fetched submodules
 
   ```bash
@@ -117,7 +114,7 @@ The buildpack only supports the two most stable patches for each dependency in t
 1. Build the buildpack
 
   ```shell
-  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ uncached | cached ]
+  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ]
   ```
 
 1. Use in Cloud Foundry
@@ -130,9 +127,18 @@ The buildpack only supports the two most stable patches for each dependency in t
 
 ## Supported binary dependencies
 
-The PHP buildpack only supports the two most recent stable patches for each dependency in the [manifest.yml](manifest.yml).
+The buildpack only supports the stable patches for each dependency listed in the [manifest.yml](manifest.yml) and [releases page](https://github.com/cloudfoundry/php-buildpack/releases).
 
-If you want to use previously supported dependency versions, provide the `--use-custom-manifest=manifest-including-unsupported.yml` option to `buildpack-packager`.
+
+If you try to use a binary that is not currently supported, staging your app will fail and you will see the following error message:
+
+```
+       Could not get translated url, exited with: DEPENDENCY_MISSING_IN_MANIFEST: ...
+ !
+ !     exit
+ !
+Staging failed: Buildpack compilation step failed
+```
     
 ## Contributing
 
