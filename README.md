@@ -50,7 +50,8 @@ While the *30 Second Tutorial* shows how quick and easy it is to get started usi
   - [Getting Help](#getting-help)
   - [Development]
   - [License](#license)
-  - [Contributing](#contributing)
+  - [Building](#building)
+  - [Contributing](./CONTRIBUTING.md)
 
 ## Supported Software
 The [release notes page](https://github.com/cloudfoundry/php-buildpack/releases) has a list of currently supported modules and packages.
