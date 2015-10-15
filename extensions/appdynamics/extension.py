@@ -176,7 +176,7 @@ def preprocess_commands(ctx):
 	[ 'chmod', ' -R 755 /home/vcap/app'],
 	[ 'chmod', ' 777 ./app/appdynamics/appdynamics-php-agent/logs'],
 	[ 'export', ' APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e \'s/.*application_name.:.//g;s/\".*application_uri.*//g\' `'],
-	[ 'export', ' APP_HOSTNAME=$APP_TIERNAME-`echo $VCAP_APPLICATION | sed -e \'s/.*instance_index.://g;s/\".*host.*//g\' | sed \'s/,//'`],
+	[ 'export', ' APP_HOSTNAME=$APP_TIERNAME-`echo $VCAP_APPLICATION | sed -e \'s/.*instance_index.://g;s/\".*host.*//g\' | sed \'s/,//\' `'],
 	[ 'export', ' AD_ACCOUNT_NAME=`echo $VCAP_SERVICES | sed -e 's/.*account-name.:.//g;s/\".*port.*//g' `],
 	[ 'export', ' AD_ACCOUNT_ACCESS_KEY=`echo $VCAP_SERVICES | sed -e 's/.*account-access-key.:.//g;s/\".*host-name.*//g' `],
 	[ 'export', ' AD_CONTROLLER=`echo $VCAP_SERVICES | sed -e 's/.*host-name.:.//g;s/\".*ssl-enabled.*//g' `],
