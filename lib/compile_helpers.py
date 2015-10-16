@@ -89,8 +89,8 @@ def validate_php_version(ctx):
     else:
         _log.warning('Selected version of PHP [%s] not available.  Defaulting'
                      ' to the latest version [%s]',
-                     ctx['PHP_VERSION'], ctx['PHP_54_LATEST'])
-        ctx['PHP_VERSION'] = ctx['PHP_54_LATEST']
+                     ctx['PHP_VERSION'], ctx['PHP_55_LATEST'])
+        ctx['PHP_VERSION'] = ctx['PHP_55_LATEST']
 
 
 def _get_supported_php_extensions(ctx):
@@ -123,8 +123,7 @@ def convert_php_extensions(ctx):
     ctx['PHP_EXTENSIONS'] = \
         "\n".join(["extension=%s.so" % ex
                    for ex in ctx['PHP_EXTENSIONS'] if ex not in SKIP])
-    path = (ctx['PHP_VERSION'].startswith('5.4')) and \
-        '@HOME/php/lib/php/extensions/no-debug-non-zts-20100525' or ''
+    path = ''
     ctx['ZEND_EXTENSIONS'] = \
         "\n".join(['zend_extension="%s"' % os.path.join(path, "%s.so" % ze)
                    for ze in ctx['ZEND_EXTENSIONS']])

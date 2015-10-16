@@ -25,7 +25,7 @@ class TestNewRelic(object):
         self.build_dir = tempfile.mkdtemp('build-')
         self.php_dir = os.path.join(self.build_dir, 'php', 'etc')
         os.makedirs(self.php_dir)
-        shutil.copy('defaults/config/php/5.4.x/php.ini', self.php_dir)
+        shutil.copy('defaults/config/php/5.5.x/php.ini', self.php_dir)
 
     def tearDown(self):
         if os.path.exists(self.build_dir):
@@ -61,11 +61,11 @@ class TestNewRelic(object):
         nr = newrelic.NewRelicInstaller(ctx)
         eq_(True, nr.should_install())
         eq_('x64', nr._php_arch)
-        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20100525',
+        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20121212',
             nr._php_extn_dir)
         eq_(False, nr._php_zts)
-        eq_('20100525', nr._php_api)
-        eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
+        eq_('20121212', nr._php_api)
+        eq_('@{HOME}/newrelic/agent/x64/newrelic-20121212.so', nr.newrelic_so)
         eq_('app-name-1', nr.app_name)
         eq_('JUNK_LICENSE', nr.license_key)
         eq_('@{HOME}/logs/newrelic-daemon.log', nr.log_path)
@@ -93,11 +93,11 @@ class TestNewRelic(object):
         nr = newrelic.NewRelicInstaller(ctx)
         eq_(True, nr.should_install())
         eq_('x64', nr._php_arch)
-        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20100525',
+        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20121212',
             nr._php_extn_dir)
         eq_(False, nr._php_zts)
-        eq_('20100525', nr._php_api)
-        eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
+        eq_('20121212', nr._php_api)
+        eq_('@{HOME}/newrelic/agent/x64/newrelic-20121212.so', nr.newrelic_so)
         eq_('app-name-1', nr.app_name)
         eq_('LICENSE', nr.license_key)
         eq_('@{HOME}/logs/newrelic-daemon.log', nr.log_path)
@@ -126,11 +126,11 @@ class TestNewRelic(object):
         nr = newrelic.NewRelicInstaller(ctx)
         eq_(True, nr.should_install())
         eq_('x64', nr._php_arch)
-        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20100525',
+        eq_('@{HOME}/php/lib/php/extensions/no-debug-non-zts-20121212',
             nr._php_extn_dir)
         eq_(False, nr._php_zts)
-        eq_('20100525', nr._php_api)
-        eq_('@{HOME}/newrelic/agent/x64/newrelic-20100525.so', nr.newrelic_so)
+        eq_('20121212', nr._php_api)
+        eq_('@{HOME}/newrelic/agent/x64/newrelic-20121212.so', nr.newrelic_so)
         eq_('app-name-2', nr.app_name)
         eq_('LICENSE2', nr.license_key)
         eq_('@{HOME}/logs/newrelic-daemon.log', nr.log_path)

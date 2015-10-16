@@ -66,20 +66,6 @@ dependencies:
     cf_stacks:
       - cflinuxfs2
     md5: 0c515aa2cd6b00394d732727ecfb2a1d
-  - name: php
-    version: 5.4.44
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.4.44-linux-x64-1442442662.tgz
-    modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "lua", "suhosin", "msgpack", "xdebug", "imagick", "yaf", "redis", "memcache", "igbinary", "ioncube", "phpiredis", "xcache", "apcu", "protobuf", "protocolbuffers", "mailparse", "mongo", "amqp", "zookeeper", "phalcon", "xhprof", "twig", "sundown", "memcached", "opcache", "apc", "intl"]
-    cf_stacks:
-      - cflinuxfs2
-    md5: 04ceddebb0e2faac4add510e83ca6ff3
-  - name: php
-    version: 5.4.45
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.4.45-linux-x64-1442443195.tgz
-    modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "lua", "suhosin", "msgpack", "xdebug", "imagick", "yaf", "redis", "memcache", "igbinary", "ioncube", "phpiredis", "xcache", "apcu", "protobuf", "protocolbuffers", "mailparse", "mongo", "amqp", "zookeeper", "phalcon", "xhprof", "twig", "sundown", "memcached", "opcache", "apc", "intl"]
-    cf_stacks:
-      - cflinuxfs2
-    md5: 3d0b10452d57e3c783f480b8166e35b1
   - name: nginx
     version: 1.8.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.0-linux-x64.tgz

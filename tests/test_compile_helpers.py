@@ -204,21 +204,6 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, 'app.php')
         eq_(1, len(os.listdir(self.build_dir)))
 
-    def test_convert_php_extensions_54(self):
-        ctx = {
-            'PHP_VERSION': '5.4.x',
-            'PHP_EXTENSIONS': ['mod1', 'mod2', 'mod3'],
-            'ZEND_EXTENSIONS': ['zmod1', 'zmod2']
-        }
-        convert_php_extensions(ctx)
-        eq_('extension=mod1.so\nextension=mod2.so\nextension=mod3.so',
-            ctx['PHP_EXTENSIONS'])
-        eq_('zend_extension="@HOME/php/lib/php/extensions/'
-            'no-debug-non-zts-20100525/zmod1.so"\n'
-            'zend_extension="@HOME/php/lib/php/extensions/'
-            'no-debug-non-zts-20100525/zmod2.so"',
-            ctx['ZEND_EXTENSIONS'])
-
     def test_convert_php_extensions_55(self):
         ctx = {
             'PHP_VERSION': '5.5.x',
@@ -231,16 +216,6 @@ class TestCompileHelpers(object):
         eq_('zend_extension="zmod1.so"\nzend_extension="zmod2.so"',
             ctx['ZEND_EXTENSIONS'])
 
-    def test_convert_php_extensions_54_none(self):
-        ctx = {
-            'PHP_VERSION': '5.4.x',
-            'PHP_EXTENSIONS': [],
-            'ZEND_EXTENSIONS': []
-        }
-        convert_php_extensions(ctx)
-        eq_('', ctx['PHP_EXTENSIONS'])
-        eq_('', ctx['ZEND_EXTENSIONS'])
-
     def test_convert_php_extensions_55_none(self):
         ctx = {
             'PHP_VERSION': '5.5.x',
@@ -251,18 +226,6 @@ class TestCompileHelpers(object):
         eq_('', ctx['PHP_EXTENSIONS'])
         eq_('', ctx['ZEND_EXTENSIONS'])
 
-    def test_convert_php_extensions_54_one(self):
-        ctx = {
-            'PHP_VERSION': '5.4.x',
-            'PHP_EXTENSIONS': ['mod1'],
-            'ZEND_EXTENSIONS': ['zmod1']
-        }
-        convert_php_extensions(ctx)
-        eq_('extension=mod1.so', ctx['PHP_EXTENSIONS'])
-        eq_('zend_extension="@HOME/php/lib/php/extensions/'
-            'no-debug-non-zts-20100525/zmod1.so"',
-            ctx['ZEND_EXTENSIONS'])
-
     def test_convert_php_extensions_55_one(self):
         ctx = {
             'PHP_VERSION': '5.5.x',
@@ -270,7 +233,6 @@ class TestCompileHelpers(object):
             'ZEND_EXTENSIONS': ['zmod1']
         }
         convert_php_extensions(ctx)
-        eq_('extension=mod1.so', ctx['PHP_EXTENSIONS'])
         eq_('zend_extension="zmod1.so"',
             ctx['ZEND_EXTENSIONS'])
 
@@ -306,21 +268,20 @@ class TestCompileHelpers(object):
         manifest = load_manifest(ctx)
         dependencies = manifest['dependencies']
         versions = find_all_php_versions(dependencies)
-        eq_(2, len([v for v in versions if v.startswith('5.4.')]))
         eq_(2, len([v for v in versions if v.startswith('5.5.')]))
         eq_(2, len([v for v in versions if v.startswith('5.6.')]))
 
     def test_validate_php_version(self):
         ctx = {
-            'ALL_PHP_VERSIONS': ['5.4.31', '5.4.30'],
-            'PHP_54_LATEST': '5.4.31',
-            'PHP_VERSION': '5.4.30'
+            'ALL_PHP_VERSIONS': ['5.5.31', '5.5.30'],
+            'PHP_55_LATEST': '5.5.31',
+            'PHP_VERSION': '5.5.30'
         }
         validate_php_version(ctx)
-        eq_('5.4.30', ctx['PHP_VERSION'])
-        ctx['PHP_VERSION'] = '5.4.29'
+        eq_('5.5.30', ctx['PHP_VERSION'])
+        ctx['PHP_VERSION'] = '5.5.29'
         validate_php_version(ctx)
-        eq_('5.4.31', ctx['PHP_VERSION'])
-        ctx['PHP_VERSION'] = '5.4.30'
+        eq_('5.5.31', ctx['PHP_VERSION'])
+        ctx['PHP_VERSION'] = '5.5.30'
         validate_php_version(ctx)
-        eq_('5.4.30', ctx['PHP_VERSION'])
+        eq_('5.5.30', ctx['PHP_VERSION'])
