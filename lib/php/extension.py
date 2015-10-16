@@ -20,6 +20,7 @@ from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
 from extension_helpers import ExtensionHelper
+import string
 
 
 class PHPExtension(ExtensionHelper):
@@ -68,6 +69,8 @@ class PHPExtension(ExtensionHelper):
         validate_php_version(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
 
+        major_minor = '.'.join(string.split(ctx['PHP_VERSION'], '.')[0:2])
+
         (install
             .package('PHP')
             .done())
@@ -76,7 +79,7 @@ class PHPExtension(ExtensionHelper):
         (install
             .config()
                 .from_application('.bp-config/php')  # noqa
-                .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
+                .or_from_build_pack('defaults/config/php/%s.x' % major_minor)
                 .to('php/etc')
                 .rewrite()
                 .done())
