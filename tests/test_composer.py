@@ -23,7 +23,8 @@ class TestComposer(object):
             'CACHE_DIR': '/cache/dir',
             'PHP_VM': 'will_default_to_php_strategy',
             'WEBDIR': 'htdocs',
-            'LIBDIR': 'lib'
+            'LIBDIR': 'lib',
+            'NO_WEBDIR_SET': False
         })
         ct = self.extension_module.ComposerExtension(ctx)
         assert ct._should_compile()
@@ -34,7 +35,8 @@ class TestComposer(object):
             'CACHE_DIR': '/cache/dir',
             'PHP_VM': 'will_default_to_php_strategy',
             'WEBDIR': 'htdocs',
-            'LIBDIR': 'lib'
+            'LIBDIR': 'lib',
+            'NO_WEBDIR_SET': False
         })
         ct = self.extension_module.ComposerExtension(ctx)
         assert not ct._should_compile()
@@ -44,7 +46,8 @@ class TestComposer(object):
             'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
         builder = Dingus(_ctx=ctx)
         installer = Dingus()
@@ -74,7 +77,8 @@ class TestComposer(object):
             'CACHE_DIR': '/cache/dir',
             'COMPOSER_VERSION': 'latest',
             'BP_DIR': '',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
         builder = Dingus(_ctx=ctx)
         installer = Dingus()
@@ -105,7 +109,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'WEBDIR': 'htdocs',
             'LIBDIR': 'lib',
-            'BP_DIR': ''
+            'BP_DIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -144,6 +149,7 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'BP_DEBUG': 'True',
             'BP_DIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus(return_value="""{"rate": {"limit": 60, "remaining": 60}}""")
@@ -184,7 +190,8 @@ class TestComposer(object):
             'WEBDIR': 'htdocs',
             'LIBDIR': 'lib',
             'COMPOSER_INSTALL_OPTIONS': ['--optimize-autoloader'],
-            'BP_DIR': ''
+            'BP_DIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -223,7 +230,8 @@ class TestComposer(object):
             'WEBDIR': '',
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
-            'BP_DIR': ''
+            'BP_DIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -489,7 +497,8 @@ class TestComposer(object):
             'CACHE_DIR': '/tmp/cache',
             'PHP_VM': 'will_default_to_php_strategy',
             'LIBDIR': 'lib',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
         ct = self.extension_module.ComposerExtension(ctx)
         eq_('/tmp/build/lib/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
@@ -505,7 +514,8 @@ class TestComposer(object):
             'COMPOSER_BIN_DIR': '{BUILD_DIR}/bin',
             'PHP_VM': 'will_default_to_php_strategy',
             'COMPOSER_CACHE_DIR': '{CACHE_DIR}/custom',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
         ct = self.extension_module.ComposerExtension(ctx)
         eq_('/tmp/build/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
@@ -541,7 +551,8 @@ class TestComposer(object):
             'TMPDIR': 'tmp',
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'OUR_SPECIAL_KEY': 'SPECIAL_VALUE'
+            'OUR_SPECIAL_KEY': 'SPECIAL_VALUE',
+            'NO_WEBDIR_SET': False
         })
 
         environ_stub = Dingus()
@@ -571,7 +582,8 @@ class TestComposer(object):
             'CACHE_DIR': '/tmp/cache',
             'LIBDIR': 'lib',
             'TMPDIR': '/tmp',
-            'PHP_VM': 'php'
+            'PHP_VM': 'php',
+            'NO_WEBDIR_SET': False
         })
 
         write_config_stub = Dingus()
@@ -601,6 +613,7 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
             'PHPRC': '/usr/awesome/phpini',
+            'NO_WEBDIR_SET': False
         })
 
         write_config_stub = Dingus()
@@ -626,6 +639,7 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'PHPRC': '/usr/awesome/phpini',
             'MY_DICTIONARY': {'KEY': 'VALUE'},
+            'NO_WEBDIR_SET': False
         })
 
         write_config_stub = Dingus()
@@ -652,7 +666,8 @@ class TestComposer(object):
             'TMPDIR': 'tmp',
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'SOME_KEY': utils.wrap('{exact_match}')
+            'SOME_KEY': utils.wrap('{exact_match}'),
+            'NO_WEBDIR_SET': False
         })
 
         write_config_stub = Dingus()
@@ -679,7 +694,8 @@ class TestComposer(object):
             'PHP_VM': 'php',
             'TMPDIR': 'tmp',
             'LIBDIR': 'lib',
-            'CACHE_DIR': 'cache'
+            'CACHE_DIR': 'cache',
+            'NO_WEBDIR_SET': False
         })
 
         write_config_stub = Dingus()
@@ -705,7 +721,8 @@ class TestComposer(object):
             'TMPDIR': 'tmp',
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'PATH': '/bin:/usr/bin'
+            'PATH': '/bin:/usr/bin',
+            'NO_WEBDIR_SET': False
         })
 
         write_config_stub = Dingus()
@@ -752,7 +769,8 @@ class TestComposer(object):
             'CACHE_DIR': 'cache',
             'COMPOSER_GITHUB_OAUTH_TOKEN': 'MADE_UP_TOKEN_VALUE',
             'BP_DIR': '',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -803,7 +821,8 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
             'BP_DIR': '',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
         instance_stub = Dingus()
         instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
@@ -841,7 +860,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -875,7 +895,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -901,7 +922,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -928,7 +950,8 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
             'BP_DIR': '',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         builder = Dingus(_ctx=ctx)
@@ -968,7 +991,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()
@@ -994,7 +1018,8 @@ class TestComposer(object):
             'TMPDIR': tempfile.gettempdir(),
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
-            'WEBDIR': ''
+            'WEBDIR': '',
+            'NO_WEBDIR_SET': False
         })
 
         instance_stub = Dingus()

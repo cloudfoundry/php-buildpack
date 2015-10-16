@@ -30,6 +30,7 @@ Here are a list of the options that an application developer might want to overr
 | HTTP_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via http. |
 | HTTPS_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via https. |
 | ADDITIONAL_PREPROCESS_CMDS | A list of additional commands that should be run prior to the application.  This allows developers a way to run things like migration scripts prior to the application being run. |
+| NO_WEBDIR_SET | Set to true if you don't want buildpack moves composer files out of `WEBDIR`. This var become true if no webdir has been set and if there is no default webdir (`htdocs`) available in sources. |
 
 For details about supported versions, please read the [release notes](https://github.com/cloudfoundry/php-buildpack/releases) for your buildpack version.
 

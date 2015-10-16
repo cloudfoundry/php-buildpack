@@ -170,22 +170,8 @@ class ComposerExtension(ExtensionHelper):
     def _compile(self, install):
         self._builder = install.builder
         self.composer_runner = ComposerCommandRunner(self._ctx, self._builder)
-        self.move_local_vendor_folder()
         self.install()
         self.run()
-
-    def move_local_vendor_folder(self):
-        vendor_path = os.path.join(self._ctx['BUILD_DIR'],
-                                   self._ctx['WEBDIR'],
-                                   'vendor')
-        if os.path.exists(vendor_path):
-            self._log.debug("Vendor [%s] exists, moving to LIBDIR",
-                            vendor_path)
-            (self._builder.move()
-                .under('{BUILD_DIR}/{WEBDIR}')
-                .into('{BUILD_DIR}/{LIBDIR}')
-                .where_name_matches('^%s/.*$' % vendor_path)
-                .done())
 
     def install(self):
         self._builder.install().package('PHP').done()
@@ -274,13 +260,13 @@ class ComposerExtension(ExtensionHelper):
     def run(self):
         # Move composer files into root directory
         (json_path, lock_path) = find_composer_paths(self._ctx)
-        if json_path is not None and os.path.dirname(json_path) != self._ctx['BUILD_DIR']:
+        if json_path is not None and os.path.dirname(json_path) != self._ctx['BUILD_DIR'] and not self._ctx['NO_WEBDIR_SET']:
             (self._builder.move()
                 .under(os.path.dirname(json_path))
                 .where_name_is('composer.json')
                 .into('BUILD_DIR')
              .done())
-        if lock_path is not None and os.path.dirname(lock_path) != self._ctx['BUILD_DIR']:
+        if lock_path is not None and os.path.dirname(lock_path) != self._ctx['BUILD_DIR'] and not self._ctx['NO_WEBDIR_SET']:
             (self._builder.move()
                 .under(os.path.dirname(lock_path))
                 .where_name_is('composer.lock')
@@ -328,7 +314,8 @@ class ComposerCommandRunner(object):
             env[key] = val if type(val) == str else json.dumps(val)
 
         # add basic composer vars
-        env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
+        if not self._ctx['COMPOSER_VENDOR_DIR']:
+            env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
         env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
 
@@ -344,6 +331,9 @@ class ComposerCommandRunner(object):
         return env
 
     def run(self, *args):
+        buildDir = self._ctx['BUILD_DIR']
+        if self._ctx['NO_WEBDIR_SET']:
+            buildDir = os.path.join(buildDir, self._ctx['WEBDIR'])
         try:
             cmd = [self._php_path, self._composer_path]
             cmd.extend(args)
@@ -351,7 +341,7 @@ class ComposerCommandRunner(object):
             stream_output(sys.stdout,
                           ' '.join(cmd),
                           env=self._build_composer_environment(),
-                          cwd=self._ctx['BUILD_DIR'],
+                          cwd=buildDir,
                           shell=True)
         except:
             print "-----> Composer command failed"
