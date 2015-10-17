@@ -502,7 +502,7 @@ class TestComposer(object):
             'WEBDIR': ''
         })
         ct = self.extension_module.ComposerExtension(ctx)
-        eq_('/tmp/build/lib/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
+        eq_('/tmp/build/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
         eq_('/tmp/build/php/bin', ct._ctx['COMPOSER_BIN_DIR'])
         eq_('/tmp/cache/composer', ct._ctx['COMPOSER_CACHE_DIR'])
 
