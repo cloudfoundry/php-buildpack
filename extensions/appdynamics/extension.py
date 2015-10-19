@@ -172,8 +172,27 @@ def preprocess_commands(ctx):
 
     if detected == True: 
     	exit_code = os.system("echo !!! preprocess_commands: AppDynamics agent configuration")
-
-    return [[ 'echo'], ['" in preprocess;"']]
+        return [[ 'echo', '" in preprocess;"'],
+                ['env'],
+                [ 'chmod', ' -R 755 /home/vcap/app'],
+                [ 'chmod', ' 777 ./app/appdynamics/appdynamics-php-agent/logs'],
+                [ 'export', ' APP_TIERNAME=`echo $VCAP_APPLICATION | sed -e \'s/.*application_name.:.//g;s/\".*application_uri.*//g\' `'],
+                [ 'if [ -z $application_name ]; then export APP_NAME=$APP_TIERNAME && APP_TIERNAME=$APP_TIERNAME-tier; else export APP_NAME=$application_name; fi'],
+                [ 'export', ' APP_HOSTNAME=$APP_TIERNAME-`echo $VCAP_APPLICATION | sed -e \'s/.*instance_index.://g;s/\".*host.*//g\' | sed \'s/,//\' `'],
+                [ 'export', ' AD_ACCOUNT_NAME=`echo $VCAP_SERVICES | sed -e \'s/.*account-name.:.//g;s/\".*port.*//g\' `'],
+                [ 'export', ' AD_ACCOUNT_ACCESS_KEY=`echo $VCAP_SERVICES | sed -e \'s/.*account-access-key.:.//g;s/\".*host-name.*//g\' `'],
+                [ 'export', ' AD_CONTROLLER=`echo $VCAP_SERVICES | sed -e \'s/.*host-name.:.//g;s/\".*ssl-enabled.*//g\' `'],
+                [ 'export', ' AD_PORT=`echo $VCAP_SERVICES | sed -e \'s/.*port.:.//g;s/\".*account-access-key.*//g\' `'],
+                [ 'export', ' sslenabled=`echo $VCAP_SERVICES | sed -e \'s/.*ssl-enabled.:.//g;s/\".*.*//g\'`'],
+                [ 'if [ $sslenabled == \"true\" ] ; then export sslflag=-s ; fi; '],
+                [ 'echo sslflag set to $sslflag' ],
+                [ 'PATH=$PATH:./app/php/bin/ ./app/appdynamics/appdynamics-php-agent/install.sh $sslflag -i ./app/appdynamics/phpini -a=$AD_ACCOUNT_NAME@$AD_ACCOUNT_ACCESS_KEY $AD_CONTROLLER $AD_PORT $APP_NAME $APP_TIERNAME $APP_HOSTNAME' ],
+                [ 'cat', ' /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini'],
+                [ 'cat', ' /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini'],
+                [ 'echo', '"done preprocess"'],
+                ['env']]
+    else:
+        return ()
 
 def service_commands(ctx):
     return {}
