@@ -202,11 +202,11 @@ def service_environment(ctx):
 def compile(install):
     exit_code = os.system("echo !!!! compile ")
     appdynamics = AppDynamicsInstaller(install.builder._ctx)
-    exit_code = os.system("echo !!!! done compile ")
     if appdynamics.should_install():
         _log.info("Installing AppDynamics")
         install.package('APPDYNAMICS')
         _log.info("AppDynamics Installed.")
         appdynamics.modify_php_ini()
         _log.info("AppDynamics Installed.")
+    exit_code = os.system("echo !!!! done compile ")
     return 0
