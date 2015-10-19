@@ -172,7 +172,7 @@ def preprocess_commands(ctx):
 
     if detected == True: 
     	exit_code = os.system("echo !!! preprocess_commands: AppDynamics agent configuration")
-    	return [[ 'echo', '" in preprocess;"'],
+    	return {[[ 'echo', '" in preprocess;"'],
 		['env'], 
 		[ 'chmod', ' -R 755 /home/vcap/app'],
 		[ 'chmod', ' 777 ./app/appdynamics/appdynamics-php-agent/logs'],
@@ -190,7 +190,7 @@ def preprocess_commands(ctx):
 		[ 'cat', ' /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini >> /home/vcap/app/php/etc/php.ini'],
 		[ 'cat', ' /home/vcap/app/appdynamics/phpini/appdynamics_agent.ini'],
 		[ 'echo', '"done preprocess"'],
-		['env']]
+		['env']]}
 
 def service_commands(ctx):
     return {}
