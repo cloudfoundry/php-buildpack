@@ -16,20 +16,22 @@ Here are a list of the options that an application developer might want to overr
 
 |      Variable     |   Explanation                                        |
 ------------------- | -----------------------------------------------------|
-| WEB_SERVER | Sets the web server to use.  Should be one of 'httpd', 'nginx' or 'none'.  This value defaults to 'httpd'. |
-| HTTPD_VERSION | Sets the version of Apache HTTPD to use. Currently the build pack supports the latest stable version.  This value will default to the latest release that is supported by the build pack. |
-| ADMIN_EMAIL | The value used in HTTPD's configuration for [ServerAdmin] |
-| NGINX_VERSION | Sets the version of Nginx to use.  Currently the build pack supports the latest stable version.  This value will default to the latest release that is supported by the build pack. |
-| PHP_VERSION | Sets the version of PHP to use. |
-| PHP_EXTENSIONS | A list of the [extensions](#php-extensions) to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
-| PHP_MODULES | A list of the [modules](#php-modules) to enable.  The default is nothing.  The build pack will automatically enable either the `fpm` or `cli` modules.  If you want to force this, you can set this list to contain `fpm`, `cli`, `cgi` and / or `pear`.  |
-| ZEND_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
-| APP_START_CMD | This option is used to instruct the build pack what command to run if WEB_SERVER is set to `none` (i.e. it is a stand alone app).  By default, the build pack will search for and run `app.php`, `main.php`, `run.php` or `start.php` (in that order).  This option can be the name of the script to run or the name plus arguments. |
+| WEB\_SERVER | Sets the web server to use.  Should be one of 'httpd', 'nginx' or 'none'.  This value defaults to 'httpd'. |
+| HTTPD\_VERSION | Sets the version of Apache HTTPD to use. Currently the build pack supports the latest stable version.  This value will default to the latest release that is supported by the build pack. |
+| ADMIN\_EMAIL | The value used in HTTPD's configuration for [ServerAdmin] |
+| NGINX\_VERSION | Sets the version of Nginx to use.  Currently the build pack supports the latest stable version.  This value will default to the latest release that is supported by the build pack. |
+| PHP\_55\_LATEST | Set by the build pack, this provides the latest PHP 5.5.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_55_LATEST}`, your configuration will always use the latest PHP 5.5.x release. |
+| PHP\_56\_LATEST | Set by the build pack, this provides the latest PHP 5.6.x release supported by the build pack.  By setting PHP_VERSION to `{PHP_56_LATEST}`, your configuration will always use the latest PHP 5.6.x release. |
+| PHP\_VERSION | Sets the version of PHP to use. |
+| PHP\_EXTENSIONS | A list of the [extensions](#php-extensions) to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
+| PHP\_MODULES | A list of the [modules](#php-modules) to enable.  The default is nothing.  The build pack will automatically enable either the `fpm` or `cli` modules.  If you want to force this, you can set this list to contain `fpm`, `cli`, `cgi` and / or `pear`.  |
+| ZEND\_EXTENSIONS | A list of the Zend extensions to enable.  The defaut is not to enable any. |
+| APP\_START\_CMD | This option is used to instruct the build pack what command to run if WEB_SERVER is set to `none` (i.e. it is a stand alone app).  By default, the build pack will search for and run `app.php`, `main.php`, `run.php` or `start.php` (in that order).  This option can be the name of the script to run or the name plus arguments. |
 | WEBDIR | Set a custom location for your web or public files.  This is the root directory from which the web server will host your files and the root directory from which PHP-FPM will look for your PHP files.  Defaults to `htdocs`.  Other common settings are `public`, `static` or `html`.  Path is relative to `/home/vcap/app`. |
 | LIBDIR | Set a custom library directory.  This path is automatically added to the `include_path` by the build pack.  Defaults to `lib`.  Path is relative to `/home/vcap/app`. |
-| HTTP_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via http. |
-| HTTPS_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via https. |
-| ADDITIONAL_PREPROCESS_CMDS | A list of additional commands that should be run prior to the application.  This allows developers a way to run things like migration scripts prior to the application being run. |
+| HTTP\_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via http. |
+| HTTPS\_PROXY | Instruct the build pack to use an HTTP proxy to download resources accessed via https. |
+| ADDITIONAL\_PREPROCESS\_CMDS | A list of additional commands that should be run prior to the application.  This allows developers a way to run things like migration scripts prior to the application being run. |
 
 For details about supported versions, please read the [release notes](https://github.com/cloudfoundry/php-buildpack/releases) for your buildpack version.
 
