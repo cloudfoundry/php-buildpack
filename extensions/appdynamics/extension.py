@@ -145,14 +145,9 @@ class AppDynamicsInstaller(object):
     def should_install(self):
         return self._detected
 
-    def modify_php_ini(self):
-        exit_code = os.system("echo AppDynamics extension: nothing to do in modify_php_ini")
-	return exit_code
-
 # Extension Methods
 def preprocess_commands(ctx):
 
-    exit_code = os.system("echo !!!! preprocess ")
     service = ctx.get('VCAP_SERVICES', {})
     service_defs = service.get('appdynamics', [])
     detected = False
@@ -171,7 +166,7 @@ def preprocess_commands(ctx):
         detected = True
 
     if detected == True: 
-    	exit_code = os.system("echo !!! preprocess_commands: AppDynamics agent configuration")
+    	exit_code = os.system("echo preprocess_commands: AppDynamics agent configuration")
         return [[ 'echo', '" in preprocess;"'],
                 ['env'],
                 [ 'chmod', ' -R 755 /home/vcap/app'],
@@ -206,7 +201,5 @@ def compile(install):
     if appdynamics.should_install():
         _log.info("Installing AppDynamics")
         install.package('APPDYNAMICS')
-        _log.info("AppDynamics Installed.")
-        appdynamics.modify_php_ini()
         _log.info("AppDynamics Installed.")
     return 0
