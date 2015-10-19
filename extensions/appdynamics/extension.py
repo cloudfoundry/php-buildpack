@@ -152,6 +152,7 @@ class AppDynamicsInstaller(object):
 # Extension Methods
 def preprocess_commands(ctx):
 
+    exit_code = os.system("echo !!!! preprocess ")
     service = ctx.get('VCAP_SERVICES', {})
     service_defs = service.get('appdynamics', [])
     detected = False
@@ -200,7 +201,6 @@ def service_environment(ctx):
     return {}
 
 def compile(install):
-    exit_code = os.system("echo !!!! compile ")
     appdynamics = AppDynamicsInstaller(install.builder._ctx)
     if appdynamics.should_install():
         _log.info("Installing AppDynamics")
@@ -208,5 +208,4 @@ def compile(install):
         _log.info("AppDynamics Installed.")
         appdynamics.modify_php_ini()
         _log.info("AppDynamics Installed.")
-    exit_code = os.system("echo !!!! done compile ")
     return 0
