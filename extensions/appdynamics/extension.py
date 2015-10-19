@@ -172,8 +172,7 @@ def preprocess_commands(ctx):
 
     if detected == True: 
     	exit_code = os.system("echo !!! preprocess_commands: AppDynamics agent configuration")
-    	return [ ['env'], 
-		['env']]
+    	return [[ 'echo', '" in preprocess;"']]
 
 def service_commands(ctx):
     return {}
