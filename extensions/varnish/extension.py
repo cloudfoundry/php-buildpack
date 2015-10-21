@@ -59,6 +59,7 @@ def preprocess_commands(ctx):
 
 
 def service_commands(ctx):
+    
     return {
             'varnish': (
                 '$HOME/varnish/sbin/varnishd',
@@ -68,7 +69,7 @@ def service_commands(ctx):
                 '-a 0.0.0.0:$VCAP_APP_PORT',
                 '-t 120',
                 '-w 50,1000,120',
-                '-s malloc,128M',
+                '-s malloc,$VARNISH_MEMORY_LIMIT',
                 '-T 127.0.0.1:6082',
                 '-p http_resp_hdr_len=32768'
                 '2>&1'
@@ -76,8 +77,15 @@ def service_commands(ctx):
         }
 
 def service_environment(ctx):
+    if 'VARNISH_MEMORY_LIMIT' in ctx:
+        varnish_memory_limit = ctx['VARNISH_MEMORY_LIMIT']
+    else:
+        varnish_memory_limit = ctx['MEMORY_LIMIT'];
+
+    _log.info('Varnish memory limit is [%s]', varnish_memory_limit)
     env = {
             'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/varnish/lib/varnish',
+            'VARNISH_MEMORY_LIMIT': varnish_memory_limit,
     }
     return env
 
@@ -96,3 +104,4 @@ def compile(install):
                 .done())
         _log.info("Varnish Installed.")
     return 0
+    
