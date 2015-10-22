@@ -11,6 +11,15 @@ This buildpack supports varnish. Either as caching proxy in front of nginx/httpd
 
 All your varnish config files should go into .bp-config/varnish
 
+### Memory for varnish
+
+Add an environment variable to manifest.yml
+
+```
+  env:
+    VARNISH_MEMORY_LIMIT: 2G
+```
+
 ### Varnish in front of nginx/http
 
 Just set CACHE_SERVER in .bp-config/options.json and provide the correct varnish config and your done. The backend listens on port 8080 in this case
