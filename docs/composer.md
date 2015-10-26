@@ -16,13 +16,8 @@ The following format is supported for PHP version numbers.  This is a small subs
 
 |   Example   |  Expected Version                 |
 ------------- | ----------------------------------|
-|   5.3.*     |  latest 5.4.x release (5.3 is not supported) |
-|   >=5.3     |  latest 5.4.x release (5.3 is not supported) |
-|   5.4.*     |  latest 5.4.x release |
-|   >=5.4     |  latest 5.4.x release |
 |   5.5.*     |  latest 5.5.x release |
 |   >=5.5     |  latest 5.5.x release |
-|   5.4.x     |  specific 5.4.x release that is listed |
 |   5.5.x     |  specific 5.5.x release that is listed |
 
 ### Configuration

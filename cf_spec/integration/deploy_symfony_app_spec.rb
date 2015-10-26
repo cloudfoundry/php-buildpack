@@ -22,14 +22,6 @@ describe 'CF PHP Buildpack' do
       expect(browser).to have_body 'Running on Symfony!'
     end
 
-    it 'installs PHP 5.4 with composer and shows the deprecation message' do
-      expect(@app).to have_logged 'PHP 5.4'
-      expect(@app).to have_logged 'DEPRECATION WARNING: PHP 5.4 is being declared "End of Life" as of 2015-09-14'
-      expect(@app).to have_logged 'DEPRECATION WARNING: See https://secure.php.net/supported-versions.php for more details'
-      expect(@app).to have_logged 'DEPRECATION WARNING: Upgrade guide can be found at https://secure.php.net/manual/en/migration55.php'
-      expect(@app).to have_logged 'DEPRECATION WARNING: The php-buildpack will no longer support PHP 5.4 after this date'
-    end
-
     it 'supports Symphony app routing' do
       browser.visit_path('/hello/foo')
       expect(browser).to have_body "Hello foo!\n\nRunning on Symfony!"

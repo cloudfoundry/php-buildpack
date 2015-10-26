@@ -27,14 +27,6 @@ describe 'CF PHP Buildpack' do
       expect(@app).to have_logged 'Installing Nginx'
     end
 
-    it 'installs PHP 5.4 specified with options.json and shows the deprecation message' do
-      expect(@app).to have_logged 'PHP 5.4'
-      expect(@app).to have_logged 'DEPRECATION WARNING: PHP 5.4 is being declared "End of Life" as of 2015-09-14'
-      expect(@app).to have_logged 'DEPRECATION WARNING: See https://secure.php.net/supported-versions.php for more details'
-      expect(@app).to have_logged 'DEPRECATION WARNING: Upgrade guide can be found at https://secure.php.net/manual/en/migration55.php'
-      expect(@app).to have_logged 'DEPRECATION WARNING: The php-buildpack will no longer support PHP 5.4 after this date'
-    end
-
     it 'the root endpoint renders a dynamic message' do
       browser.visit_path('/')
       expect(browser).to have_body('PHP Version')

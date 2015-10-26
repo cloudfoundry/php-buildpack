@@ -20,6 +20,7 @@ from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
 from extension_helpers import ExtensionHelper
+import string
 
 
 class PHPExtension(ExtensionHelper):
@@ -68,11 +69,7 @@ class PHPExtension(ExtensionHelper):
         validate_php_version(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
 
-        if ctx['PHP_VERSION'].startswith('5.4'):
-            print('DEPRECATION WARNING: PHP 5.4 is being declared "End of Life" as of 2015-09-14')
-            print('DEPRECATION WARNING: See https://secure.php.net/supported-versions.php for more details')
-            print('DEPRECATION WARNING: Upgrade guide can be found at https://secure.php.net/manual/en/migration55.php')
-            print('DEPRECATION WARNING: The php-buildpack will no longer support PHP 5.4 after this date')
+        major_minor = '.'.join(string.split(ctx['PHP_VERSION'], '.')[0:2])
 
         (install
             .package('PHP')
@@ -82,7 +79,7 @@ class PHPExtension(ExtensionHelper):
         (install
             .config()
                 .from_application('.bp-config/php')  # noqa
-                .or_from_build_pack('defaults/config/php/{PHP_VERSION}')
+                .or_from_build_pack('defaults/config/php/%s.x' % major_minor)
                 .to('php/etc')
                 .rewrite()
                 .done())

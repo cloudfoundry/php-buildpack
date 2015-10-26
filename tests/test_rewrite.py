@@ -92,7 +92,7 @@ class TestRewriteScriptWithHttpd(BaseRewriteScript):
 
     def setUp(self):
         BaseRewriteScript.setUp(self)
-        shutil.copytree('defaults/config/httpd/2.4.x', self.cfg_dir)
+        shutil.copytree('defaults/config/httpd', self.cfg_dir)
 
     def tearDown(self):
         BaseRewriteScript.tearDown(self)
@@ -119,7 +119,7 @@ class TestRewriteScriptWithNginx(BaseRewriteScript):
         self.env = {'PYTHONPATH': os.path.abspath('lib'),
                     'PORT': '80'}
         self.env.update(os.environ)
-        shutil.copytree('defaults/config/nginx/1.8.x', self.cfg_dir)
+        shutil.copytree('defaults/config/nginx', self.cfg_dir)
 
     def tearDown(self):
         BaseRewriteScript.tearDown(self)
