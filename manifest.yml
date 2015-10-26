@@ -118,9 +118,9 @@ dependencies:
       - cflinuxfs2
     md5: e994beaedd96f9159f7589c125e5dbf7
   - name: varnish
-    version: 3.0.6
-    uri: https://gitlab.liip.ch/chregu/cf-varnish-binary/raw/master/vendor/varnish-3.0.6.tar.gz
+    version: 3.0.7
+    uri: https://gitlab.liip.ch/chregu/cf-varnish-binary/raw/master/vendor/varnish-3.0.7.tar.gz
     cf_stacks:
       - cflinuxfs2
-    md5: 810de202f47135faa64aeab549ab52d5
+    md5: 397a4401e0b87dcd96e235facf907cc6
 

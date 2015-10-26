@@ -21,9 +21,10 @@ _log = logging.getLogger('varnish')
 
 DEFAULTS = {
     'VARNISH_HOST': 'raw.githubusercontent.com',
-    'VARNISH_VERSION': '3.0.6',
+    'VARNISH_VERSION': '3.0.7',
     'VARNISH_PACKAGE': 'varnish-{VARNISH_VERSION}.tar.gz',
     'VARNISH_DOWNLOAD_URL': 'https://gitlab.liip.ch/chregu/cf-varnish-binary/raw/master/vendor/varnish-{VARNISH_VERSION}.tar.gz',
+    'VARNISHNCSA': 'no'
 }
 
 
@@ -53,17 +54,15 @@ class VarnishInstaller(object):
         
 
 def preprocess_commands(ctx):
-    return ((
-        '$HOME/.bp/bin/rewrite',
-        '"$HOME/varnish/etc/varnish"'),)
+    return (('mkdir', '/home/vcap/tmp/varnish/'),
+        ('$HOME/.bp/bin/rewrite', '"$HOME/varnish/etc/varnish"'))
 
 
 def service_commands(ctx):
     
-    return {
+    returnVal = {
             'varnish': (
                 '$HOME/varnish/sbin/varnishd',
-                '-n $TMPDIR/varnish/',
                 '-F',
                 '-f $HOME/varnish/etc/varnish/default.vcl',
                 '-a 0.0.0.0:$VCAP_APP_PORT',
@@ -74,7 +73,15 @@ def service_commands(ctx):
                 '-p http_resp_hdr_len=32768'
                 '2>&1'
                 )
-        }
+             }
+    
+    if ('VARNISHNCSA' in ctx and ctx['VARNISHNCSA'] == "yes"): 
+        varnishncsa = ('sleep 5;', '$HOME/varnish/bin/varnishncsa')             
+        if 'VARNISHNCSA_OPTIONS' in ctx:            
+            varnishncsa += (ctx.get('VARNISHNCSA_OPTIONS', format=False),)                        
+        returnVal['varnishncsa'] = varnishncsa        
+    return returnVal
+
 
 def service_environment(ctx):
     if 'VARNISH_MEMORY_LIMIT' in ctx:
