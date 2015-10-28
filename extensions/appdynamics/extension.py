@@ -24,20 +24,21 @@ import logging
 _log = logging.getLogger('appdynamics')
 
 
+#DEFAULTS = {
+#    'APPDYNAMICS_HOST': 's3-us-west-2.amazonaws.com/niksappd',
+#    'APPDYNAMICS_VERSION': '4.1.1.0',
+#    'APPDYNAMICS_PACKAGE': 'appdynamics-php-agent-x64-linux-{APPDYNAMICS_VERSION}.tar.gz',
+#    'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/php_agent/'
+#                             'archive/{APPDYNAMICS_VERSION}/{APPDYNAMICS_PACKAGE}',
+#}
+
 DEFAULTS = {
-    'APPDYNAMICS_HOST': 's3-us-west-2.amazonaws.com/niksappd',
-    'APPDYNAMICS_VERSION': '4.1.1.0',
-    'APPDYNAMICS_PACKAGE': 'appdynamics-php-agent-x64-linux-{APPDYNAMICS_VERSION}.tar.gz',
-    'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/php_agent/'
-                             'archive/{APPDYNAMICS_VERSION}/{APPDYNAMICS_PACKAGE}',
+'APPDYNAMICS_HOST': 'packages.appdynamics.com',
+'APPDYNAMICS_VERSION': '4.1.5.0',
+'APPDYNAMICS_PACKAGE': 'appdynamics-php-agent-x64-linux-{APPDYNAMICS_VERSION}.tar.bz2',
+'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/'
+                         'php/{APPDYNAMICS_VERSION}/{APPDYNAMICS_PACKAGE}',
 }
-
-#'APPDYNAMICS_HOST': 'packages.appdynamics.com',
-#'APPDYNAMICS_VERSION': '4.1.5.0',
-#'APPDYNAMICS_PACKAGE': 'appdynamics-php-agent-x64-linux-{APPDYNAMICS_VERSION}.tar.bz2',
-#'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/'
-#                         'php/{APPDYNAMICS_VERSION}/{APPDYNAMICS_PACKAGE}',
-
 
 class AppDynamicsInstaller(object):
     def __init__(self, ctx):
@@ -158,9 +159,16 @@ def preprocess_commands(ctx):
        if len(service_defs) == 0:
           _log.info("AppDynamics services with tag app-dynamics not detected.")
           _log.info("Looking for Appdynamics user-provided service.")
-          service_defs = service.get('user-provided', [])
-          if len(service_defs) == 0:
+          cups_service_defs = service.get('user-provided', [])
+
+          if len(cups_service_defs) == 0:
              _log.info("AppDynamics services not detected.")
+          else:
+             cups_svc = cups_service_defs.get('name', [])
+             if cups_svc == "appdynamics" || cups_svc == "app-dynamics":
+                _log.info("AppDynamics cups services detected.")
+                detected = True
+
     if len(service_defs) > 0:
         _log.debug("AppDynamics service detected.")
         detected = True
