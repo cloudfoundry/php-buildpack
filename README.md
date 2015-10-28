@@ -1,3 +1,15 @@
+# PHP and Varnish in one Cloud Foundry Buildpack
+
+This is a fork of the official [Cloud Foundry PHP buildpack](https://github.com/cloudfoundry/php-buildpack) and adds [Varnish](https://www.varnish-cache.org/) 3.0 to it (and currently also a more current HHVM (3.5.0) than the official buildpack). Read more about the Varnish inclusion and possibilities at [docs/varnish.md](docs/varnish.md).
+
+I try to keep it as close as possible to the original buildpack and merge changes from there.
+
+There's also an issue/discussion about including this into the official buildpack. If you're interested in that, head over [there](https://github.com/cloudfoundry/php-buildpack/issues/40).
+
+If you only need Varnish and nothing else, you can also try my much smaller [cf-varnish-buildpack](https://github.com/chregu/cf-varnish-buildpack/).
+
+The following is from the official README.
+
 ## Cloud Foundry PHP Buildpack
 
 A buildpack for Cloud Foundry to deploy PHP based applications.

@@ -24,6 +24,9 @@ url_to_dependency_map:
   - match: "\\/composer\\/(.*)\\/composer.phar"
     name: composer
     version: "$1"
+  - match: "varnish-(.*).tar.gz"
+    name: varnish
+    version: "$1"
 
 dependencies:
   - name: newrelic
@@ -114,3 +117,10 @@ dependencies:
     cf_stacks:
       - cflinuxfs2
     md5: e994beaedd96f9159f7589c125e5dbf7
+  - name: varnish
+    version: 3.0.7
+    uri: https://gitlab.liip.ch/chregu/cf-varnish-binary/raw/master/vendor/varnish-3.0.7.tar.gz
+    cf_stacks:
+      - cflinuxfs2
+    md5: 397a4401e0b87dcd96e235facf907cc6
+
