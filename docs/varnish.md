@@ -48,3 +48,15 @@ If you have your backends on other apps, you can run just varnish, do this in .b
 and add a file named _app.php_,  _main.php_, _run.php_ or _start.php_ into your root
 
 or adjust _APP_START_CMD_
+
+### Logging to "cf log" with varnishncsa
+
+If you want to log request with varnishncsa to the loggregator, add this to options.json
+
+```
+"VARNISHNCSA": "yes",
+"VARNISHNCSA_OPTIONS": "-m 'RxHeader:Host: .*' -F '%t \"%{X-Balanced-For}i\" \"%r\" %s %b \"%{Referer}i\" %{Varnish:hitmiss}x %{VCL_Log:Backend}x %D %{Accept-Language}i \"%{User-agent}i\" %u'"
+```
+
+`VARNISHNCSA_OPTIONS` is optional, that's just an example from a project of us.
+
