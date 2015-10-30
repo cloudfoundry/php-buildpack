@@ -53,19 +53,19 @@ dependencies:
       - cflinuxfs2
     md5: d8ac34908b34e8a3c3d63354e81dbef8
   - name: php
-    version: 5.6.13
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.13-linux-x64-1442442154.tgz
-    modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "opcache", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "lua", "suhosin", "msgpack", "xdebug", "imagick", "yaf", "redis", "memcache", "igbinary", "ioncube", "phpiredis", "xcache", "protobuf", "protocolbuffers", "mailparse", "mongo", "amqp", "phalcon", "twig", "sundown", "memcached", "intl"]
-    cf_stacks:
-      - cflinuxfs2
-    md5: 4a7e990baa4b3b40dcc45fdda2858c3f
-  - name: php
     version: 5.6.14
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.14-linux-x64-1444147435.tgz
     modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "opcache", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "intl", "igbinary", "imagick", "mailparse", "memcache", "mongo", "msgpack", "protocolbuffers", "redis", "sundown", "xdebug", "yaf", "amqp", "lua", "phpiredis", "protobuf", "phalcon", "suhosin", "twig", "xcache", "xhprof", "memcached", "ioncube"]
     cf_stacks:
       - cflinuxfs2
     md5: 0c515aa2cd6b00394d732727ecfb2a1d
+  - name: php
+    version: 5.6.15
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.15-linux-x64-1446231796.tgz
+    modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "opcache", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "intl", "igbinary", "imagick", "mailparse", "memcache", "mongo", "msgpack", "protocolbuffers", "redis", "sundown", "xdebug", "yaf", "amqp", "lua", "phpiredis", "protobuf", "phalcon", "suhosin", "twig", "xcache", "xhprof", "memcached", "ioncube"]
+    cf_stacks:
+      - cflinuxfs2
+    md5: a73a683df058fa80cf2f7b5fe13314f3
   - name: nginx
     version: 1.8.0
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.0-linux-x64.tgz
