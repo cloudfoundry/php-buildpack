@@ -62,7 +62,6 @@ dependencies:
   - name: php
     version: 5.6.15
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.15-linux-x64-1446231796.tgz
-    modules: ["bz2", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imap", "ldap", "mbstring", "mcrypt", "mysql", "mysqli", "opcache", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "pspell", "readline", "snmp", "soap", "sockets", "xsl", "zip", "zlib", "intl", "igbinary", "imagick", "mailparse", "memcache", "mongo", "msgpack", "protocolbuffers", "redis", "sundown", "xdebug", "yaf", "amqp", "lua", "phpiredis", "protobuf", "phalcon", "suhosin", "twig", "xcache", "xhprof", "memcached", "ioncube"]
     cf_stacks:
       - cflinuxfs2
     md5: a73a683df058fa80cf2f7b5fe13314f3
