@@ -31,6 +31,6 @@
     "PHP_MODULES_PATTERN": "/php/{PHP_VERSION}/php-{MODULE_NAME}-{PHP_VERSION}.tar.gz",
     "PHP_MODULES_STRIP": true,
     "PHP_MODULES": [],
-    "PHP_EXTENSIONS": ["bz2", "zlib", "curl", "mcrypt"],
+    "PHP_EXTENSIONS": ["bz2", "zlib", "curl", "mcrypt", "mysqli"],
     "ZEND_EXTENSIONS": []
 }
