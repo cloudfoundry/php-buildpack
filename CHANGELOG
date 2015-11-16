@@ -1,3 +1,14 @@
+v4.3.0 Nov 16, 2015
+====================
+
+* Change default Apache retry value in httpd-php.conf to avoid
+  cached HTTP 503.
+  (https://www.pivotaltracker.com/story/show/103840940)
+
+* Drop support for nginx 1.6.3
+  (https://www.pivotaltracker.com/story/show/105344328)
+
+
 v4.2.1 Nov 06, 2015
 ====================
 
