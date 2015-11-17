@@ -43,7 +43,6 @@ class Downloader(object):
         process = Popen(command_arguments, stdout=PIPE)
         exit_code = process.wait()
         translated_uri = process.stdout.read().rstrip()
-
         if exit_code == 0:
             print "Downloaded [%s] to [%s]" % (translated_uri, toFile)
         elif exit_code == 1:

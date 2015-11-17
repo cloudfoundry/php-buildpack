@@ -265,6 +265,32 @@ class NoWebServerAssertHelper(object):
             .path(build_dir, webdir)
             .does_not_exist())
 
+class AppDynamicsAssertHelper(object):
+    """Helper to assert AppDynamics is installed and configured correctly"""
+
+    def assert_files_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .root(build_dir, 'appdynamics')  # noqa
+                .path('daemon', 'appdynamics-daemon.x64')
+                .path('agent', 'x64', 'appdynamics-20121212.so')
+            .exists())
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, 'php', 'etc', 'php.ini')
+            .any_line()
+            .equals(
+                'extension=@{HOME}/appdynamics/agent/x64/appdynamics-20121212.so\n')
+            .equals('[appdynamics]\n')
+            .equals('appdynamics.license=JUNK_LICENSE\n')
+            .equals('appdynamics.appname=app-name-1\n'))
+
+    def is_not_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .path(build_dir, 'appdynamics')
+            .does_not_exist())
+
 
 class NewRelicAssertHelper(object):
     """Helper to assert NewRelic is installed and configured correctly"""

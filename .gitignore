@@ -4,6 +4,7 @@ binaries/precise/*
 !binaries/precise/index*.json
 binaries/trusty/*
 !binaries/trusty/index*.json
+/.idea/
 *.pyc
 *.swp
 /env
