@@ -165,7 +165,7 @@ def preprocess_commands(ctx):
              _log.info("AppDynamics services not detected.")
           else:
              cups_svc = cups_service_defs.get('name', [])
-             if cups_svc == "appdynamics" || cups_svc == "app-dynamics":
+             if (cups_svc == "appdynamics") or (cups_svc == "app-dynamics"):
                 _log.info("AppDynamics cups services detected.")
                 detected = True
 
