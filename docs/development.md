@@ -1,13 +1,13 @@
 ## Development
 
-This doc aims to provide some help should you want to modify or extend the build pack.
+This page aims to provide some help should you want to modify or extend the buildpack.
 
 ### Setup
 
-To get setup developing the build pack, you'll need some tools.  Here's the setup that should work.
+To get setup developing the buildpack, you'll need some tools.  Here's the setup that should work.
 
  1. [PyEnv] - This will allow you to easily install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
- 1. [virtualenv] & [pip] - The build pack uses virtualenv and pip to setup the [required packages].  These are used by the unit test and not required by the build pack itself.
+ 1. [virtualenv] & [pip] - The buildpack uses virtualenv and pip to setup the [required packages].  These are used by the unit test and not required by the buildpack itself.
 
 With those tools installed, you should be able to run these commands to get up and running.
 
@@ -31,30 +31,30 @@ The project is broken down into the following directories:
   - `docs` contains project documentation
   - `extensions` contains non-core extensions
   - `env` virtualenv environment
-  - `lib` contains core extensions, helper code and the build pack utils
+  - `lib` contains core extensions, helper code and the buildpack utils
   - `scripts` contains the Python scripts that run on compile, release and detect
   - `tests` contains test scripts and test data
   - `run_tests.sh` a convenience script for running the full suite of tests
 
-### Understanding the Build Pack
+### Understanding the Buildpack
 
-The easiest way to understand the build pack is to trace the flow of the scripts.  The build pack system calls the `compile`, `release` and `detect` scripts provided by the build pack.  These are located under the `bin` directory and are generic.  They simply redirect to the corresponding Python script under the `scripts` directory.
+The easiest way to understand the buildpack is to trace the flow of the scripts.  The buildpack system calls the `compile`, `release` and `detect` scripts provided by the buildpack.  These are located under the `bin` directory and are generic.  They simply redirect to the corresponding Python script under the `scripts` directory.
 
-Of these, the `detect` and `release` scripts are straightforward, providing the minimal functionality required by a build pack.  The `compile` script is more complicated but works like this.
+Of these, the `detect` and `release` scripts are straightforward, providing the minimal functionality required by a buildpack.  The `compile` script is more complicated but works like this.
 
   - load configuration
   - setup the `WEBDIR` directory
-  - install the build pack utils and the core extensions (HTTPD, Nginx & PHP)
+  - install the buildpack utils and the core extensions (HTTPD, Nginx & PHP)
   - install other extensions
   - install the `rewrite` and `start` scripts
   - setup the runtime environment and process manager
   - generate a startup.sh script
 
-In general, you shouldn't need to modify the build pack itself.  Instead creating an extension should be the way to go.
+In general, you shouldn't need to modify the buildpack itself.  Instead creating an extension should be the way to go.
 
 ### Extensions
 
-The build pack heavily relies on extensions.  An extensions is simply a set of Python methods that will get called at various times during the staging process.  
+The buildpack relies heavily on extensions.  An extension is simply a set of Python methods that will get called at various times during the staging process.  
 
 #### Creation
 
@@ -69,11 +69,11 @@ def configure(ctx):
     pass
 ```
 
-The `configure` method gives extension authors a chance to adjust the configuration of the build pack prior to *any* extensions running.  The method is called very early on in the lifecycle of the build pack, so keep this in mind when using this method.  The purpose of this method is to allow an extension author the opportunity to modify the configuration for PHP, the Web Server or another extension prior to those compoents being installed.  
+The `configure` method gives extension authors a chance to adjust the configuration of the buildpack prior to *any* extensions running.  The method is called very early on in the lifecycle of the buildpack, so keep this in mind when using this method.  The purpose of this method is to allow an extension author the opportunity to modify the configuration for PHP, the web server or another extension prior to those components being installed.  
 
 An example of when to use this method would be to adjust the list of PHP extensions that are going to be installed.
 
-The method takes one argument, which is the build pack context.  You can edit the context to update the state of the build pack.  Return value is ignore / not necessary.
+The method takes one argument, which is the buildpack context.  You can edit the context to update the state of the buildpack.  Return value is ignore / not necessary.
 
 
 ```python
@@ -92,7 +92,7 @@ def service_commands(ctx):
     return {}
 ```
 
-The `service_commands` method gives extension authors the ability to contribute a set of services that need to be run.  These commands are run and should continue to run.  If any service exits, the process manager will halt all of the other services and the application will be restarted by CloudFoundry.
+The `service_commands` method gives extension authors the ability to contribute a set of services that need to be run.  These commands are run and should continue to run.  If any service exits, the process manager will halt all of the other services and the application will be restarted by Cloud Foundry.
 
 The method takes the context as an argument and should return a dictionary of services to run.  The key should be the service name and the value should be a tuple which is the command and arguments.
 
@@ -103,26 +103,26 @@ def service_environment(ctx):
 
 The `service_environment` method gives extension authors the ability to contribute environment variables that will be set and available to the services.
 
-The method takes the build pack context as its argument and should return a dictionary of the environment variables to be added to the environment where services (see `service_commands`) are executed.  
+The method takes the buildpack context as its argument and should return a dictionary of the environment variables to be added to the environment where services (see `service_commands`) are executed.  
 
 The key should be the variable name and the value should be the value.  The value can either be a string, in which case the environment variable will be set with the value of the string or it can be a list.
 
 If it's a list, the contents will be combined into a string and separated by the path separation character (i.e. ':' on Unix / Linux or ';' on Windows).  Keys that are set multiple times by the same or different extensions are automatically combined into one environment variable using the same path separation character.  This is helpful when two extensions both want to contribute to the same variable, for example LD_LIBRARY_PATH.
 
-Please note that environment variables are not evaluated as they are set.  This would not work because they are set in the staging environment which is different than the execution environment.  This means you cannot do things like `PATH=$PATH:/new/path` or `NEWPATH=$HOME/some/path`.  To work around this, the build pack will rewrite the environment variable file before it's processed.  This process will replace any `@<env-var>` markers with the value of the environment variable from the execution environment.  Thus if you do `PATH=@PATH:/new/path` or `NEWPATH=@HOME/some/path`, the service end up with a correctly set `PATH` or `NEWPATH`.
+Please note that environment variables are not evaluated as they are set.  This would not work because they are set in the staging environment which is different than the execution environment.  This means you cannot do things like `PATH=$PATH:/new/path` or `NEWPATH=$HOME/some/path`.  To work around this, the buildpack will rewrite the environment variable file before it's processed.  This process will replace any `@<env-var>` markers with the value of the environment variable from the execution environment.  Thus if you do `PATH=@PATH:/new/path` or `NEWPATH=@HOME/some/path`, the service end up with a correctly set `PATH` or `NEWPATH`.
 
 ```python
 def compile(install):
     return 0
 ```
 
-The `compile` method is the main method and where extension authors should perform the bulk of their logic.  This method is called  by the build pack while it's installing extensions.
+The `compile` method is the main method and where extension authors should perform the bulk of their logic.  This method is called  by the buildpack while it's installing extensions.
 
 The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
 
 ##### Method Order
 
-It is sometimes useful to know what order the build pack will use to call the methods in an extension.  They are called in the following order.
+It is sometimes useful to know what order the buildpack will use to call the methods in an extension.  They are called in the following order.
 
 1. `configure`
 2. `compile`
@@ -172,16 +172,16 @@ def compile(install):
 
 #### Tips
 
-  - To be consistent with the rest of the build pack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the build pack.
-  - The build pack will run every extension that is included with the build pack and the application.  There is no mechanism to disable specific extensions.  Thus, when you write an extension, you should make some way for the user to enable / disable it's functionality.  See the [NewRelic] extension for an example of this.
-  - If an extension requires configuration, it should be included with the extension.  The `defaults/options.json` file is for the build pack and its core extensions.  See the [NewRelic] build pack for an example of this.
+  - To be consistent with the rest of the buildpack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the buildpack.
+  - The buildpack will run every extension that is included with the buildpack and the application.  There is no mechanism to disable specific extensions.  Thus, when you write an extension, you should make some way for the user to enable / disable it's functionality.  See the [NewRelic] extension for an example of this.
+  - If an extension requires configuration, it should be included with the extension.  The `defaults/options.json` file is for the buildpack and its core extensions.  See the [NewRelic] buildpack for an example of this.
   - Extensions should have their own test module.  This generally takes the form `tests/test_<extension_name>.py`.
 
 ### Testing
 
 #### Running unit tests
 
-The build pack makes use of [Nose] for testing.  You can run the full suite of tests with this command.
+The buildpack makes use of [Nose] for testing.  You can run the full suite of tests with this command.
 
 ```
 ./run_tests.sh
@@ -214,4 +214,3 @@ Data for all tests is stored under `tests/data`.
 [PHP]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/php
 [NewRelic]:https://github.com/cloudfoundry/php-buildpack/tree/master/extensions/newrelic
 [unit tests]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md#testing
-
