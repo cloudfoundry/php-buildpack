@@ -1,6 +1,6 @@
 ## Cloud Foundry PHP Buildpack
 
-A buildpack to deploy PHP applications to Cloud Foundry based systems, such as Pivotal Web Services, IBM Bluemix, or your own CF instance.
+A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a [public cloud provider](https://www.cloudfoundry.org/learn/providers/) or your own instance.
 
 
 ## 30 Second Tutorial
@@ -22,7 +22,7 @@ cf push -m 128M -b https://github.com/cloudfoundry/php-buildpack.git my-php-app
 
 Please note that you should change *my-php-app* to some unique name on your target Cloud Foundry instance, otherwise you'll get a hostname conflict error and the push will fail.
 
-The example above will create and push a test application, "my-php-app", to Cloud Foundry.  The `-b` argument instructs CF to use this buildpack.  The remainder of the options and arguments are not specific to the buildpack, for questions on those consult the output of `cf help push`.
+The example above will create and push a test application, *my-php-app*, to Cloud Foundry.  The `-b` argument instructs CF to use this buildpack.  The remainder of the options and arguments are not specific to the buildpack, for questions on those consult the output of `cf help push`.
 
 Here's a breakdown of what happens when you run the example above.
 
@@ -33,7 +33,7 @@ Here's a breakdown of what happens when you run the example above.
     - The buildpack is executed.
     - Application files are copied to the `htdocs` folder.
     - Apache HTTPD & PHP are downloaded, configured with the buildpack defaults and run.
-    - Your application is accessible at the URL `http://my-php-app.cfapps.io` (assuming you're targeting Pivotal Web Services and your application name didn't conflict with an existing subdomain).
+    - Your application is accessible at the URL `http://my-php-app.example.com` (Replacing `example.com` with the domain of your public CF provider or private instance).
 
 ## More Information
 
@@ -92,8 +92,9 @@ Here are some example applications that can be used with this buildpack.
 
 ## Getting Help
 
-If you have questions, comments or need further help with the buildpack you can post to the [cf-dev](https://lists.cloudfoundry.org/archives/) mailing list. It's a good place for posting question on all of the open source Cloud Foundry components, like this buildpack. Alternatively, if you're using Pivotal Web Services with the buildpack, you could post to the [support forums], or if using IBM Bluemix, post to [dW Answers](https://developer.ibm.com/answers/smart-spaces/12/bluemix.html).
+If you have questions, comments or need further help with the buildpack you can post to the [cf-dev](https://lists.cloudfoundry.org/archives/) mailing list. It's a good place for posting question on all of the open source Cloud Foundry components, like this buildpack.
 
+If you are using one of the [many public CF providers](https://www.cloudfoundry.org/learn/providers/), please use their support channels.
 ## License
 
 The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache License].

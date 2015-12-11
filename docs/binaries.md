@@ -1,11 +1,11 @@
 ## Binaries
 
-To reduce the time it takes for the buildpack to run and setup a usable environment, the buildpack makes use of precompiled binaries.  For general use, these binaries are hosted on Amazon S3.  If you're running on a public cloud like Pivotal Web Services or IBM Bluemix, you should be able to use these binaries without any problems and you probably do not need to read any further.  If you are running in a private environment or if for security reasons you'd like to compile your own binaries, this document will explain what you need to do.
+To reduce the time it takes for the buildpack to run and setup a usable environment, the buildpack makes use of precompiled binaries.  For general use, these binaries are hosted on Amazon S3.  If you're running on a public Cloud Foundry provider, you should be able to use these binaries without any problems and you probably do not need to read any further.  If you are running in a private environment or if for security reasons you'd like to compile your own binaries, this document will explain what you need to do.
 
 
 ### Bundling Binaries With the Buildpack
 
-It is possible to bundle the required binaries with the buildpack.  When doing this, the buildpack is self-contained and should have everything it needs to run.  This is not possible if you're using a public CF instance that is run by someone else (e.g. Pivotal Web Services), however if you're running a private cloud then you can install the buildpack (see `cf create-buildpack`), which is a nice option as the installed buildpack is local and will not need to download anything from the internet.
+It is possible to bundle the required binaries with the buildpack.  When doing this, the buildpack is self-contained and should have everything it needs to run.  This is not possible if you're using a public CF provider, but if you're running a private cloud then you can install the buildpack (see `cf create-buildpack`), which is a nice option as the installed buildpack is local and will not need to download anything from the Internet.
 
 Here are the steps you would need to do this.
 
@@ -16,7 +16,7 @@ Here are the steps you would need to do this.
 
 #### Use a Buildpack Bundle
 
-If you're running your own CF installation, like with PCF or BOSH Lite, you can follow these steps to install a bundled version of this buildpack.
+If you're running your own CF installation or BOSH Lite, you can follow these steps to install a bundled version of this buildpack.
 
 First, check if there is an existing `php_buildpack` already installed.
 
