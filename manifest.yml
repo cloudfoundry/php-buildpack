@@ -33,11 +33,11 @@ dependencies:
       - cflinuxfs2
     md5: 069eb3a0a3522a6461c011bcd98f99a6
   - name: httpd
-    version: 2.4.17
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/httpd/httpd-2.4.17-linux-x64.tgz
+    version: 2.4.18
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/httpd/httpd-2.4.18-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 455c7205911b5a7db0a263eee97b15a3
+    md5: 5f48cda4ba1ffa954c4d1f71b51ccf7e
   - name: php
     version: 5.5.29
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.29-linux-x64-1442441030.tgz
