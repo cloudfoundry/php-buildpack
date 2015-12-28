@@ -1,3 +1,12 @@
+v4.3.2 Dec 28, 2015
+====================
+
+* Add nginx 1.9.9, drop nginx 1.9.7
+  (https://www.pivotaltracker.com/story/show/110627098)
+
+* Add httpd 2.4.18, drop httpd 2.4.17
+  (https://www.pivotaltracker.com/story/show/110627098)
+
 v4.3.1 Dec 09, 2015
 ====================
 
