@@ -13,7 +13,7 @@
     "HTTPD_MODULES_STRIP": true,
     "NGINX_VERSION": "{NGINX_18_LATEST}",
     "NGINX_18_LATEST": "1.8.0",
-    "NGINX_19_LATEST": "1.9.7",
+    "NGINX_19_LATEST": "1.9.9",
     "NGINX_PACKAGE": "nginx-{NGINX_VERSION}.tar.gz",
     "NGINX_DOWNLOAD_URL": "/nginx/{NGINX_VERSION}/{NGINX_PACKAGE}",
     "NGINX_STRIP": true,
