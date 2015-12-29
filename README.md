@@ -1,4 +1,5 @@
 ## Cloud Foundry PHP Buildpack
+[![CF Slack](https://s3.amazonaws.com/buildpacks-assets/buildpacks-slack.svg)](http://slack.cloudfoundry.org)
 
 A buildpack for Cloud Foundry to deploy PHP based applications.
 
