@@ -1,16 +1,16 @@
 ## Composer
 
-Yes!! We support [Composer]!
+Yes! We support [Composer]!
 
-Usage of the build pack with Composer is consistent to usage without it, so most of the standard documentation still applies.  Where it does not, this document will fill in the Composer specific gaps.
+Usage of the buildpack with Composer is consistent to usage without it, so most of the standard documentation still applies.  Where it does not, this document will fill in the Composer specific gaps.
 
  1. Usage of Composer requires a `composer.json` file.  This should be placed in the root of your application.
 
- 1. You are not required to push a `composer.lock` file with your application, although I would strongly encourage you to do so.  It will ensure that a consistent set of dependencies are installed when you push to CloudFoundry.
+ 1. You are not required to push a `composer.lock` file with your application, although I would strongly encourage you to do so.  It will ensure that a consistent set of dependencies are installed when you push to Cloud Foundry.
 
- 1. You can require dependencies to packages and extensions.  Extensions should be prefixed with the standard `ext-`.  If you reference an extension that is available to the build pack, it will automatically be installed.  See the main [README] for a list of supported extensions.
+ 1. You can require dependencies to packages and extensions.  Extensions should be prefixed with the standard `ext-`.  If you reference an extension that is available to the buildpack, it will automatically be installed.  See the main [README] for a list of supported extensions.
 
- 1. If you set the version of PHP to use in your `composer.json` (require -> php) or `composer.lock` (platform -> php) file, the build pack will take the version and install it.  This will override the version information you set in the `options.json` file.
+ 1. If you set the version of PHP to use in your `composer.json` (require -> php) or `composer.lock` (platform -> php) file, the buildpack will take the version and install it.  This will override the version information you set in the `options.json` file.
 
 The following format is supported for PHP version numbers.  This is a small subset of the format supported by Composer.
 
@@ -22,34 +22,34 @@ The following format is supported for PHP version numbers.  This is a small subs
 
 ### Configuration
 
-The build pack tries to run with a good set of default values for Composer.  If you'd like to adjust things further, you can do so by adding a `.bp-config/options.json` file to your application and setting any of the following values in it.
+The buildpack tries to run with a good set of default values for Composer.  If you'd like to adjust things further, you can do so by adding a `.bp-config/options.json` file to your application and setting any of the following values in it.
 
 |      Variable     |   Explanation                                        |
 ------------------- | -----------------------------------------------------|
 | COMPOSER_VERSION  | The version of Composer to use.  It defaults to the latest. |
-| COMPOSER_INSTALL_OPTIONS | A list of options that should be passed to `composer install`.  This defaults to `--no-interaction --no-dev --no-progress`.  The `--no-progress` option must be used due to the way the build pack calls Composer. |
-| COMPOSER_VENDOR_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to create the `vendor` directory.  Defaults to `{BUILD_DIR}/{LIBDIR}/vendor`. |
-| COMPOSER_BIN_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to place executables from packages.  Defaults to `{BUILD_DIR}/php/bin`. |
-| COMPOSER_CACHE_DIR | Allows you to override the default value used by the build pack.  This is passed through to Composer and instructs it where to place its cache files.  Generally you should not change this value.  The default is `{CACHE_DIR}/composer` which is a sub directory of the cache folder passed into the build pack (meaning that Composer cache files will be restored on subsequent application pushes. |
+| COMPOSER_INSTALL_OPTIONS | A list of options that should be passed to `composer install`.  This defaults to `--no-interaction --no-dev --no-progress`.  The `--no-progress` option must be used due to the way the buildpack calls Composer. |
+| COMPOSER_VENDOR_DIR | Allows you to override the default value used by the buildpack.  This is passed through to Composer and instructs it where to create the `vendor` directory.  Defaults to `{BUILD_DIR}/{LIBDIR}/vendor`. |
+| COMPOSER_BIN_DIR | Allows you to override the default value used by the buildpack.  This is passed through to Composer and instructs it where to place executables from packages.  Defaults to `{BUILD_DIR}/php/bin`. |
+| COMPOSER_CACHE_DIR | Allows you to override the default value used by the buildpack.  This is passed through to Composer and instructs it where to place its cache files.  Generally you should not change this value.  The default is `{CACHE_DIR}/composer` which is a sub directory of the cache folder passed into the buildpack (meaning that Composer cache files will be restored on subsequent application pushes. |
 
-### Github API Request Limits
+### GitHub API Request Limits
 
-Composer uses Github's API to retrive zip files for installation into the application folder. If you do not vendor dependencies before pushing an app, Composer will fetch dependencies at staging time using the Github API.
+Composer uses GitHub's API to retrieve zip files for installation into the application folder. If you do not vendor dependencies before pushing an app, Composer will fetch dependencies at staging time using the GitHub API.
 
-Github's API is request-limited. Once you have reached your hourly allowance of API requests (typically, 60), Github's API will begin to return 403 errors and staging will fail.
+GitHub's API is request-limited. Once you have reached your hourly allowance of API requests (typically, 60), GitHub's API will begin to return 403 errors and staging will fail.
 
 To avoid this situation, there are two alternatives.
 
-1. Vendor dependencies before pushing your application. 
-2. Supply a Github OAuth API token.
+1. Vendor dependencies before pushing your application.
+2. Supply a GitHub OAuth API token.
 
 #### Vendoring Dependencies
 
 To vendor dependencies, you will need to run `composer install` before you push your application. You may also need to configure `COMPOSER_VENDOR_DIR` to "vendor".
 
-#### Supply a Github Token
+#### Supply a GitHub Token
 
-Composer can use [Github API OAuth tokens](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) to greatly increase your hourly request limit (typically to 5000).
+Composer can use [GitHub API OAuth tokens](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) to greatly increase your hourly request limit (typically to 5000).
 
 During staging, the buildpack looks for this token in the environment variable `COMPOSER_GITHUB_OAUTH_TOKEN`. If you supply a valid token, Composer will use it during staging. This mechanism will not work if the token is invalid.
 
