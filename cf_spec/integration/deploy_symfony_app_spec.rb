@@ -28,7 +28,7 @@ describe 'CF PHP Buildpack' do
     end
 
     it 'does not call out to the internet during staging' do
-      expect(@app.host).not_to have_internet_traffic
+      expect(@app).not_to have_internet_traffic
     end
   end
 

@@ -37,7 +37,7 @@ describe 'CF PHP Buildpack' do
 
   context 'in offline mode', :cached do
     it 'does not call out to the internet' do
-      expect(@app.host).not_to have_internet_traffic
+      expect(@app).not_to have_internet_traffic
     end
 
     it 'downloads the binaries directly from the buildpack' do

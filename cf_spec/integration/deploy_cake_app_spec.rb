@@ -27,7 +27,7 @@ describe 'CF PHP Buildpack' do
       browser.visit_path('/users/add')
       expect(browser).to have_body('Add New User')
 
-      expect(app.host).not_to have_internet_traffic
+      expect(app).not_to have_internet_traffic
     end
   end
 

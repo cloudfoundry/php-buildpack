@@ -24,7 +24,7 @@ describe 'CF PHP Buildpack' do
     end
 
     context 'in offline mode', :cached do
-      specify { expect(@app.host).not_to have_internet_traffic }
+      specify { expect(@app).not_to have_internet_traffic }
     end
   end
 
@@ -43,7 +43,7 @@ describe 'CF PHP Buildpack' do
     end
 
     context 'in offline mode', :cached do
-      specify { expect(@app.host).not_to have_internet_traffic }
+      specify { expect(@app).not_to have_internet_traffic }
     end
   end
 end

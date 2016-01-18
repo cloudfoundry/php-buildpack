@@ -21,7 +21,7 @@ describe 'CF PHP Buildpack' do
       browser.visit_path("/")
       expect(browser).to have_body 'Zend Framework 2'
 
-      expect(app.host).not_to have_internet_traffic
+      expect(app).not_to have_internet_traffic
     end
   end
 
