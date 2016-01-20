@@ -10,10 +10,10 @@ GIT
 
 GIT
   remote: https://github.com/cloudfoundry/machete
-  revision: 298be3d927dea8b0b9454edde37dbd9ec91dd466
-  tag: v0.0.26
+  revision: 0af3cf9cc645c48317a061ec50bd4b4bb2ac85ce
+  tag: v0.0.30
   specs:
-    machete (0.0.26)
+    machete (0.0.30)
       httparty
 
 GEM
@@ -36,25 +36,25 @@ GEM
     method_source (0.8.2)
     minitest (5.8.3)
     multi_xml (0.5.5)
-    pry (0.10.1)
+    pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    rspec (3.2.0)
-      rspec-core (~> 3.2.0)
-      rspec-expectations (~> 3.2.0)
-      rspec-mocks (~> 3.2.0)
-    rspec-core (3.2.3)
-      rspec-support (~> 3.2.0)
-    rspec-expectations (3.2.1)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.2.0)
-    rspec-instafail (0.2.6)
+      rspec-support (~> 3.4.0)
+    rspec-instafail (0.4.0)
       rspec
-    rspec-mocks (3.2.1)
+    rspec-mocks (3.4.1)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.2.0)
-    rspec-support (3.2.2)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
     slop (3.6.0)
     terminal-table (1.4.5)
     thread_safe (0.3.5)
