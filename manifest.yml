@@ -48,6 +48,7 @@ dependencies:
   - name: php
     version: 5.5.31
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.31-linux-x64-1453395419.tgz
+    modules: ["sockets", "mcrypt", "xdebug", "amqp", "openssl", "soap", "pcntl", "ldap", "phalcon", "pdo_mysql", "sundown", "mysql", "lua", "zip", "intl", "pdo_pgsql", "redis", "xcache", "readline", "memcached", "gettext", "curl", "igbinary", "mysqli", "phpiredis", "ioncube", "mbstring", "fileinfo", "pdo", "twig", "zlib", "imagick", "pdo_sqlite", "imap", "suhosin", "memcache", "yaf", "pspell", "protocolbuffers", "mongo", "opcache", "ftp", "msgpack", "protobuf", "snmp", "mailparse", "gmp", "bz2", "gd", "xsl", "xhprof", "dba", "pgsql", "exif"]
     cf_stacks:
       - cflinuxfs2
     md5: f68ac7fe88526bce96a0d42c294f0e26
@@ -61,6 +62,7 @@ dependencies:
   - name: php
     version: 5.6.17
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.17-linux-x64-1453394784.tgz
+    modules: ["sockets", "mcrypt", "xdebug", "amqp", "openssl", "soap", "pcntl", "ldap", "phalcon", "pdo_mysql", "sundown", "mysql", "lua", "zip", "intl", "pdo_pgsql", "redis", "xcache", "readline", "memcached", "gettext", "curl", "igbinary", "mysqli", "phpiredis", "ioncube", "mbstring", "fileinfo", "pdo", "twig", "zlib", "imagick", "pdo_sqlite", "imap", "suhosin", "memcache", "yaf", "pspell", "protocolbuffers", "mongo", "opcache", "ftp", "msgpack", "protobuf", "snmp", "mailparse", "gmp", "bz2", "gd", "xsl", "xhprof", "dba", "pgsql", "exif"]
     cf_stacks:
       - cflinuxfs2
     md5: 7197019a2eea782101e861727dd3cec2
