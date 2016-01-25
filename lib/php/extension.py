@@ -12,6 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
+import string
 from compile_helpers import convert_php_extensions
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
@@ -20,7 +22,43 @@ from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
 from extension_helpers import ExtensionHelper
-import string
+
+def find_composer_paths(ctx):
+    build_dir = ctx['BUILD_DIR']
+    webdir = ctx['WEBDIR']
+
+    json_path = None
+    lock_path = None
+    json_paths = [
+        os.path.join(build_dir, 'composer.json'),
+        os.path.join(build_dir, webdir, 'composer.json')
+    ]
+
+    lock_paths = [
+        os.path.join(build_dir, 'composer.lock'),
+        os.path.join(build_dir, webdir, 'composer.lock')
+    ]
+
+    env_path = os.getenv('COMPOSER_PATH')
+    if env_path is not None:
+        json_paths = json_paths + [
+            os.path.join(build_dir, env_path, 'composer.json'),
+            os.path.join(build_dir, webdir, env_path, 'composer.json')
+        ]
+
+        lock_paths = lock_paths + [
+            os.path.join(build_dir, env_path, 'composer.lock'),
+            os.path.join(build_dir, webdir, env_path, 'composer.lock')
+        ]
+
+    for path in json_paths:
+        if os.path.exists(path):
+            json_path = path
+    for path in lock_paths:
+        if os.path.exists(path):
+            lock_path = path
+
+    return (json_path, lock_path)
 
 
 class PHPExtension(ExtensionHelper):
@@ -64,8 +102,14 @@ class PHPExtension(ExtensionHelper):
         return env
 
     def _compile(self, install):
-        print 'Installing PHP'
         ctx = install.builder._ctx
+
+        (json_file, lock_file) = find_composer_paths(ctx)
+        if (os.path.isfile(os.path.join(ctx['BUILD_DIR'],'.bp-config', 'options.json')) and os.path.isfile(json_file)):
+            print('WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.');
+            print('WARNING: The version defined in `composer.json` will be used.');
+
+        print 'Installing PHP'
         validate_php_version(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
 

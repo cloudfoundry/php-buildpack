@@ -33,6 +33,11 @@ describe 'CF PHP Buildpack' do
       expect(browser).to have_body 'PHP Version'
       expect(browser).not_to have_header 'X-Powered-By'
     end
+
+    it 'does not display a warning message about the php version config' do
+        expect(@app).to_not have_logged 'WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.'
+        expect(@app).to_not have_logged 'WARNING: The version defined in `composer.json` will be used.'
+    end
   end
 
   context 'in offline mode', :cached do
