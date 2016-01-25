@@ -105,7 +105,7 @@ class PHPExtension(ExtensionHelper):
         ctx = install.builder._ctx
 
         (json_file, lock_file) = find_composer_paths(ctx)
-        if (os.path.isfile(os.path.join(ctx['BUILD_DIR'],'.bp-config', 'options.json')) and os.path.isfile(json_file)):
+        if (os.path.isfile(os.path.join(ctx['BUILD_DIR'],'.bp-config', 'options.json')) and json_file and os.path.isfile(json_file)):
             print('WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.');
             print('WARNING: The version defined in `composer.json` will be used.');
 
