@@ -1,3 +1,18 @@
+v4.3.3 Jan 26, 2016
+====================
+
+* Show warning when composer.json and options.json both exist, to prevent conflicts
+  (https://www.pivotaltracker.com/story/show/111962349)
+
+* Make version 1.9.9 the default nginx version
+  (https://www.pivotaltracker.com/story/show/110700942)
+
+* Add versions 5.5.31, 5.6.17.
+  (https://www.pivotaltracker.com/story/show/111532430)
+
+* Remove versions 5.5.29, 5.6.15.
+  (https://www.pivotaltracker.com/story/show/111532430)
+
 v4.3.2 Dec 28, 2015
 ====================
 
