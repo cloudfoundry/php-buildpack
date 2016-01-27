@@ -1,7 +1,6 @@
 ## Cloud Foundry PHP Buildpack
 
-A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a [public cloud provider](https://www.cloudfoundry.org/learn/providers/) or your own instance.
-
+A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a [cloud provider](https://www.cloudfoundry.org/learn/certified-providers/) or your own instance.
 
 ## 30 Second Tutorial
 
@@ -94,7 +93,7 @@ Here are some example applications that can be used with this buildpack.
 
 If you have questions, comments or need further help with the buildpack you can post to the [cf-dev](https://lists.cloudfoundry.org/archives/) mailing list. It's a good place for posting question on all of the open source Cloud Foundry components, like this buildpack.
 
-If you are using one of the [many public CF providers](https://www.cloudfoundry.org/learn/providers/), please use their support channels.
+If you are using one of the [many CF providers](https://www.cloudfoundry.org/learn/certified-providers/), please use their support channels.
 ## License
 
 The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache License].
