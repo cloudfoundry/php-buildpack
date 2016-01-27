@@ -67,17 +67,17 @@ dependencies:
       - cflinuxfs2
     md5: 7197019a2eea782101e861727dd3cec2
   - name: nginx
-    version: 1.8.0
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.0-linux-x64.tgz
+    version: 1.8.1
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.1-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: e12cddcba72d5008f94b298a02a8e6d4
+    md5: 836d5dcdabf687a7877c03e213bdecee
   - name: nginx
-    version: 1.9.9
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.9.9-linux-x64.tgz
+    version: 1.9.10
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.9.10-linux-x64.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: b3726a282725dd999470f0dfd4b838c4
+    md5: 92543d3f4b386a87b654c197eea26da1
   - name: composer
     version: 1.0.0-alpha10
     uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/composer/1.0.0-alpha10/composer.phar
