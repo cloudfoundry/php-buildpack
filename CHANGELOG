@@ -1,3 +1,9 @@
+v4.3.4 Jan 28, 2016
+====================
+
+* Add nginx 1.8.1 and 1.9.10, drop nginx 1.8.0 and 1.9.9
+  (https://www.pivotaltracker.com/story/show/112525507)
+
 v4.3.3 Jan 26, 2016
 ====================
 
