@@ -353,3 +353,42 @@ class HhvmAssertHelper(object):
             .on_file(build_dir, 'hhvm', 'etc', 'server.ini')
             .any_line()
             .contains(expected_listener))
+
+
+class BlackfireAssertHelper(object):
+    """Helper to assert Blackfire is installed and configured correctly"""
+
+    def assert_contents_of_procs_file(self, build_dir):
+        fah = FileAssertHelper()
+        fah.expect().path(build_dir, '.procs').exists()
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, '.procs')
+            .any_line()
+                .equals('blackfire-agent: $HOME/blackfire/agent/agent '  # noqa
+                        '-config="$HOME/blackfire/agent/config.ini" '
+                        '-socket="unix://$HOME/blackfire/agent/agent.sock"\n'))
+
+    def assert_files_installed(self, build_dir):
+        fah = FileAssertHelper()
+        (fah.expect()
+            .root(build_dir, 'blackfire', 'agent')
+                .path('agent')
+                .path('config.ini')
+            .root(build_dir, 'blackfire', 'probe')
+                .path('blackfire-20100525.so')
+            .exists())
+        tfah = TextFileAssertHelper()
+        (tfah.expect()
+            .on_file(build_dir, 'php', 'etc', 'php.ini')
+            .any_line()
+                .equals('extension=%s/blackfire/probe/blackfire-20100525.so\n' % build_dir)
+                .equals('[blackfire]\n')
+                .equals('blackfire.server_id=TEST_SERVER_ID\n')
+                .equals('blackfire.server_token=TEST_SERVER_TOKEN\n')
+                .equals('blackfire.agent_socket=unix://%s/blackfire/agent/agent.sock\n' % build_dir)
+            .on_file(build_dir, 'blackfire', 'agent', 'config.ini')
+            .any_line()
+                .equals('[blackfire]\n')
+                .equals('server-id=e92fc80d-dc52-4cfb-8f4c-a8db940706f8\n')
+                .equals('server-token=101af42ab9afcd468a3d3e9f87565008b21262b6a3d7f50812d52c911ba3d698\n'))
