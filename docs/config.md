@@ -22,6 +22,7 @@ Here are a list of the options that an application developer might want to overr
 | NGINX\_VERSION | Sets the version of Nginx to use.  Currently the buildpack supports the latest stable version.  This value will default to the latest release that is supported by the buildpack. |
 | PHP\_55\_LATEST | Set by the buildpack, this provides the latest PHP 5.5.x release supported by the buildpack.  By setting PHP_VERSION to `{PHP_55_LATEST}`, your configuration will always use the latest PHP 5.5.x release. |
 | PHP\_56\_LATEST | Set by the buildpack, this provides the latest PHP 5.6.x release supported by the buildpack.  By setting PHP_VERSION to `{PHP_56_LATEST}`, your configuration will always use the latest PHP 5.6.x release. |
+| PHP\_70\_LATEST | Set by the buildpack, this provides the latest PHP 7.0.x release supported by the buildpack.  By setting PHP_VERSION to `{PHP_70_LATEST}`, your configuration will always use the latest PHP 7.0.x release. |
 | PHP\_VERSION | Sets the version of PHP to use. |
 | PHP\_EXTENSIONS | A list of the [extensions](#php-extensions) to enable.  The default is to enable "bz2", "zlib", "curl" and "mcrypt". |
 | PHP\_MODULES | A list of the [modules](#php-modules) to enable.  The default is nothing.  The buildpack will automatically enable either the `fpm` or `cli` modules.  If you want to force this, you can set this list to contain `fpm`, `cli`, `cgi` and / or `pear`.  |
