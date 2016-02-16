@@ -59,7 +59,6 @@ The [release notes page](https://github.com/cloudfoundry/php-buildpack/releases)
   * php-cli
   * php-cgi
   * php-fpm
-  * hhvm
 * **Third-Party Modules**
   * New Relic, in connected environments only.
 

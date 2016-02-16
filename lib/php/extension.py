@@ -118,6 +118,7 @@ class PHPExtension(ExtensionHelper):
         (install
             .package('PHP')
             .done())
+
         validate_php_extensions(ctx)
         convert_php_extensions(ctx)
         (install

@@ -40,8 +40,6 @@ if __name__ == '__main__':
             .extension()
                 .from_build_pack('lib/php')
             .extension()
-                .from_build_pack('lib/hhvm')
-            .extension()
                 .from_build_pack('lib/env')
             .extensions()
                 .from_build_pack('extensions')

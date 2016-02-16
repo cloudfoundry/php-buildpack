@@ -12,7 +12,6 @@ from common.components import HttpdAssertHelper
 from common.components import PhpAssertHelper
 from common.components import NoWebServerAssertHelper
 from common.components import NewRelicAssertHelper
-from common.components import HhvmAssertHelper
 from common.components import DownloadAssertHelper
 from common.base import BaseCompileApp
 
@@ -199,42 +198,6 @@ class TestNewRelicCompiled(BaseCompileApp):
         httpd.assert_files_installed(self.build_dir)
         php.assert_files_installed(self.build_dir)
         nr.assert_files_installed(self.build_dir)
-
-    def test_with_httpd_hhvm_and_newrelic(self):
-        # helpers to confirm the environment
-        bp = BuildPackAssertHelper()
-        nr = NewRelicAssertHelper()
-        httpd = HttpdAssertHelper()
-        hhvm = HhvmAssertHelper()
-        # set web server to httpd, since that's what we're expecting here
-        self.opts.set_php_vm('hhvm')
-        self.opts.set_hhvm_download_url(
-            '/hhvm/{HHVM_VERSION}/{HHVM_PACKAGE}')
-        self.opts.set_web_server('httpd')
-        # run the compile step of the build pack
-        output = ErrorHelper().compile(self.bp)
-        # confirm downloads
-        DownloadAssertHelper(2, 2).assert_downloads_from_output(output)
-        # confirm start script
-        bp.assert_start_script_is_correct(self.build_dir)
-        httpd.assert_start_script_is_correct(self.build_dir)
-        hhvm.assert_start_script_is_correct(self.build_dir)
-        # confirm bp utils installed
-        bp.assert_scripts_are_installed(self.build_dir)
-        bp.assert_config_options(self.build_dir)
-        # check env & proc files
-        httpd.assert_contents_of_procs_file(self.build_dir)
-        httpd.assert_contents_of_env_file(self.build_dir)
-        hhvm.assert_contents_of_procs_file(self.build_dir)
-        hhvm.assert_contents_of_env_file(self.build_dir)
-        # webdir exists
-        httpd.assert_web_dir_exists(self.build_dir, self.opts.get_webdir())
-        # check php & httpd installed
-        httpd.assert_files_installed(self.build_dir)
-        hhvm.assert_files_installed(self.build_dir)
-        # Test NewRelic should not be installed w/HHVM
-        nr.is_not_installed(self.build_dir)
-
 
 class TestNewRelicWithApp5(BaseCompileApp):
     def __init__(self):
