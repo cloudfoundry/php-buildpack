@@ -1,3 +1,18 @@
+v4.3.5 Feb 16, 2016
+====================
+
+* Remove HHVM from PHP Buildpack
+  (https://www.pivotaltracker.com/story/show/113172267)
+
+* Moving intl from pecl package to compile-time option
+  (https://www.pivotaltracker.com/story/show/109840204)
+
+* Add composer-1.0.0-alpha11
+  (https://www.pivotaltracker.com/story/show/112362115)
+
+* add php 5.5.32, 5.6.18, 7.0.3, drop 5.5.30, 5.6.16
+  (https://www.pivotaltracker.com/story/show/112908255)
+
 v4.3.4 Jan 28, 2016
 ====================
 
