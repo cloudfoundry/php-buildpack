@@ -48,6 +48,7 @@ dependencies:
   - name: php
     version: 5.5.33
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.33-linux-x64-1457381926.tgz
+    modules: ["soap", "twig", "xsl", "gettext", "sockets", "mcrypt", "gmp", "redis", "zip", "msgpack", "pcntl", "protocolbuffers", "protobuf", "suhosin", "ftp", "bz2", "gd", "pdo_mysql", "readline", "opcache", "snmp", "zlib", "curl", "xhprof", "mongo", "sundown", "mysql", "dba", "openssl", "fileinfo", "igbinary", "pdo_sqlite", "amqp", "ioncube", "imap", "ldap", "pgsql", "mysqli", "xdebug", "yaf", "exif", "memcache", "mbstring", "pdo_pgsql", "phalcon", "lua", "xcache", "pspell", "memcached", "imagick", "phpiredis", "pdo", "mailparse"]
     cf_stacks:
       - cflinuxfs2
     md5: 61f38e4329f136760dfa4be22aa5656b
@@ -61,6 +62,7 @@ dependencies:
   - name: php
     version: 5.6.19
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.19-linux-x64-1457383185.tgz
+    modules: ["soap", "twig", "xsl", "gettext", "sockets", "mcrypt", "gmp", "redis", "zip", "msgpack", "pcntl", "protocolbuffers", "protobuf", "suhosin", "ftp", "bz2", "gd", "pdo_mysql", "readline", "opcache", "snmp", "zlib", "curl", "xhprof", "mongo", "sundown", "mysql", "dba", "openssl", "fileinfo", "igbinary", "pdo_sqlite", "amqp", "ioncube", "imap", "ldap", "pgsql", "mysqli", "xdebug", "yaf", "exif", "memcache", "mbstring", "pdo_pgsql", "phalcon", "lua", "xcache", "pspell", "memcached", "imagick", "phpiredis", "pdo", "mailparse"]
     cf_stacks:
       - cflinuxfs2
     md5: 2efcecf3d146c27e3237a814413c5f9d
@@ -74,6 +76,7 @@ dependencies:
   - name: php
     version: 7.0.4
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.4-linux-x64-1457381687.tgz
+    modules: ["soap", "xsl", "gettext", "sockets", "mcrypt", "gmp", "zip", "msgpack", "pcntl", "ftp", "bz2", "gd", "pdo_mysql", "mongodb", "opcache", "snmp", "zlib", "curl", "dba", "openssl", "fileinfo", "pdo_sqlite", "imap", "ldap", "pgsql", "mysqli", "yaf", "exif", "mbstring", "pdo_pgsql", "lua", "pspell", "pdo", "mailparse"]
     cf_stacks:
       - cflinuxfs2
     md5: ed2568987f5095258476e756a8f76699
