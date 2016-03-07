@@ -85,7 +85,7 @@ The [Development Documentation] explains how to write extensions.
 
 [defaults]:https://github.com/cloudfoundry/php-buildpack/tree/master/defaults
 [ServerAdmin]:http://httpd.apache.org/docs/2.4/mod/core.html#serveradmin
-[extra/httpd-logging.conf]:https://github.com/cloudfoundry/php-buildpack/blob/master/defaults/config/httpd/2.4.x/extra/httpd-logging.conf
+[extra/httpd-logging.conf]:https://github.com/cloudfoundry/php-buildpack/blob/master/defaults/config/httpd/extra/httpd-logging.conf
 [Development Documentation]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md
 [HTTPD]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/httpd
 [Nginx]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/nginx
