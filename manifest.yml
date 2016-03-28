@@ -93,8 +93,8 @@ dependencies:
       - cflinuxfs2
     md5: e7f3efcf70d23da78eb1365c7d92c109
   - name: composer
-    version: 1.0.0-beta1
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/composer/1.0.0-beta1/composer.phar
+    version: 1.0.0-beta2
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/composer/1.0.0-beta2/composer.phar
     cf_stacks:
       - cflinuxfs2
-    md5: ce74af6e6ea8b4a4901e57fda4c5c4f6
+    md5: d12a366491ef4fa99c6b89000486b5d1
