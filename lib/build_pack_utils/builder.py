@@ -61,6 +61,13 @@ class Configurer(object):
                 self.builder._ctx['BUILD_DIR'], path, step))
         return self
 
+    def validate(self):
+        web_server = self.builder._ctx['WEB_SERVER']
+        if web_server != 'nginx' and web_server != 'httpd':
+            sys.stderr.write("{0} isn't a supported web server. Supported web servers are 'httpd' & 'nginx'\n".format(web_server))
+            sys.exit(1)
+        return self
+
     def done(self):
         return self.builder
 

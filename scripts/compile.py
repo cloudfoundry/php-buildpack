@@ -27,6 +27,7 @@ if __name__ == '__main__':
             .default_config()  # noqa
             .stack_config()
             .user_config()
+            .validate()
             .done()
         .execute()
             .method(log_bp_version)
