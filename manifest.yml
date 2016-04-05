@@ -48,6 +48,7 @@ dependencies:
   - name: php
     version: 5.5.34
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.34-linux-x64-1459869133.tgz
+    modules: ["msgpack", "dba", "ftp", "imagick", "xhprof", "xdebug", "memcached", "redis", "xsl", "zlib", "lua", "ldap", "fileinfo", "protocolbuffers", "imap", "ioncube", "pdo_sqlite", "memcache", "exif", "gd", "mcrypt", "mysqli", "readline", "mysql", "mbstring", "protobuf", "mongo", "gettext", "phalcon", "zip", "pdo_pgsql", "amqp", "pcntl", "phpiredis", "pdo_mysql", "soap", "sundown", "igbinary", "pdo", "suhosin", "xcache", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "twig", "bz2", "openssl", "pgsql", "opcache"]
     cf_stacks:
       - cflinuxfs2
     md5: dd3278d312fa1a211a2e195c95dab08f
@@ -61,18 +62,21 @@ dependencies:
   - name: php
     version: 5.6.20
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.20-linux-x64-1459869944.tgz
+    modules: ["msgpack", "dba", "ftp", "imagick", "xhprof", "xdebug", "memcached", "redis", "xsl", "zlib", "lua", "ldap", "fileinfo", "protocolbuffers", "imap", "ioncube", "pdo_sqlite", "memcache", "exif", "gd", "mcrypt", "mysqli", "readline", "mysql", "mbstring", "protobuf", "mongo", "gettext", "phalcon", "zip", "pdo_pgsql", "amqp", "pcntl", "phpiredis", "pdo_mysql", "soap", "sundown", "igbinary", "pdo", "suhosin", "xcache", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "twig", "bz2", "openssl", "pgsql", "opcache"]
     cf_stacks:
       - cflinuxfs2
     md5: e141f4d2b0752a80cc8b26b587e270e3
   - name: php
     version: 7.0.4
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.4-linux-x64-1459881370.tgz
+    modules: ["msgpack", "dba", "ftp", "imagick", "xdebug", "xsl", "zlib", "lua", "ldap", "fileinfo", "imap", "pdo_sqlite", "exif", "gd", "mcrypt", "mysqli", "mbstring", "gettext", "mongodb", "zip", "pdo_pgsql", "pcntl", "pdo_mysql", "soap", "pdo", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "bz2", "openssl", "pgsql", "opcache"]
     cf_stacks:
       - cflinuxfs2
     md5: 21d1b1051fccc185e0b7bf3990cf316c
   - name: php
     version: 7.0.5
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.5-linux-x64-1459880153.tgz
+    modules: ["msgpack", "dba", "ftp", "imagick", "xdebug", "xsl", "zlib", "lua", "ldap", "fileinfo", "imap", "pdo_sqlite", "exif", "gd", "mcrypt", "mysqli", "mbstring", "gettext", "mongodb", "zip", "pdo_pgsql", "pcntl", "pdo_mysql", "soap", "pdo", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "bz2", "openssl", "pgsql", "opcache"]
     cf_stacks:
       - cflinuxfs2
     md5: 5f5bc838dacb4accbdb1dc6149ab6b96
