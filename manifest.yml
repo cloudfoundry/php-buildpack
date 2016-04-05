@@ -66,17 +66,16 @@ dependencies:
     md5: e141f4d2b0752a80cc8b26b587e270e3
   - name: php
     version: 7.0.4
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.4-linux-x64-1457381687.tgz
-    modules: ["soap", "xsl", "gettext", "sockets", "mcrypt", "gmp", "zip", "msgpack", "pcntl", "ftp", "bz2", "gd", "pdo_mysql", "mongodb", "opcache", "snmp", "zlib", "curl", "dba", "openssl", "fileinfo", "pdo_sqlite", "imap", "ldap", "pgsql", "mysqli", "yaf", "exif", "mbstring", "pdo_pgsql", "lua", "pspell", "pdo", "mailparse"]
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.4-linux-x64-1459881370.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: ed2568987f5095258476e756a8f76699
+    md5: 21d1b1051fccc185e0b7bf3990cf316c
   - name: php
     version: 7.0.5
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.5-linux-x64-1459813804.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.5-linux-x64-1459880153.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 12546e10dc4a6ceb8d33d44d84755c32
+    md5: 5f5bc838dacb4accbdb1dc6149ab6b96
   - name: nginx
     version: 1.8.1
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.1-linux-x64.tgz
