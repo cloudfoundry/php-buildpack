@@ -64,7 +64,7 @@ class TestComposer(object):
         # make sure composer is installed
         assert installer._installer.calls().once()
         assert installer._installer.calls()[0].args[0] == \
-            '/composer/1.0.0-beta2/composer.phar', \
+            '/composer/1.0.0/composer.phar', \
             "was %s" % installer._installer.calls()[0].args[0]
 
     def test_composer_tool_install_latest(self):
