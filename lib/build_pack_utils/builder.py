@@ -10,6 +10,13 @@ from subprocess import PIPE
 from cloudfoundry import CloudFoundryUtil
 from cloudfoundry import CloudFoundryInstaller
 from detecter import TextFileSearch
+from detecter import ComposerJsonSearch
+from detecter import RegexFileSearch
+from detecter import StartsWithFileSearch
+from detecter import EndsWithFileSearch
+from detecter import ContainsFileSearch
+from runner import BuildPack
+from utils import rewrite_cfgs
 from detecter import RegexFileSearch
 from detecter import StartsWithFileSearch
 from detecter import EndsWithFileSearch
@@ -130,6 +137,11 @@ class Detecter(object):
 
     def if_found_output(self, text):
         self._output = self._ctx.format(text)
+        return self
+
+    def find_composer_path(self):
+        self._detecter = self._config(ComposerJsonSearch(self._ctx))
+        #search for composer.json at that path
         return self
 
     def when_not_found_continue(self):

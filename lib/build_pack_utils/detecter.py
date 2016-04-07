@@ -1,8 +1,8 @@
 import os
 import re
 import logging
+import utils
 from itertools import chain
-
 
 class BaseFileSearch(object):
     def __init__(self):
@@ -44,6 +44,17 @@ class TextFileSearch(BaseFileSearch):
     def _match(self, term):
         if self._text:
             return term == self._text
+
+
+class ComposerJsonSearch():
+    def __init__(self, ctx):
+        extension_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../extensions/composer'))
+        self.extension_module = utils.load_extension(extension_path)
+        self._ctx = ctx
+
+    def search(self, term):
+        path, _ = self.extension_module.find_composer_paths(self._ctx)
+        return path is not None
 
 
 class RegexFileSearch(BaseFileSearch):
