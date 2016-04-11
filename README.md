@@ -72,6 +72,8 @@ Here are some special features of the buildpack.
   - Supports an extension mechanism that allows the buildpack to provide additional functionality.
   - Allows for application developers to provide custom extensions.
   - Easy troubleshooting with the `BP_DEBUG` environment variable.
+  - Download location is configurable, allowing users to host binaries on the same network (i.e. run without an Internet connection)
+  - Smart session storage, defaults to file w/sticky sessions but can also use redis or memcached for storage.
 
 ## Examples
 
