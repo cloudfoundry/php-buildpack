@@ -1,3 +1,15 @@
+v4.3.10 Apr 12, 2016
+=====================
+
+* Added extension to configure redis as a persistent store for PHP sessions
+  (https://www.pivotaltracker.com/story/show/117232921)
+
+* Add httpd 2.4.20, remove httpd 2.4.18
+  (https://www.pivotaltracker.com/story/show/116903551)
+
+* BUGFIX: detect composer.json non-recursively
+  (https://www.pivotaltracker.com/story/show/116521177)
+
 v4.3.9 Apr 07, 2016
 ====================
 
