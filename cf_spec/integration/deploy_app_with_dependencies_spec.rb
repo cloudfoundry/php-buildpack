@@ -27,6 +27,9 @@ describe 'CF PHP Buildpack' do
       end
     end
 
+    it 'uses a proxy during staging if present', :uncached do
+      expect(app).to use_proxy_during_staging
+    end
   end
 end
 
