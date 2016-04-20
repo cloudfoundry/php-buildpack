@@ -32,10 +32,39 @@ describe 'CF PHP Buildpack' do
       expect(browser).to have_body('PHP Version')
     end
 
+    it 'compresses dynamic content' do
+      headers = getHeaders('/index.php', ['Accept-Encoding: gzip'])
+
+      expect(headers).to include('Server: Apache')
+      expect(headers).to include('Content-Encoding: gzip')
+    end
+
+    it 'compresses static content' do
+      headers = getHeaders('/staticfile.html', ['Accept-Encoding: gzip'])
+
+      expect(headers).to include('Server: Apache')
+      expect(headers).to include('Content-Encoding: gzip')
+    end
+
     context 'in offline mode', :cached do
       specify do
         expect(@app).not_to have_internet_traffic
       end
+    end
+  end
+
+  require 'socket'
+  def getHeaders(path, headers = [])
+    host = browser.base_url
+    Socket.tcp(host, 80) do |sock|
+      sock.print "GET #{path} HTTP/1.0\r\nHost: #{host}\r\n"
+      headers.each do |header|
+        sock.print header
+        sock.print "\r\n"
+      end
+      sock.print "\r\n"
+      sock.close_write
+      sock.read.split(/\n\r?\n/, 2).first.split(/\r?\n/)
     end
   end
 end
