@@ -4,9 +4,9 @@ require 'cf_spec_helper'
 describe 'CF PHP Buildpack' do
   let(:browser) { Machete::Browser.new(@app) }
 
-  context 'deploying a symfony app with locally-vendored dependencies', :cached do
+  context 'deploying a symfony 2 app with locally-vendored dependencies', :cached do
     before(:context) do
-      @app = Machete.deploy_app('symfony_hello_world_with_local_dependencies', {})
+      @app = Machete.deploy_app('symfony_2_hello_world_with_local_dependencies', {})
     end
 
     after(:context) do
@@ -17,7 +17,7 @@ describe 'CF PHP Buildpack' do
       expect(@app).to be_running
     end
 
-    it 'that root route has content that is dynamically generated' do
+    it 'dynamically generates the content for the root route' do
       browser.visit_path("/")
       expect(browser).to have_body 'Running on Symfony!'
     end
@@ -32,9 +32,9 @@ describe 'CF PHP Buildpack' do
     # end
   end
 
-  context 'deploying a symfony app with remotely-sourced dependencies', :uncached do
+  context 'deploying a symfony 2 app with remotely-sourced dependencies', :uncached do
     before(:context) do
-      @app = Machete.deploy_app('symfony_hello_world_with_remote_dependencies', {
+      @app = Machete.deploy_app('symfony_2_hello_world_with_remote_dependencies', {
         env: {
           'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']
         }
@@ -49,11 +49,9 @@ describe 'CF PHP Buildpack' do
       expect(@app).to be_running
     end
 
-    it 'that root route has content that is dynamically generated' do
+    it 'dynamically generates the content for the root route' do
       browser.visit_path("/")
       expect(browser).to have_body 'Running on Symfony!'
     end
   end
 end
-
-
