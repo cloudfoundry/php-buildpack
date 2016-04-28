@@ -47,11 +47,11 @@ dependencies:
     md5: 61f38e4329f136760dfa4be22aa5656b
   - name: php
     version: 5.5.34
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.34-linux-x64-1459869133.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.34-linux-x64-1461793386.tgz
     modules: ["msgpack", "dba", "ftp", "imagick", "xhprof", "xdebug", "memcached", "redis", "xsl", "zlib", "lua", "ldap", "fileinfo", "protocolbuffers", "imap", "ioncube", "pdo_sqlite", "memcache", "exif", "gd", "mcrypt", "mysqli", "readline", "mysql", "mbstring", "protobuf", "mongo", "gettext", "phalcon", "zip", "pdo_pgsql", "amqp", "pcntl", "phpiredis", "pdo_mysql", "soap", "sundown", "igbinary", "pdo", "suhosin", "xcache", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "twig", "bz2", "openssl", "pgsql", "opcache"]
     cf_stacks:
       - cflinuxfs2
-    md5: dd3278d312fa1a211a2e195c95dab08f
+    md5: 4d46cc9013ba13423638aecb9667dbb0
   - name: php
     version: 5.6.19
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.19-linux-x64-1457383185.tgz
@@ -61,11 +61,11 @@ dependencies:
     md5: 2efcecf3d146c27e3237a814413c5f9d
   - name: php
     version: 5.6.20
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.20-linux-x64-1459869944.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.20-linux-x64-1461794184.tgz
     modules: ["msgpack", "dba", "ftp", "imagick", "xhprof", "xdebug", "memcached", "redis", "xsl", "zlib", "lua", "ldap", "fileinfo", "protocolbuffers", "imap", "ioncube", "pdo_sqlite", "memcache", "exif", "gd", "mcrypt", "mysqli", "readline", "mysql", "mbstring", "protobuf", "mongo", "gettext", "phalcon", "zip", "pdo_pgsql", "amqp", "pcntl", "phpiredis", "pdo_mysql", "soap", "sundown", "igbinary", "pdo", "suhosin", "xcache", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "twig", "bz2", "openssl", "pgsql", "opcache"]
     cf_stacks:
       - cflinuxfs2
-    md5: e141f4d2b0752a80cc8b26b587e270e3
+    md5: 7fc1fcee4ce2b967d17f82db224bf133
   - name: php
     version: 7.0.4
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.4-linux-x64-1459881370.tgz
