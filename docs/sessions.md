@@ -6,7 +6,7 @@ If you have multiple application instances or you need a more robust solution fo
 
 ### Usage
 
-By default, there's no configuration necessary.  Simple create a Redis service, make sure the service name contains `redis-sessions` and then bind the service to the application.
+By default, there's no configuration necessary.  Simple create a Redis or Memcached service, make sure the service name contains `redis-sessions` or `memcached-sessions` and then bind the service to the application.
 
 Ex:
 
@@ -16,7 +16,7 @@ cf bind-service app app-redis-sessions
 cf restage app
 ```
 
-If you want to use a specific service instance or change the search key, you can do that by setting `REDIS_SESSION_STORE_SERVICE_NAME` in `.bp-config/options.json` to the new search key.  The session configuration extension will then search the bound services by name for the new session key.
+If you want to use a specific service instance or change the search key, you can do that by setting either `REDIS_SESSION_STORE_SERVICE_NAME` or `MEMCACHED_SESSION_STORE_SERVICE_NAME` in `.bp-config/options.json` to the new search key.  The session configuration extension will then search the bound services by name for the new session key.
 
 ### Configuration Changes
 
@@ -28,3 +28,13 @@ When detected, the following changes will be made.
   - `session.name` will be set to `PHPSESSIONID` this disables sticky sessions
   - `session.save_handler` is configured to `redis`
   - `session.save_path` is configured based on the bound credentials (i.e. `tcp://host:port?auth=pass`)
+
+#### Memcached
+
+ - the `memcached` PHP extension will be installed, which provides the session save handler
+ - `session.name` will be set to `PHPSESSIONID` this disables sticky sessions
+ - `session.save_handler` is configured to `memcached`
+ - `session.save_path` is configured based on the bound credentials (i.e. `PERSISTENT=app_sessions host:port`)
+ - `memcached.sess_binary` is set to `On`
+ - `memcached.use_sasl` is set to `On`, which enables authentication
+ - `memcached.sess_sasl_username` and `memcached.sess_sasl_password` are set with the service credentials.

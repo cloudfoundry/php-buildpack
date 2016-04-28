@@ -14,7 +14,7 @@
 # limitations under the License.
 """Session Config Extension
 
-Configures redis for session sharing
+Configures redis or memcached for session sharing
 """
 from extension_helpers import PHPExtensionHelper
 
@@ -50,6 +50,26 @@ class RedisSetup(BaseSetup):
             self.creds.get('port', 'not-found'),
             self.creds.get('password', ''))
 
+class MemcachedSetup(BaseSetup):
+    DEFAULT_SESSION_STORE_TRIGGER = 'memcached-sessions'
+    CUSTOM_SESSION_STORE_KEY_NAME = 'MEMCACHED_SESSION_STORE_SERVICE_NAME'
+    EXTENSION_NAME = 'memcached'
+
+    def __init__(self, ctx, info):
+        BaseSetup.__init__(self, ctx, info)
+
+    def session_save_path(self):
+        return 'PERSISTENT=app_sessions %s' % self.creds.get('servers',
+                                                             'not-found')
+
+    def custom_config_php_ini(self, php_ini):
+        php_ini.append_lines([
+            'memcached.sess_binary=On\n',
+            'memcached.use_sasl=On\n',
+            'memcached.sess_sasl_username=%s\n' % self.creds.get('username',
+                                                                 ''),
+            'memcached.sess_sasl_password=%s\n' % self.creds.get('password', '')
+        ])
 
 class SessionStoreConfig(PHPExtensionHelper):
     def __init__(self, ctx):
@@ -65,6 +85,7 @@ class SessionStoreConfig(PHPExtensionHelper):
         # load search keys
         session_types = [
             RedisSetup,
+            MemcachedSetup
         ]
         # search for an appropriately name session store
         vcap_services = self._ctx.get('VCAP_SERVICES', {})

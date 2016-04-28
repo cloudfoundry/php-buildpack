@@ -28,6 +28,13 @@ class TestSessions(object):
         sessions = self.extension_module.SessionStoreConfig(ctx)
         eq_(self.extension_module.RedisSetup, type(sessions._load_session()))
 
+    def test_load_session_name_contains_memcached(self):
+        ctx = json.load(
+            open('tests/data/sessions/vcap_services_memcached.json'))
+        sessions = self.extension_module.SessionStoreConfig(ctx)
+        eq_(self.extension_module.MemcachedSetup,
+            type(sessions._load_session()))
+
     def test_load_session_no_service(self):
         sessions = self.extension_module.SessionStoreConfig({})
         eq_(None, sessions._load_session())
@@ -39,6 +46,14 @@ class TestSessions(object):
             'REDIS_SESSION_STORE_SERVICE_NAME': 'my-redis-db'
         }, {})
         eq_('my-redis-db', redis.session_store_key())
+
+    def test_alt_name_logic_memcached(self):
+        memcached = self.extension_module.MemcachedSetup({}, {})
+        eq_('memcached-sessions', memcached.session_store_key())
+        memcached = self.extension_module.MemcachedSetup({
+            'MEMCACHED_SESSION_STORE_SERVICE_NAME': 'my-memcached-db'
+        }, {})
+        eq_('my-memcached-db', memcached.session_store_key())
 
     def test_load_session_alt_name(self):
         ctx = json.load(
@@ -67,6 +82,15 @@ class TestSessions(object):
         sessions.configure()
         eq_(True, 'redis' in ctx['PHP_EXTENSIONS'])
 
+    def test_configure_adds_memcached_extension(self):
+        ctx = json.load(
+            open('tests/data/sessions/vcap_services_memcached.json'))
+        ctx['PHP_EXTENSIONS'] = []
+        sessions = self.extension_module.SessionStoreConfig(ctx)
+        sessions._php_ini = Dingus()
+        sessions.configure()
+        eq_(True, 'memcached' in ctx['PHP_EXTENSIONS'])
+
     def test_configure_adds_redis_config_to_php_ini(self):
         ctx = json.load(open('tests/data/sessions/vcap_services_redis.json'))
         sessions = self.extension_module.SessionStoreConfig(ctx)
@@ -82,4 +106,26 @@ class TestSessions(object):
         eq_('session.save_handler = redis',
             php_ini.update_lines.calls()[1].args[1])
         eq_('session.save_path = "tcp://redis-host:45629?auth=redis-pass"',
+            php_ini.update_lines.calls()[2].args[1])
+
+    def test_configure_adds_memcached_config_to_php_ini(self):
+        ctx = json.load(
+            open('tests/data/sessions/vcap_services_memcached.json'))
+        sessions = self.extension_module.SessionStoreConfig(ctx)
+        sessions.load_config = Dingus()
+        php_ini = Dingus()
+        sessions._php_ini = php_ini
+        sessions._php_ini_path = '/tmp/staged/app/php/etc/php.ini'
+        sessions.compile(None)
+        eq_(1, len(sessions.load_config.calls()))
+        eq_(3, len(php_ini.update_lines.calls()))
+        eq_(1, len(php_ini.append_lines.calls()))
+        eq_(True, all([arg.endswith('\n')
+                       for arg in php_ini.append_lines.calls()[0].args[0]]),
+            "Must end with EOL")
+        eq_(1, len(php_ini.save.calls()))
+        eq_(5, len(php_ini.calls()))
+        eq_('session.save_handler = memcached',
+            php_ini.update_lines.calls()[1].args[1])
+        eq_('session.save_path = "PERSISTENT=app_sessions host:port"',
             php_ini.update_lines.calls()[2].args[1])
