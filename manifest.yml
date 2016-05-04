@@ -40,46 +40,40 @@ dependencies:
     md5: 22dcae98467c318a856589d171670a01
   - name: php
     version: 5.5.33
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.33-linux-x64-1461857520.tgz
-    modules: ["gmp", "opcache", "phalcon", "twig", "openssl", "xcache", "pgsql", "xdebug", "imap", "xsl", "suhosin", "mysql", "fileinfo", "protobuf", "bz2", "lua", "protocolbuffers", "mcrypt", "zlib", "memcached", "xhprof", "memcache", "igbinary", "gd", "curl", "mbstring", "mysqli", "amqp", "yaf", "sockets", "soap", "mailparse", "pdo_sqlite", "phpiredis", "pdo", "ldap", "pspell", "readline", "imagick", "snmp", "dba", "msgpack", "pcntl", "sundown", "zip", "pdo_pgsql", "ioncube", "pdo_mysql", "mongo", "redis", "ftp", "exif", "gettext"]
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.33-linux-x64-1462378682.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: c847e780b8c19714fb4de730a6cb4a94
+    md5: bd1ab8e999b07d2dbadc2e3764a8762a
   - name: php
     version: 5.5.34
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.34-linux-x64-1461793386.tgz
-    modules: ["gmp", "opcache", "phalcon", "twig", "openssl", "xcache", "pgsql", "xdebug", "imap", "xsl", "suhosin", "mysql", "fileinfo", "protobuf", "bz2", "lua", "protocolbuffers", "mcrypt", "zlib", "memcached", "xhprof", "memcache", "igbinary", "gd", "curl", "mbstring", "mysqli", "amqp", "yaf", "sockets", "soap", "mailparse", "pdo_sqlite", "phpiredis", "pdo", "ldap", "pspell", "readline", "imagick", "snmp", "dba", "msgpack", "pcntl", "sundown", "zip", "pdo_pgsql", "ioncube", "pdo_mysql", "mongo", "redis", "ftp", "exif", "gettext"]
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.34-linux-x64-1462377191.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 4d46cc9013ba13423638aecb9667dbb0
+    md5: 03198bb236e46fd4e44293b1d300e3e4
   - name: php
     version: 5.6.19
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.19-linux-x64-1461858268.tgz
-    modules: ["gmp", "opcache", "phalcon", "twig", "openssl", "xcache", "pgsql", "xdebug", "imap", "xsl", "suhosin", "mysql", "fileinfo", "protobuf", "bz2", "lua", "protocolbuffers", "mcrypt", "zlib", "memcached", "xhprof", "memcache", "igbinary", "gd", "curl", "mbstring", "mysqli", "amqp", "yaf", "sockets", "soap", "mailparse", "pdo_sqlite", "phpiredis", "pdo", "ldap", "pspell", "readline", "imagick", "snmp", "dba", "msgpack", "pcntl", "sundown", "zip", "pdo_pgsql", "ioncube", "pdo_mysql", "mongo", "redis", "ftp", "exif", "gettext"]
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.19-linux-x64-1462376296.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 26b9fd471db51860208847c9f57b3845
+    md5: 44c39fb86b82824a99c75699ad60fe17
   - name: php
     version: 5.6.20
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.20-linux-x64-1461794184.tgz
-    modules: ["gmp", "opcache", "phalcon", "twig", "openssl", "xcache", "pgsql", "xdebug", "imap", "xsl", "suhosin", "mysql", "fileinfo", "protobuf", "bz2", "lua", "protocolbuffers", "mcrypt", "zlib", "memcached", "xhprof", "memcache", "igbinary", "gd", "curl", "mbstring", "mysqli", "amqp", "yaf", "sockets", "soap", "mailparse", "pdo_sqlite", "phpiredis", "pdo", "ldap", "pspell", "readline", "imagick", "snmp", "dba", "msgpack", "pcntl", "sundown", "zip", "pdo_pgsql", "ioncube", "pdo_mysql", "mongo", "redis", "ftp", "exif", "gettext"]
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.20-linux-x64-1462377907.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 7fc1fcee4ce2b967d17f82db224bf133
+    md5: fc7dd31316572b794baee0a2c5e54360
   - name: php
     version: 7.0.4
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.4-linux-x64-1459881370.tgz
-    modules: ["msgpack", "dba", "ftp", "imagick", "xdebug", "xsl", "zlib", "lua", "ldap", "fileinfo", "imap", "pdo_sqlite", "exif", "gd", "mcrypt", "mysqli", "mbstring", "gettext", "mongodb", "zip", "pdo_pgsql", "pcntl", "pdo_mysql", "soap", "pdo", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "bz2", "openssl", "pgsql", "opcache"]
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.4-linux-x64-1462376206.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 21d1b1051fccc185e0b7bf3990cf316c
+    md5: 937a741286bd2d0571b8cdbc9b71903b
   - name: php
     version: 7.0.5
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.5-linux-x64-1459880153.tgz
-    modules: ["msgpack", "dba", "ftp", "imagick", "xdebug", "xsl", "zlib", "lua", "ldap", "fileinfo", "imap", "pdo_sqlite", "exif", "gd", "mcrypt", "mysqli", "mbstring", "gettext", "mongodb", "zip", "pdo_pgsql", "pcntl", "pdo_mysql", "soap", "pdo", "curl", "gmp", "mailparse", "sockets", "yaf", "pspell", "snmp", "bz2", "openssl", "pgsql", "opcache"]
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.5-linux-x64-1462375756.tgz
     cf_stacks:
       - cflinuxfs2
-    md5: 5f5bc838dacb4accbdb1dc6149ab6b96
+    md5: dbf907386ff780925e4fcc0ad87c3d86
   - name: nginx
     version: 1.8.1
     uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.1-linux-x64.tgz
