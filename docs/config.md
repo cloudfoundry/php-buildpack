@@ -64,7 +64,7 @@ Second, you need to take care when adjusting the configurations.  It is possible
 
 As mentioned in the chart above, PHP extensions can easily be enabled by setting the `PHP_EXTENSIONS` or `ZEND_EXTENSIONS` option in `.bp-config/options.json`.  This option allows you to make sure that any of the bundled PHP extensions are installed and configured for your environment. The list of bundled php extensions is available in the [manifest.yml](https://github.com/cloudfoundry/php-buildpack/blob/master/manifest.yml#L65).
 
-Alternatively, PHP extensions can also be enabled through [standard portable composer syntax](docs/composer.md).
+Alternatively, PHP extensions can also be enabled through [standard portable composer syntax](composer.md).
 
 #### Composer
 
