@@ -1,6 +1,7 @@
 import os
 import tempfile
 import shutil
+import re
 from nose.tools import eq_
 from dingus import Dingus
 from dingus import patch
@@ -19,6 +20,7 @@ class TestComposer(object):
 
     def test_composer_tool_should_compile(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': 'tests/data/composer',
             'CACHE_DIR': '/cache/dir',
             'PHP_VM': 'will_default_to_php_strategy',
@@ -30,6 +32,7 @@ class TestComposer(object):
 
     def test_composer_tool_should_compile_not_found(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': 'lib',
             'CACHE_DIR': '/cache/dir',
             'PHP_VM': 'will_default_to_php_strategy',
@@ -41,6 +44,7 @@ class TestComposer(object):
 
     def test_composer_tool_install(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'PHP_VM': 'will_default_to_php_strategy',
             'BUILD_DIR': '/build/dir',
             'CACHE_DIR': '/cache/dir',
@@ -63,8 +67,7 @@ class TestComposer(object):
         assert installer.calls().once()
         # make sure composer is installed
         assert installer._installer.calls().once()
-        assert installer._installer.calls()[0].args[0] == \
-            '/composer/1.1.0/composer.phar', \
+        assert re.match('/composer/[\d\.]+/composer.phar', installer._installer.calls()[0].args[0]), \
             "was %s" % installer._installer.calls()[0].args[0]
 
     def test_composer_tool_install_latest(self):
@@ -184,6 +187,7 @@ class TestComposer(object):
 
     def test_process_commands(self):
         eq_(0, len(self.extension_module.preprocess_commands({
+            'BP_DIR': '',
             'BUILD_DIR': '',
             'WEBDIR': '',
             'PHP_VM': ''
@@ -191,6 +195,7 @@ class TestComposer(object):
 
     def test_service_commands(self):
         eq_(0, len(self.extension_module.service_commands({
+            'BP_DIR': '',
             'BUILD_DIR': '',
             'WEBDIR': '',
             'PHP_VM': ''
@@ -198,6 +203,7 @@ class TestComposer(object):
 
     def test_service_environment(self):
         eq_(0, len(self.extension_module.service_environment({
+            'BP_DIR': '',
             'BUILD_DIR': '',
             'WEBDIR': '',
             'PHP_VM': ''
@@ -403,6 +409,7 @@ class TestComposer(object):
 
     def test_composer_defaults(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/tmp/build',
             'CACHE_DIR': '/tmp/cache',
             'PHP_VM': 'will_default_to_php_strategy',
@@ -416,6 +423,7 @@ class TestComposer(object):
 
     def test_composer_custom_values(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/tmp/build',
             'CACHE_DIR': '/tmp/cache',
             'LIBDIR': 'lib',
@@ -442,6 +450,7 @@ class TestComposer(object):
 
     def test_build_composer_environment_inherits_from_ctx(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/usr/awesome',
             'WEBDIR': '',
             'PHPRC': '/usr/awesome/phpini',
@@ -474,6 +483,7 @@ class TestComposer(object):
 
     def test_build_composer_environment_sets_composer_env_vars(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/tmp/build',
             'WEBDIR': '',
             'CACHE_DIR': '/tmp/cache',
@@ -502,6 +512,7 @@ class TestComposer(object):
 
     def test_build_composer_environment_forbids_overwriting_key_vars(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/usr/awesome',
             'WEBDIR': '',
             'PHP_VM': 'php',
@@ -526,6 +537,7 @@ class TestComposer(object):
 
     def test_build_composer_environment_converts_vars_to_str(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/usr/awesome',
             'WEBDIR': '',
             'PHP_VM': 'php',
@@ -554,6 +566,7 @@ class TestComposer(object):
     def test_build_composer_environment_has_missing_key(self):
         os.environ['SOME_KEY'] = 'does not matter'
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/usr/awesome',
             'WEBDIR': '',
             'PHP_VM': 'php',
@@ -582,6 +595,7 @@ class TestComposer(object):
 
     def test_build_composer_environment_no_path(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/usr/awesome',
             'WEBDIR': '',
             'PHP_VM': 'php',
@@ -607,6 +621,7 @@ class TestComposer(object):
 
     def test_build_composer_environment_existing_path(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/usr/awesome',
             'WEBDIR': '',
             'PHP_VM': 'php',
@@ -734,6 +749,7 @@ class TestComposer(object):
 
     def test_github_oauth_token_is_valid_uses_curl(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': '/usr/awesome',
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
@@ -768,6 +784,7 @@ class TestComposer(object):
 
     def test_github_oauth_token_is_valid_interprets_github_api_200_as_true(self):  # noqa
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': tempfile.gettempdir(),
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
@@ -794,6 +811,7 @@ class TestComposer(object):
 
     def test_github_oauth_token_is_valid_interprets_github_api_401_as_false(self):  # noqa
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': tempfile.gettempdir(),
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
@@ -861,6 +879,7 @@ class TestComposer(object):
 
     def test_github_download_rate_not_exceeded(self):  # noqa
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': tempfile.gettempdir(),
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
@@ -887,6 +906,7 @@ class TestComposer(object):
 
     def test_github_download_rate_is_exceeded(self):  # noqa
         ctx = utils.FormattedDict({
+            'BP_DIR': '',
             'BUILD_DIR': tempfile.gettempdir(),
             'PHP_VM': 'php',
             'TMPDIR': tempfile.gettempdir(),
