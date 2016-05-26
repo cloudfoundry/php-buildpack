@@ -16,16 +16,12 @@ end
 
 manifest = YAML.load_file('manifest.yml')
 
-manifest['dependencies'].each do |dependency|
+dependencies = manifest['dependencies'].map do |dependency|
   if dependency.fetch('name') == 'php' && !dependency.has_key?('modules')
     dependency['modules'] = php_modules_from(url: dependency.fetch('uri'))
-    File.write('manifest.yml',
-      File.read('manifest.yml')
-        .gsub(
-          "uri: #{dependency['uri']}",
-          "uri: #{dependency['uri']}\n    modules: #{dependency['modules'].inspect}"
-        )
-    )
   end
+  dependency
 end
 
+manifest['dependencies'] = dependencies
+File.write('manifest.yml', manifest.to_yaml)
