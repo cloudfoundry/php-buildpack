@@ -98,6 +98,7 @@ dependencies:
 - name: php
   version: 5.5.36
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1464282808.tgz
+    modules: ["soap", "opcache", "phpiredis", "ldap", "imagick", "memcached", "mysqli", "gmp", "ftp", "yaf", "sockets", "ioncube", "msgpack", "pspell", "bz2", "readline", "fileinfo", "gd", "imap", "protobuf", "xcache", "mbstring", "xdebug", "pcntl", "gettext", "twig", "mysql", "dba", "mailparse", "sundown", "snmp", "pdo_mysql", "openssl", "pdo_sqlite", "redis", "phalcon", "suhosin", "igbinary", "xsl", "amqp", "pdo_pgsql", "mcrypt", "curl", "zip", "pdo", "lua", "memcache", "mongo", "pgsql", "exif", "xhprof", "zlib", "protocolbuffers"]
   cf_stacks:
   - cflinuxfs2
   md5: c9aef4583db9fe332578fbdf154d4d85
@@ -268,6 +269,7 @@ dependencies:
 - name: php
   version: 7.0.7
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.7-linux-x64-1464281926.tgz
+    modules: ["soap", "opcache", "ldap", "imagick", "mysqli", "gmp", "ftp", "yaf", "sockets", "msgpack", "pspell", "bz2", "fileinfo", "gd", "imap", "mongodb", "mbstring", "xdebug", "pcntl", "gettext", "dba", "mailparse", "snmp", "pdo_mysql", "openssl", "pdo_sqlite", "xsl", "amqp", "pdo_pgsql", "mcrypt", "curl", "zip", "pdo", "lua", "pgsql", "exif", "zlib"]
   cf_stacks:
   - cflinuxfs2
   md5: f44867b94a3a5f7d57bdbc9da558acee
