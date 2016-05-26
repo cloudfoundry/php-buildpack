@@ -101,6 +101,60 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: c9aef4583db9fe332578fbdf154d4d85
+  modules:
+  - soap
+  - opcache
+  - phpiredis
+  - ldap
+  - imagick
+  - memcached
+  - mysqli
+  - gmp
+  - ftp
+  - yaf
+  - sockets
+  - ioncube
+  - msgpack
+  - pspell
+  - bz2
+  - readline
+  - fileinfo
+  - gd
+  - imap
+  - protobuf
+  - xcache
+  - mbstring
+  - xdebug
+  - pcntl
+  - gettext
+  - twig
+  - mysql
+  - dba
+  - mailparse
+  - sundown
+  - snmp
+  - pdo_mysql
+  - openssl
+  - pdo_sqlite
+  - redis
+  - phalcon
+  - suhosin
+  - igbinary
+  - xsl
+  - amqp
+  - pdo_pgsql
+  - mcrypt
+  - curl
+  - zip
+  - pdo
+  - lua
+  - memcache
+  - mongo
+  - pgsql
+  - exif
+  - xhprof
+  - zlib
+  - protocolbuffers
 - name: php
   version: 5.6.20
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.20-linux-x64-1462888738.tgz
@@ -271,6 +325,44 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: f44867b94a3a5f7d57bdbc9da558acee
+  modules:
+  - soap
+  - opcache
+  - ldap
+  - imagick
+  - mysqli
+  - gmp
+  - ftp
+  - yaf
+  - sockets
+  - msgpack
+  - pspell
+  - bz2
+  - fileinfo
+  - gd
+  - imap
+  - mongodb
+  - mbstring
+  - xdebug
+  - pcntl
+  - gettext
+  - dba
+  - mailparse
+  - snmp
+  - pdo_mysql
+  - openssl
+  - pdo_sqlite
+  - xsl
+  - amqp
+  - pdo_pgsql
+  - mcrypt
+  - curl
+  - zip
+  - pdo
+  - lua
+  - pgsql
+  - exif
+  - zlib
 - name: nginx
   version: 1.8.1
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.8.1-linux-x64.tgz
