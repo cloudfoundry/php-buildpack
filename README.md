@@ -2,11 +2,11 @@
 
 A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a [cloud provider](https://www.cloudfoundry.org/learn/certified-providers/) or your own instance.
 
-## Using the Buildpack
+### Buildpack User Documentation
 
-For information on deploying PHP applications visit [CloudFoundry.org](http://docs.cloudfoundry.org/buildpacks/php/index.html).
+Official buildpack documentation can be found at http://docs.cloudfoundry.org/buildpacks/php/index.html.
 
-## Building the Buildpack
+### Building the Buildpack
 
 1. Make sure you have fetched submodules
 
@@ -35,7 +35,8 @@ For information on deploying PHP applications visit [CloudFoundry.org](http://do
     cf push my_app -b custom_php_buildpack
     ```
 
-## Contributing
+### Contributing
+Find our guidelines [here](https://github.com/cloudfoundry/php-buildpack/blob/develop/CONTRIBUTING.md).
 
 ### Integration Tests
 Buildpacks use the [Machete](https://github.com/cloudfoundry/machete) framework for running integration tests.
@@ -52,11 +53,11 @@ BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-build
 ./run_tests.sh
 ```
 
-#### Requirements
+### Requirements
  1. [PyEnv] - This will allow you to easily install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
  1. [virtualenv] & [pip] - The buildpack uses virtualenv and pip to setup the [required packages].  These are used by the unit test and not required by the buildpack itself.
 
-#### Setup
+### Setup
 ```bash
 git clone https://github.com/cloudfoundry/php-buildpack
 cd php-buildpack
@@ -100,11 +101,11 @@ In general, you shouldn't need to modify the buildpack itself.  Instead creating
 
 The buildpack relies heavily on extensions.  An extension is simply a set of Python methods that will get called at various times during the staging process.  
 
-#### Creation
+### Creation
 
 To create an extension, simply create a folder.  The name of the folder will be the extension.  Inside that folder, create a file called `extension.py`. That file will contain your code.  Inside that file, put your extension methods and any additional required code.
 
-#### Methods
+### Methods
 
 Here is an explanation of the methods offered to an extension developer.  All of them are optional and if a method is not implemented, it is simply skipped.
 
@@ -164,7 +165,7 @@ The `compile` method is the main method and where extension authors should perfo
 
 The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
 
-##### Method Order
+### Method Order
 
 It is sometimes useful to know what order the buildpack will use to call the methods in an extension.  They are called in the following order.
 
@@ -214,7 +215,7 @@ def compile(install):
     return 0
 ```
 
-#### Tips
+### Tips
 
  1. To be consistent with the rest of the buildpack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the buildpack.
  1. The buildpack will run every extension that is included with the buildpack and the application.  There is no mechanism to disable specific extensions.  Thus, when you write an extension, you should make some way for the user to enable / disable it's functionality.  See the [NewRelic] extension for an example of this.
@@ -236,7 +237,7 @@ def compile(install):
 [NewRelic]:https://github.com/cloudfoundry/php-buildpack/tree/master/extensions/newrelic
 [unit tests]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md#testing
 
-## Help and Support
+### Help and Support
 
 Join the #buildpacks channel in our [Slack community] (http://slack.cloudfoundry.org/) 
 
@@ -244,7 +245,7 @@ Join the #buildpacks channel in our [Slack community] (http://slack.cloudfoundry
 
 This project is managed through GitHub.  If you encounter any issues, bug or problems with the buildpack please open an issue.
 
-## Active Development
+### Active Development
 
 The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/projects/1042066)
 
