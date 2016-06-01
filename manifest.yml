@@ -156,66 +156,6 @@ dependencies:
   - zlib
   - protocolbuffers
 - name: php
-  version: 5.6.20
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.20-linux-x64-1462888738.tgz
-  modules:
-  - soap
-  - opcache
-  - phpiredis
-  - ldap
-  - imagick
-  - memcached
-  - mysqli
-  - gmp
-  - ftp
-  - yaf
-  - sockets
-  - ioncube
-  - msgpack
-  - pspell
-  - bz2
-  - readline
-  - fileinfo
-  - gd
-  - imap
-  - protobuf
-  - xcache
-  - mbstring
-  - xdebug
-  - pcntl
-  - gettext
-  - twig
-  - mysql
-  - dba
-  - mailparse
-  - sundown
-  - snmp
-  - pdo_mysql
-  - openssl
-  - pdo_sqlite
-  - redis
-  - phalcon
-  - suhosin
-  - igbinary
-  - xsl
-  - amqp
-  - pdo_pgsql
-  - mcrypt
-  - curl
-  - zip
-  - pdo
-  - lua
-  - memcache
-  - mongo
-  - pgsql
-  - exif
-  - xhprof
-  - zlib
-  - protocolbuffers
-  cf_stacks:
-  - cflinuxfs2
-  md5: b010a64a7d94b62451de79220ac0226e
-- name: php
   version: 5.6.21
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.21-linux-x64-1462889654.tgz
   modules:
@@ -275,6 +215,66 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: 7ac60de03064e7be2f3be1672ef2bdef
+- name: php
+  version: 5.6.22
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1464813818.tgz
+  modules:
+  - soap
+  - opcache
+  - phpiredis
+  - ldap
+  - imagick
+  - memcached
+  - mysqli
+  - gmp
+  - ftp
+  - yaf
+  - sockets
+  - ioncube
+  - msgpack
+  - pspell
+  - bz2
+  - readline
+  - fileinfo
+  - gd
+  - imap
+  - protobuf
+  - xcache
+  - mbstring
+  - xdebug
+  - pcntl
+  - gettext
+  - twig
+  - mysql
+  - dba
+  - mailparse
+  - sundown
+  - snmp
+  - pdo_mysql
+  - openssl
+  - pdo_sqlite
+  - redis
+  - phalcon
+  - suhosin
+  - igbinary
+  - xsl
+  - amqp
+  - pdo_pgsql
+  - mcrypt
+  - curl
+  - zip
+  - pdo
+  - lua
+  - memcache
+  - mongo
+  - pgsql
+  - exif
+  - xhprof
+  - zlib
+  - protocolbuffers
+  cf_stacks:
+  - cflinuxfs2
+  md5: 316a865db6e50453c6bf2fe37cdab8fc
 - name: php
   version: 7.0.6
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.6-linux-x64-1462888961.tgz
