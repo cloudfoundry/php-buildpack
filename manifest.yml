@@ -40,6 +40,7 @@ dependencies:
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.35-linux-x64-1466456435.tgz
   md5: 6eb427c51cd7a8de75802829f25d2f00
   modules:
+  - solr
   - soap
   - opcache
   - phpiredis
@@ -102,6 +103,7 @@ dependencies:
   - cflinuxfs2
   md5: 0ca00c140f98f1c3e817e2f69a6bbef8
   modules:
+  - solr
   - soap
   - opcache
   - phpiredis
@@ -160,6 +162,7 @@ dependencies:
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.21-linux-x64-1466454725.tgz
   md5: 900874aabc0a4f085ad6d2b962117834
   modules:
+  - solr
   - soap
   - opcache
   - phpiredis
@@ -220,6 +223,7 @@ dependencies:
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1466453828.tgz
   md5: 5f03865c39b8864daeb8663ed7a81071
   modules:
+  - solr
   - soap
   - opcache
   - phpiredis
@@ -280,6 +284,7 @@ dependencies:
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.6-linux-x64-1466453977.tgz
   md5: e60628827f090fb092c9e25b5a816ca3
   modules:
+  - solr
   - soap
   - opcache
   - ldap
@@ -327,6 +332,7 @@ dependencies:
   md5: 762419e60b87c2362e64c206bf0be5f1
   modules:
   - soap
+  - solr
   - opcache
   - ldap
   - imagick
