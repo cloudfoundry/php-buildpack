@@ -37,7 +37,8 @@ dependencies:
   md5: 22dcae98467c318a856589d171670a01
 - name: php
   version: 5.5.35
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.35-linux-x64-1462895931.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.35-linux-x64-1466456435.tgz
+  md5: 6eb427c51cd7a8de75802829f25d2f00
   modules:
   - soap
   - opcache
@@ -94,13 +95,12 @@ dependencies:
   - protocolbuffers
   cf_stacks:
   - cflinuxfs2
-  md5: 72d3003035cf91600e6da3e79578b29e
 - name: php
   version: 5.5.36
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1464282808.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1466455593.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: c9aef4583db9fe332578fbdf154d4d85
+  md5: 0ca00c140f98f1c3e817e2f69a6bbef8
   modules:
   - soap
   - opcache
@@ -157,7 +157,8 @@ dependencies:
   - protocolbuffers
 - name: php
   version: 5.6.21
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.21-linux-x64-1462889654.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.21-linux-x64-1466454725.tgz
+  md5: 900874aabc0a4f085ad6d2b962117834
   modules:
   - soap
   - opcache
@@ -214,10 +215,10 @@ dependencies:
   - protocolbuffers
   cf_stacks:
   - cflinuxfs2
-  md5: 7ac60de03064e7be2f3be1672ef2bdef
 - name: php
   version: 5.6.22
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1464813818.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1466453828.tgz
+  md5: 5f03865c39b8864daeb8663ed7a81071
   modules:
   - soap
   - opcache
@@ -274,10 +275,10 @@ dependencies:
   - protocolbuffers
   cf_stacks:
   - cflinuxfs2
-  md5: 316a865db6e50453c6bf2fe37cdab8fc
 - name: php
   version: 7.0.6
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.6-linux-x64-1462888961.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.6-linux-x64-1466453977.tgz
+  md5: e60628827f090fb092c9e25b5a816ca3
   modules:
   - soap
   - opcache
@@ -318,13 +319,12 @@ dependencies:
   - zlib
   cf_stacks:
   - cflinuxfs2
-  md5: f588ea2a1d82e62deb1150585103d5c1
 - name: php
   version: 7.0.7
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.7-linux-x64-1464281926.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.7-linux-x64-1466453415.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: f44867b94a3a5f7d57bdbc9da558acee
+  md5: 762419e60b87c2362e64c206bf0be5f1
   modules:
   - soap
   - opcache
