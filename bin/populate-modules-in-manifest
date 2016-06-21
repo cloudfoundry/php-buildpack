@@ -3,21 +3,22 @@
 require 'yaml'
 require 'tmpdir'
 
+
 def php_modules_from(url:)
   Dir.mktmpdir do |dir|
     Dir.chdir(dir) do
       `wget #{url} && tar xzf #{File.basename(url)}`
-      Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
+      moduleList = Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
         File.basename(file, '.so')
       end
+      moduleList.sort
     end
   end
 end
 
 manifest = YAML.load_file('manifest.yml')
-
 dependencies = manifest['dependencies'].map do |dependency|
-  if dependency.fetch('name') == 'php' && !dependency.has_key?('modules')
+  if dependency.fetch('name') == 'php'
     dependency['modules'] = php_modules_from(url: dependency.fetch('uri'))
   end
   dependency
