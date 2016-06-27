@@ -36,67 +36,6 @@ dependencies:
   - cflinuxfs2
   md5: 22dcae98467c318a856589d171670a01
 - name: php
-  version: 5.5.35
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.35-linux-x64-1466456435.tgz
-  md5: 6eb427c51cd7a8de75802829f25d2f00
-  modules:
-  - amqp
-  - bz2
-  - curl
-  - dba
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - ioncube
-  - ldap
-  - lua
-  - mailparse
-  - mbstring
-  - mcrypt
-  - memcache
-  - memcached
-  - mongo
-  - msgpack
-  - mysql
-  - mysqli
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_mysql
-  - pdo_pgsql
-  - pdo_sqlite
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - protocolbuffers
-  - pspell
-  - readline
-  - redis
-  - snmp
-  - soap
-  - sockets
-  - solr
-  - suhosin
-  - sundown
-  - twig
-  - xcache
-  - xdebug
-  - xhprof
-  - xsl
-  - yaf
-  - zip
-  - zlib
-  cf_stacks:
-  - cflinuxfs2
-- name: php
   version: 5.5.36
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1466455593.tgz
   cf_stacks:
@@ -157,6 +96,12 @@ dependencies:
   - yaf
   - zip
   - zlib
+- name: php
+  version: 5.5.37
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.37-linux-x64-1467052134.tgz
+  md5: 673770a5deca92bc2385b37b8ea91afe
+  cf_stacks:
+  - cflinuxfs2
 - name: php
   version: 5.6.21
   uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.21-linux-x64-1466454725.tgz
