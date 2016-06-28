@@ -1,3 +1,25 @@
+v4.3.15 Jun 28, 2016
+=====================
+
+* Add php 5.5.37, remove php 5.5.35
+  (https://www.pivotaltracker.com/story/show/121937065)
+
+* Add php 5.6.23, remove php 5.6.21
+  (https://www.pivotaltracker.com/story/show/122010587)
+
+* Add php 7.0.8, remove php 7.0.6
+  (https://www.pivotaltracker.com/story/show/121990101)
+
+* Add composer 1.1.3, remove composer 1.1.2
+  (https://www.pivotaltracker.com/story/show/122332581)
+
+* populate-modules-in-manifest always updates modules
+  - Also sort modules alphabetically
+  (https://www.pivotaltracker.com/story/show/121973229)
+
+* Include solr in PHP binaries
+  (https://www.pivotaltracker.com/story/show/121045501)
+
 v4.3.14 Jun 02, 2016
 =====================
 
