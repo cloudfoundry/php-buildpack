@@ -375,12 +375,6 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: 7d28497395b62221f3380e82f89cd197
-- name: nginx
-  version: 1.9.15
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/nginx/nginx-1.9.15-linux-x64.tgz
-  cf_stacks:
-  - cflinuxfs2
-  md5: 34e9323f3db87ea2c5f244f8fc35f625
 - name: composer
   version: 1.1.3
   uri: https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/composer/1.1.3/composer.phar
