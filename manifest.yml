@@ -64,6 +64,7 @@ dependencies:
   - memcache
   - memcached
   - mongo
+  - mongodb
   - msgpack
   - mysql
   - mysqli
@@ -125,6 +126,7 @@ dependencies:
   - memcache
   - memcached
   - mongo
+  - mongodb
   - msgpack
   - mysql
   - mysqli
@@ -184,6 +186,7 @@ dependencies:
   - memcache
   - memcached
   - mongo
+  - mongodb
   - msgpack
   - mysql
   - mysqli
@@ -247,6 +250,7 @@ dependencies:
   - memcache
   - memcached
   - mongo
+  - mongodb
   - msgpack
   - mysql
   - mysqli
