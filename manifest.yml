@@ -37,10 +37,10 @@ dependencies:
   md5: 22dcae98467c318a856589d171670a01
 - name: php
   version: 5.5.36
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1466455593.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1467827447.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: 0ca00c140f98f1c3e817e2f69a6bbef8
+  md5: b38c8e2b49e519f37f7f54854b29ff43
   modules:
   - amqp
   - bz2
@@ -99,8 +99,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.5.37
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.37-linux-x64-1467052134.tgz
-  md5: 673770a5deca92bc2385b37b8ea91afe
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.37-linux-x64-1467828374.tgz
+  md5: fa49202e48fa3586842fffc595c130ae
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -161,8 +161,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.22
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1466453828.tgz
-  md5: 5f03865c39b8864daeb8663ed7a81071
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1467829272.tgz
+  md5: a0256cc0b7e76943607152988d47d75f
   modules:
   - amqp
   - bz2
@@ -223,8 +223,8 @@ dependencies:
   - cflinuxfs2
 - name: php
   version: 5.6.23
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.23-linux-x64-1467053013.tgz
-  md5: c2de289ec5ed1cae3465a1d9f5807fdb
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.23-linux-x64-1467830172.tgz
+  md5: fcc6cf3330a03b0cf01777fc4ddac685
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -285,10 +285,10 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.7
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.7-linux-x64-1466453415.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.7-linux-x64-1467827036.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: 762419e60b87c2362e64c206bf0be5f1
+  md5: caa5d94ddd1fe2b5ae54b71e549797db
   modules:
   - amqp
   - bz2
@@ -330,8 +330,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.8
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.8-linux-x64-1467051745.tgz
-  md5: e522129bd2687ac07186021bd1d97543
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php7/php7-7.0.8-linux-x64-1467827556.tgz
+  md5: 874b1ebd0da6622e574055aa88c50c09
   cf_stacks:
   - cflinuxfs2
   modules:
