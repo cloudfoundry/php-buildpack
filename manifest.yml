@@ -55,7 +55,6 @@ dependencies:
   - igbinary
   - imagick
   - imap
-  - ioncube
   - ldap
   - lua
   - mailparse
@@ -117,7 +116,6 @@ dependencies:
   - igbinary
   - imagick
   - imap
-  - ioncube
   - ldap
   - lua
   - mailparse
@@ -177,7 +175,6 @@ dependencies:
   - igbinary
   - imagick
   - imap
-  - ioncube
   - ldap
   - lua
   - mailparse
@@ -241,7 +238,6 @@ dependencies:
   - igbinary
   - imagick
   - imap
-  - ioncube
   - ldap
   - lua
   - mailparse
