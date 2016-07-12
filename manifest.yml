@@ -37,10 +37,10 @@ dependencies:
   md5: 22dcae98467c318a856589d171670a01
 - name: php
   version: 5.5.36
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1468266833.tgz
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.36-linux-x64-1468352075.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: dfa733795f520a191c769c7e8ad998b1
+  md5: 7eedea19caf624ea1681812b7eb7736f
   modules:
   - amqp
   - bz2
@@ -98,8 +98,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.5.37
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.37-linux-x64-1468268506.tgz
-  md5: cba670effe39e99fa5387cdf3ff0014b
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.5.37-linux-x64-1468353118.tgz
+  md5: f425f5ee4cf1d1fd2291fbecde2b939d
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -159,8 +159,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.22
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1468270091.tgz
-  md5: 668f6354e753526d968ce1fa47757fd5
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.22-linux-x64-1468354106.tgz
+  md5: be7707bda1f14d0e807adf05f235aca0
   modules:
   - amqp
   - bz2
@@ -220,8 +220,8 @@ dependencies:
   - cflinuxfs2
 - name: php
   version: 5.6.23
-  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.23-linux-x64-1468274079.tgz
-  md5: e0c329b55eff8546429a7e0ea98742f7
+  uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/php/php-5.6.23-linux-x64-1468355057.tgz
+  md5: 1285afd47994858a256675d6d6bac866
   cf_stacks:
   - cflinuxfs2
   modules:
