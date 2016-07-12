@@ -170,6 +170,7 @@ dependencies:
   - fileinfo
   - ftp
   - gd
+  - gearman
   - gettext
   - gmp
   - igbinary
@@ -233,6 +234,7 @@ dependencies:
   - fileinfo
   - ftp
   - gd
+  - gearman
   - gettext
   - gmp
   - igbinary
