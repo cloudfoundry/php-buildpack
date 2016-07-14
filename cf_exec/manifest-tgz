@@ -9,7 +9,7 @@ puts(Dir["#{php_dir}/*.tar.gz"].map do |filename|
   {
     'name' => File.basename(filename, '.tar.gz').gsub(/-\d+\.\d+\.\d+/, ''),
     'version' => php_dir,
-    'uri' => "https://pivotal-buildpacks.s3.amazonaws.com/php/binaries/trusty/php/#{filename}",
+    'uri' => "https://buildpacks.cloudfoundry.org/php/binaries/trusty/php/#{filename}",
     'md5' => Digest::MD5.hexdigest(File.read(filename)),
     'cf_stacks' => ['cflinuxfs2']
   }
