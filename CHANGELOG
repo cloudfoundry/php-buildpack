@@ -1,3 +1,29 @@
+v4.3.16 Jul 15, 2016
+=====================
+
+* Make buildpacks.cloudfoundry.org the default url for buildpack
+  dependencies
+  (https://www.pivotaltracker.com/story/show/121757949)
+
+* Remove nginx 1.9.5, make nginx 1.11.x default version.
+  - Add nginx 1.10.1
+  - Add nginx 1.11.2
+  (https://www.pivotaltracker.com/story/show/124860331)
+  (https://www.pivotaltracker.com/story/show/124182441)
+
+* Rebuild php5 to include gearman
+  (https://www.pivotaltracker.com/story/show/121741961)
+
+* Update Phalcon from 2.0.11 -> 2.0.13
+  (https://www.pivotaltracker.com/story/show/125254211)
+
+* Update yaf to 3.0.3 in php7
+  (https://www.pivotaltracker.com/story/show/124082861)
+
+* Add pecl-mongodb to php5
+  - This leaves mongodb on php7 unchanged, and leaves `mongo` on php5
+  (https://www.pivotaltracker.com/story/show/119012029)
+
 v4.3.15 Jun 28, 2016
 =====================
 
