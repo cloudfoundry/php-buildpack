@@ -30,11 +30,11 @@ dependencies:
   - cflinuxfs2
   md5: 3640d3cad6b5199f54a6b54a627235d6
 - name: httpd
-  version: 2.4.20
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/httpd/httpd-2.4.20-linux-x64.tgz
+  version: 2.4.23
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/httpd/httpd-2.4.23-linux-x64.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: 22dcae98467c318a856589d171670a01
+  md5: a5d5178f0f8133a65baf942a07408ba6
 - name: php
   version: 5.5.36
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.36-linux-x64-1468352075.tgz
