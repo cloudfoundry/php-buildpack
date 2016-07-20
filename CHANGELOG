@@ -1,3 +1,17 @@
+v4.3.17 Jul 20, 2016
+=====================
+
+  * Mitigations for httpoxy (CVE-2016-5387 and CVE-2016-5385)
+    - Unset proxy header for requests for Apache
+    - Clear out HTTP_PROXY value for nginx (no CVE assigned at this time)
+  (https://www.pivotaltracker.com/story/show/126591847)
+
+  * Update composer to 1.2.0
+    (https://www.pivotaltracker.com/story/show/126559299)
+
+  * Add httpd 2.4.23, remove httpd 2.4.20
+    (https://www.pivotaltracker.com/story/show/123892721)
+
 v4.3.16 Jul 15, 2016
 =====================
 
