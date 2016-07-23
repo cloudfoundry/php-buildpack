@@ -102,6 +102,62 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: 45e35b2aa95ee43ded9521fde07239e1
+  modules:
+  - amqp
+  - bz2
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - gearman
+  - gettext
+  - gmp
+  - igbinary
+  - imagick
+  - imap
+  - ldap
+  - lua
+  - mailparse
+  - mbstring
+  - mcrypt
+  - memcache
+  - memcached
+  - mongo
+  - mongodb
+  - msgpack
+  - mysql
+  - mysqli
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_mysql
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - phalcon
+  - phpiredis
+  - protobuf
+  - protocolbuffers
+  - pspell
+  - readline
+  - redis
+  - snmp
+  - soap
+  - sockets
+  - solr
+  - suhosin
+  - sundown
+  - twig
+  - xcache
+  - xdebug
+  - xhprof
+  - xsl
+  - yaf
+  - zip
+  - zlib
 - name: php
   version: 5.6.23
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.23-linux-x64-1468355057.tgz
@@ -170,6 +226,62 @@ dependencies:
   md5: 5c236e6828f02874ce520bc144260d0c
   cf_stacks:
   - cflinuxfs2
+  modules:
+  - amqp
+  - bz2
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - gearman
+  - gettext
+  - gmp
+  - igbinary
+  - imagick
+  - imap
+  - ldap
+  - lua
+  - mailparse
+  - mbstring
+  - mcrypt
+  - memcache
+  - memcached
+  - mongo
+  - mongodb
+  - msgpack
+  - mysql
+  - mysqli
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_mysql
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - phalcon
+  - phpiredis
+  - protobuf
+  - protocolbuffers
+  - pspell
+  - readline
+  - redis
+  - snmp
+  - soap
+  - sockets
+  - solr
+  - suhosin
+  - sundown
+  - twig
+  - xcache
+  - xdebug
+  - xhprof
+  - xsl
+  - yaf
+  - zip
+  - zlib
 - name: php
   version: 7.0.8
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.8-linux-x64-1467827556.tgz
@@ -221,6 +333,45 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: d66251f9a2e45e6bf5c94e0ad27dd1ef
+  modules:
+  - amqp
+  - bz2
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - gettext
+  - gmp
+  - imagick
+  - imap
+  - ldap
+  - lua
+  - mailparse
+  - mbstring
+  - mcrypt
+  - mongodb
+  - msgpack
+  - mysqli
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_mysql
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - pspell
+  - snmp
+  - soap
+  - sockets
+  - solr
+  - xdebug
+  - xsl
+  - yaf
+  - zip
+  - zlib
 - name: nginx
   version: 1.10.1
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.10.1-linux-x64.tgz
