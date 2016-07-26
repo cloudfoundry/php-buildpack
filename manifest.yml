@@ -378,15 +378,15 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: 8b2b4d5572940d96bbb68cc10027b679
-- name: nginx
-  version: 1.11.2
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.11.2-linux-x64.tgz
-  md5: 0b029e58846028385a2fc19d484c29e7
-  cf_stacks:
-  - cflinuxfs2
 - name: composer
   version: 1.2.0
   uri: https://buildpacks.cloudfoundry.org/php/binaries/trusty/composer/1.2.0/composer.phar
   md5: df47dc307fa614daa5a10423bdf4e1bb
+  cf_stacks:
+  - cflinuxfs2
+- name: nginx
+  version: 1.11.3
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.11.3-linux-x64.tgz
+  md5: 4944b39c77b4fc245df45e60eae635b3
   cf_stacks:
   - cflinuxfs2
