@@ -139,16 +139,18 @@ class CloudFoundryInstaller(object):
     def install_binary_direct(self, url, hsh, installDir,
             fileName=None, strip=False,
             extract=True):
-        exit_code, translated_url = self.translate_dependency_url(url)
+        exit_code, translated_url = self.filter_or_translate_dependency_url(url, False)
         if exit_code == 0:
             url = translated_url
+
+        _, filtered_url = self.filter_or_translate_dependency_url(url, True)
 
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
 
-        self._log.debug("Installing direct [%s]", url)
-        self._dwn.custom_extension_download(url, fileToInstall)
+        self._log.debug("Installing direct [%s]", filtered_url)
+        self._dwn.custom_extension_download(url, filtered_url, fileToInstall)
 
         if extract:
             return self._unzipUtil.extract(fileToInstall,
@@ -168,7 +170,7 @@ class CloudFoundryInstaller(object):
             if the dependency is missing from the manifest.
 
             The other 'exposed' method does make requests to the internet should the
-            dependency not exist in the manifest and intentionally takes the hash sha 
+            dependency not exist in the manifest and intentionally takes the hash sha
             argument but makes no use of it.
         """
 
@@ -186,8 +188,13 @@ class CloudFoundryInstaller(object):
             shutil.copy(fileToInstall, installDir)
             return installDir
 
-    def translate_dependency_url(self, url):
-        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', 'translate_dependency_url'), url], stdout=subprocess.PIPE)
+    def filter_or_translate_dependency_url(self, url, use_filter):
+        if use_filter:
+            sub_command = 'filter_dependency_url'
+        else:
+            sub_command = 'translate_dependency_url'
+
+        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', sub_command), url], stdout=subprocess.PIPE)
         exit_code = process.wait()
         translate_url_output = process.stdout.read().rstrip()
         return (exit_code, translate_url_output)

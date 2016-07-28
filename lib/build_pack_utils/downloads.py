@@ -51,12 +51,12 @@ class Downloader(object):
         elif exit_code == 3:
             raise RuntimeError("MD5 of downloaded dependency does not match expected value")
 
-    def custom_extension_download(self, url, toFile):
+    def custom_extension_download(self, url, filtered_url, toFile):
         res = urllib2.urlopen(url)
         with open(toFile, 'w') as f:
             f.write(res.read())
-        print 'Downloaded [%s] to [%s]' % (url, toFile)
-        self._log.info('Downloaded [%s] to [%s]', url, toFile)
+        print 'Downloaded [%s] to [%s]' % (filtered_url, toFile)
+        self._log.info('Downloaded [%s] to [%s]', filtered_url, toFile)
 
     def download_direct(self, url):
         buf = urllib2.urlopen(url).read()
