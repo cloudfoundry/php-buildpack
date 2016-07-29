@@ -139,11 +139,11 @@ class CloudFoundryInstaller(object):
     def install_binary_direct(self, url, hsh, installDir,
             fileName=None, strip=False,
             extract=True):
-        exit_code, translated_url = self.filter_or_translate_dependency_url(url, False)
+        exit_code, translated_url = self.translate_dependency_url(url)
         if exit_code == 0:
             url = translated_url
 
-        _, filtered_url = self.filter_or_translate_dependency_url(url, True)
+        filtered_url = self.filter_dependency_url(url)
 
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
@@ -188,16 +188,19 @@ class CloudFoundryInstaller(object):
             shutil.copy(fileToInstall, installDir)
             return installDir
 
-    def filter_or_translate_dependency_url(self, url, use_filter):
-        if use_filter:
-            sub_command = 'filter_dependency_url'
-        else:
-            sub_command = 'translate_dependency_url'
+    def filter_dependency_url(self, url):
+        _, filter_output = self.call_compile_extensions_script('filter_dependency_url', url)
+        return filter_output
 
-        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', sub_command), url], stdout=subprocess.PIPE)
+    def translate_dependency_url(self, url):
+        exit_code, translate_output = self.call_compile_extensions_script('translate_dependency_url', url)
+        return (exit_code, translate_output)
+
+    def call_compile_extensions_script(self, script, url):
+        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', script), url], stdout=subprocess.PIPE)
         exit_code = process.wait()
-        translate_url_output = process.stdout.read().rstrip()
-        return (exit_code, translate_url_output)
+        output = process.stdout.read().rstrip()
+        return (exit_code, output)
 
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)
