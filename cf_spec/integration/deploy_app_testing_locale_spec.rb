@@ -13,7 +13,7 @@ describe 'CF PHP Buildpack' do
     Machete::CF::DeleteApp.new.execute(@app)
   end
 
-  context 'the application should run and emit the translated string', skip: ENV['CF_EDGE'] != 'true' do
+  context 'the application should run and emit the translated string' do
     it 'expects an app to be running' do
       expect(@app).to be_running
     end
