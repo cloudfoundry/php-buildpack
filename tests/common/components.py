@@ -38,7 +38,7 @@ class BuildPackAssertHelper(object):
         (fah.expect()
             .path(build_dir, '.bp', 'bin', 'rewrite')
             .root(build_dir, '.bp', 'lib', 'build_pack_utils')
-                .directory_count_equals(18)  # noqa
+                .directory_count_equals(20)  # noqa
                 .path('utils.py')
                 .path('process.py')
             .exists())

@@ -5,7 +5,7 @@ import tempfile
 import shutil
 import utils
 import logging
-import subprocess
+from compile_extensions import CompileExtensions
 from urlparse import urlparse
 from zips import UnzipUtil
 from downloads import Downloader
@@ -139,11 +139,14 @@ class CloudFoundryInstaller(object):
     def install_binary_direct(self, url, hsh, installDir,
             fileName=None, strip=False,
             extract=True):
-        exit_code, translated_url = self.translate_dependency_url(url)
+
+        compile_exts = CompileExtensions(self._ctx['BP_DIR'])
+
+        exit_code, translated_url = compile_exts.translate_dependency_url(url)
         if exit_code == 0:
             url = translated_url
 
-        filtered_url = self.filter_dependency_url(url)
+        filtered_url = compile_exts.filter_dependency_url(url)
 
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
@@ -187,20 +190,6 @@ class CloudFoundryInstaller(object):
         else:
             shutil.copy(fileToInstall, installDir)
             return installDir
-
-    def filter_dependency_url(self, url):
-        _, filter_output = self.call_compile_extensions_script('filter_dependency_url', url)
-        return filter_output
-
-    def translate_dependency_url(self, url):
-        exit_code, translate_output = self.call_compile_extensions_script('translate_dependency_url', url)
-        return (exit_code, translate_output)
-
-    def call_compile_extensions_script(self, script, url):
-        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', script), url], stdout=subprocess.PIPE)
-        exit_code = process.wait()
-        output = process.stdout.read().rstrip()
-        return (exit_code, output)
 
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)

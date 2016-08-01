@@ -1,7 +1,7 @@
-import os
 import urllib2
 import re
 import logging
+from compile_extensions import CompileExtensions
 from subprocess import Popen
 from subprocess import PIPE
 
@@ -29,20 +29,8 @@ class Downloader(object):
             urllib2.install_opener(opener)
 
     def download(self, url, toFile):
-        path_to_download_executable = os.path.join(
-            self._ctx['BP_DIR'],
-            'compile-extensions',
-            'bin',
-            'download_dependency')
-
-        command_arguments = [
-            path_to_download_executable,
-            url,
-            toFile]
-
-        process = Popen(command_arguments, stdout=PIPE)
-        exit_code = process.wait()
-        translated_uri = process.stdout.read().rstrip()
+        compile_exts = CompileExtensions(self._ctx['BP_DIR'])
+        exit_code, translated_uri = compile_exts.download_dependency(url, toFile)
 
         if exit_code == 0:
             print "Downloaded [%s] to [%s]" % (translated_uri, toFile)
