@@ -33,7 +33,8 @@ class TestNewRelic(object):
     def testDefaults(self):
         nr = newrelic.NewRelicInstaller(utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VM': 'php'
+            'PHP_VM': 'php',
+            'BP_DIR': os.getcwd()
         }))
         eq_(True, 'NEWRELIC_HOST' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
@@ -43,7 +44,8 @@ class TestNewRelic(object):
 
     def testShouldNotInstall(self):
         nr = newrelic.NewRelicInstaller(utils.FormattedDict({
-            'BUILD_DIR': self.build_dir
+            'BUILD_DIR': self.build_dir,
+            'BP_DIR': os.getcwd()
         }))
         eq_(False, nr.should_install())
 
@@ -51,6 +53,7 @@ class TestNewRelic(object):
     def testShouldInstall(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
+            'BP_DIR': os.getcwd(),
             'NEWRELIC_LICENSE': 'JUNK_LICENSE',
             'VCAP_APPLICATION': {
                 'name': 'app-name-1'
@@ -75,6 +78,7 @@ class TestNewRelic(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def testShouldInstallService(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': os.getcwd(),
             'BUILD_DIR': self.build_dir,
             'VCAP_SERVICES': {
                 'newrelic': [{
@@ -107,6 +111,7 @@ class TestNewRelic(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def testShouldInstallServiceAndManual(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': os.getcwd(),
             'BUILD_DIR': self.build_dir,
             'VCAP_SERVICES': {
                 'newrelic': [{
@@ -140,6 +145,7 @@ class TestNewRelic(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def testModifyPhpIni(self):
         ctx = utils.FormattedDict({
+            'BP_DIR': os.getcwd(),
             'BUILD_DIR': self.build_dir,
             'NEWRELIC_LICENSE': 'JUNK_LICENSE',
             'VCAP_APPLICATION': {

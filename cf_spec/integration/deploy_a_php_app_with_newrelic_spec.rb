@@ -3,18 +3,20 @@ require 'cf_spec_helper'
 
 describe 'CF PHP Buildpack' do
   let(:browser) { Machete::Browser.new(@app) }
-  before(:context) do
+  before(:each) do
     @app = Machete.deploy_app(
       'php_app_with_newrelic',
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
     )
   end
 
-  after(:context) do
+  after(:each) do
     Machete::CF::DeleteApp.new.execute(@app)
   end
 
   context 'deploying a basic PHP app' do
+    let (:env_config) { {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
+
     it 'expects an app to be running' do
       expect(@app).to be_running
     end
@@ -41,12 +43,24 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'in offline mode', :cached do
+    let (:env_config) { {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
+
     it 'does not call out to the internet' do
       expect(@app).not_to have_internet_traffic
     end
 
     it 'downloads the binaries directly from the buildpack' do
       expect(@app).to have_logged %r{Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_concourse-binaries_php_php-5.5.\d+-linux-x64-\d+.tgz\] to \[/tmp\]}
+    end
+  end
+
+  context 'using default versions' do
+    let (:env_config)  do
+     { env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 1} }
+    end
+
+    it 'installs the default version of httpd' do
+     expect(@app).to have_logged 'DEBUG: default_version_for newrelic is'
     end
   end
 end

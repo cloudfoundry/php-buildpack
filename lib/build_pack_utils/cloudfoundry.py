@@ -58,7 +58,7 @@ class CloudFoundryUtil(object):
         _log.info('CloudFoundry Initialized.')
         _log.debug("CloudFoundry Context Setup [%s]", ctx)
 
-        # get default PHP, httpd, and ngninx versions from manifest
+        # get default PHP, httpd, and nginx versions from manifest
         for dependency in ["php", "nginx", "httpd"]:
             ctx = CloudFoundryUtil.update_default_version(dependency, ctx)
 
