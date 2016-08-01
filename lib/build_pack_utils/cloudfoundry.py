@@ -57,9 +57,37 @@ class CloudFoundryUtil(object):
         CloudFoundryUtil.init_logging(ctx)
         _log.info('CloudFoundry Initialized.')
         _log.debug("CloudFoundry Context Setup [%s]", ctx)
+
+        # get default PHP, httpd, and ngninx versions from manifest
+        for dependency in ["php", "nginx", "httpd"]:
+            ctx = CloudFoundryUtil.update_default_version(dependency, ctx)
+
         # Git URL, if one exists
         ctx['BP_GIT_URL'] = find_git_url(ctx['BP_DIR'])
         _log.info('Build Pack Version: %s', ctx['BP_GIT_URL'])
+        return ctx
+
+    @staticmethod
+    def update_default_version(dependency, ctx):
+        manifest_file = os.path.join(ctx['BP_DIR'], 'manifest.yml')
+        compile_exts = CompileExtensions(ctx['BP_DIR'])
+
+        exit_code, output = compile_exts.default_version_for(manifest_file, dependency)
+
+        if exit_code == 1:
+            _log.error("Error detecting %s default version: %s", dependency.upper(), output)
+            sys.exit(1)
+
+        default_version_var = dependency.upper() + "_VERSION"
+        download_url_var = dependency.upper() + "_DOWNLOAD_URL"
+        modules_pattern_var = dependency.upper() + "_MODULES_PATTERN"
+
+        ctx[default_version_var] = output
+        ctx[download_url_var] = "/{0}/{1}/{0}-{1}.tar.gz".format(dependency, "{"+default_version_var+"}")
+
+        if dependency != "nginx":
+            ctx[modules_pattern_var] = "/{0}/{1}/{0}-{2}-{1}.tar.gz".format(dependency, "{"+default_version_var+"}", "{MODULE_NAME}")
+
         return ctx
 
     @staticmethod

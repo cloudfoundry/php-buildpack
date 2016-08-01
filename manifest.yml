@@ -12,6 +12,14 @@ exclude_files:
 - bin/package
 - buildpack-packager/
 - php_buildpack-*v*
+default_versions:
+- name: php
+  version: 5.5.38
+- name: nginx
+  version: 1.11.3
+- name: httpd
+  version: 2.4.23
+
 url_to_dependency_map:
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic

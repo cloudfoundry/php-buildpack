@@ -4,17 +4,19 @@ require 'cf_spec_helper'
 describe 'CF PHP Buildpack' do
 
   let(:browser) { Machete::Browser.new(@app) }
-  before(:context) do
+  before(:each) do
     @app = Machete.deploy_app(
       'php_app_using_nginx',
-      {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
+      env_config
     )
   end
-  after(:context) do
+  after(:each) do
     Machete::CF::DeleteApp.new.execute(@app)
   end
 
   context 'deploying a basic PHP app using Nginx as the webserver' do
+    let (:env_config) { {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
+
     it 'compiles and starts the app' do
       expect(@app).to be_running
     end
@@ -33,8 +35,20 @@ describe 'CF PHP Buildpack' do
     end
 
     context 'in offline mode', :cached do
+      let (:env_config) { {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
+
       specify do
         expect(@app).not_to have_internet_traffic
+      end
+    end
+
+    context 'using default versions' do
+      let (:env_config)  do
+       { env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 1} }
+      end
+
+      it 'installs the default version of nginx' do
+       expect(@app).to have_logged 'DEBUG: default_version_for nginx is'
       end
     end
   end
