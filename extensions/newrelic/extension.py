@@ -20,7 +20,6 @@ import os
 import os.path
 import logging
 import sys
-sys.path.append('../../lib/')
 from build_pack_utils.compile_extensions import CompileExtensions
 
 _log = logging.getLogger('newrelic')
@@ -42,10 +41,12 @@ class NewRelicInstaller(object):
         self._detected = False
         self.app_name = None
         self.license_key = None
+        manifest_file = os.path.join(self._ctx['BP_DIR'], 'manifest.yml')
+
         try:
             self._log.info("Initializing")
             if ctx['PHP_VM'] == 'php':
-                self._set_default_version()
+                self._set_default_version(manifest_file)
                 self._merge_defaults()
                 self._load_service_info()
                 self._load_php_info()
@@ -54,14 +55,13 @@ class NewRelicInstaller(object):
             self._log.exception("Error installing NewRelic! "
                                 "NewRelic will not be available.")
 
-    def _set_default_version(self):
-        manifest_file = os.path.join(self._ctx['BP_DIR'], 'manifest.yml')
+    def _set_default_version(self, manifest_file):
         compile_exts = CompileExtensions(self._ctx['BP_DIR'])
 
         exit_code, output = compile_exts.default_version_for(manifest_file, "newrelic")
         if exit_code == 1:
-            self._log.error("Error detecting %s default version: %s", "NEWRELIC", output)
-            sys.exit(1)
+            self._log.error("Error detecting %s default version: %s", "NewRelic", output)
+            raise RuntimeError("Error detecting NewRelic default version")
 
         self._ctx['NEWRELIC_VERSION'] = output
 

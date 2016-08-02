@@ -18,9 +18,15 @@ from common.base import BaseCompileApp
 
 newrelic = utils.load_extension('extensions/newrelic')
 
+def create_manifest_file(manifest_filename,contents):
+    file = open(manifest_filename,'w+')
+    file.write(contents)
+    file.close()
 
 class TestNewRelic(object):
     def setUp(self):
+        self.manifest_dir = tempfile.mkdtemp()
+        self.buildpack_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
         self.build_dir = tempfile.mkdtemp('build-')
         self.php_dir = os.path.join(self.build_dir, 'php', 'etc')
         os.makedirs(self.php_dir)
@@ -29,12 +35,54 @@ class TestNewRelic(object):
     def tearDown(self):
         if os.path.exists(self.build_dir):
             shutil.rmtree(self.build_dir)
+        if os.path.exists(self.manifest_dir):
+            shutil.rmtree(self.manifest_dir)
+
+    def test_set_default_version(self):
+        manifest_filename = os.path.join(self.manifest_dir, 'manifest.yml')
+        create_manifest_file(manifest_filename, GOOD_MANIFEST)
+
+        # create the object with the buildpack manifest
+        nr = newrelic.NewRelicInstaller(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'PHP_VM': 'php',
+            'BP_DIR': self.buildpack_dir
+        }))
+
+        eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
+        del nr._ctx['NEWRELIC_VERSION']
+
+        # and test it with our custom manifest
+        nr._set_default_version(manifest_filename)
+        eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
+        eq_(nr._ctx['NEWRELIC_VERSION'], '6.4.0.99')
+
+    def test_set_default_version_bad_manifest(self):
+        manifest_filename = os.path.join(self.manifest_dir, 'manifest.yml')
+        create_manifest_file(manifest_filename, BAD_MANIFEST)
+
+        # create the object with the buildpack manifest
+        nr = newrelic.NewRelicInstaller(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'PHP_VM': 'php',
+            'BP_DIR': self.buildpack_dir
+        }))
+
+        # and test it with our custom manifest
+        exception = None
+
+        try:
+            nr._set_default_version(manifest_filename)
+        except RuntimeError as e:
+            exception = e
+
+        eq_("Error detecting NewRelic default version", str(exception))
 
     def testDefaults(self):
         nr = newrelic.NewRelicInstaller(utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
             'PHP_VM': 'php',
-            'BP_DIR': os.getcwd()
+            'BP_DIR': self.buildpack_dir
         }))
         eq_(True, 'NEWRELIC_HOST' in nr._ctx.keys())
         eq_(True, 'NEWRELIC_VERSION' in nr._ctx.keys())
@@ -45,7 +93,7 @@ class TestNewRelic(object):
     def testShouldNotInstall(self):
         nr = newrelic.NewRelicInstaller(utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'BP_DIR': os.getcwd()
+            'BP_DIR': self.buildpack_dir
         }))
         eq_(False, nr.should_install())
 
@@ -53,7 +101,7 @@ class TestNewRelic(object):
     def testShouldInstall(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'BP_DIR': os.getcwd(),
+            'BP_DIR': self.buildpack_dir,
             'NEWRELIC_LICENSE': 'JUNK_LICENSE',
             'VCAP_APPLICATION': {
                 'name': 'app-name-1'
@@ -78,7 +126,7 @@ class TestNewRelic(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def testShouldInstallService(self):
         ctx = utils.FormattedDict({
-            'BP_DIR': os.getcwd(),
+            'BP_DIR': self.buildpack_dir,
             'BUILD_DIR': self.build_dir,
             'VCAP_SERVICES': {
                 'newrelic': [{
@@ -111,7 +159,7 @@ class TestNewRelic(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def testShouldInstallServiceAndManual(self):
         ctx = utils.FormattedDict({
-            'BP_DIR': os.getcwd(),
+            'BP_DIR': self.buildpack_dir,
             'BUILD_DIR': self.build_dir,
             'VCAP_SERVICES': {
                 'newrelic': [{
@@ -145,7 +193,7 @@ class TestNewRelic(object):
     @with_setup(setup=setUp, teardown=tearDown)
     def testModifyPhpIni(self):
         ctx = utils.FormattedDict({
-            'BP_DIR': os.getcwd(),
+            'BP_DIR': self.buildpack_dir,
             'BUILD_DIR': self.build_dir,
             'NEWRELIC_LICENSE': 'JUNK_LICENSE',
             'VCAP_APPLICATION': {
@@ -243,3 +291,48 @@ class TestNewRelicWithApp5(BaseCompileApp):
         # check php cli installed
         none.assert_files_installed(self.build_dir)
         nr.assert_files_installed(self.build_dir)
+
+BAD_MANIFEST = '''\
+---
+language: php
+
+default_versions:
+- name: newrelic
+  version: 99.3.0.161
+
+dependencies:
+- name: newrelic
+  version: 6.3.0.161
+  uri: https://download.newrelic.com/php_agent/archive/6.3.0.161/newrelic-php5-6.3.0.161-linux.tar.gz
+  cf_stacks:
+  - cflinuxfs2
+  md5: 3640d3cad6b5199f54a6b54a627235d6
+- name: newrelic
+  version: 6.4.0.99
+  uri: https://download.newrelic.com/php_agent/archive/6.4.0.99/newrelic-php5-6.4.0.99-linux.tar.gz
+  cf_stacks:
+  - cflinuxfs2
+  md5: a5d5178f0f8133a65baf942a07408ba6
+'''
+GOOD_MANIFEST = '''\
+---
+language: php
+
+default_versions:
+- name: newrelic
+  version: 6.4.0.99
+
+dependencies:
+- name: newrelic
+  version: 6.3.0.161
+  uri: https://download.newrelic.com/php_agent/archive/6.3.0.161/newrelic-php5-6.3.0.161-linux.tar.gz
+  cf_stacks:
+  - cflinuxfs2
+  md5: 3640d3cad6b5199f54a6b54a627235d6
+- name: newrelic
+  version: 6.4.0.99
+  uri: https://download.newrelic.com/php_agent/archive/6.4.0.99/newrelic-php5-6.4.0.99-linux.tar.gz
+  cf_stacks:
+  - cflinuxfs2
+  md5: a5d5178f0f8133a65baf942a07408ba6
+'''
