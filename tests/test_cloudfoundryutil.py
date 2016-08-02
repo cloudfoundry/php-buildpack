@@ -61,9 +61,12 @@ class TestCloudFoundryUtil(object):
         eq_("Error detecting PHP default version", str(exception))
 
 BAD_MANIFEST = '''\
+---
+language: php
+
 default_versions:
 - name: php
-  version: 9.9.bad
+  version: 9.9.777
 
 dependencies:
 - name: php
@@ -91,6 +94,9 @@ dependencies:
 '''
 
 GOOD_MANIFEST = '''\
+---
+language: php
+
 default_versions:
 - name: php
   version: 9.9.99
