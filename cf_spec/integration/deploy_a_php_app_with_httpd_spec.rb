@@ -2,20 +2,20 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'CF PHP Buildpack' do
+  let(:browser)  { Machete::Browser.new(@app) }
 
-  let(:browser) { Machete::Browser.new(@app) }
-  before(:each) do
-    @app = Machete.deploy_app(
-      'php_app_using_httpd',
-      env_config
-    )
-  end
-  after(:each) do
-    Machete::CF::DeleteApp.new.execute(@app)
-  end
+  before(:context) { @app_name = 'php_app_using_httpd'}
 
   context 'deploying a basic PHP app using httpd as the webserver' do
-    let (:env_config) { {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
+    before(:all) do
+      @env_config = {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
+      @app = deploy_app(@app_name, @env_config)
+    end
+
+    after(:all) do
+      Machete::CF::DeleteApp.new.execute(@app)
+    end
+
     it 'compiles and starts the app' do
       expect(@app).to be_running
     end
@@ -46,22 +46,35 @@ describe 'CF PHP Buildpack' do
       expect(headers).to include('Server: Apache')
       expect(headers).to include('Content-Encoding: gzip')
     end
+  end
 
-    context 'in offline mode', :cached do
-      let (:env_config) { {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
-      specify do
-        expect(@app).not_to have_internet_traffic
-      end
+  context 'in offline mode', :cached do
+    before(:all) do
+      @env_config = {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
+      @app = deploy_app(@app_name, @env_config)
     end
 
-    context 'using default versions' do
-      let (:env_config)  do
-       { env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 1} }
-      end
+    after(:all) do
+      Machete::CF::DeleteApp.new.execute(@app)
+    end
 
-      it 'installs the default version of httpd' do
-       expect(@app).to have_logged 'DEBUG: default_version_for httpd is'
-      end
+    specify do
+      expect(@app).not_to have_internet_traffic
+    end
+  end
+
+  context 'using default versions' do
+    before(:all) do
+      @env_config = {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 1}}
+      @app = deploy_app(@app_name, @env_config)
+    end
+
+    after(:all) do
+      Machete::CF::DeleteApp.new.execute(@app)
+    end
+
+    it 'installs the default version of httpd' do
+      expect(@app).to have_logged '"update_default_version" is setting [HTTPD_VERSION]'
     end
   end
 

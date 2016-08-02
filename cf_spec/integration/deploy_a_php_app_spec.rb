@@ -2,20 +2,19 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'CF PHP Buildpack' do
-  let(:browser) { Machete::Browser.new(@app) }
-  before(:each) do
-    @app = Machete.deploy_app(
-      'php_app',
-      env_config
-    )
-  end
+  let(:browser)  { Machete::Browser.new(@app) }
 
-  after(:each) do
-    Machete::CF::DeleteApp.new.execute(@app)
-  end
+  before(:context) { @app_name = 'php_app'}
 
   context 'deploying a basic PHP app' do
-    let (:env_config) { {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
+    before(:all) do
+      @env_config = {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
+      @app = deploy_app(@app_name, @env_config)
+    end
+
+    after(:all) do
+      Machete::CF::DeleteApp.new.execute(@app)
+    end
 
     it 'expects an app to be running' do
       expect(@app).to be_running
@@ -43,7 +42,14 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'in offline mode', :cached do
-    let (:env_config) { {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}} }
+    before(:all) do
+      @env_config = {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
+      @app = deploy_app(@app_name, @env_config)
+    end
+
+    after(:all) do
+      Machete::CF::DeleteApp.new.execute(@app)
+    end
 
     it 'does not call out to the internet' do
       expect(@app).not_to have_internet_traffic
@@ -55,12 +61,17 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'using default versions' do
-    let (:env_config)  do
-      { env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 1} }
+    before(:all) do
+      @env_config = {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 1}}
+      @app = deploy_app(@app_name, @env_config)
+    end
+
+    after(:all) do
+      Machete::CF::DeleteApp.new.execute(@app)
     end
 
     it 'installs the default version of PHP' do
-      expect(@app).to have_logged 'DEBUG: default_version_for php is'
+      expect(@app).to have_logged '"update_default_version" is setting [PHP_VERSION]'
     end
   end
 end
