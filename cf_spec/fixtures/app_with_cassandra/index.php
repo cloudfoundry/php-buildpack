@@ -1,14 +1,33 @@
 <?php
-$cluster   = Cassandra::cluster()                 // connects to localhost by default
-                 ->build();
-$keyspace  = 'system';
-$session   = $cluster->connect($keyspace);        // create session, optionally scoped to a keyspace
-$statement = new Cassandra\SimpleStatement(       // also supports prepared and batch statements
-    'SELECT keyspace_name, columnfamily_name FROM schema_columnfamilies'
-);
-$future    = $session->executeAsync($statement);  // fully asynchronous and easy parallel execution
-$result    = $future->get();                      // wait for the result, with an optional timeout
+require_once 'vendor/autoload.php';
+use CfCommunity\CfHelper\CfHelper;
+$cfHelper = CfHelper::getInstance();
 
-foreach ($result as $row) {                       // results and rows implement Iterator, Countable and ArrayAccess
-    printf("The keyspace %s has a table called %s\n", $row['keyspace_name'], $row['columnfamily_name']);
+# Get Cassandra VCAP_SERVICES values
+$serviceManager = $cfHelper->getServiceManager();
+#Cassandra service has to have cassandra in the name
+$cassandraService = $serviceManager->getService('.*cassandra.*');
+$node_ips = $cassandraService->getValue('node_ips');
+$username = $cassandraService->getValue('username');
+$password = $cassandraService->getValue('password');
+
+#Datastax driver will autoconnect to rest of nodes based off one node connection
+$node = current($node_ips);
+
+#Connects to the Cassandra service
+$cluster   = Cassandra::cluster()
+                 ->withCredentials($username, $password)
+                 ->withContactPoints($node)
+                 ->build();
+$session = $cluster->connect();
+
+#Print keyspaces and tables
+$keyspaces = $session->schema()->keyspaces();
+echo "<table border=\"1\">";
+echo "<tr><th>Keyspace</th><th>Table</th></tr>";
+foreach ($keyspaces as $keyspace) {
+    foreach ($keyspace->tables() as $table) {
+        echo sprintf("<tr><td>%s</td><td>%s</td></tr>\n", $keyspace->name(), $table->name());
+    }
 }
+echo "</table>";
