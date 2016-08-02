@@ -59,8 +59,9 @@ class CloudFoundryUtil(object):
         _log.debug("CloudFoundry Context Setup [%s]", ctx)
 
         # get default PHP, httpd, and nginx versions from manifest
+        manifest_file = os.path.join(ctx['BP_DIR'], 'manifest.yml')
         for dependency in ["php", "nginx", "httpd"]:
-            ctx = CloudFoundryUtil.update_default_version(dependency, ctx)
+            ctx = CloudFoundryUtil.update_default_version(dependency, manifest_file, ctx)
 
         # Git URL, if one exists
         ctx['BP_GIT_URL'] = find_git_url(ctx['BP_DIR'])
@@ -68,25 +69,24 @@ class CloudFoundryUtil(object):
         return ctx
 
     @staticmethod
-    def update_default_version(dependency, ctx):
-        manifest_file = os.path.join(ctx['BP_DIR'], 'manifest.yml')
+    def update_default_version(dependency, manifest_file, ctx):
         compile_exts = CompileExtensions(ctx['BP_DIR'])
 
         exit_code, output = compile_exts.default_version_for(manifest_file, dependency)
 
         if exit_code == 1:
             _log.error("Error detecting %s default version: %s", dependency.upper(), output)
-            sys.exit(1)
+            raise RuntimeError("Error detecting %s default version" % dependency.upper())
 
-        default_version_var = dependency.upper() + "_VERSION"
-        download_url_var = dependency.upper() + "_DOWNLOAD_URL"
-        modules_pattern_var = dependency.upper() + "_MODULES_PATTERN"
+        default_version_key = dependency.upper() + "_VERSION"
+        download_url_key = dependency.upper() + "_DOWNLOAD_URL"
+        modules_pattern_key = dependency.upper() + "_MODULES_PATTERN"
 
-        ctx[default_version_var] = output
-        ctx[download_url_var] = "/{0}/{1}/{0}-{1}.tar.gz".format(dependency, "{"+default_version_var+"}")
+        ctx[default_version_key] = output
+        ctx[download_url_key] = "/{0}/{1}/{0}-{1}.tar.gz".format(dependency, "{" + default_version_key + "}")
 
         if dependency != "nginx":
-            ctx[modules_pattern_var] = "/{0}/{1}/{0}-{2}-{1}.tar.gz".format(dependency, "{"+default_version_var+"}", "{MODULE_NAME}")
+            ctx[modules_pattern_key] = "/{0}/{1}/{0}-{2}-{1}.tar.gz".format(dependency, "{" + default_version_key + "}", "{MODULE_NAME}")
 
         return ctx
 
