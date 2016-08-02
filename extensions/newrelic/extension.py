@@ -19,11 +19,10 @@ Downloads, installs and configures the NewRelic agent for PHP
 import os
 import os.path
 import logging
-import sys
 from build_pack_utils.compile_extensions import CompileExtensions
+from build_pack_utils.cloudfoundry import CloudFoundryUtil
 
 _log = logging.getLogger('newrelic')
-
 
 DEFAULTS = {
     'NEWRELIC_HOST': 'download.newrelic.com',
@@ -43,6 +42,8 @@ class NewRelicInstaller(object):
         self.license_key = None
         manifest_file = os.path.join(self._ctx['BP_DIR'], 'manifest.yml')
 
+        CloudFoundryUtil.init_logging(ctx)
+
         try:
             self._log.info("Initializing")
             if ctx['PHP_VM'] == 'php':
@@ -60,9 +61,10 @@ class NewRelicInstaller(object):
 
         exit_code, output = compile_exts.default_version_for(manifest_file, "newrelic")
         if exit_code == 1:
-            self._log.error("Error detecting %s default version: %s", "NewRelic", output)
+            self._log.error("Error detecting NewRelic default version: %s", output)
             raise RuntimeError("Error detecting NewRelic default version")
 
+        self._log.info("Using NewRelic default version: %s", output)
         self._ctx['NEWRELIC_VERSION'] = output
 
     def _merge_defaults(self):
