@@ -73,6 +73,11 @@ describe 'CF PHP Buildpack' do
     it 'installs the default version of PHP' do
       expect(@app).to have_logged '"update_default_version" is setting [PHP_VERSION]'
     end
+
+    it 'installs the default version of composer' do
+      expect(@app).to have_logged 'DEBUG: default_version_for composer is'
+    end
+
   end
 end
 

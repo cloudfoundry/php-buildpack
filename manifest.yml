@@ -21,6 +21,8 @@ default_versions:
   version: 2.4.23
 - name: newrelic
   version: 6.3.0.161
+- name: composer
+  version: 1.2.0
 
 url_to_dependency_map:
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux

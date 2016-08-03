@@ -25,8 +25,9 @@ import json
 import StringIO
 from build_pack_utils import utils
 from build_pack_utils import stream_output
-from compile_helpers import load_manifest
 from extension_helpers import ExtensionHelper
+
+from build_pack_utils.compile_extensions import CompileExtensions
 
 
 _log = logging.getLogger('composer')
@@ -151,12 +152,13 @@ class ComposerExtension(ExtensionHelper):
         self._log = _log
 
     def _defaults(self):
-        manifest = load_manifest(self._ctx)
-        dependencies = manifest['dependencies']
-        composer = (d for d in dependencies if d["name"] == "composer").next()
+        manifest_file_path = os.path.join(self._ctx["BP_DIR"], "manifest.yml")
+
+        compile_ext = CompileExtensions(self._ctx["BP_DIR"])
+        _, default_version = compile_ext.default_version_for(manifest_file=manifest_file_path, dependency="composer")
 
         return {
-            'COMPOSER_VERSION': composer['version'],
+            'COMPOSER_VERSION': default_version,
             'COMPOSER_PACKAGE': 'composer.phar',
             'COMPOSER_DOWNLOAD_URL': '/composer/'
                                      '{COMPOSER_VERSION}/{COMPOSER_PACKAGE}',
