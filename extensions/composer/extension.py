@@ -155,7 +155,7 @@ class ComposerExtension(ExtensionHelper):
         manifest_file_path = os.path.join(self._ctx["BP_DIR"], "manifest.yml")
 
         compile_ext = CompileExtensions(self._ctx["BP_DIR"])
-        _, default_version = compile_ext.default_version_for(manifest_file=manifest_file_path, dependency="composer")
+        _, default_version = compile_ext.default_version_for(manifest_file_path=manifest_file_path, dependency="composer")
 
         return {
             'COMPOSER_VERSION': default_version,
