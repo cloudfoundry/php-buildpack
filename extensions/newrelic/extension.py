@@ -20,7 +20,6 @@ import os
 import os.path
 import logging
 from build_pack_utils.compile_extensions import CompileExtensions
-from build_pack_utils.cloudfoundry import CloudFoundryUtil
 
 _log = logging.getLogger('newrelic')
 
@@ -41,8 +40,6 @@ class NewRelicInstaller(object):
         self.app_name = None
         self.license_key = None
         manifest_file = os.path.join(self._ctx['BP_DIR'], 'manifest.yml')
-
-        CloudFoundryUtil.init_logging(ctx)
 
         try:
             self._log.info("Initializing")
