@@ -14,6 +14,7 @@
 # limitations under the License.
 import os
 import string
+import json
 from compile_helpers import convert_php_extensions
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
@@ -104,10 +105,17 @@ class PHPExtension(ExtensionHelper):
     def _compile(self, install):
         ctx = install.builder._ctx
 
-        (json_file, lock_file) = find_composer_paths(ctx)
-        if (os.path.isfile(os.path.join(ctx['BUILD_DIR'],'.bp-config', 'options.json')) and json_file and os.path.isfile(json_file)):
-            print('WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.');
-            print('WARNING: The version defined in `composer.json` will be used.');
+        (composer_json_file, composer_lock_file) = find_composer_paths(ctx)
+        options_json_file = os.path.join(ctx['BUILD_DIR'],'.bp-config', 'options.json')
+
+        if (os.path.isfile(options_json_file) and composer_json_file and os.path.isfile(composer_json_file)):
+            # options.json and composer.json both exist. Check to see if both define a PHP version.
+            composer_json = json.load(open(composer_json_file,'r'))
+            options_json = json.load(open(options_json_file,'r'))
+
+            if composer_json.get('require', {}).get('php') and options_json.get("PHP_VERSION"):
+                print('WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.')
+                print('WARNING: The version defined in `composer.json` will be used.')
 
         print 'Installing PHP'
         validate_php_version(ctx)
