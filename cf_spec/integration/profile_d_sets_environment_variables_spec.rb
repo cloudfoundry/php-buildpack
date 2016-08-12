@@ -14,7 +14,7 @@ describe 'CF PHP Buildpack' do
 
     it "sets environment variables via .profile.d script" do
       browser.visit_path('/')
-      expect(browser).to have_body('HTTPD_SERVER_ADMIN')
+      expect(browser).to have_body('TEST_ENV_VAR')
     end
   end
 end
