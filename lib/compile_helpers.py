@@ -54,6 +54,8 @@ def setup_webdir_if_it_doesnt_exist(ctx):
                 '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], ctx['LIBDIR']))
             fu.where_name_does_not_match(
                 '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.profile.d'))
+            fu.where_name_does_not_match(
+                '^%s$' % os.path.join(ctx['BUILD_DIR'], '.profile'))
             fu.done()
 
 
