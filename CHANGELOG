@@ -1,3 +1,33 @@
+v4.3.18 Aug 18, 2016
+=====================
+
+* Redact credentials from HTTP(S) URLs in staging output and filenames
+  (https://www.pivotaltracker.com/story/show/126514693)
+
+* Introduce `default_versions` support
+  (https://www.pivotaltracker.com/story/show/126394949)
+
+* Add Cassandra pecl 1.2.1
+  (https://www.pivotaltracker.com/story/show/126683747)
+
+* Add nginx 1.11.3, remove nginx 1.11.2
+  (https://www.pivotaltracker.com/story/show/127085963)
+
+* Add PHP 5.5.38, 5.6.24, 7.0.9, remove PHP 5.5.36, 5.6.22, 7.0.7
+  (https://www.pivotaltracker.com/story/show/126760065)
+  (https://www.pivotaltracker.com/story/show/126680137)
+  (https://www.pivotaltracker.com/story/show/126629957)
+
+* Update modules
+  - Add imagick pecl 3.4.2, remove 3.4.1 (PHP5 + PHP7)
+  - Add redis pecl package: 2.2.8, remove 2.2.7 (PHP5)
+  - Add mongodb pecl package: 1.1.8, remove 1.1.6 (PHP5 + PHP7)
+  - Add lua pecl package: 2.0.2, remove 2.0.1 (PHP7)
+  - Add twig pecl package: 1.24.1, remove 1.24.0 (PHP5)
+  - Add rabbitmq-c 0.8.0, remove 0.7.1 (PHP5 + PHP7)
+  - Add php-protobuf 0.11.0, remove locked sha (d792f5b8e0) (PHP5)
+  (https://www.pivotaltracker.com/story/show/127621593)
+
 v4.3.17 Jul 20, 2016
 =====================
 
@@ -79,7 +109,7 @@ v4.3.14 Jun 02, 2016
 v4.3.13 May 31, 2016
 =====================
 
-* Add php 5.5.36 and 7.0.7, remove php 5.5.34 and 7.0.5. 
+* Add php 5.5.36 and 7.0.7, remove php 5.5.34 and 7.0.5.
   This addresses CVE-2013-7456 and CVE-2016-5093.
   (https://www.pivotaltracker.com/story/show/120276393)
   (https://www.pivotaltracker.com/story/show/120267503)
@@ -333,7 +363,7 @@ Note that 4.1.0 and 4.1.1 were not released.
 * Remove application developer's ability to override the buildpack's
   binaries via DOWNLOAD_URL option.
   (https://www.pivotaltracker.com/story/show/101243110)
-    
+
 * Remove default php startup warnings in the event of unsupported extensions
   within an application. The warnings have been replaced with a more explicit
   'unsupported extension' message printed to standard error.
@@ -485,7 +515,7 @@ v3.1.1 Apr 22, 2015
 
 * Add support for PHP 5.4.39, 5.5.23 & 5.6.7
 
-* Drop support for PHP 5.4.36, 5.5.20 & 5.6.4 
+* Drop support for PHP 5.4.36, 5.5.20 & 5.6.4
 
 v3.1.0 Mar 18, 2015
 ====================
