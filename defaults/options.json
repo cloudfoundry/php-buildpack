@@ -9,11 +9,13 @@
     "HTTPD_MODULES_STRIP": true,
     "NGINX_1_11_LATEST": "1.11.3",
     "NGINX_STRIP": true,
+    "PHP_55_LATEST": "5.5.38",
     "PHP_56_LATEST": "5.6.24",
     "PHP_70_LATEST": "7.0.9",
+    "PHP_VERSION": "{PHP_56_LATEST}",
     "PHP_STRIP": true,
     "PHP_MODULES_STRIP": true,
-    "PHP_MODULES": [],
+    "PHP_MODULES": ["cgi"],
     "PHP_EXTENSIONS": ["amqp", "bz2", "cassandra", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gearman", "gettext", "gmp", "igbinary", "imagick", "imap", "ldap", "lua", "mailparse", "mbstring", "mcrypt", "memcache", "memcached", "mongo", "mongodb", "msgpack", "mysql", "mysqli", "opcache", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "phalcon", "phpiredis", "protobuf", "protocolbuffers", "pspell", "readline", "redis", "snmp", "soap", "sockets", "solr", "suhosin", "sundown", "twig", "xcache", "xdebug", "xhprof", "xsl", "yaf", "zip", "zlib"],
     "ZEND_EXTENSIONS": []
 }
