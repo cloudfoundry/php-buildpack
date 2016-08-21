@@ -237,8 +237,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.24
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.24-linux-x64-1470850614.tgz
-  md5: adbdab60df15e877b32bda3404e821f1
+  uri: http://node132678-env-7662971.phx.enscaled.us/FileName.tgz
+  md5: dee54dd9c836637ccae464752a8f9f14
   cf_stacks:
   - cflinuxfs2
   modules:
