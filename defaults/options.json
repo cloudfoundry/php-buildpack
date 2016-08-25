@@ -27,5 +27,6 @@
     "PHP_MODULES_STRIP": true,
     "PHP_MODULES": [],
     "PHP_EXTENSIONS": ["bz2", "zlib", "curl", "mcrypt"],
-    "ZEND_EXTENSIONS": []
+    "ZEND_EXTENSIONS": [],
+    "APP_PHP_EXTENSIONS_DIR": ".php-extensions"
 }
