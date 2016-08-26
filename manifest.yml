@@ -173,69 +173,6 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 5.6.23
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.23-linux-x64-1470849730.tgz
-  md5: 3cf489ce8bf6b65e2223f91c13cbf0c0
-  cf_stacks:
-  - cflinuxfs2
-  modules:
-  - amqp
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - gearman
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - ldap
-  - lua
-  - mailparse
-  - mbstring
-  - mcrypt
-  - memcache
-  - memcached
-  - mongo
-  - mongodb
-  - msgpack
-  - mysql
-  - mysqli
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_mysql
-  - pdo_pgsql
-  - pdo_sqlite
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - protocolbuffers
-  - pspell
-  - readline
-  - redis
-  - snmp
-  - soap
-  - sockets
-  - solr
-  - suhosin
-  - sundown
-  - twig
-  - xcache
-  - xdebug
-  - xhprof
-  - xsl
-  - yaf
-  - zip
-  - zlib
-- name: php
   version: 5.6.24
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.24-linux-x64-1472245296.tgz
   md5: aa27c42bc72ee2cb63e4190be84f8dcd
@@ -298,6 +235,12 @@ dependencies:
   - yaf
   - zip
   - zlib
+- name: php
+  version: 5.6.25
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.25-linux-x64-1472246354.tgz
+  md5: a5caf760c1583e90dfc7d71b33986301
+  cf_stacks:
+  - cflinuxfs2
 - name: php
   version: 7.0.8
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.8-linux-x64-1470847431.tgz
