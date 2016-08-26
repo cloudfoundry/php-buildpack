@@ -242,52 +242,6 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
 - name: php
-  version: 7.0.8
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.8-linux-x64-1470847431.tgz
-  md5: 23ee39a28c17424e354b9f7eca58c2a9
-  cf_stacks:
-  - cflinuxfs2
-  modules:
-  - amqp
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - gettext
-  - gmp
-  - imagick
-  - imap
-  - ldap
-  - lua
-  - mailparse
-  - mbstring
-  - mcrypt
-  - mongodb
-  - msgpack
-  - mysqli
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_mysql
-  - pdo_pgsql
-  - pdo_sqlite
-  - pgsql
-  - pspell
-  - snmp
-  - soap
-  - sockets
-  - solr
-  - xdebug
-  - xsl
-  - yaf
-  - zip
-  - zlib
-- name: php
   version: 7.0.9
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.9-linux-x64-1470848044.tgz
   cf_stacks:
@@ -333,6 +287,12 @@ dependencies:
   - yaf
   - zip
   - zlib
+- name: php
+  version: 7.0.10
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.10-linux-x64-1472240781.tgz
+  md5: 3456571f02445a873fa9628f926a96be
+  cf_stacks:
+  - cflinuxfs2
 - name: nginx
   version: 1.10.1
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.10.1-linux-x64.tgz
