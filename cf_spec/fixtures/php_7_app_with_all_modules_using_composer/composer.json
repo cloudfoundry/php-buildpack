@@ -29,6 +29,7 @@
         "ext-pdo_pgsql": "*",
         "ext-pdo_sqlite": "*",
         "ext-pgsql": "*",
+        "ext-phalcon": "*",
         "ext-pspell": "*",
         "ext-snmp": "*",
         "ext-soap": "*",

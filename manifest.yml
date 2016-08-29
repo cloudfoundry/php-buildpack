@@ -304,10 +304,10 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.9
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.9-linux-x64-1470848044.tgz
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.9-linux-x64-1472493075.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: 007230043dded0ab9354f9f32dd594c3
+  md5: f415d5648da9672937f57bd2d9128378
   modules:
   - amqp
   - bz2
@@ -350,8 +350,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.10
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.10-linux-x64-1472240781.tgz
-  md5: 3456571f02445a873fa9628f926a96be
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.10-linux-x64-1472494200.tgz
+  md5: 5aaffba8209d5ca0b14a4a51671a73af
   cf_stacks:
   - cflinuxfs2
   modules:
