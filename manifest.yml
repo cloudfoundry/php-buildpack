@@ -338,6 +338,7 @@ dependencies:
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
+  - phalcon
   - pspell
   - snmp
   - soap
@@ -384,6 +385,7 @@ dependencies:
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
+  - phalcon
   - pspell
   - snmp
   - soap
