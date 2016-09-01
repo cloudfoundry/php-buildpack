@@ -1,3 +1,18 @@
+v4.3.19 Sep 01, 2016
+=====================
+
+* Add phalcon support to php7
+  (https://www.pivotaltracker.com/story/show/128835133)
+
+* Fix ioncube for php5 and php7
+  (https://www.pivotaltracker.com/story/show/128040077)
+
+* Add PHP 7.0.10, remove PHP 7.0.8
+  (https://www.pivotaltracker.com/story/show/128529317)
+
+* Add PHP 5.6.25, remove PHP 5.6.23
+  (https://www.pivotaltracker.com/story/show/128571277)
+
 v4.3.18 Aug 18, 2016
 =====================
 
