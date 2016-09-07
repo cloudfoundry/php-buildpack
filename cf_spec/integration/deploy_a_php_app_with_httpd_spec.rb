@@ -28,6 +28,15 @@ describe 'CF PHP Buildpack' do
       expect(@app).to have_logged 'Installing HTTPD'
     end
 
+    it 'logs the httpd version' do
+      buildpack_root = File.join(File.dirname(__FILE__), '..', '..')
+      default_version_script = File.join(buildpack_root, 'compile-extensions', 'bin', 'default_version_for')
+      manifest_path = File.join(buildpack_root, 'manifest.yml')
+      httpd_version = `#{default_version_script} #{manifest_path} httpd`.strip
+
+      expect(@app).to have_logged "HTTPD #{httpd_version}"
+    end
+
     it 'the root endpoint renders a dynamic message' do
       browser.visit_path('/')
       expect(browser).to have_body('PHP Version')
