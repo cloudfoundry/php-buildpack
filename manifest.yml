@@ -79,12 +79,14 @@ dependencies:
   - mongo
   - mongodb
   - msgpack
+  - mssql
   - mysql
   - mysqli
   - opcache
   - openssl
   - pcntl
   - pdo
+  - pdo_dblib
   - pdo_mysql
   - pdo_pgsql
   - pdo_sqlite
@@ -143,12 +145,14 @@ dependencies:
   - mongo
   - mongodb
   - msgpack
+  - mssql
   - mysql
   - mysqli
   - opcache
   - openssl
   - pcntl
   - pdo
+  - pdo_dblib
   - pdo_mysql
   - pdo_pgsql
   - pdo_sqlite
@@ -207,12 +211,14 @@ dependencies:
   - mongo
   - mongodb
   - msgpack
+  - mssql
   - mysql
   - mysqli
   - opcache
   - openssl
   - pcntl
   - pdo
+  - pdo_dblib
   - pdo_mysql
   - pdo_pgsql
   - pdo_sqlite
@@ -271,12 +277,14 @@ dependencies:
   - mongo
   - mongodb
   - msgpack
+  - mssql
   - mysql
   - mysqli
   - opcache
   - openssl
   - pcntl
   - pdo
+  - pdo_dblib
   - pdo_mysql
   - pdo_pgsql
   - pdo_sqlite
