@@ -1,3 +1,21 @@
+v4.3.20 Sep 19, 2016
+=====================
+
+* Enable mssql and pdo-dblib support for PHP
+  (https://www.pivotaltracker.com/story/show/129905147)
+
+* Update versions for PHP modules cassandra, xdebug, yaf, twig, php-protobuf
+  (https://www.pivotaltracker.com/story/show/129892237)
+
+* Add nginx 1.11.4, remove nginx 1.11.3
+  (https://www.pivotaltracker.com/story/show/130296431)
+
+* Add composer 1.2.1, remove composer 1.2.0
+  (https://www.pivotaltracker.com/story/show/130184859)
+
+* Print HTTPD version in staging logs
+  (https://www.pivotaltracker.com/story/show/128914955)
+
 v4.3.19 Sep 01, 2016
 =====================
 
