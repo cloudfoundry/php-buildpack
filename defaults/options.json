@@ -12,7 +12,7 @@
     "PHP_55_LATEST": "5.5.38",
     "PHP_56_LATEST": "5.6.24",
     "PHP_70_LATEST": "7.0.9",
-    "PHP_VERSION": "{PHP_56_LATEST}",
+    "PHP_VERSION": "{PHP_70_LATEST}",
     "PHP_STRIP": true,
     "PHP_MODULES_STRIP": true,
     "PHP_MODULES": ["php-cgi"],
