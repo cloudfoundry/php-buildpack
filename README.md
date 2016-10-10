@@ -1,104 +1,12 @@
-## Cloud Foundry PHP Buildpack
+# Cloud Foundry PHP Buildpack
 
-A buildpack for Cloud Foundry to deploy PHP based applications.
+A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a [cloud provider](https://www.cloudfoundry.org/learn/certified-providers/) or your own instance.
 
+### Buildpack User Documentation
 
-## 30 Second Tutorial
+Official buildpack documentation can be found at http://docs.cloudfoundry.org/buildpacks/php/index.html.
 
-Getting started with the buildpack is easy.  With the `cf` command line utility installed, open a shell, change directories to the root of your PHP files and push your application using the argument `-b https://github.com/cloudfoundry/php-buildpack.git`.
-
-Example:
-
-```bash
-mkdir my-php-app
-cd my-php-app
-cat << EOF > index.php
-<?php
-  phpinfo();
-?>
-EOF
-cf push -m 128M -b https://github.com/cloudfoundry/php-buildpack.git my-php-app
-```
-
-Please note that you should change *my-php-app* to some unique name, otherwise you'll get an error and the push will fail.
-
-The example above will create and push a test application, "my-php-app", to Cloud Foundry.  The `-b` argument instructs CF to use this buildpack.  The remainder of the options and arguments are not specific to the buildpack, for questions on those consult the output of `cf help push`.
-
-Here's a breakdown of what happens when you run the example above.
-
-  - On your PC...
-    - It'll create a new directory and one PHP file, which calls `phpinfo()`
-    - Run `cf` to push your application.  This will create a new application with a memory limit of 128M (more than enough here) and upload our test file.
-  - On Cloud Foundry...
-    - The buildpack is executed.
-    - Application files are copied to the `htdocs` folder.
-    - Apache HTTPD & PHP are downloaded, configured with the buildpack defaults and run.
-    - Your application is accessible at the URL `http://my-php-app.cfapps.io` (assuming your targeted towards Pivotal Web Services).
-
-## More Information
-
-While the *30 Second Tutorial* shows how quick and easy it is to get started using the buildpack, it skips over quite a bit of what you can do to adjust, configure and extend the buildpack.  The following docs and links provide a more in-depth look at the buildpack.
-
-  - [Supported Software](#supported-software)
-  - [Features](#features)
-  - [Example Applications](#examples)
-  - [Usage]
-  - [Configuration Options]
-  - [Composer]
-  - [Binaries]
-  - [Troubleshooting]
-  - [Getting Help](#getting-help)
-  - [Development]
-  - [License](#license)
-  - [Building](#building)
-  - [Contributing](./CONTRIBUTING.md)
-
-## Supported Software
-The [release notes page](https://github.com/cloudfoundry/php-buildpack/releases) has a list of currently supported modules and packages.
-
-* **PHP Runtimes**
-  * php-cli
-  * php-cgi
-  * php-fpm
-  * hhvm
-* **Third-Party Modules**
-  * New Relic, in connected environments only.
-
-
-
-## Features
-
-Here's a list of some special features of the buildpack.
-
-  - supports running commands or migration scripts prior to application startup
-  - supports an extension mechanism that allows the buildpack to provided additional functionality
-  - allows for application developers to provide custom extensions
-  - easy troubleshooting with the `BP_DEBUG` environment variable
-
-## Examples
-
-Here are some example applications that can be used with this buildpack.
-
-  - [php-info]  This app has a basic index page and shows the output of phpinfo()
-  - [PHPMyAdmin]  A deployment of PHPMyAdmin that uses bound MySQL services
-  - [PHPPgAdmin] A deployment of PHPPgAdmin that uses bound Postgres services
-  - [Wordpress]  A deployment of Wordpress that uses bound MySQL service
-  - [Drupal] A deployment of Drupal that uses bound MySQL service
-  - [CodeIgniter]  CodeIgniter tutorial application running on CF
-  - [Stand Alone]  An example which runs a stand alone PHP script
-  - [pgbouncer]  An example which runs the pgbouncer process in the container to pool db connections.
-  - [phalcon]  An example which runs a Phalcon based application.
-  - [composer] An example which uses Composer.
-
-## Getting Help
-
-If you have questions, comments or need further help with the buildpack you can post to the [vcap-dev] mailing list. It's a good place for posting question on all of the open source Cloud Foundry components, like this buildpack. Alternatively, if you're using Pivotal Web Services with the buildpack, you could post to the [support forums].
-
-## License
-
-The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache License].
-
-## Building
+### Building the Buildpack
 
 1. Make sure you have fetched submodules
 
@@ -120,29 +28,17 @@ The Cloud Foundry PHP Buildpack is released under version 2.0 of the [Apache Lic
 
 1. Use in Cloud Foundry
 
-    Upload the buildpack to your Cloud Foundry and optionally specify it by name
-        
+    Upload the buildpack to your Cloud Foundry instance and optionally specify it by name
+
     ```bash
     cf create-buildpack custom_php_buildpack php_buildpack-cached-custom.zip 1
     cf push my_app -b custom_php_buildpack
     ```
 
-## Supported binary dependencies
+### Contributing
+Find our guidelines [here](https://github.com/cloudfoundry/php-buildpack/blob/develop/CONTRIBUTING.md).
 
-The buildpack only supports the stable patches for each dependency listed in the [manifest.yml](manifest.yml) and [releases page](https://github.com/cloudfoundry/php-buildpack/releases).
-
-
-If you try to use a binary that is not currently supported, staging your app will fail and you will see the following error message:
-
-```
-       Could not get translated url, exited with: DEPENDENCY_MISSING_IN_MANIFEST: ...
- !
- !     exit
- !
-Staging failed: Buildpack compilation step failed
-```
-
-## Testing
+### Integration Tests
 Buildpacks use the [Machete](https://github.com/cloudfoundry/machete) framework for running integration tests.
 
 To test a buildpack, run the following command from the buildpack's directory:
@@ -151,16 +47,205 @@ To test a buildpack, run the following command from the buildpack's directory:
 BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-build
 ```
 
-More options can be found on Machete's [Github page.](https://github.com/cloudfoundry/machete)
+### Unit Tests
+
+```bash
+./run_tests.sh
+```
+
+### Requirements
+ 1. [PyEnv] - This will allow you to easily install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
+ 1. [virtualenv] & [pip] - The buildpack uses virtualenv and pip to setup the [required packages].  These are used by the unit test and not required by the buildpack itself.
+
+### Setup
+```bash
+git clone https://github.com/cloudfoundry/php-buildpack
+cd php-buildpack
+python -V  # should report 2.6.6, if not fix PyEnv before creating the virtualenv
+virtualenv `pwd`/env
+. ./env/bin/activate
+pip install -r requirements.txt
+```
+
+### Project Structure
+
+The project is broken down into the following directories:
+
+  - `bin` contains executable scripts, including `compile`, `release` and `detect`
+  - `defaults` contains the default configuration
+  - `docs` contains project documentation
+  - `extensions` contains non-core extensions
+  - `env` virtualenv environment
+  - `lib` contains core extensions, helper code and the buildpack utils
+  - `scripts` contains the Python scripts that run on compile, release and detect
+  - `tests` contains test scripts and test data
+  - `run_tests.sh` a convenience script for running the full suite of tests
+
+### Understanding the Buildpack
+
+The easiest way to understand the buildpack is to trace the flow of the scripts.  The buildpack system calls the `compile`, `release` and `detect` scripts provided by the buildpack.  These are located under the `bin` directory and are generic.  They simply redirect to the corresponding Python script under the `scripts` directory.
+
+Of these, the `detect` and `release` scripts are straightforward, providing the minimal functionality required by a buildpack.  The `compile` script is more complicated but works like this.
+
+  - load configuration
+  - setup the `WEBDIR` directory
+  - install the buildpack utils and the core extensions (HTTPD, Nginx & PHP)
+  - install other extensions
+  - install the `rewrite` and `start` scripts
+  - setup the runtime environment and process manager
+  - generate a startup.sh script
+
+In general, you shouldn't need to modify the buildpack itself.  Instead creating an extension should be the way to go.
+
+### Extensions
+
+The buildpack relies heavily on extensions.  An extension is simply a set of Python methods that will get called at various times during the staging process.  
+
+### Creation
+
+To create an extension, simply create a folder.  The name of the folder will be the extension.  Inside that folder, create a file called `extension.py`. That file will contain your code.  Inside that file, put your extension methods and any additional required code.
+
+### Methods
+
+Here is an explanation of the methods offered to an extension developer.  All of them are optional and if a method is not implemented, it is simply skipped.
+
+```python
+def configure(ctx):
+    pass
+```
+
+The `configure` method gives extension authors a chance to adjust the configuration of the buildpack prior to *any* extensions running.  The method is called very early on in the lifecycle of the buildpack, so keep this in mind when using this method.  The purpose of this method is to allow an extension author the opportunity to modify the configuration for PHP, the web server or another extension prior to those components being installed.  
+
+An example of when to use this method would be to adjust the list of PHP extensions that are going to be installed.
+
+The method takes one argument, which is the buildpack context.  You can edit the context to update the state of the buildpack.  Return value is ignore / not necessary.
 
 
-## Contributing
+```python
+def preprocess_commands(ctx):
+    return ()
+```
 
-Find our guidelines [here](./CONTRIBUTING.md).
+The `preprocess_commands` method gives extension authors the ability to contribute a list of commands that should be run prior to the services.  These commands are run in the execution environment, not the staging environment and should execute and complete quickly.  The purpose of these commands is to give extension authors the chance to run any last-minute code to adjust to the environment.
+
+As an example, this is used by the core extensions rewrite configuration files with information that is specific to the runtime environment.
+
+The method takes the context as an argument and should return a tuple of tuples (i.e. list of commands to run).
+
+```python
+def service_commands(ctx):
+    return {}
+```
+
+The `service_commands` method gives extension authors the ability to contribute a set of services that need to be run.  These commands are run and should continue to run.  If any service exits, the process manager will halt all of the other services and the application will be restarted by Cloud Foundry.
+
+The method takes the context as an argument and should return a dictionary of services to run.  The key should be the service name and the value should be a tuple which is the command and arguments.
+
+```python
+def service_environment(ctx):
+    return {}
+```
+
+The `service_environment` method gives extension authors the ability to contribute environment variables that will be set and available to the services.
+
+The method takes the buildpack context as its argument and should return a dictionary of the environment variables to be added to the environment where services (see `service_commands`) are executed.  
+
+The key should be the variable name and the value should be the value.  The value can either be a string, in which case the environment variable will be set with the value of the string or it can be a list.
+
+If it's a list, the contents will be combined into a string and separated by the path separation character (i.e. ':' on Unix / Linux or ';' on Windows).  Keys that are set multiple times by the same or different extensions are automatically combined into one environment variable using the same path separation character.  This is helpful when two extensions both want to contribute to the same variable, for example LD_LIBRARY_PATH.
+
+Please note that environment variables are not evaluated as they are set.  This would not work because they are set in the staging environment which is different than the execution environment.  This means you cannot do things like `PATH=$PATH:/new/path` or `NEWPATH=$HOME/some/path`.  To work around this, the buildpack will rewrite the environment variable file before it's processed.  This process will replace any `@<env-var>` markers with the value of the environment variable from the execution environment.  Thus if you do `PATH=@PATH:/new/path` or `NEWPATH=@HOME/some/path`, the service end up with a correctly set `PATH` or `NEWPATH`.
+
+```python
+def compile(install):
+    return 0
+```
+
+The `compile` method is the main method and where extension authors should perform the bulk of their logic.  This method is called  by the buildpack while it's installing extensions.
+
+The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
+
+### Method Order
+
+It is sometimes useful to know what order the buildpack will use to call the methods in an extension.  They are called in the following order.
+
+1. `configure`
+2. `compile`
+3. `service_environment`
+4. `service_commands`
+5. `preprocess_commands`
+
+#### Example
+
+Here is an example extension.  While technically correct, it doesn't actually do anything.
+
+Here's the directory.
+
+```bash
+$ ls -lRh
+total 0
+drwxr-xr-x  3 daniel  staff   102B Mar  3 10:57 testextn
+
+./testextn:
+total 8
+-rw-r--r--  1 daniel  staff   321B Mar  3 11:03 extension.py
+```
+
+Here's the code.
+
+```python
+import logging
+
+_log = logging.getLogger('textextn')
+
+# Extension Methods
+def configure(ctx):
+    pass
+
+def preprocess_commands(ctx):
+    return ()
+
+def service_commands(ctx):
+    return {}
+
+def service_environment(ctx):
+    return {}
+
+def compile(install):
+    return 0
+```
+
+### Tips
+
+ 1. To be consistent with the rest of the buildpack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the buildpack.
+ 1. The buildpack will run every extension that is included with the buildpack and the application.  There is no mechanism to disable specific extensions.  Thus, when you write an extension, you should make some way for the user to enable / disable it's functionality.  See the [NewRelic] extension for an example of this.
+ 1. If an extension requires configuration, it should be included with the extension.  The `defaults/options.json` file is for the buildpack and its core extensions.  See the [NewRelic] buildpack for an example of this.
+ 1. Extensions should have their own test module.  This generally takes the form `tests/test_<extension_name>.py`.
+ 1. Run [bosh-lite].  It'll speed up testing and allow you to inspect the environment manually, if needed.
+ 1. Run a local web server for your binaries.  It'll seriously speed up download times.
+ 1. Test, test and test again.  Create unit and integration tests for your code and extensions.  This gives you quick and accurate feedback on your code.  It also makes it easier for you to make changes in the future and be confident that you're not breaking stuff.
+ 1. Check your code with flake8.  This linting tool can help to detect problems quickly.
+
+[PyEnv]:https://github.com/yyuu/pyenv
+[virtualenv]:http://www.virtualenv.org/en/latest/
+[pip]:http://www.pip-installer.org/en/latest/
+[required packages]:https://github.com/cloudfoundry/php-buildpack/blob/master/requirements.txt
+[bosh-lite]:https://github.com/cloudfoundry/bosh-lite
+[HTTPD]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/httpd
+[Nginx]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/nginx
+[PHP]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/php
+[NewRelic]:https://github.com/cloudfoundry/php-buildpack/tree/master/extensions/newrelic
+[unit tests]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md#testing
+
+### Help and Support
+
+Join the #buildpacks channel in our [Slack community] (http://slack.cloudfoundry.org/) 
 
 ### Reporting Issues
 
-This project is managed through Github.  If you encounter any issues, bug or problems with the buildpack please open an issue.
+This project is managed through GitHub.  If you encounter any issues, bug or problems with the buildpack please open an issue.
+
+### Active Development
 
 The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/projects/1042066)
 
@@ -180,8 +265,10 @@ The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/proje
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
 [vcap-dev]:https://groups.google.com/a/cloudfoundry.org/forum/#!forum/vcap-dev
 [support forums]:http://support.run.pivotal.io/home
-[Composer]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/composer.md
+[Composer support]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/composer.md
 ["offline" mode]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/binaries.md#bundling-binaries-with-the-build-pack
 [phalcon]:https://github.com/dmikusa-pivotal/cf-ex-phalcon
 [Phalcon]:http://phalconphp.com/en/
 [composer]:https://github.com/dmikusa-pivotal/cf-ex-composer
+[Proxy Support]:http://docs.cloudfoundry.org/buildpacks/proxy-usage.html
+

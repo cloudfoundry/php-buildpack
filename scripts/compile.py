@@ -27,6 +27,7 @@ if __name__ == '__main__':
             .default_config()  # noqa
             .stack_config()
             .user_config()
+            .validate()
             .done()
         .execute()
             .method(log_bp_version)
@@ -39,8 +40,6 @@ if __name__ == '__main__':
                 .from_build_pack('lib/{WEB_SERVER}')
             .extension()
                 .from_build_pack('lib/php')
-            .extension()
-                .from_build_pack('lib/hhvm')
             .extension()
                 .from_build_pack('lib/env')
             .extensions()

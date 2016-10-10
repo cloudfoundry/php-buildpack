@@ -120,7 +120,6 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, '.bp-config', 'options.json')
         self.assert_exists(self.build_dir, '.bp-config', 'httpd', 'extra',
                            'httpd-remoteip.conf')
-        self.assert_exists(self.build_dir, 'manifest.yml')
         eq_(4, len(os.listdir(self.build_dir)))
         eq_(4, len(os.listdir(os.path.join(self.build_dir, 'htdocs'))))
 
@@ -194,6 +193,20 @@ class TestCompileHelpers(object):
                            'extension.py')
         eq_(4, len(os.listdir(self.build_dir)))
         eq_(3, len(os.listdir(os.path.join(self.build_dir, 'public'))))
+
+    def test_system_files_not_moved_into_webdir(self):
+        shutil.copytree('tests/data/app-with-all-possible-system-files-that-should-not-move', self.build_dir)
+        setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
+            'BUILD_DIR': self.build_dir,
+            'WEBDIR': 'htdocs',
+            'LIBDIR': 'lib'
+        }))
+        self.assert_exists(self.build_dir, '.bp')
+        self.assert_exists(self.build_dir, '.extensions')
+        self.assert_exists(self.build_dir, '.bp-config')
+        self.assert_exists(self.build_dir, 'manifest.yml')
+        self.assert_exists(self.build_dir, '.profile.d')
+        self.assert_exists(self.build_dir, '.profile')
 
     def test_setup_if_htdocs_with_stand_alone_app(self):
         shutil.copytree('tests/data/app-5', self.build_dir)

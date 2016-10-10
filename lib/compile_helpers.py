@@ -39,21 +39,25 @@ def setup_webdir_if_it_doesnt_exist(ctx):
     if is_web_app(ctx):
         webdirPath = os.path.join(ctx['BUILD_DIR'], ctx['WEBDIR'])
         if not os.path.exists(webdirPath):
+            directory_fuzzy_pattern = '^%s/.*$'
+            file_exact_pattern = '^%s$'
             fu = FileUtil(FakeBuilder(ctx), move=True)
             fu.under('BUILD_DIR')
             fu.into('WEBDIR')
             fu.where_name_does_not_match(
-                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.bp'))
+                directory_fuzzy_pattern % os.path.join(ctx['BUILD_DIR'], '.bp'))
             fu.where_name_does_not_match(
-                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.extensions'))
+                directory_fuzzy_pattern % os.path.join(ctx['BUILD_DIR'], '.extensions'))
             fu.where_name_does_not_match(
-                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.bp-config'))
+                directory_fuzzy_pattern % os.path.join(ctx['BUILD_DIR'], '.bp-config'))
             fu.where_name_does_not_match(
-                '^%s$' % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
+                directory_fuzzy_pattern % os.path.join(ctx['BUILD_DIR'], ctx['LIBDIR']))
             fu.where_name_does_not_match(
-                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], ctx['LIBDIR']))
+                file_exact_pattern % os.path.join(ctx['BUILD_DIR'], 'manifest.yml'))
             fu.where_name_does_not_match(
-                '^%s/.*$' % os.path.join(ctx['BUILD_DIR'], '.profile.d'))
+                directory_fuzzy_pattern % os.path.join(ctx['BUILD_DIR'], '.profile.d'))
+            fu.where_name_does_not_match(
+                file_exact_pattern % os.path.join(ctx['BUILD_DIR'], '.profile'))
             fu.done()
 
 

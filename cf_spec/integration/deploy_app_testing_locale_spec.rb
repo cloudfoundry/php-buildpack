@@ -14,10 +14,11 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'the application should run and emit the translated string' do
-
-    pending 'expects an app to be running' do
+    it 'expects an app to be running' do
       expect(@app).to be_running
+    end
 
+    it 'expects the app to respond to GET request' do
       browser.visit_path('/')
       expect(browser).to have_body 'Hello, world'
     end

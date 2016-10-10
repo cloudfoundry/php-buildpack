@@ -19,14 +19,12 @@ Downloads, installs and configures the NewRelic agent for PHP
 import os
 import os.path
 import logging
-
+from build_pack_utils.compile_extensions import CompileExtensions
 
 _log = logging.getLogger('newrelic')
 
-
 DEFAULTS = {
     'NEWRELIC_HOST': 'download.newrelic.com',
-    'NEWRELIC_VERSION': '4.23.3.111',
     'NEWRELIC_PACKAGE': 'newrelic-php5-{NEWRELIC_VERSION}-linux.tar.gz',
     'NEWRELIC_DOWNLOAD_URL': 'https://{NEWRELIC_HOST}/php_agent/'
                              'archive/{NEWRELIC_VERSION}/{NEWRELIC_PACKAGE}',
@@ -41,9 +39,12 @@ class NewRelicInstaller(object):
         self._detected = False
         self.app_name = None
         self.license_key = None
+        manifest_file = os.path.join(self._ctx['BP_DIR'], 'manifest.yml')
+
         try:
             self._log.info("Initializing")
             if ctx['PHP_VM'] == 'php':
+                self._set_default_version(manifest_file)
                 self._merge_defaults()
                 self._load_service_info()
                 self._load_php_info()
@@ -51,6 +52,17 @@ class NewRelicInstaller(object):
         except Exception:
             self._log.exception("Error installing NewRelic! "
                                 "NewRelic will not be available.")
+
+    def _set_default_version(self, manifest_file):
+        compile_exts = CompileExtensions(self._ctx['BP_DIR'])
+
+        exit_code, output = compile_exts.default_version_for(manifest_file, "newrelic")
+        if exit_code == 1:
+            self._log.error("Error detecting NewRelic default version: %s", output)
+            raise RuntimeError("Error detecting NewRelic default version")
+
+        self._log.info("Using NewRelic default version: %s", output)
+        self._ctx['NEWRELIC_VERSION'] = output
 
     def _merge_defaults(self):
         for key, val in DEFAULTS.iteritems():

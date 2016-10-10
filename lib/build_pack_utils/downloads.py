@@ -1,7 +1,7 @@
-import os
 import urllib2
 import re
 import logging
+from compile_extensions import CompileExtensions
 from subprocess import Popen
 from subprocess import PIPE
 
@@ -29,20 +29,9 @@ class Downloader(object):
             urllib2.install_opener(opener)
 
     def download(self, url, toFile):
-        path_to_download_executable = os.path.join(
-            self._ctx['BP_DIR'],
-            'compile-extensions',
-            'bin',
-            'download_dependency')
+        compile_exts = CompileExtensions(self._ctx['BP_DIR'])
+        exit_code, translated_uri = compile_exts.download_dependency(url, toFile)
 
-        command_arguments = [
-            path_to_download_executable,
-            url,
-            toFile]
-
-        process = Popen(command_arguments, stdout=PIPE)
-        exit_code = process.wait()
-        translated_uri = process.stdout.read().rstrip()
         if exit_code == 0:
             print "Downloaded [%s] to [%s]" % (translated_uri, toFile)
         elif exit_code == 1:
@@ -50,12 +39,12 @@ class Downloader(object):
         elif exit_code == 3:
             raise RuntimeError("MD5 of downloaded dependency does not match expected value")
 
-    def custom_extension_download(self, url, toFile):
+    def custom_extension_download(self, url, filtered_url, toFile):
         res = urllib2.urlopen(url)
         with open(toFile, 'w') as f:
             f.write(res.read())
-        print 'Downloaded [%s] to [%s]' % (url, toFile)
-        self._log.info('Downloaded [%s] to [%s]', url, toFile)
+        print 'Downloaded [%s] to [%s]' % (filtered_url, toFile)
+        self._log.info('Downloaded [%s] to [%s]', filtered_url, toFile)
 
     def download_direct(self, url):
         buf = urllib2.urlopen(url).read()

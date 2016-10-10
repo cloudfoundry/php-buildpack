@@ -5,7 +5,7 @@ import tempfile
 import shutil
 import utils
 import logging
-import subprocess
+from compile_extensions import CompileExtensions
 from urlparse import urlparse
 from zips import UnzipUtil
 from downloads import Downloader
@@ -57,9 +57,37 @@ class CloudFoundryUtil(object):
         CloudFoundryUtil.init_logging(ctx)
         _log.info('CloudFoundry Initialized.')
         _log.debug("CloudFoundry Context Setup [%s]", ctx)
+
+        # get default PHP, httpd, and nginx versions from manifest
+        manifest_file = os.path.join(ctx['BP_DIR'], 'manifest.yml')
+        for dependency in ["php", "nginx", "httpd"]:
+            ctx = CloudFoundryUtil.update_default_version(dependency, manifest_file, ctx)
+
         # Git URL, if one exists
         ctx['BP_GIT_URL'] = find_git_url(ctx['BP_DIR'])
         _log.info('Build Pack Version: %s', ctx['BP_GIT_URL'])
+        return ctx
+
+    @staticmethod
+    def update_default_version(dependency, manifest_file, ctx):
+        compile_exts = CompileExtensions(ctx['BP_DIR'])
+
+        exit_code, output = compile_exts.default_version_for(manifest_file, dependency)
+
+        if exit_code == 1:
+            _log.error("Error detecting %s default version: %s", dependency.upper(), output)
+            raise RuntimeError("Error detecting %s default version" % dependency.upper())
+
+        default_version_key = dependency.upper() + "_VERSION"
+        download_url_key = dependency.upper() + "_DOWNLOAD_URL"
+        modules_pattern_key = dependency.upper() + "_MODULES_PATTERN"
+
+        ctx[default_version_key] = output
+        ctx[download_url_key] = "/{0}/{1}/{0}-{1}.tar.gz".format(dependency, "{" + default_version_key + "}")
+
+        if dependency != "nginx":
+            ctx[modules_pattern_key] = "/{0}/{1}/{0}-{2}-{1}.tar.gz".format(dependency, "{" + default_version_key + "}", "{MODULE_NAME}")
+
         return ctx
 
     @staticmethod
@@ -139,16 +167,21 @@ class CloudFoundryInstaller(object):
     def install_binary_direct(self, url, hsh, installDir,
             fileName=None, strip=False,
             extract=True):
-        exit_code, translated_url = self.translate_dependency_url(url)
+
+        compile_exts = CompileExtensions(self._ctx['BP_DIR'])
+
+        exit_code, translated_url = compile_exts.translate_dependency_url(url)
         if exit_code == 0:
             url = translated_url
+
+        filtered_url = compile_exts.filter_dependency_url(url)
 
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
 
-        self._log.debug("Installing direct [%s]", url)
-        self._dwn.custom_extension_download(url, fileToInstall)
+        self._log.debug("Installing direct [%s]", filtered_url)
+        self._dwn.custom_extension_download(url, filtered_url, fileToInstall)
 
         if extract:
             return self._unzipUtil.extract(fileToInstall,
@@ -168,7 +201,7 @@ class CloudFoundryInstaller(object):
             if the dependency is missing from the manifest.
 
             The other 'exposed' method does make requests to the internet should the
-            dependency not exist in the manifest and intentionally takes the hash sha 
+            dependency not exist in the manifest and intentionally takes the hash sha
             argument but makes no use of it.
         """
 
@@ -185,12 +218,6 @@ class CloudFoundryInstaller(object):
         else:
             shutil.copy(fileToInstall, installDir)
             return installDir
-
-    def translate_dependency_url(self, url):
-        process = subprocess.Popen([os.path.join(self._ctx['BP_DIR'], 'compile-extensions', 'bin', 'translate_dependency_url'), url], stdout=subprocess.PIPE)
-        exit_code = process.wait()
-        translate_url_output = process.stdout.read().rstrip()
-        return (exit_code, translate_url_output)
 
     def install_binary(self, installKey):
         self._log.debug('Installing [%s]', installKey)

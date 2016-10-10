@@ -1,3 +1,318 @@
+v4.3.20 Sep 19, 2016
+=====================
+
+* Enable mssql and pdo-dblib support for PHP
+  (https://www.pivotaltracker.com/story/show/129905147)
+
+* Update versions for PHP modules cassandra, xdebug, yaf, twig, php-protobuf
+  (https://www.pivotaltracker.com/story/show/129892237)
+
+* Add nginx 1.11.4, remove nginx 1.11.3
+  (https://www.pivotaltracker.com/story/show/130296431)
+
+* Add composer 1.2.1, remove composer 1.2.0
+  (https://www.pivotaltracker.com/story/show/130184859)
+
+* Print HTTPD version in staging logs
+  (https://www.pivotaltracker.com/story/show/128914955)
+
+v4.3.19 Sep 01, 2016
+=====================
+
+* Add phalcon support to php7
+  (https://www.pivotaltracker.com/story/show/128835133)
+
+* Fix ioncube for php5 and php7
+  (https://www.pivotaltracker.com/story/show/128040077)
+
+* Add PHP 7.0.10, remove PHP 7.0.8
+  (https://www.pivotaltracker.com/story/show/128529317)
+
+* Add PHP 5.6.25, remove PHP 5.6.23
+  (https://www.pivotaltracker.com/story/show/128571277)
+
+v4.3.18 Aug 18, 2016
+=====================
+
+* Redact credentials from HTTP(S) URLs in staging output and filenames
+  (https://www.pivotaltracker.com/story/show/126514693)
+
+* Introduce `default_versions` support
+  (https://www.pivotaltracker.com/story/show/126394949)
+
+* Add Cassandra pecl 1.2.1
+  (https://www.pivotaltracker.com/story/show/126683747)
+
+* Add nginx 1.11.3, remove nginx 1.11.2
+  (https://www.pivotaltracker.com/story/show/127085963)
+
+* Add PHP 5.5.38, 5.6.24, 7.0.9, remove PHP 5.5.36, 5.6.22, 7.0.7
+  (https://www.pivotaltracker.com/story/show/126760065)
+  (https://www.pivotaltracker.com/story/show/126680137)
+  (https://www.pivotaltracker.com/story/show/126629957)
+
+* Update modules
+  - Add imagick pecl 3.4.2, remove 3.4.1 (PHP5 + PHP7)
+  - Add redis pecl package: 2.2.8, remove 2.2.7 (PHP5)
+  - Add mongodb pecl package: 1.1.8, remove 1.1.6 (PHP5 + PHP7)
+  - Add lua pecl package: 2.0.2, remove 2.0.1 (PHP7)
+  - Add twig pecl package: 1.24.1, remove 1.24.0 (PHP5)
+  - Add rabbitmq-c 0.8.0, remove 0.7.1 (PHP5 + PHP7)
+  - Add php-protobuf 0.11.0, remove locked sha (d792f5b8e0) (PHP5)
+  (https://www.pivotaltracker.com/story/show/127621593)
+
+v4.3.17 Jul 20, 2016
+=====================
+
+  * Mitigations for httpoxy (CVE-2016-5387 and CVE-2016-5385)
+    - Unset proxy header for requests for Apache
+    - Clear out HTTP_PROXY value for nginx (no CVE assigned at this time)
+  (https://www.pivotaltracker.com/story/show/126591847)
+
+  * Update composer to 1.2.0
+    (https://www.pivotaltracker.com/story/show/126559299)
+
+  * Add httpd 2.4.23, remove httpd 2.4.20
+    (https://www.pivotaltracker.com/story/show/123892721)
+
+v4.3.16 Jul 15, 2016
+=====================
+
+* Make buildpacks.cloudfoundry.org the default url for buildpack
+  dependencies
+  (https://www.pivotaltracker.com/story/show/121757949)
+
+* Remove nginx 1.9.5, make nginx 1.11.x default version.
+  - Add nginx 1.10.1
+  - Add nginx 1.11.2
+  (https://www.pivotaltracker.com/story/show/124860331)
+  (https://www.pivotaltracker.com/story/show/124182441)
+
+* Rebuild php5 to include gearman
+  (https://www.pivotaltracker.com/story/show/121741961)
+
+* Update Phalcon from 2.0.11 -> 2.0.13
+  (https://www.pivotaltracker.com/story/show/125254211)
+
+* Update yaf to 3.0.3 in php7
+  (https://www.pivotaltracker.com/story/show/124082861)
+
+* Add pecl-mongodb to php5
+  - This leaves mongodb on php7 unchanged, and leaves `mongo` on php5
+  (https://www.pivotaltracker.com/story/show/119012029)
+
+v4.3.15 Jun 28, 2016
+=====================
+
+* Add php 5.5.37, remove php 5.5.35
+  (https://www.pivotaltracker.com/story/show/121937065)
+
+* Add php 5.6.23, remove php 5.6.21
+  (https://www.pivotaltracker.com/story/show/122010587)
+
+* Add php 7.0.8, remove php 7.0.6
+  (https://www.pivotaltracker.com/story/show/121990101)
+
+* Add composer 1.1.3, remove composer 1.1.2
+  (https://www.pivotaltracker.com/story/show/122332581)
+
+* populate-modules-in-manifest always updates modules
+  - Also sort modules alphabetically
+  (https://www.pivotaltracker.com/story/show/121973229)
+
+* Include solr in PHP binaries
+  (https://www.pivotaltracker.com/story/show/121045501)
+
+v4.3.14 Jun 02, 2016
+=====================
+
+* Add PHP 5.6.22 removing PHP 5.6.20
+  (https://www.pivotaltracker.com/story/show/120335617)
+
+* Adding nginx 1.11.1, remove 1.8. Make 1.11.1 the default.
+  (https://www.pivotaltracker.com/story/show/120614839)
+  (https://www.pivotaltracker.com/story/show/120624623)
+
+* Updating New Relic extension from v4.23.3.111 to v6.3.0.161
+  (https://www.pivotaltracker.com/story/show/119709645)
+
+* Update composer to 1.1.2
+  (https://www.pivotaltracker.com/story/show/120635735)
+
+v4.3.13 May 31, 2016
+=====================
+
+* Add php 5.5.36 and 7.0.7, remove php 5.5.34 and 7.0.5.
+  This addresses CVE-2013-7456 and CVE-2016-5093.
+  (https://www.pivotaltracker.com/story/show/120276393)
+  (https://www.pivotaltracker.com/story/show/120267503)
+
+* Update composer to 1.1.1
+  (https://www.pivotaltracker.com/story/show/119721701)
+
+* Update php modules for php5 and php7 versions
+  (https://www.pivotaltracker.com/story/show/119177589)
+  - php5:
+    - phalcon: 1.3.4 -> 2.0.11
+
+  - php7:
+    - Add amqp 1.7.0
+    - Add rabbitmq 0.7.1
+
+
+v4.3.12 May 05, 2016
+=====================
+
+* Add php 5.5.35, 5.6.21, 7.0.6 Remove php 5.5.33, 5.6.18, 7.0.4
+  (https://www.pivotaltracker.com/story/show/118464637)
+  (https://www.pivotaltracker.com/story/show/118484505)
+  (https://www.pivotaltracker.com/story/show/118532177)
+
+* Bumped php5 and php7 extensions:
+  (https://www.pivotaltracker.com/story/show/118792821)
+  - common:
+    - librabbitmq: 0.5.2 -> 0.7.1
+    - libhiredis: 0.11.0 -> 0.13.3
+    - liblua: 5.2.4 -> 5.3.2
+  - php5:
+    - imagick: 3.1.2 -> 3.4.1
+    - mongo: 1.6.5 -> 1.6.14
+    - msgpack: 0.5.5 -> 0.5.7
+    - xdebug: 2.3.1 -> 2.4.0
+    - yaf: 2.3.3 -> 2.3.5
+    - amqp: 1.4.0 -> 1.7.0
+    - suhosin: 0.9.37.1 -> 0.9.38
+    - twig: 1.18.0 -> 1.24.0
+  - php7:
+    - mongodb: 1.1.2 -> 1.1.6
+    - msgpack: 2.0.0 -> 2.0.1
+    - lua: 2.0.0 -> 2.0.1
+
+* Compile libmemcached with SASL support and enable memcache session support
+  (https://www.pivotaltracker.com/story/show/117829871)
+
+v4.3.11 Apr 26, 2016
+=====================
+
+* Add nginx 1.9.15, remove nginx 1.9.14
+  (https://www.pivotaltracker.com/story/show/117934027)
+
+* Add composer 1.0.2, remove composer 1.0.0
+  (https://www.pivotaltracker.com/story/show/118089459)
+
+* Enable compression by default for httpd
+  (https://www.pivotaltracker.com/story/show/116542487)
+
+v4.3.10 Apr 12, 2016
+=====================
+
+* Added extension to configure redis as a persistent store for PHP sessions
+  (https://www.pivotaltracker.com/story/show/117232921)
+
+* Add httpd 2.4.20, remove httpd 2.4.18
+  (https://www.pivotaltracker.com/story/show/116903551)
+
+* BUGFIX: detect composer.json non-recursively
+  (https://www.pivotaltracker.com/story/show/116521177)
+
+v4.3.9 Apr 07, 2016
+====================
+
+* Update php 7.0.4 and add 7.0.5 with new recompiled PHP binaries that include
+  the xdebug and imagick extensions
+  (https://www.pivotaltracker.com/story/show/116842725)
+
+* Add composer 1.0.0, remove composer 1.0.0-beta2
+  (https://www.pivotaltracker.com/story/show/116972309)
+
+* Add nginx 1.9.14, remove nginx 1.9.12
+  (https://www.pivotaltracker.com/story/show/116842725)
+
+* Add PHP 5.6.20, 5.5.34, 7.0.5, remove PHP 5.6.18, 5.5.32, 7.0.3
+  (https://www.pivotaltracker.com/story/show/116662205)
+
+* Add helpful error message and early exit when user specifies an invalid
+  webserver
+  (https://www.pivotaltracker.com/story/show/116450447)
+
+v4.3.8 Mar 29, 2016
+====================
+
+* Updates composer version from 1.0.0-beta1 to 1.0.0-beta2
+  (https://www.pivotaltracker.com/story/show/116416425)
+
+v4.3.7 Mar 15, 2016
+====================
+
+* Updates composer version from 1.0.0-alpha11 to 1.0.0-beta1
+  (https://www.pivotaltracker.com/story/show/115175869)
+
+v4.3.6 Mar 08, 2016
+====================
+
+* Adding pull request template
+
+* Add php 7.0.4, 5.5.33, and 5.6.19, remove 5.5.31 and 5.6.17
+  (https://www.pivotaltracker.com/story/show/115120557)
+
+* Bump nginx to version 1.9.12
+  (https://www.pivotaltracker.com/story/show/114349789)
+
+v4.3.5 Feb 16, 2016
+====================
+
+* Remove HHVM from PHP Buildpack
+  (https://www.pivotaltracker.com/story/show/113172267)
+
+* Moving intl from pecl package to compile-time option
+  (https://www.pivotaltracker.com/story/show/109840204)
+
+* Add composer-1.0.0-alpha11
+  (https://www.pivotaltracker.com/story/show/112362115)
+
+* add php 5.5.32, 5.6.18, 7.0.3, drop 5.5.30, 5.6.16
+  (https://www.pivotaltracker.com/story/show/112908255)
+
+v4.3.4 Jan 28, 2016
+====================
+
+* Add nginx 1.8.1 and 1.9.10, drop nginx 1.8.0 and 1.9.9
+  (https://www.pivotaltracker.com/story/show/112525507)
+
+v4.3.3 Jan 26, 2016
+====================
+
+* Show warning when composer.json and options.json both exist, to prevent conflicts
+  (https://www.pivotaltracker.com/story/show/111962349)
+
+* Make version 1.9.9 the default nginx version
+  (https://www.pivotaltracker.com/story/show/110700942)
+
+* Add versions 5.5.31, 5.6.17.
+  (https://www.pivotaltracker.com/story/show/111532430)
+
+* Remove versions 5.5.29, 5.6.15.
+  (https://www.pivotaltracker.com/story/show/111532430)
+
+v4.3.2 Dec 28, 2015
+====================
+
+* Add nginx 1.9.9, drop nginx 1.9.7
+  (https://www.pivotaltracker.com/story/show/110627098)
+
+* Add httpd 2.4.18, drop httpd 2.4.17
+  (https://www.pivotaltracker.com/story/show/110627098)
+
+v4.3.1 Dec 09, 2015
+====================
+
+* Adding support for PHP 5.6.16, remove support for PHP 5.6.14
+  (https://www.pivotaltracker.com/story/show/109359270)
+
+* Add support for nginx 1.9.7, remove support for nginx 1.9.6
+  (https://www.pivotaltracker.com/story/show/108351198)
+
+
 v4.3.0 Nov 16, 2015
 ====================
 
@@ -81,7 +396,7 @@ Note that 4.1.0 and 4.1.1 were not released.
 * Remove application developer's ability to override the buildpack's
   binaries via DOWNLOAD_URL option.
   (https://www.pivotaltracker.com/story/show/101243110)
-    
+
 * Remove default php startup warnings in the event of unsupported extensions
   within an application. The warnings have been replaced with a more explicit
   'unsupported extension' message printed to standard error.
@@ -233,7 +548,7 @@ v3.1.1 Apr 22, 2015
 
 * Add support for PHP 5.4.39, 5.5.23 & 5.6.7
 
-* Drop support for PHP 5.4.36, 5.5.20 & 5.6.4 
+* Drop support for PHP 5.4.36, 5.5.20 & 5.6.4
 
 v3.1.0 Mar 18, 2015
 ====================

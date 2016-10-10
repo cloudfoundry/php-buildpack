@@ -38,6 +38,8 @@ def service_environment(ctx):
 
 def compile(install):
     print 'Installing HTTPD'
+    print 'HTTPD %s' % (install.builder._ctx['HTTPD_VERSION'])
+
     install.builder._ctx['PHP_FPM_LISTEN'] = '127.0.0.1:9000'
     (install
         .package('HTTPD')

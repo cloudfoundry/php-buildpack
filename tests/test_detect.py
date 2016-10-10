@@ -132,3 +132,26 @@ class TestDetect(object):
         finally:
             if os.path.exists(bp.bp_dir):
                 shutil.rmtree(bp.bp_dir)
+
+    @with_setup(setup=setUp, teardown=tearDown)
+    def test_detect_with_asp_net_app(self):
+        shutil.copytree('tests/data/app-asp-net', self.build_dir)
+        bp = BuildPack({
+            'BUILD_DIR': self.build_dir,
+            'CACHE_DIR': self.cache_dir,
+            'WEBDIR': 'htdocs'
+        }, '.')
+        # simulate clone, makes debugging easier
+        os.rmdir(bp.bp_dir)
+        shutil.copytree('.', bp.bp_dir,
+                        ignore=shutil.ignore_patterns("binaries",
+                                                      "env",
+                                                      "tests"))
+        try:
+            bp._detect().strip()
+        except Exception, e:
+            print e.output
+            assert re.match('no', e.output)
+        finally:
+            if os.path.exists(bp.bp_dir):
+                shutil.rmtree(bp.bp_dir)

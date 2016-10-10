@@ -1,0 +1,21 @@
+{#
+   This is the base template of the all backend pages. Since this layout is similar
+   to the global layout, we inherit from it to just change the contents of some
+   blocks. In practice, backend templates are using a three-level inheritance,
+   showing how powerful, yet easy to use, is Twig's inheritance mechanism.
+   See http://symfony.com/doc/current/book/templating.html#template-inheritance-and-layouts
+#}
+{% extends 'base.html.twig' %}
+
+{% block header_navigation_links %}
+    <li>
+        <a href="{{ path('admin_post_index') }}">
+            <i class="fa fa-list-alt"></i> {{ 'menu.post_list'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('blog_index') }}">
+            <i class="fa fa-home"></i> {{ 'menu.back_to_blog'|trans }}
+        </a>
+    </li>
+{% endblock %}
