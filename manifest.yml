@@ -348,6 +348,7 @@ dependencies:
   - pgsql
   - phalcon
   - pspell
+  - rdkafka
   - snmp
   - soap
   - sockets
@@ -395,6 +396,7 @@ dependencies:
   - pgsql
   - phalcon
   - pspell
+  - rdkafka
   - snmp
   - soap
   - sockets
