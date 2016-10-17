@@ -352,7 +352,7 @@ class TestComposer(object):
             'BUILD_DIR': '',
             'PHP_55_LATEST': '5.5.15',
             'PHP_56_LATEST': '5.6.7',
-            'PHP_70_LATEST': '7.0.100',
+            'PHP_70_LATEST': '7.0.12',
             'WEBDIR': ''
         }
         pick_php_version = \
@@ -371,8 +371,8 @@ class TestComposer(object):
         eq_('5.6.7', pick_php_version('5.6.7'))
         eq_('5.6.6', pick_php_version('5.6.6'))
         # latest PHP 7.0 version
-        eq_('7.0.100', pick_php_version('>=7.0'))
-        eq_('7.0.100', pick_php_version('7.0.*'))
+        eq_('7.0.12', pick_php_version('>=7.0'))
+        eq_('7.0.12', pick_php_version('7.0.*'))
         # exact PHP 7.0 versions
         eq_('7.0.1', pick_php_version('7.0.1'))
         eq_('7.0.2', pick_php_version('7.0.2'))
