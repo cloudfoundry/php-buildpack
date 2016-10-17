@@ -179,9 +179,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 5.6.25
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.25-linux-x64-1474042643.tgz
-  md5: 8c5d46ec1f6819a34f6e73151e7a2b07
+  version: 5.6.26
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.26-linux-x64-1476201830.tgz
+  md5: f2185734be611248970d22c9d827680a
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -245,9 +245,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 5.6.26
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.26-linux-x64-1476201830.tgz
-  md5: f2185734be611248970d22c9d827680a
+  version: 5.6.27
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.27-linux-x64-1476722975.tgz
+  md5: 7e6c707147afe8c34625eded828085a8
   cf_stacks:
   - cflinuxfs2
   modules:
