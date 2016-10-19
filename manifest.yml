@@ -406,12 +406,6 @@ dependencies:
   - yaf
   - zip
   - zlib
-- name: nginx
-  version: 1.10.1
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.10.1-linux-x64.tgz
-  cf_stacks:
-  - cflinuxfs2
-  md5: 8b2b4d5572940d96bbb68cc10027b679
 - name: composer
   version: 1.2.1
   uri: https://buildpacks.cloudfoundry.org/php/binaries/trusty/composer/1.2.1/composer.phar
@@ -422,5 +416,11 @@ dependencies:
   version: 1.11.5
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.11.5-linux-x64.tgz
   md5: 48811c404ce20f7dbe1b731e780c62a8
+  cf_stacks:
+  - cflinuxfs2
+- name: nginx
+  version: 1.10.2
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.10.2-linux-x64.tgz
+  md5: a9e0c628bfde1953372ae18c55e9ed0f
   cf_stacks:
   - cflinuxfs2
