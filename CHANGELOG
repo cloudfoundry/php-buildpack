@@ -1,3 +1,25 @@
+v4.3.21 Oct 19, 2016
+=====================
+
+* Address USN-3095-1 and associated CVEs with PHP 5.6.27 and 7.0.12
+
+* Add support for rdkafka in PHP 7
+  (https://www.pivotaltracker.com/story/show/131556091)
+
+* Add php 5.6.26 and 5.6.27, remove php 5.6.24 and 5.6.25
+  (https://www.pivotaltracker.com/story/show/130436939)
+  (https://www.pivotaltracker.com/story/show/132217765)
+
+* Add php 7.0.11 and 7.0.12, remove php 7.0.9 and 7.0.10
+  (https://www.pivotaltracker.com/story/show/130313627)
+  (https://www.pivotaltracker.com/story/show/132227519)
+
+* Add nginx 1.11.5, remove nginx 1.11.4
+  (https://www.pivotaltracker.com/story/show/132088805)
+
+* Add nginx 1.10.2, remove nginx 1.10.1
+  (https://www.pivotaltracker.com/story/show/132678745)
+
 v4.3.20 Sep 19, 2016
 =====================
 
