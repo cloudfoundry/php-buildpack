@@ -347,8 +347,10 @@ dependencies:
   - pdo_sqlite
   - pgsql
   - phalcon
+  - phpiredis
   - pspell
   - rdkafka
+  - redis
   - snmp
   - soap
   - sockets
@@ -395,8 +397,10 @@ dependencies:
   - pdo_sqlite
   - pgsql
   - phalcon
+  - phpiredis
   - pspell
   - rdkafka
+  - redis
   - snmp
   - soap
   - sockets
