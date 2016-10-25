@@ -346,6 +346,14 @@ class TestComposer(object):
         php_version = config.read_version_from_composer('php')
         eq_('>=5.3', php_version)
 
+    def test_composer_invalid_json_causes_system_exit(self):
+        ctx = {'BUILD_DIR': 'tests/data/composer-invalid-json', 'WEBDIR': ''}
+        config = self.extension_module.ComposerConfiguration(ctx)
+        try:
+            config.read_version_from_composer('php')
+        except SystemExit, e:
+            eq_(1, e.code)
+
     def test_pick_php_version(self):
         ctx = {
             'PHP_VERSION': '5.5.15',
