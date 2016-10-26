@@ -1,8 +1,8 @@
 $: << 'cf_spec'
 require 'cf_spec_helper'
 
-describe "When composer.json is invalid JSON" do
-  let(:app_name) { 'composer_with_invalid_json' }
+describe "When composer.lock is invalid JSON" do
+  let(:app_name) { 'composer_with_invalid_lockfile_json' }
 
   subject(:app) do
     Machete.deploy_app(app_name, {env:
@@ -11,21 +11,20 @@ describe "When composer.json is invalid JSON" do
   end
 
   after do
-    Machete::CF::DeleteApp.new.execute(app)
+    #Machete::CF::DeleteApp.new.execute(app)
   end
 
   context 'with an uncached buildpack', :uncached do
     specify do
       expect(app).to_not be_running
-      expect(app).to have_logged("Invalid JSON present in composer.json. Parser said")
+      expect(app).to have_logged("Invalid JSON present in composer.lock. Parser said")
     end
   end
 
   context 'with a cached buildpack', :cached do
-    let(:app_name) { 'composer_with_invalid_json' }
     specify do
       expect(app).to_not be_running
-      expect(app).to have_logged('Invalid JSON present in composer.json. Parser said')
+      expect(app).to have_logged('Invalid JSON present in composer.lock. Parser said')
     end
   end
 end

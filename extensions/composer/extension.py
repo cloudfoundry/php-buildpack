@@ -113,19 +113,25 @@ class ComposerConfiguration(object):
             selected = self._ctx['PHP_VERSION']
         return selected
 
+    def get_composer_contents(self, file_path):
+        try:
+            composer = json.load(open(file_path, 'r'))
+        except ValueError, e:
+            sys.tracebacklimit = 0
+            sys.stderr.write('-------> Invalid JSON present in {0}. Parser said: "{1}"'
+                             .format(os.path.basename(file_path), e.message))
+            sys.stderr.write("\n")
+            sys.exit(1)
+        return composer
+
     def read_version_from_composer(self, key):
         (json_path, lock_path) = find_composer_paths(self._ctx)
         if json_path is not None:
-            try:
-                composer = json.load(open(json_path, 'r'))
-            except ValueError, e:
-                sys.tracebacklimit = 0
-                sys.stderr.write('-----> Invalid JSON present in composer.json. Parser said: "{0}"'.format(e.message))
-                sys.exit(1)
+            composer = self.get_composer_contents(json_path)
             require = composer.get('require', {})
             return require.get(key, None)
         if lock_path is not None:
-            composer = json.load(open(lock_path, 'r'))
+            composer = self.get_composer_contents(lock_path)
             platform = composer.get('platform', {})
             return platform.get(key, None)
         return None
