@@ -117,7 +117,7 @@ dependencies:
   uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.38-linux-x64-1477601794.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: 8d8884e813697357199760dbbefc984b
+  md5: e650880bb91ef7ea4fdf377eb92b3b6b
   modules:
   - amqp
   - bz2
