@@ -1,6 +1,7 @@
 {
     "require": {
         "php": ">=7.0",
+        "ext-apcu": "*",
         "ext-amqp": "*",
         "ext-bz2": "*",
         "ext-cassandra": "*",

@@ -1,6 +1,7 @@
 {
     "require": {
         "ext-amqp": "*",
+        "ext-apcu": "*",
         "ext-bz2": "*",
         "ext-cassandra": "*",
         "ext-curl": "*",
