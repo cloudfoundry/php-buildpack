@@ -54,6 +54,7 @@ dependencies:
   - cflinuxfs2
   modules:
   - amqp
+  - apcu
   - bz2
   - cassandra
   - curl
@@ -120,6 +121,7 @@ dependencies:
   - cflinuxfs2
   modules:
   - amqp
+  - apcu
   - bz2
   - cassandra
   - curl
@@ -186,6 +188,7 @@ dependencies:
   - cflinuxfs2
   modules:
   - amqp
+  - apcu
   - bz2
   - cassandra
   - curl
@@ -252,6 +255,7 @@ dependencies:
   - cflinuxfs2
   modules:
   - amqp
+  - apcu
   - bz2
   - cassandra
   - curl
@@ -318,6 +322,7 @@ dependencies:
   - cflinuxfs2
   modules:
   - amqp
+  - apcu
   - bz2
   - cassandra
   - curl
@@ -368,6 +373,7 @@ dependencies:
   - cflinuxfs2
   modules:
   - amqp
+  - apcu
   - bz2
   - cassandra
   - curl
