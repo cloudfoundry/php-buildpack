@@ -168,20 +168,12 @@ class CloudFoundryInstaller(object):
             fileName=None, strip=False,
             extract=True):
 
-        compile_exts = CompileExtensions(self._ctx['BP_DIR'])
-
-        exit_code, translated_url = compile_exts.translate_dependency_url(url)
-        if exit_code == 0:
-            url = translated_url
-
-        filtered_url = compile_exts.filter_dependency_url(url)
-
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
 
-        self._log.debug("Installing direct [%s]", filtered_url)
-        self._dwn.custom_extension_download(url, filtered_url, fileToInstall)
+        self._log.debug("Installing direct [%s]", url)
+        self._dwn.custom_extension_download(url, url, fileToInstall)
 
         if extract:
             return self._unzipUtil.extract(fileToInstall,
@@ -194,17 +186,6 @@ class CloudFoundryInstaller(object):
     def _install_binary_from_manifest(self, url, installDir,
             strip=False,
             extract=True):
-        """
-            To support backwards compatibility with apps calling this method
-            in their custom extension configs, we made this internal method
-            which has no need to check for a hash and will not hit the internet
-            if the dependency is missing from the manifest.
-
-            The other 'exposed' method does make requests to the internet should the
-            dependency not exist in the manifest and intentionally takes the hash sha
-            argument but makes no use of it.
-        """
-
         self._log.debug("Installing binary from manifest [%s]", url)
         self._dwn.download(url, self._ctx['TMPDIR'])
 
