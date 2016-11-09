@@ -1,3 +1,21 @@
+v4.3.22 Nov 09, 2016
+=====================
+
+* Ensure all downloaded binaries have checksums verified
+  (https://www.pivotaltracker.com/story/show/128099189)
+
+* Add composer 1.2.2, remove composer 1.2.1
+  (https://www.pivotaltracker.com/story/show/133687415)
+
+* Add APCu support to all PHP versions
+  (https://www.pivotaltracker.com/story/show/129370967)
+
+* Warn and error when composer.json or composer.lock has invalid format
+  (https://www.pivotaltracker.com/story/show/130240985)
+
+* Add support for phpiredis and phpredis in PHP7
+  (https://www.pivotaltracker.com/story/show/127939547)
+
 v4.3.21 Oct 19, 2016
 =====================
 
