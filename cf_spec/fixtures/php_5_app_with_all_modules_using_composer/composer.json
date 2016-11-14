@@ -53,7 +53,6 @@
         "ext-sundown": "*",
         "ext-twig": "*",
         "ext-xcache": "*",
-        "ext-xdebug": "*",
         "ext-xhprof": "*",
         "ext-xsl": "*",
         "ext-yaf": "*",

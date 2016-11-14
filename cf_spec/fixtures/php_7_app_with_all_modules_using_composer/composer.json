@@ -39,7 +39,6 @@
         "ext-soap": "*",
         "ext-sockets": "*",
         "ext-solr": "*",
-        "ext-xdebug": "*",
         "ext-xsl": "*",
         "ext-yaf": "*",
         "ext-zip": "*",
