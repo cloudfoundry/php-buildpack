@@ -24,6 +24,9 @@ default_versions:
 - name: composer
   version: 1.2.2
 url_to_dependency_map:
+- match: appdynamics-php-agent-x64-linux-(\d+\.\d+\.\d+\.\d+)
+  name: appdynamics
+  version: "$1"
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
   version: "$1"
