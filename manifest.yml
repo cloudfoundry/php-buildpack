@@ -316,8 +316,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.13
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.13-linux-x64-1479162046.tgz
-  md5: 4de4ed46baaf4d86aa29a38e7a2135b0
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.13-linux-x64-1479228412.tgz
+  md5: 0c7d7f64bb697543ff3f293a8513713a
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -335,6 +335,7 @@ dependencies:
   - gmp
   - imagick
   - imap
+  - ioncube
   - ldap
   - lua
   - mailparse
@@ -367,8 +368,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.12
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.12-linux-x64-1478811832.tgz
-  md5: 6e4ec7cdeb870a40495ebb95178fc0bf
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.12-linux-x64-1479229135.tgz
+  md5: 368d399161710c47c54ec9b23216f6b5
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -386,6 +387,7 @@ dependencies:
   - gmp
   - imagick
   - imap
+  - ioncube
   - ldap
   - lua
   - mailparse

@@ -21,9 +21,14 @@ describe 'CF PHP Buildpack' do
   shared_examples_for 'it loads all the modules' do |php_version|
     it 'logs each module on the info page' do
       expect(@app).to be_running
+      expect(@app).to have_logged /#{php_version}/
       browser.visit_path('/')
       php_modules[php_version]['modules'].each do |module_name|
-        expect(browser).to have_body /module_(Zend[+ ])?#{module_name}/i
+        if module_name == 'ioncube'
+          expect(browser).to have_body /ionCube&nbsp;PHP&nbsp;Loader&nbsp;\(enabled\)/
+        else
+          expect(browser).to have_body /module_(Zend[+ ])?#{module_name}/i
+        end
       end
     end
   end
