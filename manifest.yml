@@ -24,6 +24,9 @@ default_versions:
 - name: composer
   version: 1.2.2
 url_to_dependency_map:
+- match: appdynamics-php-agent-x64-linux-(\d+\.\d+\.\d+\.\d+)
+  name: appdynamics
+  version: "$1"
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
   version: "$1"
@@ -34,6 +37,12 @@ url_to_dependency_map:
   name: composer
   version: "$1"
 dependencies:
+- name: appdynamics
+  version: 4.1.5.0
+  uri: https://packages.appdynamics.com/php/4.1.5.0/appdynamics-php-agent-x64-linux-4.1.5.0.tar.bz2
+  cf_stacks:
+  - cflinuxfs2
+  md5: 63353444692a1055939c3eacbe0094a1
 - name: newrelic
   version: 6.3.0.161
   uri: https://download.newrelic.com/php_agent/archive/6.3.0.161/newrelic-php5-6.3.0.161-linux.tar.gz
