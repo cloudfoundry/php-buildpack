@@ -1,5 +1,5 @@
 {
     "WEB_SERVER": "nginx",
-    "PHP_VERSION": "7.0.11",
+    "PHP_VERSION": "7.0.13",
     "PHP_EXTENSIONS": ["rdkafka"]
 }
