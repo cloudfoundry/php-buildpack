@@ -97,6 +97,7 @@ dependencies:
   - protobuf
   - protocolbuffers
   - pspell
+  - rdkafka
   - readline
   - redis
   - snmp
@@ -164,6 +165,7 @@ dependencies:
   - protobuf
   - protocolbuffers
   - pspell
+  - rdkafka
   - readline
   - redis
   - snmp
@@ -231,6 +233,7 @@ dependencies:
   - protobuf
   - protocolbuffers
   - pspell
+  - rdkafka
   - readline
   - redis
   - snmp
@@ -298,6 +301,7 @@ dependencies:
   - protobuf
   - protocolbuffers
   - pspell
+  - rdkafka
   - readline
   - redis
   - snmp
