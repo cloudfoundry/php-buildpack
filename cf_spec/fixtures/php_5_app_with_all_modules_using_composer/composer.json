@@ -43,6 +43,7 @@
         "ext-protobuf": "*",
         "ext-protocolbuffers": "*",
         "ext-pspell": "*",
+        "ext-rdkafka": "*",
         "ext-readline": "*",
         "ext-redis": "*",
         "ext-snmp": "*",

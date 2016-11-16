@@ -48,8 +48,8 @@ dependencies:
   md5: a5d5178f0f8133a65baf942a07408ba6
 - name: php
   version: 5.5.37
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.37-linux-x64-1478810875.tgz
-  md5: 048d98fe61bf0e28058d936f60d6213e
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.37-linux-x64-1479251861.tgz
+  md5: 4107656e040726ef294bbe9a52190a3f
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -115,75 +115,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.5.38
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.38-linux-x64-1478812039.tgz
-  md5: b69862c5100bede02a5ba5909402e80c
-  cf_stacks:
-  - cflinuxfs2
-  modules:
-  - amqp
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - gearman
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - ioncube
-  - ldap
-  - lua
-  - mailparse
-  - mbstring
-  - mcrypt
-  - memcache
-  - memcached
-  - mongo
-  - mongodb
-  - msgpack
-  - mssql
-  - mysql
-  - mysqli
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_dblib
-  - pdo_mysql
-  - pdo_pgsql
-  - pdo_sqlite
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - protocolbuffers
-  - pspell
-  - readline
-  - redis
-  - snmp
-  - soap
-  - sockets
-  - solr
-  - suhosin
-  - sundown
-  - twig
-  - xcache
-  - xdebug
-  - xhprof
-  - xsl
-  - yaf
-  - zip
-  - zlib
-- name: php
-  version: 5.6.28
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.28-linux-x64-1479162243.tgz
-  md5: 74d57b683637d0453275d4d73738d5c6
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.38-linux-x64-1479256384.tgz
+  md5: 7d7e24234635c3232e4ae7339a94b64d
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -249,8 +182,75 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.27
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.27-linux-x64-1478813742.tgz
-  md5: 4e1629782f7912b32535e978759a2512
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.27-linux-x64-1479257298.tgz
+  md5: f1df0f584cbfe5b56226dceb149d08f0
+  cf_stacks:
+  - cflinuxfs2
+  modules:
+  - amqp
+  - apcu
+  - bz2
+  - cassandra
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - gearman
+  - gettext
+  - gmp
+  - igbinary
+  - imagick
+  - imap
+  - ioncube
+  - ldap
+  - lua
+  - mailparse
+  - mbstring
+  - mcrypt
+  - memcache
+  - memcached
+  - mongo
+  - mongodb
+  - msgpack
+  - mssql
+  - mysql
+  - mysqli
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_dblib
+  - pdo_mysql
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - phalcon
+  - phpiredis
+  - protobuf
+  - protocolbuffers
+  - pspell
+  - readline
+  - redis
+  - snmp
+  - soap
+  - sockets
+  - solr
+  - suhosin
+  - sundown
+  - twig
+  - xcache
+  - xdebug
+  - xhprof
+  - xsl
+  - yaf
+  - zip
+  - zlib
+- name: php
+  version: 5.6.28
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.28-linux-x64-1479258225.tgz
+  md5: 3e22d6932b115a1c16aa47ae1c846421
   cf_stacks:
   - cflinuxfs2
   modules:
