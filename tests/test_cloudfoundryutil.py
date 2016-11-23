@@ -71,23 +71,23 @@ default_versions:
 dependencies:
 - name: php
   version: 5.5.37
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.37-linux-x64-1469764899.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.37-linux-x64-1469764899.tgz
   md5: 783f12b1d394815819631aa92e88c196
 - name: php
   version: 5.6.23
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.23-linux-x64-1469767807.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.23-linux-x64-1469767807.tgz
   md5: 9ffbd67e557f4569de8d876664a6bd33
 - name: php
   version: 5.6.24
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.24-linux-x64-1469768750.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.24-linux-x64-1469768750.tgz
   md5: 35b5e1ccce1f2ca7e55c81b11f278a3f
 - name: php
   version: 7.0.8
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.8-linux-x64-1469764417.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.8-linux-x64-1469764417.tgz
   md5: a479fec08ac8400ca9d775a88ddb2962
 - name: php
   version: 7.0.9
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.9-linux-x64-1469765150.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.9-linux-x64-1469765150.tgz
   cf_stacks:
   - cflinuxfs2
   md5: 19e8318e1cee3fa9fd8fdcc358f01076
@@ -104,27 +104,27 @@ default_versions:
 dependencies:
 - name: php
   version: 5.5.37
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.5.37-linux-x64-1469764899.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.37-linux-x64-1469764899.tgz
   md5: 783f12b1d394815819631aa92e88c196
 - name: php
   version: 9.9.99
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-9.9.99-linux-x64-1469766236.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-9.9.99-linux-x64-1469766236.tgz
   md5: f31b1e164e29b0782eae9bd3bb6a288a
 - name: php
   version: 5.6.23
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.23-linux-x64-1469767807.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.23-linux-x64-1469767807.tgz
   md5: 9ffbd67e557f4569de8d876664a6bd33
 - name: php
   version: 5.6.24
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php/php-5.6.24-linux-x64-1469768750.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.24-linux-x64-1469768750.tgz
   md5: 35b5e1ccce1f2ca7e55c81b11f278a3f
 - name: php
   version: 7.0.8
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.8-linux-x64-1469764417.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.8-linux-x64-1469764417.tgz
   md5: a479fec08ac8400ca9d775a88ddb2962
 - name: php
   version: 7.0.9
-  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/php7/php7-7.0.9-linux-x64-1469765150.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.9-linux-x64-1469765150.tgz
   cf_stacks:
   - cflinuxfs2
   md5: 19e8318e1cee3fa9fd8fdcc358f01076

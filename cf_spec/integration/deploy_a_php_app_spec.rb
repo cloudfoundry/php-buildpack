@@ -56,7 +56,7 @@ describe 'CF PHP Buildpack' do
     end
 
     it 'downloads the binaries directly from the buildpack' do
-      expect(@app).to have_logged %r{Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_concourse-binaries_php_php-5.5.\d+-linux-x64-\d+.tgz\] to \[/tmp\]}
+      expect(@app).to have_logged %r{Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php-5.5.\d+-linux-x64-\d+.tgz\] to \[/tmp\]}
     end
   end
 
