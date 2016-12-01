@@ -1,3 +1,30 @@
+v4.3.23 Dec 01, 2016
+=====================
+
+* Add rdkafka support for PHP5
+  (https://www.pivotaltracker.com/story/show/134085181)
+
+* Add ioncube support to PHP7
+  (https://www.pivotaltracker.com/story/show/134086493)
+
+* Add nginx 1.11.6, remove nginx 1.11.5
+  (https://www.pivotaltracker.com/story/show/134361411)
+
+* Add php 5.6.28, remove php 5.6.26
+  (https://www.pivotaltracker.com/story/show/133979927)
+
+* Add php 7.0.13, remove php 7.0.11
+  (https://www.pivotaltracker.com/story/show/133933579)
+
+* Update versions for PHP7 modules librdkafka and cassandra
+  (https://www.pivotaltracker.com/story/show/133503813)
+
+* Rebuild and change path for php, nginx, httpd, composer binaries
+  - We identified a potential, but unlikely, attack vector in our continuous
+    integration system. Our own auditing strongly suggests that this attack
+    vector was not taken advantage of. However, out of an abundance of caution,
+    we are rebuilding all buildpack dependencies that we maintain.
+
 v4.3.22 Nov 09, 2016
 =====================
 
