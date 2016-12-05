@@ -42,10 +42,10 @@ dependencies:
   md5: 3640d3cad6b5199f54a6b54a627235d6
 - name: httpd
   version: 2.4.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.23-linux-x64.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/manual-binaries/httpd/httpd-2.4.23-linux-x64.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: 426f5e5c8993cb1135d2b5a6536cc9e0
+  md5: d9c9b3caeef613c63ce7f1719f73e6b5
 - name: php
   version: 5.5.37
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.37-linux-x64-1479851079.tgz
