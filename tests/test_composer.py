@@ -356,40 +356,40 @@ class TestComposer(object):
 
     def test_pick_php_version(self):
         ctx = {
-            'PHP_VERSION': '5.5.15',
+            'PHP_VERSION': '5.5.38',
             'BUILD_DIR': '',
-            'PHP_55_LATEST': '5.5.15',
-            'PHP_56_LATEST': '5.6.7',
-            'PHP_70_LATEST': '7.0.12',
+            'PHP_55_LATEST': '5.5.38',
+            'PHP_56_LATEST': '5.6.29',
+            'PHP_70_LATEST': '7.0.14',
             'WEBDIR': ''
         }
         pick_php_version = \
             self.extension_module.ComposerConfiguration(ctx).pick_php_version
         # no PHP 5.3, default to 5.4
         # latest PHP 5.5 version
-        eq_('5.5.15', pick_php_version('>=5.5'))
-        eq_('5.5.15', pick_php_version('5.5.*'))
+        eq_('5.5.38', pick_php_version('>=5.5'))
+        eq_('5.5.38', pick_php_version('5.5.*'))
         # exact PHP 5.5 versions
-        eq_('5.5.15', pick_php_version('5.5.15'))
+        eq_('5.5.38', pick_php_version('5.5.38'))
         eq_('5.5.14', pick_php_version('5.5.14'))
         # latest PHP 5.6 version
-        eq_('5.6.7', pick_php_version('>=5.6'))
-        eq_('5.6.7', pick_php_version('5.6.*'))
+        eq_('5.6.29', pick_php_version('>=5.6'))
+        eq_('5.6.29', pick_php_version('5.6.*'))
         # exact PHP 5.6 versions
-        eq_('5.6.7', pick_php_version('5.6.7'))
+        eq_('5.6.29', pick_php_version('5.6.29'))
         eq_('5.6.6', pick_php_version('5.6.6'))
         # latest PHP 7.0 version
-        eq_('7.0.12', pick_php_version('>=7.0'))
-        eq_('7.0.12', pick_php_version('7.0.*'))
+        eq_('7.0.14', pick_php_version('>=7.0'))
+        eq_('7.0.14', pick_php_version('7.0.*'))
         # exact PHP 7.0 versions
         eq_('7.0.1', pick_php_version('7.0.1'))
         eq_('7.0.2', pick_php_version('7.0.2'))
         # not understood, should default to PHP_VERSION
-        eq_('5.5.15', pick_php_version(''))
-        eq_('5.5.15', pick_php_version(None))
-        eq_('5.5.15', pick_php_version('5.61.1'))
-        eq_('5.5.15', pick_php_version('<5.5'))
-        eq_('5.5.15', pick_php_version('<5.4'))
+        eq_('5.5.38', pick_php_version(''))
+        eq_('5.5.38', pick_php_version(None))
+        eq_('5.5.38', pick_php_version('5.61.1'))
+        eq_('5.5.38', pick_php_version('<5.5'))
+        eq_('5.5.38', pick_php_version('<5.4'))
 
     def test_empty_platform_section(self):
         exts = self.extension_module.ComposerConfiguration({

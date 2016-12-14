@@ -22,7 +22,7 @@ describe 'CF PHP Buildpack' do
 
       it 'logs that phpredis could not connect to a server' do
         expect { browser.visit_path('/') }.to raise_error(Machete::HTTPServerError)
-        expect(@app).to have_logged "PHP message: PHP Fatal error:  Uncaught RedisException: Redis server went away"
+        expect(@app).to have_logged "PHP message: PHP Fatal error:  Uncaught exception 'RedisException' with message 'Redis server went away'"
       end
     end
   end
