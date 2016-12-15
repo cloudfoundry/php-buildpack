@@ -1,3 +1,21 @@
+v4.3.24 Dec 15, 2016
+=====================
+
+* Add PHP 7.0.14, remove PHP 7.0.12
+  (https://www.pivotaltracker.com/story/show/135633579)
+
+* Add PHP 5.6.29, remove PHP 5.6.27
+  (https://www.pivotaltracker.com/story/show/135758907)
+
+* Add nginx 1.11.7, remove nginx 1.11.6
+  (https://www.pivotaltracker.com/story/show/136041771)
+
+* Use rebuilt HTTPD 2.4.23 with proper LDAP support
+  (https://www.pivotaltracker.com/story/show/132910743)
+
+* Add composer 1.2.4, remove composer 1.2.2
+  (https://www.pivotaltracker.com/story/show/135654195)
+
 v4.3.23 Dec 01, 2016
 =====================
 
