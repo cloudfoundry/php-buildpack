@@ -7,7 +7,8 @@ manifest = YAML.load(File.read(php_buildpack_manifest_file))
 
 php_modules = {}
 php_modules['PHP 5'] = manifest['dependencies'].select { |dependency| dependency['name'] == "php" && dependency['version'].to_s[0] == '5' }.first
-php_modules['PHP 7'] = php_version_7 = manifest['dependencies'].select { |dependency| dependency['name'] == "php" && dependency['version'].to_s[0] == '7' }.first
+php_modules['PHP 7.0'] = manifest['dependencies'].select { |dependency| dependency['name'] == "php" && dependency['version'].to_s[0,3] == '7.0' }.first
+php_modules['PHP 7.1'] = manifest['dependencies'].select { |dependency| dependency['name'] == "php" && dependency['version'].to_s[0,3] == '7.1' }.first
 
 def setup_app(app_name)
     env_config = {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
@@ -46,7 +47,7 @@ describe 'CF PHP Buildpack' do
       it_behaves_like 'it loads all the modules', 'PHP 5'
     end
 
-    context 'deploying a basic PHP7 app that loads all prepackaged extensions' do
+    context 'deploying a basic PHP7.0 app that loads all prepackaged extensions' do
       before(:all) do
         @app = setup_app('php_7_app_with_all_modules')
       end
@@ -55,7 +56,19 @@ describe 'CF PHP Buildpack' do
         Machete::CF::DeleteApp.new.execute(@app)
       end
 
-      it_behaves_like 'it loads all the modules', 'PHP 7'
+      it_behaves_like 'it loads all the modules', 'PHP 7.0'
+    end
+
+    context 'deploying a basic PHP7.1 app that loads all prepackaged extensions' do
+      before(:all) do
+        @app = setup_app('php_7_1_app_with_all_modules')
+      end
+
+      after(:all) do
+        Machete::CF::DeleteApp.new.execute(@app)
+      end
+
+      it_behaves_like 'it loads all the modules', 'PHP 7.1'
     end
   end
 
@@ -72,7 +85,7 @@ describe 'CF PHP Buildpack' do
       it_behaves_like 'it loads all the modules', 'PHP 5'
     end
 
-    context 'deploying a basic PHP7 app that loads all prepackaged extensions' do
+    context 'deploying a basic PHP7.0 app that loads all prepackaged extensions' do
       before(:all) do
         @app = setup_app('php_7_app_with_all_modules_using_composer')
       end
@@ -81,7 +94,19 @@ describe 'CF PHP Buildpack' do
         Machete::CF::DeleteApp.new.execute(@app)
       end
 
-      it_behaves_like 'it loads all the modules', 'PHP 7'
+      it_behaves_like 'it loads all the modules', 'PHP 7.0'
+    end
+
+    context 'deploying a basic PHP7.1 app that loads all prepackaged extensions' do
+      before(:all) do
+        @app = setup_app('php_7_1_app_with_all_modules_using_composer')
+      end
+
+      after(:all) do
+        Machete::CF::DeleteApp.new.execute(@app)
+      end
+
+      it_behaves_like 'it loads all the modules', 'PHP 7.1'
     end
   end
 end
