@@ -1,5 +1,5 @@
 {
     "ZEND_EXTENSIONS": ["ioncube", "opcache",  "xdebug"],
     "PHP_EXTENSIONS": ["amqp", "apcu", "bz2", "cassandra", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "gettext", "gmp", "imagick", "imap", "ldap", "lua", "mailparse", "mbstring", "mcrypt", "mongodb", "msgpack", "mysqli", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "phalcon", "phpiredis", "pspell", "rdkafka", "redis", "snmp", "soap", "sockets", "solr", "xsl", "yaf", "zip", "zlib"],
-    "PHP_VERSION": "7.0.13"
+    "PHP_VERSION": "7.0.15"
 }
