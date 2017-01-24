@@ -48,8 +48,8 @@ dependencies:
   md5: bf8851c45e4ef8279ae0daadc833c99e
 - name: php
   version: 5.5.37
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.37-linux-x64-1479851079.tgz
-  md5: 6f65166f9bcd07c8c414acb5fb146f4a
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.37-linux-x64-1485207212.tgz
+  md5: 2029e6017f43c05793d8288fc9e7aec7
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -116,8 +116,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.5.38
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.38-linux-x64-1479852231.tgz
-  md5: d3dab0ff49358fc671e10d5662405b4b
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.38-linux-x64-1485208781.tgz
+  md5: 05e6b1a8eb99d810938dfdb8864ba587
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -183,9 +183,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 5.6.28
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.28-linux-x64-1479855033.tgz
-  md5: 12faee7424592a53dc6875cd58e1efd9
+  version: 5.6.30
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-1485211834.tgz
+  md5: c258884dea921d78678951d76ef98ecf
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -252,8 +252,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.29-linux-x64-1481734303.tgz
-  md5: e0271694e4a5c4ce85350cf7a25ed032
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.29-linux-x64-1485210552.tgz
+  md5: 7849357d74b6296f6ed20e2e6de46455
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -320,8 +320,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.15
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.15-linux-x64-1484839781.tgz
-  md5: dbffaf7405e2f1f6751dfcc767caa07d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.15-linux-x64-1485207785.tgz
+  md5: 446149aedd09998c67b792d03b265d81
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -372,8 +372,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.14
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.14-linux-x64-1481734042.tgz
-  md5: d0b016b7abb6bb0f388c96e54b9edab5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.14-linux-x64-1485206824.tgz
+  md5: 0b2171b4c85f4caccabca26bfadd8a81
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -424,8 +424,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.0-linux-x64-1484582310.tgz
-  md5: 5c95553a3fded13bdf43bf45d0e3fc04
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.0-linux-x64-1485208859.tgz
+  md5: 38f2140c4c5d5bcb3c272903f0142931
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -474,8 +474,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.1-linux-x64-1484841737.tgz
-  md5: 6d9bf9ef27a438fc1a30d0cc57d245f8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.1-linux-x64-1485210135.tgz
+  md5: b304d069c21de515df9baa9fb37241dc
   cf_stacks:
   - cflinuxfs2
   modules:
