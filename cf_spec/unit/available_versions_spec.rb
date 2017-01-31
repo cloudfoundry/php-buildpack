@@ -11,17 +11,17 @@ describe 'Options.JSON' do
     expect(options['PHP_55_LATEST']).to eq(latest)
   end
 
-  it 'PHP_56_LATEST has the latest 5.5 version' do
+  it 'PHP_56_LATEST has the latest 5.6 version' do
     latest = versions.select{|x|x.start_with?('5.6.')}.last
     expect(options['PHP_56_LATEST']).to eq(latest)
   end
 
-  it 'PHP_70_LATEST has the latest 5.5 version' do
+  it 'PHP_70_LATEST has the latest 7.0 version' do
     latest = versions.select{|x|x.start_with?('7.0.')}.last
     expect(options['PHP_70_LATEST']).to eq(latest)
   end
 
-  it 'PHP_71_LATEST has the latest 5.5 version' do
+  it 'PHP_71_LATEST has the latest 7.1 version' do
     latest = versions.select{|x|x.start_with?('7.1.')}.last
     expect(options['PHP_71_LATEST']).to eq(latest)
   end
