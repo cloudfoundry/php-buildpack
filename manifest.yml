@@ -548,12 +548,6 @@ dependencies:
   - zip
   - zlib
 - name: nginx
-  version: 1.10.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.10.2-linux-x64-eb5c0594.tgz
-  md5: eb5c05946e2ae64b5dfae09ef221d9f9
-  cf_stacks:
-  - cflinuxfs2
-- name: nginx
   version: 1.11.9
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.11.9-linux-x64-64e70e6d.tgz
   md5: 64e70e6dca6b5883d309f0708d98e1be
@@ -563,5 +557,11 @@ dependencies:
   version: 1.3.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.3.2-9bd78ef1.phar
   md5: 9bd78ef17ad0194fcf78816694b443db
+  cf_stacks:
+  - cflinuxfs2
+- name: nginx
+  version: 1.10.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.10.3-linux-x64-8619f7db.tgz
+  md5: 8619f7db4c1249e66b74235922b36b12
   cf_stacks:
   - cflinuxfs2
