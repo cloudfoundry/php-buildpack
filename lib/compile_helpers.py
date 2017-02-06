@@ -68,7 +68,9 @@ def log_bp_version(ctx):
 
 
 def setup_log_dir(ctx):
-    os.makedirs(os.path.join(ctx['BUILD_DIR'], 'logs'))
+    log_dir = os.path.join(ctx['BUILD_DIR'], 'logs')
+    if not os.path.isdir(log_dir):
+        os.makedirs(log_dir)
 
 
 def load_manifest(ctx):
