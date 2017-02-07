@@ -43,6 +43,13 @@ class TestCompileHelpers(object):
         })
         self.assert_exists(self.build_dir, 'logs')
 
+    def test_setup_log_dir_when_exists(self):
+        os.makedirs(os.path.join(self.build_dir, 'logs'))
+        setup_log_dir({
+            'BUILD_DIR': self.build_dir
+        })
+        self.assert_exists(self.build_dir, 'logs')
+
     def test_setup_if_webdir_exists(self):
         shutil.copytree('tests/data/app-1', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
