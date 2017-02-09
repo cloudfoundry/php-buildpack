@@ -95,7 +95,7 @@ class PhpAssertHelper(object):
                 .path('sbin', 'php-fpm')
                 .path('bin')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20121212')  # this timestamp is PHP5.5 specific
+                  'no-debug-non-zts-20131226')  # this timestamp is PHP5.6 specific
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
@@ -252,7 +252,7 @@ class NoWebServerAssertHelper(object):
                 .path('bin', 'php')
                 .path('bin', 'phar.phar')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20121212') # this timestamp is PHP5.5.x specific
+                  'no-debug-non-zts-20131226')  # this timestamp is PHP5.6.x specific
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
@@ -274,14 +274,14 @@ class NewRelicAssertHelper(object):
         (fah.expect()
             .root(build_dir, 'newrelic')  # noqa
                 .path('daemon', 'newrelic-daemon.x64')
-                .path('agent', 'x64', 'newrelic-20121212.so')
+                .path('agent', 'x64', 'newrelic-20131226.so')
             .exists())
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_file(build_dir, 'php', 'etc', 'php.ini')
             .any_line()
             .equals(
-                'extension=@{HOME}/newrelic/agent/x64/newrelic-20121212.so\n')
+                'extension=@{HOME}/newrelic/agent/x64/newrelic-20131226.so\n')
             .equals('[newrelic]\n')
             .equals('newrelic.license=JUNK_LICENSE\n')
             .equals('newrelic.appname=app-name-1\n'))

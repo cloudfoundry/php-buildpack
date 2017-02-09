@@ -97,16 +97,12 @@ class ComposerConfiguration(object):
         selected = None
         if requested is None:
             selected = self._ctx['PHP_VERSION']
-        elif requested == '5.5.*' or requested == '>=5.5':
-            selected = self._ctx['PHP_55_LATEST']
         elif requested == '5.6.*' or requested == '>=5.6':
             selected = self._ctx['PHP_56_LATEST']
         elif requested == '7.0.*' or requested == '>=7.0':
             selected = self._ctx['PHP_70_LATEST']
         elif requested == '7.1.*' or requested == '>=7.1':
             selected = self._ctx['PHP_71_LATEST']
-        elif requested.startswith('5.5.'):
-            selected = requested
         elif requested.startswith('5.6.'):
             selected = requested
         elif requested.startswith('7.0.'):

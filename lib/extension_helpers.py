@@ -175,7 +175,5 @@ class PHPExtensionHelper(ExtensionHelper):
             self._php_api = self._get_api()
 
     def _get_api(self):
-        if self._ctx['PHP_VERSION'].startswith('5.5'):
-            return '20121212'
-        elif self._ctx['PHP_VERSION'].startswith('5.6'):
+        if self._ctx['PHP_VERSION'].startswith('5.6'):
             return '20131226'

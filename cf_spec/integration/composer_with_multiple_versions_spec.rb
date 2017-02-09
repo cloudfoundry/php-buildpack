@@ -25,7 +25,7 @@ describe 'CF PHP Buildpack' do
     end
 
     it 'does not install the PHP version defined in `options.json`' do
-      expect(@app).to_not have_logged 'PHP 5.5'
+      expect(@app).to_not have_logged 'PHP 7.0'
     end
 
     it 'displays a useful warning message that `composer.json` is being used over `options.json`' do

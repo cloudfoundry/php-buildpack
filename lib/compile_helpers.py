@@ -95,8 +95,8 @@ def validate_php_version(ctx):
     else:
         _log.warning('Selected version of PHP [%s] not available.  Defaulting'
                      ' to the latest version [%s]',
-                     ctx['PHP_VERSION'], ctx['PHP_55_LATEST'])
-        ctx['PHP_VERSION'] = ctx['PHP_55_LATEST']
+                     ctx['PHP_VERSION'], ctx['PHP_56_LATEST'])
+        ctx['PHP_VERSION'] = ctx['PHP_56_LATEST']
 
 
 def _get_supported_php_extensions(ctx):

@@ -6,11 +6,6 @@ describe 'Options.JSON' do
   let(:manifest) { YAML.load_file('manifest.yml') }
   let(:versions) { manifest['dependencies'].select{|x|x['name']=='php'}.map{|x|Gem::Version.new x['version']}.sort.map(&:to_s) }
 
-  it 'PHP_55_LATEST has the latest 5.5 version' do
-    latest = versions.select{|x|x.start_with?('5.5.')}.last
-    expect(options['PHP_55_LATEST']).to eq(latest)
-  end
-
   it 'PHP_56_LATEST has the latest 5.6 version' do
     latest = versions.select{|x|x.start_with?('5.6.')}.last
     expect(options['PHP_56_LATEST']).to eq(latest)
