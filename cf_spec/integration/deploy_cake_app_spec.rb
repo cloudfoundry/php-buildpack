@@ -10,7 +10,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'deploying a Cake application with local dependencies', :cached do
-    let(:app_name) { 'cake_with_local_dependencies' }
+    let(:app_name) { 'cake_local_deps' }
     let(:options) do
       {
         start_command: "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
@@ -32,7 +32,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'deploying a Cake application with remote dependencies', :uncached do
-    let(:app_name) { 'cake_with_remote_dependencies' }
+    let(:app_name) { 'cake_remote_deps' }
     let(:options) do
       {
         env: {

@@ -5,7 +5,7 @@ describe 'App that uses Kafka' do
   let(:browser) { Machete::Browser.new(@app) }
   before(:context) do
     @app = Machete.deploy_app(
-      'app_with_rdkafka',
+      'with_rdkafka',
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
     )
   end

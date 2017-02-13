@@ -2,7 +2,7 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe "When composer.lock is invalid JSON" do
-  let(:app_name) { 'composer_with_invalid_lockfile_json' }
+  let(:app_name) { 'composer_lock_invalid_json' }
 
   subject(:app) do
     Machete.deploy_app(app_name, {env:
@@ -11,7 +11,7 @@ describe "When composer.lock is invalid JSON" do
   end
 
   after do
-    #Machete::CF::DeleteApp.new.execute(app)
+    Machete::CF::DeleteApp.new.execute(app)
   end
 
   context 'with an uncached buildpack', :uncached do

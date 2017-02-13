@@ -10,7 +10,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'app has a custom extension' do
-    let(:app_name) { 'php_app_with_custom_extension' }
+    let(:app_name) { 'custom_extension' }
 
     specify 'deploys successfully' do
       expect(app).to be_running

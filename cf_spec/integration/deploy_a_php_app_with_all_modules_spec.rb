@@ -37,7 +37,7 @@ describe 'CF PHP Buildpack' do
   context 'extensions are specified in .bp-config' do
     context 'deploying a basic PHP5 app that loads all prepackaged extensions' do
       before(:all) do
-        @app = setup_app('php_5_app_with_all_modules')
+        @app = setup_app('php_5_all_modules')
       end
 
       after(:all) do
@@ -49,7 +49,7 @@ describe 'CF PHP Buildpack' do
 
     context 'deploying a basic PHP7.0 app that loads all prepackaged extensions' do
       before(:all) do
-        @app = setup_app('php_7_app_with_all_modules')
+        @app = setup_app('php_7_all_modules')
       end
 
       after(:all) do
@@ -61,7 +61,7 @@ describe 'CF PHP Buildpack' do
 
     context 'deploying a basic PHP7.1 app that loads all prepackaged extensions' do
       before(:all) do
-        @app = setup_app('php_7_1_app_with_all_modules')
+        @app = setup_app('php_71_all_modules')
       end
 
       after(:all) do
@@ -75,7 +75,7 @@ describe 'CF PHP Buildpack' do
   context 'extensions are specified in composer.json' do
     context 'deploying a basic PHP5 app that loads all prepackaged extensions' do
       before(:all) do
-        @app = setup_app('php_5_app_with_all_modules_using_composer')
+        @app = setup_app('php_5_all_modules_composer')
       end
 
       after(:all) do
@@ -87,7 +87,7 @@ describe 'CF PHP Buildpack' do
 
     context 'deploying a basic PHP7.0 app that loads all prepackaged extensions' do
       before(:all) do
-        @app = setup_app('php_7_app_with_all_modules_using_composer')
+        @app = setup_app('php_7_all_modules_composer')
       end
 
       after(:all) do
@@ -99,7 +99,7 @@ describe 'CF PHP Buildpack' do
 
     context 'deploying a basic PHP7.1 app that loads all prepackaged extensions' do
       before(:all) do
-        @app = setup_app('php_7_1_app_with_all_modules_using_composer')
+        @app = setup_app('php_71_all_modules_composer')
       end
 
       after(:all) do

@@ -9,7 +9,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'deploying a composer app with post install commands' do
-    let(:app_name) { 'composer_environment_sniffer' }
+    let(:app_name) { 'composer_env_sniffer' }
 
     specify do
       expect(app).to have_logged "MANIFEST_VARIABLE: 'VARIABLE_IS_SET'"

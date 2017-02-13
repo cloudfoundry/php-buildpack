@@ -10,7 +10,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'deploying a Zend app with locally-vendored dependencies', :cached do
-    let(:app_name) { 'zend_framework_hello_world_with_local_dependencies' }
+    let(:app_name) { 'zend_local_deps' }
     let(:options) do
       {}
     end
@@ -26,7 +26,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'deploying a Zend app with remote dependencies', :uncached do
-    let(:app_name) { 'zend_framework_hello_world_with_remote_dependencies' }
+    let(:app_name) { 'zend_remote_deps' }
     let(:options) do
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
     end

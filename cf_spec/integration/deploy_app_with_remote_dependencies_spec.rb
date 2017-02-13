@@ -10,7 +10,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'the application has remote dependencies', :uncached do
-    let(:app_name) { 'app_with_remote_dependencies' }
+    let(:app_name) { 'remote_dependencies' }
 
     specify do
       expect(app).to be_running

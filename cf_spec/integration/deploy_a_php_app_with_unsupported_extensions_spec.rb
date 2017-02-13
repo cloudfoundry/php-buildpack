@@ -4,7 +4,7 @@ require 'cf_spec_helper'
 describe 'An app deployed specifying unsupported extensions' do
 
   before(:all) do
-    @app     = Machete.deploy_app 'php_app_with_unsupported_extensions'
+    @app     = Machete.deploy_app 'unsupported_extensions'
     @browser = Machete::Browser.new(@app)
   end
 

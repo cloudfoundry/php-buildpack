@@ -4,7 +4,7 @@ require 'cf_spec_helper'
 describe 'CF PHP Buildpack' do
   let(:browser)  { Machete::Browser.new(@app) }
 
-  before(:context) { @app_name = 'php_app_with_logs_dir'}
+  before(:context) { @app_name = 'logs_dir'}
 
   context 'app has a logs directory' do
     before(:all) do

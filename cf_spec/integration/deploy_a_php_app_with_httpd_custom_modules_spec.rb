@@ -4,7 +4,7 @@ require 'cf_spec_helper'
 describe 'CF PHP Buildpack' do
   let(:browser)  { Machete::Browser.new(@app) }
 
-  before(:context) { @app_name = 'php_app_httpd_custom_modules_conf'}
+  before(:context) { @app_name = 'httpd_custom_modules_conf'}
 
   context 'deploying a basic PHP app using httpd as the webserver and a custom httpd-modules.conf ' do
     before(:all) do

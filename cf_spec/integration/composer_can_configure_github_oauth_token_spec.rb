@@ -3,7 +3,7 @@ require 'cf_spec_helper'
 
 describe 'Composer' do
   subject(:app) { Machete.deploy_app(app_name, {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => oauth_token}}) }
-  let(:app_name) { 'app_with_local_dependencies' }
+  let(:app_name) { 'local_dependencies' }
 
   after do
     Machete::CF::DeleteApp.new.execute(app)

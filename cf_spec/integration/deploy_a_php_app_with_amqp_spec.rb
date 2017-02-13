@@ -5,7 +5,7 @@ describe 'CF PHP Buildpack' do
   let(:browser) { Machete::Browser.new(@app) }
   before(:context) do
     @app = Machete.deploy_app(
-      'app_with_amqp',
+      'with_amqp',
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
     )
   end

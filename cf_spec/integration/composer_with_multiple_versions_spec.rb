@@ -7,7 +7,7 @@ describe 'CF PHP Buildpack' do
   context 'PHP version is specified in both' do
     before(:all) do
       @env_config = {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
-      @app_name = 'composer_with_multiple_versions'
+      @app_name = 'composer_multiple_versions'
       @app = deploy_app(@app_name, @env_config)
     end
 
@@ -39,7 +39,7 @@ describe 'CF PHP Buildpack' do
       @env_config = {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 1}}
       # this app has a composer.json and a .bp-config/options.json, neither of which
       # specifiy a PHP version. So we use it for this test
-      @app_name = 'php_5_app_with_all_modules_using_composer'
+      @app_name = 'php_5_all_modules_composer'
       @app = deploy_app(@app_name, @env_config)
     end
 
@@ -66,7 +66,7 @@ describe 'CF PHP Buildpack' do
       @env_config = {env:  {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
       # this app has a composer.json and a .bp-config/options.json. Only the composer.json
       # specifies a PHP version. So we use it for this test
-      @app_name = 'php_7_app_with_all_modules_using_composer'
+      @app_name = 'php_7_all_modules_composer'
       @app = deploy_app(@app_name, @env_config)
     end
 
