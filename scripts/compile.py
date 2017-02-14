@@ -18,7 +18,6 @@ from datetime import datetime
 from build_pack_utils import Builder
 from compile_helpers import setup_webdir_if_it_doesnt_exist
 from compile_helpers import setup_log_dir
-from compile_helpers import log_bp_version
 
 
 if __name__ == '__main__':
@@ -29,8 +28,6 @@ if __name__ == '__main__':
             .user_config()
             .validate()
             .done()
-        .execute()
-            .method(log_bp_version)
         .execute()
             .method(setup_webdir_if_it_doesnt_exist)
         .execute()

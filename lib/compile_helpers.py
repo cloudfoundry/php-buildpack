@@ -61,12 +61,6 @@ def setup_webdir_if_it_doesnt_exist(ctx):
             fu.done()
 
 
-def log_bp_version(ctx):
-    version_file = os.path.join(ctx['BP_DIR'], 'VERSION')
-    if os.path.exists(version_file):
-        print('-------> Buildpack version %s' % open(version_file).read())
-
-
 def setup_log_dir(ctx):
     logPath = os.path.join(ctx['BUILD_DIR'], 'logs')
     if not os.path.exists(logPath):

@@ -22,6 +22,11 @@ set -e
 #  build pack needs to do anything to bootstrap the
 #  python scripts, like install Python.
 BP=$(dirname $(dirname $0))
+
+BUILDPACK_PATH=$BP
+export BUILDPACK_PATH
+source $BP/compile-extensions/lib/common
+
 $BP/compile-extensions/bin/check_stack_support
 $BP/compile-extensions/bin/check_buildpack_version $BP $2
 export PYTHONPATH=$BP/lib
