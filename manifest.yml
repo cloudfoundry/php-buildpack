@@ -85,6 +85,7 @@ dependencies:
   - ftp
   - gd
   - gearman
+  - geoip
   - gettext
   - gmp
   - igbinary
@@ -153,6 +154,7 @@ dependencies:
   - ftp
   - gd
   - gearman
+  - geoip
   - gettext
   - gmp
   - igbinary
@@ -220,6 +222,7 @@ dependencies:
   - fileinfo
   - ftp
   - gd
+  - geoip
   - gettext
   - gmp
   - imagick
@@ -272,6 +275,7 @@ dependencies:
   - fileinfo
   - ftp
   - gd
+  - geoip
   - gettext
   - gmp
   - imagick
@@ -324,6 +328,7 @@ dependencies:
   - fileinfo
   - ftp
   - gd
+  - geoip
   - gettext
   - gmp
   - imagick
@@ -374,6 +379,7 @@ dependencies:
   - fileinfo
   - ftp
   - gd
+  - geoip
   - gettext
   - gmp
   - imagick
