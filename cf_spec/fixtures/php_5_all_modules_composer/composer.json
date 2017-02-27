@@ -11,6 +11,7 @@
         "ext-ftp": "*",
         "ext-gd": "*",
         "ext-gearman": "*",
+        "ext-geoip": "*",
         "ext-gettext": "*",
         "ext-gmp": "*",
         "ext-igbinary": "*",

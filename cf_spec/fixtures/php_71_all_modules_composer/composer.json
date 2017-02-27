@@ -11,6 +11,7 @@
         "ext-fileinfo": "*",
         "ext-ftp": "*",
         "ext-gd": "*",
+        "ext-geoip": "*",
         "ext-gettext": "*",
         "ext-gmp": "*",
         "ext-imagick": "*",
