@@ -10,6 +10,7 @@ binaries/trusty/*
 *_buildpack*.zip
 /log/
 vendor
+!/vendor
 *.DS_Store
 .bundle
 DebugKit

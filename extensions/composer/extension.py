@@ -27,6 +27,9 @@ from build_pack_utils import utils
 from build_pack_utils import stream_output
 from extension_helpers import ExtensionHelper
 
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'vendor', 'node-semver'))
+from semver import max_satisfying
+
 from build_pack_utils.compile_extensions import CompileExtensions
 
 
@@ -95,22 +98,20 @@ class ComposerConfiguration(object):
 
     def pick_php_version(self, requested):
         selected = None
-        if requested is None:
+
+        if requested is None or requested is '':
+            return self._ctx['PHP_VERSION']
+
+        # requested is coming from the composer.json file and is a unicode string type.
+        # Since it's just a semver string, it shouldn't actually contain any unicode
+        # characters. So it should be safe to turn it into an ASCII string
+        translated_requirement = str(requested.replace('>=', '~>'))
+
+        selected = max_satisfying(self._ctx['ALL_PHP_VERSIONS'], translated_requirement, loose=False)
+
+        if selected is None:
             selected = self._ctx['PHP_VERSION']
-        elif requested == '5.6.*' or requested == '>=5.6':
-            selected = self._ctx['PHP_56_LATEST']
-        elif requested == '7.0.*' or requested == '>=7.0':
-            selected = self._ctx['PHP_70_LATEST']
-        elif requested == '7.1.*' or requested == '>=7.1':
-            selected = self._ctx['PHP_71_LATEST']
-        elif requested.startswith('5.6.'):
-            selected = requested
-        elif requested.startswith('7.0.'):
-            selected = requested
-        elif requested.startswith('7.1.'):
-            selected = requested
-        else:
-            selected = self._ctx['PHP_VERSION']
+
         return selected
 
     def get_composer_contents(self, file_path):
