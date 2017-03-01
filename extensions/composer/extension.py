@@ -25,6 +25,7 @@ import json
 import StringIO
 from build_pack_utils import utils
 from build_pack_utils import stream_output
+from compile_helpers import warn_invalid_php_version
 from extension_helpers import ExtensionHelper
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'vendor', 'node-semver'))
@@ -110,7 +111,9 @@ class ComposerConfiguration(object):
         selected = max_satisfying(self._ctx['ALL_PHP_VERSIONS'], translated_requirement, loose=False)
 
         if selected is None:
-            selected = self._ctx['PHP_VERSION']
+            docs_link = 'http://docs.cloudfoundry.org/buildpacks/php/gsg-php-composer.html'
+            warn_invalid_php_version(requested, self._ctx['PHP_56_LATEST'], docs_link)
+            selected = self._ctx['PHP_56_LATEST']
 
         return selected
 

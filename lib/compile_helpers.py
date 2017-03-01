@@ -92,6 +92,10 @@ def validate_php_version(ctx):
         _log.warning('Selected version of PHP [%s] not available.  Defaulting'
                      ' to the latest version [%s]',
                      ctx['PHP_VERSION'], ctx['PHP_56_LATEST'])
+
+        docs_link = 'http://docs.cloudfoundry.org/buildpacks/php/gsg-php-tips.html'
+        warn_invalid_php_version(ctx['PHP_VERSION'], ctx['PHP_56_LATEST'], docs_link)
+
         ctx['PHP_VERSION'] = ctx['PHP_56_LATEST']
 
 
@@ -174,3 +178,9 @@ def find_stand_alone_app_to_run(ctx):
                       ", ".join(possible_files))
             app = 'app.php'
     return app
+
+def warn_invalid_php_version(requested, default, docslink):
+    warning = ("WARNING: PHP version {} not available, using default version ({}). "
+               "In future versions of the buildpack, specifying a non-existent PHP version will cause staging to fail. "
+               "See: {}")
+    print(warning.format(requested, default, docslink))
