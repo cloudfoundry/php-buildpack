@@ -39,17 +39,24 @@ CONSTANTS = {
 }
 
 PKGDOWNLOADS =  {
+    # 10/Mar/2017: IBM DB CLI Driver now downloaded directly from IBM site. A suggestion was given to IBM dev team
+    # that maintains this archive to have the version number as part of the archive name. The DLURL will need to be
+    # modified when they do.
     'IBMDBCLIDRIVER_VERSION': '11.1',
-    'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-drivers-linuxx64',
-    'IBMDBCLIDRIVER1_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
-    'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER1_DLFILE}',
-    'IBMDBCLIDRIVER2_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_2of2.tar.gz',
-    'IBMDBCLIDRIVER2_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER2_DLFILE}',
+    'IBMDBCLIDRIVER_REPOSITORY': 'https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli',
+    'IBMDBCLIDRIVER_DLFILE': 'linuxx64_odbc_cli.tar.gz',
+    'IBMDBCLIDRIVER_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/{IBMDBCLIDRIVER_DLFILE}',
 
     'IBM_DB2_VERSION': '1.9.9',
-    'IBM_DB2_REPOSITORY': 'https://github.com/fishfin/ibmdb-drivers-linuxx64',
+    'IBM_DB2_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
     'IBM_DB2_DLFILE': 'ibm_db2-v{IBM_DB2_VERSION}.tar.gz',
     'IBM_DB2_DLURL': '{IBM_DB2_REPOSITORY}/raw/master/{IBM_DB2_DLFILE}',
+
+    # 10/Mar/2017: Added PDO support
+    'PDO_IBM_VERSION': '1.3.4',
+    'PDO_IBM_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
+    'PDO_IBM_DLFILE': 'pdo_ibm-v{PDO_IBM_VERSION}.tar.gz',
+    'PDO_IBM_DLURL': '{PDO_IBM_REPOSITORY}/raw/master/{PDO_IBM_DLFILE}',
 }
 
 class IBMDBInstaller(ExtensionHelper):
@@ -176,7 +183,7 @@ class IBMDBInstaller(ExtensionHelper):
         else:
             pos = lines.index('#{PHP_EXTENSIONS}\n') + 1
         lines.insert(pos, 'extension=ibm_db2.so\n')
-        #lines.insert(pos, 'extension=pdo_ibm.so\n')
+        lines.insert(pos, 'extension=pdo_ibm.so\n')
         #lines.append('\n')
         self._log.info('Writing ' + self._phpIniPath)
         with open(self._phpIniPath, 'wt') as phpIni:
@@ -195,7 +202,7 @@ class IBMDBInstaller(ExtensionHelper):
         self._logMsg ('Installed IBMDB CLI Drivers to ' + self._ctx['IBMDBCLIDRIVER_INSTALL_DIR'])
 
     def install_extensions(self):
-        for ibmdbExtn in ['IBM_DB2']: #, 'PDO', 'PDO_IBM']:
+        for ibmdbExtn in ['IBM_DB2', 'PDO_IBM']: #, 'PDO']:
             extnDownloadDir = os.path.join(self._ctx['DOWNLOAD_DIR'],
                                        ibmdbExtn.lower() + '_extn-' + self._ctx[ibmdbExtn + '_VERSION'])
             self._install_direct(
