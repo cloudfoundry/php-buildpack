@@ -70,10 +70,6 @@ default_versions:
 
 dependencies:
 - name: php
-  version: 5.5.37
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.37-linux-x64-1469764899.tgz
-  md5: 783f12b1d394815819631aa92e88c196
-- name: php
   version: 5.6.23
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.23-linux-x64-1469767807.tgz
   md5: 9ffbd67e557f4569de8d876664a6bd33
@@ -102,10 +98,6 @@ default_versions:
   version: 9.9.99
 
 dependencies:
-- name: php
-  version: 5.5.37
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.5.37-linux-x64-1469764899.tgz
-  md5: 783f12b1d394815819631aa92e88c196
 - name: php
   version: 9.9.99
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-9.9.99-linux-x64-1469766236.tgz

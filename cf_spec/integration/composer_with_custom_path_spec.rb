@@ -1,7 +1,7 @@
 $: << 'cf_spec'
 require 'cf_spec_helper'
 
-describe "Composer with version set to 'latest'" do
+describe "Composer with custom path" do
   subject(:app) do
     Machete.deploy_app(app_name, {env:
       {'COMPOSER_PATH' => 'meatball/sub'}
@@ -13,7 +13,7 @@ describe "Composer with version set to 'latest'" do
     Machete::CF::DeleteApp.new.execute(app)
   end
 
-  let(:app_name) { 'composer_with_custom_path' }
+  let(:app_name) { 'composer_custom_path' }
 
   specify do
     expect(app).to be_running

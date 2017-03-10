@@ -4,7 +4,7 @@ require 'cf_spec_helper'
 describe 'CF PHP Buildpack' do
   let(:browser)  { Machete::Browser.new(@app) }
 
-  before(:context) { @app_name = 'php_app_using_httpd'}
+  before(:context) { @app_name = 'with_httpd'}
 
   context 'deploying a basic PHP app using httpd as the webserver' do
     before(:all) do

@@ -10,7 +10,7 @@ describe 'Composer failures' do
   end
 
   context 'deploying an app with an impossible dependency in composer.json', :uncached do
-    let(:app_name) { 'composer_with_impossible_dependency' }
+    let(:app_name) { 'composer_invalid_dependency' }
 
     specify do
       expect(app).to_not be_running

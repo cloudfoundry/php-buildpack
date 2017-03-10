@@ -10,7 +10,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'deploying a PHP app with .profile.d directory' do
-    let(:app_name) { 'php_app_with_profile_d' }
+    let(:app_name) { 'with_profile_d' }
 
     it "sets environment variables via .profile.d script" do
       browser.visit_path('/')
@@ -19,7 +19,7 @@ describe 'CF PHP Buildpack' do
   end
 
   context 'deploying a PHP app with .profile script' do
-    let(:app_name) { 'php_app_with_profile_script' }
+    let(:app_name) { 'with_profile_script' }
 
     before do
       minimum_acceptable_cf_api_version = '2.57.0'

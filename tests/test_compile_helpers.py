@@ -43,6 +43,13 @@ class TestCompileHelpers(object):
         })
         self.assert_exists(self.build_dir, 'logs')
 
+    def test_setup_log_dir_when_exists(self):
+        os.makedirs(os.path.join(self.build_dir, 'logs'))
+        setup_log_dir({
+            'BUILD_DIR': self.build_dir
+        })
+        self.assert_exists(self.build_dir, 'logs')
+
     def test_setup_if_webdir_exists(self):
         shutil.copytree('tests/data/app-1', self.build_dir)
         setup_webdir_if_it_doesnt_exist(utils.FormattedDict({
@@ -217,9 +224,9 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, 'app.php')
         eq_(1, len(os.listdir(self.build_dir)))
 
-    def test_convert_php_extensions_55(self):
+    def test_convert_php_extensions_56(self):
         ctx = {
-            'PHP_VERSION': '5.5.x',
+            'PHP_VERSION': '5.6.x',
             'PHP_EXTENSIONS': ['mod1', 'mod2', 'mod3'],
             'ZEND_EXTENSIONS': ['zmod1', 'zmod2']
         }
@@ -229,9 +236,9 @@ class TestCompileHelpers(object):
         eq_('zend_extension="zmod1.so"\nzend_extension="zmod2.so"',
             ctx['ZEND_EXTENSIONS'])
 
-    def test_convert_php_extensions_55_none(self):
+    def test_convert_php_extensions_56_none(self):
         ctx = {
-            'PHP_VERSION': '5.5.x',
+            'PHP_VERSION': '5.6.x',
             'PHP_EXTENSIONS': [],
             'ZEND_EXTENSIONS': []
         }
@@ -239,9 +246,9 @@ class TestCompileHelpers(object):
         eq_('', ctx['PHP_EXTENSIONS'])
         eq_('', ctx['ZEND_EXTENSIONS'])
 
-    def test_convert_php_extensions_55_one(self):
+    def test_convert_php_extensions_56_one(self):
         ctx = {
-            'PHP_VERSION': '5.5.x',
+            'PHP_VERSION': '5.6.x',
             'PHP_EXTENSIONS': ['mod1'],
             'ZEND_EXTENSIONS': ['zmod1']
         }
@@ -281,20 +288,21 @@ class TestCompileHelpers(object):
         manifest = load_manifest(ctx)
         dependencies = manifest['dependencies']
         versions = find_all_php_versions(dependencies)
-        eq_(2, len([v for v in versions if v.startswith('5.5.')]))
         eq_(2, len([v for v in versions if v.startswith('5.6.')]))
+        eq_(2, len([v for v in versions if v.startswith('7.0.')]))
+        eq_(2, len([v for v in versions if v.startswith('7.1.')]))
 
     def test_validate_php_version(self):
         ctx = {
-            'ALL_PHP_VERSIONS': ['5.5.31', '5.5.30'],
-            'PHP_55_LATEST': '5.5.31',
-            'PHP_VERSION': '5.5.30'
+            'ALL_PHP_VERSIONS': ['5.6.31', '5.6.30'],
+            'PHP_56_LATEST': '5.6.31',
+            'PHP_VERSION': '5.6.30'
         }
         validate_php_version(ctx)
-        eq_('5.5.30', ctx['PHP_VERSION'])
-        ctx['PHP_VERSION'] = '5.5.29'
+        eq_('5.6.30', ctx['PHP_VERSION'])
+        ctx['PHP_VERSION'] = '5.6.29'
         validate_php_version(ctx)
-        eq_('5.5.31', ctx['PHP_VERSION'])
-        ctx['PHP_VERSION'] = '5.5.30'
+        eq_('5.6.31', ctx['PHP_VERSION'])
+        ctx['PHP_VERSION'] = '5.6.30'
         validate_php_version(ctx)
-        eq_('5.5.30', ctx['PHP_VERSION'])
+        eq_('5.6.30', ctx['PHP_VERSION'])

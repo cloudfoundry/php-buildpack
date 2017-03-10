@@ -8,7 +8,7 @@ describe 'CF PHP Buildpack' do
     JSON.parse(File.read(defaults_file_path))["PHP_70_LATEST"]
   end
 
-  before(:context) { @app_name = 'php_app_using_php_7_latest' }
+  before(:context) { @app_name = 'php_7_latest' }
 
   context 'deploying a basic PHP app using the latest PHP7' do
     before(:all) do

@@ -7,7 +7,7 @@ describe 'CF PHP Buildpack' do
 
     before(:all) do
       @env_config = {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN'], 'BP_DEBUG' => 'true' }}
-      @app_name = 'php_app_with_newrelic'
+      @app_name = 'with_newrelic'
       @app = deploy_app(@app_name, @env_config)
     end
 

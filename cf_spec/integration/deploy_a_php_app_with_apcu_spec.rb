@@ -5,7 +5,7 @@ describe 'deploying a basic PHP app using APCu module' do
   let(:browser) { Machete::Browser.new(@app) }
   before(:context) do
     @app = Machete.deploy_app(
-      'app_with_apcu'
+      'with_apcu'
     )
   end
 

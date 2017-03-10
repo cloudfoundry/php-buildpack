@@ -5,7 +5,7 @@ describe 'CF PHP Buildpack' do
   let(:browser) { Machete::Browser.new(@app) }
   before(:context) do
     @app = Machete.deploy_app(
-      'php_app_using_httpd_and_proxying',
+      'httpd_and_proxying',
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
     )
   end

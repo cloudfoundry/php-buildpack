@@ -4,7 +4,7 @@ require 'cf_spec_helper'
 describe 'CF PHP Buildpack' do
   subject(:app) do
     Machete.deploy_app(
-      'app_with_local_dependencies',
+      'local_dependencies',
       {env: {'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']}}
     )
   end

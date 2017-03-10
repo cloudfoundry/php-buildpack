@@ -26,7 +26,7 @@ describe 'CF PHP Buildpack' do
 
     it 'installs a current version of PHP' do
       expect(@app).to have_logged 'Installing PHP'
-      expect(@app).to have_logged 'PHP 5.5'
+      expect(@app).to have_logged 'PHP 5.6'
     end
 
     it 'does not return the version of PHP in the response headers' do
@@ -56,7 +56,7 @@ describe 'CF PHP Buildpack' do
     end
 
     it 'downloads the binaries directly from the buildpack' do
-      expect(@app).to have_logged %r{Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php-5.5.\d+-linux-x64-\d+.tgz\] to \[/tmp\]}
+      expect(@app).to have_logged %r{Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php-5.6.\d+-linux-x64-[\da-f]+.tgz\] to \[/tmp\]}
     end
   end
 

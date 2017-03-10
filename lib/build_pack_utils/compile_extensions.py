@@ -23,6 +23,12 @@ class CompileExtensions(object):
         exit_code, default_version = self.call_compile_extensions_script('download_dependency', url, toFile)
         return (exit_code, default_version)
 
+    def warn_if_newer_patch(self, url):
+        manifestFile = os.path.join(self._buildpack_dir, 'manifest.yml')
+
+        exit_code, stdout  = self.call_compile_extensions_script('warn_if_newer_patch', url, manifestFile)
+        return (exit_code, stdout)
+
 
 
 

@@ -6,7 +6,7 @@ describe 'CF PHP Buildpack' do
 
   context 'deploying a symfony 2.1 app with locally-vendored dependencies', :cached do
     before(:context) do
-      @app = Machete.deploy_app('symfony_2_hello_world_with_local_dependencies', {})
+      @app = Machete.deploy_app('symfony_2_local_deps', {})
     end
 
     after(:context) do
@@ -34,7 +34,7 @@ describe 'CF PHP Buildpack' do
 
   context 'deploying a symfony 2.1 app with remotely-sourced dependencies', :uncached do
     before(:context) do
-      @app = Machete.deploy_app('symfony_2_hello_world_with_remote_dependencies', {
+      @app = Machete.deploy_app('symfony_2_remote_deps', {
         env: {
           'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']
         }
@@ -57,7 +57,7 @@ describe 'CF PHP Buildpack' do
 
   context 'deploying a symfony 2.8 app with locally-vendored dependencies', :cached do
     before(:context) do
-      @app = Machete.deploy_app('symfony_2.8_with_remote_dependencies', {})
+      @app = Machete.deploy_app('symfony_28_remote_deps', {})
     end
 
     after(:context) do
@@ -80,7 +80,7 @@ describe 'CF PHP Buildpack' do
 
   context 'deploying a symfony 2.8 app with remotely-sourced dependencies', :uncached do
     before(:context) do
-      @app = Machete.deploy_app('symfony_2.8_with_remote_dependencies', {
+      @app = Machete.deploy_app('symfony_28_remote_deps', {
         env: {
           'COMPOSER_GITHUB_OAUTH_TOKEN' => ENV['COMPOSER_GITHUB_OAUTH_TOKEN']
         }

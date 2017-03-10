@@ -15,13 +15,20 @@ set -e
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
- 
+
 # Wrapper script that launches Python Build Pack
 #  At the moment, this just launches the appropriate
 #  python script.  However, this is here in case the
 #  build pack needs to do anything to bootstrap the
 #  python scripts, like install Python.
 BP=$(dirname $(dirname $0))
+
+BUILDPACK_PATH=$BP
+export BUILDPACK_PATH
+source $BP/compile-extensions/lib/common
+
 $BP/compile-extensions/bin/check_stack_support
+$BP/compile-extensions/bin/check_buildpack_version $BP $2
 export PYTHONPATH=$BP/lib
 python $BP/scripts/compile.py $1 $2
+$BP/compile-extensions/bin/store_buildpack_metadata $BP $2

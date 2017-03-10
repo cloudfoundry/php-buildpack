@@ -18,6 +18,8 @@ import os.path
 import yaml
 import logging
 import glob
+import subprocess
+import platform
 from build_pack_utils import FileUtil
 
 
@@ -61,14 +63,10 @@ def setup_webdir_if_it_doesnt_exist(ctx):
             fu.done()
 
 
-def log_bp_version(ctx):
-    version_file = os.path.join(ctx['BP_DIR'], 'VERSION')
-    if os.path.exists(version_file):
-        print('-------> Buildpack version %s' % open(version_file).read())
-
-
 def setup_log_dir(ctx):
-    os.makedirs(os.path.join(ctx['BUILD_DIR'], 'logs'))
+    logPath = os.path.join(ctx['BUILD_DIR'], 'logs')
+    if not os.path.exists(logPath):
+        os.makedirs(logPath)
 
 
 def load_manifest(ctx):
@@ -86,15 +84,15 @@ def find_all_php_versions(dependencies):
 
     return versions
 
-
+ 
 def validate_php_version(ctx):
     if ctx['PHP_VERSION'] in ctx['ALL_PHP_VERSIONS']:
         _log.debug('App selected PHP [%s]', ctx['PHP_VERSION'])
     else:
         _log.warning('Selected version of PHP [%s] not available.  Defaulting'
                      ' to the latest version [%s]',
-                     ctx['PHP_VERSION'], ctx['PHP_55_LATEST'])
-        ctx['PHP_VERSION'] = ctx['PHP_55_LATEST']
+                     ctx['PHP_VERSION'], ctx['PHP_56_LATEST'])
+        ctx['PHP_VERSION'] = ctx['PHP_56_LATEST']
 
 
 def _get_supported_php_extensions(ctx):
@@ -107,17 +105,41 @@ def _get_supported_php_extensions(ctx):
                 php_extensions.append(f.replace('.so', ''))
     return php_extensions
 
+def _get_compiled_modules(ctx):
+    if platform.system() != 'Linux':
+        return []
+
+    compiled_modules = []
+    output_to_skip = ['[PHP Modules]', '[Zend Modules]', '']
+
+    php_binary = os.path.join(ctx["PHP_INSTALL_PATH"], 'bin', 'php')
+
+    process = subprocess.Popen([php_binary, '-m'], stdout=subprocess.PIPE)
+    exit_code = process.wait()
+    output = process.stdout.read().rstrip()
+
+    if exit_code != 0:
+        _log.error("Error determining PHP compiled modules: %s", output)
+        raise RuntimeError("Error determining PHP compiled modules")
+
+    for line in output.split("\n"):
+        if line not in output_to_skip:
+            compiled_modules.append(line)
+
+    return compiled_modules
 
 def validate_php_extensions(ctx):
     filtered_extensions = []
     requested_extensions = ctx['PHP_EXTENSIONS']
     supported_extensions = _get_supported_php_extensions(ctx)
+    compiled_modules = _get_compiled_modules(ctx)
 
     for extension in requested_extensions:
-        if extension not in supported_extensions:
-            print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
-        else:
+        if extension in supported_extensions:
             filtered_extensions.append(extension)
+        elif extension not in compiled_modules:
+            print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
+
     ctx['PHP_EXTENSIONS'] = filtered_extensions
 
 
