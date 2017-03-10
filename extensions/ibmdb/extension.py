@@ -183,6 +183,7 @@ class IBMDBInstaller(ExtensionHelper):
         else:
             pos = lines.index('#{PHP_EXTENSIONS}\n') + 1
         lines.insert(pos, 'extension=ibm_db2.so\n')
+        lines.insert(pos, 'extension=pdo.so\n')
         lines.insert(pos, 'extension=pdo_ibm.so\n')
         #lines.append('\n')
         self._log.info('Writing ' + self._phpIniPath)
