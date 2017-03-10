@@ -191,7 +191,7 @@ class IBMDBInstaller(ExtensionHelper):
                 phpIni.write(line)
 
     def install_clidriver(self):
-        for clidriverpart in ['IBMDBCLIDRIVER1', 'IBMDBCLIDRIVER2']:
+        for clidriverpart in ['IBMDBCLIDRIVER']:
             self._install_direct(
                 self._ctx[clidriverpart + '_DLURL'],
                 None,
