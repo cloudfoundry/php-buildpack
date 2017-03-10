@@ -183,7 +183,8 @@ class IBMDBInstaller(ExtensionHelper):
         else:
             pos = lines.index('#{PHP_EXTENSIONS}\n') + 1
         lines.insert(pos, 'extension=ibm_db2.so\n')
-        lines.insert(pos, 'extension=pdo.so\n')
+        lines.insert(pos, 'extension=pdo.so\n')  # pdo_ibm.so requires pdo.so, so automatically activating it
+                                                 # (pdo.so must be in php extensions directory, by default it is)
         lines.insert(pos, 'extension=pdo_ibm.so\n')
         #lines.append('\n')
         self._log.info('Writing ' + self._phpIniPath)
@@ -203,7 +204,7 @@ class IBMDBInstaller(ExtensionHelper):
         self._logMsg ('Installed IBMDB CLI Drivers to ' + self._ctx['IBMDBCLIDRIVER_INSTALL_DIR'])
 
     def install_extensions(self):
-        for ibmdbExtn in ['IBM_DB2', 'PDO_IBM']: #, 'PDO']:
+        for ibmdbExtn in ['IBM_DB2', 'PDO_IBM']:
             extnDownloadDir = os.path.join(self._ctx['DOWNLOAD_DIR'],
                                        ibmdbExtn.lower() + '_extn-' + self._ctx[ibmdbExtn + '_VERSION'])
             self._install_direct(
