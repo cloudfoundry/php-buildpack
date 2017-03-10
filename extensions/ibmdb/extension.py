@@ -48,8 +48,7 @@ PKGDOWNLOADS =  {
     'IBMDBCLIDRIVER_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/{IBMDBCLIDRIVER_DLFILE}',
 
     'IBM_DB2_VERSION': '1.9.9',
-    #'IBM_DB2_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
-    'IBM_DB2_REPOSITORY': 'https://github.com/fishfin/ibmdb-drivers-linuxx64',
+    'IBM_DB2_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
     'IBM_DB2_DLFILE': 'ibm_db2-v{IBM_DB2_VERSION}.tar.gz',
     'IBM_DB2_DLURL': '{IBM_DB2_REPOSITORY}/raw/master/{IBM_DB2_DLFILE}',
 
