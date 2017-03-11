@@ -38,7 +38,7 @@ CONSTANTS = {
     'PHP_THREAD_SAFETY': 'nts', # if not ts, nts is assumed, case-insensitive
 }
 
-PKGDOWNLOADS =  {
+PKGDOWNLOADS = {
     # 10/Mar/2017: IBM DB CLI Driver now downloaded directly from IBM site. A suggestion was given to IBM dev team
     # that maintains this archive to have the version number as part of the archive name. The DLURL will need to be
     # modified when they do.
@@ -152,12 +152,15 @@ class IBMDBInstaller(ExtensionHelper):
                           env=environ,
                           cwd=currWorkDir,
                           shell=True)
+            cmdOutput = stringioWriter.getvalue()
             if displayRunLog:
-                self._log.info(stringioWriter.getvalue())
+                self._log.info(cmdOutput)
         except:
+            cmdOutput = stringioWriter.getvalue()
             print '-----> Command failed'
-            print stringioWriter.getvalue()
+            print cmdOutput
             raise
+        return cmdOutput
 
     def _findPhpExtnBaseDir(self):
         with open(self._phpIniPath, 'rt') as phpIni:
