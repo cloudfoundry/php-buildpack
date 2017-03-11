@@ -10,6 +10,12 @@ from build_pack_utils import stream_output
 from build_pack_utils import utils
 from extension_helpers import ExtensionHelper
 
+# ----------------------------------------------------------------------------------------------#
+# Yet one more try, yet one more failure. Too deeply dependent on the CloudFoundry PHP Buidpack #
+# files and structure, a lot of reverse engineering seems to be required. Lost yet one more     #
+# day, abandoning it for now. 11/Mar/2017                                                       #
+# ----------------------------------------------------------------------------------------------#
+
 #from build_pack_utils.downloads import Downloader
 #from build_pack_utils.zips import UnzipUtil
 
@@ -34,36 +40,12 @@ from extension_helpers import ExtensionHelper
 # 14) e2.preprocess_commands
 
 CONSTANTS = {
-    'IBMDBCLIDRIVER_INSTALLDIR' : 'ibmdb_clidriver',
     'PHP_ARCH': '64',           # if not 64, 32-bit is assumed
     'PHP_THREAD_SAFETY': 'nts', # if not ts, nts is assumed, case-insensitive
-    'PHPIZE': {
-        '5': 'phpize5',
-        '7.0': 'phpize7.0',
-    },
 }
 
 PKGDOWNLOADS =  {
-    'PHPSOURCE_VERSION': '{PHP_VERSION}',
-    'PHPSOURCE_DLFILE': 'php-{PHPSOURCE_VERSION}.tar.gz',
-    'PHPSOURCE_DLURL': 'http://in1.php.net/distributions/{PHPSOURCE_DLFILE}',
-
-    'IBMDBCLIDRIVER_VERSION': '11.1',
-    'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-drivers-linuxx64',
-    'IBMDBCLIDRIVER1_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
-    'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER1_DLFILE}',
-    'IBMDBCLIDRIVER2_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_2of2.tar.gz',
-    'IBMDBCLIDRIVER2_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER2_DLFILE}',
-    #'IBMDBCLIDRIVER_VERSION': '10.x',
-    #'IBMDBCLIDRIVER_DLFILE': 'linuxx64_odbc_cli.tar.gz',
-    #'IBMDBCLIDRIVER_DLURL': 'https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli/{IBMDBCLIDRIVER_DLFILE}',
-
-    #'IBMDB_PHP64_DLFILE': 'db2_db2driver_for_php64_linuxx64_v11.1.tar.gz',
-    #'IBMDB_PHP64_DLURL': '{IBMDB_DRIVERS_REPOSITORY}/raw/master/{IBMDB_PHP64_DLFILE}',
-    #'IBMDB_PHP32_DLFILE': 'db2_db2driver_for_php32_linuxx64_v11.1.tar.gz',
-    #'IBMDB_PHP32_DLURL': '{IBMDB_DRIVERS_REPOSITORY}/raw/master/{IBMDB_PHP32_DLFILE}',
-
-    'M4_VERSION': '1.4.17',
+    'M4_VERSION': '1.4.18',
     'M4_DLFILE': 'm4-{M4_VERSION}.tar.gz',
     'M4_DLURL': 'http://ftp.gnu.org/pub/gnu/m4/{M4_DLFILE}',
 
@@ -71,9 +53,29 @@ PKGDOWNLOADS =  {
     'AUTOCONF_DLFILE': 'autoconf-{AUTOCONF_VERSION}.tar.gz',
     'AUTOCONF_DLURL': 'http://ftp.gnu.org/gnu/autoconf/{AUTOCONF_DLFILE}',
 
+    'PHPSOURCE_VERSION': '{PHP_VERSION}',
+    'PHPSOURCE_DLFILE': 'php-{PHPSOURCE_VERSION}.tar.gz',
+    'PHPSOURCE_DLURL': 'http://in1.php.net/distributions/{PHPSOURCE_DLFILE}',
+
+    'IBMDBCLIDRIVER_VERSION': '11.1',
+    'IBMDBCLIDRIVER_REPOSITORY': 'https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli',
+    'IBMDBCLIDRIVER_DLFILE': 'linuxx64_odbc_cli.tar.gz',
+    'IBMDBCLIDRIVER_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/{IBMDBCLIDRIVER_DLFILE}',
+
+    #'IBMDBCLIDRIVER_VERSION': '11.1',
+    #'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-drivers-linuxx64',
+    #'IBMDBCLIDRIVER1_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
+    #'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER1_DLFILE}',
+    #'IBMDBCLIDRIVER2_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_2of2.tar.gz',
+    #'IBMDBCLIDRIVER2_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER2_DLFILE}',
+
     'IBM_DB2_VERSION': '1.9.9',
     'IBM_DB2_DLFILE': 'ibm_db2-{IBM_DB2_VERSION}.tgz',
     'IBM_DB2_DLURL': 'https://pecl.php.net/get/{IBM_DB2_DLFILE}',
+
+    'PDO_IBM_VERSION': '1.3.4',
+    'PDO_IBM_DLFILE': 'PDO_IBM-{PDO_IBM_VERSION}.tgz',
+    'PDO_IBM_DLURL': 'https://pecl.php.net/get/{PDO_IBM_DLFILE}',
 }
 
 class IBMDBInstaller(ExtensionHelper):
@@ -86,15 +88,15 @@ class IBMDBInstaller(ExtensionHelper):
         self._log.info('Using build pack directory ' + self._ctx['BP_DIR'])
         self._log.info('Using build directory ' + self._ctx['BUILD_DIR'])
 
+        self._ibmdbClidriverBaseDir = 'ibmdb_clidriver'
         self._phpRoot = os.path.join(self._ctx['BUILD_DIR'], 'php')
-        self._phpInstallDir = os.path.join(self._phpRoot, 'lib', 'php')
         self._phpBinDir = os.path.join(self._phpRoot, 'bin')
-        self._phpBinPath = os.path.join(self._phpBinDir, 'php')
-        self._phpIniDir = os.path.join(self._phpRoot, 'etc')
-        self._phpIniPath = os.path.join(self._phpIniDir, 'php.ini')
-        self._phpExtnDir = os.path.join(self._phpInstallDir, 'extensions')
+        self._phpBinPath = os.path.join(self._phpRoot, 'bin', 'php')
+        self._phpConfigPath = os.path.join(self._phpRoot, 'bin', 'php-config')
+        self._phpIniPath = os.path.join(self._phpRoot, 'etc', 'php.ini')
+        self._phpExtnDir = os.path.join(self._phpRoot, 'lib', 'php', 'extensions')
+        self._phpizeSh = os.path.join(self._phpBinDir, 'phpize')
         self._compilationEnv = os.environ
-        self._phpizeDir = os.path.dirname(__file__)
 
     def _defaults(self):
         pkgdownloads = PKGDOWNLOADS
@@ -107,6 +109,8 @@ class IBMDBInstaller(ExtensionHelper):
         pkgdownloads['AUTOCONF_DLDIR'] = os.path.join('{DOWNLOAD_DIR}', 'autoconf-{AUTOCONF_VERSION}')
         pkgdownloads['AUTOCONF_INSTALL_DIR'] = os.path.join('{COMPILATION_DIR}', 'autoconf-{AUTOCONF_VERSION}')
         pkgdownloads['IBM_DB2_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'ibm_db2')
+        pkgdownloads['IBM_DB2_WITH-PHP-CONFIG'] = '--with-php-config=' + '{PHPSOURCE_INSTALL_DIR}'
+        pkgdownloads['PDO_IBM_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'pdo_ibm')
         return utils.FormattedDict(pkgdownloads)
 
     def _should_configure(self):
@@ -123,11 +127,16 @@ class IBMDBInstaller(ExtensionHelper):
         self._log.info(__file__ + "->compile")
         self._installer = install._installer
 
-        self._phpExtnDir = os.path.join(self._phpExtnDir, self._findPhpExtnBaseDir())
-        self._phpApi, self._phpZts = self._parsePhpApi()
+        extnBaseDir = self._findPhpExtnBaseDir()
+        self._zendModuleApiNo = extnBaseDir[len(extnBaseDir)-8:]
+        self._phpExtnDir = os.path.join(self._phpExtnDir, extnBaseDir)
+
+        #self._phpApi, self._phpZts = self._parsePhpApi()
         #self.install_phpDevTools(install)
-        self.install_phpsource()
+        #self.install_phpsource()
         self.install_clidriver()
+        self._logMsg ('ls in /tmp/build directory' )
+        subprocess.call(['ls', '-lrt','/tmp/build/931e8e8a/binary-builder/ports/x86_64-linux-gnu/php'])
         self.install_buildtools()
         self.install_extensions()
         self.cleanup()
@@ -136,13 +145,13 @@ class IBMDBInstaller(ExtensionHelper):
     def _service_environment(self):
         self._log.info(__file__ + "->service_environment")
         env = {
-            'IBM_DB_HOME': '$IBM_DB_HOME:$HOME/' + CONSTANTS['IBMDBCLIDRIVER_INSTALLDIR'] + '/lib',
-            'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/' + CONSTANTS['IBMDBCLIDRIVER_INSTALLDIR'] + '/lib',
-            'DB2_CLI_DRIVER_INSTALL_PATH': '$HOME/' + CONSTANTS['IBMDBCLIDRIVER_INSTALLDIR'],
-            'PATH': '$HOME/' + CONSTANTS['IBMDBCLIDRIVER_INSTALLDIR'] + '/bin:$HOME/'
-                    + CONSTANTS['IBMDBCLIDRIVER_INSTALLDIR'] + '/adm:$PATH',
+            #'IBM_DB_HOME': '$IBM_DB_HOME:$HOME/' + self._ibmdbClidriverBaseDir + '/lib',
+            'LD_LIBRARY_PATH': '$LD_LIBRARY_PATH:$HOME/' + self._ibmdbClidriverBaseDir + '/lib',
+            #'DB2_CLI_DRIVER_INSTALL_PATH': '$HOME/' + self._ibmdbClidriverBaseDir,
+            'PATH': '$HOME/' + self._ibmdbClidriverBaseDir + '/bin:$HOME/' 
+                    + self._ibmdbClidriverBaseDir + '/adm:$PATH',
         }
-        self._log.info(env['IBM_DB_HOME'])
+        #self._log.info(env['IBM_DB_HOME'])
         return env
 
     def _service_commands(self):
@@ -188,15 +197,15 @@ class IBMDBInstaller(ExtensionHelper):
             print stringioWriter.getvalue()
             raise
 
-    def _findPhpizeFile(self, inDir, forPhpVersion):
-        phpizeFilesInDir = [f for f in os.listdir(inDir)
-                      if os.path.isfile(os.path.join(inDir, f)) and re.match(r'phpize.*', f)]
-        #verSubver = forPhpVersion.split('.')
-        #verPatterns = list()
-        #for index, subver in verSubver:
-        #    pass
-        phpizeFile = 'phpize5'
-        return phpizeFile
+    #def _findPhpizeFile(self, inDir, forPhpVersion):
+    #    phpizeFilesInDir = [f for f in os.listdir(inDir)
+    #                  if os.path.isfile(os.path.join(inDir, f)) and re.match(r'phpize.*', f)]
+    #    verSubver = forPhpVersion.split('.')
+    #    verPatterns = list()
+    #    for index, subver in verSubver:
+    #        pass
+    #    phpizeFile = 'phpize5'
+    #    return phpizeFile
 
     def _findPhpExtnBaseDir(self):
         with open(self._phpIniPath, 'rt') as phpIni:
@@ -206,11 +215,11 @@ class IBMDBInstaller(ExtensionHelper):
                     extnBaseDir = os.path.basename(extnDir.strip('"'))
                     return extnBaseDir
 
-    def _parsePhpApi(self):
-        tmp = os.path.basename(self._phpExtnDir)
-        phpApi = tmp.split('-')[-1]
-        phpZts = (tmp.find('non-zts') == -1)
-        return phpApi, phpZts
+    #def _parsePhpApi(self):
+    #    tmp = os.path.basename(self._phpExtnDir)
+    #    phpApi = tmp.split('-')[-1]
+    #    phpZts = (tmp.find('non-zts') == -1)
+    #    return phpApi, phpZts
 
     def _modifyPhpIni(self):
         self._log.info('Modifying ' + self._phpIniPath)
@@ -222,6 +231,7 @@ class IBMDBInstaller(ExtensionHelper):
         else:
             pos = lines.index('#{PHP_EXTENSIONS}\n') + 1
         lines.insert(pos, 'extension=ibm_db2.so\n')
+        lines.insert(pos, 'extension=pdo.so\n')
         lines.insert(pos, 'extension=pdo_ibm.so\n')
         #lines.append('\n')
         self._log.info('Writing ' + self._phpIniPath)
@@ -229,27 +239,27 @@ class IBMDBInstaller(ExtensionHelper):
             for line in lines:
                 phpIni.write(line)
 
-    def _buildPeclEnv(self):
-        env = {}
-        for key in os.environ.keys():
-            val = self._ctx.get(key, '')
-            env[key] = val if type(val) == str else json.dumps(val)
+    #def _buildPeclEnv(self):
+    #    env = {}
+    #    for key in os.environ.keys():
+    #        val = self._ctx.get(key, '')
+    #        env[key] = val if type(val) == str else json.dumps(val)
 
-        env['LD_LIBRARY_PATH'] = os.path.join(self._ctx['BUILD_DIR'], 'php', 'lib')
-        env['PATH'] = ':'.join(filter(None, [env.get('PATH', ''), self._phpBinDir]))
-        env['IBM_DB_HOME'] = os.path.join(self._ctx['BUILD_DIR'], CONSTANTS['IBMDBCLIDRIVER_INSTALLDIR'])
-        env['PHPRC'] = self._phpIniDir
-        env['PHP_PEAR_PHP_BIN'] = self._phpBinPath
-        env['PHP_PEAR_INSTALL_DIR'] = self._phpInstallDir
-        return env
+    #    env['LD_LIBRARY_PATH'] = os.path.join(self._ctx['BUILD_DIR'], 'php', 'lib')
+    #    env['PATH'] = ':'.join(filter(None, [env.get('PATH', ''), self._phpBinDir]))
+    #    env['IBM_DB_HOME'] = os.path.join(self._ctx['BUILD_DIR'], CONSTANTS['IBMDBCLIDRIVER_INSTALLDIR'])
+    #    env['PHPRC'] = self._phpIniDir
+    #    env['PHP_PEAR_PHP_BIN'] = self._phpBinPath
+    #    env['PHP_PEAR_INSTALL_DIR'] = self._phpInstallDir
+    #    return env
 
-    def install_phpDevTools(self):
-        self._runCmd(os.environ,
-                     self._ctx['BUILD_DIR'],
-                     ['apt-get', 'install', 'php5-dev'], False)
+    #def install_phpDevTools(self):
+    #    self._runCmd(os.environ,
+    #                 self._ctx['BUILD_DIR'],
+    #                 ['apt-get', 'install', 'php5-dev'], False)
 
     def install_clidriver(self):
-        for clidriverpart in ['ibmdbclidriver1', 'ibmdbclidriver2']:
+        for clidriverpart in ['ibmdbclidriver']: #, 'ibmdbclidriver2']:
             self._install_direct(
                 self._ctx[clidriverpart.upper() + '_DLURL'],
                 None,
@@ -293,29 +303,39 @@ class IBMDBInstaller(ExtensionHelper):
         self._logMsg ('Installed PHP ' + self._ctx['PHPSOURCE_VERSION'] + ' source files')
 
     def install_extensions(self):
-        for ibmdbExtn in ['ibm_db2']: #, 'PDO', 'PDO_IBM']:
+        self._logMsg ('ls in /tmp/build directory' )
+        subprocess.call(['ls', '-lrt','/tmp/build/931e8e8a/binary-builder/ports/x86_64-linux-gnu/php'])
+        self._compilationEnv['PATH'] = self._phpBinDir + ':' + self._compilationEnv['PATH']
+        self._compilationEnv['LD_LIBRARY_PATH'] = os.path.join(self._phpRoot, 'lib')
+        self._compilationEnv['IBM_DB_HOME'] = self._ctx['IBMDBCLIDRIVER_INSTALL_DIR']
+        #self._compilationEnv['PHPRC'] = self._phpIniDir
+        self._compilationEnv['PHPSOURCE_INSTALL_DIR'] = self._ctx['PHPSOURCE_INSTALL_DIR']
+        self._compilationEnv['PHP_PEAR_PHP_BIN'] = self._phpBinPath
+        #self._compilationEnv['PHP_PEAR_INSTALL_DIR'] = self._phpInstallDir
+
+        self._logMsg('Path is now: ' + self._compilationEnv['PATH'])
+        #phpizeSh = self._findPhpizeFile(self._phpizeDir, self._ctx['PHP_VERSION'])
+        self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'], ['chmod', '777', self._phpizeSh])
+
+        for ibmdbExtn in ['ibm_db2', 'pdo_ibm']: #, 'PDO', 'PDO_IBM']:
             self._install_direct(
                 self._ctx[ibmdbExtn.upper() + '_DLURL'],
                 None,
                 self._ctx[ibmdbExtn.upper() + '_DLDIR'],
                 self._ctx[ibmdbExtn.upper() + '_DLFILE'],
                 True)
+            self._runCmd(self._compilationEnv, self._ctx[ibmdbExtn.upper() + '_DLDIR'],
+                         [self._phpizeSh], True)
+            self._runCmd(self._compilationEnv, self._ctx[ibmdbExtn.upper() + '_DLDIR'],
+                         ['./configure', '--with-php-config=' + self._phpConfigPath])
+            self._runCmd(self._compilationEnv, self._ctx[ibmdbExtn.upper() + '_DLDIR'],
+                         ['make'])
+            self._logMsg('Installed ' + ibmdbExtn)
+
             #self._runCmd(self._buildPeclEnv(),
             #             self._ctx['BUILD_DIR'],
             #             ['pecl', 'install', ibmdbExtn],
             #             True)
-        self._compilationEnv['PATH'] = self._phpizeDir + ':' + self._phpBinDir + ':' + self._compilationEnv['PATH']
-        self._compilationEnv['LD_LIBRARY_PATH'] = os.path.join(self._phpRoot, 'lib')
-        self._compilationEnv['IBM_DB_HOME'] = self._ctx['IBMDBCLIDRIVER_INSTALL_DIR']
-        self._compilationEnv['PHPRC'] = self._phpIniDir
-        self._compilationEnv['PHPSOURCE_INSTALL_DIR'] = self._ctx['PHPSOURCE_INSTALL_DIR']
-        self._compilationEnv['PHP_PEAR_PHP_BIN'] = self._phpBinPath
-        self._compilationEnv['PHP_PEAR_INSTALL_DIR'] = self._phpInstallDir
-
-        self._logMsg('Path is now: ' + self._compilationEnv['PATH'])
-        phpizeSh = self._findPhpizeFile(self._phpizeDir, self._ctx['PHP_VERSION'])
-        self._runCmd(self._compilationEnv, self._phpizeDir, ['chmod', '777', phpizeSh])
-        self._runCmd(self._compilationEnv, self._ctx['IBM_DB2_DLDIR'], [phpizeSh])
         #self._runCmd(self._compilationEnv, self._ctx['IBM_DB2_DLDIR'], ['./configure', '--with-IBM_DB2=/path/to/DB2'])
         #self._runCmd(self._compilationEnv, self._ctx['IBM_DB2_DLDIR'], ['make'])
         #self._runCmd(self._compilationEnv, self._ctx['IBM_DB2_DLDIR'], ['make', 'install'])
