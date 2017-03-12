@@ -79,6 +79,7 @@ class IBMDBInstaller(ExtensionHelper):
         pkgdownloads['AUTOCONF_DLDIR'] = os.path.join('{DOWNLOAD_DIR}', 'autoconf-{AUTOCONF_VERSION}')
         pkgdownloads['AUTOCONF_INSTALL_DIR'] = os.path.join('{COMPILATION_DIR}', 'autoconf-{AUTOCONF_VERSION}')
         pkgdownloads['IBMDBCLIDRIVER_INSTALL_DIR'] = os.path.join(self._ctx['BUILD_DIR'], 'ibmdb_clidriver')
+        pkgdownloads['PHPSOURCE_INSTALL_DIR'] = os.path.join('{COMPILATION_DIR}', 'php')
         pkgdownloads['IBM_DB2_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'ibm_db2')
         pkgdownloads['IBM_DB2_WITH_OPTS'] = ''
         pkgdownloads['PDO_IBM_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'pdo_ibm')
