@@ -1,5 +1,7 @@
     ✓ This is a functional buildpack, and ready-to-use! Use:
     cf push "Your App" -b https://github.com/fishfin/php-buildpack
+    ----
+    And you might just find it useful, that even PDO is supported now!
 
 
 ## Cloud Foundry PHP Buildpack with pre-integrated extensions for IBM Relational Databases
