@@ -20,12 +20,6 @@ PKGDOWNLOADS =  {
     'AUTOCONF_DLURL': 'http://ftp.gnu.org/gnu/autoconf/{AUTOCONF_DLFILE}',
 
     'IBMDBCLIDRIVER_VERSION': '11.1',
-    #'IBMDBCLIDRIVER_REPOSITORY': 'https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli',
-    #'IBMDBCLIDRIVER1_DLFILE': 'linuxx64_odbc_cli.tar.gz',
-    #'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/{IBMDBCLIDRIVER_DLFILE}',
-    #'IBMDBCLIDRIVER2_DLFILE': '',    # intentionally kept blank
-    #'IBMDBCLIDRIVER2_DLURL': '',     # intentionally kept blank
-
     'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
     'IBMDBCLIDRIVER1_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
     'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER1_DLFILE}',
