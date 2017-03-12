@@ -11,14 +11,6 @@ from build_pack_utils import utils
 from extension_helpers import ExtensionHelper
 
 PKGDOWNLOADS =  {
-    'M4_VERSION': '1.4.18',
-    'M4_DLFILE': 'm4-{M4_VERSION}.tar.gz',
-    'M4_DLURL': 'http://ftp.gnu.org/pub/gnu/m4/{M4_DLFILE}',
-
-    'AUTOCONF_VERSION': '2.69',
-    'AUTOCONF_DLFILE': 'autoconf-{AUTOCONF_VERSION}.tar.gz',
-    'AUTOCONF_DLURL': 'http://ftp.gnu.org/gnu/autoconf/{AUTOCONF_DLFILE}',
-
     'IBMDBCLIDRIVER_VERSION': '11.1',
     'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
     'IBMDBCLIDRIVER1_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
@@ -26,17 +18,15 @@ PKGDOWNLOADS =  {
     'IBMDBCLIDRIVER2_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_2of2.tar.gz',
     'IBMDBCLIDRIVER2_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER2_DLFILE}',
 
-    'PHPSOURCE_VERSION': '{PHP_VERSION}',
-    'PHPSOURCE_DLFILE': 'php-{PHPSOURCE_VERSION}.tar.gz',
-    'PHPSOURCE_DLURL': 'http://in1.php.net/distributions/{PHPSOURCE_DLFILE}',
-
     'IBM_DB2_VERSION': '1.9.9',
-    'IBM_DB2_DLFILE': 'ibm_db2-{IBM_DB2_VERSION}.tgz',
-    'IBM_DB2_DLURL': 'https://pecl.php.net/get/{IBM_DB2_DLFILE}',
+    'IBM_DB2_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
+    'IBM_DB2_DLFILE': 'ibm_db2-v{IBM_DB2_VERSION}.tar.gz',
+    'IBM_DB2_DLURL': '{IBM_DB2_REPOSITORY}/raw/master/{IBM_DB2_DLFILE}',
 
     'PDO_IBM_VERSION': '1.3.4',
-    'PDO_IBM_DLFILE': 'PDO_IBM-{PDO_IBM_VERSION}.tgz',
-    'PDO_IBM_DLURL': 'https://pecl.php.net/get/{PDO_IBM_DLFILE}',
+    'PDO_IBM_REPOSITORY': 'https://github.com/fishfin/ibmdb-extensions-linuxx64',
+    'PDO_IBM_DLFILE': 'pdo_ibm-v{PDO_IBM_VERSION}.tar.gz',
+    'PDO_IBM_DLURL': '{PDO_IBM_REPOSITORY}/raw/master/{PDO_IBM_DLFILE}',
 }
 
 class IBMDBInstaller(ExtensionHelper):
@@ -80,16 +70,10 @@ class IBMDBInstaller(ExtensionHelper):
         pkgdownloads = PKGDOWNLOADS
         pkgdownloads['COMPILATION_DIR'] = os.path.join(self._ctx['BUILD_DIR'], '.build_ibmdb_extension')
         pkgdownloads['DOWNLOAD_DIR'] = os.path.join('{COMPILATION_DIR}', '.downloads')        
-        pkgdownloads['M4_DLDIR'] = os.path.join('{DOWNLOAD_DIR}', 'm4-{M4_VERSION}')
-        pkgdownloads['M4_INSTALL_DIR'] = os.path.join('{COMPILATION_DIR}', 'm4-{M4_VERSION}')
-        pkgdownloads['AUTOCONF_DLDIR'] = os.path.join('{DOWNLOAD_DIR}', 'autoconf-{AUTOCONF_VERSION}')
-        pkgdownloads['AUTOCONF_INSTALL_DIR'] = os.path.join('{COMPILATION_DIR}', 'autoconf-{AUTOCONF_VERSION}')
         pkgdownloads['IBMDBCLIDRIVER_INSTALL_DIR'] = os.path.join(self._ctx['BUILD_DIR'], 'ibmdb_clidriver')
         pkgdownloads['PHPSOURCE_INSTALL_DIR'] = os.path.join('{COMPILATION_DIR}', 'php')
         pkgdownloads['IBM_DB2_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'ibm_db2')
-        pkgdownloads['IBM_DB2_WITH_OPTS'] = ''
         pkgdownloads['PDO_IBM_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'pdo_ibm')
-        pkgdownloads['PDO_IBM_WITH_OPTS'] = '--with-pdo-ibm={IBMDBCLIDRIVER_INSTALL_DIR}'
         return utils.FormattedDict(pkgdownloads)
 
     def _should_configure(self):
@@ -117,9 +101,7 @@ class IBMDBInstaller(ExtensionHelper):
         #self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'], ['shopt', '-s', 'dotglob'])
 
         #self._phpApi, self._phpZts = self._parsePhpApi()
-        self.install_buildtools()
         self.install_clidriver()
-        self.install_phpsource()
         self.download_extensions()
         self.modifyPhpIni()
         self.cleanup()
@@ -209,28 +191,6 @@ class IBMDBInstaller(ExtensionHelper):
             for line in lines:
                 phpIni.write(line)
 
-    def install_buildtools(self):
-        self._logMsg('-- Installing Build Tools ------------------------')
-        for buildtool in ['m4', 'autoconf']:
-            buildtoolDownloadDir = self._ctx[buildtool.upper() + '_DLDIR']
-            buildtoolInstallDir = self._ctx[buildtool.upper() + '_INSTALL_DIR']
-            self._install_direct(
-                self._ctx[buildtool.upper() + '_DLURL'],
-                None,
-                buildtoolDownloadDir,
-                self._ctx[buildtool.upper() + '_DLFILE'],
-                True)
-
-            self._runCmd(self._compilationEnv, buildtoolDownloadDir, ['./configure', '--prefix=' + buildtoolInstallDir])
-            self._runCmd(self._compilationEnv, buildtoolDownloadDir, ['make'])
-            self._runCmd(self._compilationEnv, buildtoolDownloadDir, ['make', 'install'])
-            self._compilationEnv['PATH'] = os.path.join(buildtoolInstallDir, 'bin') + ':' + self._compilationEnv['PATH']
-            self._logMsg('Installed ' + buildtool)
-
-        self._compilationEnv['PHP_AUTOCONF'] = os.path.join(self._ctx['AUTOCONF_INSTALL_DIR'], 'bin', 'autoconf')
-        self._compilationEnv['PHP_AUTOHEADER'] = os.path.join(self._ctx['AUTOCONF_INSTALL_DIR'], 'bin', 'autoheader')
-        self._logMsg('-- Installed Build Tools -------------------------')
-
     def install_clidriver(self):
         self._logMsg('-- Installing IBM DB CLI Drivers -----------------')
         for clidriverpart in ['ibmdbclidriver1', 'ibmdbclidriver2']:
@@ -246,38 +206,6 @@ class IBMDBInstaller(ExtensionHelper):
         self._logMsg ('Installed IBMDB CLI Drivers to ' + self._ctx['IBMDBCLIDRIVER_INSTALL_DIR'])
         self._logMsg('-- Installed IBM DB CLI Drivers ------------------')
 
-    def install_phpsource(self):
-        self._logMsg('-- Downloading PHP Source ------------------------')
-        self._install_direct(
-                self._ctx['PHPSOURCE_DLURL'],
-                None,
-                self._ctx['PHPSOURCE_INSTALL_DIR'],
-                self._ctx['PHPSOURCE_DLFILE'],
-                True)
-
-        self._cfPHPConfigPrefixDir = self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
-                                            [self._phpBuildConfigFpath, '--prefix']).strip()
-        cfPHPConfigLibDir = os.path.join(self._cfPHPConfigPrefixDir, 'lib')
-        cfPHPConfigIncludeDir = os.path.join(self._cfPHPConfigPrefixDir, 'include')
-
-        self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'], ['mkdir', '-p', self._cfPHPConfigPrefixDir])
-        self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'], ['mkdir', '-p', cfPHPConfigLibDir])
-        self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'], ['mkdir', '-p', cfPHPConfigIncludeDir])
-
-        self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
-                     ['cp', '-rf', self._ctx['PHPSOURCE_INSTALL_DIR'], cfPHPConfigIncludeDir])
-        self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
-                     ['cp', '-rf', self._ctx['PHPSOURCE_INSTALL_DIR'], cfPHPConfigLibDir])
-        self._runCmd(self._compilationEnv, os.path.join(cfPHPConfigLibDir, 'php'),
-                     ['cp', '-rf', 'acinclude.m4 Makefile.global config.sub config.guess ltmain.sh run-tests*.php',
-                      os.path.join(cfPHPConfigLibDir, 'php', 'build')])
-        self._runCmd(self._compilationEnv, os.path.join(cfPHPConfigLibDir, 'php', 'scripts'),
-                     ['cp', '-rf', 'phpize.m4', os.path.join(cfPHPConfigLibDir, 'php', 'build')])
-        self._runCmd(self._compilationEnv, os.path.join(cfPHPConfigIncludeDir, 'php'), ['./configure'])
-
-        self._logMsg ('Downloaded PHP ' + self._ctx['PHPSOURCE_VERSION'] + ' source files')
-        self._logMsg('-- Downloaded PHP Source -------------------------')
-
     def download_extensions(self):
         self._logMsg('-- Downloading IBM DB Extensions -----------------')
         for ibmdbExtn in ['IBM_DB2', 'PDO_IBM']:
@@ -288,6 +216,7 @@ class IBMDBInstaller(ExtensionHelper):
                 ibmdbExtnDownloadDir,
                 self._ctx[ibmdbExtn + '_DLFILE'],
                 True)
+            subprocess.call(['ls', '-lrt', ibmdbExtnDownloadDir])
             self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
                  ['mv', os.path.join(ibmdbExtnDownloadDir,  self._zendModuleApiNo, ibmdbExtn.lower() + '.so'),
                   self._phpExtnDpath])
