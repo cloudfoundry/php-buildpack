@@ -5,39 +5,10 @@ import re
 import StringIO
 import subprocess
 import sys
-import time
 from urlparse import urlparse
 from build_pack_utils import stream_output
 from build_pack_utils import utils
 from extension_helpers import ExtensionHelper
-
-#from build_pack_utils.downloads import Downloader
-#from build_pack_utils.zips import UnzipUtil
-
-#_log = logging.getLogger(os.path.basename(os.path.dirname(__file__)))
-
-# Lets say there are two extensions e1 and e2 each with following methods used by buildpack
-#   configure; compile; service_environment; service_commands; preprocess_commands
-# The order in which these are called is as follows:
-#  1) e1.configure
-#  2) e2.configure
-#  3) Rewrite httpd.conf
-#  4) Extract and install httpd
-#  5) Rewrite php.ini
-#  6) Extract and install php
-#  7) e1.compile
-#  8) e2.compile
-#  9) e1.service_environment
-# 10) e2.service_environment
-# 11) e1.service_commands
-# 10) e2.service_commands
-# 13) e1.preprocess_commands
-# 14) e2.preprocess_commands
-
-CONSTANTS = {
-    'PHP_ARCH': '64',           # if not 64, 32-bit is assumed
-    'PHP_THREAD_SAFETY': 'nts', # if not ts, nts is assumed, case-insensitive
-}
 
 PKGDOWNLOADS =  {
     'IBMDBCLIDRIVER_VERSION': '11.1',
