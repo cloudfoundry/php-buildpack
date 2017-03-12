@@ -42,12 +42,6 @@ class IBMDBInstaller(ExtensionHelper):
             self._compilationEnv['LD_LIBRARY_PATH'] = ''
         if 'PATH' not in self._compilationEnv:
             self._compilationEnv['PATH'] = ''
-        if 'PHPRC' not in self._compilationEnv:
-            self._compilationEnv['PHPRC'] = ''
-        if 'PHP_PEAR_INSTALL_DIR' not in self._compilationEnv:
-            self._compilationEnv['PHP_PEAR_INSTALL_DIR'] = ''
-        if 'PHP_PEAR_PHP_BIN' not in self._compilationEnv:
-            self._compilationEnv['PHP_PEAR_PHP_BIN'] = ''
 
         self._log.info('Detected PHP Version ' + self._ctx['PHP_VERSION'])
         self._log.info('Using build pack directory ' + self._ctx['BP_DIR'])
