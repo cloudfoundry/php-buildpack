@@ -74,7 +74,7 @@ class IBMDBInstaller(ExtensionHelper):
         self.install_clidriver()
         self.download_extensions()
         self.modifyPhpIni()
-        self.cleanup()
+        #self.cleanup()
         return 0
 
     def _service_environment(self):
