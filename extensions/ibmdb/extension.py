@@ -1,9 +1,9 @@
-import json
+#import json
 import logging
 import os
 import re
 import StringIO
-import subprocess
+#import subprocess
 import sys
 from urlparse import urlparse
 from build_pack_utils import stream_output
@@ -49,10 +49,7 @@ class IBMDBInstaller(ExtensionHelper):
 
         self._ibmdbClidriverBaseDir = 'ibmdb_clidriver'
         self._phpBuildRootDpath = os.path.join(self._ctx['BUILD_DIR'], 'php')
-        #self._phpBuildBinDpath = os.path.join(self._phpBuildRootDpath, 'bin')
-        #self._phpBuildBinFpath = os.path.join(self._phpBuildRootDpath, 'bin', 'php')
         self._phpBuildIniFpath = os.path.join(self._phpBuildRootDpath, 'etc', 'php.ini')
-        #self._phpizeShBuildFpath = os.path.join(self._phpBuildBinDpath, 'phpize')
         self._phpExtnDir = ''
         self._zendModuleApiNo = ''
         self._phpExtnDpath = ''
@@ -115,7 +112,6 @@ class IBMDBInstaller(ExtensionHelper):
         print logMsg        
 
     def _install_direct(self, url, hsh, installDir, fileName=None, strip=False, extract=True):
-        # hsh for future use
         if not fileName:
             fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
@@ -133,11 +129,7 @@ class IBMDBInstaller(ExtensionHelper):
     def _runCmd(self, environ, currWorkDir, cmd, displayRunLog=False):
         stringioWriter = StringIO.StringIO()
         try:
-            stream_output(stringioWriter,            #sys.stdout,
-                          ' '.join(cmd),
-                          env=environ,
-                          cwd=currWorkDir,
-                          shell=True)
+            stream_output(stringioWriter, ' '.join(cmd), env=environ, cwd=currWorkDir, shell=True)
             cmdOutput = stringioWriter.getvalue()
             if displayRunLog:
                 self._logMsg(cmdOutput)
@@ -157,7 +149,6 @@ class IBMDBInstaller(ExtensionHelper):
                     return extnBaseDir
 
     def modifyPhpIni(self):
-        self._log.info('Modifying ' + self._phpBuildIniFpath)
         with open(self._phpBuildIniFpath, 'rt') as phpIni:
             lines = phpIni.readlines()
         extns = [line for line in lines if line.startswith('extension=')]
