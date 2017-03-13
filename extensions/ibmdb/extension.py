@@ -49,11 +49,10 @@ class IBMDBInstaller(ExtensionHelper):
 
         self._ibmdbClidriverBaseDir = 'ibmdb_clidriver'
         self._phpBuildRootDpath = os.path.join(self._ctx['BUILD_DIR'], 'php')
-        self._phpBuildBinDpath = os.path.join(self._phpBuildRootDpath, 'bin')
-        self._phpBuildBinFpath = os.path.join(self._phpBuildRootDpath, 'bin', 'php')
-        #self._phpBuildConfigFpath = os.path.join(self._phpBuildRootDpath, 'bin', 'php-config')
+        #self._phpBuildBinDpath = os.path.join(self._phpBuildRootDpath, 'bin')
+        #self._phpBuildBinFpath = os.path.join(self._phpBuildRootDpath, 'bin', 'php')
         self._phpBuildIniFpath = os.path.join(self._phpBuildRootDpath, 'etc', 'php.ini')
-        self._phpizeShBuildFpath = os.path.join(self._phpBuildBinDpath, 'phpize')
+        #self._phpizeShBuildFpath = os.path.join(self._phpBuildBinDpath, 'phpize')
         self._phpExtnDir = ''
         self._zendModuleApiNo = ''
         self._phpExtnDpath = ''
@@ -86,9 +85,6 @@ class IBMDBInstaller(ExtensionHelper):
         self._zendModuleApiNo = self._phpExtnDir[len(self._phpExtnDir)-8:]
         self._phpExtnDpath = os.path.join(self._phpBuildRootDpath, 'lib', 'php', 'extensions', self._phpExtnDir)
 
-        #self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'], ['shopt', '-s', 'dotglob'])
-
-        #self._phpApi, self._phpZts = self._parsePhpApi()
         self.install_clidriver()
         self.download_extensions()
         self.modifyPhpIni()
@@ -104,7 +100,6 @@ class IBMDBInstaller(ExtensionHelper):
             'PATH': '$HOME/' + self._ibmdbClidriverBaseDir + '/bin:$HOME/' 
                     + self._ibmdbClidriverBaseDir + '/adm:$PATH',
         }
-        #self._log.info(env['IBM_DB_HOME'])
         return env
 
     def _service_commands(self):
@@ -173,8 +168,6 @@ class IBMDBInstaller(ExtensionHelper):
         lines.insert(pos, 'extension=ibm_db2.so\n')
         lines.insert(pos, 'extension=pdo.so\n')
         lines.insert(pos, 'extension=pdo_ibm.so\n')
-        #lines.append('\n')
-        self._log.info('Writing ' + self._phpBuildIniFpath)
         with open(self._phpBuildIniFpath, 'wt') as phpIni:
             for line in lines:
                 phpIni.write(line)
@@ -207,7 +200,7 @@ class IBMDBInstaller(ExtensionHelper):
             self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
                  ['mv', os.path.join(ibmdbExtnDownloadDir,  self._zendModuleApiNo, ibmdbExtn.lower() + '.so'),
                   self._phpExtnDpath])
-            self._logMsg ('Installed ' + ibmdbExtn)
+            self._logMsg ('Installed extension ' + ibmdbExtn)
         self._logMsg('-- Downloaded IBM DB Extensions ------------------')
 
     def cleanup(self):
