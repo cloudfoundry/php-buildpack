@@ -112,8 +112,6 @@ class IBMDBInstaller(ExtensionHelper):
             fileName = urlparse(url).path.split('/')[-1]
         fileToInstall = os.path.join(self._ctx['TMPDIR'], fileName)
         self._runCmd(os.environ, self._ctx['BUILD_DIR'], ['rm', '-rf', fileToInstall])
-
-        self._log.debug("Installing direct [%s]", url)
         self._installer._dwn.custom_extension_download(url, url, fileToInstall)
 
         if extract:
