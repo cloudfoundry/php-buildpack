@@ -51,11 +51,9 @@ class IBMDBInstaller(ExtensionHelper):
         self._phpBuildRootDpath = os.path.join(self._ctx['BUILD_DIR'], 'php')
         self._phpBuildBinDpath = os.path.join(self._phpBuildRootDpath, 'bin')
         self._phpBuildBinFpath = os.path.join(self._phpBuildRootDpath, 'bin', 'php')
-        self._phpBuildConfigFpath = os.path.join(self._phpBuildRootDpath, 'bin', 'php-config')
+        #self._phpBuildConfigFpath = os.path.join(self._phpBuildRootDpath, 'bin', 'php-config')
         self._phpBuildIniFpath = os.path.join(self._phpBuildRootDpath, 'etc', 'php.ini')
         self._phpizeShBuildFpath = os.path.join(self._phpBuildBinDpath, 'phpize')
-        self._cfPHPConfigPrefixDir = ''
-        self._cfPHPConfigExtnDir = ''
         self._phpExtnDir = ''
         self._zendModuleApiNo = ''
         self._phpExtnDpath = ''
@@ -84,10 +82,6 @@ class IBMDBInstaller(ExtensionHelper):
         self._log.info(__file__ + "->compile")
         self._installer = install._installer
 
-        self._cfPHPConfigPrefixDir = self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
-                                        [self._phpBuildConfigFpath, '--prefix']).strip()
-        self._cfPHPConfigExtnDir = self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
-                                        [self._phpBuildConfigFpath, '--extension-dir']).strip()
         self._phpExtnDir = self.findPhpExtnBaseDir()
         self._zendModuleApiNo = self._phpExtnDir[len(self._phpExtnDir)-8:]
         self._phpExtnDpath = os.path.join(self._phpBuildRootDpath, 'lib', 'php', 'extensions', self._phpExtnDir)
