@@ -210,7 +210,6 @@ class IBMDBInstaller(ExtensionHelper):
                 ibmdbExtnDownloadDir,
                 self._ctx[ibmdbExtn + '_DLFILE'],
                 True)
-            subprocess.call(['ls', '-lrt', ibmdbExtnDownloadDir])
             self._runCmd(self._compilationEnv, self._ctx['BUILD_DIR'],
                  ['mv', os.path.join(ibmdbExtnDownloadDir,  self._zendModuleApiNo, ibmdbExtn.lower() + '.so'),
                   self._phpExtnDpath])
