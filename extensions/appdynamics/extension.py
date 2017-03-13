@@ -220,6 +220,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         print("Running AppDynamics preprocess commands")
         commands = [
             [ 'echo "Installing AppDynamics package..."'],
+            [ 'PHP_EXT_DIR=$(find /home/vcap/app -name "no-debug-non-zts*" -type d)'],
             [ 'chmod -R 755 /home/vcap'],
             [ 'chmod -R 777 /home/vcap/app/appdynamics/appdynamics-php-agent/logs'],
             [ 'if [ $APPD_CONF_SSL_ENABLED == \"true\" ] ; then export sslflag=-s ; '
@@ -227,7 +228,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             [ '/home/vcap/app/appdynamics/appdynamics-php-agent/install.sh '
               '$sslflag '
               '-a "$APPD_CONF_ACCOUNT_NAME@$APPD_CONF_ACCESS_KEY" '
-              '-e "/home/vcap/app/php/lib/php/extensions/no-debug-non-zts-20131226" '
+              '-e "$PHP_EXT_DIR" '
               '-p "/home/vcap/app/php/bin" '
               '-i "/home/vcap/app/appdynamics/phpini" '
               '-v "$PHP_VERSION" '
