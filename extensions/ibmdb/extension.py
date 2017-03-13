@@ -39,16 +39,9 @@ class IBMDBInstaller(ExtensionHelper):
         if 'PATH' not in self._compilationEnv:
             self._compilationEnv['PATH'] = ''
 
-        self._log.info('Detected PHP Version ' + self._ctx['PHP_VERSION'])
-        self._log.info('Using build pack directory ' + self._ctx['BP_DIR'])
-        self._log.info('Using build directory ' + self._ctx['BUILD_DIR'])
-
         self._ibmdbClidriverBaseDir = 'ibmdb_clidriver'
         self._phpBuildRootDpath = os.path.join(self._ctx['BUILD_DIR'], 'php')
         self._phpBuildIniFpath = os.path.join(self._phpBuildRootDpath, 'etc', 'php.ini')
-        self._phpExtnDir = ''
-        self._zendModuleApiNo = ''
-        self._phpExtnDpath = ''
 
     def _defaults(self):
         pkgdownloads = PKGDOWNLOADS
