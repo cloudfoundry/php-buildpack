@@ -173,7 +173,7 @@ class IBMDBInstaller(ExtensionHelper):
 
     def cleanup(self):
         self._logMsg('-- Some House-keeping ----------------------------')
-        self._runCmd(os.environ, self._ctx['BUILD_DIR'], ['rm', '-rf', self._ctx['DOWNLOAD_DIR']])
+        self._runCmd(os.environ, self._ctx['BUILD_DIR'], ['rm', '-rf', self._ctx['COMPILATION_DIR']])
         self._logMsg('-- House-keeping Done ----------------------------')
 
 IBMDBInstaller.register(__name__)
