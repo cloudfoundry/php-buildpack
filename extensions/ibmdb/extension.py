@@ -1,10 +1,10 @@
 #import json
 import logging
 import os
-import re
+#import re
 import StringIO
 #import subprocess
-import sys
+#import sys
 from urlparse import urlparse
 from build_pack_utils import stream_output
 from build_pack_utils import utils
