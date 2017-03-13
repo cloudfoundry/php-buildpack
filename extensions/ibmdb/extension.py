@@ -94,14 +94,6 @@ class IBMDBInstaller(ExtensionHelper):
         }
         return env
 
-    #def _service_commands(self):
-    #    self._log.info(__file__ + "->service_commands")        
-    #    return {}
-
-    #def _preprocess_commands(self):
-    #    self._log.info(__file__ + "->preprocess_commands")
-    #    return ()
-
     def _logMsg(self, logMsg):
         self._log.info(logMsg)
         print logMsg        
