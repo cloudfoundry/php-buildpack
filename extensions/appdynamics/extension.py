@@ -227,7 +227,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             [ '/home/vcap/app/appdynamics/appdynamics-php-agent/install.sh '
               '$sslflag '
               '-a "$APPD_CONF_ACCOUNT_NAME@$APPD_CONF_ACCESS_KEY" '
-              '-e "/home/vcap/app/php/lib/php/extensions/no-debug-non-zts-20121212" '
+              '-e "/home/vcap/app/php/lib/php/extensions/no-debug-non-zts-20131226" '
               '-p "/home/vcap/app/php/bin" '
               '-i "/home/vcap/app/appdynamics/phpini" '
               '-v "$PHP_VERSION" '
