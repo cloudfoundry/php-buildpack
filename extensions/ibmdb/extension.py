@@ -160,7 +160,6 @@ class IBMDBInstaller(ExtensionHelper):
                     True)
 
         self._compilationEnv['IBM_DB_HOME'] = self._ctx['IBMDBCLIDRIVER_INSTALL_DIR']
-        self._logMsg ('Installed IBMDB CLI Drivers to ' + self._ctx['IBMDBCLIDRIVER_INSTALL_DIR'])
         self._logMsg('-- Installed IBM DB CLI Drivers ------------------')
 
     def download_extensions(self):
