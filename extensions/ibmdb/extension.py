@@ -8,6 +8,11 @@ from extension_helpers import ExtensionHelper
 
 PKGDOWNLOADS =  {
     'IBMDBCLIDRIVER_VERSION': '11.1',
+    #'IBMDBCLIDRIVER_REPOSITORY': 'https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli',
+    #'IBMDBCLIDRIVER1_DLFILE': 'linuxx64_odbc_cli.tar.gz',
+    #'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/{IBMDBCLIDRIVER_DLFILE}',
+    #'IBMDBCLIDRIVER2_DLFILE': '',    # intentionally left blank
+    #'IBMDBCLIDRIVER2_DLURL': '',     # intentionally left blank
     'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-php-extensions-linuxx64',
     'IBMDBCLIDRIVER1_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
     'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER1_DLFILE}',
