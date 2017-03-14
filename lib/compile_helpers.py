@@ -128,7 +128,7 @@ def _get_compiled_modules(ctx):
 
     for line in output.split("\n"):
         if line not in output_to_skip:
-            compiled_modules.append(line)
+            compiled_modules.append(line.lower())
 
     return compiled_modules
 
@@ -141,7 +141,7 @@ def validate_php_extensions(ctx):
     for extension in requested_extensions:
         if extension in supported_extensions:
             filtered_extensions.append(extension)
-        elif extension not in compiled_modules:
+        elif extension.lower() not in compiled_modules:
             print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
 
     ctx['PHP_EXTENSIONS'] = filtered_extensions
