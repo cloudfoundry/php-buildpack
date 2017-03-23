@@ -33,7 +33,7 @@ describe 'CF PHP Buildpack' do
     end
 
     it 'does not let me view the .profile script' do
-      browser.visit_path('/.profile')
+      browser.visit_path('/.profile', allow_404: true)
       expect(browser.status).to eq(404)
     end
   end
