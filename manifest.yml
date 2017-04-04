@@ -225,6 +225,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ioncube
@@ -278,6 +279,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ioncube
@@ -331,6 +333,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ldap
@@ -382,6 +385,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ldap
