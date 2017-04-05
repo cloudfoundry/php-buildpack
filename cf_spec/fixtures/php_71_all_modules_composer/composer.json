@@ -14,6 +14,7 @@
         "ext-geoip": "*",
         "ext-gettext": "*",
         "ext-gmp": "*",
+        "ext-igbinary": "*",
         "ext-imagick": "*",
         "ext-imap": "*",
         "ext-ldap": "*",
