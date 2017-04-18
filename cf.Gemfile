@@ -7,3 +7,4 @@ gem 'buildpack-packager', git: 'https://github.com/cloudfoundry/buildpack-packag
 gem 'rspec'
 gem 'rspec-instafail'
 gem 'pry'
+gem 'excon'

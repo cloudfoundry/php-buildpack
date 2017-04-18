@@ -1,5 +1,6 @@
 $: << 'cf_spec'
 require 'cf_spec_helper'
+require 'excon'
 
 describe 'CF PHP Buildpack' do
   let(:browser)  { Machete::Browser.new(@app) }
@@ -43,17 +44,17 @@ describe 'CF PHP Buildpack' do
     end
 
     it 'compresses dynamic content' do
-      headers = getHeaders('/index.php', ['Accept-Encoding: gzip'])
-
-      expect(headers).to include('Server: Apache')
-      expect(headers).to include('Content-Encoding: gzip')
+      response = Excon.get("http://#{browser.base_url}/index.php", :headers => {'Accept-Encoding' => 'gzip'})
+      expect(response.status).to eq(200)
+      expect(response.headers['Server']).to eq('Apache')
+      expect(response.headers['Content-Encoding']).to eq('gzip')
     end
 
     it 'compresses static content' do
-      headers = getHeaders('/staticfile.html', ['Accept-Encoding: gzip'])
-
-      expect(headers).to include('Server: Apache')
-      expect(headers).to include('Content-Encoding: gzip')
+      response = Excon.get("http://#{browser.base_url}/staticfile.html", :headers => {'Accept-Encoding' => 'gzip'})
+      expect(response.status).to eq(200)
+      expect(response.headers['Server']).to eq('Apache')
+      expect(response.headers['Content-Encoding']).to eq('gzip')
     end
   end
 
@@ -84,21 +85,6 @@ describe 'CF PHP Buildpack' do
 
     it 'installs the default version of httpd' do
       expect(@app).to have_logged '"update_default_version" is setting [HTTPD_VERSION]'
-    end
-  end
-
-  require 'socket'
-  def getHeaders(path, headers = [])
-    host = browser.base_url
-    Socket.tcp(host, 80) do |sock|
-      sock.print "GET #{path} HTTP/1.0\r\nHost: #{host}\r\n"
-      headers.each do |header|
-        sock.print header
-        sock.print "\r\n"
-      end
-      sock.print "\r\n"
-      sock.close_write
-      sock.read.split(/\n\r?\n/, 2).first.split(/\r?\n/)
     end
   end
 end
