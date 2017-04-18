@@ -1,3 +1,22 @@
+v4.3.31 Apr 18, 2017
+=====================
+
+* Add PHP 7.1.4 + 7.0.18, remove PHP 7.1.2 + 7.0.16
+  (https://www.pivotaltracker.com/story/show/143513693)
+  (https://www.pivotaltracker.com/story/show/143488233)
+
+* Add nginx 1.12.0, remove nginx 1.10.3
+  (https://www.pivotaltracker.com/story/show/143590265)
+
+* Add igbinary to PHP7 modules
+  (https://www.pivotaltracker.com/story/show/142891967)
+
+* Rebuild all php versions for new modules
+  (https://www.pivotaltracker.com/story/show/142891967)
+
+* Add nginx 1.11.13, remove nginx 1.11.12
+  (https://www.pivotaltracker.com/story/show/143052671)
+
 v4.3.30 Mar 27, 2017
 =====================
 
