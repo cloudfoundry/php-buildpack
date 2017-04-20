@@ -15,6 +15,8 @@
 import os
 import string
 import json
+import glob
+from build_pack_utils import utils
 from compile_helpers import convert_php_extensions
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
@@ -61,6 +63,19 @@ def find_composer_paths(ctx):
 
     return (json_path, lock_path)
 
+def include_fpm_d_confs(ctx):
+    php_fpm_path = os.path.join(ctx['BUILD_DIR'], 'php',
+                                      'etc', 'php-fpm.conf')
+    php_fpm = utils.ConfigFileEditor(php_fpm_path)
+    php_fpm_d_path = os.path.join(ctx['BUILD_DIR'], 'php',
+                                      'etc', 'fpm.d')
+    if len(glob.glob(php_fpm_d_path + '/*.conf')) > 0:
+        php_fpm.update_lines(
+        '^;include=@\{HOME\}/php/etc/fpm.d/\*\.conf$',
+        'include=@{HOME}/php/etc/fpm.d/*.conf',
+        )
+        php_fpm.save(php_fpm_path)
+
 
 class PHPExtension(ExtensionHelper):
     def _should_compile(self):
@@ -100,6 +115,11 @@ class PHPExtension(ExtensionHelper):
         }
         if 'snmp' in self._ctx['PHP_EXTENSIONS']:
             env['MIBDIRS'] = '$HOME/php/mibs'
+
+        php_ini_d_path = os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc', 'php.ini.d')
+        if os.path.exists(php_ini_d_path):
+            env['PHP_INI_SCAN_DIR'] = '$HOME/php/etc/php.ini.d/'
+
         return env
 
     def _compile(self, install):
@@ -136,6 +156,9 @@ class PHPExtension(ExtensionHelper):
                 .to('php/etc')
                 .rewrite()
                 .done())
+
+        include_fpm_d_confs(ctx)
+
         return 0
 
 
