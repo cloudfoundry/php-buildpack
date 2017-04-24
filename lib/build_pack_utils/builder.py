@@ -63,9 +63,10 @@ class Configurer(object):
     def user_config(self, path=None, step=None):
         if path is None:
             path = os.path.join('.bp-config', 'options.json')
-        self._merge(
-            CloudFoundryUtil.load_json_config_file_from(
-                self.builder._ctx['BUILD_DIR'], path, step))
+        dict = CloudFoundryUtil.load_json_config_file_from(self.builder._ctx['BUILD_DIR'], path, step)
+        if len(dict.get('PHP_EXTENSIONS', [])) > 0:
+            self._merge({'OPTIONS_JSON_HAS_PHP_EXTENSIONS': True})
+        self._merge(dict)
         return self
 
     def validate(self):

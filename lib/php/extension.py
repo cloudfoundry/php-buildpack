@@ -137,6 +137,9 @@ class PHPExtension(ExtensionHelper):
                 print('WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.')
                 print('WARNING: The version defined in `composer.json` will be used.')
 
+        if ctx.get('OPTIONS_JSON_HAS_PHP_EXTENSIONS', False):
+            print("Warning: PHP_EXTENSIONS in options.json is deprecated. See: http://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html")
+
         print 'Installing PHP'
         validate_php_version(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])

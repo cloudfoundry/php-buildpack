@@ -45,6 +45,11 @@ describe 'CF PHP Buildpack' do
       end
 
       it_behaves_like 'it loads all the modules', 'PHP 5'
+
+      it 'warns about deprecated PHP_EXTENSIONS' do
+        expect(@app).to be_running
+        expect(@app).to have_logged 'Warning: PHP_EXTENSIONS in options.json is deprecated.'
+      end
     end
 
     context 'deploying a basic PHP7.0 app that loads all prepackaged extensions' do
@@ -57,6 +62,11 @@ describe 'CF PHP Buildpack' do
       end
 
       it_behaves_like 'it loads all the modules', 'PHP 7.0'
+
+      it 'warns about deprecated PHP_EXTENSIONS' do
+        expect(@app).to be_running
+        expect(@app).to have_logged 'Warning: PHP_EXTENSIONS in options.json is deprecated.'
+      end
     end
 
     context 'deploying a basic PHP7.1 app that loads all prepackaged extensions' do
@@ -69,6 +79,11 @@ describe 'CF PHP Buildpack' do
       end
 
       it_behaves_like 'it loads all the modules', 'PHP 7.1'
+
+      it 'warns about deprecated PHP_EXTENSIONS' do
+        expect(@app).to be_running
+        expect(@app).to have_logged 'Warning: PHP_EXTENSIONS in options.json is deprecated.'
+      end
     end
   end
 
@@ -83,6 +98,11 @@ describe 'CF PHP Buildpack' do
       end
 
       it_behaves_like 'it loads all the modules', 'PHP 5'
+
+      it 'does not warn about deprecated PHP_EXTENSIONS' do
+        expect(@app).to be_running
+        expect(@app).to_not have_logged 'Warning: PHP_EXTENSIONS in options.json is deprecated.'
+      end
     end
 
     context 'deploying a basic PHP7.0 app that loads all prepackaged extensions' do
@@ -95,6 +115,11 @@ describe 'CF PHP Buildpack' do
       end
 
       it_behaves_like 'it loads all the modules', 'PHP 7.0'
+
+      it 'does not warn about deprecated PHP_EXTENSIONS' do
+        expect(@app).to be_running
+        expect(@app).to_not have_logged 'Warning: PHP_EXTENSIONS in options.json is deprecated.'
+      end
     end
 
     context 'deploying a basic PHP7.1 app that loads all prepackaged extensions' do
@@ -107,6 +132,11 @@ describe 'CF PHP Buildpack' do
       end
 
       it_behaves_like 'it loads all the modules', 'PHP 7.1'
+
+      it 'does not warn about deprecated PHP_EXTENSIONS' do
+        expect(@app).to be_running
+        expect(@app).to_not have_logged 'Warning: PHP_EXTENSIONS in options.json is deprecated.'
+      end
     end
   end
 end
