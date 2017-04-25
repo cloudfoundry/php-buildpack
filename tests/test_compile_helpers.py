@@ -261,7 +261,7 @@ class TestCompileHelpers(object):
 
 
     def setup_php_ini_dir(self, extensions):
-        ini_dir = os.path.join(self.build_dir, 'php', 'etc', 'php.ini.d')
+        ini_dir = os.path.join(self.build_dir, '.bp-config', 'php', 'php.ini.d')
         os.makedirs(ini_dir)
         with open(os.path.join(ini_dir, 'somthing.ini'), 'w') as f:
             f.write(extensions)

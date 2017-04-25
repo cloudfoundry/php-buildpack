@@ -24,6 +24,8 @@ from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
+from compile_helpers import validate_php_ini_extensions
+from compile_helpers import include_fpm_d_confs
 from extension_helpers import ExtensionHelper
 
 def find_composer_paths(ctx):
@@ -62,19 +64,6 @@ def find_composer_paths(ctx):
             lock_path = path
 
     return (json_path, lock_path)
-
-def include_fpm_d_confs(ctx):
-    php_fpm_path = os.path.join(ctx['BUILD_DIR'], 'php',
-                                      'etc', 'php-fpm.conf')
-    php_fpm = utils.ConfigFileEditor(php_fpm_path)
-    php_fpm_d_path = os.path.join(ctx['BUILD_DIR'], 'php',
-                                      'etc', 'fpm.d')
-    if len(glob.glob(php_fpm_d_path + '/*.conf')) > 0:
-        php_fpm.update_lines(
-        '^;include=@\{HOME\}/php/etc/fpm.d/\*\.conf$',
-        'include=@{HOME}/php/etc/fpm.d/*.conf',
-        )
-        php_fpm.save(php_fpm_path)
 
 
 class PHPExtension(ExtensionHelper):
@@ -150,9 +139,11 @@ class PHPExtension(ExtensionHelper):
             .package('PHP')
             .done())
 
-        validate_php_extensions(ctx)
         validate_php_ini_extensions(ctx)
+        validate_php_extensions(ctx)
         convert_php_extensions(ctx)
+        include_fpm_d_confs(ctx)
+
         (install
             .config()
                 .from_application('.bp-config/php')  # noqa
@@ -160,8 +151,6 @@ class PHPExtension(ExtensionHelper):
                 .to('php/etc')
                 .rewrite()
                 .done())
-
-        include_fpm_d_confs(ctx)
 
         return 0
 
