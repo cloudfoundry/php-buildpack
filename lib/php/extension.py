@@ -151,6 +151,7 @@ class PHPExtension(ExtensionHelper):
             .done())
 
         validate_php_extensions(ctx)
+        validate_php_ini_extensions(ctx)
         convert_php_extensions(ctx)
         (install
             .config()

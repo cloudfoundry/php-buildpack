@@ -15,6 +15,7 @@
 from __future__ import print_function
 import os
 import os.path
+import re
 import yaml
 import logging
 import glob
@@ -145,6 +146,30 @@ def validate_php_extensions(ctx):
             print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
 
     ctx['PHP_EXTENSIONS'] = filtered_extensions
+
+
+def _parse_extensions_from_ini_file(file):
+    extensions = []
+    regex = re.compile(r'^extension\s*=\s*[\'\"]?(.*)\.so')
+
+    with open(file, 'r') as f:
+        for line in f:
+            matches = regex.findall(line)
+            if len(matches) == 1:
+                extensions.append(matches[0])
+
+    return extensions
+
+def validate_php_ini_extensions(ctx):
+    all_supported =  _get_supported_php_extensions(ctx) + _get_compiled_modules(ctx)
+    ini_files = glob.glob(os.path.join(ctx["BUILD_DIR"], 'php', 'etc', 'php.ini.d', '*.ini'))
+
+    for file in ini_files:
+        extensions = _parse_extensions_from_ini_file(file)
+        for ext in extensions:
+            if ext not in all_supported:
+                raise RuntimeError("The extension '%s' is not provided by this buildpack." % ext)
+
 
 
 def convert_php_extensions(ctx):

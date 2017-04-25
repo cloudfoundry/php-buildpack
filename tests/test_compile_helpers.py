@@ -2,7 +2,9 @@ import os
 import os.path
 import tempfile
 import shutil
+import mock
 from nose.tools import eq_
+from nose.tools import assert_raises_regexp
 from build_pack_utils import utils
 from compile_helpers import setup_webdir_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
@@ -11,6 +13,7 @@ from compile_helpers import find_stand_alone_app_to_run
 from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
+from compile_helpers import validate_php_ini_extensions
 from compile_helpers import setup_log_dir
 
 
@@ -255,6 +258,61 @@ class TestCompileHelpers(object):
         convert_php_extensions(ctx)
         eq_('zend_extension="zmod1.so"',
             ctx['ZEND_EXTENSIONS'])
+
+
+    def setup_php_ini_dir(self, extensions):
+        ini_dir = os.path.join(self.build_dir, 'php', 'etc', 'php.ini.d')
+        os.makedirs(ini_dir)
+        with open(os.path.join(ini_dir, 'somthing.ini'), 'w') as f:
+            f.write(extensions)
+
+
+    @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin'])
+    @mock.patch('compile_helpers._get_compiled_modules', return_value=['pie'])
+    def test_validate_php_ini_extensions_when_extension_not_available(self, supported_func, compiled_func):
+        ctx = {
+            'BUILD_DIR': self.build_dir
+        }
+        self.setup_php_ini_dir("extension =pumpkin.so\nextension=apple.so\nextension=pie.so")
+        with assert_raises_regexp(RuntimeError, "The extension 'apple' is not provided by this buildpack."):
+            validate_php_ini_extensions(ctx)
+
+    @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin'])
+    @mock.patch('compile_helpers._get_compiled_modules', return_value=['pie'])
+    def test_validate_php_ini_extensions_when_extension_not_available_and_listed_in_section(self, supported_func, compiled_func):
+        ctx = {
+            'BUILD_DIR': self.build_dir
+        }
+        self.setup_php_ini_dir("[php]\nextension =pumpkin.so\nextension=blueberry.so\nextension=pie.so")
+        with assert_raises_regexp(RuntimeError, "The extension 'blueberry' is not provided by this buildpack."):
+            validate_php_ini_extensions(ctx)
+
+    @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin', 'apple'])
+    @mock.patch('compile_helpers._get_compiled_modules', return_value=['pie'])
+    def test_validate_php_ini_extensions_when_extension_is_supported_php_extension(self, supported_func, compiled_func):
+        ctx = {
+            'BUILD_DIR': self.build_dir
+        }
+        self.setup_php_ini_dir("extension=pumpkin.so\nextension= apple.so\nextension=pie.so")
+        validate_php_ini_extensions(ctx)
+
+    @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin'])
+    @mock.patch('compile_helpers._get_compiled_modules', return_value=['pie', 'apple'])
+    def test_validate_php_ini_extensions_when_extension_is_compiled_module(self, supported_func, compiled_func):
+        ctx = {
+            'BUILD_DIR': self.build_dir
+        }
+        self.setup_php_ini_dir("extension=pumpkin.so\nextension=apple.so\nextension = \"pie.so\"")
+        validate_php_ini_extensions(ctx)
+
+    @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin'])
+    @mock.patch('compile_helpers._get_compiled_modules', return_value=['pie', 'apple'])
+    def test_validate_php_ini_extensions_when_no_php_ini_dir(self, supported_func, compiled_func):
+        ctx = {
+            'BUILD_DIR': self.build_dir
+        }
+        validate_php_ini_extensions(ctx)
+
 
     def test_is_web_app(self):
         ctx = {}
