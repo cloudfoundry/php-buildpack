@@ -1,3 +1,21 @@
+v4.3.32 May 01, 2017
+=====================
+
+* Allow more flexible PHP configuration
+  - .ini files in .bp-config/php/php.ini.d will be added to the config using PHP_INI_SCAN_DIR
+  - .conf files in .bp-config/php/fpm.d will be included in php-fpm.conf
+  - Add warning that PHP_EXTENSIONS in options.json is deprecated
+  (https://www.pivotaltracker.com/story/show/141979329)
+
+* Add nginx 1.13.0
+  (https://www.pivotaltracker.com/story/show/144290507)
+
+* Fix private ip space to be in accordance with best practices
+  (https://www.pivotaltracker.com/story/show/143949555)
+
+* Re-add nginx 1.10.x line to manifest.yml
+  (https://www.pivotaltracker.com/story/show/143590265)
+
 v4.3.31 Apr 18, 2017
 =====================
 
