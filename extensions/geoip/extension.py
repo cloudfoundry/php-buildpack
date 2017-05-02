@@ -77,6 +77,16 @@ class GeoipConfig(PHPExtensionHelper):
                 cmd.append('--products="%s"' % products)
         return ' '.join(cmd)
 
+    def _link_geoip_dat(self):
+        current_dir = os.getcwd()
+        geoip_dir = os.path.join(
+            self._ctx['BUILD_DIR'], 'php', 'geoipdb', 'dbs')
+
+        os.chdir(geoip_dir)
+        if os.path.isfile("GeoLiteCountry.dat") and not os.path.isfile("GeoIP.dat"):
+            os.symlink("GeoLiteCountry.dat", "GeoIP.dat")
+        os.chdir(current_dir)
+
     def _compile(self, install):
         # modify php.ini to add `geoip.custom_directory`
         self.load_config()
@@ -92,6 +102,7 @@ class GeoipConfig(PHPExtensionHelper):
             stream_output(sys.stdout,
                           self._build_download_cmd(),
                           shell=True)
+            self._link_geoip_dat()
         else:
             print 'Copying Geoip Databases from App.'
             app_geoipdbs = self._ctx.get(self.GEOIP_LOCATION_KEY, None)

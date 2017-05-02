@@ -16,8 +16,12 @@ describe 'CF PHP Buildpack' do
       Machete::CF::DeleteApp.new.execute(@app)
     end
 
-    it 'expects an app to be running' do
+    it 'is able to use the geoip databases' do
       expect(@app).to be_running
+      browser.visit_path("/")
+      expect(browser).to have_body /Avail: 1/
+      expect(browser).to have_body /Info: GEO-106FREE/
+      expect(browser).to have_body /Country: US/
     end
 
     it 'has downloaded geoip dbs' do

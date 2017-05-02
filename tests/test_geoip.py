@@ -13,9 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import json
+import os
+import shutil
 from dingus import Dingus
 from nose.tools import eq_
 from build_pack_utils import utils
+import tempfile
 
 
 class TestGeoipConfig(object):
@@ -149,3 +152,60 @@ class TestGeoipConfig(object):
             '--output_dir="/test/build_dir/php/geoipdb/dbs" '
             '--products='
             '"GeoLite-Legacy-IPv6-City GeoLite-Legacy-IPv6-Country"', cmd)
+
+    def test_link_geoip_dat_geoip_dat_exists(self):
+        ctx = {}
+        ctx['BUILD_DIR'] = tempfile.mkdtemp()
+        geoip_dir = os.path.join(ctx['BUILD_DIR'], 'php', 'geoipdb', 'dbs')
+        os.makedirs(geoip_dir)
+
+        with open(os.path.join(geoip_dir, "GeoIP.dat"), 'w') as f:
+            f.write('xxx')
+
+        with open(os.path.join(geoip_dir, "GeoLiteCountry.dat"), 'w') as f:
+            f.write('yyy')
+
+        geoip = self.extension_module.GeoipConfig(ctx)
+        geoip._link_geoip_dat()
+
+        contents = ''
+        with open(os.path.join(geoip_dir, "GeoIP.dat"), 'r') as f:
+            contents = f.read()
+
+        eq_(contents, 'xxx')
+
+        shutil.rmtree(ctx['BUILD_DIR'])
+
+    def test_link_geoip_dat_geoip_dat_does_not_exist(self):
+        ctx = {}
+        ctx['BUILD_DIR'] = tempfile.mkdtemp()
+        geoip_dir = os.path.join(ctx['BUILD_DIR'], 'php', 'geoipdb', 'dbs')
+        os.makedirs(geoip_dir)
+
+        with open(os.path.join(geoip_dir, "GeoLiteCountry.dat"), 'w') as f:
+            f.write('yyy')
+
+        geoip = self.extension_module.GeoipConfig(ctx)
+        geoip._link_geoip_dat()
+
+        contents = ''
+        with open(os.path.join(geoip_dir, "GeoIP.dat"), 'r') as f:
+            contents = f.read()
+
+        eq_(contents, 'yyy')
+
+        shutil.rmtree(ctx['BUILD_DIR'])
+
+    def test_link_geoip_dat_geolitecountry_dat_does_not_exist(self):
+        ctx = {}
+        ctx['BUILD_DIR'] = tempfile.mkdtemp()
+        geoip_dir = os.path.join(ctx['BUILD_DIR'], 'php', 'geoipdb', 'dbs')
+        os.makedirs(geoip_dir)
+
+        geoip = self.extension_module.GeoipConfig(ctx)
+        geoip._link_geoip_dat()
+
+        eq_(os.path.isfile(os.path.join(geoip_dir, "GeoIP.dat")), False)
+        eq_(os.path.isfile(os.path.join(geoip_dir, "GeoLiteCountry.dat")), False)
+
+        shutil.rmtree(ctx['BUILD_DIR'])
