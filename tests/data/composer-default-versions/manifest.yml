@@ -23,7 +23,6 @@ default_versions:
   version: 6.3.0.161
 - name: composer
   version: 9.9.9
-
 url_to_dependency_map:
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic

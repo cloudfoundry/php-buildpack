@@ -165,7 +165,7 @@ def compile(install):
 
 The `compile` method is the main method and where extension authors should perform the bulk of their logic.  This method is called  by the buildpack while it's installing extensions.
 
-The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
+The method is given one argument which is an Installer builder object.  The object can be used to install packages, configuration files or access the context (for examples of all this, see the core extensions like [HTTPD], [Nginx], [PHP], [Dynatrace] and [NewRelic]).  The method should return 0 when successful or any other number when it fails.  Optionally, the extension can raise an exception.  This will also signal a failure and it can provide more details about why something failed.
 
 ### Method Order
 
@@ -236,6 +236,7 @@ def compile(install):
 [HTTPD]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/httpd
 [Nginx]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/nginx
 [PHP]:https://github.com/cloudfoundry/php-buildpack/tree/master/lib/php
+[Dynatrace]:https://github.com/cloudfoundry/php-buildpack/tree/master/extensions/dynatrace
 [NewRelic]:https://github.com/cloudfoundry/php-buildpack/tree/master/extensions/newrelic
 [unit tests]:https://github.com/cloudfoundry/php-buildpack/blob/master/docs/development.md#testing
 

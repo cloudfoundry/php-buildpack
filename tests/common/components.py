@@ -291,4 +291,3 @@ class NewRelicAssertHelper(object):
         (fah.expect()
             .path(build_dir, 'newrelic')
             .does_not_exist())
-
