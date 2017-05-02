@@ -39,8 +39,8 @@ class DynatraceInstaller(object):
         except Exception:
             self._log.exception("Error installing Dynatrace OneAgent! "
                                 "Dynatrace OneAgent will not be available.")
-                
-    # set 'DYNATRACE_API_URL' if not available            
+
+    # set 'DYNATRACE_API_URL' if not available
     def _convert_api_url(self):
         if self._ctx['DYNATRACE_API_URL'] == None:
             self._ctx['DYNATRACE_API_URL'] = 'https://' + self._ctx['DYNATRACE_ENVIRONMENT_ID'] + '.live.dynatrace.com/api'
@@ -49,27 +49,27 @@ class DynatraceInstaller(object):
     def _load_service_info(self):
         dynatrace = False
         vcap_services = self._ctx.get('VCAP_SERVICES', {})
-        for provider, services in vcap_services.iteritems():   
+        for provider, services in vcap_services.iteritems():
             for service in services:
                 if 'dynatrace' in service.get('name', ''):
                     dynatrace = service
                     creds = dynatrace.get('credentials', {})
                     if (creds.get('apiurl', None) != None or creds.get('environmentid', None) != None) and creds.get('apitoken', None) != None:
-                        break    
+                        break
                     else:
                         self._log.info("Dynatrace service detected. But without proper credentials!")
                         dynatrace = False
-                          
+
         if dynatrace:
             self._log.info("Dynatrace service found!")
             creds = dynatrace.get('credentials', {})
-            self._ctx['DYNATRACE_API_URL'] = creds.get('apiurl', None) 
+            self._ctx['DYNATRACE_API_URL'] = creds.get('apiurl', None)
             self._ctx['DYNATRACE_ENVIRONMENT_ID'] = creds.get('environmentid', None)
-            self._ctx['DYNATRACE_TOKEN'] = creds.get('apitoken', None)  
-            
+            self._ctx['DYNATRACE_TOKEN'] = creds.get('apitoken', None)
+
             if (self._ctx['DYNATRACE_API_URL'] != None or self._ctx['DYNATRACE_ENVIRONMENT_ID'] != None) and self._ctx['DYNATRACE_TOKEN'] != None:
                 self._log.info("Dynatrace credentials detected.")
-                self._convert_api_url()                
+                self._convert_api_url()
                 self._detected = True
 
     # returns paas-installer path
@@ -78,45 +78,45 @@ class DynatraceInstaller(object):
 
     def should_install(self):
         return self._detected
-    
+
     # create folder if not existing
     def create_folder(self, directory):
         if not os.path.exists(directory):
             os.makedirs(directory)
-                
-    # downloading the paas agent from the 'DYNATRACE_API_URL'            
+
+    # downloading the paas agent from the 'DYNATRACE_API_URL'
     def download_paas_agent_installer(self):
         self.create_folder(os.path.join(self._ctx['BUILD_DIR'], 'dynatrace'))
         installer = self._get_paas_installer_path()
         url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?Api-Token=' + self._ctx['DYNATRACE_TOKEN'] + '&bitness=64&include=php,nginx,apache'
         req = urllib2.Request(url)
         res = urllib2.urlopen(req)
-        
+
         f = open(installer, 'w')
         f.write(res.read())
-        f.close()   
-        
+        f.close()
+
         os.chmod(installer, 0o777)
-        
-    # executing the downloaded paas-installer        
+
+    # executing the downloaded paas-installer
     def extract_paas_agent(self):
         installer = self._get_paas_installer_path()
         call([installer, self._ctx['BUILD_DIR']])
-        
-    # removing the paas-installer        
+
+    # removing the paas-installer
     def cleanup_paas_installer(self):
         installer = self._get_paas_installer_path()
         os.remove(installer)
-        
-    # copying the exisiting dynatrace-env.sh file        
+
+    # copying the exisiting dynatrace-env.sh file
     def adding_environment_variables(self):
         source      = os.path.join(self._ctx['BUILD_DIR'], 'dynatrace', 'oneagent', 'dynatrace-env.sh')
         dest        = os.path.join(self._ctx['BUILD_DIR'], '.profile.d', 'dynatrace-env.sh')
         dest_folder = os.path.join(self._ctx['BUILD_DIR'], '.profile.d')
         self.create_folder(dest_folder)
         os.rename(source, dest)
-        
-    # adding LD_PRELOAD to the exisiting dynatrace-env.sh file        
+
+    # adding LD_PRELOAD to the exisiting dynatrace-env.sh file
     def adding_ld_preload_settings(self):
         vcap_app = self._ctx.get('VCAP_APPLICATION', {})
         app_name = vcap_app.get('name', None)
@@ -126,7 +126,7 @@ class DynatraceInstaller(object):
         host_name  = '\nexport DT_HOST_ID=' + app_name + '_${CF_INSTANCE_INDEX}'
         with open(envfile, "a") as file:
             file.write(ld_preload + host_name)
-        
+
 # Extension Methods
 def compile(install):
     dynatrace = DynatraceInstaller(install.builder._ctx)
@@ -140,5 +140,5 @@ def compile(install):
         _log.info("Adding Dynatrace specific Environment Vars")
         dynatrace.adding_environment_variables()
         _log.info("Adding Dynatrace LD_PRELOAD settings")
-        dynatrace.adding_ld_preload_settings()        
+        dynatrace.adding_ld_preload_settings()
     return 0
