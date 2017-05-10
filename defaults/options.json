@@ -14,6 +14,6 @@
     "PHP_STRIP": true,
     "PHP_MODULES_STRIP": true,
     "PHP_MODULES": [],
-    "PHP_EXTENSIONS": ["bz2", "zlib", "curl", "mcrypt"],
+    "PHP_EXTENSIONS": ["bz2", "zlib", "curl", "mcrypt", "mysqli"],
     "ZEND_EXTENSIONS": []
 }
