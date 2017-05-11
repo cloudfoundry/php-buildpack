@@ -38,22 +38,27 @@ dependency_deprecation_dates:
   version_line: '5.6'
   name: php
   date: 2018-12-31
+  link: http://php.net/supported-versions.php
 - match: 7.0.\d+
   version_line: '7.0'
   name: php
   date: 2018-12-03
+  link: http://php.net/supported-versions.php
 - match: 7.1.\d+
   version_line: '7.1'
   name: php
   date: 2019-12-01
+  link: http://php.net/supported-versions.php
 - match: 6.3.0.161
   version_line: 6.3.0.161
   name: newrelic
   date: 2019-05-18
+  link: https://docs.newrelic.com/docs/agents/manage-apm-agents/maintenance/new-relic-agent-plugin-end-life-policy
 - match: 1.10.\d+
   version_line: '1.10'
   name: nginx
   date: 2017-04-26
+  link: https://www.nginx.com/blog/nginx-1-10-1-11-released/
 dependencies:
 - name: newrelic
   version: 6.3.0.161
