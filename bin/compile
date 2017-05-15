@@ -1,47 +1,13 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
+set -euo pipefail
 
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+BUILD_DIR=$1
+CACHE_DIR=$2
+BUILDPACK_DIR=`dirname $(dirname $0)`
+export DEPS_DIR="$BUILD_DIR/.cloudfoundry"
+mkdir -p "$DEPS_DIR/0"
+mkdir -p "$BUILD_DIR/.profile.d"
 
-# Wrapper script that launches Python Build Pack
-#  At the moment, this just launches the appropriate
-#  python script.  However, this is here in case the
-#  build pack needs to do anything to bootstrap the
-#  python scripts, like install Python.
-BP=$(dirname $(dirname $0))
-
-BUILD_DIR=${1:-}
-CACHE_DIR=${2:-}
-DEPS_DIR=${4:-}
-
-BUILDPACK_PATH=$BP
-export BUILDPACK_PATH
-source $BP/compile-extensions/lib/common
-
-$BP/compile-extensions/bin/check_stack_support
-$BP/compile-extensions/bin/check_buildpack_version $BP $CACHE_DIR
-
-if [ -n "$DEPS_DIR" ]; then
-  env_vars=$($BP/compile-extensions/bin/build_path_from_supply $DEPS_DIR)
-  for env_var in $env_vars; do
-    export $env_var
-  done
-  $BP/compile-extensions/bin/write_profiled_from_supply $DEPS_DIR $BUILD_DIR
-fi
-
-export PYTHONPATH=$BP/lib
-python $BP/scripts/compile.py $BUILD_DIR $CACHE_DIR
-$BP/compile-extensions/bin/store_buildpack_metadata $BP $CACHE_DIR
+$BUILDPACK_DIR/bin/finalize "$BUILD_DIR" "$CACHE_DIR" "$DEPS_DIR" 0
+echo "export DEPS_DIR=\$HOME/.cloudfoundry" > "$BUILD_DIR/.profile.d/0000_set-deps-dir.sh"

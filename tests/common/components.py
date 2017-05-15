@@ -26,10 +26,10 @@ class BuildPackAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/finalize_rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.profile.d/rewrite.sh')
+            .on_file(build_dir, '.profile.d/finalize_rewrite.sh')
             .line(0)
                 .contains('export PYTHONPATH=$HOME/.bp/lib'))  # noqa
 
@@ -55,10 +55,10 @@ class PhpAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/finalize_rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.profile.d/rewrite.sh')
+            .on_file(build_dir, '.profile.d/finalize_rewrite.sh')
             .any_line()
             .contains('$HOME/.bp/bin/rewrite "$HOME/php/etc"'))
 
@@ -75,10 +75,10 @@ class PhpAssertHelper(object):
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.profile.d', 'bp_env_vars.sh').exists()
+        fah.expect().path(build_dir, '.profile.d', 'finalize_bp_env_vars.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.profile.d', 'bp_env_vars.sh')
+            .on_file(build_dir, '.profile.d', 'finalize_bp_env_vars.sh')
             .any_line()
                 .equals('export '
                         'PATH=$PATH:$HOME/php/bin:$HOME/php/sbin\n')  # noqa
@@ -108,10 +108,10 @@ class HttpdAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/finalize_rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.profile.d/rewrite.sh')
+            .on_file(build_dir, '.profile.d/finalize_rewrite.sh')
             .any_line()
             .contains('$HOME/.bp/bin/rewrite "$HOME/httpd/conf"'))
 
@@ -128,10 +128,10 @@ class HttpdAssertHelper(object):
 
     def assert_contents_of_env_file(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.profile.d', 'bp_env_vars.sh').exists()
+        fah.expect().path(build_dir, '.profile.d', 'finalize_bp_env_vars.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.profile.d', 'bp_env_vars.sh')
+            .on_file(build_dir, '.profile.d', 'finalize_bp_env_vars.sh')
             .any_line()
             .equals('export HTTPD_SERVER_ADMIN=dan@mikusa.com\n'))
 
@@ -171,10 +171,10 @@ class NginxAssertHelper(object):
 
     def assert_start_script_is_correct(self, build_dir):
         fah = FileAssertHelper()
-        fah.expect().path(build_dir, '.profile.d/rewrite.sh').exists()
+        fah.expect().path(build_dir, '.profile.d/finalize_rewrite.sh').exists()
         tfah = TextFileAssertHelper()
         (tfah.expect()
-            .on_file(build_dir, '.profile.d/rewrite.sh')
+            .on_file(build_dir, '.profile.d/finalize_rewrite.sh')
             .any_line()
             .contains('$HOME/.bp/bin/rewrite "$HOME/nginx/conf"'))
 
