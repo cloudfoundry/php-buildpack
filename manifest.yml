@@ -19,10 +19,10 @@ default_versions:
   version: 2.4.25
 - name: newrelic
   version: 6.3.0.161
-- name: composer
-  version: 1.4.1
 - name: nginx
   version: 1.13.0
+- name: composer
+  version: 1.4.2
 url_to_dependency_map:
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
@@ -422,12 +422,6 @@ dependencies:
   - yaf
   - zip
   - zlib
-- name: composer
-  version: 1.4.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.4.1-0eedfb38.phar
-  md5: 0eedfb38e587faaecedd7d05ae0d4081
-  cf_stacks:
-  - cflinuxfs2
 - name: nginx
   version: 1.10.3
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.10.3-linux-x64-8619f7db.tgz
@@ -450,5 +444,11 @@ dependencies:
   version: 1.13.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.0-linux-x64-4debb822.tgz
   md5: 4debb822886a47e20f6bba8e9bf3577f
+  cf_stacks:
+  - cflinuxfs2
+- name: composer
+  version: 1.4.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.4.2-3a1d1c6c.phar
+  md5: 3a1d1c6cdccb462405eee5db90fcbd39
   cf_stacks:
   - cflinuxfs2
