@@ -88,7 +88,7 @@ class DynatraceInstaller(object):
     def download_paas_agent_installer(self):
         self.create_folder(os.path.join(self._ctx['BUILD_DIR'], 'dynatrace'))
         installer = self._get_paas_installer_path()
-        url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?Api-Token=' + self._ctx['DYNATRACE_TOKEN'] + '&bitness=64&include=php,nginx,apache'
+        url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?Api-Token=' + self._ctx['DYNATRACE_TOKEN'] + '&bitness=64&include=php&include=nginx&include=apache'
         req = urllib2.Request(url)
         res = urllib2.urlopen(req)
 
