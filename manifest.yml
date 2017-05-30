@@ -429,6 +429,12 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
 - name: nginx
+  version: 1.11.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.11.13-linux-x64-0ae5f6fb.tgz
+  md5: 0ae5f6fbae17cffb087fea4b9518b4f7
+  cf_stacks:
+  - cflinuxfs2
+- name: nginx
   version: 1.12.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.0-linux-x64-2206fa65.tgz
   md5: 2206fa655081d6638f97afaf63b4a879
