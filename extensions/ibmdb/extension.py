@@ -7,22 +7,27 @@ from build_pack_utils import utils
 from extension_helpers import ExtensionHelper
 
 PKGDOWNLOADS =  {
-    'IBMDB_REPO': 'https://github.com/fishfin/ibmdb-php-extensions',
-    #'IBMDB_CLIDRV_REPO': 'https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli',
-    #'IBMDB_CLIDRV1_DLFILE': 'linuxx64_odbc_cli.tar.gz',
-    #'IBMDB_CLIDRV1_DLURL': '{IBMDB_CLIDRV_REPO}/{IBMDB_CLIDRV_DLFILE}',
-    #'IBMDB_CLIDRV2_DLFILE': '',    # intentionally left blank
-    #'IBMDB_CLIDRV2_DLURL': '',     # intentionally left blank
-    'IBMDB_CLIDRV_VERSION': '11.1',
-    'IBMDB_CLIDRV1_DLFILE': 'linuxx64/ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDB_CLIDRV_VERSION}_1of2.tar.gz',
-    'IBMDB_CLIDRV1_DLURL': '{IBMDB_REPO}/raw/master/{IBMDB_CLIDRV1_DLFILE}',
-    'IBMDB_CLIDRV2_DLFILE': 'linuxx64/ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDB_CLIDRV_VERSION}_2of2.tar.gz',
-    'IBMDB_CLIDRV2_DLURL': '{IBMDB_REPO}/raw/master/{IBMDB_CLIDRV2_DLFILE}',
+    'IBMDBCLIDRIVER_VERSION': '11.1',
+    #'IBMDBCLIDRIVER_REPOSITORY': 'https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli',
+    #'IBMDBCLIDRIVER1_DLFILE': 'linuxx64_odbc_cli.tar.gz',
+    #'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/{IBMDBCLIDRIVER_DLFILE}',
+    #'IBMDBCLIDRIVER2_DLFILE': '',    # intentionally left blank
+    #'IBMDBCLIDRIVER2_DLURL': '',     # intentionally left blank
+    'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-php-extensions',
+    'IBMDBCLIDRIVER1_DLFILE': 'linuxx64/ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
+    'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER1_DLFILE}',
+    'IBMDBCLIDRIVER2_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_2of2.tar.gz',
+    'IBMDBCLIDRIVER2_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER2_DLFILE}',
 
-    'IBMEXTN_DLFILE': 'linuxx64/ibmdb-php-extensions-linuxx64.tar.gz',
-    'IBMEXTN_DLURL': '{IBMDB_REPO}/raw/master/{IBMEXTN_DLFILE}',
     'IBM_DB2_VERSION': '1.9.9',
+    'IBM_DB2_REPOSITORY': 'https://github.com/fishfin/ibmdb-php-extensions',
+    'IBM_DB2_DLFILE': 'linuxx64/ibm_db2-v{IBM_DB2_VERSION}.tar.gz',
+    'IBM_DB2_DLURL': '{IBM_DB2_REPOSITORY}/raw/master/{IBM_DB2_DLFILE}',
+
     'PDO_IBM_VERSION': '1.3.4',
+    'PDO_IBM_REPOSITORY': 'https://github.com/fishfin/ibmdb-php-extensions',
+    'PDO_IBM_DLFILE': 'linuxx64/pdo_ibm-v{PDO_IBM_VERSION}.tar.gz',
+    'PDO_IBM_DLURL': '{PDO_IBM_REPOSITORY}/raw/master/{PDO_IBM_DLFILE}',
 }
 
 class IBMDBInstaller(ExtensionHelper):
@@ -47,7 +52,7 @@ class IBMDBInstaller(ExtensionHelper):
         pkgdownloads = PKGDOWNLOADS
         pkgdownloads['COMPILATION_DIR'] = os.path.join(self._ctx['BUILD_DIR'], '.build_ibmdb_extension')
         pkgdownloads['DOWNLOAD_DIR'] = os.path.join('{COMPILATION_DIR}', '.downloads')        
-        pkgdownloads['IBMDB_CLIDRV_INSTALL_DIR'] = os.path.join(self._ctx['BUILD_DIR'], 'ibmdb_clidriver')
+        pkgdownloads['IBMDBCLIDRIVER_INSTALL_DIR'] = os.path.join(self._ctx['BUILD_DIR'], 'ibmdb_clidriver')
         pkgdownloads['PHPSOURCE_INSTALL_DIR'] = os.path.join('{COMPILATION_DIR}', 'php')
         pkgdownloads['IBM_DB2_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'ibm_db2')
         pkgdownloads['PDO_IBM_DLDIR'] = os.path.join('{PHPSOURCE_INSTALL_DIR}', 'ext', 'pdo_ibm')
@@ -148,11 +153,11 @@ class IBMDBInstaller(ExtensionHelper):
                 self._install_direct(
                     self._ctx[clidriverpart.upper() + '_DLURL'],
                     None,
-                    self._ctx['IBMDB_CLIDRV_INSTALL_DIR'],
+                    self._ctx['IBMDBCLIDRIVER_INSTALL_DIR'],
                     self._ctx[clidriverpart.upper() + '_DLFILE'],
                     True)
 
-        self._compilationEnv['IBM_DB_HOME'] = self._ctx['IBMDB_CLIDRV_INSTALL_DIR']
+        self._compilationEnv['IBM_DB_HOME'] = self._ctx['IBMDBCLIDRIVER_INSTALL_DIR']
         self._logMsg('-- Installed IBM DB CLI Drivers ------------------')
 
     def download_extensions(self):
