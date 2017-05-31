@@ -1,3 +1,96 @@
+v4.3.33 May 08, 2017
+=====================
+
+* Enhance GeoIP extension
+  (https://www.pivotaltracker.com/story/show/141942891)
+  (https://www.pivotaltracker.com/story/show/141942891)
+
+* Add dynatrace extension
+  (https://www.pivotaltracker.com/story/show/144465373)
+
+* Rebuild all php versions for new modules
+  (https://www.pivotaltracker.com/story/show/144601633)
+
+v4.3.32 May 01, 2017
+=====================
+
+* Allow more flexible PHP configuration
+  - .ini files in .bp-config/php/php.ini.d will be added to the config using PHP_INI_SCAN_DIR
+  - .conf files in .bp-config/php/fpm.d will be included in php-fpm.conf
+  - Add warning that PHP_EXTENSIONS in options.json is deprecated
+  (https://www.pivotaltracker.com/story/show/141979329)
+
+* Add nginx 1.13.0
+  (https://www.pivotaltracker.com/story/show/144290507)
+
+* Fix private ip space to be in accordance with best practices
+  (https://www.pivotaltracker.com/story/show/143949555)
+
+* Re-add nginx 1.10.x line to manifest.yml
+  (https://www.pivotaltracker.com/story/show/143590265)
+
+v4.3.31 Apr 18, 2017
+=====================
+
+* Add PHP 7.1.4 + 7.0.18, remove PHP 7.1.2 + 7.0.16
+  (https://www.pivotaltracker.com/story/show/143513693)
+  (https://www.pivotaltracker.com/story/show/143488233)
+
+* Add nginx 1.12.0, remove nginx 1.10.3
+  (https://www.pivotaltracker.com/story/show/143590265)
+
+* Add igbinary to PHP7 modules
+  (https://www.pivotaltracker.com/story/show/142891967)
+
+* Rebuild all php versions for new modules
+  (https://www.pivotaltracker.com/story/show/142891967)
+
+* Add nginx 1.11.13, remove nginx 1.11.12
+  (https://www.pivotaltracker.com/story/show/143052671)
+
+v4.3.30 Mar 27, 2017
+=====================
+
+* Add nginx 1.11.12, remove nginx 1.11.10
+  (https://www.pivotaltracker.com/story/show/142401589)
+
+* Add support for supply buildpacks
+  (https://www.pivotaltracker.com/story/show/141616657)
+
+* Disable `opcache.validate_timestamps` by default.
+  (https://www.pivotaltracker.com/story/show/141889325)
+
+v4.3.29 Mar 15, 2017
+=====================
+
+* Remove spurious 'extension is not provided' warning for extensions
+  compiled into PHP when case doesn't match
+
+  (https://www.pivotaltracker.com/story/show/140845631)
+
+* Add PHP 7.1.3, remove PHP 7.1.1
+  (https://www.pivotaltracker.com/story/show/141690141)
+
+* Add PHP 7.0.17, remove PHP 7.0.15
+  (https://www.pivotaltracker.com/story/show/141681989)
+
+* Add composer 1.4.1, remove composer 1.3.2
+  (https://www.pivotaltracker.com/story/show/141476165)
+  (https://www.pivotaltracker.com/story/show/141348573)
+  (https://www.pivotaltracker.com/story/show/141298707)
+
+* Rebuild all PHP versions for updated modules
+  (https://www.pivotaltracker.com/story/show/140832127)
+
+* Log warning if PHP version specified is invalid
+  - PHP versions can be specified in either the options.json or the
+  composer.json
+  (https://www.pivotaltracker.com/story/show/128186261)
+
+* Use semver when parsing version from composer.json
+  - replace '>=' with '~>' to maintain backwards compatibility
+  (https://www.pivotaltracker.com/story/show/140517213)
+
 v4.3.28 Feb 27, 2017
 =====================
 

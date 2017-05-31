@@ -15,6 +15,7 @@
 from __future__ import print_function
 import os
 import os.path
+import re
 import yaml
 import logging
 import glob
@@ -92,6 +93,10 @@ def validate_php_version(ctx):
         _log.warning('Selected version of PHP [%s] not available.  Defaulting'
                      ' to the latest version [%s]',
                      ctx['PHP_VERSION'], ctx['PHP_56_LATEST'])
+
+        docs_link = 'http://docs.cloudfoundry.org/buildpacks/php/gsg-php-tips.html'
+        warn_invalid_php_version(ctx['PHP_VERSION'], ctx['PHP_56_LATEST'], docs_link)
+
         ctx['PHP_VERSION'] = ctx['PHP_56_LATEST']
 
 
@@ -124,7 +129,7 @@ def _get_compiled_modules(ctx):
 
     for line in output.split("\n"):
         if line not in output_to_skip:
-            compiled_modules.append(line)
+            compiled_modules.append(line.lower())
 
     return compiled_modules
 
@@ -137,10 +142,40 @@ def validate_php_extensions(ctx):
     for extension in requested_extensions:
         if extension in supported_extensions:
             filtered_extensions.append(extension)
-        elif extension not in compiled_modules:
+        elif extension.lower() not in compiled_modules:
             print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
 
     ctx['PHP_EXTENSIONS'] = filtered_extensions
+
+
+def _parse_extensions_from_ini_file(file):
+    extensions = []
+    regex = re.compile(r'^extension\s*=\s*[\'\"]?(.*)\.so')
+
+    with open(file, 'r') as f:
+        for line in f:
+            matches = regex.findall(line)
+            if len(matches) == 1:
+                extensions.append(matches[0])
+
+    return extensions
+
+def validate_php_ini_extensions(ctx):
+    all_supported =  _get_supported_php_extensions(ctx) + _get_compiled_modules(ctx)
+    ini_files = glob.glob(os.path.join(ctx["BUILD_DIR"], '.bp-config', 'php', 'php.ini.d', '*.ini'))
+
+    for file in ini_files:
+        extensions = _parse_extensions_from_ini_file(file)
+        for ext in extensions:
+            if ext not in all_supported:
+                raise RuntimeError("The extension '%s' is not provided by this buildpack." % ext)
+
+
+def include_fpm_d_confs(ctx):
+    ctx['PHP_FPM_CONF_INCLUDE'] = ''
+    php_fpm_d_path = os.path.join(ctx['BUILD_DIR'], '.bp-config', 'php', 'fpm.d')
+    if len(glob.glob(os.path.join(php_fpm_d_path, '*.conf'))) > 0:
+        ctx['PHP_FPM_CONF_INCLUDE'] = 'include=fpm.d/*.conf'
 
 
 def convert_php_extensions(ctx):
@@ -174,3 +209,9 @@ def find_stand_alone_app_to_run(ctx):
                       ", ".join(possible_files))
             app = 'app.php'
     return app
+
+def warn_invalid_php_version(requested, default, docslink):
+    warning = ("WARNING: PHP version {} not available, using default version ({}). "
+               "In future versions of the buildpack, specifying a non-existent PHP version will cause staging to fail. "
+               "See: {}")
+    print(warning.format(requested, default, docslink))

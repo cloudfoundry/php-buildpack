@@ -15,6 +15,8 @@
 import os
 import string
 import json
+import glob
+from build_pack_utils import utils
 from compile_helpers import convert_php_extensions
 from compile_helpers import is_web_app
 from compile_helpers import find_stand_alone_app_to_run
@@ -22,6 +24,8 @@ from compile_helpers import load_manifest
 from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_extensions
+from compile_helpers import validate_php_ini_extensions
+from compile_helpers import include_fpm_d_confs
 from extension_helpers import ExtensionHelper
 
 def find_composer_paths(ctx):
@@ -100,6 +104,11 @@ class PHPExtension(ExtensionHelper):
         }
         if 'snmp' in self._ctx['PHP_EXTENSIONS']:
             env['MIBDIRS'] = '$HOME/php/mibs'
+
+        php_ini_d_path = os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc', 'php.ini.d')
+        if os.path.exists(php_ini_d_path):
+            env['PHP_INI_SCAN_DIR'] = '$HOME/php/etc/php.ini.d/'
+
         return env
 
     def _compile(self, install):
@@ -117,6 +126,9 @@ class PHPExtension(ExtensionHelper):
                 print('WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.')
                 print('WARNING: The version defined in `composer.json` will be used.')
 
+        if ctx.get('OPTIONS_JSON_HAS_PHP_EXTENSIONS', False):
+            print("Warning: PHP_EXTENSIONS in options.json is deprecated. See: http://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html")
+
         print 'Installing PHP'
         validate_php_version(ctx)
         print 'PHP %s' % (ctx['PHP_VERSION'])
@@ -127,8 +139,11 @@ class PHPExtension(ExtensionHelper):
             .package('PHP')
             .done())
 
+        validate_php_ini_extensions(ctx)
         validate_php_extensions(ctx)
         convert_php_extensions(ctx)
+        include_fpm_d_confs(ctx)
+
         (install
             .config()
                 .from_application('.bp-config/php')  # noqa
@@ -136,6 +151,7 @@ class PHPExtension(ExtensionHelper):
                 .to('php/etc')
                 .rewrite()
                 .done())
+
         return 0
 
 

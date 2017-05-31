@@ -20,9 +20,9 @@ default_versions:
 - name: newrelic
   version: 6.3.0.161
 - name: composer
-  version: 1.3.2
+  version: 1.4.1
 - name: nginx
-  version: 1.11.10
+  version: 1.13.0
 url_to_dependency_map:
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
@@ -69,8 +69,8 @@ dependencies:
   md5: bf8851c45e4ef8279ae0daadc833c99e
 - name: php
   version: 5.6.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-9e97a275.tgz
-  md5: 9e97a2750c1743e2dbd26e55b585f6cf
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-985f55e6.tgz
+  md5: 985f55e62744e17cd45d1e347c424aa2
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -138,8 +138,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.29-linux-x64-97e3844e.tgz
-  md5: 97e3844eb21a281e7a8e0368c93dc888
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.29-linux-x64-3c75917b.tgz
+  md5: 3c75917bd93dffabb89933cedceff081
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -206,9 +206,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.0.15
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.15-linux-x64-87ba706e.tgz
-  md5: 87ba706ed7d4f40d1b83c8fbddb12e47
+  version: 7.0.17
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.17-linux-x64-dff43763.tgz
+  md5: dff4376331a2475860972aae9090b4f7
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -225,6 +225,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ioncube
@@ -259,9 +260,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.0.16
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.16-linux-x64-9ac5055c.tgz
-  md5: 9ac5055c9169c28f1cfd90d70a4ba718
+  version: 7.0.18
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.18-linux-x64-01f33f92.tgz
+  md5: 01f33f926800a9368b9b9a9bd7d25261
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -278,6 +279,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ioncube
@@ -312,9 +314,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.1.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.2-linux-x64-62ad9a7e.tgz
-  md5: 62ad9a7e3d30861863d9f6b5817b31af
+  version: 7.1.4
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.4-linux-x64-91575c84.tgz
+  md5: 91575c84f97a007d8bd950c46ebecf89
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -331,6 +333,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ldap
@@ -363,9 +366,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.1.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.1-linux-x64-a46d03c7.tgz
-  md5: a46d03c791a05807ddb61c82c64d2632
+  version: 7.1.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.3-linux-x64-e0f784eb.tgz
+  md5: e0f784ebf2eb7d27956fb1a5a3a96f90
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -382,6 +385,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - igbinary
   - imagick
   - imap
   - ldap
@@ -414,9 +418,9 @@ dependencies:
   - zip
   - zlib
 - name: composer
-  version: 1.3.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.3.2-9bd78ef1.phar
-  md5: 9bd78ef17ad0194fcf78816694b443db
+  version: 1.4.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.4.1-0eedfb38.phar
+  md5: 0eedfb38e587faaecedd7d05ae0d4081
   cf_stacks:
   - cflinuxfs2
 - name: nginx
@@ -426,8 +430,20 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
 - name: nginx
-  version: 1.11.10
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.11.10-linux-x64-4e34e08b.tgz
-  md5: 4e34e08b0ec58e107c59a752af12aa43
+  version: 1.11.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.11.13-linux-x64-0ae5f6fb.tgz
+  md5: 0ae5f6fbae17cffb087fea4b9518b4f7
+  cf_stacks:
+  - cflinuxfs2
+- name: nginx
+  version: 1.12.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.0-linux-x64-2206fa65.tgz
+  md5: 2206fa655081d6638f97afaf63b4a879
+  cf_stacks:
+  - cflinuxfs2
+- name: nginx
+  version: 1.13.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.0-linux-x64-4debb822.tgz
+  md5: 4debb822886a47e20f6bba8e9bf3577f
   cf_stacks:
   - cflinuxfs2
