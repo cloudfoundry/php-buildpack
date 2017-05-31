@@ -16,7 +16,7 @@ PKGDOWNLOADS =  {
     'IBMDBCLIDRIVER_REPOSITORY': 'https://github.com/fishfin/ibmdb-php-extensions',
     'IBMDBCLIDRIVER1_DLFILE': 'linuxx64/ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_1of2.tar.gz',
     'IBMDBCLIDRIVER1_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER1_DLFILE}',
-    'IBMDBCLIDRIVER2_DLFILE': 'ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_2of2.tar.gz',
+    'IBMDBCLIDRIVER2_DLFILE': 'linuxx64/ibm_data_server_driver_for_odbc_cli_linuxx64_v{IBMDBCLIDRIVER_VERSION}_2of2.tar.gz',
     'IBMDBCLIDRIVER2_DLURL': '{IBMDBCLIDRIVER_REPOSITORY}/raw/master/{IBMDBCLIDRIVER2_DLFILE}',
 
     'IBM_DB2_VERSION': '1.9.9',
