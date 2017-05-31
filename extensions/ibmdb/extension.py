@@ -21,7 +21,7 @@ PKGDOWNLOADS =  {
 
     'IBMEXTN_REPOSITORY': 'https://github.com/fishfin/ibmdb-php-extensions-linuxx64',
     'IBMEXTN_DLFILE': 'linuxx64/ibmdb-php-extensions-linuxx64.tar.gz',
-    'IBMEXTN_DLURL': '{IBM_DB2_REPOSITORY}/raw/master/{IBMEXTN_DLFILE}',
+    'IBMEXTN_DLURL': '{IBMDB_REPOSITORY}/raw/master/{IBMEXTN_DLFILE}',
     'IBM_DB2_VERSION': '1.9.9',
     'PDO_IBM_VERSION': '1.3.4',
 }
