@@ -5,7 +5,7 @@
 
 
 ## Cloud Foundry PHP Buildpack with pre-integrated extensions for IBM Relational Databases
-This buildpack is a fork of [https://github.com/cloudfoundry/php-buildpack](https://github.com/cloudfoundry/php-buildpack), v4.3.28, last updated on 28-Feb-2017. It automatically copies the correct versions of `ibm_db2.so` and `pdo_ibm.so` to the PHP Extensions directory, and IBM CLI Drivers to BP_DIR/ibm\_clidrivers.
+This buildpack is a fork of [https://github.com/cloudfoundry/php-buildpack](https://github.com/cloudfoundry/php-buildpack), v4.3.33, last updated on 31-May-2017. It automatically copies the correct versions of `ibm_db2.so` and `pdo_ibm.so` to the PHP Extensions directory, and IBM CLI Drivers to BP_DIR/ibm\_clidrivers.
 
 The buildpack currently supports the following PHP versions: `5.6.29`, `5.6.30`, `7.0.17`, `7.0.18`, `7.1.3` and `7.1.4`.
 
