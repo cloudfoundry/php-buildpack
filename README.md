@@ -6,7 +6,7 @@ A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a
 
 ### Buildpack User Documentation
 
-Official buildpack documentation can be found at http://docs.cloudfoundry.org/buildpacks/php/index.html.
+Official buildpack documentation can be found at [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html.
 
 ### Building the Buildpack
 
@@ -242,7 +242,7 @@ def compile(install):
 
 ### Help and Support
 
-Join the #buildpacks channel in our [Slack community] (http://slack.cloudfoundry.org/) 
+Join the #buildpacks channel in our [Slack community](http://slack.cloudfoundry.org/) 
 
 ### Reporting Issues
 
