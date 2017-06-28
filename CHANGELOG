@@ -1,3 +1,18 @@
+v4.3.36 Jun 28, 2017
+=====================
+
+* Add nginx 1.13.2, remove nginx 1.13.1, 1.10.3, and 1.11.13
+  (https://www.pivotaltracker.com/story/show/147928939)
+  (https://www.pivotaltracker.com/story/show/145128617)
+
+* Add php 7.1.6 and 7.0.20, remove php 7.1.4 and 7.0.18
+  * Add httpd 2.4.26, remove 2.4.25
+  * Rebuild phps for new Cassandra driver
+  (https://www.pivotaltracker.com/story/show/146754721)
+  (https://www.pivotaltracker.com/story/show/146685849)
+  (https://www.pivotaltracker.com/story/show/147136505)
+  (https://www.pivotaltracker.com/story/show/147405177)
+
 v4.3.35 Jun 15, 2017
 =====================
 
