@@ -16,7 +16,7 @@ default_versions:
 - name: php
   version: 5.6.30
 - name: httpd
-  version: 2.4.26
+  version: 2.4.27
 - name: newrelic
   version: 7.4.0.198
 - name: composer
@@ -67,11 +67,11 @@ dependencies:
   - cflinuxfs2
   md5: 62c74d5cd92f45ce50386ffc477b5583
 - name: httpd
-  version: 2.4.26
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.26-linux-x64-4695409f.tgz
+  version: 2.4.27
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.27-linux-x64-ebe06494.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: 4695409f0c2794761ea91740375b86d0
+  md5: ebe0649419b5192d39a6c075b3de7ab4
 - name: php
   version: 5.6.30
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-ae7f1cf1.tgz
