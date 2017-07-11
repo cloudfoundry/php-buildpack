@@ -302,8 +302,8 @@ default_versions:
 
 dependencies:
 - name: newrelic
-  version: 7.4.0.198
-  uri: https://download.newrelic.com/php_agent/archive/7.4.0.198/newrelic-php5-7.4.0.198-linux.tar.gz
+  version: 6.3.0.161
+  uri: https://download.newrelic.com/php_agent/archive/6.3.0.161/newrelic-php5-6.3.0.161-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
   md5: 3640d3cad6b5199f54a6b54a627235d6
@@ -324,8 +324,8 @@ default_versions:
 
 dependencies:
 - name: newrelic
-  version: 7.4.0.198
-  uri: https://download.newrelic.com/php_agent/archive/7.4.0.198/newrelic-php5-7.4.0.198-linux.tar.gz
+  version: 6.3.0.161
+  uri: https://download.newrelic.com/php_agent/archive/6.3.0.161/newrelic-php5-6.3.0.161-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
   md5: 3640d3cad6b5199f54a6b54a627235d6
