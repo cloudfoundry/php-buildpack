@@ -20,7 +20,7 @@ default_versions:
 - name: httpd
   version: 2.4.23
 - name: newrelic
-  version: 6.3.0.161
+  version: 7.4.0.198
 - name: composer
   version: 9.9.9
 url_to_dependency_map:

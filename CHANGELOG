@@ -1,3 +1,9 @@
+UNRELEASED
+=====================
+
+* Add newrelic 7.4.0.198, remove newrelic 6.3.0.161
+  (https://www.pivotaltracker.com/story/show/147822451)
+
 v4.3.37 Jul 10, 2017
 =====================
 
@@ -155,10 +161,10 @@ v4.3.29 Mar 15, 2017
 v4.3.28 Feb 27, 2017
 =====================
 
-* Add geoip PECL extension 
+* Add geoip PECL extension
   (https://www.pivotaltracker.com/story/show/138843171)
 
-* Ensure buildpack does not warn about extensions that are compiled into PHP 
+* Ensure buildpack does not warn about extensions that are compiled into PHP
   (https://www.pivotaltracker.com/story/show/138757115)
 
 * Add nginx 1.11.10, remove nginx 1.11.9
@@ -461,7 +467,7 @@ v4.3.14 Jun 02, 2016
   (https://www.pivotaltracker.com/story/show/120614839)
   (https://www.pivotaltracker.com/story/show/120624623)
 
-* Updating New Relic extension from v4.23.3.111 to v6.3.0.161
+* Updating New Relic extension from v4.23.3.111 to v7.4.0.198
   (https://www.pivotaltracker.com/story/show/119709645)
 
 * Update composer to 1.1.2
