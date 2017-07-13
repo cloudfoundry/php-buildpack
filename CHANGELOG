@@ -1,3 +1,28 @@
+v4.3.38 Jul 13, 2017
+=====================
+
+* Add php 5.6.21, 7.0.21, 7.1.7 and remove php 5.6.19, 7.0.19, 7.1.5
+  (https://www.pivotaltracker.com/story/show/148386783)
+  (https://www.pivotaltracker.com/story/show/148292817)
+  (https://www.pivotaltracker.com/story/show/148307943)
+
+* Rebuild all PHPs for updated modules
+  - amqp
+  - xdebug
+  - yaf
+  - phalcon
+  - twig
+  (https://www.pivotaltracker.com/story/show/148353651)
+
+* Add httpd 2.4.27, remove httpd 2.4.26
+  (https://www.pivotaltracker.com/story/show/148433893)
+
+* Add nginx 1.13.3, remove nginx 1.13.2
+  (https://www.pivotaltracker.com/story/show/148679499)
+
+* Update newrelic agent version to 7.4.0.198
+  (https://www.pivotaltracker.com/story/show/147822451)
+
 v4.3.37 Jul 10, 2017
 =====================
 
