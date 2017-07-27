@@ -74,8 +74,8 @@ dependencies:
   md5: ebe0649419b5192d39a6c075b3de7ab4
 - name: php
   version: 5.6.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-6807362b.tgz
-  md5: 6807362b3d491d90044fc343d41b6b90
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-ef729cf7.tgz
+  md5: ef729cf7f27680a1be39a1875067e24c
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -116,6 +116,7 @@ dependencies:
   - pdo
   - pdo_dblib
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -143,8 +144,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.31
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.31-linux-x64-c495c457.tgz
-  md5: c495c4570e13ed32b0071a664f973a46
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.31-linux-x64-e7df655a.tgz
+  md5: e7df655a49afe8f575d688ecab64b4f1
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -185,6 +186,7 @@ dependencies:
   - pdo
   - pdo_dblib
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -212,8 +214,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.21
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.21-linux-x64-967375bc.tgz
-  md5: 967375bc94f2dfe0989120354161d8fa
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.21-linux-x64-b3b0dca6.tgz
+  md5: b3b0dca6df86c6cecdabd81cc72bf59e
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -247,6 +249,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -266,8 +269,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.20
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.20-linux-x64-68aa314e.tgz
-  md5: 68aa314ee19cc0fbdce579bffc1790d6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.20-linux-x64-a58d1bda.tgz
+  md5: a58d1bda9405427b61ce941cea3648c1
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -301,6 +304,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -320,8 +324,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.6
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.6-linux-x64-5e2a5f39.tgz
-  md5: 5e2a5f39ab171aee5972840f28fcd71b
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.6-linux-x64-764b7206.tgz
+  md5: 764b7206843cab9f14c2a5f44be6f901
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -354,6 +358,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -372,8 +377,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.7
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.7-linux-x64-f56b6cf4.tgz
-  md5: f56b6cf44b17ee1e87fcf32503615612
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.7-linux-x64-668d6480.tgz
+  md5: 668d6480c53b3ea51c38f92908c53a1a
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -406,6 +411,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
