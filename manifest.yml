@@ -27,6 +27,9 @@ url_to_dependency_map:
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
   version: "$1"
+- match: CA-APM-PHPAgent-(\d+\.\d+\.\d+)_linux
+  name: CAAPM
+  version: "$1"
 - match: "([^\\/]*)-(\\d+\\.\\d+\\.\\d+)"
   name: "$1"
   version: "$2"
@@ -66,6 +69,12 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   md5: 62c74d5cd92f45ce50386ffc477b5583
+- name: CAAPM
+  version: 10.5.2
+  uri: https://bintray.com/ca/apm-agents/download_file?file_path=CA-APM-PHPAgent-10.5.2_linux.tar.gz  
+  cf_stacks:
+  - cflinuxfs2 
+  md5: e1f1a08233c58f96cbb3b91927c73e90  
 - name: httpd
   version: 2.4.27
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.27-linux-x64-ebe06494.tgz
