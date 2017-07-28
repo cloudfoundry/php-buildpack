@@ -71,10 +71,10 @@ dependencies:
   md5: 62c74d5cd92f45ce50386ffc477b5583
 - name: CAAPM
   version: 10.5.2
-  uri: https://bintray.com/ca/apm-agents/download_file?file_path=CA-APM-PHPAgent-10.5.2_linux.tar.gz  
+  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-10.5.2_linux.tar.gz  
   cf_stacks:
   - cflinuxfs2 
-  md5: e1f1a08233c58f96cbb3b91927c73e90  
+  md5: 4977e51256be34da64d7e2bc3aa709e4  
 - name: httpd
   version: 2.4.27
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.27-linux-x64-ebe06494.tgz
