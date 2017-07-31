@@ -11,10 +11,10 @@ GIT
 
 GIT
   remote: https://github.com/cloudfoundry/machete
-  revision: d3350a2c4ed9669ee318994820e8607971031071
-  tag: v0.0.69
+  revision: e904dde5a150ab57ef00ee6ebff33deeb429ee90
+  tag: v0.0.70
   specs:
-    machete (0.0.69)
+    machete (0.0.70)
       childprocess
       httparty
 
@@ -32,7 +32,7 @@ GEM
     diff-lcs (1.2.5)
     excon (0.51.0)
     ffi (1.9.18)
-    httparty (0.15.5)
+    httparty (0.15.6)
       multi_xml (>= 0.5.2)
     i18n (0.8.6)
     kwalify (0.7.2)
@@ -82,4 +82,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.2
+   1.15.3
