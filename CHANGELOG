@@ -1,3 +1,9 @@
+v4.3.39 Jul 31, 2017
+=====================
+
+* Add UnixODBC and PHP's pdo_odbc extension
+  (https://www.pivotaltracker.com/story/show/149227375)
+
 v4.3.38 Jul 13, 2017
 =====================
 
