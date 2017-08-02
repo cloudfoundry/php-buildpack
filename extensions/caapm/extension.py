@@ -59,11 +59,25 @@ class CAAPMInstaller(PHPExtensionHelper):
         It should return true if the payload of the extension should
         be installed (i.e. the `install` method is called).
         """
+	if (CAAPMInstaller._supportedVersion is None):
+	    phpver = self._ctx['PHP_VERSION']	   		
+	    if (phpver == self._ctx['PHP_56_LATEST']) or (phpver.startswith('5.6')):
+	        CAAPMInstaller._supportedVersion = True
+	    else:
+		print("CA APM PHP Agent doesn't support PHP Version %s." % phpver)
+		_log.info("CA APM PHP Agent doesn't support PHP Version %s.", phpver)
+	        CAAPMInstaller._supportedVersion = False		 
+	        return CAAPMInstaller._supportedVersion
+	        
+	
+	if not CAAPMInstaller._supportedVersion:
+	    return CAAPMInstaller._supportedVersion
+
         if CAAPMInstaller._detected is None:
             VCAP_SERVICES_STRING = str(self._services)
             if bool(re.search(CAAPMInstaller._FILTER, VCAP_SERVICES_STRING)):
-                print("CA APM service _detected")
-                _log.info("CA APM service _detected")
+                print("CA APM service detected")
+                _log.info("CA APM service detected")
                 CAAPMInstaller._detected = True
             else:
                 CAAPMInstaller._detected = False
