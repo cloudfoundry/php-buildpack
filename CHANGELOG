@@ -1,3 +1,28 @@
+v4.3.40 Aug 14, 2017
+=====================
+
+* Add composer 1.5.1, remove composer 1.4.2
+  (https://www.pivotaltracker.com/story/show/150115952)
+  (https://www.pivotaltracker.com/story/show/150039477)
+  (https://www.pivotaltracker.com/story/show/149987727)
+
+* Add nginx 1.13.4, remove nginx 1.13.3
+  (https://www.pivotaltracker.com/story/show/150049446)
+
+* Set LATEST php versions
+
+* Add PHP 7.1.8, Remove PHP 7.1.6
+  (https://www.pivotaltracker.com/story/show/149857562)
+
+* Add PHP 7.0.22, Remove PHP 7.0.20
+  (https://www.pivotaltracker.com/story/show/149843198)
+
+* Reuild all PHPs for updated modules
+  - librdkafka
+  - luapecl
+  - redis
+  (https://www.pivotaltracker.com/story/show/149839584)
+
 v4.3.39 Jul 31, 2017
 =====================
 
