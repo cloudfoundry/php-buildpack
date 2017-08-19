@@ -43,4 +43,6 @@ def compile(install):
             .to('nginx/conf')
             .rewrite()
             .done())
+
+    print 'NGINX %s' % (install.builder._ctx['NGINX_VERSION'])
     return 0

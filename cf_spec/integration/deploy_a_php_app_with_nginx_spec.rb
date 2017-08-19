@@ -28,6 +28,10 @@ describe 'CF PHP Buildpack' do
       expect(@app).to have_logged 'Installing Nginx'
     end
 
+    it 'logs NginX version' do
+      expect(@app).to have_logged /NGINX \d+\.\d+\.\d+/
+    end
+
     it 'the root endpoint renders a dynamic message' do
       browser.visit_path('/')
       expect(browser).to have_body('PHP Version')

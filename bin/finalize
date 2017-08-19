@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -21,6 +22,30 @@
 #  build pack needs to do anything to bootstrap the
 #  python scripts, like install Python.
 BP=$(dirname $(dirname $0))
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+DEPS_DIR=${3:-}
+
+BUILDPACK_PATH=$BP
+export BUILDPACK_PATH
+source $BP/compile-extensions/lib/common
+
+$BP/compile-extensions/bin/check_stack_support
+$BP/compile-extensions/bin/check_buildpack_version $BP $CACHE_DIR
+
+env_vars=$($BP/compile-extensions/bin/build_path_from_supply $DEPS_DIR)
+for env_var in $env_vars; do
+  export $env_var
+done
+
 export PYTHONPATH=$BP/lib
 
-python $BP/scripts/release.py $1
+python $BP/scripts/compile.py $BUILD_DIR $CACHE_DIR
+
+pushd $BUILD_DIR/.profile.d > /dev/null
+  for f in *; do mv "$f" "finalize_$f"; done
+popd > /dev/null
+
+$BP/compile-extensions/bin/write_profiled_from_supply $DEPS_DIR $BUILD_DIR
+$BP/compile-extensions/bin/store_buildpack_metadata $BP $CACHE_DIR

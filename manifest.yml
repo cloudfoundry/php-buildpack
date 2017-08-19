@@ -14,15 +14,15 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 5.6.30
+  version: 5.6.31
 - name: httpd
-  version: 2.4.25
+  version: 2.4.27
 - name: newrelic
-  version: 6.3.0.161
-- name: composer
-  version: 1.4.1
+  version: 7.4.0.198
 - name: nginx
-  version: 1.13.0
+  version: 1.13.4
+- name: composer
+  version: 1.5.1
 url_to_dependency_map:
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
@@ -38,39 +38,44 @@ dependency_deprecation_dates:
   version_line: '5.6'
   name: php
   date: 2018-12-31
+  link: http://php.net/supported-versions.php
 - match: 7.0.\d+
   version_line: '7.0'
   name: php
   date: 2018-12-03
+  link: http://php.net/supported-versions.php
 - match: 7.1.\d+
   version_line: '7.1'
   name: php
   date: 2019-12-01
-- match: 6.3.0.161
-  version_line: 6.3.0.161
+  link: http://php.net/supported-versions.php
+- match: 7.4.0.198
+  version_line: 7.4.0.198
   name: newrelic
   date: 2019-05-18
+  link: https://docs.newrelic.com/docs/agents/manage-apm-agents/maintenance/new-relic-agent-plugin-end-life-policy
 - match: 1.10.\d+
   version_line: '1.10'
   name: nginx
   date: 2017-04-26
+  link: https://www.nginx.com/blog/nginx-1-10-1-11-released/
 dependencies:
 - name: newrelic
-  version: 6.3.0.161
-  uri: https://download.newrelic.com/php_agent/archive/6.3.0.161/newrelic-php5-6.3.0.161-linux.tar.gz
+  version: 7.4.0.198
+  uri: https://download.newrelic.com/php_agent/archive/7.4.0.198/newrelic-php5-7.4.0.198-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
-  md5: 3640d3cad6b5199f54a6b54a627235d6
+  md5: 62c74d5cd92f45ce50386ffc477b5583
 - name: httpd
-  version: 2.4.25
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.25-linux-x64-bf8851c4.tgz
+  version: 2.4.27
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.27-linux-x64-ebe06494.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: bf8851c45e4ef8279ae0daadc833c99e
+  md5: ebe0649419b5192d39a6c075b3de7ab4
 - name: php
   version: 5.6.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-985f55e6.tgz
-  md5: 985f55e62744e17cd45d1e347c424aa2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-e9c5348c.tgz
+  md5: e9c5348c140aeae5caf7478dee123be1
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -111,6 +116,7 @@ dependencies:
   - pdo
   - pdo_dblib
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -137,9 +143,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 5.6.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.29-linux-x64-3c75917b.tgz
-  md5: 3c75917bd93dffabb89933cedceff081
+  version: 5.6.31
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.31-linux-x64-2ed515dd.tgz
+  md5: 2ed515dd61fd09206b8f38edf9de6fee
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -180,6 +186,7 @@ dependencies:
   - pdo
   - pdo_dblib
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -206,9 +213,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.0.17
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.17-linux-x64-dff43763.tgz
-  md5: dff4376331a2475860972aae9090b4f7
+  version: 7.0.21
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.21-linux-x64-dbfb9bb6.tgz
+  md5: dbfb9bb60d65b19d9063d0e554ff6b40
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -242,6 +249,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -260,9 +268,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.0.18
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.18-linux-x64-01f33f92.tgz
-  md5: 01f33f926800a9368b9b9a9bd7d25261
+  version: 7.0.22
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.22-linux-x64-caab9b2d.tgz
+  md5: caab9b2d1bd055a7264c8f1391432895
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -296,6 +304,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -314,9 +323,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.1.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.4-linux-x64-91575c84.tgz
-  md5: 91575c84f97a007d8bd950c46ebecf89
+  version: 7.1.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.8-linux-x64-57a2bc10.tgz
+  md5: 57a2bc10745133e793255255b76e59fc
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -349,6 +358,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -366,9 +376,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.1.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.3-linux-x64-e0f784eb.tgz
-  md5: e0f784ebf2eb7d27956fb1a5a3a96f90
+  version: 7.1.7
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.7-linux-x64-115cd26c.tgz
+  md5: 115cd26c80953f23666800ceeb7a65cc
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -401,6 +411,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
@@ -417,24 +428,6 @@ dependencies:
   - yaf
   - zip
   - zlib
-- name: composer
-  version: 1.4.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.4.1-0eedfb38.phar
-  md5: 0eedfb38e587faaecedd7d05ae0d4081
-  cf_stacks:
-  - cflinuxfs2
-- name: nginx
-  version: 1.10.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.10.3-linux-x64-8619f7db.tgz
-  md5: 8619f7db4c1249e66b74235922b36b12
-  cf_stacks:
-  - cflinuxfs2
-- name: nginx
-  version: 1.11.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.11.13-linux-x64-0ae5f6fb.tgz
-  md5: 0ae5f6fbae17cffb087fea4b9518b4f7
-  cf_stacks:
-  - cflinuxfs2
 - name: nginx
   version: 1.12.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.0-linux-x64-2206fa65.tgz
@@ -442,8 +435,14 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
 - name: nginx
-  version: 1.13.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.0-linux-x64-4debb822.tgz
-  md5: 4debb822886a47e20f6bba8e9bf3577f
+  version: 1.13.4
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.4-linux-x64-3b4180ad.tgz
+  md5: 3b4180ad6025758250698d0c4e143244
+  cf_stacks:
+  - cflinuxfs2
+- name: composer
+  version: 1.5.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.5.1-43e330d8.phar
+  md5: 43e330d8c79d008dd810f0479f5cb003
   cf_stacks:
   - cflinuxfs2

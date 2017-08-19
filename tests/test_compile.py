@@ -149,7 +149,7 @@ class TestCompileWithProfileD(BaseCompileApp):
         ErrorHelper().compile(self.bp)
         fah = FileAssertHelper()
         fah.expect().path(self.build_dir, '.profile.d',
-                          'dontdelete.sh').exists()
+                          'finalize_dontdelete.sh').exists()
 
 
 class TestCompileWithInvalidJSON(BaseCompileApp):

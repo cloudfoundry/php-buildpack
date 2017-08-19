@@ -1,3 +1,120 @@
+v4.3.40 Aug 14, 2017
+=====================
+
+* Add composer 1.5.1, remove composer 1.4.2
+  (https://www.pivotaltracker.com/story/show/150115952)
+  (https://www.pivotaltracker.com/story/show/150039477)
+  (https://www.pivotaltracker.com/story/show/149987727)
+
+* Add nginx 1.13.4, remove nginx 1.13.3
+  (https://www.pivotaltracker.com/story/show/150049446)
+
+* Set LATEST php versions
+
+* Add PHP 7.1.8, Remove PHP 7.1.6
+  (https://www.pivotaltracker.com/story/show/149857562)
+
+* Add PHP 7.0.22, Remove PHP 7.0.20
+  (https://www.pivotaltracker.com/story/show/149843198)
+
+* Reuild all PHPs for updated modules
+  - librdkafka
+  - luapecl
+  - redis
+  (https://www.pivotaltracker.com/story/show/149839584)
+
+v4.3.39 Jul 31, 2017
+=====================
+
+* Add UnixODBC and PHP's pdo_odbc extension
+  (https://www.pivotaltracker.com/story/show/149227375)
+
+v4.3.38 Jul 13, 2017
+=====================
+
+* Add php 5.6.21, 7.0.21, 7.1.7 and remove php 5.6.19, 7.0.19, 7.1.5
+  (https://www.pivotaltracker.com/story/show/148386783)
+  (https://www.pivotaltracker.com/story/show/148292817)
+  (https://www.pivotaltracker.com/story/show/148307943)
+
+* Rebuild all PHPs for updated modules
+  - amqp
+  - xdebug
+  - yaf
+  - phalcon
+  - twig
+  (https://www.pivotaltracker.com/story/show/148353651)
+
+* Add httpd 2.4.27, remove httpd 2.4.26
+  (https://www.pivotaltracker.com/story/show/148433893)
+
+* Add nginx 1.13.3, remove nginx 1.13.2
+  (https://www.pivotaltracker.com/story/show/148679499)
+
+* Update newrelic agent version to 7.4.0.198
+  (https://www.pivotaltracker.com/story/show/147822451)
+
+v4.3.37 Jul 10, 2017
+=====================
+
+* Log NGINX version during staging
+  (https://www.pivotaltracker.com/story/show/133860537)
+
+
+v4.3.36 Jun 28, 2017
+=====================
+
+* Add nginx 1.13.2, remove nginx 1.13.1, 1.10.3, and 1.11.13
+  (https://www.pivotaltracker.com/story/show/147928939)
+  (https://www.pivotaltracker.com/story/show/145128617)
+
+* Add php 7.1.6 and 7.0.20, remove php 7.1.4 and 7.0.18
+  * Add httpd 2.4.26, remove 2.4.25
+  * Rebuild phps for new Cassandra driver
+  (https://www.pivotaltracker.com/story/show/146754721)
+  (https://www.pivotaltracker.com/story/show/146685849)
+  (https://www.pivotaltracker.com/story/show/147136505)
+  (https://www.pivotaltracker.com/story/show/147405177)
+
+v4.3.35 Jun 15, 2017
+=====================
+
+* Rollback cassandra update
+  Latest cassandra/cppdriver combo appears not to work with PHP 5.6 and 7.x
+  (https://www.pivotaltracker.com/story/show/146861779)
+
+* Rebuild all PHPs for updated modules
+  - rdkafka
+  - xdebug
+  - mongodb
+  - ioncube
+  (https://www.pivotaltracker.com/story/show/146443447)
+
+v4.3.34 Jun 02, 2017
+=====================
+
+* Updated the dynatrace agent download url
+  (https://www.pivotaltracker.com/story/show/146008405)
+
+* Bug fix: Ensure ordering of extensions. Composer must run last
+  (https://www.pivotaltracker.com/story/show/145511797)
+
+* Add Multi buildpack support
+  (https://www.pivotaltracker.com/story/show/142852347)
+
+* Add EOL links to deprecation warnings
+  (https://www.pivotaltracker.com/story/show/144943203)
+
+* Add php 7.0.19, 7.1.5 and Remove 7.0.17, 7.1.3
+  (https://www.pivotaltracker.com/story/show/145114047)
+  (https://www.pivotaltracker.com/story/show/145117193)
+
+* Add nginx 1.13.1, 1.13.0
+  (https://www.pivotaltracker.com/story/show/146295321)
+
+* Add composer 1.4.2, remove composer 1.4.1
+  (https://www.pivotaltracker.com/story/show/145579479)
+
 v4.3.33 May 08, 2017
 =====================
 
