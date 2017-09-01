@@ -244,6 +244,7 @@ dependencies:
   - mongodb
   - msgpack
   - mysqli
+  - odbc
   - opcache
   - openssl
   - pcntl
@@ -406,6 +407,7 @@ dependencies:
   - mongodb
   - msgpack
   - mysqli
+  - odbc
   - opcache
   - openssl
   - pcntl
