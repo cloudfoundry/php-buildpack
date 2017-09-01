@@ -32,6 +32,7 @@ class CAAPMInstaller(PHPExtensionHelper):
     _defaultappname = "PHP App"     # Default PHP App name
     _defaultcollip = "127.0.0.1"    # Default Collector Agent IP
     _defaultcollport = "5005"       # Default Collector Agent Port
+    _supportedVersion = None        #Version check flag
    
     def __init__(self, ctx):
         PHPExtensionHelper.__init__(self, ctx)           
