@@ -376,9 +376,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.1.7
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.7-linux-x64-115cd26c.tgz
-  md5: 115cd26c80953f23666800ceeb7a65cc
+  version: 7.1.9
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.9-linux-x64-877bf056.tgz
+  md5: 877bf056fc01dafb8a1203205c8034ca
   cf_stacks:
   - cflinuxfs2
   modules:
