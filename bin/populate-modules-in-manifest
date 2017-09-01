@@ -11,7 +11,7 @@ def php_modules_from(url:)
       moduleList = Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
         File.basename(file, '.so')
       end
-      moduleList.sort
+      moduleList.sort.reject { |m| m == 'odbc' }
     end
   end
 end
