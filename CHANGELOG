@@ -1,3 +1,13 @@
+v4.3.41 Sep 05, 2017
+=====================
+
+* Add php 7.0.23 and 7.1.9, remove php 7.0.21 and 7.1.7
+  (https://www.pivotaltracker.com/story/show/150631046)
+  (https://www.pivotaltracker.com/story/show/150682567)
+
+* Update newrelic to 7.5.0.199
+  (https://www.pivotaltracker.com/story/show/150645860)
+
 v4.3.40 Aug 14, 2017
 =====================
 
