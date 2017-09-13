@@ -1,0 +1,12 @@
+{
+	"name": "etourg/test",
+	"authors": [
+		{
+			"name": "Etourneau Gwenn",
+			"email": "gwenn.etourneau@gmail.com"
+		}
+	],
+	"require": {
+		"guzzlehttp/guzzle":"3.x"
+	}
+}

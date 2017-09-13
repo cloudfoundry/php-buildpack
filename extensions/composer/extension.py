@@ -358,9 +358,9 @@ class ComposerCommandRunner(object):
         env['PATH'] = ':'.join(filter(None,
                                       [env.get('PATH', ''),
                                        os.path.dirname(self._php_path)]))
-        self._log.debug("ENV IS: %s",
-                        '\n'.join(["%s=%s (%s)" % (key, val, type(val))
-                                   for (key, val) in env.iteritems()]))
+        for key, val in env.iteritems():
+            self._log.debug("ENV IS: %s=%s (%s)", key, val, type(val))
+
         return env
 
     def run(self, *args):
