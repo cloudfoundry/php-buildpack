@@ -60,9 +60,8 @@ class CAAPMInstaller(PHPExtensionHelper):
         """
 	if CAAPMInstaller._detected is None:
             VCAP_SERVICES_STRING = str(self._services)
-            if bool(re.search(CAAPMInstaller._servicefilter, VCAP_SERVICES_STRING)):
-                print("CA APM service _detected")
-                _log.info("CA APM service _detected")		
+            if bool(re.search(CAAPMInstaller._servicefilter, VCAP_SERVICES_STRING)):                
+                _log.info("CA APM service detected")		
                 CAAPMInstaller._detected = True
             else:
                 CAAPMInstaller._detected = False
@@ -112,11 +111,16 @@ class CAAPMInstaller(PHPExtensionHelper):
             CAAPMInstaller._collport = credentials.get("collport") 
             CAAPMInstaller._collhost = credentials.get("collhost")
 	    CAAPMInstaller._appname = credentials.get("appname")
-            _log.debug("IA Agent Host [%s]", self._collhost)
-	    _log.debug("IA Agent Port [%s]", self._collport)
-            _log.debug("PHP App Name [%s]", self._appname)
+            _log.debug("IA Agent Host [%s]", CAAPMInstaller._collhost)
+	    _log.debug("IA Agent Port [%s]", CAAPMInstaller._collport)
+            _log.debug("PHP App Name [%s]", CAAPMInstaller._appname)
+            if (CAAPMInstaller._collhost is None or CAAPMInstaller._collport is None):
+                 print("Error: CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
+                 _log.error("CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
+                 CAAPMInstaller._detected = False
         elif serviceFound:
-	    _log.error("CA APM service (caapm*) detected but required properties are missing!")
+            print("Error: CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
+	    _log.error("CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
             CAAPMInstaller._detected = False
     
     def _compile(self, install):      
@@ -132,7 +136,7 @@ class CAAPMInstaller(PHPExtensionHelper):
         Sets environment variables for application container
         
         """
-        _log.info("Setting CA APM service environment variables")	
+        _log.info("Setting CA APM PHP Agent service environment variables")	
 
         if (CAAPMInstaller._appname is None):
             CAAPMInstaller._appname = CAAPMInstaller._defaultappname;
@@ -191,16 +195,16 @@ class CAAPMInstaller(PHPExtensionHelper):
 	installercmd.append(' -ini %s' %caapm_temp)
 	
 	
-	print("Running CA APM preprocess commands")
+	print("Compiling CA APM PHP Agent preprocess commands")
        
         commands = [
-            [ 'echo "Installing CA APM PHP Probe package..."'],                   
+            [ 'echo "Installing CA APM PHP Agent package..."'],                   
             [ 'chmod -R 777 %s' %logsDir]                              
         ]
         commands.append([' '.join(installercmd)])
         commands.append([ 'cat %s >> %s' %(caapm_ini, phpini)] )        
 	
-        _log.debug("Running CA APM preprocess commands %s"  %commands)    
+        _log.debug("Compiled CA APM PHP Agent preprocess commands %s"  %commands)    
         return commands
 
 
