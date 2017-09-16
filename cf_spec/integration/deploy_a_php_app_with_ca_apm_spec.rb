@@ -21,11 +21,9 @@ describe 'CF PHP Buildpack' do
       Machete::SystemHelper.run_cmd(%(cf delete-service -f #{@caapm_service_name}))
     end
 
-    it 'should compile check' do
-      expect(@app).to have_logged 'CA APM service _detected'
-    end
-
+    
     it 'load service info check' do
+      expect(@app).to have_logged 'Loading service info to find CA APM Service'
       expect(@app).to have_logged 'Using the first CA APM service present in user-provided services'
       expect(@app).to have_logged 'IA Agent Host [abcd.ca.com]'
       expect(@app).to have_logged 'IA Agent Port [9009]'
@@ -38,18 +36,21 @@ describe 'CF PHP Buildpack' do
       expect(@app).to have_logged 'Downloaded CA APM PHP Agent package'
     end
 
-    it 'environment variables for application container' do
-      expect(@app).to have_logged('Setting CA APM service environment variables')      
-    end
-
-    it 'Running preprocess commands' do
-      expect(@app).to have_logged('Running CA APM preprocess commands')      
-    end
-
-    it 'Running caapm installer script' do
+    
+    it 'Running CA APM installer script' do
+      expect(@app).to have_logged('Compiling CA APM PHP Agent install commands')      
+      expect(@app).to have_logged('Installing CA APM PHP Agent')
       expect(@app).to have_logged('Installing CA PHP Probe Agent...')      
-      expect(@app).to have_logged('Installation Status : Success')    
-    end    
+      expect(@app).to have_logged('Installation Status : Success')       
+    end
+
+    it 'modifying php ini' do
+      expect(@app).to have_logged('Updating PHP INI file with CA APM PHP Agent Properties')     
+    end  
+
+    it 'installation complete' do
+      expect(@app).to have_logged('CA APM PHP Agent installation completed')     
+    end   
     
   end
 end

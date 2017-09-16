@@ -16,196 +16,202 @@
 import os
 import os.path
 import logging
-from extension_helpers import PHPExtensionHelper
-import re
+from subprocess import call
 
 _log = logging.getLogger('CAAPM')
 
-class CAAPMInstaller(PHPExtensionHelper):
-    _detected = None                # Boolean to check if introscope service is _detected    
-    _servicefilter = "caapm"      
-    _collport = None                # Collector agent port
-    _collhost = None                # Collector agent remote host/ip address
-    _appname = None                 # PHP App name
-    _defaultappname = "PHP App"     # Default PHP App name    
-    _defaultcollport = "5005"       # Default Collector Agent Port
-    
-    _php_extn_dir = None            #parsed PHP extension directory
-    _php_ini_path = None            #parsed PHP INI Path
-    
-    
-   
+
+class CAAPMInstaller(object):
     def __init__(self, ctx):
-        PHPExtensionHelper.__init__(self, ctx)        
+        self._detected = None  # Boolean to check if caapm service is _detected        
+        self._servicefilter = "caapm"
+        self._collport = None  # IA agent port
+        self._collhost = None  # IA agent remote host/ip address
+        self._appname = None  # PHP App name
+        self._defaultappname = "PHP App"  # Default PHP App name    
+        self._defaultcollport = "5005"  # Default IA Agent Port
+        self._php_extn_dir = None            #parsed PHP extension directory
+        self._php_ini_path = None            #parsed PHP INI Path
+        self._logsDir = None
+        self._log = _log
+        self._ctx = ctx
+        try:
+            self._log.info("Initializing")
+            if ctx['PHP_VM'] == 'php':                
+                self._merge_defaults()
+                self._load_service_info()
 
-    
+        except Exception:
+            self._log.exception("Error installing CA APM PHP Agent.")
+
+
+    def _merge_defaults(self):
+        for key, val in self._defaults().iteritems():
+            if key not in self._ctx:
+                self._ctx[key] = val
+
     def _defaults(self):
-        """
-        Return a dictionary of default environment variables.
-        """
-        return {
-                'CA_APM_DOWNLOAD_HOST': 'ca.bintray.com/apm-agents',
-                'CA_APM_DOWNLOAD_VERSION': '10.6.0',
-                'CA_APM_PHP_PACKAGE': 'CA-APM-PHPAgent-{CA_APM_DOWNLOAD_VERSION}_linux.tar.gz',
-                'CAAPM_DOWNLOAD_URL': 'https://{CA_APM_DOWNLOAD_HOST}/{CA_APM_PHP_PACKAGE}'
-        }
-   
-    
-    def _should_compile(self):
-        """
-        Determines if the extension should install it's payload.
-        This check is called during the `compile` method of the extension.
-        It should return true if the payload of the extension should
-        be installed (i.e. the `install` method is called).
-        """
-	if CAAPMInstaller._detected is None:
-            VCAP_SERVICES_STRING = str(self._services)
-            if bool(re.search(CAAPMInstaller._servicefilter, VCAP_SERVICES_STRING)):                
-                _log.info("CA APM service detected")		
-                CAAPMInstaller._detected = True
-            else:
-                CAAPMInstaller._detected = False
-        return CAAPMInstaller._detected
+        self._log.info("Loading defaults info")
 
-    def _configure(self):
-        """
-        Configures the extension.
-        Called when `should_configure` returns true.
-        """
-        _log.debug("method: _configure")
-        self._load_service_info()
+        return {
+            'CA_APM_DOWNLOAD_HOST': 'ca.bintray.com/apm-agents',
+            'CA_APM_DOWNLOAD_VERSION': '10.6.0',
+            'CA_APM_PHP_PACKAGE': 'CA-APM-PHPAgent-{CA_APM_DOWNLOAD_VERSION}_linux.tar.gz',
+            'CAAPM_DOWNLOAD_URL': 'https://{CA_APM_DOWNLOAD_HOST}/{CA_APM_PHP_PACKAGE}'
+        }
 
 
     def _load_service_info(self):
         """
-        Get info from CAAPM service
-        """        
+        Get IA agent details from caapm service
+        """
+        self._log.info("Loading service info to find CA APM Service")
         services = self._ctx.get('VCAP_SERVICES', {})
-        service_defs = services.get(CAAPMInstaller._servicefilter)
-	credentials = None
-	serviceFound = False
+        service_defs = services.get(self._servicefilter)
+        credentials = None
         if service_defs is None:
             # Search in user-provided service
-            print("Searching for CA APM service in user-provided services")
-            _log.debug("Searching for CA APM service in user-provided services")	
+            self._log.info("Searching for CA APM service in user-provided services")
             user_services = services.get("user-provided")
             for user_service in user_services:
-                if CAAPMInstaller._servicefilter in user_service.get('name'):
-		    serviceFound = True	
+                if self._servicefilter in user_service.get('name'):
                     print("Using the first CA APM service present in user-provided services")
-                    _log.debug("Using the first CA APM service present in user-provided services")
-                    credentials = user_service.get("credentials")                                       
+                    self._log.info("Using the first CA APM service present in user-provided services")
+                    serviceFound = True
+                    credentials = user_service.get("credentials")
                     break
         elif len(service_defs) > 1:
-            print("Multiple CA APM services found in VCAP_SERVICES, using properties from first one.")
-            _log.info("Multiple CA APM services found in VCAP_SERVICES, using properties from first one.")
-            credentials = service_defs[0].get("credentials")        
-        elif len(service_defs) == 1:
-            print("CA APM service found in VCAP_SERVICES") 
-            _log.info("CA APM service found in VCAP_SERVICES")
+            self._log.info("Multiple CA APM services found in VCAP_SERVICES, using properties from first one.")
             credentials = service_defs[0].get("credentials")
-	else:
-	    CAAPMInstaller._detected = False	
-		
-        if (credentials is not None):	           
-            CAAPMInstaller._collport = credentials.get("collport") 
-            CAAPMInstaller._collhost = credentials.get("collhost")
-	    CAAPMInstaller._appname = credentials.get("appname")
-            _log.debug("IA Agent Host [%s]", CAAPMInstaller._collhost)
-	    _log.debug("IA Agent Port [%s]", CAAPMInstaller._collport)
-            _log.debug("PHP App Name [%s]", CAAPMInstaller._appname)
-            if (CAAPMInstaller._collhost is None or CAAPMInstaller._collport is None):
-                 print("Error: CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
-                 _log.error("CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
-                 CAAPMInstaller._detected = False
+        elif len(service_defs) == 1:
+            self._log.info("CA APM service found in VCAP_SERVICES")
+            credentials = service_defs[0].get("credentials")
+
+        if (credentials is not None):
+            self._collport = credentials.get("collport")
+            self._collhost = credentials.get("collhost")
+            self._appname = credentials.get("appname")
+            self._detected = True
+            self._log.debug("IA Agent Host [%s]", self._collhost)
+            self._log.debug("IA Agent Port [%s]", self._collport)
+            self._log.debug("PHP App Name [%s]", self._appname)
+            if (self._collhost is None):
+                 print("Error: CA APM service detected but required credential (collhost) is missing.Skipping the CA APM PHP Agent installation")
+                 _log.error("CA APM service detected but required credential (collhost) is missing.Skipping the CA APM PHP Agent installation")
+                 self._detected = False
         elif serviceFound:
-            print("Error: CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
-	    _log.error("CA APM service detected but required credentials (collport, collhost) are missing.Skipping the CA APM PHP Agent installation")
-            CAAPMInstaller._detected = False
-    
-    def _compile(self, install):      
-        print("Downloading CA APM PHP Agent package...")
-        _log.info("Downloading CA APM PHP Agent package...")
-        install.package('CAAPM')
-        print("Downloaded CA APM PHP Agent package")
-        _log.info("Downloaded CA APM PHP Agent package")
-
-   
-    def _service_environment(self):
-        """
-        Sets environment variables for application container
-        
-        """
-        _log.info("Setting CA APM PHP Agent service environment variables")	
-
-        if (CAAPMInstaller._appname is None):
-            CAAPMInstaller._appname = CAAPMInstaller._defaultappname;
-        if (CAAPMInstaller._collport is None):
-            CAAPMInstaller._collport = CAAPMInstaller._defaultcollport;
-	
-        env = {               
-            'CA_APM_COLLECTOR_PORT': CAAPMInstaller._collport,          
-            'CA_APM_COLLECTOR_HOST': CAAPMInstaller._collhost,            
-	    'CA_APM_PHP_APP_NAME':  "\"" + CAAPMInstaller._appname + "\""            
-        }
-        return env
-
-   
-    def _service_commands(self):
-       return {}
+            print("Error: CA APM service detected but required credential (collhost) is missing.Skipping the CA APM PHP Agent installation")
+	    _log.error("CA APM service detected but required credential (collhost) is missing.Skipping the CA APM PHP Agent installation")
+            self._detected = False
 
 
+    def should_install(self):
+        return self._detected
+
+     
     def _set_php_extn_dir(self):
-        CAAPMInstaller._php_ini_path = os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc', 'php.ini')
-        CAAPMInstaller._php_extn_dir = self._find_php_extn_dir().replace("@{HOME}", self._ctx['HOME'] + "/app")              
-        _log.debug("PHP Ext Directory [%s] and PHP INI path [%s]",CAAPMInstaller._php_extn_dir,CAAPMInstaller._php_ini_path)
+        self._php_ini_path = os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc', 'php.ini')
+        self._php_extn_dir = self._find_php_extn_dir().replace("@{HOME}", self._ctx['BUILD_DIR'])             
+        _log.debug("PHP Ext Directory [%s] and PHP INI path [%s]",self._php_extn_dir,self._php_ini_path)
         
 
     def _find_php_extn_dir(self):
-        with open(CAAPMInstaller._php_ini_path, 'rt') as php_ini:
+        with open(self._php_ini_path, 'rt') as php_ini:
             for line in php_ini.readlines():
                 if line.startswith('extension_dir'):
                     (key, val) = line.strip().split(' = ')
-                    return val.strip('"')               
-             
-    
-    def _preprocess_commands(self):
-        """
-        Commands that the build pack needs to run in the runtime container prior to the app starting.
-        Use these sparingly as they run before the app starts and count against the time that an application has
-        to start up successfully (i.e. if it takes too long app will fail to start).
-        Returns list of commands
-        """ 
-	self._set_php_extn_dir()
-	home = self._ctx['HOME'];	
-	phproot = os.path.join(home, 'app', 'php', 'bin')
-	phpini = os.path.join(home, 'app', 'php', 'etc', 'php.ini')	
-	caapm_temp = os.path.join(home, 'app', 'caapm')	
-	caapm_ini = os.path.join(caapm_temp, 'wily_php_agent.ini')
-	logsDir = os.path.join(caapm_temp, 'apm-phpagent', 'probe', 'logs')
-	
-	installercmd = []	
-	installercmd.append(caapm_temp +"/apm-phpagent/installer.sh -appname")
-	installercmd.append(' "' + CAAPMInstaller._appname + '"')
-	installercmd.append(' -collport %s' %CAAPMInstaller._collport)	
-	installercmd.append(' -collhost %s' %CAAPMInstaller._collhost)
-	installercmd.append(' -logdir %s' %logsDir)
-	installercmd.append(' -ext %s' %CAAPMInstaller._php_extn_dir)
-	installercmd.append(' -phproot %s' %phproot)
-	installercmd.append(' -ini %s' %caapm_temp)
-	
-	
-	print("Compiling CA APM PHP Agent preprocess commands")
+                    return val.strip('"')
+
+    def _get_caapm_log_dir(self):
+        if (self._logsDir is None):
+            home = self._ctx['HOME'];
+            caapm_home = os.path.join(home, 'app', 'caapm')
+	    self._logsDir = os.path.join(caapm_home, 'apm-phpagent', 'probe', 'logs')            
+
+    def _install_apm_agent(self):
        
-        commands = [
-            [ 'echo "Installing CA APM PHP Agent package..."'],                   
+        if (self._appname is None):
+            vcap_app = self._ctx.get('VCAP_APPLICATION', {})
+            self.appname = vcap_app.get('name', None)
+            self._log.debug("App Name resolved is [%s]", self.appname)
+            if (self._appname is None):
+                self._appname = self._defaultappname;
+        if (self._collport is None):
+            self._collport = self._defaultcollport;
+
+        print("Compiling CA APM PHP Agent install commands")
+        _log.info("Compiling CA APM PHP Agent install commands")
+	self._set_php_extn_dir()
+        self._get_caapm_log_dir()
+	builddir = self._ctx['BUILD_DIR'];        	
+	phproot = os.path.join(builddir, 'php', 'bin')	
+	caapm_temp = os.path.join(builddir, 'caapm')	
+	caapm_ini = os.path.join(caapm_temp, 'wily_php_agent.ini')        
+        logsDirTemp = os.path.join(caapm_temp, 'apm-phpagent', 'probe', 'logs')
+	
+	installercmd = [caapm_temp +"/apm-phpagent/installer.sh"]
+	installercmd.append('-appname')
+        installercmd.append('"'+ self._appname + '"')
+	installercmd.append('-collport')
+        installercmd.append('%s' %self._collport)
+	installercmd.append('-collhost')
+        installercmd.append('%s' %self._collhost)
+	installercmd.append('-logdir')
+        installercmd.append('%s' %self._logsDir)
+	installercmd.append('-ext')
+        installercmd.append('%s' %self._php_extn_dir)
+	installercmd.append('-phproot')
+        installercmd.append('%s' %phproot)
+	installercmd.append('-ini')
+        installercmd.append('%s' %caapm_temp)
+
+        _log.debug("Compiled CA APM PHP Agent install commands %s"  %installercmd)
+        print("Installing CA APM PHP Agent")
+        _log.info("Installing CA APM PHP Agent");
+        call(installercmd)
+
+        print("Updating PHP INI file with CA APM PHP Agent Properties")
+        _log.info("Updating PHP INI file with CA APM PHP Agent Properties")
+        with open(caapm_ini, 'r') as caapm_php_ini:
+            lines = caapm_php_ini.readlines()
+
+        with open(self._php_ini_path, 'a+') as php_ini:
+            for line in lines:
+                php_ini.write(line)
+        
+              
+
+
+def preprocess_commands(ctx):
+    home = ctx['HOME'];
+    caapm_home = os.path.join(home, 'app', 'caapm')
+    logsDir = os.path.join(caapm_home, 'apm-phpagent', 'probe', 'logs')  
+    commands = [
+            [ 'echo "Setting writable permissions to CA APM PHP Agent logs dir..."'],                   
             [ 'chmod -R 777 %s' %logsDir]                              
         ]
-        commands.append([' '.join(installercmd)])
-        commands.append([ 'cat %s >> %s' %(caapm_ini, phpini)] )        
-	
-        _log.debug("Compiled CA APM PHP Agent preprocess commands %s"  %commands)    
-        return commands
+    _log.debug("Setting writable permissions to CA APM PHP Agent logs dir %s"  %logsDir)
+    return commands
 
 
-CAAPMInstaller.register(__name__)
+def service_commands(ctx):
+    return {}
+
+
+def service_environment(ctx):
+    return {}
+
+
+def compile(install):
+    caapmphp = CAAPMInstaller(install.builder._ctx)
+    if caapmphp.should_install():
+        _log.info("Downloading CA APM PHP Agent package...")
+        print("Downloading CA APM PHP Agent package...")
+        install.package('CAAPM')
+        _log.info("Downloaded CA APM PHP Agent package")
+        print("Downloaded CA APM PHP Agent package")
+        caapmphp._install_apm_agent()
+        caapmphp._get_caapm_log_dir()
+        _log.debug("CA APM PHP Agent installation completed")
+             
+    return 0
