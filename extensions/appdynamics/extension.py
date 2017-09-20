@@ -57,7 +57,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
                 'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/php/{APPDYNAMICS_VERSION}/{APPDYNAMICS_PACKAGE}'
         }
 
-    #1
     def _should_compile(self):
         """
         Determines if the extension should install it's payload.
@@ -75,6 +74,16 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             else:
                 AppDynamicsInstaller._detected = False
         return AppDynamicsInstaller._detected
+
+        # Extension Helper Methods
+    def _configure(self):
+        """
+        Configures the extension.
+
+        Called when `should_configure` returns true.
+        """
+        print("Running AppDynamics extension method configure")
+        self._load_service_info()
 
     def _load_service_info(self):
         """
@@ -158,17 +167,57 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         except Exception:
             print("Error populating App, Tier and Node names from AppDynamics service")
 
-    # CF Extension Methods
-    def configure(self):
+    def _compile(self, install):
         """
-        Configures the extension.
+        Install the payload of this extension.
 
-        Called when `should_configure` returns true.
+        Called when `_should_compile` returns true.  This is responsible
+        for installing the payload of the extension.
+
+        The argument is the installer object that is passed into the
+        `compile` method.
         """
-        print("Running AppDynamics extension method configure")
-        self._load_service_info()
+        if(self._should_compile):
+            print("ktully fork!!!")
+            print("Downloading AppDynamics package...")
+            install.package('APPDYNAMICS')
+            print("Downloaded AppDynamics package")
 
-    def preprocess_commands(self):
+        return 0
+
+    def _service_environment(self):
+        """
+        Sets environment variables for application container
+
+        Returns dict of environment variables x[var]=val
+        """
+        print("Setting AppDynamics service environment variables")
+        env = {
+            'PHP_VERSION': "$(/home/vcap/app/php/bin/php-config --version | cut -d '.' -f 1,2)",
+            'PHP_EXT_DIR': "$(/home/vcap/app/php/bin/php-config --extension-dir | sed 's|/tmp/staged|/home/vcap|')",
+            'APPD_CONF_CONTROLLER_HOST': AppDynamicsInstaller._host_name,
+            'APPD_CONF_CONTROLLER_PORT': AppDynamicsInstaller._port,
+            'APPD_CONF_ACCOUNT_NAME': AppDynamicsInstaller._account_name,
+            'APPD_CONF_ACCESS_KEY': AppDynamicsInstaller._account_access_key,
+            'APPD_CONF_SSL_ENABLED': AppDynamicsInstaller._ssl_enabled,
+            'APPD_CONF_APP': AppDynamicsInstaller._app_name,
+            'APPD_CONF_TIER': AppDynamicsInstaller._tier_name,
+            'APPD_CONF_NODE': AppDynamicsInstaller._node_name
+        }
+        return env
+
+    def _service_commands(self):
+        """
+        Commands for services that need to run. Things like HTTPD, Nginx, PHP-FPM. These are services that will
+        run and continue running in the runtime container.
+
+        Returns dict of commands to run x[name]=cmd
+        """
+
+        print("Running AppDynamics service commands")
+        pass
+
+    def _preprocess_commands(self):
         """
         Commands that the build pack needs to run in the runtime container prior to the app starting.
         Use these sparingly as they run before the app starts and count against the time that an application has
@@ -215,44 +264,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         pass
 
 
-    def service_environment(self):
-        """
-        Sets environment variables for application container
-
-        Returns dict of environment variables x[var]=val
-        """
-        print("Setting AppDynamics service environment variables")
-        env = {
-            'PHP_VERSION': "$(/home/vcap/app/php/bin/php-config --version | cut -d '.' -f 1,2)",
-            'PHP_EXT_DIR': "$(/home/vcap/app/php/bin/php-config --extension-dir | sed 's|/tmp/staged|/home/vcap|')",
-            'APPD_CONF_CONTROLLER_HOST': AppDynamicsInstaller._host_name,
-            'APPD_CONF_CONTROLLER_PORT': AppDynamicsInstaller._port,
-            'APPD_CONF_ACCOUNT_NAME': AppDynamicsInstaller._account_name,
-            'APPD_CONF_ACCESS_KEY': AppDynamicsInstaller._account_access_key,
-            'APPD_CONF_SSL_ENABLED': AppDynamicsInstaller._ssl_enabled,
-            'APPD_CONF_APP': AppDynamicsInstaller._app_name,
-            'APPD_CONF_TIER': AppDynamicsInstaller._tier_name,
-            'APPD_CONF_NODE': AppDynamicsInstaller._node_name
-        }
-        return env
 
 
-    def compile(self, install):
-        """
-        Install the payload of this extension.
-
-        Called when `_should_compile` returns true.  This is responsible
-        for installing the payload of the extension.
-
-        The argument is the installer object that is passed into the
-        `compile` method.
-        """
-        if(self._should_compile):
-            print("ktully fork!!!")
-            print("Downloading AppDynamics package...")
-            install.package('APPDYNAMICS')
-            print("Downloaded AppDynamics package")
-
-        return 0
 
 AppDynamicsInstaller.register(__name__)
