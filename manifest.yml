@@ -24,6 +24,9 @@ default_versions:
 - name: composer
   version: 1.5.2
 url_to_dependency_map:
+- match: appdynamics-php-agent-x64-linux-(\d+\.\d+\.\d+\.\d+)
+  name: appdynamics
+  version: "$1"
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
   version: "$1"
@@ -60,6 +63,12 @@ dependency_deprecation_dates:
   date: 2017-04-26
   link: https://www.nginx.com/blog/nginx-1-10-1-11-released/
 dependencies:
+- name: appdynamics
+  version: 4.3.5.9
+  uri: https://packages.appdynamics.com/php/4.3.5.9/appdynamics-php-agent-x64-linux-4.3.5.9.tar.bz2
+  cf_stacks:
+  - cflinuxfs2
+  md5: e854146a9efaebc6261547dae6ba200a
 - name: newrelic
   version: 7.5.0.199
   uri: https://download.newrelic.com/php_agent/archive/7.5.0.199/newrelic-php5-7.5.0.199-linux.tar.gz
