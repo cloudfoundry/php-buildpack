@@ -42,7 +42,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
     def __init__(self, ctx):
         PHPExtensionHelper.__init__(self, ctx)
 
-    # Internal helper methods
     def _defaults(self):
         """Returns a set of default environment variables.
 
@@ -74,6 +73,15 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             else:
                 AppDynamicsInstaller._detected = False
         return AppDynamicsInstaller._detected
+
+    def _configure(self):
+        """
+        Configures the extension.
+
+        Called when `should_configure` returns true.
+        """
+        print("Running AppDynamics extension method configure")
+        self._load_service_info()
 
     def _load_service_info(self):
         """
@@ -156,16 +164,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             AppDynamicsInstaller._node_name = AppDynamicsInstaller._tier_name
         except Exception:
             print("Error populating App, Tier and Node names from AppDynamics service")
-
-    # Extension Helper Methods
-    def _configure(self):
-        """
-        Configures the extension.
-
-        Called when `should_configure` returns true.
-        """
-        print("Running AppDynamics extension method configure")
-        self._load_service_info()
 
     def _compile(self, install):
         """
