@@ -83,10 +83,12 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         """
         print("Setting AppDynamics credentials info...")
         services = self._ctx.get('VCAP_SERVICES', {})
+        print(services)
         service_defs = services.get("appdynamics")
         if service_defs is None:
             # Search in user-provided service
-            print("Searching for appdynamics service in user-provided services")
+            print("No Marketplace AppDynamics services found")
+            print("Searching for AppDynamics service in user-provided services")
             user_services = services.get("user-provided")
             for user_service in user_services:
                 if bool(re.search(AppDynamicsInstaller._FILTER, user_service.get("name"))):
@@ -245,11 +247,11 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         The argument is the installer object that is passed into the
         `compile` method.
         """
-
-        print("ktully branch!!!")
-        print("Downloading AppDynamics package...")
-        install.package('APPDYNAMICS')
-        print("Downloaded AppDynamics package")
+        if(self._should_compile):
+            print("ktully fork!!!")
+            print("Downloading AppDynamics package...")
+            install.package('APPDYNAMICS')
+            print("Downloaded AppDynamics package")
 
         return 0
 
