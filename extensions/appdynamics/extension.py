@@ -90,7 +90,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         """
         print("Setting AppDynamics credentials info...")
         services = self._ctx.get('VCAP_SERVICES', {})
-        print(services)
         service_defs = services.get("appdynamics")
         if service_defs is None:
             # Search in user-provided service
@@ -111,15 +110,9 @@ class AppDynamicsInstaller(PHPExtensionHelper):
                         print("User-provided service tier-name = " + AppDynamicsInstaller._tier_name)
                         AppDynamicsInstaller._node_name = AppDynamicsInstaller._appdynamics_credentials.get("node-name")
                         print("User-provided service node-name = " + AppDynamicsInstaller._node_name)
-                        if  (    AppDynamicsInstaller._app_name is None
-                             or AppDynamicsInstaller._tier_name is None
-                             or AppDynamicsInstaller._node_name is None
-                             ):
-                             print("App, Tier, or Node name not provided by user-provided service, using default naming")
-                             self._load_app_details()
                     except Exception:
-                        print("Exception occurred while setting AppDynamics App, Tier and Node names from user-provided service")
-                    break
+                        print("Exception occurred while setting AppDynamics App, Tier and Node names from user-provided service, using default naming")
+                        self._load_app_details()
         elif len(service_defs) > 1:
             print("Multiple AppDynamics services found in VCAP_SERVICES, using credentials from first one.")
             AppDynamicsInstaller._appdynamics_credentials = service_defs[0].get("credentials")
@@ -157,7 +150,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         Called when AppDynamics Service is detected
 
         """
-        print("Setting AppDynamics App, Tier and Node names")
+        print("Setting default AppDynamics App, Tier and Node names")
         try:
             AppDynamicsInstaller._app_name = self._application.get("space_name") + ":" + self._application.get("application_name")
             print("AppDymamics default application-name = " + AppDynamicsInstaller._app_name)
@@ -166,7 +159,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             AppDynamicsInstaller._node_name = AppDynamicsInstaller._tier_name
             print("AppDynamics default node-name = " + AppDynamicsInstaller._node_name)
         except Exception:
-            print("Error populating App, Tier and Node names from AppDynamics service")
+            print("Error populating default App, Tier and Node names")
 
     def _compile(self, install):
         """
