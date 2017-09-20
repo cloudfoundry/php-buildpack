@@ -66,8 +66,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         """
         if AppDynamicsInstaller._detected is None:
             VCAP_SERVICES_STRING = str(self._services)
-            #DEBUG
-            print(VCAP_SERVICES_STRING)
             if bool(re.search(AppDynamicsInstaller._FILTER, VCAP_SERVICES_STRING)):
                 print("AppDynamics service detected, beginning compilation")
                 _log.info("AppDynamics service detected")
@@ -82,7 +80,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
 
         Called when `should_configure` returns true.
         """
-        print("Running AppDynamics extension method configure")
+        print("Running AppDynamics extension method _configure")
         self._load_service_info()
 
     def _load_service_info(self):
@@ -162,8 +160,11 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         print("Setting AppDynamics App, Tier and Node names")
         try:
             AppDynamicsInstaller._app_name = self._application.get("space_name") + ":" + self._application.get("application_name")
+            print("AppDymamics default application-name = " + AppDynamicsInstaller._app_name)
             AppDynamicsInstaller._tier_name = self._application.get("application_name")
+            print("AppDynamics default tier-name = " + AppDynamicsInstaller._tier_name)
             AppDynamicsInstaller._node_name = AppDynamicsInstaller._tier_name
+            print("AppDynamics default node-name = " + AppDynamicsInstaller._node_name)
         except Exception:
             print("Error populating App, Tier and Node names from AppDynamics service")
 
@@ -177,7 +178,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         The argument is the installer object that is passed into the
         `compile` method.
         """
-        print("ktully fork!!!")
         print("Downloading AppDynamics package...")
         install.package('APPDYNAMICS')
         print("Downloaded AppDynamics package")
@@ -203,16 +203,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         }
         return env
 
-    def _service_commands(self):
-        """
-        Commands for services that need to run. Things like HTTPD, Nginx, PHP-FPM. These are services that will
-        run and continue running in the runtime container.
-
-        Returns dict of commands to run x[name]=cmd
-        """
-
-        print("Running AppDynamics service commands")
-        pass
+    # def _service_commands(self):
 
     def _preprocess_commands(self):
         """
