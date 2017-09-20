@@ -177,11 +177,10 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         The argument is the installer object that is passed into the
         `compile` method.
         """
-        if(self._should_compile):
-            print("ktully fork!!!")
-            print("Downloading AppDynamics package...")
-            install.package('APPDYNAMICS')
-            print("Downloaded AppDynamics package")
+        print("ktully fork!!!")
+        print("Downloading AppDynamics package...")
+        install.package('APPDYNAMICS')
+        print("Downloaded AppDynamics package")
 
         return 0
 
