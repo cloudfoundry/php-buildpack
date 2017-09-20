@@ -75,16 +75,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
                 AppDynamicsInstaller._detected = False
         return AppDynamicsInstaller._detected
 
-        # Extension Helper Methods
-    def _configure(self):
-        """
-        Configures the extension.
-
-        Called when `should_configure` returns true.
-        """
-        print("Running AppDynamics extension method configure")
-        self._load_service_info()
-
     def _load_service_info(self):
         """
         Get Controller binding credentials and application details for AppDynamics service
@@ -166,6 +156,16 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             AppDynamicsInstaller._node_name = AppDynamicsInstaller._tier_name
         except Exception:
             print("Error populating App, Tier and Node names from AppDynamics service")
+
+    # Extension Helper Methods
+    def _configure(self):
+        """
+        Configures the extension.
+
+        Called when `should_configure` returns true.
+        """
+        print("Running AppDynamics extension method configure")
+        self._load_service_info()
 
     def _compile(self, install):
         """
@@ -250,21 +250,5 @@ class AppDynamicsInstaller(PHPExtensionHelper):
             [ 'echo "AppDynamics installation complete"']
         ]
         return commands
-
-
-    def service_commands(self):
-        """
-        Commands for services that need to run. Things like HTTPD, Nginx, PHP-FPM. These are services that will
-        run and continue running in the runtime container.
-
-        Returns dict of commands to run x[name]=cmd
-        """
-
-        print("Running AppDynamics service commands")
-        pass
-
-
-
-
 
 AppDynamicsInstaller.register(__name__)
