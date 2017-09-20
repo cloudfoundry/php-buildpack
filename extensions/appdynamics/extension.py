@@ -66,8 +66,10 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         """
         if AppDynamicsInstaller._detected is None:
             VCAP_SERVICES_STRING = str(self._services)
+            #DEBUG
+            print(VCAP_SERVICES_STRING)
             if bool(re.search(AppDynamicsInstaller._FILTER, VCAP_SERVICES_STRING)):
-                print("AppDynamics service detected")
+                print("AppDynamics service detected, beginning compilation")
                 _log.info("AppDynamics service detected")
                 AppDynamicsInstaller._detected = True
             else:
@@ -179,8 +181,6 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         print("Downloading AppDynamics package...")
         install.package('APPDYNAMICS')
         print("Downloaded AppDynamics package")
-
-        return 0
 
     def _service_environment(self):
         """
