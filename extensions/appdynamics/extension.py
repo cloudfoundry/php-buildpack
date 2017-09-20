@@ -97,11 +97,11 @@ class AppDynamicsInstaller(PHPExtensionHelper):
                         # load the app details from user-provided service
                         print("Setting AppDynamics App, Tier and Node names from user-provided service")
                         AppDynamicsInstaller._app_name = AppDynamicsInstaller._appdynamics_credentials.get("application-name")
-                        print("User-provided service application-name = " AppDynamicsInstaller._application_name)
+                        print("User-provided service application-name = " + AppDynamicsInstaller._app_name)
                         AppDynamicsInstaller._tier_name = AppDynamicsInstaller._appdynamics_credentials.get("tier-name")
-                        print("User-provided service tier-name = " AppDynamicsInstaller._tier_name)
+                        print("User-provided service tier-name = " + AppDynamicsInstaller._tier_name)
                         AppDynamicsInstaller._node_name = AppDynamicsInstaller._appdynamics_credentials.get("node-name")
-                        print("User-provided service node-name = " AppDynamicsInstaller._node_name)
+                        print("User-provided service node-name = " + AppDynamicsInstaller._node_name)
                         if  (    AppDynamicsInstaller._app_name is None
                              or AppDynamicsInstaller._tier_name is None
                              or AppDynamicsInstaller._node_name is None
