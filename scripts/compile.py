@@ -40,6 +40,8 @@ if __name__ == '__main__':
             .extension()
                 .from_build_pack('lib/env')
             .extension()
+                .from_build_pack('extensions/appdynamics')
+            .extension()
                 .from_build_pack('extensions/dynatrace')
             .extension()
                 .from_build_pack('extensions/geoip')
