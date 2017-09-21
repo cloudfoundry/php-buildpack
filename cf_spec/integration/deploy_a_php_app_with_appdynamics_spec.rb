@@ -11,7 +11,7 @@ describe 'CF PHP Buildpack' do
       @app = deploy_app(@app_name, @env_config)
       @appdynamics_service_name = "appdynamics-test-service-php"
 
-      Machete::SystemHelper.run_cmd(%(cf cups #{@appdynamics_service_name} -p '{"account-access-key":"fe244dc3-372f-4d36-83b0-379973103c5d","account-name":"customer1","host-name":"testhostname.com","port":"8090","ssl-enabled":"False"}'))
+      Machete::SystemHelper.run_cmd(%(cf cups #{@appdynamics_service_name} -p '{"account-access-key":"fe244dc3-372f-4d36-83b0-379973103c5c","account-name":"customer1","host-name":"testhostname.com","port":"8090","ssl-enabled":"False"}'))
       Machete::SystemHelper.run_cmd(%(cf bind-service #{@app_name} #{@appdynamics_service_name}))
       Machete::SystemHelper.run_cmd(%(cf restage #{@app_name}))
     end
