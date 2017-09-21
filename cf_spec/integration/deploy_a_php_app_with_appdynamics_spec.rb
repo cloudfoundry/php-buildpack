@@ -9,7 +9,7 @@ describe 'CF PHP Buildpack' do
       @env_config = {env: {'BP_DEBUG' => 'true' }}
       @app_name = 'with_appdynamics'
       @app = deploy_app(@app_name, @env_config)
-      @dynatrace_service_name = "appdynamics-test-service-php"
+      @appdynamics_service_name = "appdynamics-test-service-php"
 
       Machete::SystemHelper.run_cmd(%(cf cups #{@appdynamics_service_name} -p '{"account-access-key":"fe244dc3-372f-4d36-83b0-379973103c5d","account-name":"customer1","host-name":"testhostname.com","port":"8090","ssl-enabled":"False"}'))
       Machete::SystemHelper.run_cmd(%(cf bind-service #{@app_name} #{@appdynamics_service_name}))
