@@ -15,6 +15,10 @@
 """Session Config Extension
 
 Configures redis or memcached for session sharing
+
+Simply create a service instance called either `redis-sessions` or 
+`memcached-sessions`, bind it to the app, and the extension takes care of 
+the rest.
 """
 from extension_helpers import PHPExtensionHelper
 
