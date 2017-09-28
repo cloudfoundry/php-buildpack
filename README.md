@@ -101,6 +101,19 @@ Of these, the `detect` and `release` scripts are straightforward, providing the 
 
 The buildpack relies heavily on extensions.  An extension is simply a set of Python methods that will get called at various times during the staging process.
 
+Included extensions:
+- [composer](extensions/composer) - TODO summary
+  - TODO description
+- [dynatrace](extensions/dynatrace) - TODO summary
+  - TODO description
+- [geoip](extensions/geoip) - TODO summary
+  - TODO description
+- [newrelic](extensions/newrelic) - TODO summary
+  - TODO description
+- [`session`](extensions/session) - Configures PHP to store session information in a bound Redis or Memcached service instance
+  - Simply bind a Redis service called `redis-sessions` or a Memcached service called `memcached-sessions` to the app, and the extension takes care of reading the environment for the location of the service and configuring PHP to use it.
+ 
+
 ### Adding extensions
 
 In general, you shouldn't need to modify the buildpack itself.  Instead creating your own extension should be the way to go.
