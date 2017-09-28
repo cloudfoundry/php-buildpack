@@ -101,18 +101,20 @@ Of these, the `detect` and `release` scripts are straightforward, providing the 
 
 The buildpack relies heavily on extensions.  An extension is simply a set of Python methods that will get called at various times during the staging process.
 
-Included extensions:
-- [composer](extensions/composer) - TODO summary
-  - TODO description
-- [dynatrace](extensions/dynatrace) - TODO summary
-  - TODO description
-- [geoip](extensions/geoip) - TODO summary
-  - TODO description
-- [newrelic](extensions/newrelic) - TODO summary
-  - TODO description
-- [`session`](extensions/session) - Configures PHP to store session information in a bound Redis or Memcached service instance
-  - Simply bind a Redis service called `redis-sessions` or a Memcached service called `memcached-sessions` to the app, and the extension takes care of reading the environment for the location of the service and configuring PHP to use it.
- 
+Included non-core extensions:
+- [`composer`](extensions/composer) - [Downloads, installs and runs Composer](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-composer.html)
+- [`dynatrace`](extensions/dynatrace) - Downloads and configures Dynatrace OneAgent
+  - Looks for a bound service with name `dynatrace` and value `credentials` with sub-keys
+    - `apiurl`
+    - `environmentid`
+    - `apitoken`
+- [`geoip`](extensions/geoip) - Configures geoip & optionally downloads geoip databases
+  - Looks for a bound service with name `geoip-service` and value `credentials` with sub-keys
+    - `username`
+    - `license`
+    - `products`
+- [`newrelic`](extensions/newrelic) - [Downloads, installs and configures the NewRelic agent for PHP](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-newrelic.html)
+- [`session`](extensions/session) - [Configures PHP to store session information in a bound Redis or Memcached service instance](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-sessions.html) 
 
 ### Adding extensions
 
