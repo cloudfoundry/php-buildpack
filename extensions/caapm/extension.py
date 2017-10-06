@@ -126,7 +126,12 @@ class CAAPMInstaller(object):
         if (self._logsDir is None):
             home = self._ctx['HOME'];
             caapm_home = os.path.join(home, 'app', 'caapm')
-	    self._logsDir = os.path.join(caapm_home, 'apm-phpagent', 'probe', 'logs')            
+	    self._logsDir = os.path.join(caapm_home, 'apm-phpagent', 'probe', 'logs')
+            if not os.path.exists(self._logsDir):
+                os.makedirs(self._logsDir)
+            _log.debug("Setting writable permissions to CA APM PHP Agent logs dir %s"  %logsDir)
+            call([ 'chmod', '-R', '777', logsDir ])
+
 
     def _install_apm_agent(self):
        
@@ -178,20 +183,10 @@ class CAAPMInstaller(object):
         with open(self._php_ini_path, 'a+') as php_ini:
             for line in lines:
                 php_ini.write(line)
-        
-              
 
 
 def preprocess_commands(ctx):
-    home = ctx['HOME'];
-    caapm_home = os.path.join(home, 'app', 'caapm')
-    logsDir = os.path.join(caapm_home, 'apm-phpagent', 'probe', 'logs')  
-    commands = [
-            [ 'echo "Setting writable permissions to CA APM PHP Agent logs dir..."'],                   
-            [ 'chmod -R 777 %s' %logsDir]                              
-        ]
-    _log.debug("Setting writable permissions to CA APM PHP Agent logs dir %s"  %logsDir)
-    return commands
+    return ()
 
 
 def service_commands(ctx):
