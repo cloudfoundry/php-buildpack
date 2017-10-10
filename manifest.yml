@@ -19,10 +19,10 @@ default_versions:
   version: 2.4.27
 - name: newrelic
   version: 7.5.0.199
-- name: nginx
-  version: 1.13.5
 - name: composer
   version: 1.5.2
+- name: nginx
+  version: 1.13.6
 url_to_dependency_map:
 - match: appdynamics-php-agent-x64-linux-(\d+\.\d+\.\d+\.\d+)
   name: appdynamics
@@ -452,15 +452,15 @@ dependencies:
   md5: e824b7e30647efeed40d08c297c14b48
   cf_stacks:
   - cflinuxfs2
-- name: nginx
-  version: 1.13.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.5-linux-x64-1dda12b3.tgz
-  md5: 1dda12b3af29313b1734b4ec988e5e32
-  cf_stacks:
-  - cflinuxfs2
 - name: composer
   version: 1.5.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.5.2-ac2fa3db.phar
   md5: ac2fa3dba437d8f1b9759ce3e648da86
+  cf_stacks:
+  - cflinuxfs2
+- name: nginx
+  version: 1.13.6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.6-linux-x64-b624d604.tgz
+  md5: b624d604ff8aca9889b14cf76dcaa1a2
   cf_stacks:
   - cflinuxfs2
