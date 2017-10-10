@@ -129,8 +129,8 @@ class CAAPMInstaller(object):
 	    self._logsDir = os.path.join(caapm_home, 'apm-phpagent', 'probe', 'logs')
             if not os.path.exists(self._logsDir):
                 os.makedirs(self._logsDir)
-            _log.debug("Setting writable permissions to CA APM PHP Agent logs dir %s"  %logsDir)
-            call([ 'chmod', '-R', '777', logsDir ])
+            _log.debug("Setting writable permissions to CA APM PHP Agent logs dir %s"  %self._logsDir)
+            call([ 'chmod', '-R', '777', self._logsDir ])
 
 
     def _install_apm_agent(self):
@@ -152,7 +152,6 @@ class CAAPMInstaller(object):
 	phproot = os.path.join(builddir, 'php', 'bin')	
 	caapm_temp = os.path.join(builddir, 'caapm')	
 	caapm_ini = os.path.join(caapm_temp, 'wily_php_agent.ini')        
-        logsDirTemp = os.path.join(caapm_temp, 'apm-phpagent', 'probe', 'logs')
 	
 	installercmd = [caapm_temp +"/apm-phpagent/installer.sh"]
 	installercmd.append('-appname')
