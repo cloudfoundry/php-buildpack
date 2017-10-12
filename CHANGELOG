@@ -1,3 +1,27 @@
+v4.3.43 Oct 12, 2017
+=====================
+
+* Add php 7.1.10, remove 7.1.8
+  (https://www.pivotaltracker.com/story/show/151454553)
+
+* Add php 7.0.24, remove 7.0.22
+  (https://www.pivotaltracker.com/story/show/151431933)
+
+* Add httpd 2.4.28, remove httpd 2.4.27
+  (https://www.pivotaltracker.com/story/show/151371394)
+
+* Add nginx 1.13.6, remove nginx 1.13.5
+  (https://www.pivotaltracker.com/story/show/151849194)
+
+* AppDynamics PHP Agent Support
+  (https://www.pivotaltracker.com/story/show/151305892)
+
+* CA APM PHP Agent support
+  (https://www.pivotaltracker.com/story/show/151127931)
+
+* Add libraries for gnupg
+  (https://www.pivotaltracker.com/story/show/150417054)
+
 v4.3.42 Sep 20, 2017
 =====================
 
