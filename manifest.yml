@@ -305,6 +305,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - gnupg
   - igbinary
   - imagick
   - imap
@@ -314,6 +315,7 @@ dependencies:
   - mailparse
   - mbstring
   - mcrypt
+  - memcached
   - mongodb
   - msgpack
   - mysqli
@@ -360,6 +362,7 @@ dependencies:
   - geoip
   - gettext
   - gmp
+  - gnupg
   - igbinary
   - imagick
   - imap
@@ -368,6 +371,7 @@ dependencies:
   - mailparse
   - mbstring
   - mcrypt
+  - memcached
   - mongodb
   - msgpack
   - mysqli
