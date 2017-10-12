@@ -4,14 +4,15 @@ require 'yaml'
 require 'tmpdir'
 
 
-def php_modules_from(url:)
+def php_modules_from(version:, url:)
   Dir.mktmpdir do |dir|
     Dir.chdir(dir) do
-      `wget #{url} && tar xzf #{File.basename(url)}`
-      moduleList = Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
+      `wget --no-verbose #{url} && tar xzf #{File.basename(url)}`
+      Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
         File.basename(file, '.so')
+      end.sort.reject do |m|
+        %w(odbc gnupg).include?(m) || (%w(memcached).include?(m) && version =~ /^7\./) 
       end
-      moduleList.sort.reject { |m| m == 'odbc' || m == 'gnupg' }
     end
   end
 end
@@ -19,7 +20,7 @@ end
 manifest = YAML.load_file('manifest.yml')
 dependencies = manifest['dependencies'].map do |dependency|
   if dependency.fetch('name') == 'php'
-    dependency['modules'] = php_modules_from(url: dependency.fetch('uri'))
+    dependency['modules'] = php_modules_from(version: dependency.fetch('version'), url: dependency.fetch('uri'))
   end
   dependency
 end
