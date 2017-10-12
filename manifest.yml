@@ -305,7 +305,6 @@ dependencies:
   - geoip
   - gettext
   - gmp
-  - gnupg
   - igbinary
   - imagick
   - imap
@@ -362,7 +361,6 @@ dependencies:
   - geoip
   - gettext
   - gmp
-  - gnupg
   - igbinary
   - imagick
   - imap
