@@ -55,11 +55,6 @@ dependency_deprecation_dates:
   name: php
   date: 2019-12-01
   link: http://php.net/supported-versions.php
-- match: 7.4.0.198
-  version_line: 7.4.0.198
-  name: newrelic
-  date: 2019-05-18
-  link: https://docs.newrelic.com/docs/agents/manage-apm-agents/maintenance/new-relic-agent-plugin-end-life-policy
 - match: 1.10.\d+
   version_line: '1.10'
   name: nginx
