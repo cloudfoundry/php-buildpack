@@ -442,9 +442,9 @@ dependencies:
   - zip
   - zlib
 - name: nginx
-  version: 1.12.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.1-linux-x64-e824b7e3.tgz
-  md5: e824b7e30647efeed40d08c297c14b48
+  version: 1.12.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.2-linux-x64-60e5d131.tgz
+  md5: 60e5d131bf48fda0533b7b876d698923
   cf_stacks:
   - cflinuxfs2
 - name: composer
