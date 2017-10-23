@@ -26,6 +26,7 @@ BP=$(dirname $(dirname $0))
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 DEPS_DIR=${3:-}
+PROFILE_DIR=${5:-}
 
 BUILDPACK_PATH=$BP
 export BUILDPACK_PATH
@@ -47,5 +48,5 @@ pushd $BUILD_DIR/.profile.d > /dev/null
   for f in *; do mv "$f" "finalize_$f"; done
 popd > /dev/null
 
-$BP/compile-extensions/bin/write_profiled_from_supply $DEPS_DIR $BUILD_DIR
+$BP/compile-extensions/bin/write_profiled_from_supply $DEPS_DIR $BUILD_DIR $PROFILE_DIR
 $BP/compile-extensions/bin/store_buildpack_metadata $BP $CACHE_DIR
