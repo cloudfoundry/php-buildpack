@@ -23,6 +23,7 @@ import logging
 import re
 import json
 import StringIO
+import copy
 from build_pack_utils import utils
 from build_pack_utils import stream_output
 from compile_helpers import warn_invalid_php_version
@@ -180,7 +181,9 @@ class ComposerExtension(ExtensionHelper):
             'COMPOSER_INSTALL_OPTIONS': ['--no-interaction', '--no-dev'],
             'COMPOSER_VENDOR_DIR': '{BUILD_DIR}/{LIBDIR}/vendor',
             'COMPOSER_BIN_DIR': '{BUILD_DIR}/php/bin',
-            'COMPOSER_CACHE_DIR': '{CACHE_DIR}/composer'
+            'COMPOSER_HOME': '{CACHE_DIR}/composer',
+            'COMPOSER_CACHE_DIR': '{COMPOSER_HOME}/cache',
+            'COMPOSER_INSTALL_GLOBAL': []
         }
 
     def _should_compile(self):
@@ -326,6 +329,14 @@ class ComposerExtension(ExtensionHelper):
                 token_is_valid = self.setup_composer_github_token()
             # check that the api rate limit has not been exceeded, otherwise exit
             self.check_github_rate_exceeded(token_is_valid)
+        # install global Composer dependencies
+        if len(self._ctx['COMPOSER_INSTALL_GLOBAL']) > 0:
+            globalCtx = copy.deepcopy(self._ctx)
+            globalCtx['COMPOSER_VENDOR_DIR'] = '{COMPOSER_HOME}/vendor'
+            globalCtx['COMPOSER_BIN_DIR'] = '{COMPOSER_HOME}/bin'
+            globalRunner = ComposerCommandRunner(globalCtx, self._builder)
+            globalRunner.run('global', 'require', '--no-progress',
+                             *self._ctx['COMPOSER_INSTALL_GLOBAL'])
         # install dependencies w/Composer
         self.composer_runner.run('install', '--no-progress',
                                  *self._ctx['COMPOSER_INSTALL_OPTIONS'])
@@ -348,6 +359,7 @@ class ComposerCommandRunner(object):
             env[key] = val if type(val) == str else json.dumps(val)
 
         # add basic composer vars
+        env['COMPOSER_HOME'] = self._ctx['COMPOSER_HOME']
         env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
         env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
@@ -357,7 +369,8 @@ class ComposerCommandRunner(object):
         env['PHPRC'] = self._ctx['TMPDIR']
         env['PATH'] = ':'.join(filter(None,
                                       [env.get('PATH', ''),
-                                       os.path.dirname(self._php_path)]))
+                                       os.path.dirname(self._php_path),
+                                       os.path.join(self._ctx['COMPOSER_HOME'], 'bin')]))
         for key, val in env.iteritems():
             self._log.debug("ENV IS: %s=%s (%s)", key, val, type(val))
 
