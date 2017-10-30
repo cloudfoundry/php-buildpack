@@ -37,7 +37,7 @@ class Downloader(object):
         elif exit_code == 1:
             raise RuntimeError("Could not download dependency: %s" % url)
         elif exit_code == 3:
-            raise RuntimeError("MD5 of downloaded dependency does not match expected value")
+            raise RuntimeError("Checksum of downloaded dependency does not match expected value")
 
         _, patch_warning = compile_exts.warn_if_newer_patch(url)
         print patch_warning

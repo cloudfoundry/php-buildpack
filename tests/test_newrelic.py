@@ -306,13 +306,13 @@ dependencies:
   uri: https://download.newrelic.com/php_agent/archive/7.4.0.198/newrelic-php5-7.4.0.198-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
-  md5: 3640d3cad6b5199f54a6b54a627235d6
+  sha256: 3640d3cad6b5199f54a6b54a627235d6
 - name: newrelic
   version: 6.4.0.99
   uri: https://download.newrelic.com/php_agent/archive/6.4.0.99/newrelic-php5-6.4.0.99-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
-  md5: a5d5178f0f8133a65baf942a07408ba6
+  sha256: a5d5178f0f8133a65baf942a07408ba6
 '''
 GOOD_MANIFEST = '''\
 ---
@@ -328,11 +328,11 @@ dependencies:
   uri: https://download.newrelic.com/php_agent/archive/7.4.0.198/newrelic-php5-7.4.0.198-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
-  md5: 3640d3cad6b5199f54a6b54a627235d6
+  sha256: 3640d3cad6b5199f54a6b54a627235d6
 - name: newrelic
   version: 6.4.0.99
   uri: https://download.newrelic.com/php_agent/archive/6.4.0.99/newrelic-php5-6.4.0.99-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
-  md5: a5d5178f0f8133a65baf942a07408ba6
+  sha256: a5d5178f0f8133a65baf942a07408ba6
 '''

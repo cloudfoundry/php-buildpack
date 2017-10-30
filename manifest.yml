@@ -66,29 +66,28 @@ dependencies:
   uri: https://packages.appdynamics.com/php/4.3.5.9/appdynamics-php-agent-x64-linux-4.3.5.9.tar.bz2
   cf_stacks:
   - cflinuxfs2
-  md5: 5951fb78beb19695b88a4dada99d4738
+  sha256: 9560965e72c0d425bc96b06c5458767c4593098a5c4b01a8dad5b1c665611e95
 - name: newrelic
   version: 7.6.0.201
   uri: https://download.newrelic.com/php_agent/archive/7.6.0.201/newrelic-php5-7.6.0.201-linux.tar.gz
   cf_stacks:
   - cflinuxfs2
-  md5: 24e83cbdce6328f8643bb19c8acd20f9
+  sha256: a8cd71aaa326c2841e5b0675b545705ae38627532bc0ed474f57ddc853291b37
 - name: CAAPM
   version: 10.6.0
   uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-10.6.0_linux.tar.gz
   cf_stacks:
   - cflinuxfs2
-  md5: d517d982a2f236b6069d58f4d9081215
+  sha256: ec4430c909bd0e461977d6a7161ea573e427ff8fc09cac5f570ee6d1a9b496f5
 - name: httpd
   version: 2.4.28
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.28-linux-x64-ea45b58f.tgz
   cf_stacks:
   - cflinuxfs2
-  md5: ea45b58f653010fa7c81633292c86d37
+  sha256: 24df2cdfcfc3fcc7d4aefcfe8a16d961092f97148fcc90352053c17cb90f54c0
 - name: php
   version: 5.6.30
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-e9c5348c.tgz
-  md5: e9c5348c140aeae5caf7478dee123be1
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -155,10 +154,10 @@ dependencies:
   - yaf
   - zip
   - zlib
+  sha256: ed01cab0454d38cbcd60cfd25e504cf51792a1f5d27f9bb7a5a1611fb69bc3c8
 - name: php
   version: 5.6.31
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.31-linux-x64-8fda94cb.tgz
-  md5: 8fda94cb42102775c4391d3fe1c1eede
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -225,10 +224,10 @@ dependencies:
   - yaf
   - zip
   - zlib
+  sha256: 155e72fc4112e3e5f8bcb51c2fde0294e94d43182923c7eaaf6c3b50991e98e4
 - name: php
   version: 7.0.23
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.23-linux-x64-b4eda0f0.tgz
-  md5: b4eda0f0e7e148dc1ab55fdf36fc3074
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -280,10 +279,10 @@ dependencies:
   - yaf
   - zip
   - zlib
+  sha256: 755ba8ed59de74ec510a4a0aaf5ded61034a54ebb3127d951ba4925207b928ff
 - name: php
   version: 7.0.24
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.24-linux-x64-16b526c5.tgz
-  md5: 16b526c56f02a7be5a9afe65df8a9137
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -335,10 +334,10 @@ dependencies:
   - yaf
   - zip
   - zlib
+  sha256: 860694f3ee5b72bc077177d157f4b30efce4192392bee7899c7aa0f2ce129c82
 - name: php
   version: 7.1.10
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.10-linux-x64-673a0c6d.tgz
-  md5: 673a0c6d379773ec5187a92e626b44fd
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -388,10 +387,10 @@ dependencies:
   - yaf
   - zip
   - zlib
+  sha256: 30d6244665e10c2081e7ee25eb04eca77e608b779a4e06a761fc163574357478
 - name: php
   version: 7.1.9
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.9-linux-x64-4b3040c6.tgz
-  md5: 4b3040c622e4fa3168ba335f9e2b03a3
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -441,21 +440,22 @@ dependencies:
   - yaf
   - zip
   - zlib
+  sha256: 520b0ce45df594eb1b15da3861a7e83a6781a722b4161d709df997b0319f96f9
 - name: nginx
   version: 1.12.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.2-linux-x64-60e5d131.tgz
-  md5: 60e5d131bf48fda0533b7b876d698923
   cf_stacks:
   - cflinuxfs2
+  sha256: f7815e32b5cb8b81562e7dbff36182aa864e596d31f520adab349edb62e2ad15
 - name: composer
   version: 1.5.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.5.2-ac2fa3db.phar
-  md5: ac2fa3dba437d8f1b9759ce3e648da86
   cf_stacks:
   - cflinuxfs2
+  sha256: c0a5519c768ef854913206d45bd360efc2eb4a3e6eb1e1c7d0a4b5e0d3bbb31f
 - name: nginx
   version: 1.13.6
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.6-linux-x64-b624d604.tgz
-  md5: b624d604ff8aca9889b14cf76dcaa1a2
   cf_stacks:
   - cflinuxfs2
+  sha256: c65741fec130295782faa322d88bd00be74b90b7311de5338c1c26f93d67cf2e

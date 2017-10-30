@@ -37,18 +37,18 @@ dependencies:
 - name: composer
   version: 1.2.0
   uri: https://buildpacks.cloudfoundry.org/php/binaries/trusty/composer/1.2.0/composer.phar
-  md5: df47dc307fa614daa5a10423bdf4e1bb
+  sha256: dc80131545ed7f7b1369ae058824587f0718892f6a84bd86cfb0f28ab5e39095
   cf_stacks:
   - cflinuxfs2
 - name: composer
   version: 9.9.9
   uri: https://buildpacks.cloudfoundry.org/php/binaries/trusty/composer/1.2.0/composer.phar
-  md5: df47dc307fa614daa5a10423bdf4e1bb
+  sha256: dc80131545ed7f7b1369ae058824587f0718892f6a84bd86cfb0f28ab5e39095
   cf_stacks:
   - cflinuxfs2
 - name: composer
   version: 11.11.11
   uri: https://buildpacks.cloudfoundry.org/php/binaries/trusty/composer/1.2.0/composer.phar
-  md5: df47dc307fa614daa5a10423bdf4e1bb
+  sha256: dc80131545ed7f7b1369ae058824587f0718892f6a84bd86cfb0f28ab5e39095
   cf_stacks:
   - cflinuxfs2
