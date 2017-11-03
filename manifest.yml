@@ -14,7 +14,7 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 5.6.31
+  version: 5.6.32
 - name: httpd
   version: 2.4.29
 - name: newrelic
@@ -86,8 +86,8 @@ dependencies:
   - cflinuxfs2
   sha256: 689e1bd28170ff2c16bd6bc38f6a55fe76d8969a2a58567d58ca9836f2dab96f
 - name: php
-  version: 5.6.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.30-linux-x64-e9c5348c.tgz
+  version: 5.6.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.32-linux-x64-9acd573d.tgz
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -154,7 +154,7 @@ dependencies:
   - yaf
   - zip
   - zlib
-  sha256: ed01cab0454d38cbcd60cfd25e504cf51792a1f5d27f9bb7a5a1611fb69bc3c8
+  sha256: 9acd573d5f040502057b5943993d365f3383e0d3417052c2cd86acb4993d3bbc
 - name: php
   version: 5.6.31
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.31-linux-x64-8fda94cb.tgz
@@ -226,8 +226,8 @@ dependencies:
   - zlib
   sha256: 155e72fc4112e3e5f8bcb51c2fde0294e94d43182923c7eaaf6c3b50991e98e4
 - name: php
-  version: 7.0.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.23-linux-x64-b4eda0f0.tgz
+  version: 7.0.25
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.25-linux-x64-26dc6c67.tgz
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -279,7 +279,7 @@ dependencies:
   - yaf
   - zip
   - zlib
-  sha256: 755ba8ed59de74ec510a4a0aaf5ded61034a54ebb3127d951ba4925207b928ff
+  sha256: 26dc6c6734251ad99bcc23afdcbc1876e9a4e054f8f2d4def43c8bb8a239bc5a
 - name: php
   version: 7.0.24
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.24-linux-x64-16b526c5.tgz
@@ -389,8 +389,8 @@ dependencies:
   - zlib
   sha256: 30d6244665e10c2081e7ee25eb04eca77e608b779a4e06a761fc163574357478
 - name: php
-  version: 7.1.9
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.9-linux-x64-4b3040c6.tgz
+  version: 7.1.11
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.11-linux-x64-c6ec90cd.tgz
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -440,7 +440,7 @@ dependencies:
   - yaf
   - zip
   - zlib
-  sha256: 520b0ce45df594eb1b15da3861a7e83a6781a722b4161d709df997b0319f96f9
+  sha256: c6ec90cd654a65c8397bd648e6f79d4133f9b79fcef8733fc1f24a2d661e623b
 - name: nginx
   version: 1.12.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.2-linux-x64-60e5d131.tgz
