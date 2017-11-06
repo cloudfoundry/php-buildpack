@@ -1,3 +1,35 @@
+v4.3.44 Nov 06, 2017
+=====================
+
+* Add php 5.6.32, 7.0.25, 7.1.11. Remove php 5.6.30, 7.0.23, 7.1.9
+  (https://www.pivotaltracker.com/story/show/152265343)
+  (https://www.pivotaltracker.com/story/show/152243439)
+  (https://www.pivotaltracker.com/story/show/152246247)
+
+* Add httpd 2.4.29. Remove httpd 2.4.28
+  (https://www.pivotaltracker.com/story/show/152049482)
+
+* Verify dependency downloads using sha256 instead of md5
+  (https://www.pivotaltracker.com/story/show/151913767)
+
+* Store profile.d dir outside app directory on recent BAL
+  (https://www.pivotaltracker.com/story/show/151381690)
+
+* Update PHP modules in latest of each version line
+  - librdkafka 0.11.0 to 0.11.1 for php7
+  - igbinary 2.0.1 to 2.0.4 for both
+  - mongodb 1.2.10 to 1.3.1 for both
+  - redis 3.1.3 to 3.1.4 for both
+  - phalcon 3.2.2 to 3.2.3 for both
+  - oci8 2.1.3 to 2.1.8 for php7
+  (https://www.pivotaltracker.com/story/show/151583193)
+
+* Add nginx 1.12.2, Remove nginx 1.12.1
+  (https://www.pivotaltracker.com/story/show/152037281)
+
+* Add newrelic agent 7.6.0.201, remove 7.5.0.199
+  (https://www.pivotaltracker.com/story/show/151856256)
+
 v4.3.43 Oct 12, 2017
 =====================
 
