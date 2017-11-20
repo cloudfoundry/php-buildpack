@@ -48,6 +48,7 @@ class DynatraceInstaller(object):
     # verify if 'dynatrace' service is available
     def _load_service_info(self):
         dynatrace = False
+        detected_services = []
         vcap_services = self._ctx.get('VCAP_SERVICES', {})
         for provider, services in vcap_services.iteritems():
             for service in services:
@@ -55,13 +56,13 @@ class DynatraceInstaller(object):
                     dynatrace = service
                     creds = dynatrace.get('credentials', {})
                     if (creds.get('apiurl', None) != None or creds.get('environmentid', None) != None) and creds.get('apitoken', None) != None:
-                        break
+                        detected_services.append(creds)
                     else:
                         self._log.info("Dynatrace service detected. But without proper credentials!")
                         dynatrace = False
 
-        if dynatrace:
-            self._log.info("Dynatrace service found!")
+        if len(detected_services) == 1:
+            self._log.info("Found one matching Dynatrace service")
             creds = dynatrace.get('credentials', {})
             self._ctx['DYNATRACE_API_URL'] = creds.get('apiurl', None)
             self._ctx['DYNATRACE_ENVIRONMENT_ID'] = creds.get('environmentid', None)
@@ -71,6 +72,9 @@ class DynatraceInstaller(object):
                 self._log.info("Dynatrace credentials detected.")
                 self._convert_api_url()
                 self._detected = True
+        elif len(detected_services) > 1:
+            self._log.info("More than one matching service found!")
+            self._detected = False
 
     # returns paas-installer path
     def _get_paas_installer_path(self):
