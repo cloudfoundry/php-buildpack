@@ -10,7 +10,7 @@
     "NGINX_STRIP": true,
     "PHP_56_LATEST": "5.6.32",
     "PHP_70_LATEST": "7.0.26",
-    "PHP_71_LATEST": "7.1.11",
+    "PHP_71_LATEST": "7.1.12",
     "PHP_STRIP": true,
     "PHP_MODULES_STRIP": true,
     "PHP_MODULES": [],
