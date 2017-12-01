@@ -1,3 +1,20 @@
+v4.3.45 Dec 01, 2017
+=====================
+
+* Add composer 1.5.5, remove composer 1.5.2
+  (https://www.pivotaltracker.com/story/show/153317429)
+  (https://www.pivotaltracker.com/story/show/153314270)
+  (https://www.pivotaltracker.com/story/show/153293766)
+
+* Add PHP 7.1.12, Remove PHP 7.1.10
+  (https://www.pivotaltracker.com/story/show/153096036)
+
+* Add PHP 7.0.26, Remove PHP 7.0.24
+  (https://www.pivotaltracker.com/story/show/153051750)
+
+* Add nginx 1.13.7, remove nginx 1.13.6
+  (https://www.pivotaltracker.com/story/show/153060280)
+
 v4.3.44 Nov 06, 2017
 =====================
 
