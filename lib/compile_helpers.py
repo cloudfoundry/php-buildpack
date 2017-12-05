@@ -142,6 +142,8 @@ def validate_php_extensions(ctx):
     for extension in requested_extensions:
         if extension in supported_extensions:
             filtered_extensions.append(extension)
+        elif ctx['PHP_VERSION'].startswith('7.2.') && extension.lower() == 'mcrypt':
+            ## nothing
         elif extension.lower() not in compiled_modules:
             print("The extension '%s' is not provided by this buildpack." % extension, file=os.sys.stderr)
 
