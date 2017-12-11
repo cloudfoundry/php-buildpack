@@ -1,3 +1,21 @@
+v4.3.46 Dec 11, 2017
+=====================
+
+* Update php modules
+  amqp 1.9.1 to 1.9.3 for all
+  cassandra 1.2.2 to 1.3.2 for php7
+  cassandracppdriver 2.7.0 to 2.8.0 for all
+  igbinary 2.0.4 to 2.0.5 for all
+  librdkafka 0.11.0 to 0.11.3 for all
+  mongodb 1.3.1 to 1.3.4 for all
+  phalcon 3.2.3 to 3.2.4 for all
+  rdkafka 3.0.4 to 3.0.5 for all
+  twig 1.34.4 to 1.35.0 for php5
+  (https://www.pivotaltracker.com/story/show/153313445)
+
+* Add PHP 7.2.0
+  (https://www.pivotaltracker.com/story/show/153210066)
+
 v4.3.45 Dec 01, 2017
 =====================
 
