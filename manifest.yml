@@ -461,7 +461,7 @@ dependencies:
   - cflinuxfs2
 - name: php
   version: 7.2.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.0-linux-x64-1d0ba22b.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.0-linux-x64-1ae03adc.tgz
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -509,4 +509,4 @@ dependencies:
   - yaf
   - zip
   - zlib
-  sha256: 1d0ba22b73f7453558c1695d4d879a220f5b516ac946e818a3b106d999d60876
+  sha256: 1ae03adce839113e060f489e20068a953f7b63f18967a94baa91df5e4f31c41d
