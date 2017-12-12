@@ -24,6 +24,7 @@ import re
 import json
 import StringIO
 import copy
+import shutil
 from build_pack_utils import utils
 from build_pack_utils import stream_output
 from compile_helpers import warn_invalid_php_version
@@ -194,9 +195,15 @@ class ComposerExtension(ExtensionHelper):
     def _compile(self, install):
         self._builder = install.builder
         self.composer_runner = ComposerCommandRunner(self._ctx, self._builder)
+        self.clean_cache_dir()
         self.move_local_vendor_folder()
         self.install()
         self.run()
+
+    def clean_cache_dir(self):
+        if not os.path.exists(self._ctx['COMPOSER_CACHE_DIR']):
+            self._log.debug("Old style cache directory exists, removing")
+            shutil.rmtree(self._ctx['COMPOSER_HOME'], ignore_errors=True)
 
     def move_local_vendor_folder(self):
         vendor_path = os.path.join(self._ctx['BUILD_DIR'],
