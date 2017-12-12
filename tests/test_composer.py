@@ -445,7 +445,7 @@ class TestComposer(object):
         ct = self.extension_module.ComposerExtension(ctx)
         eq_('/tmp/build/lib/vendor', ct._ctx['COMPOSER_VENDOR_DIR'])
         eq_('/tmp/build/php/bin', ct._ctx['COMPOSER_BIN_DIR'])
-        eq_('/tmp/cache/composer', ct._ctx['COMPOSER_CACHE_DIR'])
+        eq_('/tmp/cache/composer/cache', ct._ctx['COMPOSER_CACHE_DIR'])
 
     def test_composer_custom_values(self):
         ctx = utils.FormattedDict({
@@ -641,7 +641,7 @@ class TestComposer(object):
             built_environment = cr._build_composer_environment()
 
         assert 'PATH' in built_environment, "should have PATH set"
-        assert "/usr/awesome/php/bin" == built_environment['PATH'], \
+        assert "/usr/awesome/php/bin:cache/composer/bin" == built_environment['PATH'], \
             "PATH should contain path to PHP, found [%s]" \
             % built_environment['PATH']
 
@@ -668,7 +668,7 @@ class TestComposer(object):
             built_environment = cr._build_composer_environment()
 
         assert 'PATH' in built_environment, "should have PATH set"
-        assert built_environment['PATH'].endswith(":/usr/awesome/php/bin"), \
+        assert built_environment['PATH'].endswith(":/usr/awesome/php/bin:cache/composer/bin"), \
             "PATH should contain path to PHP, found [%s]" \
             % built_environment['PATH']
 
