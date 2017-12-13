@@ -207,7 +207,7 @@ class TestNewRelic(object):
             lines = php_ini.readlines()
         eq_(True, lines.index('extension=%s\n' % nr.newrelic_so) >= 0)
         eq_(True, lines.index('[newrelic]\n') >= 0)
-        eq_(True, lines.index('newrelic.license=JUNK_LICENSE\n') >= 0)
+        eq_(True, lines.index('newrelic.license=@{NEWRELIC_LICENSE}\n') >= 0)
         eq_(True, lines.index('newrelic.appname=%s\n' % nr.app_name) >= 0)
 
 
