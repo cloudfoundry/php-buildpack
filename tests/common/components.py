@@ -283,7 +283,7 @@ class NewRelicAssertHelper(object):
             .equals(
                 'extension=@{HOME}/newrelic/agent/x64/newrelic-20131226.so\n')
             .equals('[newrelic]\n')
-            .equals('newrelic.license=JUNK_LICENSE\n')
+            .equals('newrelic.license=@{NEWRELIC_LICENSE}\n')
             .equals('newrelic.appname=app-name-1\n'))
 
     def is_not_installed(self, build_dir):
