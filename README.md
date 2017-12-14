@@ -6,7 +6,7 @@ A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a
 
 ### Buildpack User Documentation
 
-Official buildpack documentation can be found at [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html.
+Official buildpack documentation can be found at [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html).
 
 ### Building the Buildpack
 
@@ -18,13 +18,13 @@ Official buildpack documentation can be found at [php buildpack docs](http://doc
 
 1. Get latest buildpack dependencies
 
-  ```shell
+  ```bash
   BUNDLE_GEMFILE=cf.Gemfile bundle
   ```
 
 1. Build the buildpack
 
-  ```shell
+  ```bash
   BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ]
   ```
 
@@ -38,14 +38,16 @@ Official buildpack documentation can be found at [php buildpack docs](http://doc
     ```
 
 ### Contributing
-Find our guidelines [here](https://github.com/cloudfoundry/php-buildpack/blob/develop/CONTRIBUTING.md).
+
+Read our [guidelines](https://github.com/cloudfoundry/php-buildpack/blob/develop/CONTRIBUTING.md).
 
 ### Integration Tests
+
 Buildpacks use the [Machete](https://github.com/cloudfoundry/machete) framework for running integration tests.
 
 To test a buildpack, run the following command from the buildpack's directory:
 
-```
+```bash
 BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-build
 ```
 
@@ -56,15 +58,17 @@ BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-build
 ```
 
 ### Requirements
- 1. [PyEnv] - This will allow you to easily install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
- 1. [virtualenv] & [pip] - The buildpack uses virtualenv and pip to setup the [required packages].  These are used by the unit test and not required by the buildpack itself.
+
+1. [PyEnv] - This will allow you to easily install Python 2.6.6, which is the same version available through the staging environment of CloudFoundry.
+1. [virtualenv] & [pip] - The buildpack uses virtualenv and pip to setup the [required packages].  These are used by the unit test and not required by the buildpack itself.
 
 ### Setup
+
 ```bash
 git clone https://github.com/cloudfoundry/php-buildpack
 cd php-buildpack
 python -V  # should report 2.6.6, if not fix PyEnv before creating the virtualenv
-virtualenv `pwd`/env
+virtualenv $(pwd)/env
 . ./env/bin/activate
 pip install -r requirements.txt
 ```
@@ -89,13 +93,13 @@ The easiest way to understand the buildpack is to trace the flow of the scripts.
 
 Of these, the `detect` and `release` scripts are straightforward, providing the minimal functionality required by a buildpack.  The `compile` script is more complicated but works like this.
 
-  - load configuration
-  - setup the `WEBDIR` directory
-  - install the buildpack utils and the core extensions (HTTPD, Nginx & PHP)
-  - install other extensions
-  - install the `rewrite` and `start` scripts
-  - setup the runtime environment and process manager
-  - generate a startup.sh script
+- load configuration
+- setup the `WEBDIR` directory
+- install the buildpack utils and the core extensions (HTTPD, Nginx & PHP)
+- install other extensions
+- install the `rewrite` and `start` scripts
+- setup the runtime environment and process manager
+- generate a startup.sh script
 
 ### Extensions
 
@@ -138,7 +142,6 @@ The `configure` method gives extension authors a chance to adjust the configurat
 An example of when to use this method would be to adjust the list of PHP extensions that are going to be installed.
 
 The method takes one argument, which is the buildpack context.  You can edit the context to update the state of the buildpack.  Return value is ignore / not necessary.
-
 
 ```python
 def preprocess_commands(ctx):
@@ -189,10 +192,10 @@ The method is given one argument which is an Installer builder object.  The obje
 It is sometimes useful to know what order the buildpack will use to call the methods in an extension.  They are called in the following order.
 
 1. `configure`
-2. `compile`
-3. `service_environment`
-4. `service_commands`
-5. `preprocess_commands`
+1. `compile`
+1. `service_environment`
+1. `service_commands`
+1. `preprocess_commands`
 
 #### Example
 
@@ -236,14 +239,14 @@ def compile(install):
 
 #### Tips
 
- 1. To be consistent with the rest of the buildpack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the buildpack.
- 1. The buildpack will run every extension that is included with the buildpack and the application.  There is no mechanism to disable specific extensions.  Thus, when you write an extension, you should make some way for the user to enable / disable it's functionality.  See the [NewRelic] extension for an example of this.
- 1. If an extension requires configuration, it should be included with the extension.  The `defaults/options.json` file is for the buildpack and its core extensions.  See the [NewRelic] buildpack for an example of this.
- 1. Extensions should have their own test module.  This generally takes the form `tests/test_<extension_name>.py`.
- 1. Run [bosh-lite].  It'll speed up testing and allow you to inspect the environment manually, if needed.
- 1. Run a local web server for your binaries.  It'll seriously speed up download times.
- 1. Test, test and test again.  Create unit and integration tests for your code and extensions.  This gives you quick and accurate feedback on your code.  It also makes it easier for you to make changes in the future and be confident that you're not breaking stuff.
- 1. Check your code with flake8.  This linting tool can help to detect problems quickly.
+1. To be consistent with the rest of the buildpack, extensions should import and use the standard logging module.  This will allow extension output to be incorporated into the output for the rest of the buildpack.
+1. The buildpack will run every extension that is included with the buildpack and the application.  There is no mechanism to disable specific extensions.  Thus, when you write an extension, you should make some way for the user to enable / disable it's functionality.  See the [NewRelic] extension for an example of this.
+1. If an extension requires configuration, it should be included with the extension.  The `defaults/options.json` file is for the buildpack and its core extensions.  See the [NewRelic] buildpack for an example of this.
+1. Extensions should have their own test module.  This generally takes the form `tests/test_<extension_name>.py`.
+1. Run [bosh-lite].  It'll speed up testing and allow you to inspect the environment manually, if needed.
+1. Run a local web server for your binaries.  It'll seriously speed up download times.
+1. Test, test and test again.  Create unit and integration tests for your code and extensions.  This gives you quick and accurate feedback on your code.  It also makes it easier for you to make changes in the future and be confident that you're not breaking stuff.
+1. Check your code with flake8.  This linting tool can help to detect problems quickly.
 
 [PyEnv]:https://github.com/yyuu/pyenv
 [virtualenv]:http://www.virtualenv.org/en/latest/
@@ -291,5 +294,3 @@ The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/proje
 [Phalcon]:http://phalconphp.com/en/
 [composer]:https://github.com/dmikusa-pivotal/cf-ex-composer
 [Proxy Support]:http://docs.cloudfoundry.org/buildpacks/proxy-usage.html
-
-
