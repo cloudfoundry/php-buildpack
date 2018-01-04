@@ -177,8 +177,7 @@ def service_commands(ctx):
 
 
 def service_environment(ctx):
-    return {'NEWRELIC_LICENSE': ctx['NEWRELIC_LICENSE']}
-
+    return {'NEWRELIC_LICENSE': "$NEWRELIC_LICENSE"}
 
 def compile(install):
     newrelic = NewRelicInstaller(install.builder._ctx)
