@@ -498,6 +498,57 @@ dependencies:
   - zip
   - zlib
   sha256: 1ae03adce839113e060f489e20068a953f7b63f18967a94baa91df5e4f31c41d
+- name: php
+  version: 7.2.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.1-linux-x64-d7089b99.tgz
+  cf_stacks:
+  - cflinuxfs2
+  modules:
+  - amqp
+  - apcu
+  - bz2
+  - cassandra
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - geoip
+  - gettext
+  - gmp
+  - igbinary
+  - imagick
+  - imap
+  - ldap
+  - lua
+  - mailparse
+  - mbstring
+  - mongodb
+  - msgpack
+  - mysqli
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_mysql
+  - pdo_odbc
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - phalcon
+  - phpiredis
+  - pspell
+  - rdkafka
+  - redis
+  - snmp
+  - soap
+  - sockets
+  - xsl
+  - yaf
+  - zip
+  - zlib
+  sha256: d7089b99f509bd22a50221765fb13b9240818031c50534f63eca7ee34d467f05
 - name: nginx
   version: 1.13.8
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.8-linux-x64-9585c5f4.tgz
