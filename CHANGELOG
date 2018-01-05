@@ -1,3 +1,57 @@
+v4.3.47 Jan 05, 2018
+=====================
+
+* Add php 7.2.1
+  (https://www.pivotaltracker.com/story/show/154057675)
+
+* Add composer 1.6.2, remove composer 1.5.5
+  (https://www.pivotaltracker.com/story/show/154089509)
+  (https://www.pivotaltracker.com/story/show/154050459)
+  (https://www.pivotaltracker.com/story/show/153787005)
+  (https://www.pivotaltracker.com/story/show/154052768)
+  (https://www.pivotaltracker.com/story/show/153780580)
+
+* Add php 7.1.13, removed php 7.1.11
+  (https://www.pivotaltracker.com/story/show/154013043)
+
+* Add php 7.0.27, removed php 7.0.25
+  (https://www.pivotaltracker.com/story/show/153987146)
+
+* Add php 5.6.33, remove php 5.6.31
+  (https://www.pivotaltracker.com/story/show/154011603)
+* Don't write new relic license key into droplet
+  (https://www.pivotaltracker.com/story/show/146159399)
+
+* Add nginx 1.13.8, remove nginx 1.13.7
+  (https://www.pivotaltracker.com/story/show/153910485)
+
+* Remove newrelic creds from php ini file
+  (https://www.pivotaltracker.com/story/show/146159399)
+
+* Clear cache when changing cache/composer path meaning
+  (https://www.pivotaltracker.com/story/show/152304260)
+
+* Merge pull request #231 from dmikusa-pivotal/develop
+  Enable installing global Composer packages.
+
+* Merge pull request #234 from arthfl/develop
+  Lots of additions to the Dynatrace extension
+
+* Update ioncube in PHP 7.2.0 to 10.0.4
+  (https://www.pivotaltracker.com/story/show/153563813)
+
+* added detection of multiple dynatrace credential services
+
+* Enable installing global Composer packages.
+  List of changes:
+   - add COMPOSER_HOME, which dictates where Composer stores it's config
+   - move default COMPOSER_CACHE_DIR under COMPOSER_HOME
+   - create a global composer runner with its own COMPOSER_VENDOR_DIR and COMPOSER_BIN_DIR, these are both under COMPOSER_HOME
+   - use the global composer running to install global packages listed in COMPOSER_INSTAL_GLOBAL
+   - COMPOSER_INSTALL_GLOBAL is set in `defaults/options.json` and is an empty list, app dev's can add this property their own `.bp-config/options.json` and specify their own list of packages to install.
+   - Added `COMPOSER_HOME/bin` to the PATH when Composer runs to install the project's packages.  This enables users to run globally installed package binaries & scripts without needing the full path to the script.
+
+
 v4.3.46 Dec 11, 2017
 =====================
 
