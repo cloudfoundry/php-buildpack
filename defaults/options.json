@@ -8,7 +8,7 @@
     "HTTPD_STRIP": true,
     "HTTPD_MODULES_STRIP": true,
     "NGINX_STRIP": true,
-    "PHP_56_LATEST": "5.6.32",
+    "PHP_56_LATEST": "5.6.33",
     "PHP_70_LATEST": "7.0.26",
     "PHP_71_LATEST": "7.1.12",
     "PHP_72_LATEST": "7.2.0",
