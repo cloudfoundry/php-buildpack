@@ -108,8 +108,11 @@ class NewRelicInstaller(object):
                                             newrelic_so_name)
             self._log.debug("PHP Extension [%s]", self.newrelic_so)
             self.log_path = os.path.join('@{HOME}', 'logs',
-                                         'newrelic-daemon.log')
+                                         'newrelic.log')
             self._log.debug("Log Path [%s]", self.log_path)
+            self.daemon_log_path = os.path.join('@{HOME}', 'logs',
+                                         'newrelic-daemon.log')
+            self._log.debug("Daemon Log Path [%s]", self.daemon_log_path)
             self.daemon_path = os.path.join(
                 '@{HOME}', 'newrelic', 'daemon',
                 'newrelic-daemon.%s' % self._php_arch)
@@ -159,7 +162,8 @@ class NewRelicInstaller(object):
         lines.append('[newrelic]\n')
         lines.append('newrelic.license=%s\n' % '@{NEWRELIC_LICENSE}')
         lines.append('newrelic.appname=%s\n' % self.app_name)
-        lines.append('newrelic.daemon.logfile=%s\n' % self.log_path)
+        lines.append('newrelic.logfile=%s\n' % self.log_path)
+        lines.append('newrelic.daemon.logfile=%s\n' % self.daemon_log_path)
         lines.append('newrelic.daemon.location=%s\n' % self.daemon_path)
         lines.append('newrelic.daemon.port=%s\n' % self.socket_path)
         lines.append('newrelic.daemon.pidfile=%s\n' % self.pid_path)
