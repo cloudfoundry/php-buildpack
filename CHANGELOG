@@ -1,3 +1,15 @@
+v4.3.48 Jan 26, 2018
+=====================
+
+* Set newrelic php agent logfile
+  (https://www.pivotaltracker.com/story/show/154434353)
+
+* Parse NEWRELIC_LICENSE from VCAP_SERVICES at runtime
+  (https://www.pivotaltracker.com/story/show/154393877)
+
+* Add newrelic agent 7.7.0.203, remove 7.6.0.201
+  (https://www.pivotaltracker.com/story/show/154221500)
+
 v4.3.47 Jan 05, 2018
 =====================
 
