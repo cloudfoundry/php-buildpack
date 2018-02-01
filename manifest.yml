@@ -5,6 +5,9 @@ exclude_files:
 - ".gitignore"
 - ".gitmodules"
 - cf_spec/
+- pkg/
+- src/php/
+- .bin/
 - log/
 - tests/
 - cf.Gemfile

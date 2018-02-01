@@ -9,15 +9,6 @@ GIT
       semantic
       terminal-table (~> 1.4)
 
-GIT
-  remote: https://github.com/cloudfoundry/machete
-  revision: 7b909eb0ae81ebf10697af67fa130ea5cfce036b
-  tag: v0.0.71
-  specs:
-    machete (0.0.71)
-      childprocess
-      httparty
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -26,42 +17,12 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    childprocess (0.7.1)
-      ffi (~> 1.0, >= 1.0.11)
-    coderay (1.1.1)
     concurrent-ruby (1.0.5)
-    diff-lcs (1.2.5)
-    excon (0.51.0)
-    ffi (1.9.18)
-    httparty (0.15.6)
-      multi_xml (>= 0.5.2)
     i18n (0.9.0)
       concurrent-ruby (~> 1.0)
     kwalify (0.7.2)
-    method_source (0.8.2)
     minitest (5.10.3)
-    multi_xml (0.6.0)
-    pry (0.10.4)
-      coderay (~> 1.1.0)
-      method_source (~> 0.8.1)
-      slop (~> 3.4)
-    rspec (3.5.0)
-      rspec-core (~> 3.5.0)
-      rspec-expectations (~> 3.5.0)
-      rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.1)
-      rspec-support (~> 3.5.0)
-    rspec-expectations (3.5.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
-    rspec-instafail (1.0.0)
-      rspec
-    rspec-mocks (3.5.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
-    rspec-support (3.5.0)
     semantic (1.6.0)
-    slop (3.6.0)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     thread_safe (0.3.6)
@@ -74,14 +35,9 @@ PLATFORMS
 
 DEPENDENCIES
   buildpack-packager!
-  excon
-  machete!
-  pry
-  rspec
-  rspec-instafail
 
 RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.4
+   1.16.1
