@@ -34,6 +34,8 @@ func init() {
 
 var _ = SynchronizedBeforeSuite(func() []byte {
 	// Run once
+	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty()) // Required for some tests
+
 	if buildpackVersion == "" {
 		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack()
 		Expect(err).NotTo(HaveOccurred())
@@ -142,7 +144,7 @@ func AssertUsesProxyDuringStagingIfPresent(fixtureName string) {
 	Context("with an uncached buildpack", func() {
 		BeforeEach(SkipUnlessUncached)
 
-		PIt("uses a proxy during staging if present", func() {
+		It("uses a proxy during staging if present", func() {
 			proxy, err := cutlass.NewProxy()
 			Expect(err).To(BeNil())
 			defer proxy.Close()
@@ -172,7 +174,7 @@ func AssertUsesProxyDuringStagingIfPresent(fixtureName string) {
 }
 
 func AssertNoInternetTraffic(fixtureName string) {
-	PIt("has no traffic", func() {
+	It("has no traffic", func() {
 		SkipUnlessCached()
 
 		bpFile := filepath.Join(bpDir, buildpackVersion+"tmp")
