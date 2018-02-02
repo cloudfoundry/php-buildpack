@@ -10,3 +10,6 @@ fi
 if [ ! -f .bin/buildpack-packager ]; then
   (cd src/*/vendor/github.com/cloudfoundry/libbuildpack/packager/buildpack-packager && go install)
 fi
+
+export BUNDLE_GEMFILE=cf.Gemfile
+bundle install
