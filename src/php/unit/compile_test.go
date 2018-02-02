@@ -2,8 +2,8 @@ package unit_test
 
 import (
 	"bytes"
+	"os"
 	"os/exec"
-	"strings"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -19,15 +19,11 @@ var _ = Describe("Compile", func() {
 			bpDir, err := cutlass.FindRoot()
 			Expect(err).NotTo(HaveOccurred())
 
-			cmd = exec.Command("uname")
-			uname, err := cmd.Output()
-			Expect(err).ToNot(HaveOccurred())
-
-			if strings.TrimSpace(string(uname)) == "Darwin" {
+			if IsDockerAvailable() {
 				cmd = exec.Command("docker", "run", "--rm", "-e", "'CF_STACK=unsupported'", "-v", bpDir+":/buildpack:ro", "-w", "/buildpack", "cloudfoundry/cflinuxfs2", "./bin/compile", "/tmp/abcd", "/tmp/efgh")
 			} else {
 				cmd = exec.Command("./bin/compile", "/tmp/abcd", "/tmp/efgh")
-				cmd.Env = []string{"CF_STACK=unsupported"}
+				cmd.Env = append(os.Environ(), "CF_STACK=unsupported")
 			}
 			cmd.Dir = bpDir
 		})
