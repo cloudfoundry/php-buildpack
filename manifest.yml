@@ -7,7 +7,7 @@ exclude_files:
 - cf_spec/
 - pkg/
 - src/php/
-- .bin/
+- ".bin/"
 - log/
 - tests/
 - cf.Gemfile
