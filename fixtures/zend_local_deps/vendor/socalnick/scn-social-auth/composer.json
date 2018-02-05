@@ -1,0 +1,36 @@
+{
+    "name": "socalnick/scn-social-auth",
+    "description": "Uses the HybridAuth PHP library to Enable authentication via Google, Facebook, Twitter, Yahoo!, etc for the ZfcUser ZF2 module.",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/SocalNick/ScnSocialAuth",
+    "authors": [
+        {
+            "name": "Nicholas Calugar",
+            "email": "njcalugar@gmail.com",
+            "homepage": "http://socalnick.github.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+        "zf-commons/zfc-base": "0.1.*",
+        "zf-commons/zfc-user": "1.0.*",
+        "hybridauth/hybridauth": "2.2.*"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.8.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ScnSocialAuth": "src/",
+            "ScnSocialAuthTest": "test/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}

@@ -3,8 +3,7 @@ language: php
 exclude_files:
 - ".git/"
 - ".gitignore"
-- ".gitmodules"
-- cf_spec/
+- fixtures/
 - pkg/
 - src/php/
 - ".bin/"

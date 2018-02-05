@@ -1,0 +1,31 @@
+{
+    "name": "sensio/generator-bundle",
+    "description": "This bundle generates code for you",
+    "keywords": [],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.1.*",
+        "symfony/console": "2.1.*"
+    },
+    "require-dev": {
+        "symfony/doctrine-bridge": "2.1.*",
+        "doctrine/orm": ">=2.1,<2.4-dev",
+        "twig/twig": ">=1.8,<2.0-dev"
+    },
+    "autoload": {
+        "psr-0": { "Sensio\\Bundle\\GeneratorBundle": "" }
+    },
+    "target-dir": "Sensio/Bundle/GeneratorBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1.x-dev"
+        }
+    }
+}

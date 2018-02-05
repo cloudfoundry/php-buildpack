@@ -15,14 +15,13 @@ var _ = Describe("CF PHP Buildpack", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	Context("deploying a Cake application with local dependencies", func() {
-		BeforeEach(func() {
-			SkipUnlessCached()
+		BeforeEach(SkipUnlessCached)
 
+		It("", func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_local_deps"))
 			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
 			PushAppAndConfirm(app)
-		})
-		It("", func() {
+
 			body, err := app.GetBody("/")
 			Expect(err).ToNot(HaveOccurred())
 			Expect(body).To(ContainSubstring("CakePHP"))
@@ -35,15 +34,14 @@ var _ = Describe("CF PHP Buildpack", func() {
 	})
 
 	Context("deploying a Cake application with remote dependencies", func() {
-		BeforeEach(func() {
-			SkipUnlessUncached()
+		BeforeEach(SkipUnlessUncached)
 
+		It("", func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_remote_deps"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
 			PushAppAndConfirm(app)
-		})
-		It("", func() {
+
 			body, err := app.GetBody("/")
 			Expect(err).ToNot(HaveOccurred())
 			Expect(body).To(ContainSubstring("CakePHP"))

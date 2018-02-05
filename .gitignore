@@ -9,9 +9,6 @@ binaries/trusty/*
 /env
 *_buildpack*.zip
 /log/
-vendor
-!/vendor
-!/src/php/vendor/
 *.DS_Store
 .bundle
 DebugKit

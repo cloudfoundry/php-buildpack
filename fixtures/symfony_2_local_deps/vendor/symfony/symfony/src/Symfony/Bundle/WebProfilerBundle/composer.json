@@ -1,0 +1,27 @@
+{
+    "name": "symfony/web-profiler-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony WebProfilerBundle",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/twig-bundle": "2.1.*"
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Bundle\\WebProfilerBundle": "" }
+    },
+    "target-dir": "Symfony/Bundle/WebProfilerBundle",
+    "minimum-stability": "dev"
+}

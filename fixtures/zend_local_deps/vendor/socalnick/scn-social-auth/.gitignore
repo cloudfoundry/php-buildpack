@@ -1,0 +1,10 @@
+INSTALL.txt
+LICENSE.txt
+README.txt
+demos/
+extras/documentation
+vendor/
+composer.lock
+php-cs-fixer.phar
+.idea/*
+
