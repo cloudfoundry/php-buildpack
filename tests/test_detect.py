@@ -37,6 +37,7 @@ class TestDetect(object):
         shutil.copytree('.', bp.bp_dir,
                         ignore=shutil.ignore_patterns("binaries",
                                                       "env",
+                                                      "fixtures",
                                                       "tests"))
         try:
             output = bp._detect().strip()
@@ -65,6 +66,7 @@ class TestDetect(object):
         shutil.copytree('.', bp.bp_dir,
                         ignore=shutil.ignore_patterns("binaries",
                                                       "env",
+                                                      "fixtures",
                                                       "tests"))
         try:
             output = bp._detect().strip()
@@ -93,6 +95,7 @@ class TestDetect(object):
         shutil.copytree('.', bp.bp_dir,
                         ignore=shutil.ignore_patterns("binaries",
                                                       "env",
+                                                      "fixtures",
                                                       "tests"))
         try:
             output = bp._detect().strip()
@@ -119,6 +122,7 @@ class TestDetect(object):
         shutil.copytree('.', bp.bp_dir,
                         ignore=shutil.ignore_patterns("binaries",
                                                       "env",
+                                                      "fixtures",
                                                       "tests"))
         try:
             output = bp._detect().strip()
@@ -146,6 +150,7 @@ class TestDetect(object):
         shutil.copytree('.', bp.bp_dir,
                         ignore=shutil.ignore_patterns("binaries",
                                                       "env",
+                                                      "fixtures",
                                                       "tests"))
         try:
             bp._detect().strip()
