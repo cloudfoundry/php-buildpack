@@ -274,6 +274,7 @@ dependencies:
   - pgsql
   - phalcon
   - phpiredis
+  - protobuf
   - pspell
   - rdkafka
   - redis
@@ -382,6 +383,7 @@ dependencies:
   - pdo_sqlite
   - pgsql
   - phpiredis
+  - protobuf
   - pspell
   - rdkafka
   - redis
@@ -476,6 +478,7 @@ dependencies:
   - igbinary
   - imagick
   - imap
+  - ioncube
   - ldap
   - lua
   - mailparse
@@ -494,12 +497,14 @@ dependencies:
   - pgsql
   - phalcon
   - phpiredis
+  - protobuf
   - pspell
   - rdkafka
   - redis
   - snmp
   - soap
   - sockets
+  - xdebug
   - xsl
   - yaf
   - zip
