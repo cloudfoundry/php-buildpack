@@ -77,6 +77,7 @@ class DirectoryHelper(object):
         shutil.copytree('.', bp_dir,
                         ignore=shutil.ignore_patterns("binaries",
                                                       "env",
+                                                      "fixtures",
                                                       "tests"))
         binPath = os.path.join(bp_dir, 'binaries', 'lucid')
         os.makedirs(binPath)
