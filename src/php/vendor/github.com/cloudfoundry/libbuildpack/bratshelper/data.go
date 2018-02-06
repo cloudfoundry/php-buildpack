@@ -28,6 +28,8 @@ var Data BpData
 func InitBpData() *BpData {
 	cutlass.SeedRandom()
 
+	Data.BpVersion = cutlass.RandStringRunes(6)
+
 	var err error
 	Data.BpDir, err = cutlass.FindRoot()
 	Expect(err).NotTo(HaveOccurred())
@@ -36,11 +38,11 @@ func InitBpData() *BpData {
 	Expect(err).ToNot(HaveOccurred())
 	obj := make(map[string]interface{})
 	Expect(yaml.Unmarshal(file, &obj)).To(Succeed())
+
 	var ok bool
 	Data.BpLanguage, ok = obj["language"].(string)
 	Expect(ok).To(BeTrue())
 
-	Data.BpVersion = cutlass.RandStringRunes(6)
 	Data.Cached = "brats_" + Data.BpLanguage + "_cached_" + Data.BpVersion
 	Data.Uncached = "brats_" + Data.BpLanguage + "_uncached_" + Data.BpVersion
 

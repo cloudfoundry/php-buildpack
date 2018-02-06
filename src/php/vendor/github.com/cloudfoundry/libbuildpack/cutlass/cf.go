@@ -83,6 +83,30 @@ func ApiVersion() (string, error) {
 	return info.ApiVersion, nil
 }
 
+func Stacks() ([]string, error) {
+	cmd := exec.Command("cf", "curl", "/v2/stacks")
+	cmd.Stderr = DefaultStdoutStderr
+	bytes, err := cmd.Output()
+	if err != nil {
+		return nil, err
+	}
+	var info struct {
+		Resources []struct {
+			Entity struct {
+				Name string `json:"name"`
+			} `json:"entity"`
+		} `json:"resources"`
+	}
+	if err := json.Unmarshal(bytes, &info); err != nil {
+		return nil, err
+	}
+	var out []string
+	for _, r := range info.Resources {
+		out = append(out, r.Entity.Name)
+	}
+	return out, nil
+}
+
 func DeleteOrphanedRoutes() error {
 	command := exec.Command("cf", "delete-orphaned-routes", "-f")
 	command.Stdout = DefaultStdoutStderr
@@ -244,6 +268,9 @@ func (a *App) PushNoStart() error {
 	if a.StartCommand != "" {
 		args = append(args, "-c", a.StartCommand)
 	}
+	if a.StartCommand != "" {
+		args = append(args, "-c", a.StartCommand)
+	}
 	command := exec.Command("cf", args...)
 	command.Stdout = DefaultStdoutStderr
 	command.Stderr = DefaultStdoutStderr
@@ -307,9 +334,13 @@ func (a *App) GetUrl(path string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	schema, found := os.LookupEnv("CUTLASS_SCHEMA")
+	if !found {
+		schema = "http"
+	}
 	host := gjson.Get(string(data), "routes.0.host").String()
 	domain := gjson.Get(string(data), "routes.0.domain.name").String()
-	return fmt.Sprintf("http://%s.%s%s", host, domain, path), nil
+	return fmt.Sprintf("%s://%s.%s%s", schema, host, domain, path), nil
 }
 
 func (a *App) Get(path string, headers map[string]string) (string, map[string][]string, error) {

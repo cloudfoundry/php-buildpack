@@ -1,7 +1,6 @@
 package libbuildpack
 
 import (
-	"crypto/md5"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -31,6 +30,7 @@ type DeprecationDate struct {
 type ManifestEntry struct {
 	Dependency Dependency `yaml:",inline"`
 	URI        string     `yaml:"uri"`
+	File       string     `yaml:"file"`
 	SHA256     string     `yaml:"sha256"`
 	CFStacks   []string   `yaml:"cf_stacks"`
 }
@@ -68,6 +68,58 @@ func NewManifest(bpDir string, logger *Logger, currentTime time.Time) (*Manifest
 	m.log = logger
 
 	return &m, nil
+}
+func (m *Manifest) replaceDefaultVersion(oDep Dependency) {
+	replaced := false
+	for idx, mDep := range m.DefaultVersions {
+		if mDep.Name == oDep.Name {
+			replaced = true
+			m.DefaultVersions[idx] = oDep
+		}
+	}
+	if !replaced {
+		m.DefaultVersions = append(m.DefaultVersions, oDep)
+	}
+}
+func (m *Manifest) replaceManifestEntry(oEntry ManifestEntry) {
+	oDep := oEntry.Dependency
+	replaced := false
+	for idx, mEntry := range m.ManifestEntries {
+		mDep := mEntry.Dependency
+		if mDep.Name == oDep.Name && mDep.Version == oDep.Version {
+			replaced = true
+			m.ManifestEntries[idx] = mEntry
+		}
+	}
+	if !replaced {
+		m.ManifestEntries = append(m.ManifestEntries, oEntry)
+	}
+}
+
+func (m *Manifest) ApplyOverride(depsDir string) error {
+	files, err := filepath.Glob(filepath.Join(depsDir, "*", "override.yml"))
+	if err != nil {
+		return err
+	}
+
+	for _, file := range files {
+		var overrideYml map[string]Manifest
+		y := &YAML{}
+		if err := y.Load(file, &overrideYml); err != nil {
+			return err
+		}
+
+		if o, found := overrideYml[m.Language()]; found {
+			for _, oDep := range o.DefaultVersions {
+				m.replaceDefaultVersion(oDep)
+			}
+			for _, oEntry := range o.ManifestEntries {
+				m.replaceManifestEntry(oEntry)
+			}
+		}
+	}
+
+	return nil
 }
 
 func (m *Manifest) RootDir() string {
@@ -294,15 +346,10 @@ func (m *Manifest) FetchDependency(dep Dependency, outputFile string) error {
 		return err
 	}
 
-	if m.IsCached() {
-		source := filepath.Join(m.manifestRootDir, "dependencies", fmt.Sprintf("%x", md5.Sum([]byte(entry.URI))), path.Base(entry.URI))
-		exists, err := FileExists(source)
-		if err != nil {
-			m.log.Warning("Error determining if cached file exists: %s", err.Error())
-		}
-		if !exists {
-			r := strings.NewReplacer("/", "_", ":", "_", "?", "_", "&", "_")
-			source = filepath.Join(m.manifestRootDir, "dependencies", r.Replace(filteredURI))
+	if entry.File != "" {
+		source := entry.File
+		if !path.IsAbs(source) {
+			source = filepath.Join(m.manifestRootDir, source)
 		}
 		m.log.Info("Copy [%s]", source)
 		err = CopyFile(source, outputFile)
@@ -323,11 +370,26 @@ func (m *Manifest) FetchDependency(dep Dependency, outputFile string) error {
 	return nil
 }
 
+func (m *Manifest) entrySupportsCurrentStack(entry *ManifestEntry) bool {
+	stack := os.Getenv("CF_STACK")
+	if stack == "" {
+		return true
+	}
+
+	for _, s := range entry.CFStacks {
+		if s == stack {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (m *Manifest) AllDependencyVersions(depName string) []string {
 	var depVersions []string
 
 	for _, e := range m.ManifestEntries {
-		if e.Dependency.Name == depName {
+		if e.Dependency.Name == depName && m.entrySupportsCurrentStack(&e) {
 			depVersions = append(depVersions, e.Dependency.Version)
 		}
 	}
@@ -350,7 +412,7 @@ func (m *Manifest) InstallOnlyVersion(depName string, installDir string) error {
 
 func (m *Manifest) getEntry(dep Dependency) (*ManifestEntry, error) {
 	for _, e := range m.ManifestEntries {
-		if e.Dependency == dep {
+		if e.Dependency == dep && m.entrySupportsCurrentStack(&e) {
 			return &e, nil
 		}
 	}
