@@ -17,13 +17,13 @@ class ModsecurityConfiguration(object):
             self.make_dir(directory)
 
     def add_entry(self, elem):
+        modsecurity_home = path.join(self._ctx['HOME'], 'app', 'modsecurity')
         self._ctx['MODSECURITY_{0}_DIR'.format(
-            elem.upper())] = path.join(
-                self._ctx['BUILD_DIR'], 'modsecurity', elem)
+            elem.upper())] = path.join(modsecurity_home, elem)
 
     def make_dir(self, elem):
-        utils.safe_makedirs(
-            self._ctx['MODSECURITY_{0}_DIR'.format(elem.upper())])
+        modsecurity_build_dir = path.join(self._ctx['BUILD_DIR'], 'modsecurity')
+        utils.safe_makedirs(path.join(modsecurity_build_dir, elem))
 
 
 # Extension Methods
