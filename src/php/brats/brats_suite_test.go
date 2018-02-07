@@ -93,29 +93,16 @@ func CopyBratsWithFramework(phpVersion, webserver, webserverVersion string) *cut
 	dir, err := cutlass.CopyFixture(filepath.Join(bratshelper.Data.BpDir, "fixtures", "brats"))
 	Expect(err).ToNot(HaveOccurred())
 
-	commonExtensions := []string{"amqp", "apcu", "bz2", "cassandra", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "geoip", "gettext", "gmp", "imagick", "imap", "ldap", "lua", "mailparse", "mbstring", "mongodb", "msgpack", "mysqli", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "phpiredis", "protobuf", "pspell", "rdkafka", "redis", "soap", "sockets", "xsl", "yaf", "zip", "zlib"}
-	extraExtensions := map[string][]string{
-		"5.6": {"mcrypt", "solr", "gearman", "igbinary", "memcache", "memcached", "mongo", "mssql", "mysql", "pdo_dblib", "phalcon", "protocolbuffers", "readline", "suhosin", "sundown", "twig", "xcache", "xhprof"},
-		"7.0": {"mcrypt", "phalcon", "solr"},
-		"7.1": {"mcrypt", "solr"},
-		"7.2": {},
-	}
-	zendExtensions := map[string][]string{
-		"5.6": {"ioncube", "opcache", "xdebug"},
-		"7.0": {"ioncube", "opcache", "xdebug"},
-		"7.1": {"ioncube", "opcache", "xdebug"},
-		"7.2": {"ioncube", "opcache", "xdebug"},
-	}
-
 	options := make(map[string]interface{})
 	options["PHP_VM"] = "php"
 	options["PHP_VERSION"] = phpVersion
 	options["WEB_SERVER"] = webserver
 	options[strings.ToUpper(webserver)+"_VERSION"] = webserverVersion
-	options["PHP_EXTENSIONS"] = append(commonExtensions, extraExtensions[phpVersion[:3]]...)
-	options["ZEND_EXTENSIONS"] = zendExtensions[phpVersion[:3]]
-	Expect(libbuildpack.NewJSON().Write(filepath.Join(dir, ".bp-config", "options.json"), options)).To(Succeed())
 
+	options["PHP_EXTENSIONS"] = phpExtensions(phpVersion)
+	options["ZEND_EXTENSIONS"] = zendExtensions(phpVersion)
+
+	Expect(libbuildpack.NewJSON().Write(filepath.Join(dir, ".bp-config", "options.json"), options)).To(Succeed())
 	return cutlass.New(dir)
 }
 
@@ -126,4 +113,52 @@ func CopyBrats(version string) *cutlass.App {
 func PushApp(app *cutlass.App) {
 	Expect(app.Push()).To(Succeed())
 	Eventually(app.InstanceStates, 20*time.Second).Should(Equal([]string{"RUNNING"}))
+}
+
+func modulesForPHPVersion(version string) []string {
+	manifest := struct {
+		ManifestEntries []struct {
+			Dependency struct {
+				Name    string   `yaml:"name"`
+				Version string   `yaml:"version"`
+				Modules []string `yaml:"modules"`
+			} `yaml:",inline"`
+		} `yaml:"dependencies"`
+	}{}
+
+	manifestPath := filepath.Join(bratshelper.Data.BpDir, "manifest.yml")
+
+	err := libbuildpack.NewYAML().Load(manifestPath, &manifest)
+	Expect(err).ToNot(HaveOccurred())
+
+	for _, entry := range manifest.ManifestEntries {
+		if entry.Dependency.Name == "php" {
+			if entry.Dependency.Version == version {
+				return entry.Dependency.Modules
+			}
+		}
+	}
+	return []string{}
+}
+
+func zendExtensions(phpVersion string) (extensions []string) {
+	for _, module := range modulesForPHPVersion(phpVersion) {
+		if isZendExtension(module) {
+			extensions = append(extensions, module)
+		}
+	}
+	return
+}
+
+func phpExtensions(phpVersion string) (extensions []string) {
+	for _, module := range modulesForPHPVersion(phpVersion) {
+		if !isZendExtension(module) {
+			extensions = append(extensions, module)
+		}
+	}
+	return
+}
+
+func isZendExtension(moduleName string) bool {
+	return moduleName == "ioncube" || moduleName == "opcache" || moduleName == "xdebug"
 }
