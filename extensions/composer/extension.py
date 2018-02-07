@@ -100,7 +100,7 @@ class ComposerConfiguration(object):
         # requested is coming from the composer.json file and is a unicode string type.
         # Since it's just a semver string, it shouldn't actually contain any unicode
         # characters. So it should be safe to turn it into an ASCII string
-        translated_requirement = str(requested.replace('>=', '~>'))
+        translated_requirement = str(requested)
 
         selected = max_satisfying(self._ctx['ALL_PHP_VERSIONS'], translated_requirement, loose=False)
 
