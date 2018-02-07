@@ -35,6 +35,7 @@
         "ext-pgsql": "*",
         "ext-phalcon": "*",
         "ext-phpiredis": "*",
+        "ext-protobuf": "*",
         "ext-pspell": "*",
         "ext-rdkafka": "*",
         "ext-redis": "*",

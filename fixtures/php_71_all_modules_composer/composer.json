@@ -34,6 +34,7 @@
         "ext-pdo_sqlite": "*",
         "ext-pgsql": "*",
         "ext-phpiredis": "*",
+        "ext-protobuf": "*",
         "ext-pspell": "*",
         "ext-rdkafka": "*",
         "ext-redis": "*",
