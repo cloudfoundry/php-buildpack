@@ -22,7 +22,7 @@
     "cutlass",
     "packager"
   ]
-  revision = "e5816df5bd7d75bd0b1ee079748994b881280438"
+  revision = "1dc6f10af452cfd52b235965f9850571079a904b"
 
 [[projects]]
   name = "github.com/elazarl/goproxy"
