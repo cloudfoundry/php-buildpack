@@ -93,9 +93,9 @@ func CopyBratsWithFramework(phpVersion, webserver, webserverVersion string) *cut
 	dir, err := cutlass.CopyFixture(filepath.Join(bratshelper.Data.BpDir, "fixtures", "brats"))
 	Expect(err).ToNot(HaveOccurred())
 
-	commonExtensions := []string{"amqp", "apcu", "bz2", "cassandra", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "geoip", "gettext", "gmp", "imagick", "imap", "ldap", "lua", "mailparse", "mbstring", "mongodb", "msgpack", "mysqli", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "phpiredis", "pspell", "rdkafka", "redis", "soap", "sockets", "xsl", "yaf", "zip", "zlib"}
+	commonExtensions := []string{"amqp", "apcu", "bz2", "cassandra", "curl", "dba", "exif", "fileinfo", "ftp", "gd", "geoip", "gettext", "gmp", "imagick", "imap", "ldap", "lua", "mailparse", "mbstring", "mongodb", "msgpack", "mysqli", "openssl", "pcntl", "pdo", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "phpiredis", "protobuf", "pspell", "rdkafka", "redis", "soap", "sockets", "xsl", "yaf", "zip", "zlib"}
 	extraExtensions := map[string][]string{
-		"5.6": {"mcrypt", "solr", "gearman", "igbinary", "memcache", "memcached", "mongo", "mssql", "mysql", "pdo_dblib", "phalcon", "protobuf", "protocolbuffers", "readline", "suhosin", "sundown", "twig", "xcache", "xhprof"},
+		"5.6": {"mcrypt", "solr", "gearman", "igbinary", "memcache", "memcached", "mongo", "mssql", "mysql", "pdo_dblib", "phalcon", "protocolbuffers", "readline", "suhosin", "sundown", "twig", "xcache", "xhprof"},
 		"7.0": {"mcrypt", "phalcon", "solr"},
 		"7.1": {"mcrypt", "solr"},
 		"7.2": {},
@@ -103,8 +103,8 @@ func CopyBratsWithFramework(phpVersion, webserver, webserverVersion string) *cut
 	zendExtensions := map[string][]string{
 		"5.6": {"ioncube", "opcache", "xdebug"},
 		"7.0": {"ioncube", "opcache", "xdebug"},
-		"7.1": {"ioncube", "opcache"},
-		"7.2": {"ioncube", "opcache"},
+		"7.1": {"ioncube", "opcache", "xdebug"},
+		"7.2": {"ioncube", "opcache", "xdebug"},
 	}
 
 	options := make(map[string]interface{})
