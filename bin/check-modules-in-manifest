@@ -25,5 +25,21 @@ dependencies = manifest['dependencies'].map do |dependency|
   dependency
 end
 
+
 manifest['dependencies'] = dependencies
-File.write('manifest.yml', manifest.to_yaml)
+diff = ''
+Dir.mktmpdir do |dir|
+  manifest_tmp = File.join(dir, 'manifest-with-updated-modules.yml')
+  File.write(manifest_tmp, manifest.to_yaml)
+  diff = `diff -u manifest.yml #{manifest_tmp}`
+end
+
+unless diff.empty?
+  puts "=" * 80
+  puts "Modules in PHP binary dependencies does not match modules declared in manifest.yml!"
+  puts "The following diff shows what was expected. Please review and update manifest.yml"
+
+  puts diff
+
+  exit 1
+end
