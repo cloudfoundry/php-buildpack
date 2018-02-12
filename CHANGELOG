@@ -1,3 +1,27 @@
+v4.3.49 Feb 12, 2018
+=====================
+
+* Update PHP Modules
+  - redis 3.1.4 to 3.1.6 for all
+  - xdebug 2.5.5 to 2.6.0 for php7
+  - xdebug 2.6.0 introduced to php72
+  - ioncube 6.1.0 to 10.1.1 for php5, php7
+  - ioncube 10.0.4 to 10.1.1 for php72
+  - phalcon 3.2.4 to 3.3.1 for all
+  - phpprotobufpecl 0.12.0 introduced to php7, php72
+  - yaf 3.0.5 to 3.0.6 for php7, php72
+  - lua 2.0.4 to 2.0.5 for php7, php72
+  (https://www.pivotaltracker.com/story/show/153979417)
+
+* Add php 7.1.14, remove 7.1.12
+  (https://www.pivotaltracker.com/story/show/154780800)
+
+* Add php 7.2.2, remove 7.2.0
+  (https://www.pivotaltracker.com/story/show/154760743)
+
+* Add composer 1.6.3, remove composer 1.6.2
+  (https://www.pivotaltracker.com/story/show/154808172)
+
 v4.3.48 Jan 26, 2018
 =====================
 
