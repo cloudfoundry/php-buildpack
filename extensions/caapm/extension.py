@@ -23,13 +23,17 @@ _log = logging.getLogger('CAAPM')
 
 class CAAPMInstaller(object):
     def __init__(self, ctx):
-        self._detected = None  # Boolean to check if caapm service is _detected        
+        self._detected = None  # Boolean to check if caapm service is _detected
         self._servicefilter = "caapm"
         self._collport = None  # IA agent port
         self._collhost = None  # IA agent remote host/ip address
         self._appname = None  # PHP App name
-        self._defaultappname = "PHP App"  # Default PHP App name    
+	self._agenthostname = None  # PHP Probe agent hostname
+	self._enabledBA = None  # browser agent support
+	self._BACookieExpTime = None  # Browser agent cookie expiry time
+        self._defaultappname = "PHP App"  # Default PHP App name
         self._defaultcollport = "5005"  # Default IA Agent Port
+	self._defaultenabledBA = False  # By default browser agent support is disabled
         self._php_extn_dir = None            #parsed PHP extension directory
         self._php_ini_path = None            #parsed PHP INI Path
         self._logsDir = None
@@ -37,7 +41,7 @@ class CAAPMInstaller(object):
         self._ctx = ctx
         try:
             self._log.info("Initializing")
-            if ctx['PHP_VM'] == 'php':                
+            if ctx['PHP_VM'] == 'php':
                 self._merge_defaults()
                 self._load_service_info()
 
@@ -55,7 +59,7 @@ class CAAPMInstaller(object):
 
         return {
             'CA_APM_DOWNLOAD_HOST': 'ca.bintray.com/apm-agents',
-            'CA_APM_DOWNLOAD_VERSION': '10.6.0',
+            'CA_APM_DOWNLOAD_VERSION': '10.7.0',
             'CA_APM_PHP_PACKAGE': 'CA-APM-PHPAgent-{CA_APM_DOWNLOAD_VERSION}_linux.tar.gz',
             'CAAPM_DOWNLOAD_URL': 'https://{CA_APM_DOWNLOAD_HOST}/{CA_APM_PHP_PACKAGE}'
         }
@@ -91,6 +95,9 @@ class CAAPMInstaller(object):
             self._collport = credentials.get("collport")
             self._collhost = credentials.get("collhost")
             self._appname = credentials.get("appname")
+	    self._agenthostname = credentials.get("agenthostname")
+            self._enabledBA = credentials.get("enableBrowserAgentSupport")
+	    self._BACookieExpTime = credentials.get("browserAgentCookieExpTime")
             self._detected = True
             self._log.debug("IA Agent Host [%s]", self._collhost)
             self._log.debug("IA Agent Port [%s]", self._collport)
@@ -108,12 +115,12 @@ class CAAPMInstaller(object):
     def should_install(self):
         return self._detected
 
-     
+
     def _set_php_extn_dir(self):
         self._php_ini_path = os.path.join(self._ctx['BUILD_DIR'], 'php', 'etc', 'php.ini')
-        self._php_extn_dir = self._find_php_extn_dir().replace("@{HOME}", self._ctx['BUILD_DIR'])             
+        self._php_extn_dir = self._find_php_extn_dir().replace("@{HOME}", self._ctx['BUILD_DIR'])
         _log.debug("PHP Ext Directory [%s] and PHP INI path [%s]",self._php_extn_dir,self._php_ini_path)
-        
+
 
     def _find_php_extn_dir(self):
         with open(self._php_ini_path, 'rt') as php_ini:
@@ -132,33 +139,45 @@ class CAAPMInstaller(object):
             _log.debug("Setting writable permissions to CA APM PHP Agent logs dir %s"  %self._logsDir)
             call([ 'chmod', '-R', '777', self._logsDir ])
 
-
     def _install_apm_agent(self):
-       
+        vcap_app = self._ctx.get('VCAP_APPLICATION', {})
         if (self._appname is None):
-            vcap_app = self._ctx.get('VCAP_APPLICATION', {})
-            self.appname = vcap_app.get('name', None)
-            self._log.debug("App Name resolved is [%s]", self.appname)
+            self._appname = vcap_app.get('name', None)
+            self._log.debug("App Name resolved is [%s]", self._appname)
             if (self._appname is None):
                 self._appname = self._defaultappname;
         if (self._collport is None):
             self._collport = self._defaultcollport;
+	if (self._agenthostname is None):
+            vcap_app_uri = vcap_app.get('application_uris', None)
+	    self._agenthostname = vcap_app_uri[0]
+	if (self._enabledBA is None):
+            self._enabledBA = self._defaultenabledBA;
+	else :
+	    lowerCaseValue = self._enabledBA.lower()
+            if (lowerCaseValue in ['true','yes','1','enable']):
+                self._enabledBA = True
+            elif (lowerCaseValue in ['false','no','0','disable']):
+                self._enabledBA = False
+	    else:
+	        self._enabledBA = self._defaultenabledBA
 
         print("Compiling CA APM PHP Agent install commands")
         _log.info("Compiling CA APM PHP Agent install commands")
 	self._set_php_extn_dir()
         self._get_caapm_log_dir()
-	builddir = self._ctx['BUILD_DIR'];        	
-	phproot = os.path.join(builddir, 'php', 'bin')	
-	caapm_temp = os.path.join(builddir, 'caapm')	
-	caapm_ini = os.path.join(caapm_temp, 'wily_php_agent.ini')        
-	
+	builddir = self._ctx['BUILD_DIR'];
+	phproot = os.path.join(builddir, 'php', 'bin')
+	caapm_temp = os.path.join(builddir, 'caapm')
+	caapm_ini = os.path.join(caapm_temp, 'wily_php_agent.ini')
+        logsDirTemp = os.path.join(caapm_temp, 'apm-phpagent', 'probe', 'logs')
+
 	installercmd = [caapm_temp +"/apm-phpagent/installer.sh"]
 	installercmd.append('-appname')
         installercmd.append('"'+ self._appname + '"')
-	installercmd.append('-collport')
+	installercmd.append('-iaport')
         installercmd.append('%s' %self._collport)
-	installercmd.append('-collhost')
+	installercmd.append('-iahost')
         installercmd.append('%s' %self._collhost)
 	installercmd.append('-logdir')
         installercmd.append('%s' %self._logsDir)
@@ -168,6 +187,15 @@ class CAAPMInstaller(object):
         installercmd.append('%s' %phproot)
 	installercmd.append('-ini')
         installercmd.append('%s' %caapm_temp)
+	installercmd.append('-agenthostname')
+        installercmd.append('%s' %self._agenthostname)
+
+	if (self._enabledBA):
+            installercmd.append('-enableBrowserAgentSupport')
+	    if(self._BACookieExpTime is not None) and (self._BACookieExpTime != 3):
+	        installercmd.append('-browserAgentCookieExpTime')
+                installercmd.append('%s' %self._BACookieExpTime)
+	installercmd.append('-enableCFSupport')
 
         _log.debug("Compiled CA APM PHP Agent install commands %s"  %installercmd)
         print("Installing CA APM PHP Agent")
@@ -182,6 +210,8 @@ class CAAPMInstaller(object):
         with open(self._php_ini_path, 'a+') as php_ini:
             for line in lines:
                 php_ini.write(line)
+
+
 
 
 def preprocess_commands(ctx):
@@ -207,5 +237,5 @@ def compile(install):
         caapmphp._install_apm_agent()
         caapmphp._get_caapm_log_dir()
         _log.debug("CA APM PHP Agent installation completed")
-             
+
     return 0
