@@ -28,11 +28,9 @@ end
 
 manifest['dependencies'] = dependencies
 diff = ''
-Dir.mktmpdir do |dir|
-  manifest_tmp = File.join(dir, 'manifest-with-updated-modules.yml')
-  File.write(manifest_tmp, manifest.to_yaml)
-  diff = `diff -u manifest.yml #{manifest_tmp}`
-end
+manifest_tmp = 'manifest-with-updated-modules.yml'
+File.write(manifest_tmp, manifest.to_yaml)
+diff = `diff -u manifest.yml #{manifest_tmp}`
 
 unless diff.empty?
   puts "=" * 80

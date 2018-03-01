@@ -189,6 +189,7 @@ dependencies:
   - ioncube
   - ldap
   - lua
+  - lzf
   - mailparse
   - mbstring
   - mcrypt
@@ -200,6 +201,7 @@ dependencies:
   - mssql
   - mysql
   - mysqli
+  - oauth
   - opcache
   - openssl
   - pcntl
@@ -218,18 +220,24 @@ dependencies:
   - rdkafka
   - readline
   - redis
+  - shmop
   - snmp
   - soap
   - sockets
   - solr
+  - stomp
   - suhosin
   - sundown
+  - sysvmsg
+  - sysvsem
+  - sysvshm
   - twig
   - xcache
   - xdebug
   - xhprof
   - xsl
   - yaf
+  - yaml
   - zip
   - zlib
 - name: php
@@ -314,12 +322,14 @@ dependencies:
   - ioncube
   - ldap
   - lua
+  - lzf
   - mailparse
   - mbstring
   - mcrypt
   - mongodb
   - msgpack
   - mysqli
+  - oauth
   - opcache
   - openssl
   - pcntl
@@ -331,16 +341,23 @@ dependencies:
   - pgsql
   - phalcon
   - phpiredis
+  - protobuf
   - pspell
   - rdkafka
   - redis
+  - shmop
   - snmp
   - soap
   - sockets
   - solr
+  - stomp
+  - sysvmsg
+  - sysvsem
+  - sysvshm
   - xdebug
   - xsl
   - yaf
+  - yaml
   - zip
   - zlib
 - name: php
@@ -366,14 +383,17 @@ dependencies:
   - igbinary
   - imagick
   - imap
+  - ioncube
   - ldap
   - lua
+  - lzf
   - mailparse
   - mbstring
   - mcrypt
   - mongodb
   - msgpack
   - mysqli
+  - oauth
   - opcache
   - openssl
   - pcntl
@@ -383,18 +403,25 @@ dependencies:
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
+  - phalcon
   - phpiredis
   - protobuf
   - pspell
   - rdkafka
   - redis
+  - shmop
   - snmp
   - soap
   - sockets
   - solr
+  - stomp
+  - sysvmsg
+  - sysvsem
+  - sysvshm
   - xdebug
   - xsl
   - yaf
+  - yaml
   - zip
   - zlib
 - name: php
@@ -482,11 +509,13 @@ dependencies:
   - ioncube
   - ldap
   - lua
+  - lzf
   - mailparse
   - mbstring
   - mongodb
   - msgpack
   - mysqli
+  - oauth
   - opcache
   - openssl
   - pcntl
@@ -502,12 +531,18 @@ dependencies:
   - pspell
   - rdkafka
   - redis
+  - shmop
   - snmp
   - soap
   - sockets
+  - stomp
+  - sysvmsg
+  - sysvsem
+  - sysvshm
   - xdebug
   - xsl
   - yaf
+  - yaml
   - zip
   - zlib
 - name: php
