@@ -1,3 +1,26 @@
+v4.3.51 Mar 09, 2018
+=====================
+
+* Add PHP 5.6.24, 7.0.28, 7.1.15, 7.2.3
+  Remove 5.6.22, 7.0.26, 7.1.13, 7.2.1
+  (https://www.pivotaltracker.com/story/show/155576142)
+  (https://www.pivotaltracker.com/story/show/155586941)
+  (https://www.pivotaltracker.com/story/show/155589446)
+  (https://www.pivotaltracker.com/story/show/155551598)
+  (https://www.pivotaltracker.com/story/show/155610585)
+
+* Build PHP to use readline as a shared library
+  (https://www.pivotaltracker.com/story/show/155375913)
+
+* Add 4 new PHP extensions: sysvsem, sysvshm, sysvmsg and shmop.
+  (https://www.pivotaltracker.com/story/show/155141488)
+
+* Add 4 new PECL extensions: LZF, oauth, stomp, and yaml
+  (https://www.pivotaltracker.com/story/show/155348301)
+
+* Fix ioncube & phalcon for PHP 7.1
+  (https://www.pivotaltracker.com/story/show/155349336)
+
 v4.3.50 Feb 27, 2018
 =====================
 
