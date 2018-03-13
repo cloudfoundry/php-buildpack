@@ -53,6 +53,8 @@ if __name__ == '__main__':
                 .from_build_pack('extensions/sessions')
             .extension()
                 .from_build_pack('extensions/composer')
+            .extension()
+                .from_build_pack('extensions/modsecurity')
             .extensions()
                 .from_application('.extensions')
             .extension()
