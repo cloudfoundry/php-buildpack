@@ -23,6 +23,6 @@ var _ = Describe("Composer failures", func() {
 		Expect(app.Push()).ToNot(Succeed())
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
-		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("-----> Composer command failed"))
+		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Composer command failed:"))
 	})
 })

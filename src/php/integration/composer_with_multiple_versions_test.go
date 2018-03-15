@@ -23,15 +23,15 @@ var _ = Describe("CF PHP Buildpack", func() {
 		PushAppAndConfirm(app)
 
 		By("installs the version of PHP defined in `composer.json`")
-		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Installing PHP"))
-		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP 5.6"))
+		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Installing php"))
+		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("php 5.6"))
 
 		By("does not install the PHP version defined in `options.json`")
-		Expect(app.Stdout.String()).NotTo(ContainSubstring("PHP 7.0"))
+		Expect(log(app)).NotTo(ContainSubstring("php 7.0"))
 
 		By("displays a useful warning message that `composer.json` is being used over `options.json`")
-		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`."))
-		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
+		Expect(log(app)).To(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`."))
+		Expect(log(app)).To(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
 	})
 
 	It("PHP version is specified in neither", func() {
@@ -44,11 +44,11 @@ var _ = Describe("CF PHP Buildpack", func() {
 		PushAppAndConfirm(app)
 
 		By("installs the default version of PHP")
-		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring(`"update_default_version" is setting [PHP_VERSION]`))
+		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring(`PHP Version Default: 5.6.`))
 
 		By("doesn't display a warning message")
-		Expect(app.Stdout.String()).NotTo(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`."))
-		Expect(app.Stdout.String()).NotTo(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
+		Expect(log(app)).NotTo(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`."))
+		Expect(log(app)).NotTo(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
 	})
 
 	It("PHP version is specified in composer.json but not options.json", func() {
@@ -60,11 +60,11 @@ var _ = Describe("CF PHP Buildpack", func() {
 		PushAppAndConfirm(app)
 
 		By("installs the version of PHP defined in `composer.json`")
-		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Installing PHP"))
-		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP 7.0"))
+		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Installing php"))
+		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("php 7.0"))
 
 		By("doesn't display a warning message")
-		Expect(app.Stdout.String()).NotTo(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`."))
-		Expect(app.Stdout.String()).NotTo(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
+		Expect(log(app)).NotTo(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`."))
+		Expect(log(app)).NotTo(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
 	})
 })

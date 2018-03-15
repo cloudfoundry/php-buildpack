@@ -23,7 +23,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		})
 
 		It("does not log an error about the RequestHeader command", func() {
-			Expect(app.Stdout.String()).ToNot(ContainSubstring("Invalid command 'RequestHeader'"))
+			Expect(log(app)).ToNot(ContainSubstring("Invalid command 'RequestHeader'"))
 		})
 	})
 })

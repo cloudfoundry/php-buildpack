@@ -1,3 +1,8 @@
-pkg
-.bin
-scaffold_buildpack-*.zip
+/pkg
+/.bin
+/php_buildpack-*.zip
+/local.yml
+/.*.cache
+/*.droplet
+/src/php/supply/rice-box.go
+/src/github.com/

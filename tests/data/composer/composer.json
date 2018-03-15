@@ -1,9 +1,0 @@
-{
-    "require": {
-        "monolog/monolog": "1.0.*",
-        "php": ">=5.6",
-        "ext-zip": "*",
-        "ext-fileinfo": "*",
-        "gregwar/image-bundle": "2.0.*"
-    }
-}

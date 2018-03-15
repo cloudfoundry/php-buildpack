@@ -11,6 +11,7 @@ import (
 )
 
 var _ = Describe("CF PHP Buildpack", func() {
+	BeforeEach(SkipNotYetImplementedFunctionality)
 	var app *cutlass.App
 	RunCf := func(args ...string) error {
 		command := exec.Command("cf", args...)

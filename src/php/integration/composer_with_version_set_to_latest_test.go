@@ -11,6 +11,9 @@ import (
 )
 
 var _ = Describe("Composer with version set to 'latest'", func() {
+	// TODO discuss. Currently ALWAYS installs the version in the manifest. Apps can not specify a version.
+	BeforeEach(SkipIntentionallyRemovedFunctionality)
+
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 

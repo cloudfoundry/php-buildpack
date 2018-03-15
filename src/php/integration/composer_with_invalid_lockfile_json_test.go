@@ -12,6 +12,9 @@ import (
 )
 
 var _ = Describe("When composer.lock is invalid JSON", func() {
+	// TODO discuss why. Shouldn't composer do this?
+	BeforeEach(SkipIntentionallyRemovedFunctionality)
+
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 

@@ -53,6 +53,26 @@ To simplify the process in the future, install [direnv](https://direnv.net/) whi
 
 More information can be found on Github [cutlass](https://github.com/cloudfoundry/libbuildpack/cutlass).
 
+### Short turn around development
+
+```bash
+docker run -v $PWD:/bpdir:ro -it cloudfoundry/cflinuxfs2 bash
+```
+
+```bash
+export CF_STACK=cflinuxfs2 
+supply() {
+  rm -rf /app /tmp/deps 
+  cp -r /bpdir/fixtures/$1 /app
+  mkdir -p /tmp/deps/0
+  mkdir -p /tmp/cache
+  /bpdir/bin/supply /app /tmp/cache /tmp/deps 0
+}
+finalize() {
+  /bpdir/bin/finalize /app /tmp/cache /tmp/deps 0
+}
+```
+
 ### Reporting Issues
 Open an issue on this project
 

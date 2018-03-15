@@ -11,6 +11,9 @@ import (
 )
 
 var _ = Describe("CF PHP Buildpack", func() {
+	// TODO discuss, why is there a default WEBDIR (htdocs). It means moving files
+	BeforeEach(SkipNotYetImplementedFunctionality)
+
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 

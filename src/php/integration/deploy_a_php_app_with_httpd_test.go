@@ -24,13 +24,13 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 		It("succeeds", func() {
 			By("shows the current buildpack version for useful info")
-			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("-------> Buildpack version " + buildpackVersion))
+			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("-----> Php Buildpack version " + buildpackVersion))
 
 			By("installs httpd, the request web server")
-			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Installing HTTPD"))
+			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Installing httpd"))
 
 			By("logs the httpd version")
-			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("HTTPD " + DefaultVersion("httpd")))
+			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("httpd " + DefaultVersion("httpd")))
 
 			By("the root endpoint renders a dynamic message")
 			Expect(app.GetBody("/")).To(ContainSubstring("PHP Version"))
@@ -60,7 +60,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		})
 
 		It("installs the default version of httpd", func() {
-			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring(`"update_default_version" is setting [HTTPD_VERSION]`))
+			Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring(`PHP Version Default: 5.6.`))
 		})
 	})
 

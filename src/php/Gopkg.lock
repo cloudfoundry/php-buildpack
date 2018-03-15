@@ -2,10 +2,36 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/GeertJohan/go.incremental"
+  packages = ["."]
+  revision = "1172aab965109e2a70720a0f144b2a5dfeb92fa5"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/GeertJohan/go.rice"
+  packages = [
+    ".",
+    "embedded"
+  ]
+  revision = "c02ca9a983da5807ddf7d796784928f5be4afd09"
+
+[[projects]]
   name = "github.com/Masterminds/semver"
   packages = ["."]
   revision = "15d8430ab86497c5c0da827b748823945e1cf1e1"
   version = "v1.4.0"
+
+[[projects]]
+  name = "github.com/akavel/rsrc"
+  packages = [
+    ".",
+    "binutil",
+    "coff",
+    "ico"
+  ]
+  revision = "a1fbfaf19b9ec69d75039b2a7cb4b048aecefddf"
+  version = "v2"
 
 [[projects]]
   name = "github.com/blang/semver"
@@ -14,15 +40,22 @@
   version = "v3.5.1"
 
 [[projects]]
-  branch = "init-155219487"
+  branch = "master"
   name = "github.com/cloudfoundry/libbuildpack"
   packages = [
     ".",
+    "ansicleaner",
     "bratshelper",
     "cutlass",
     "packager"
   ]
-  revision = "44c79a01d5fb2b8168d69c445bf6bb9f973062dd"
+  revision = "7b8397466e25d977455c53486f42f73b68ae85ab"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/daaku/go.zipexe"
+  packages = ["."]
+  revision = "a5fe2436ffcb3236e175e5149162b41cd28bd27d"
 
 [[projects]]
   name = "github.com/elazarl/goproxy"
@@ -30,10 +63,34 @@
   revision = "aacba83f36a55ac31cbb71c06547a328c0cd1604"
 
 [[projects]]
+  name = "github.com/golang/mock"
+  packages = ["gomock"]
+  revision = "13f360950a79f5864a972c786a10a50e44b69541"
+  version = "v1.0.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/google/subcommands"
   packages = ["."]
   revision = "a3682377147edf596d303faabd89f81977b3f678"
+
+[[projects]]
+  name = "github.com/jessevdk/go-flags"
+  packages = ["."]
+  revision = "96dc06278ce32a0e9d957d590bb987c81ee66407"
+  version = "v1.3.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/kardianos/osext"
+  packages = ["."]
+  revision = "ae77be60afb1dcacde03767a8c37337fad28ac14"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/kr/text"
+  packages = ["."]
+  revision = "7cafcd837844e784b526369c9bce262804aebc60"
 
 [[projects]]
   branch = "master"
@@ -142,6 +199,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "60427e774870c6d007fb3e666de5fb1f65a5bbdf5dabd8dad0479d79b50c4073"
+  inputs-digest = "71f8a85ef949a0e69714cd0da3cb0d2e0a0270fbfcd99d64015fb5d193ec663f"
   solver-name = "gps-cdcl"
   solver-version = 1

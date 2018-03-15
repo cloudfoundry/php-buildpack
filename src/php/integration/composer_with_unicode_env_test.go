@@ -18,6 +18,6 @@ var _ = Describe("Composer with unicode env variables", func() {
 		app.SetEnv("BP_DEBUG", "1")
 
 		PushAppAndConfirm(app)
-		Eventually(app.Stdout.String).Should(ContainSubstring(`[DEBUG] composer - ENV IS: CLUSTERS_INFO={"dev01":{"env":"開発環境"`))
+		Eventually(app.Stdout.String).Should(ContainSubstring(`composer - ENV IS: CLUSTERS_INFO={"dev01":{"env":"開発環境"`))
 	})
 })

@@ -12,6 +12,9 @@ import (
 )
 
 var _ = Describe("CF PHP Buildpack", func() {
+	// TODO if only webserver is httpd then is is not relevant.
+	BeforeEach(SkipIntentionallyRemovedFunctionality)
+
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 

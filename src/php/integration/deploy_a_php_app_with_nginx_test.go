@@ -11,6 +11,7 @@ import (
 )
 
 var _ = Describe("CF PHP Buildpack", func() {
+	BeforeEach(SkipIntentionallyRemovedFunctionality)
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 
@@ -23,13 +24,13 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 		It("succeeds", func() {
 			By("shows the current buildpack version for useful info")
-			Expect(app.Stdout.String()).To(ContainSubstring("-------> Buildpack version " + buildpackVersion))
+			Expect(log(app)).To(ContainSubstring("-------> Php Buildpack version " + buildpackVersion))
 
 			By("installs nginx, the request web server")
-			Expect(app.Stdout.String()).To(ContainSubstring("Installing Nginx"))
+			Expect(log(app)).To(ContainSubstring("Installing Nginx"))
 
 			By("logs NginX version")
-			Expect(app.Stdout.String()).To(ContainSubstring("NGINX " + DefaultVersion("nginx")))
+			Expect(log(app)).To(ContainSubstring("NGINX " + DefaultVersion("nginx")))
 
 			By("the root endpoint renders a dynamic message")
 			Expect(app.GetBody("/")).To(ContainSubstring("PHP Version"))
@@ -47,7 +48,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		})
 
 		It("installs the default version of nginx", func() {
-			Expect(app.Stdout.String()).To(ContainSubstring(`"update_default_version" is setting [NGINX_VERSION]`))
+			Expect(log(app)).To(ContainSubstring(`"update_default_version" is setting [NGINX_VERSION]`))
 		})
 	})
 })

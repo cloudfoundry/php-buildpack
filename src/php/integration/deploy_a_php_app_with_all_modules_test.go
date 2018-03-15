@@ -30,7 +30,7 @@ func ItLoadsAllTheModules(app *cutlass.App, phpVersion string) {
 	}
 
 	By("logs each module on the info page", func() {
-		Expect(app.Stdout.String()).To(ContainSubstring("PHP " + phpVersion))
+		Expect(log(app)).To(ContainSubstring("php " + phpVersion))
 		body, err := app.GetBody("/")
 		Expect(err).ToNot(HaveOccurred())
 
@@ -57,7 +57,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 			By("warns about deprecated PHP_EXTENSIONS", func() {
 				PushAppAndConfirm(app)
-				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+				Expect(log(app)).To(ContainSubstring("PHP_EXTENSIONS in options.json is deprecated."))
 			})
 
 			ItLoadsAllTheModules(app, "5")
@@ -69,7 +69,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 			By("warns about deprecated PHP_EXTENSIONS", func() {
 				PushAppAndConfirm(app)
-				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+				Expect(log(app)).To(ContainSubstring("PHP_EXTENSIONS in options.json is deprecated."))
 			})
 
 			ItLoadsAllTheModules(app, "7.0")
@@ -81,7 +81,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 			By("warns about deprecated PHP_EXTENSIONS", func() {
 				PushAppAndConfirm(app)
-				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+				Expect(log(app)).To(ContainSubstring("PHP_EXTENSIONS in options.json is deprecated."))
 			})
 
 			ItLoadsAllTheModules(app, "7.1")
@@ -96,7 +96,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			ItLoadsAllTheModules(app, "5")
 
 			By("does not warn about deprecated PHP_EXTENSIONS", func() {
-				Expect(app.Stdout.String()).ToNot(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+				Expect(log(app)).ToNot(ContainSubstring("PHP_EXTENSIONS in options.json is deprecated."))
 			})
 		})
 
@@ -107,7 +107,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			ItLoadsAllTheModules(app, "7.0")
 
 			By("does not warn about deprecated PHP_EXTENSIONS", func() {
-				Expect(app.Stdout.String()).ToNot(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+				Expect(log(app)).ToNot(ContainSubstring("PHP_EXTENSIONS in options.json is deprecated."))
 			})
 		})
 
@@ -118,7 +118,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			ItLoadsAllTheModules(app, "7.1")
 
 			By("does not warn about deprecated PHP_EXTENSIONS", func() {
-				Expect(app.Stdout.String()).ToNot(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+				Expect(log(app)).ToNot(ContainSubstring("PHP_EXTENSIONS in options.json is deprecated."))
 			})
 		})
 	})

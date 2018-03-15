@@ -38,6 +38,9 @@ var _ = Describe("CF PHP Buildpack", func() {
 		By("sets environment variables via .profile script")
 		Expect(app.GetBody("/")).To(ContainSubstring("PROFILE_SCRIPT_IS_PRESENT_AND_RAN"))
 
+		// TODO the below is implemented by moving things around, eg. into the htdocs directory, we probably don't want to do that
+		SkipIntentionallyRemovedFunctionality()
+
 		By("does not let me view the .profile script")
 		_, headers, err := app.Get("/.profile", nil)
 		Expect(err).NotTo(HaveOccurred())

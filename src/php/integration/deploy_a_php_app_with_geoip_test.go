@@ -11,6 +11,7 @@ import (
 )
 
 var _ = Describe("CF PHP Buildpack", func() {
+	BeforeEach(SkipNotYetImplementedFunctionality)
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 
@@ -28,12 +29,12 @@ var _ = Describe("CF PHP Buildpack", func() {
 		Expect(body).To(ContainSubstring("Country: US"))
 
 		By("has downloaded geoip dbs")
-		Expect(app.Stdout.String()).To(ContainSubstring("Downloading Geoip Databases."))
-		Expect(app.Stdout.String()).To(ContainSubstring("file_name: GeoLiteCityv6.dat"))
-		Expect(app.Stdout.String()).To(ContainSubstring("file_name: GeoIPv6.dat"))
-		Expect(app.Stdout.String()).To(ContainSubstring("file_name: GeoLiteCountry.dat"))
-		Expect(app.Stdout.String()).To(ContainSubstring("file_name: GeoLiteASNum.dat"))
-		Expect(app.Stdout.String()).To(ContainSubstring("file_name: GeoLiteCity.dat"))
+		Expect(log(app)).To(ContainSubstring("Downloading Geoip Databases."))
+		Expect(log(app)).To(ContainSubstring("file_name: GeoLiteCityv6.dat"))
+		Expect(log(app)).To(ContainSubstring("file_name: GeoIPv6.dat"))
+		Expect(log(app)).To(ContainSubstring("file_name: GeoLiteCountry.dat"))
+		Expect(log(app)).To(ContainSubstring("file_name: GeoLiteASNum.dat"))
+		Expect(log(app)).To(ContainSubstring("file_name: GeoLiteCity.dat"))
 	})
 
 	Context("in offline mode", func() {
@@ -43,7 +44,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_geoip_app_local_deps"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			PushAppAndConfirm(app)
-			Expect(app.Stdout.String()).To(ContainSubstring("Copying Geoip Databases from App."))
+			Expect(log(app)).To(ContainSubstring("Copying Geoip Databases from App."))
 		})
 
 		AssertNoInternetTraffic("php_geoip_app_local_deps")

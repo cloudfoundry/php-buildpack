@@ -11,7 +11,9 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("CF PHP Buildpack", func() {
+// TODO remove this file, it is pointless (see brats and other similar integration tests)
+// It used to be relevant due to data inside options.json which is no longer there
+var _ = PDescribe("CF PHP Buildpack", func() {
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 
@@ -29,8 +31,8 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 			PushAppAndConfirm(app)
 
-			Expect(app.Stdout.String()).To(ContainSubstring("Installing PHP"))
-			Expect(app.Stdout.String()).To(ContainSubstring("PHP " + php.Version70))
+			Expect(log(app)).To(ContainSubstring("Installing php"))
+			Expect(log(app)).To(ContainSubstring("php " + php.Version70))
 		})
 	})
 })

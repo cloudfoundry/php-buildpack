@@ -23,10 +23,10 @@ var _ = Describe("invalid PHP versions", func() {
 		Expect(app.GetBody("/")).To(ContainSubstring("PHP Version 5.6"))
 
 		By("logs that an invalid version was provided")
-		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: PHP version 7.34.5 not available, using default version (5.6."))
+		Expect(log(app)).To(ContainSubstring("WARNING: PHP version 7.34.5 not available, using default version."))
 
 		By("uses the default PHP version")
-		Expect(app.Stdout.String()).To(ContainSubstring("PHP 5.6"))
+		Expect(log(app)).To(ContainSubstring("Installing php 5.6"))
 	})
 
 	It("version is specified using composer.json", func() {
@@ -38,9 +38,9 @@ var _ = Describe("invalid PHP versions", func() {
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
 		By("logs that an invalid version was provided")
-		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: PHP version >=9.7.0 not available, using default version (5.6."))
+		Expect(log(app)).To(ContainSubstring("WARNING: PHP version ~>9.7.0 not available, using default version."))
 
 		By("uses the default PHP version")
-		Expect(app.Stdout.String()).To(ContainSubstring("PHP 5.6"))
+		Expect(log(app)).To(ContainSubstring("Installing php 5.6"))
 	})
 })

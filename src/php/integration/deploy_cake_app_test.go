@@ -19,7 +19,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 		It("", func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_local_deps"))
-			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
+			app.StartCommand = "$HOME/app/Console/cake schema create -y && php_buildpack_start"
 			PushAppAndConfirm(app)
 
 			body, err := app.GetBody("/")
@@ -39,7 +39,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		It("", func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_remote_deps"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
-			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
+			app.StartCommand = "$HOME/app/Console/cake schema create -y && php_buildpack_start"
 			PushAppAndConfirm(app)
 
 			body, err := app.GetBody("/")

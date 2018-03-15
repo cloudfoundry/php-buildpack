@@ -1,46 +1,10 @@
 ---
 language: php
-exclude_files:
-- ".git/"
-- ".gitignore"
-- fixtures/
-- pkg/
-- src/php/
-- ".bin/"
-- log/
-- tests/
-- cf.Gemfile
-- cf.Gemfile.lock
-- bin/package
-- buildpack-packager/
-- php_buildpack-*v*
 default_versions:
 - name: php
-  version: 5.6.34
-- name: httpd
-  version: 2.4.29
-- name: newrelic
-  version: 7.7.0.203
-- name: nginx
-  version: 1.13.9
-- name: composer
-  version: 1.6.3
-url_to_dependency_map:
-- match: appdynamics-php-agent-x64-linux-(\d+\.\d+\.\d+\.\d+)
-  name: appdynamics
-  version: "$1"
-- match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
-  name: newrelic
-  version: "$1"
-- match: CA-APM-PHPAgent-(\d+\.\d+\.\d+)_linux
-  name: CAAPM
-  version: "$1"
-- match: "([^\\/]*)-(\\d+\\.\\d+\\.\\d+)"
-  name: "$1"
-  version: "$2"
-- match: "\\/composer\\/(.*)\\/composer.phar"
-  name: composer
-  version: "$1"
+  version: 5.6.x
+pre_package: scripts/build.sh
+url_to_dependency_map: []
 dependency_deprecation_dates:
 - match: 5.6.\d+
   version_line: '5.6'
@@ -62,11 +26,6 @@ dependency_deprecation_dates:
   name: php
   date: 2020-11-30
   link: http://php.net/supported-versions.php
-- match: 1.10.\d+
-  version_line: '1.10'
-  name: nginx
-  date: 2017-04-26
-  link: https://www.nginx.com/blog/nginx-1-10-1-11-released/
 dependencies:
 - name: appdynamics
   version: 4.3.5.9
@@ -496,12 +455,6 @@ dependencies:
   - zip
   - zlib
   sha256: 337ce3759e25fd312f53b5cb1100f2d1cb58c1286dcf3d633df7a5f030ce1ee6
-- name: nginx
-  version: 1.12.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.2-linux-x64-60e5d131.tgz
-  cf_stacks:
-  - cflinuxfs2
-  sha256: f7815e32b5cb8b81562e7dbff36182aa864e596d31f520adab349edb62e2ad15
 - name: php
   version: 7.2.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.2-linux-x64-a99a093e.tgz
@@ -632,9 +585,20 @@ dependencies:
   sha256: 52cb7bbbaee720471e3b34c8ae6db53a38f0b759c06078a80080db739e4dcab6
   cf_stacks:
   - cflinuxfs2
-- name: nginx
-  version: 1.13.9
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.9-linux-x64-21ff4d0f.tgz
-  sha256: 21ff4d0f5a04eea7e7eec96f64333da16d275ffb6d6cb1b42cd18e99b02815d7
-  cf_stacks:
-  - cflinuxfs2
+include_files:
+- CHANGELOG
+- CONTRIBUTING.md
+- ISSUE_TEMPLATE
+- LICENSE
+- NOTICE
+- PULL_REQUEST_TEMPLATE
+- README.md
+- VERSION
+- bin/compile
+- bin/detect
+- bin/finalize
+- bin/release
+- bin/supply
+- bin/varify
+- bin/procfiled
+- manifest.yml

@@ -18,10 +18,10 @@ var _ = Describe("deploying a basic PHP app with compiled modules in PHP_EXTENSI
 		PushAppAndConfirm(app)
 
 		By("does not log an error metioning libxml, simplexml, spl or sqlite3", func() {
-			Expect(app.Stdout.String()).ToNot(ContainSubstring("The extension 'libxml' is not provided by this buildpack"))
-			Expect(app.Stdout.String()).ToNot(ContainSubstring("The extension 'SimpleXML' is not provided by this buildpack"))
-			Expect(app.Stdout.String()).ToNot(ContainSubstring("The extension 'sqlite3' is not provided by this buildpack"))
-			Expect(app.Stdout.String()).ToNot(ContainSubstring("The extension 'SPL' is not provided by this buildpack"))
+			Expect(log(app)).ToNot(ContainSubstring("The extension 'libxml' is not provided by this buildpack"))
+			Expect(log(app)).ToNot(ContainSubstring("The extension 'SimpleXML' is not provided by this buildpack"))
+			Expect(log(app)).ToNot(ContainSubstring("The extension 'sqlite3' is not provided by this buildpack"))
+			Expect(log(app)).ToNot(ContainSubstring("The extension 'SPL' is not provided by this buildpack"))
 		})
 
 		By("has the desired modules", func() {

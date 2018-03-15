@@ -21,8 +21,8 @@ var _ = Describe("CF PHP Buildpack", func() {
 			PushAppAndConfirm(app)
 		})
 		It("logs variables from manifest.yml", func() {
-			Expect(app.Stdout.String()).To(ContainSubstring("MANIFEST_VARIABLE: 'VARIABLE_IS_SET'"))
-			Expect(app.Stdout.String()).To(ContainSubstring("PHP said MANIFEST_VARIABLE: VARIABLE_IS_SET"))
+			Expect(log(app)).To(ContainSubstring("MANIFEST_VARIABLE: 'VARIABLE_IS_SET'"))
+			Expect(log(app)).To(ContainSubstring("PHP said MANIFEST_VARIABLE: VARIABLE_IS_SET"))
 		})
 	})
 })
