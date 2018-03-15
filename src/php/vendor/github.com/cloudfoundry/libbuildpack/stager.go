@@ -68,11 +68,7 @@ func (s *Stager) WriteConfigYml(config interface{}) error {
 	if config == nil {
 		config = map[interface{}]interface{}{}
 	}
-	bpVersion, err := s.manifest.Version()
-	if err != nil {
-		return err
-	}
-	data := map[string]interface{}{"name": s.manifest.Language(), "config": config, "version": bpVersion}
+	data := map[string]interface{}{"name": s.manifest.Language(), "config": config}
 	y := &YAML{}
 	return y.Write(filepath.Join(s.DepDir(), "config.yml"), data)
 }

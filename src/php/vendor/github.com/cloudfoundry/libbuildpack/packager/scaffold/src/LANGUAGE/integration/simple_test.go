@@ -18,11 +18,17 @@ var _ = Describe("Simple Integration Test", func() {
 		app = nil
 	})
 
-	// TODO This test is pending because it currently fails. It is just an example
-	PIt("app deploys", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple_test"))
-		app.Buildpacks = []string{"{{LANGUAGE}}_buildpack"}
-		PushAppAndConfirm(app)
-		Expect(app.GetBody("/")).To(ContainSubstring("Something on your website"))
+	// TODO explain when to make these not pending
+	PContext("app contains the example file", func() {
+		BeforeEach(func() {
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple_test"))
+			app.Buildpacks = []string{"{{LANGUAGE}}_buildpack"}
+			PushAppAndConfirm(app)
+		})
+		It("has some_file.txt in the pushed app", func() {
+			paths, err := app.Files("some_file.txt")
+			Expect(err).To(BeNil())
+			Expect(paths).ToNot(BeEmpty())
+		})
 	})
 })

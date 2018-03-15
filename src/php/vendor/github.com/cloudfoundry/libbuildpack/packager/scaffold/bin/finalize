@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# This script prepares and configures the app for launch.
-
 set -euo pipefail
 
 BUILD_DIR=$1

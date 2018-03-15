@@ -14,7 +14,7 @@
   version = "v3.5.1"
 
 [[projects]]
-  branch = "master"
+  branch = "init-155219487"
   name = "github.com/cloudfoundry/libbuildpack"
   packages = [
     ".",
@@ -22,7 +22,7 @@
     "cutlass",
     "packager"
   ]
-  revision = "7b8397466e25d977455c53486f42f73b68ae85ab"
+  revision = "44c79a01d5fb2b8168d69c445bf6bb9f973062dd"
 
 [[projects]]
   name = "github.com/elazarl/goproxy"
@@ -142,6 +142,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "88ea07ed6a76bfe700347632512d417925c51f17572e3531e257abb29e0b8f6e"
+  inputs-digest = "60427e774870c6d007fb3e666de5fb1f65a5bbdf5dabd8dad0479d79b50c4073"
   solver-name = "gps-cdcl"
   solver-version = 1

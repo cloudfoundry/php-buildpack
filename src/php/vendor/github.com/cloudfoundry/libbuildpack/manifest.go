@@ -1,8 +1,6 @@
 package libbuildpack
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -43,8 +41,6 @@ type Manifest struct {
 	ManifestEntries []ManifestEntry   `yaml:"dependencies"`
 	Deprecations    []DeprecationDate `yaml:"dependency_deprecation_dates"`
 	manifestRootDir string
-	appCacheDir     string
-	filesInAppCache map[string]interface{}
 	currentTime     time.Time
 	log             *Logger
 }
@@ -70,14 +66,8 @@ func NewManifest(bpDir string, logger *Logger, currentTime time.Time) (*Manifest
 
 	m.currentTime = currentTime
 	m.log = logger
-	m.filesInAppCache = make(map[string]interface{})
 
 	return &m, nil
-}
-
-func (m *Manifest) SetAppCacheDir(appCacheDir string) (err error) {
-	m.appCacheDir, err = filepath.Abs(filepath.Join(appCacheDir, "dependencies"))
-	return
 }
 func (m *Manifest) replaceDefaultVersion(oDep Dependency) {
 	replaced := false
@@ -345,113 +335,36 @@ func (m *Manifest) warnEndOfLife(dep Dependency) error {
 	return nil
 }
 
-func fetchCachedBuildpackDependency(entry *ManifestEntry, outputFile, manifestRootDir string, manifestLog *Logger) error {
-	source := entry.File
-	if !path.IsAbs(source) {
-		source = filepath.Join(manifestRootDir, source)
-	}
-	manifestLog.Info("Copy [%s]", source)
-	if err := CopyFile(source, outputFile); err != nil {
-		return err
-	}
-	return deleteBadFile(entry, outputFile)
-}
-
-func deleteBadFile(entry *ManifestEntry, outputFile string) error {
-	if err := checkSha256(outputFile, entry.SHA256); err != nil {
-		os.Remove(outputFile)
-		return err
-	}
-	return nil
-}
-
-func downloadDependency(entry *ManifestEntry, outputFile string, logger *Logger) error {
-	filteredURI, err := filterURI(entry.URI)
-	if err != nil {
-		return err
-	}
-	logger.Info("Download [%s]", filteredURI)
-	err = downloadFile(entry.URI, outputFile)
-	if err != nil {
-		return err
-	}
-
-	return deleteBadFile(entry, outputFile)
-}
-
-func (m *Manifest) fetchAppCachedBuildpackDependency(entry *ManifestEntry, outputFile string) error {
-	shaURI := sha256.Sum256([]byte(entry.URI))
-	cacheFile := filepath.Join(m.appCacheDir, hex.EncodeToString(shaURI[:]), filepath.Base(entry.URI))
-
-	m.filesInAppCache[cacheFile] = true
-	m.filesInAppCache[filepath.Dir(cacheFile)] = true
-
-	foundCacheFile, err := FileExists(cacheFile)
-	if err != nil {
-		return err
-	}
-
-	if foundCacheFile {
-		m.log.Info("Copy [%s]", cacheFile)
-		if err := CopyFile(cacheFile, outputFile); err != nil {
-			return err
-		}
-		return deleteBadFile(entry, outputFile)
-	}
-
-	if err := downloadDependency(entry, outputFile, m.log); err != nil {
-		return err
-	}
-	if err := CopyFile(outputFile, cacheFile); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (m *Manifest) FetchDependency(dep Dependency, outputFile string) error {
 	entry, err := m.getEntry(dep)
 	if err != nil {
 		return err
 	}
 
-	if entry.File != "" { // this file is cached by the buildpack
-		return fetchCachedBuildpackDependency(entry, outputFile, m.manifestRootDir, m.log)
-	}
-
-	if m.appCacheDir != "" { // this buildpack caches dependencies in the app cache
-		return m.fetchAppCachedBuildpackDependency(entry, outputFile)
-	}
-
-	return downloadDependency(entry, outputFile, m.log)
-}
-
-func (m *Manifest) CleanupAppCache() error {
-	pathsToDelete := []string{}
-
-	if err := filepath.Walk(m.appCacheDir, func(path string, info os.FileInfo, err error) error {
-		if info == nil || info.IsDir() {
-			return nil
-		}
-		if err != nil {
-			return fmt.Errorf("Failed while cleaning up app cache; couldn't look at %s because: %v", path, err)
-		}
-		if path == m.appCacheDir {
-			return nil
-		}
-		if _, ok := m.filesInAppCache[path]; !ok {
-			pathsToDelete = append(pathsToDelete, path)
-		}
-		return nil
-	}); err != nil {
+	filteredURI, err := filterURI(entry.URI)
+	if err != nil {
 		return err
 	}
 
-	for _, path := range pathsToDelete {
-		m.log.Debug("Deleting cached file: %s", path)
-		if err := os.RemoveAll(path); err != nil {
-			return fmt.Errorf("Failed while cleaning up app cache; couldn't delete %s because: %v", path, err)
+	if entry.File != "" {
+		source := entry.File
+		if !path.IsAbs(source) {
+			source = filepath.Join(m.manifestRootDir, source)
 		}
+		m.log.Info("Copy [%s]", source)
+		err = CopyFile(source, outputFile)
+	} else {
+		m.log.Info("Download [%s]", filteredURI)
+		err = downloadFile(entry.URI, outputFile)
+	}
+	if err != nil {
+		return err
+	}
+
+	err = checkSha256(outputFile, entry.SHA256)
+	if err != nil {
+		os.Remove(outputFile)
+		return err
 	}
 
 	return nil

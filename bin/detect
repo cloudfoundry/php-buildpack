@@ -1,26 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# bin/detect <build-dir>
+#
+#
+# This script determines whether or not to apply the buildpack to an app
+# TODO: Write code here to exit 0 if the buildpack is compatible with the app and exit 1 otherwise
 
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
- 
-# Wrapper script that launches Python Build Pack
-#  At the moment, this just launches the appropriate
-#  python script.  However, this is here in case the
-#  build pack needs to do anything to bootstrap the
-#  python scripts, like install Python.
-BP=$(dirname $(dirname $0))
-export PYTHONPATH=$BP/lib
-VERSION=`cat $BP/VERSION`
-python $BP/scripts/detect.py $1 $VERSION
+exit 1
