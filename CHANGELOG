@@ -1,8 +1,8 @@
 v4.3.51 Mar 09, 2018
 =====================
 
-* Add PHP 5.6.24, 7.0.28, 7.1.15, 7.2.3
-  Remove 5.6.22, 7.0.26, 7.1.13, 7.2.1
+* Add PHP 5.6.34, 7.0.28, 7.1.15, 7.2.3
+  Remove 5.6.32, 7.0.26, 7.1.13, 7.2.1
   (https://www.pivotaltracker.com/story/show/155576142)
   (https://www.pivotaltracker.com/story/show/155586941)
   (https://www.pivotaltracker.com/story/show/155589446)
@@ -277,7 +277,7 @@ v4.3.39 Jul 31, 2017
 v4.3.38 Jul 13, 2017
 =====================
 
-* Add php 5.6.21, 7.0.21, 7.1.7 and remove php 5.6.19, 7.0.19, 7.1.5
+* Add php 5.6.31, 7.0.21, 7.1.7 and remove php 5.6.29, 7.0.19, 7.1.5
   (https://www.pivotaltracker.com/story/show/148386783)
   (https://www.pivotaltracker.com/story/show/148292817)
   (https://www.pivotaltracker.com/story/show/148307943)
