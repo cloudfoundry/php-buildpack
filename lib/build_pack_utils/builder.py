@@ -629,11 +629,16 @@ class FileUtil(object):
                 if self._move:
                     for d in dirs:
                         dirPath = os.path.join(root, d)
-                        if len(os.listdir(dirPath)) == 0:
+                        if not os.path.exists(dirPath):
+                            self._log.debug(
+                                "Cleaning up symlink [%s] as directory has been removed",
+                                dirPath)
+                            os.unlink(dirPath)
+                        elif len(os.listdir(dirPath)) == 0:
                             self._log.debug(
                                 "Cleaning up empty directory [%s]",
                                 dirPath)
-                            os.rmdir(os.path.join(root, d))
+                            os.rmdir(dirPath)
         return self._builder
 
 
