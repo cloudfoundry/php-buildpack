@@ -22,7 +22,7 @@ default_versions:
 - name: newrelic
   version: 8.0.0.204
 - name: nginx
-  version: 1.13.11
+  version: 1.13.12
 - name: composer
   version: 1.6.4
 url_to_dependency_map:
@@ -627,9 +627,9 @@ dependencies:
   - zlib
   sha256: a7a4469aeaf665e28f6a10439f8d5e9e6992800fe278eee8b6ede366c353c9f1
 - name: nginx
-  version: 1.13.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.11-linux-x64-3ab77e04.tgz
-  sha256: 3ab77e04a91a038b3abcab7f45066787638f66be8bdb35cd91a6fc42046b3316
+  version: 1.13.12
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.13.12-linux-x64-d1593c9d.tgz
+  sha256: d1593c9d76ee25e28a7811dd09eadd6ee83ee26dfec90ba3a64f8d8c1cf65a73
   cf_stacks:
   - cflinuxfs2
 - name: composer
