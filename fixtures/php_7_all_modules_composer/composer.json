@@ -26,6 +26,7 @@
         "ext-mongodb": "*",
         "ext-msgpack": "*",
         "ext-mysqli": "*",
+        "ext-oauth": "*",
         "ext-openssl": "*",
         "ext-pcntl": "*",
         "ext-pdo": "*",
@@ -40,6 +41,9 @@
         "ext-pspell": "*",
         "ext-rdkafka": "*",
         "ext-readline": "*",
+        "ext-shmop": "*",
+        "ext-stomp": "*",
+        "ext-sysvmsg": "*",
         "ext-tideways": "*",
         "ext-tideways_xhprof": "*",
         "ext-redis": "*",
@@ -49,6 +53,7 @@
         "ext-solr": "*",
         "ext-xsl": "*",
         "ext-yaf": "*",
+        "ext-yaml": "*",
         "ext-zip": "*",
         "ext-zlib": "*"
     }
