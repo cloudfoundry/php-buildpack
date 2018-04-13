@@ -224,6 +224,7 @@ dependencies:
   - protobuf
   - pspell
   - rdkafka
+  - readline
   - redis
   - shmop
   - snmp
@@ -234,6 +235,8 @@ dependencies:
   - sysvmsg
   - sysvsem
   - sysvshm
+  - tideways
+  - tideways_xhprof
   - xdebug
   - xsl
   - yaf
@@ -294,6 +297,7 @@ dependencies:
   - protobuf
   - pspell
   - rdkafka
+  - readline
   - redis
   - shmop
   - snmp
@@ -304,6 +308,8 @@ dependencies:
   - sysvmsg
   - sysvsem
   - sysvshm
+  - tideways
+  - tideways_xhprof
   - xdebug
   - xsl
   - yaf
@@ -363,6 +369,7 @@ dependencies:
   - protobuf
   - pspell
   - rdkafka
+  - readline
   - redis
   - shmop
   - snmp
@@ -372,6 +379,8 @@ dependencies:
   - sysvmsg
   - sysvsem
   - sysvshm
+  - tideways
+  - tideways_xhprof
   - xdebug
   - xsl
   - yaf
