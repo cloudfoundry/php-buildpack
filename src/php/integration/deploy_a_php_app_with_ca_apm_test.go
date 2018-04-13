@@ -52,7 +52,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		By("Running CA APM installer script", func() {
 			Eventually(app.Stdout.String).Should(ContainSubstring("Compiling CA APM PHP Agent install commands"))
 			Eventually(app.Stdout.String).Should(ContainSubstring("Installing CA APM PHP Agent"))
-			Eventually(app.Stdout.String).Should(ContainSubstring("Installing CA PHP Probe Agent..."))
+			Eventually(app.Stdout.String).Should(ContainSubstring("Installing CA APM PHP Probe Agent..."))
 			Eventually(app.Stdout.String).Should(ContainSubstring("Installation Status : Success"))
 		})
 
