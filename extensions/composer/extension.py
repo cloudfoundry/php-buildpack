@@ -305,6 +305,19 @@ class ComposerExtension(ExtensionHelper):
     def run(self):
         # Move composer files into root directory
         (json_path, lock_path) = find_composer_paths(self._ctx)
+        auth_path = None
+        auth_paths = [
+            os.path.join(os.path.dirname(json_path), 'auth.json'),
+        ]
+        env_path = os.getenv('COMPOSER_HOME')
+        if env_path is not None:
+            auth_paths = auth_paths + [
+                os.path.join(env_path, 'auth.json'),
+            ]
+        for path in auth_paths:
+            if os.path.exists(path):
+                auth_path = path
+
         if json_path is not None and os.path.dirname(json_path) != self._ctx['BUILD_DIR']:
             (self._builder.move()
                 .under(os.path.dirname(json_path))
@@ -315,6 +328,12 @@ class ComposerExtension(ExtensionHelper):
             (self._builder.move()
                 .under(os.path.dirname(lock_path))
                 .where_name_is('composer.lock')
+                .into('BUILD_DIR')
+             .done())
+        if auth_path is not None and os.path.dirname(auth_path) != self._ctx['BUILD_DIR']:
+            (self._builder.move()
+                .under(os.path.dirname(auth_path))
+                .where_name_is('auth.json')
                 .into('BUILD_DIR')
              .done())
         # Sanity Checks
