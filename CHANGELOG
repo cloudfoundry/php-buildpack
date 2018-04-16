@@ -1,3 +1,43 @@
+v4.3.52 Apr 16, 2018
+=====================
+* Due to GeoIP's deprecation of legacy (GeoLite) databases, only the following product IDs are supported under the free license: GeoLite-Legacy-IPv6-City, GeoLite-Legacy-IPv6-Country, 506 (GeoLite Country), 533 (GeoLite City), 517 (GeoLite ASN).
+
+* Correct CHANGELOG in previous release versions
+  - Correct v4.3.38: 'Add php 5.6.21' -> 'Add php 5.6.31', 'Remove php 5.6.19' -> 'Remove php 5.6.29'
+  - Correct v4.3.38: 'Add php 5.6.24' -> 'Add php 5.6.34', 'Remove php 5.6.22' -> 'Remove php 5.6.32'
+
+* Add support for symlinks
+
+* Add tideways extension (fork of xhprof)
+  (https://github.com/cloudfoundry/binary-builder/pull/36)
+
+* Build readline extension as a shared library
+  (https://github.com/cloudfoundry/binary-builder/pull/35/files)
+
+* Update php versions
+  - Add 5.6.35, remove 5.6.33
+  - Add 7.0.29, remove 7.0.27
+  - Add 7.1.16, remove 7.1.14
+  - Add 7.2.4, remove 7.2.2
+  (https://www.pivotaltracker.com/story/show/156360825)
+  (https://www.pivotaltracker.com/story/show/156311968)
+  (https://www.pivotaltracker.com/story/show/156317041)
+
+* Add nginx 1.13.12, remove nginx 1.13.9
+  (https://www.pivotaltracker.com/story/show/156657474)
+  (https://www.pivotaltracker.com/story/show/156133474)
+  (https://www.pivotaltracker.com/story/show/156134095)
+
+* Add composer 1.6.4, remove composer 1.6.3
+  (https://www.pivotaltracker.com/story/show/156757128)
+
+* Merge pull request #254 from CATechnologies/master
+  - Upgrades CA APM PHP Probe Agent to 10.7
+
+* Add new relic agent 8.0.0.204, remove 7.7.0.203
+  (https://www.pivotaltracker.com/story/show/155922520)
+
+
 v4.3.51 Mar 09, 2018
 =====================
 
