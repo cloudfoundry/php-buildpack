@@ -278,6 +278,7 @@ dependencies:
   - mailparse
   - mbstring
   - mcrypt
+  - memcached
   - mongodb
   - msgpack
   - mysqli
@@ -345,6 +346,7 @@ dependencies:
   - mailparse
   - mbstring
   - mcrypt
+  - memcached
   - mongodb
   - msgpack
   - mysqli
@@ -412,6 +414,7 @@ dependencies:
   - mailparse
   - mbstring
   - mcrypt
+  - memcached
   - mongodb
   - msgpack
   - mysqli
@@ -479,6 +482,7 @@ dependencies:
   - mailparse
   - mbstring
   - mcrypt
+  - memcached
   - mongodb
   - msgpack
   - mysqli
@@ -545,6 +549,7 @@ dependencies:
   - lzf
   - mailparse
   - mbstring
+  - memcached
   - mongodb
   - msgpack
   - mysqli
@@ -610,6 +615,7 @@ dependencies:
   - lzf
   - mailparse
   - mbstring
+  - memcached
   - mongodb
   - msgpack
   - mysqli
