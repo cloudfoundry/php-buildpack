@@ -14,3 +14,4 @@ binaries/trusty/*
 DebugKit
 /pkg/
 /.bin/
+.idea
