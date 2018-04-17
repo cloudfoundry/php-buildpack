@@ -11,7 +11,7 @@ def php_modules_from(version:, url:)
       Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
         File.basename(file, '.so')
       end.sort.reject do |m|
-        %w(odbc gnupg).include?(m) || (%w(memcached).include?(m) && version =~ /^7\./) 
+        %w(odbc gnupg).include?(m)
       end
     end
   end
