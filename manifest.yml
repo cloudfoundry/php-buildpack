@@ -580,7 +580,6 @@ dependencies:
   - sysvshm
   - tideways
   - tideways_xhprof
-  - xdebug
   - xsl
   - yaf
   - yaml
@@ -646,7 +645,6 @@ dependencies:
   - sysvshm
   - tideways
   - tideways_xhprof
-  - xdebug
   - xsl
   - yaf
   - yaml
