@@ -128,9 +128,7 @@ class TestComposer(object):
         instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
 
         stream_output_stub = Dingus()
-
         rewrite_stub = Dingus()
-
         builder = Dingus(_ctx=ctx)
 
         with patches({
@@ -295,32 +293,38 @@ class TestComposer(object):
         assert 'openssl' not in ctx['PHP_EXTENSIONS']
 
     def test_configure_paths_missing(self):
-        def fcp_test_json(path):
-            tmp = fcp_orig(path)
-            return (tmp[0], None)
+        fcp_orig = self.extension_module.find_composer_path
 
-        def fcp_test_lock(path):
-            tmp = fcp_orig(path)
-            return (None, tmp[1])
+        def find_composer_path_none_found_stub(path, ctx):
+            return None
 
-        def fcp_test_none(path):
-            return (None, None)
+        def find_composer_path_only_json_found_stub(path, ctx):
+            if path == "composer.json":
+                return fcp_orig(path, ctx)
+            return None
+
+        def find_composer_path_only_lock_found_stub(path, ctx):
+            if path == "composer.lock":
+                return fcp_orig(path, ctx)
+            return None
+
         ctx = utils.FormattedDict({
             'BUILD_DIR': 'tests/data/composer',
             'WEBDIR': '',
             'PHP_56_LATEST': '5.6.31',
             'ALL_PHP_VERSIONS': ['5.6.31', '5.6.29', '7.0.13', '7.0.14', '7.1.3', '7.1.4']
         })
-        fcp_orig = self.extension_module.find_composer_paths
-        # test when no composer.json or composer.lock files found
-        self.extension_module.find_composer_paths = fcp_test_none
+
+        # test when no composer.json and no composer.lock found
+        self.extension_module.find_composer_path = find_composer_path_none_found_stub
         try:
             self.extension_module.ComposerConfiguration(ctx).configure()
             assert 'PHP_EXTENSIONS' not in ctx.keys()
         finally:
-            self.extension_module.find_composer_paths = fcp_orig
+            self.extension_module.find_composer_path = fcp_orig
+
         # test when composer.json found, but no composer.lock
-        self.extension_module.find_composer_paths = fcp_test_json
+        self.extension_module.find_composer_path = find_composer_path_only_json_found_stub
         try:
             self.extension_module.ComposerConfiguration(ctx).configure()
             assert 'PHP_EXTENSIONS' in ctx.keys()
@@ -329,9 +333,10 @@ class TestComposer(object):
             assert 'fileinfo' in ctx['PHP_EXTENSIONS']
             assert 'zip' in ctx['PHP_EXTENSIONS']
         finally:
-            self.extension_module.find_composer_paths = fcp_orig
+            self.extension_module.find_composer_path = fcp_orig
+
         # test when composer.lock found, but no composer.json
-        self.extension_module.find_composer_paths = fcp_test_lock
+        self.extension_module.find_composer_path = find_composer_path_only_lock_found_stub
         try:
             self.extension_module.ComposerConfiguration(ctx).configure()
             assert 'PHP_EXTENSIONS' in ctx.keys()
@@ -341,7 +346,7 @@ class TestComposer(object):
             assert 'fileinfo' in ctx['PHP_EXTENSIONS']
             assert 'zip' in ctx['PHP_EXTENSIONS']
         finally:
-            self.extension_module.find_composer_paths = fcp_orig
+            self.extension_module.find_composer_path = fcp_orig
 
     def test_find_composer_php_version(self):
         ctx = {'BUILD_DIR': 'tests/data/composer-lock', 'WEBDIR': ''}

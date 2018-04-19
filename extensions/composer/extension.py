@@ -39,43 +39,34 @@ from build_pack_utils.compile_extensions import CompileExtensions
 _log = logging.getLogger('composer')
 
 
-def find_composer_paths(ctx):
+def find_composer_path(file_name, ctx):
     build_dir = ctx['BUILD_DIR']
     webdir = ctx['WEBDIR']
 
-    json_path = None
-    lock_path = None
-    json_paths = [
-        os.path.join(build_dir, 'composer.json'),
-        os.path.join(build_dir, webdir, 'composer.json')
-    ]
-
-    lock_paths = [
-        os.path.join(build_dir, 'composer.lock'),
-        os.path.join(build_dir, webdir, 'composer.lock')
+    path = None
+    paths = [
+        os.path.join(build_dir, file_name),
+        os.path.join(build_dir, webdir, file_name)
     ]
 
     env_path = os.getenv('COMPOSER_PATH')
     if env_path is not None:
-        json_paths = json_paths + [
-            os.path.join(build_dir, env_path, 'composer.json'),
-            os.path.join(build_dir, webdir, env_path, 'composer.json')
+        paths = paths + [
+            os.path.join(build_dir, env_path, file_name),
+            os.path.join(build_dir, webdir, env_path, file_name)
         ]
 
-        lock_paths = lock_paths + [
-            os.path.join(build_dir, env_path, 'composer.lock'),
-            os.path.join(build_dir, webdir, env_path, 'composer.lock')
-        ]
+    for p in paths:
+        if os.path.exists(p):
+            path = p
 
-    for path in json_paths:
-        if os.path.exists(path):
-            json_path = path
-    for path in lock_paths:
-        if os.path.exists(path):
-            lock_path = path
+    return path
 
-    return (json_path, lock_path)
-
+def find_composer_paths(ctx):
+    return (
+        find_composer_path("composer.json", ctx),
+        find_composer_path("composer.lock", ctx)
+    )
 
 class ComposerConfiguration(object):
     def __init__(self, ctx):
@@ -84,8 +75,9 @@ class ComposerConfiguration(object):
         self._init_composer_paths()
 
     def _init_composer_paths(self):
-        (self.json_path, self.lock_path) = \
-            find_composer_paths(self._ctx)
+        self.json_path = find_composer_path("composer.json", self._ctx)
+        self.lock_path = find_composer_path("composer.lock", self._ctx)
+        self.auth_path = find_composer_path("auth.json", self._ctx)
 
     def read_exts_from_path(self, path):
         exts = []
@@ -131,13 +123,12 @@ class ComposerConfiguration(object):
         return composer
 
     def read_version_from_composer(self, key):
-        (json_path, lock_path) = find_composer_paths(self._ctx)
-        if json_path is not None:
-            composer = self.get_composer_contents(json_path)
+        if self.json_path is not None:
+            composer = self.get_composer_contents(self.json_path)
             require = composer.get('require', {})
             return require.get(key, None)
-        if lock_path is not None:
-            composer = self.get_composer_contents(lock_path)
+        if self.lock_path is not None:
+            composer = self.get_composer_contents(self.lock_path)
             platform = composer.get('platform', {})
             return platform.get(key, None)
         return None
@@ -167,6 +158,12 @@ class ComposerExtension(ExtensionHelper):
     def __init__(self, ctx):
         ExtensionHelper.__init__(self, ctx)
         self._log = _log
+        self._init_composer_paths()
+
+    def _init_composer_paths(self):
+        self.json_path = find_composer_path("composer.json", self._ctx)
+        self.lock_path = find_composer_path("composer.lock", self._ctx)
+        self.auth_path = find_composer_path("auth.json", self._ctx)
 
     def _defaults(self):
         manifest_file_path = os.path.join(self._ctx["BP_DIR"], "manifest.yml")
@@ -188,9 +185,7 @@ class ComposerExtension(ExtensionHelper):
         }
 
     def _should_compile(self):
-        (json_path, lock_path) = \
-            find_composer_paths(self._ctx)
-        return (json_path is not None or lock_path is not None)
+        return (self.json_path is not None or self.lock_path is not None)
 
     def _compile(self, install):
         self._builder = install.builder
@@ -302,40 +297,20 @@ class ComposerExtension(ExtensionHelper):
                   'https://github.com/settings/applications/new. '
                   'Then set COMPOSER_GITHUB_OAUTH_TOKEN in your environment to the value of this token.')
 
+    def move_to_build_dir(self, file_path):
+        if file_path is not None and os.path.dirname(file_path) != self._ctx['BUILD_DIR']:
+            (self._builder.move()
+             .under(os.path.dirname(file_path))
+             .where_name_is(os.path.basename(file_path))
+             .into('BUILD_DIR')
+             .done())
+
     def run(self):
         # Move composer files into root directory
-        (json_path, lock_path) = find_composer_paths(self._ctx)
-        auth_path = None
-        auth_paths = [
-            os.path.join(os.path.dirname(json_path), 'auth.json'),
-        ]
-        env_path = os.getenv('COMPOSER_HOME')
-        if env_path is not None:
-            auth_paths = auth_paths + [
-                os.path.join(env_path, 'auth.json'),
-            ]
-        for path in auth_paths:
-            if os.path.exists(path):
-                auth_path = path
+        self.move_to_build_dir(self.json_path)
+        self.move_to_build_dir(self.lock_path)
+        self.move_to_build_dir(self.auth_path)
 
-        if json_path is not None and os.path.dirname(json_path) != self._ctx['BUILD_DIR']:
-            (self._builder.move()
-                .under(os.path.dirname(json_path))
-                .where_name_is('composer.json')
-                .into('BUILD_DIR')
-             .done())
-        if lock_path is not None and os.path.dirname(lock_path) != self._ctx['BUILD_DIR']:
-            (self._builder.move()
-                .under(os.path.dirname(lock_path))
-                .where_name_is('composer.lock')
-                .into('BUILD_DIR')
-             .done())
-        if auth_path is not None and os.path.dirname(auth_path) != self._ctx['BUILD_DIR']:
-            (self._builder.move()
-                .under(os.path.dirname(auth_path))
-                .where_name_is('auth.json')
-                .into('BUILD_DIR')
-             .done())
         # Sanity Checks
         if not os.path.exists(os.path.join(self._ctx['BUILD_DIR'],
                                            'composer.lock')):
