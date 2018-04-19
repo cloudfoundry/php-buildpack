@@ -29,8 +29,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 				Expect(headers).To(HaveKeyWithValue("StatusCode", []string{"500"}))
 				Expect(body).To(ContainSubstring("Redis Connection with phpredis"))
 
-				// Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP message: PHP Fatal error:  Uncaught exception 'RedisException' with message 'Redis server went away'"))
-				Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Redis server went away"))
+				Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Connection refused"))
 			})
 		})
 	})

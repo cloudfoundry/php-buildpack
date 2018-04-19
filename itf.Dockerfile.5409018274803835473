@@ -1,0 +1,13 @@
+FROM cloudfoundry/cflinuxfs2
+ENV CF_STACK cflinuxfs2
+ENV VCAP_APPLICATION {}
+ENV HTTP_PROXY=http://[::]:60213
+ENV HTTPS_PROXY=http://[::]:60213
+ADD fixtures/local_dependencies /tmp/staged/
+ADD 4.3.52.20180419122106tmp /tmp/
+RUN mkdir -p /buildpack
+RUN mkdir -p /tmp/cache
+RUN unzip /tmp/4.3.52.20180419122106tmp -d /buildpack
+# HACK around https://github.com/dotcloud/docker/issues/5490
+RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
+RUN (sudo tcpdump -n -i eth0 not udp port 53 and not udp port 1900 and not udp port 5353 and ip -t -Uw /tmp/dumplog &) && /buildpack/bin/detect /tmp/staged && /buildpack/bin/compile /tmp/staged /tmp/cache && /buildpack/bin/release /tmp/staged /tmp/cache && pkill tcpdump; tcpdump -nr /tmp/dumplog | sed -e 's/^/internet traffic: /' 2>&1 || true
