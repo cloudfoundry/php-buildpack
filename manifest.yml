@@ -62,11 +62,6 @@ dependency_deprecation_dates:
   name: php
   date: 2020-11-30
   link: http://php.net/supported-versions.php
-- match: 1.10.\d+
-  version_line: '1.10'
-  name: nginx
-  date: 2017-04-26
-  link: https://www.nginx.com/blog/nginx-1-10-1-11-released/
 dependencies:
 - name: appdynamics
   version: 4.3.5.9
