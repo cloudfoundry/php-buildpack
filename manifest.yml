@@ -656,6 +656,12 @@ dependencies:
   sha256: d1593c9d76ee25e28a7811dd09eadd6ee83ee26dfec90ba3a64f8d8c1cf65a73
   cf_stacks:
   - cflinuxfs2
+- name: nginx
+  version: 1.12.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx/nginx-1.12.2-linux-x64-60e5d131.tgz
+  sha256: f7815e32b5cb8b81562e7dbff36182aa864e596d31f520adab349edb62e2ad15
+  cf_stacks:
+  - cflinuxfs2
 - name: composer
   version: 1.6.4
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.6.4-8d0d9246.phar
