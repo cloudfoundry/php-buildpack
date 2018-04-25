@@ -64,11 +64,11 @@ dependency_deprecation_dates:
   link: http://php.net/supported-versions.php
 dependencies:
 - name: appdynamics
-  version: 4.3.5.9
-  uri: https://packages.appdynamics.com/php/4.3.5.9/appdynamics-php-agent-x64-linux-4.3.5.9.tar.bz2
+  version: 4.4.2.849
+  uri: https://packages.appdynamics.com/php/4.4.2.849/appdynamics-php-agent-linux_x64-4.4.2.849.tar.bz2
+  sha256: 4b8baaf13a2c91c5a06f82e65d997b568f63c97c9e59901cb2f2d67800976c5f
   cf_stacks:
   - cflinuxfs2
-  sha256: 9560965e72c0d425bc96b06c5458767c4593098a5c4b01a8dad5b1c665611e95
 - name: newrelic
   version: 8.0.0.204
   uri: https://download.newrelic.com/php_agent/archive/8.0.0.204/newrelic-php5-8.0.0.204-linux.tar.gz
