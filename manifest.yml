@@ -244,9 +244,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.0.28
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.28-linux-x64-e5ac5a15.tgz
-  sha256: e5ac5a158e61f7be3630e9de23ce0804ac215d49849295e628b4c857ce7f9748
+  version: 7.0.29
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.29-linux-x64-feb95c09.tgz
+  sha256: feb95c090451307e05349ccac9585adcca7012a83cd616ffd091573f985be247
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -312,9 +312,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.0.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.29-linux-x64-feb95c09.tgz
-  sha256: feb95c090451307e05349ccac9585adcca7012a83cd616ffd091573f985be247
+  version: 7.0.30
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.30-linux-x64-babe2b7d.tgz
+  sha256: babe2b7dfb4cf19c8e835e5a83433ec368288cc69b87b80024f164463a67af47
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -516,9 +516,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.3-linux-x64-6bc2c6cf.tgz
-  sha256: 6bc2c6cf0eea4c4dbf1ec62967597f229edc398e73b34abc9630801099a5e8a3
+  version: 7.2.4
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.4-linux-x64-c09e68f0.tgz
+  sha256: c09e68f0f6c58dcbd6a6a9daf9f5f88f89ee78ab65c695bbb6dae2e461ea0960
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -581,9 +581,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.4-linux-x64-c09e68f0.tgz
-  sha256: c09e68f0f6c58dcbd6a6a9daf9f5f88f89ee78ab65c695bbb6dae2e461ea0960
+  version: 7.2.5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.5-linux-x64-b0392a7a.tgz
+  sha256: b0392a7a04efd8ea172abb68ce4a9ecac22fae64f2633e1fc21cfb121b4e95d6
   cf_stacks:
   - cflinuxfs2
   modules:
