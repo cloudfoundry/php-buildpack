@@ -16,7 +16,7 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 5.6.34
+  version: 5.6.36
 - name: httpd
   version: 2.4.29
 - name: newrelic
@@ -88,9 +88,9 @@ dependencies:
   - cflinuxfs2
   sha256: 689e1bd28170ff2c16bd6bc38f6a55fe76d8969a2a58567d58ca9836f2dab96f
 - name: php
-  version: 5.6.34
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.34-linux-x64-43db148f.tgz
-  sha256: 43db148f2bff95767d9a55a471fadf444ecf017d2d2d7237bd3d3506a7125535
+  version: 5.6.36
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.36-linux-x64-e8e68cf3.tgz
+  sha256: e8e68cf3f6994388ac2e065b7851a47460de6d3e2d4631392dd63ca6a8c4ece0
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -380,9 +380,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.1.15
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.15-linux-x64-445de5c6.tgz
-  sha256: 445de5c6ebfdc48a4a83f7e131f098686b9fa74a250d4e1bb70aad64b4be9b0f
+  version: 7.1.17
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.17-linux-x64-44879dde.tgz
+  sha256: 44879ddeccd1427e81424cad85c9e667bdf8394aca9f298fb69db93d1586d357
   cf_stacks:
   - cflinuxfs2
   modules:
