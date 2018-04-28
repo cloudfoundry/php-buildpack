@@ -1,3 +1,32 @@
+v4.3.53 Apr 27, 2018
+=====================
+
+* Address MS-ISAC ADVISORY NUMBER 2018-046
+(https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-php-could-allow-for-arbitrary-code-execution_2018-046/)
+
+* Add php 7.1.17, 5.6.36; remove 7.1.15, 5.6.34
+
+* Add php 7.2.5, 7.0.30; remove 7.2.3, 7.0.28
+(https://www.pivotaltracker.com/story/show/157055578)
+(https://www.pivotaltracker.com/story/show/157047336)
+
+* Update AppDynamics agent to 4.4.2.849
+  (https://www.pivotaltracker.com/story/show/154849536)
+
+* Add nginx 1.14.0
+  (https://www.pivotaltracker.com/story/show/156851318)
+  (https://www.pivotaltracker.com/story/show/156851407)
+
+* Remove xdebug from php 7.2.X modules
+  (https://www.pivotaltracker.com/story/show/156421465)
+
+* Move auth.json with composer.json, composer.lock if it exists
+  (https://www.pivotaltracker.com/story/show/156248131)
+
+* Add memcached support for php 7.0-7.2
+  (https://www.pivotaltracker.com/story/show/150392071)
+
+
 v4.3.52 Apr 16, 2018
 =====================
 * Due to GeoIP's deprecation of legacy (GeoLite) databases, only the following product IDs are supported under the free license: GeoLite-Legacy-IPv6-City, GeoLite-Legacy-IPv6-Country, 506 (GeoLite Country), 533 (GeoLite City), 517 (GeoLite ASN).
