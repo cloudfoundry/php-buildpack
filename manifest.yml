@@ -24,7 +24,7 @@ default_versions:
 - name: nginx
   version: 1.13.12
 - name: composer
-  version: 1.6.4
+  version: 1.6.5
 url_to_dependency_map:
 - match: appdynamics-php-agent-linux_x64-(\d+\.\d+\.\d+\.\d+)
   name: appdynamics
@@ -73,12 +73,6 @@ dependencies:
   version: 4.4.2.849
   uri: https://packages.appdynamics.com/php/4.4.2.849/appdynamics-php-agent-linux_x64-4.4.2.849.tar.bz2
   sha256: 4b8baaf13a2c91c5a06f82e65d997b568f63c97c9e59901cb2f2d67800976c5f
-  cf_stacks:
-  - cflinuxfs2
-- name: composer
-  version: 1.6.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.6.4-8d0d9246.phar
-  sha256: 8d0d9246f68532cc8fd6a47a58d195f0c849d26430f93c397a3176fc2d971ded
   cf_stacks:
   - cflinuxfs2
 - name: httpd
@@ -669,3 +663,9 @@ dependencies:
   - yaml
   - zip
   - zlib
+- name: composer
+  version: 1.6.5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.6.5-67bebe9d.phar
+  sha256: 67bebe9df9866a795078bb2cf21798d8b0214f2e0b2fd81f2e907a8ef0be3434
+  cf_stacks:
+  - cflinuxfs2
