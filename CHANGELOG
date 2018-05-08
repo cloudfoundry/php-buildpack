@@ -1,3 +1,16 @@
+v4.3.54 May 08, 2018
+=====================
+* Rebuild php binaries to include GeoIP fix from v4.3.52
+  (https://www.pivotaltracker.com/story/show/157287202)
+
+* Add appdynamics 4.4.3.1216, remove appdynamics 4.4.2.849
+  (https://www.pivotaltracker.com/story/show/157375734)
+  (https://www.pivotaltracker.com/story/show/157323165)
+
+* Add composer 1.6.5, remove composer 1.6.4
+  (https://www.pivotaltracker.com/story/show/157310510)
+
+
 v4.3.53 Apr 27, 2018
 =====================
 
