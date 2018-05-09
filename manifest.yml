@@ -75,6 +75,12 @@ dependencies:
   sha256: fd5ddc2965f620e90042ed30c2dc5e343c6dcd9be01ec8210a4daaccc4a574aa
   cf_stacks:
   - cflinuxfs2
+- name: ca_apm_php_agent
+  version: 10.7.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/ca_apm_php_agent/CA-APM-PHPAgent-10.7.0_linux-d2bfb020.tar.gz
+  sha256: d2bfb020dd91e6c474911da9c7fd94ba3c41a4794675c49ce97c809e2dfa20a4
+  cf_stacks:
+  - cflinuxfs2
 - name: composer
   version: 1.6.5
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.6.5-67bebe9d.phar
