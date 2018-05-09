@@ -82,11 +82,11 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
 - name: httpd
-  version: 2.4.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.29-linux-x64-689e1bd2.tgz
+  version: 2.4.33
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.33-linux-x64-af7bb1a1.tgz
+  sha256: af7bb1a1e9cdf6cb09ff68a28ea5c436e2245fbbeccf112ef7d5ebcc81ce774c
   cf_stacks:
   - cflinuxfs2
-  sha256: 689e1bd28170ff2c16bd6bc38f6a55fe76d8969a2a58567d58ca9836f2dab96f
 - name: newrelic
   version: 8.0.0.204
   uri: https://download.newrelic.com/php_agent/archive/8.0.0.204/newrelic-php5-8.0.0.204-linux.tar.gz
