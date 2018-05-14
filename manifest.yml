@@ -20,7 +20,7 @@ default_versions:
 - name: httpd
   version: 2.4.33
 - name: newrelic
-  version: 8.0.0.204
+  version: 8.1.0.209
 - name: nginx
   version: 1.13.12
 - name: composer
