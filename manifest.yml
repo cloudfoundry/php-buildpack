@@ -25,6 +25,8 @@ default_versions:
   version: 1.13.12
 - name: composer
   version: 1.6.5
+- name: CAAPM
+  version: 10.7.0
 url_to_dependency_map:
 - match: appdynamics-php-agent-linux_x64-(\d+\.\d+\.\d+\.\d+)
   name: appdynamics
