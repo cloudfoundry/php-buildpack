@@ -1,3 +1,28 @@
+v4.3.55 May 15, 2018
+=====================
+
+* Add default version for CA APM agent
+  (https://www.pivotaltracker.com/story/show/157446795)
+
+* Update default version of newrelic
+  (https://www.pivotaltracker.com/story/show/157204067)
+
+* Add newrelic 8.1.0.209, remove newrelic 8.0.0.204
+  (https://www.pivotaltracker.com/story/show/157204067)
+
+* Add ca_apm_php_agent 10.7.0
+  (https://www.pivotaltracker.com/story/show/157443324)
+  (https://www.pivotaltracker.com/story/show/157446795)
+
+* Update default httpd version to latest
+  (https://www.pivotaltracker.com/story/show/157256902)
+
+* Add httpd 2.4.33, remove httpd 2.4.29
+  (https://www.pivotaltracker.com/story/show/157256902)
+
+* Add appdynamics 4.4.3.1216, remove appdynamics 4.4.2.861
+  (https://www.pivotaltracker.com/story/show/157375734)
+
 v4.3.54 May 08, 2018
 =====================
 * Rebuild php binaries to include GeoIP fix from v4.3.52
