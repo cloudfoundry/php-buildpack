@@ -394,74 +394,6 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.1.16
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.16-linux-x64-6d4bc77f.tgz
-  sha256: 6d4bc77f445f7d706de5efe76536376dcccf822518d0a862f67e33633e193a58
-  cf_stacks:
-  - cflinuxfs2
-  modules:
-  - amqp
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - geoip
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - ioncube
-  - ldap
-  - lua
-  - lzf
-  - mailparse
-  - mbstring
-  - mcrypt
-  - memcached
-  - mongodb
-  - msgpack
-  - mysqli
-  - oauth
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_mysql
-  - pdo_odbc
-  - pdo_pgsql
-  - pdo_sqlite
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - pspell
-  - rdkafka
-  - readline
-  - redis
-  - shmop
-  - snmp
-  - soap
-  - sockets
-  - solr
-  - stomp
-  - sysvmsg
-  - sysvsem
-  - sysvshm
-  - tideways
-  - tideways_xhprof
-  - xdebug
-  - xsl
-  - yaf
-  - yaml
-  - zip
-  - zlib
-- name: php
   version: 7.1.17
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.17-linux-x64-5306e01c.tgz
   sha256: 5306e01c1a9459d61c948e4538e143dbbf9c2ce7bec8d550ebd452b9408c4613
@@ -530,9 +462,77 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.4-linux-x64-bbde0b6b.tgz
-  sha256: bbde0b6be4e8df60c07da60baa97da6113749d56f0bfbef2b2f6236eaaa20d10
+  version: 7.1.18
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.18-linux-x64-609c14ad.tgz
+  sha256: 609c14ad78fa2aa3f90c680ed282dad5909068e1af412638567ac620d67ccf97
+  cf_stacks:
+  - cflinuxfs2
+  modules:
+  - amqp
+  - apcu
+  - bz2
+  - cassandra
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - geoip
+  - gettext
+  - gmp
+  - igbinary
+  - imagick
+  - imap
+  - ioncube
+  - ldap
+  - lua
+  - lzf
+  - mailparse
+  - mbstring
+  - mcrypt
+  - memcached
+  - mongodb
+  - msgpack
+  - mysqli
+  - oauth
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_mysql
+  - pdo_odbc
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - phalcon
+  - phpiredis
+  - protobuf
+  - pspell
+  - rdkafka
+  - readline
+  - redis
+  - shmop
+  - snmp
+  - soap
+  - sockets
+  - solr
+  - stomp
+  - sysvmsg
+  - sysvsem
+  - sysvshm
+  - tideways
+  - tideways_xhprof
+  - xdebug
+  - xsl
+  - yaf
+  - yaml
+  - zip
+  - zlib
+- name: php
+  version: 7.2.5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.5-linux-x64-c411deac.tgz
+  sha256: c411deacb1a5937e4de18e17cb05c7fcb9a9f7b199c0f1665520bb4adbeaf004
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -595,9 +595,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.5-linux-x64-c411deac.tgz
-  sha256: c411deacb1a5937e4de18e17cb05c7fcb9a9f7b199c0f1665520bb4adbeaf004
+  version: 7.2.6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.2.6-linux-x64-4926dfda.tgz
+  sha256: 4926dfdafc764206c6f7e30eef3d552d4945aca9fe46a2df3d10a512698d2124
   cf_stacks:
   - cflinuxfs2
   modules:
