@@ -79,7 +79,7 @@ dependencies:
   - cflinuxfs2
 - name: composer
   version: 1.6.5
-  uri: https://github.com/composer/composer/releases/download/1.6.5/composer.phar
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.6.5-67bebe9d.phar
   sha256: 67bebe9df9866a795078bb2cf21798d8b0214f2e0b2fd81f2e907a8ef0be3434
   cf_stacks:
   - cflinuxfs2
