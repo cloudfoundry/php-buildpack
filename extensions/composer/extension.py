@@ -368,6 +368,7 @@ class ComposerCommandRunner(object):
         # prevent key system variables from being overridden
         env['LD_LIBRARY_PATH'] = self._strategy.ld_library_path()
         env['PHPRC'] = self._ctx['TMPDIR']
+        env['PHP_INI_SCAN_DIR'] = os.path.join(self._ctx['BUILD_DIR'], '.bp-config', 'php', 'php.ini.d')
         env['PATH'] = ':'.join(filter(None,
                                       [env.get('PATH', ''),
                                        os.path.dirname(self._php_path),

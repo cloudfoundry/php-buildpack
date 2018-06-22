@@ -551,6 +551,7 @@ class TestComposer(object):
             'LIBDIR': 'lib',
             'CACHE_DIR': 'cache',
             'PHPRC': '/usr/awesome/phpini',
+            'PHP_INI_SCAN_DIR': '/usr/awesome/php.ini.d',
         })
 
         write_config_stub = Dingus()
@@ -565,6 +566,7 @@ class TestComposer(object):
 
         eq_(built_environment['LD_LIBRARY_PATH'], '/usr/awesome/php/lib')
         eq_(built_environment['PHPRC'], 'tmp')
+        eq_(built_environment['PHP_INI_SCAN_DIR'], '/usr/awesome/.bp-config/php/php.ini.d')
 
     def test_build_composer_environment_converts_vars_to_str(self):
         ctx = utils.FormattedDict({
