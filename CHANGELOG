@@ -1,3 +1,12 @@
+v4.3.57 Jun 26, 2018
+=====================
+
+* Add php 7.1.19, remove 7.1.16
+  (https://www.pivotaltracker.com/story/show/158502251)
+
+* Add php 7.2.7, remove 7.2.4
+  (https://www.pivotaltracker.com/story/show/158468183)
+
 v4.3.56 Jun 05, 2018
 =====================
 * Support packaging with associated stacks
