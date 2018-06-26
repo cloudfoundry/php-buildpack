@@ -187,46 +187,80 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.36
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.36-linux-x64-bb43e36f.tgz
-  sha256: bb43e36f23f13af935895c2e604e309c6fa02c49eefaf0101f064e8573faae06
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.36-linux-x64-80dfbb29.tgz
+  sha256: 80dfbb296edad3a8dc2d15d8b00fcc70380d2c1e954a5331364aa3997ace005d
   cf_stacks:
   - cflinuxfs2
   modules:
+  - amqp
+  - apcu
   - bz2
+  - cassandra
   - curl
   - dba
   - exif
   - fileinfo
   - ftp
   - gd
+  - gearman
+  - geoip
   - gettext
   - gmp
+  - igbinary
+  - imagick
   - imap
+  - ioncube
   - ldap
+  - lua
+  - lzf
+  - mailparse
   - mbstring
   - mcrypt
+  - memcache
+  - memcached
+  - mongo
+  - mongodb
+  - msgpack
   - mssql
   - mysql
   - mysqli
+  - oauth
   - opcache
   - openssl
   - pcntl
   - pdo
   - pdo_dblib
   - pdo_mysql
+  - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
   - pgsql
+  - phalcon
+  - phpiredis
+  - protobuf
+  - protocolbuffers
   - pspell
+  - rdkafka
   - readline
+  - redis
   - shmop
   - snmp
   - soap
   - sockets
+  - solr
+  - stomp
+  - suhosin
+  - sundown
   - sysvmsg
   - sysvsem
   - sysvshm
+  - twig
+  - xcache
+  - xdebug
+  - xhprof
   - xsl
+  - yaf
+  - yaml
   - zip
   - zlib
 - name: php
