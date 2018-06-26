@@ -191,6 +191,44 @@ dependencies:
   sha256: bb43e36f23f13af935895c2e604e309c6fa02c49eefaf0101f064e8573faae06
   cf_stacks:
   - cflinuxfs2
+  modules:
+  - bz2
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - gettext
+  - gmp
+  - imap
+  - ldap
+  - mbstring
+  - mcrypt
+  - mssql
+  - mysql
+  - mysqli
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_dblib
+  - pdo_mysql
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - pspell
+  - readline
+  - shmop
+  - snmp
+  - soap
+  - sockets
+  - sysvmsg
+  - sysvsem
+  - sysvshm
+  - xsl
+  - zip
+  - zlib
 - name: php
   version: 7.0.29
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.29-linux-x64-77a9f017.tgz
