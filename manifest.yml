@@ -187,8 +187,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.36
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.36-linux-x64-80dfbb29.tgz
-  sha256: 80dfbb296edad3a8dc2d15d8b00fcc70380d2c1e954a5331364aa3997ace005d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.36-linux-x64-f2b82793.tgz
+  sha256: f2b82793ab4d966822625a24f9f9351c67eb187796d68bdd2ffe7b27c9bdd72b
   cf_stacks:
   - cflinuxfs2
   modules:
