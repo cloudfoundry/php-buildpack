@@ -6,27 +6,27 @@ A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a
 
 ### Buildpack User Documentation
 
-Official buildpack documentation can be found at [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html.
+Official buildpack documentation can be found here: [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html).
 
 ### Building the Buildpack
 
 1. Make sure you have fetched submodules
 
-  ```bash
-  git submodule update --init
-  ```
+   ```bash
+   git submodule update --init
+   ```
 
 1. Get latest buildpack dependencies
 
-  ```shell
-  BUNDLE_GEMFILE=cf.Gemfile bundle
-  ```
+   ```shell
+   BUNDLE_GEMFILE=cf.Gemfile bundle
+   ```
 
 1. Build the buildpack
 
-  ```shell
-  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ]
-  ```
+   ```shell
+   BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ]
+   ```
 
 1. Use in Cloud Foundry
 
