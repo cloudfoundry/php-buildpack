@@ -1,3 +1,28 @@
+v4.3.58 Jul 20, 2018
+=====================
+
+* Add php 5.6.37, remove php 5.6.35
+  (https://www.pivotaltracker.com/story/show/159190033)
+
+* Add php 7.0.31, remove php 7.0.29
+  (https://www.pivotaltracker.com/story/show/159184032)
+
+* Add php 7.1.20, remove php 7.1.17
+  (https://www.pivotaltracker.com/story/show/159191900)
+
+* Add php 7.2.8, remove php 7.2.5
+  (https://www.pivotaltracker.com/story/show/159166665)
+
+* Add appdynamics 4.5.0.1547, remove appdynamics 4.4.3.1216
+  (https://www.pivotaltracker.com/story/show/159025420)
+  (https://www.pivotaltracker.com/story/show/158976533)
+
+* Add httpd 2.4.34, remove httpd 2.4.33
+  (https://www.pivotaltracker.com/story/show/159095662)
+
+* Add nginx 1.15.1, remove nginx 1.15.0
+  (https://www.pivotaltracker.com/story/show/158800160)
+
 v4.3.57 Jun 26, 2018
 =====================
 
