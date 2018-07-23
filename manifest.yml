@@ -77,6 +77,7 @@ dependencies:
   sha256: 01e7c7eac7e9db1bf9977d22c388a2d4b1f79ce1afa288827b0910ff43602e31
   cf_stacks:
   - cflinuxfs2
+  - cflinuxfs3
 - name: composer
   version: 1.6.5
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.6.5-67bebe9d.phar
