@@ -354,10 +354,78 @@ dependencies:
   - zlib
 - name: php
   version: 7.0.31
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.0.31-linux-x64-a98f68aa.tgz
-  sha256: a98f68aa9a18c7396324c4f367ac236a6c2cda1d452b744adc74fc99c6e25ede
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.0.31-linux-x64-cflinuxfs2-a20ab898.tgz
+  sha256: a20ab898a8157ca3bdaf93d76a850196813535ba47cb118c3b1dd26f9eb373c4
   cf_stacks:
   - cflinuxfs2
+  modules:
+  - amqp
+  - apcu
+  - bz2
+  - cassandra
+  - curl
+  - dba
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - geoip
+  - gettext
+  - gmp
+  - igbinary
+  - imagick
+  - imap
+  - ioncube
+  - ldap
+  - lua
+  - lzf
+  - mailparse
+  - mbstring
+  - mcrypt
+  - memcached
+  - mongodb
+  - msgpack
+  - mysqli
+  - oauth
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_mysql
+  - pdo_odbc
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - phalcon
+  - phpiredis
+  - protobuf
+  - pspell
+  - rdkafka
+  - readline
+  - redis
+  - shmop
+  - snmp
+  - soap
+  - sockets
+  - solr
+  - stomp
+  - sysvmsg
+  - sysvsem
+  - sysvshm
+  - tideways
+  - tideways_xhprof
+  - xdebug
+  - xsl
+  - yaf
+  - yaml
+  - zip
+  - zlib
+- name: php
+  version: 7.0.31
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.0.31-linux-x64-cflinuxfs3-be530766.tgz
+  sha256: be5307667f6274c48eeaff533df901986b78793cde68cc40be1abdd3740f76b7
+  cf_stacks:
+  - cflinuxfs3
   modules:
   - amqp
   - apcu
