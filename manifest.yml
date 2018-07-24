@@ -24,7 +24,7 @@ default_versions:
 - name: nginx
   version: 1.14.0
 - name: composer
-  version: 1.6.5
+  version: 1.7.0-RC
 - name: CAAPM
   version: 10.7.0
 url_to_dependency_map:
@@ -80,9 +80,9 @@ dependencies:
   - cflinuxfs2
   - cflinuxfs3
 - name: composer
-  version: 1.6.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.6.5-67bebe9d.phar
-  sha256: 67bebe9df9866a795078bb2cf21798d8b0214f2e0b2fd81f2e907a8ef0be3434
+  version: 1.7.0-RC
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.7.0-RC-902d9757.phar
+  sha256: 902d97573567b72a07754b20c64949ba878bb85571c0d3e5c6ddae66ffb278c0
   cf_stacks:
   - cflinuxfs2
   - cflinuxfs3
