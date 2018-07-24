@@ -78,14 +78,15 @@ def load_manifest(ctx):
 
 def find_all_php_versions(dependencies):
     versions = []
+    stack = os.getenv('CF_STACK', 'cflinuxfs2')
 
     for dependency in dependencies:
-        if dependency['name'] == 'php':
+        if dependency['name'] == 'php' and stack in dependency['cf_stacks']:
             versions.append(dependency['version'])
 
     return versions
 
- 
+
 def validate_php_version(ctx):
     if ctx['PHP_VERSION'] in ctx['ALL_PHP_VERSIONS']:
         _log.debug('App selected PHP [%s]', ctx['PHP_VERSION'])
