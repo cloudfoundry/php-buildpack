@@ -22,7 +22,7 @@ default_versions:
 - name: newrelic
   version: 8.1.0.209
 - name: nginx
-  version: 1.15.2
+  version: 1.14.0
 - name: composer
   version: 1.6.5
 - name: CAAPM
@@ -106,14 +106,14 @@ dependencies:
   sha256: be1ad4e9ff3113305bc320e6dfd33e233da7ad1b8c8815ccfbfbe99af71cafa3
 - name: nginx
   version: 1.14.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.14.0-linux-x64-cflinuxfs2-10bd628d.tgz
-  sha256: 10bd628da633d9692e5c85665ae9b2373a356371517bb0079b5dd56b6f959f87
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.14.0-linux-x64-cflinuxfs2-cd175237.tgz
+  sha256: cd1752372d6de4d627a6c170858dce582b482994c419e4afeb0f30928d01f048
   cf_stacks:
   - cflinuxfs2
 - name: nginx
   version: 1.14.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.14.0-linux-x64-cflinuxfs3-14790363.tgz
-  sha256: 147903630ef32f66dfda89b40c6613048e3fa4bbcdeacd326126242bc05be86c
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.14.0-linux-x64-cflinuxfs3-5581b3e0.tgz
+  sha256: 5581b3e0adec3b0de6b33c8fa5d0baf8178b1c103a4733299c70c16e00c1fbbb
   cf_stacks:
   - cflinuxfs3
 - name: nginx
