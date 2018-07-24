@@ -25,7 +25,7 @@ Official buildpack documentation can be found here: [php buildpack docs](http://
 1. Build the buildpack
 
    ```shell
-   BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ]
+   BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ] [ --any-stack | --stack=STACK ]
    ```
 
 1. Use in Cloud Foundry
@@ -41,18 +41,20 @@ Official buildpack documentation can be found here: [php buildpack docs](http://
 Find our guidelines [here](https://github.com/cloudfoundry/php-buildpack/blob/develop/CONTRIBUTING.md).
 
 ### Integration Tests
-Buildpacks use the [Machete](https://github.com/cloudfoundry/machete) framework for running integration tests.
+Buildpacks use the [Cutlass](https://github.com/cloudfoundry/libbuildpack/tree/master/cutlass) framework for running integration tests.
 
-To test a buildpack, run the following command from the buildpack's directory:
+To run integration tests, run the following command:
 
 ```
-BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-build
+./script/integration
 ```
 
 ### Unit Tests
 
+To run unit tests, run the following command:
+
 ```bash
-./run_tests.sh
+./script/unit
 ```
 
 ### Requirements
