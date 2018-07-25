@@ -81,7 +81,7 @@ def find_all_php_versions(dependencies):
     stack = os.getenv('CF_STACK', 'cflinuxfs2')
 
     for dependency in dependencies:
-        if dependency['name'] == 'php' and stack in dependency['cf_stacks']:
+        if dependency['name'] == 'php' and ((not 'cf_stacks' in dependency) or stack in dependency['cf_stacks']):
             versions.append(dependency['version'])
 
     return versions
