@@ -24,7 +24,7 @@ func init() {
 
 var _ = SynchronizedBeforeSuite(func() []byte {
 	// Run once
-	return bratshelper.InitBpData(os.Getenv("CF_STACK")).Marshal()
+	return bratshelper.InitBpData(os.Getenv("CF_STACK"), ApiHasStackAssociation()).Marshal()
 }, func(data []byte) {
 	// Run on all nodes
 	bratshelper.Data.Unmarshal(data)
@@ -161,4 +161,10 @@ func phpExtensions(phpVersion string) (extensions []string) {
 
 func isZendExtension(moduleName string) bool {
 	return moduleName == "ioncube" || moduleName == "opcache" || moduleName == "xdebug"
+}
+
+func ApiHasStackAssociation() bool {
+	supported, err := cutlass.ApiGreaterThan("2.113.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
 }

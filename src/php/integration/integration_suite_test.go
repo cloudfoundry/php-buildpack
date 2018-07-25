@@ -34,10 +34,10 @@ func init() {
 
 var _ = SynchronizedBeforeSuite(func() []byte {
 	// Run once
-	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty(), "Please set COMPOSER_GITHUB_OATH_TOKEN") // Required for some tests
+	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty(), "Please set COMPOSER_GITHUB_OAUTH_TOKEN") // Required for some tests
 
 	if buildpackVersion == "" {
-		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(os.Getenv("CF_STACK"))
+		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(os.Getenv("CF_STACK"), ApiHasStackAssociation())
 		Expect(err).NotTo(HaveOccurred())
 
 		data, err := json.Marshal(packagedBuildpack)
@@ -105,10 +105,21 @@ func ApiGreaterThan(version string) bool {
 }
 
 func ApiHasTask() bool {
-	return ApiGreaterThan("2.75.0")
+	supported, err := cutlass.ApiGreaterThan("2.75.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
 }
+
 func ApiHasMultiBuildpack() bool {
-	return ApiGreaterThan("3.27.0")
+	supported, err := cutlass.ApiGreaterThan("2.90.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
+}
+
+func ApiHasStackAssociation() bool {
+	supported, err := cutlass.ApiGreaterThan("2.113.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
 }
 
 func SkipUnlessUncached() {
