@@ -349,6 +349,7 @@ class TestCompileHelpers(object):
         eq_(2, len([v for v in versions if v.startswith('5.6.')]))
         eq_(2, len([v for v in versions if v.startswith('7.0.')]))
         eq_(2, len([v for v in versions if v.startswith('7.1.')]))
+        eq_(2, len([v for v in versions if v.startswith('7.2.')]))
 
     def test_validate_php_version(self):
         ctx = {
