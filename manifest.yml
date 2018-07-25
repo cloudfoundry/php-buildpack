@@ -208,8 +208,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.37
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.37-linux-x64-cflinuxfs2-2d6f4eaa.tgz
-  sha256: 2d6f4eaa60768921e373a020dfb9906a97bd8244e871a5bf0f9ff593c6e480a7
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.37-linux-x64-cflinuxfs2-c1e1fe96.tgz
+  sha256: c1e1fe96fbb51f00b362393555972052b234408681e59cbd2bf9d2d79b210b2c
   cf_stacks:
   - cflinuxfs2
   modules:
