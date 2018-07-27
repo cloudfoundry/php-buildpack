@@ -88,14 +88,14 @@ dependencies:
   - cflinuxfs3
 - name: httpd
   version: 2.4.34
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.34-linux-x64-cflinuxfs2-bc2ea6c1.tgz
-  sha256: bc2ea6c14406511613109231dfea85e60459a7ee36c86f5ee18ef248154f36c0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.34-linux-x64-cflinuxfs2-a84dc5b4.tgz
+  sha256: a84dc5b4de84b2cb81b008dcfbc06664bf0f5a7aef94fcb97c6979a755128a81
   cf_stacks:
   - cflinuxfs2
 - name: httpd
   version: 2.4.34
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.34-linux-x64-cflinuxfs3-2917c5fc.tgz
-  sha256: 2917c5fc99d0970d28c4fbd48bde06a204c7f9b8e308ceb94486ca50c663833d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.34-linux-x64-cflinuxfs3-ef3641b7.tgz
+  sha256: ef3641b7384159913282f72ef60224e0d2541f6e3bc851caef46a2bf1f7d5327
   cf_stacks:
   - cflinuxfs3
 - name: newrelic
