@@ -16,6 +16,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	BeforeEach(func() {
+		SkipUnlessCflinuxfs2()
 		app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_mssql"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 	})
@@ -28,7 +29,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 				_, headers, err := app.Get("/", map[string]string{})
 				Expect(err).ToNot(HaveOccurred())
 				Expect(headers).To(HaveKeyWithValue("StatusCode", []string{"500"}))
-				Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP message: PHP Fatal error:  Uncaught exception 'PDOException'"))
+				Eventually(app.Stdout.String, 10*time.Second).Should(MatchRegexp("PHP message: PHP Fatal error:  Uncaught .*PDOException"))
 				Eventually(app.Stdout.String, time.Second).Should(ContainSubstring("Unable to connect: Adaptive Server is unavailable or does not exist"))
 			})
 		})

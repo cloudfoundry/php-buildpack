@@ -16,6 +16,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("PHP version is specified in both", func() {
+		SkipUnlessCflinuxfs2() // TODO: use 7.X app instead
 		app = cutlass.New(filepath.Join(bpDir, "fixtures", "composer_multiple_versions"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 

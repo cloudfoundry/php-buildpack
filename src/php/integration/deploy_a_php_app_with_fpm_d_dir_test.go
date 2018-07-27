@@ -16,6 +16,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying a basic PHP5 app with custom conf files in fpm.d dir in app root", func() {
 		It("sets custom configurations", func() {
+			SkipUnlessCflinuxfs2()
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_5_with_fpm_d"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			PushAppAndConfirm(app)

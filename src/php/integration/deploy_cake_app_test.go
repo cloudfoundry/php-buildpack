@@ -15,9 +15,9 @@ var _ = Describe("CF PHP Buildpack", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	Context("deploying a Cake application with local dependencies", func() {
-		BeforeEach(SkipUnlessCached)
-
 		It("", func() {
+			SkipUnlessCached()
+			SkipUnlessCflinuxfs2()
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_local_deps"))
 			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
 			PushAppAndConfirm(app)
@@ -34,9 +34,9 @@ var _ = Describe("CF PHP Buildpack", func() {
 	})
 
 	Context("deploying a Cake application with remote dependencies", func() {
-		BeforeEach(SkipUnlessUncached)
-
 		It("", func() {
+			SkipUnlessUncached()
+			SkipUnlessCflinuxfs2()
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_remote_deps"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"

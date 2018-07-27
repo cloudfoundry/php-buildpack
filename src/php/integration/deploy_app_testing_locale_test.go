@@ -16,6 +16,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("the application should run and emit the translated string", func() {
 		BeforeEach(func() {
+			SkipUnlessCflinuxfs2() // app requires newrelic, which is only for php5
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "testing_locale"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			PushAppAndConfirm(app)

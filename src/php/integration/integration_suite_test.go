@@ -22,6 +22,7 @@ import (
 
 var bpDir string
 var buildpackVersion string
+var stack string
 var packagedBuildpack cutlass.VersionedBuildpackPackage
 
 func init() {
@@ -36,8 +37,9 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	// Run once
 	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty(), "Please set COMPOSER_GITHUB_OAUTH_TOKEN") // Required for some tests
 
+	stack = os.Getenv("CF_STACK")
 	if buildpackVersion == "" {
-		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(os.Getenv("CF_STACK"), ApiHasStackAssociation())
+		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(stack, ApiHasStackAssociation())
 		Expect(err).NotTo(HaveOccurred())
 
 		data, err := json.Marshal(packagedBuildpack)
@@ -131,6 +133,12 @@ func SkipUnlessUncached() {
 func SkipUnlessCached() {
 	if !cutlass.Cached {
 		Skip("Running uncached tests")
+	}
+}
+
+func SkipUnlessCflinuxfs2() {
+	if stack != "cflinuxfs2" {
+		Skip("Running NOT on cflinuxfs2")
 	}
 }
 

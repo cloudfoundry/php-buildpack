@@ -52,6 +52,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("extensions are specified in .bp-config", func() {
 		It("deploying a basic PHP5 app that loads all prepackaged extensions", func() {
+			SkipUnlessCflinuxfs2()
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_5_all_modules"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 
@@ -90,6 +91,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("extensions are specified in composer.json", func() {
 		It("deploying a basic PHP5 app that loads all prepackaged extensions", func() {
+			SkipUnlessCflinuxfs2()
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_5_all_modules_composer"))
 			PushAppAndConfirm(app)
 
