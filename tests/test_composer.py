@@ -264,6 +264,7 @@ class TestComposer(object):
         ctx = utils.FormattedDict({
             'BUILD_DIR': 'tests/data/composer-no-php',
             'WEBDIR': '',
+            'PHP_DEFAULT': '7.1.3',
             'PHP_VERSION': '5.4.31'  # uses bp default
         })
         config = self.extension_module.ComposerConfiguration(ctx)
@@ -312,6 +313,7 @@ class TestComposer(object):
             'BUILD_DIR': 'tests/data/composer',
             'WEBDIR': '',
             'PHP_56_LATEST': '5.6.31',
+            'PHP_DEFAULT': '7.1.3',
             'ALL_PHP_VERSIONS': ['5.6.31', '5.6.29', '7.0.13', '7.0.14', '7.1.3', '7.1.4']
         })
 
@@ -369,12 +371,12 @@ class TestComposer(object):
             'PHP_56_LATEST': '5.6.29',
             'PHP_70_LATEST': '7.0.14',
             'PHP_71_LATEST': '7.1.4',
+            'PHP_DEFAULT': '7.1.3',
             'WEBDIR': '',
             'ALL_PHP_VERSIONS': ['5.6.28', '5.6.29', '7.0.13', '7.0.14', '7.1.3', '7.1.4']
         }
         pick_php_version = \
             self.extension_module.ComposerConfiguration(ctx).pick_php_version
-        # default to 5.6
         # latest PHP 5.6 version
         eq_('5.6.29', pick_php_version('>=5.6'))
         eq_('5.6.29', pick_php_version('>=5.6.0'))
@@ -392,15 +394,16 @@ class TestComposer(object):
         eq_('7.1.4', pick_php_version('>=7.1'))
         eq_('7.1.4', pick_php_version('>=7.1.0'))
         eq_('7.1.4', pick_php_version('7.1.*'))
+        # Leave version alone?
+        eq_(ctx['PHP_VERSION'], pick_php_version(''))
+        eq_(ctx['PHP_VERSION'], pick_php_version(None))
         # not in buildpack, should default to PHP_VERSION
-        eq_('5.6.29', pick_php_version('7.1.2'))
-        eq_('5.6.29', pick_php_version('7.0.2'))
-        eq_('5.6.29', pick_php_version('5.6.6'))
-        eq_('5.6.29', pick_php_version(''))
-        eq_('5.6.29', pick_php_version(None))
-        eq_('5.6.29', pick_php_version('5.61.1'))
-        eq_('5.6.29', pick_php_version('<5.6'))
-        eq_('5.6.29', pick_php_version('<5.4'))
+        eq_(ctx['PHP_DEFAULT'], pick_php_version('7.1.2'))
+        eq_(ctx['PHP_DEFAULT'], pick_php_version('7.0.2'))
+        eq_(ctx['PHP_DEFAULT'], pick_php_version('5.6.6'))
+        eq_(ctx['PHP_DEFAULT'], pick_php_version('5.61.1'))
+        eq_(ctx['PHP_DEFAULT'], pick_php_version('<5.6'))
+        eq_(ctx['PHP_DEFAULT'], pick_php_version('<5.4'))
 
     def test_empty_platform_section(self):
         exts = self.extension_module.ComposerConfiguration({
