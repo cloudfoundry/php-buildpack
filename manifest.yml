@@ -558,8 +558,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.20
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.20-linux-x64-cflinuxfs2-bc18098d.tgz
-  sha256: bc18098d04d8d5a2ee40b509326160d85c17519e63112e3562248bfdebcca6f8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.20-linux-x64-cflinuxfs2-da1a95a4.tgz
+  sha256: da1a95a439156f26a50cbb8822ee0248c117e8a21169a48a016f62ed3679c618
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -626,8 +626,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.20
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.20-linux-x64-cflinuxfs3-c9d2f8ef.tgz
-  sha256: c9d2f8ef0b2e3499e85669d93c1c22e3d216617627fdf9905dec70fc9a39840f
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.20-linux-x64-cflinuxfs3-42b6c0ce.tgz
+  sha256: 42b6c0cee301be97e4ee48c34d8f7df18907367e05b34630006c221fbb4e501d
   cf_stacks:
   - cflinuxfs3
   modules:
