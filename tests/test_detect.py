@@ -75,8 +75,6 @@ class TestDetect(object):
             print str(e)
             if hasattr(e, 'output'):
                 print e.output
-            if output:
-                print output
             raise
         finally:
             if os.path.exists(bp.bp_dir):

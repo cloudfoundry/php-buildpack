@@ -93,12 +93,12 @@ def validate_php_version(ctx):
     else:
         _log.warning('Selected version of PHP [%s] not available.  Defaulting'
                      ' to the latest version [%s]',
-                     ctx['PHP_VERSION'], ctx['PHP_56_LATEST'])
+                     ctx['PHP_VERSION'], ctx['PHP_DEFAULT'])
 
         docs_link = 'http://docs.cloudfoundry.org/buildpacks/php/gsg-php-tips.html'
-        warn_invalid_php_version(ctx['PHP_VERSION'], ctx['PHP_56_LATEST'], docs_link)
+        warn_invalid_php_version(ctx['PHP_VERSION'], ctx['PHP_DEFAULT'], docs_link)
 
-        ctx['PHP_VERSION'] = ctx['PHP_56_LATEST']
+        ctx['PHP_VERSION'] = ctx['PHP_DEFAULT']
 
 
 def _get_supported_php_extensions(ctx):
