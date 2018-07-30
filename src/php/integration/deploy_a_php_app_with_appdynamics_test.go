@@ -11,8 +11,8 @@ import (
 )
 
 var _ = Describe("CF PHP Buildpack", func() {
-	SkipUnlessCflinuxfs2() // app depends on newrelic, so php5, so cflinuxfs2
 	var app *cutlass.App
+
 	RunCf := func(args ...string) error {
 		command := exec.Command("cf", args...)
 		command.Stdout = GinkgoWriter
