@@ -490,8 +490,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.19
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.1.19-linux-x64-8c6ec194.tgz
-  sha256: 8c6ec194ee431528202c23effe995f359dccd00f63803fb9fd8f9fc7c8bc8c24
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.19-linux-x64-cflinuxfs2-9b61bec1.tgz
+  sha256: 9b61bec1e5336c6bbea520052a5e8215d753b0f134ee58dd2140e59d76cfa954
   cf_stacks:
   - cflinuxfs2
   modules:
