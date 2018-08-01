@@ -78,10 +78,10 @@ def load_manifest(ctx):
 
 def find_all_php_versions(dependencies):
     versions = []
-    stack = os.getenv('CF_STACK', 'cflinuxfs2')
+    stack = os.getenv('CF_STACK')
 
     for dependency in dependencies:
-        if dependency['name'] == 'php' and ((not 'cf_stacks' in dependency) or stack in dependency['cf_stacks']):
+        if dependency['name'] == 'php' and (dependency.get('cf_stacks', []) == [] or stack in dependency['cf_stacks']): # cf_stacks will be empty (or nonexistent) for a stack-associated manifest
             versions.append(dependency['version'])
 
     return versions
