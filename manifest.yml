@@ -559,7 +559,7 @@ dependencies:
 - name: php
   version: 7.1.20
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.20-linux-x64-cflinuxfs2-08554c0c.tgz
-  sha256: '08554c0cf6a7bd872a76966fc221fa7da6ace37a94192b07cccd171ff726a573'
+  sha256: 08554c0cf6a7bd872a76966fc221fa7da6ace37a94192b07cccd171ff726a573
   cf_stacks:
   - cflinuxfs2
   modules:
