@@ -23,7 +23,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		return command.Run()
 	}
 
-	BeforeEach(func() { serviceName = "cassandra-test-service" })
+	BeforeEach(func() { serviceName = "cassandra-test-service" + cutlass.RandStringRunes(20) })
 	AfterEach(func() {
 		app = DestroyApp(app)
 		_ = RunCf("delete-service", "-f", serviceName)
