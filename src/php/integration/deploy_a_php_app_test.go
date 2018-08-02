@@ -43,7 +43,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		By("installs the default version of composer")
 		Expect(app.Stdout.String()).To(ContainSubstring("DEBUG: default_version_for composer is"))
 
-		if cutlass.Cached {
+		if cutlass.Cached && app.Stack == "cflinuxfs2" {
 			By("downloads the binaries directly from the buildpack")
 			Expect(app.Stdout.String()).To(MatchRegexp(`Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php-5.6.\d+-linux-x64-[\da-f]+.tgz\] to \[/tmp\]`))
 		}

@@ -15,7 +15,10 @@ var _ = Describe("CF PHP Buildpack", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	Context("in offline mode", func() {
-		BeforeEach(SkipUnlessCached)
+		BeforeEach(func() {
+			SkipUnlessCached()
+			SkipUnlessCflinuxfs2()
+		})
 
 		It("succeeds", func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_newrelic"))
