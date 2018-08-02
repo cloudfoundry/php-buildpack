@@ -1,3 +1,30 @@
+v4.3.59 Aug 02, 2018
+=====================
+
+* Rebuild php 7.0.30, 7.0.31, 7.1.19, 7.1.20, 7.2.7, 7.2.8
+  for stacks cflinuxfs2, cflinuxfs3
+
+* Add appdynamics 4.5.0.1686, remove appdynamics 4.5.0.1547
+  for stacks cflinuxfs2, cflinuxfs3 [#159457304]
+
+* Rebuild nginx 1.14.0, 1.14.0, 1.15.1, 1.15.2
+  for stacks cflinuxfs3 [#159252955]
+
+* Rebuild httpd 2.4.34
+  for stacks cflinuxfs3 [#159251990]
+
+* Add composer 1.7.0-RC, remove composer 1.6.5
+  for stacks cflinuxfs2, cflinuxfs3 [#159270623]
+
+* Rebuild CAAPM 10.7.0
+  for stacks cflinuxfs2, cflinuxfs3 [#159251493]
+
+* Change default php version from 5.6.36 to 7.2.8.
+  (https://www.pivotaltracker.com/story/show/144939015)
+
+* Updates for supporting stacks.
+  (https://www.pivotaltracker.com/story/show/144939015)
+
 v4.3.58 Jul 20, 2018
 =====================
 
