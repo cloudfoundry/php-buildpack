@@ -1026,7 +1026,7 @@ dependencies:
 - name: php
   version: 7.2.9
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs3-086adb41.tgz
-  sha256: '086adb41aad36f192eca9d21e971d9d5dcb2e8e387e0440adc2a745e9bec65d5'
+  sha256: 086adb41aad36f192eca9d21e971d9d5dcb2e8e387e0440adc2a745e9bec65d5
   cf_stacks:
   - cflinuxfs3
   modules:
