@@ -1,3 +1,20 @@
+v4.3.60 Aug 24, 2018
+=====================
+
+* Enable igbinary serialization for Redis.
+  (https://www.pivotaltracker.com/story/show/158964915)
+
+* Add php 7.1.21, remove php 7.1.19
+  (https://www.pivotaltracker.com/story/show/159897706)
+
+* Add php 7.2.9, remove php 7.2.7,
+  and update default version to 7.2.9
+  (https://www.pivotaltracker.com/story/show/159835693)
+
+* Add composer 1.7.2, remove composer 1.6.5
+  (https://www.pivotaltracker.com/story/show/159828533)
+  (https://www.pivotaltracker.com/story/show/159594183)
+
 v4.3.59 Aug 02, 2018
 =====================
 
