@@ -119,8 +119,11 @@ def _get_compiled_modules(ctx):
     output_to_skip = ['[PHP Modules]', '[Zend Modules]', '']
 
     php_binary = os.path.join(ctx["PHP_INSTALL_PATH"], 'bin', 'php')
+    env = {
+        'LD_LIBRARY_PATH': os.path.join(ctx["PHP_INSTALL_PATH"], 'lib')
+    }
 
-    process = subprocess.Popen([php_binary, '-m'], stdout=subprocess.PIPE)
+    process = subprocess.Popen([php_binary, '-m'], stdout=subprocess.PIPE, env=env)
     exit_code = process.wait()
     output = process.stdout.read().rstrip()
 
