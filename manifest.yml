@@ -73,9 +73,9 @@ dependencies:
   - cflinuxfs2
   - cflinuxfs3
 - name: appdynamics
-  version: 4.5.0.1686
-  uri: https://packages.appdynamics.com/php/4.5.0.1686/appdynamics-php-agent-linux_x64-4.5.0.1686.tar.bz2
-  sha256: f3268adc355da039209e9be7f30bf41614a828a5d10abed4c6673b9d1eb51046
+  version: 4.5.1.1831
+  uri: https://packages.appdynamics.com/php/4.5.1.1831/appdynamics-php-agent-linux_x64-4.5.1.1831.tar.bz2
+  sha256: 8f2494278ecde432720d2e8c400c3dfae4a15b23ef10d84c8f94c93d2ddd5231
   cf_stacks:
   - cflinuxfs2
   - cflinuxfs3
