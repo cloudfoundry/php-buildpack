@@ -1,3 +1,14 @@
+v4.3.61 Sep 11, 2018
+=====================
+
+* Add newrelic 8.1.0.209 for cflinuxfs3
+
+* Add appdynamics 4.5.1.1831, remove appdynamics 4.5.0.1686
+  for stacks cflinuxfs2, cflinuxfs3 [#160195526]
+
+* Add nginx 1.15.3, remove nginx 1.15.2
+  for stacks cflinuxfs2, cflinuxfs3 [#160100616]
+
 v4.3.60 Aug 24, 2018
 =====================
 
