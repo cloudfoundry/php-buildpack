@@ -17,7 +17,6 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("in offline mode", func() {
 		BeforeEach(func() {
 			SkipUnlessCached()
-			SkipUnlessCflinuxfs2()
 		})
 
 		It("succeeds", func() {
