@@ -130,9 +130,9 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
 - name: php
-  version: 5.6.36
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.36-linux-x64-0ec2e21b.tgz
-  sha256: 0ec2e21b2707fb158c7dbbf4245225c6b2e63d9db62603e2885167e6d30bee9a
+  version: 5.6.37
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.37-linux-x64-cflinuxfs2-4523b185.tgz
+  sha256: 4523b18592fd8a3ef248a46d7e8207d6061a2af4e366efe7e5bf72e051a7d953
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -208,9 +208,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 5.6.37
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.37-linux-x64-cflinuxfs2-4523b185.tgz
-  sha256: 4523b18592fd8a3ef248a46d7e8207d6061a2af4e366efe7e5bf72e051a7d953
+  version: 5.6.38
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-fb317be7.tgz
+  sha256: fb317be7ab167269712881f07132f6b4a3ee411d86f9f27e928b067044ca339f
   cf_stacks:
   - cflinuxfs2
   modules:
