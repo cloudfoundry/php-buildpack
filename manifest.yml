@@ -961,8 +961,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.10
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.10-linux-x64-cflinuxfs2-b02641a5.tgz
-  sha256: b02641a52005908773cfe248f5fa9d2cca464b8099a92c2fe0d7715e4e1cd3ab
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.10-linux-x64-cflinuxfs2-0560f8de.tgz
+  sha256: 0560f8ded775d9007303fb428067ec32d7f4bc8c7d6a141f8c260ce3bce1a3b2
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -1013,6 +1013,7 @@ dependencies:
   - snmp
   - soap
   - sockets
+  - sodium
   - stomp
   - sysvmsg
   - sysvsem
@@ -1026,8 +1027,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.10
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.10-linux-x64-cflinuxfs3-c6435fac.tgz
-  sha256: c6435fac65f597830cafbc125978c9c34d47586f992b5a08246b41ca63c84f0d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.10-linux-x64-cflinuxfs3-1dadf3e8.tgz
+  sha256: 1dadf3e80a289ac689a447d17ee680aadb42c62ba773312d85fc042895cabbad
   cf_stacks:
   - cflinuxfs3
   modules:
@@ -1078,6 +1079,7 @@ dependencies:
   - snmp
   - soap
   - sockets
+  - sodium
   - stomp
   - sysvmsg
   - sysvsem
