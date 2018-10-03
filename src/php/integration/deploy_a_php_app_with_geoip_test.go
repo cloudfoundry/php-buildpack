@@ -15,6 +15,9 @@ var _ = Describe("CF PHP Buildpack", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("deploying a basic PHP app", func() {
+		if os.Getenv("CF_STACK") == "cflinuxfs2" {
+			Skip("Skipping because this is an older environment that may hit DDOS protection")
+		}
 		app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_geoip_app"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		PushAppAndConfirm(app)

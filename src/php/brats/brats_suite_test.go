@@ -134,7 +134,20 @@ func modulesForPHPVersion(version string) []string {
 	for _, entry := range manifest.ManifestEntries {
 		if entry.Dependency.Name == "php" {
 			if entry.Dependency.Version == version {
-				return entry.Dependency.Modules
+				modules := entry.Dependency.Modules
+
+				// The "geoip" module triggers a download during staging.
+				// This can fail on our test environments because it may
+				// trigger DDOS protection. Therefore, we remove it
+				// and test it in isolation.
+				for i := range modules {
+					if modules[i] == "geoip" {
+						modules = append(modules[:i], modules[i+1:]...)
+						break
+					}
+				}
+
+				return modules
 			}
 		}
 	}
