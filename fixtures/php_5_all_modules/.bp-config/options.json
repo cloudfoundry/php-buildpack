@@ -70,5 +70,6 @@
         "yaml",
         "zip",
         "zlib"
-    ]
+    ],
+    "GEOIP_LOCATION": "geo"
 }
