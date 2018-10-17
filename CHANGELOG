@@ -3,6 +3,9 @@ v4.3.62 Oct 17, 2018
 
 * Update default 7.2 version to 7.2.11
 
+* Update apr in httpd extension from 1.6.3 to 1.6.5
+  (https://www.pivotaltracker.com/story/show/160525215)
+
 * Add php 7.2.11, remove php 7.2.8
   for stack(s) cflinuxfs2, cflinuxfs3
   (https://www.pivotaltracker.com/story/show/161153116)
@@ -30,6 +33,9 @@ v4.3.62 Oct 17, 2018
 * Add httpd 2.4.35, remove httpd 2.4.34
   for stack(s) cflinuxfs2, cflinuxfs3
   (https://www.pivotaltracker.com/story/show/160707119)
+
+* Merge pull request #38: Compile PHP w/Argon2 support & add sodium extension
+  (https://www.pivotaltracker.com/story/show/160094524)
 
 * Merge pull request #277 from dmikusa-pivotal/develop
   Set LD_LIBRARY_PATH when calling 'php' to list available modules.
