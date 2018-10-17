@@ -17,8 +17,10 @@ func TestUnit(t *testing.T) {
 
 func IsDockerAvailable() bool {
 	cmd := exec.Command("docker", "system", "info")
+
 	session, err := gexec.Start(cmd, nil, nil)
 	Expect(err).ToNot(HaveOccurred())
+
 	session.Wait()
 	return session.ExitCode() == 0
 }
