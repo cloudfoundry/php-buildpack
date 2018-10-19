@@ -831,8 +831,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.9
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs2-df0c2388.tgz
-  sha256: df0c2388f65f9ea6f250fdd68eea3ed56e594ec0bd16f8b159fbe9748f7824f2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs2-a6266f2a.tgz
+  sha256: a6266f2a225d7a170789de9ad98c02f081561682d824599c135ed5e3d9646f5e
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -883,12 +883,14 @@ dependencies:
   - snmp
   - soap
   - sockets
+  - sodium
   - stomp
   - sysvmsg
   - sysvsem
   - sysvshm
   - tideways
   - tideways_xhprof
+  - xdebug
   - xsl
   - yaf
   - yaml
@@ -896,8 +898,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.9
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs3-086adb41.tgz
-  sha256: 086adb41aad36f192eca9d21e971d9d5dcb2e8e387e0440adc2a745e9bec65d5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs3-be6f1944.tgz
+  sha256: be6f19447a2253567bb2b8201a1e859236ab39e92935856ed6d58bf16b758d73
   cf_stacks:
   - cflinuxfs3
   modules:
@@ -948,12 +950,14 @@ dependencies:
   - snmp
   - soap
   - sockets
+  - sodium
   - stomp
   - sysvmsg
   - sysvsem
   - sysvshm
   - tideways
   - tideways_xhprof
+  - xdebug
   - xsl
   - yaf
   - yaml
