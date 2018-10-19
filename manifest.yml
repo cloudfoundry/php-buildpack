@@ -961,8 +961,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.11-linux-x64-cflinuxfs2-cc6bb7a9.tgz
-  sha256: cc6bb7a915c7cca37d9e2778e4d786bb8840fbe5c06f402a7dbc00fd13a1a742
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.11-linux-x64-cflinuxfs2-edb4c018.tgz
+  sha256: edb4c01889a651e06d06e1d9547fc402aa8e7276187b69f5404442f83193c7ad
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -1020,6 +1020,7 @@ dependencies:
   - sysvshm
   - tideways
   - tideways_xhprof
+  - xdebug
   - xsl
   - yaf
   - yaml
@@ -1027,8 +1028,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.11-linux-x64-cflinuxfs3-68b080af.tgz
-  sha256: 68b080af944c19cfa0cdf4f534f23eeba202913d384061583c0ba7bdd996a591
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.11-linux-x64-cflinuxfs3-eea79282.tgz
+  sha256: eea79282814a99ecc3d468e9e5fddc3d76442e3bd04cf11cec175f1b3ce8515e
   cf_stacks:
   - cflinuxfs3
   modules:
@@ -1086,6 +1087,7 @@ dependencies:
   - sysvshm
   - tideways
   - tideways_xhprof
+  - xdebug
   - xsl
   - yaf
   - yaml
