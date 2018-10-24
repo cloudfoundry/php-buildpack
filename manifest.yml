@@ -18,7 +18,7 @@ default_versions:
 - name: php
   version: 7.2.11
 - name: httpd
-  version: 2.4.35
+  version: 2.4.37
 - name: newrelic
   version: 8.1.0.209
 - name: nginx
@@ -87,15 +87,15 @@ dependencies:
   - cflinuxfs2
   - cflinuxfs3
 - name: httpd
-  version: 2.4.35
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.35-linux-x64-cflinuxfs2-b376fa39.tgz
-  sha256: b376fa391c0efb9965833f3025de8d799e7a5d12be2500d8f19eb748ade68f23
+  version: 2.4.37
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.37-linux-x64-cflinuxfs2-a76f31a9.tgz
+  sha256: a76f31a9c00e425d7a6c91693045c371aef969628b888cbe9f1fc078ec11230b
   cf_stacks:
   - cflinuxfs2
 - name: httpd
-  version: 2.4.35
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.35-linux-x64-cflinuxfs3-8ef187f7.tgz
-  sha256: 8ef187f7d6d9764c92b23596bbb70fc5f9ef2a1670f904f0a285587c25325cf4
+  version: 2.4.37
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.37-linux-x64-cflinuxfs3-b10a7fea.tgz
+  sha256: b10a7feae309ed7764619d0fca7056082096371195f002ed53acef80b787d14b
   cf_stacks:
   - cflinuxfs3
 - name: newrelic
