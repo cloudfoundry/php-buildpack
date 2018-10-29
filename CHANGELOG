@@ -1,3 +1,18 @@
+v4.3.63 Oct 29, 2018
+=====================
+
+* Add httpd 2.4.37, remove httpd 2.4.35
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161436928)
+
+* Rebuild php 7.2.9
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/159835693)
+
+* Rebuild php 7.2.11
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161153116)
+
 v4.3.62 Oct 17, 2018
 =====================
 
