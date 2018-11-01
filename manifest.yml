@@ -866,8 +866,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.9
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs2-a6266f2a.tgz
-  sha256: a6266f2a225d7a170789de9ad98c02f081561682d824599c135ed5e3d9646f5e
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs2-a74035a5.tgz
+  sha256: a74035a5aa834e755666abecd06cc79e12561b824a667672164349d34ced7e2a
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -877,6 +877,7 @@ dependencies:
   - cassandra
   - curl
   - dba
+  - enchant
   - exif
   - fileinfo
   - ftp
@@ -887,6 +888,7 @@ dependencies:
   - igbinary
   - imagick
   - imap
+  - interbase
   - ioncube
   - ldap
   - lua
@@ -902,6 +904,7 @@ dependencies:
   - openssl
   - pcntl
   - pdo
+  - pdo_firebird
   - pdo_mysql
   - pdo_odbc
   - pdo_pgsql
@@ -913,6 +916,7 @@ dependencies:
   - pspell
   - rdkafka
   - readline
+  - recode
   - redis
   - shmop
   - snmp
@@ -925,7 +929,10 @@ dependencies:
   - sysvshm
   - tideways
   - tideways_xhprof
+  - tidy
+  - wddx
   - xdebug
+  - xmlrpc
   - xsl
   - yaf
   - yaml
@@ -933,8 +940,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.9
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs3-be6f1944.tgz
-  sha256: be6f19447a2253567bb2b8201a1e859236ab39e92935856ed6d58bf16b758d73
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.9-linux-x64-cflinuxfs3-089ad59e.tgz
+  sha256: '089ad59eae197b09500757b3993c760abe389340823887a6ef7ad266e519aa21'
   cf_stacks:
   - cflinuxfs3
   modules:
@@ -944,6 +951,7 @@ dependencies:
   - cassandra
   - curl
   - dba
+  - enchant
   - exif
   - fileinfo
   - ftp
@@ -954,6 +962,7 @@ dependencies:
   - igbinary
   - imagick
   - imap
+  - interbase
   - ioncube
   - ldap
   - lua
@@ -969,6 +978,7 @@ dependencies:
   - openssl
   - pcntl
   - pdo
+  - pdo_firebird
   - pdo_mysql
   - pdo_odbc
   - pdo_pgsql
@@ -980,6 +990,7 @@ dependencies:
   - pspell
   - rdkafka
   - readline
+  - recode
   - redis
   - shmop
   - snmp
@@ -992,7 +1003,10 @@ dependencies:
   - sysvshm
   - tideways
   - tideways_xhprof
+  - tidy
+  - wddx
   - xdebug
+  - xmlrpc
   - xsl
   - yaf
   - yaml
