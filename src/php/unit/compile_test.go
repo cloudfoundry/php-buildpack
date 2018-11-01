@@ -33,7 +33,7 @@ var _ = Describe("Compile", func() {
 			session, err := gexec.Start(cmd, &out, &out)
 			Expect(err).ToNot(HaveOccurred())
 
-			Eventually(session.ExitCode, 10*time.Second).Should(Equal(44))
+			Eventually(session.ExitCode, 20*time.Second).Should(Equal(44))
 			Expect(out.String()).To(ContainSubstring("not supported by this buildpack"))
 		})
 	})
