@@ -209,8 +209,8 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.38
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-e9c0b41a.tgz
-  sha256: e9c0b41ae85964a855aa419b2ca7bae66af4b1b388ea7cac05b2285bdb266ffc
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-2063eefe.tgz
+  sha256: 2063eefee0175edc6507a719dd95bc66efe7542f82d629063676add2f85fc520
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -220,6 +220,7 @@ dependencies:
   - cassandra
   - curl
   - dba
+  - enchant
   - exif
   - fileinfo
   - ftp
@@ -231,6 +232,7 @@ dependencies:
   - igbinary
   - imagick
   - imap
+  - interbase
   - ioncube
   - ldap
   - lua
@@ -252,6 +254,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_dblib
+  - pdo_firebird
   - pdo_mysql
   - pdo_odbc
   - pdo_pgsql
@@ -264,6 +267,7 @@ dependencies:
   - pspell
   - rdkafka
   - readline
+  - recode
   - redis
   - shmop
   - snmp
@@ -276,10 +280,13 @@ dependencies:
   - sysvmsg
   - sysvsem
   - sysvshm
+  - tidy
   - twig
+  - wddx
   - xcache
   - xdebug
   - xhprof
+  - xmlrpc
   - xsl
   - yaf
   - yaml
