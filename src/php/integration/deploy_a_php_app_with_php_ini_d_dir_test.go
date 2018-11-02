@@ -24,8 +24,10 @@ var _ = Describe("CF PHP Buildpack", func() {
 		})
 
 		It("sets custom configurations", func() {
+			SkipUnlessCflinuxfs2()
 			PushAppAndConfirm(app)
 			Expect(app.GetBody("/")).To(ContainSubstring("teststring"))
+			Expect(app.Stdout.String()).To(ContainSubstring("PHP 5.6"))
 		})
 	})
 
@@ -37,6 +39,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		It("sets custom configurations", func() {
 			PushAppAndConfirm(app)
 			Expect(app.GetBody("/")).To(ContainSubstring("teststring"))
+			Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.0"))
 		})
 	})
 
@@ -48,6 +51,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		It("sets custom configurations", func() {
 			PushAppAndConfirm(app)
 			Expect(app.GetBody("/")).To(ContainSubstring("teststring"))
+			Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.1"))
 		})
 	})
 

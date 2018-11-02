@@ -6,27 +6,27 @@ A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a
 
 ### Buildpack User Documentation
 
-Official buildpack documentation can be found at [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html.
+Official buildpack documentation can be found here: [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html).
 
 ### Building the Buildpack
 
 1. Make sure you have fetched submodules
 
-  ```bash
-  git submodule update --init
-  ```
+   ```bash
+   git submodule update --init
+   ```
 
 1. Get latest buildpack dependencies
 
-  ```shell
-  BUNDLE_GEMFILE=cf.Gemfile bundle
-  ```
+   ```shell
+   BUNDLE_GEMFILE=cf.Gemfile bundle
+   ```
 
 1. Build the buildpack
 
-  ```shell
-  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ]
-  ```
+   ```shell
+   BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ] [ --any-stack | --stack=STACK ]
+   ```
 
 1. Use in Cloud Foundry
 
@@ -41,18 +41,20 @@ Official buildpack documentation can be found at [php buildpack docs](http://doc
 Find our guidelines [here](https://github.com/cloudfoundry/php-buildpack/blob/develop/CONTRIBUTING.md).
 
 ### Integration Tests
-Buildpacks use the [Machete](https://github.com/cloudfoundry/machete) framework for running integration tests.
+Buildpacks use the [Cutlass](https://github.com/cloudfoundry/libbuildpack/tree/master/cutlass) framework for running integration tests.
 
-To test a buildpack, run the following command from the buildpack's directory:
+To run integration tests, run the following command:
 
 ```
-BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-build
+./script/integration
 ```
 
 ### Unit Tests
 
+To run unit tests, run the following command:
+
 ```bash
-./run_tests.sh
+./script/unit
 ```
 
 ### Requirements

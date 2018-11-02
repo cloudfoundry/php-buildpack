@@ -106,8 +106,8 @@ class ComposerConfiguration(object):
 
         if selected is None:
             docs_link = 'http://docs.cloudfoundry.org/buildpacks/php/gsg-php-composer.html'
-            warn_invalid_php_version(requested, self._ctx['PHP_56_LATEST'], docs_link)
-            selected = self._ctx['PHP_56_LATEST']
+            warn_invalid_php_version(requested, self._ctx['PHP_DEFAULT'], docs_link)
+            selected = self._ctx['PHP_DEFAULT']
 
         return selected
 

@@ -12,6 +12,7 @@ import (
 
 var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
+	var serviceName string
 	RunCf := func(args ...string) error {
 		command := exec.Command("cf", args...)
 		command.Stdout = GinkgoWriter
@@ -19,9 +20,13 @@ var _ = Describe("CF PHP Buildpack", func() {
 		return command.Run()
 	}
 
+	BeforeEach(func() {
+		serviceName = "caapm-test-service" + cutlass.RandStringRunes(20)
+	})
+
 	AfterEach(func() {
 		app = DestroyApp(app)
-		_ = RunCf("delete-service", "-f", "caapm-test-service")
+		_ = RunCf("delete-service", "-f", serviceName)
 	})
 
 	It("configures ca apm", func() {
@@ -29,8 +34,8 @@ var _ = Describe("CF PHP Buildpack", func() {
 		app.SetEnv("BP_DEBUG", "true")
 		Expect(app.PushNoStart()).To(Succeed())
 
-		Expect(RunCf("cups", "caapm-test-service", "-p", `{"collport":"9009","collhost":"abcd.ca.com","appname":"my-integration-test"}`)).To(Succeed())
-		Expect(RunCf("bind-service", app.Name, "caapm-test-service")).To(Succeed())
+		Expect(RunCf("cups", serviceName, "-p", `{"collport":"9009","collhost":"abcd.ca.com","appname":"my-integration-test"}`)).To(Succeed())
+		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 		Expect(RunCf("start", app.Name)).To(Succeed())
 
 		ConfirmRunning(app)

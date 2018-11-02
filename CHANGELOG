@@ -1,3 +1,199 @@
+v4.3.63 Oct 29, 2018
+=====================
+
+* Add httpd 2.4.37, remove httpd 2.4.35
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161436928)
+
+* Rebuild php 7.2.9
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/159835693)
+
+* Rebuild php 7.2.11
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161153116)
+
+v4.3.62 Oct 17, 2018
+=====================
+
+* Update default 7.2 version to 7.2.11
+
+* Update apr in httpd extension from 1.6.3 to 1.6.5
+  (https://www.pivotaltracker.com/story/show/160525215)
+
+* Add php 7.2.11, remove php 7.2.8
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161153116)
+
+* Add php 7.1.23, remove php 7.1.20
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161153113)
+
+* Add php 7.0.32, remove php 7.0.30
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/160479340)
+
+* Add php 5.6.38, remove php 5.6.36
+  for stack(s) cflinuxfs2
+  (https://www.pivotaltracker.com/story/show/160493043)
+
+* Add nginx 1.15.5, remove nginx 1.15.3
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/160928056)
+
+* Add appdynamics 4.5.2.2042, remove appdynamics 4.5.1.1831
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/160843068)
+
+* Add httpd 2.4.35, remove httpd 2.4.34
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/160707119)
+
+* Merge pull request #38: Compile PHP w/Argon2 support & add sodium extension
+  (https://www.pivotaltracker.com/story/show/160094524)
+
+* Merge pull request #277 from dmikusa-pivotal/develop
+  Set LD_LIBRARY_PATH when calling 'php' to list available modules.
+  (https://www.pivotaltracker.com/story/show/160093961)
+
+v4.3.61 Sep 11, 2018
+=====================
+
+* Add newrelic 8.1.0.209 for cflinuxfs3
+
+* Add appdynamics 4.5.1.1831, remove appdynamics 4.5.0.1686
+  for stacks cflinuxfs2, cflinuxfs3 [#160195526]
+
+* Add nginx 1.15.3, remove nginx 1.15.2
+  for stacks cflinuxfs2, cflinuxfs3 [#160100616]
+
+v4.3.60 Aug 24, 2018
+=====================
+
+* Enable igbinary serialization for Redis.
+  (https://www.pivotaltracker.com/story/show/158964915)
+
+* Add php 7.1.21, remove php 7.1.19
+  (https://www.pivotaltracker.com/story/show/159897706)
+
+* Add php 7.2.9, remove php 7.2.7,
+  and update default version to 7.2.9
+  (https://www.pivotaltracker.com/story/show/159835693)
+
+* Add composer 1.7.2, remove composer 1.6.5
+  (https://www.pivotaltracker.com/story/show/159828533)
+  (https://www.pivotaltracker.com/story/show/159594183)
+
+v4.3.59 Aug 02, 2018
+=====================
+
+* Rebuild php 7.0.30, 7.0.31, 7.1.19, 7.1.20, 7.2.7, 7.2.8
+  for stacks cflinuxfs2, cflinuxfs3
+
+* Add appdynamics 4.5.0.1686, remove appdynamics 4.5.0.1547
+  for stacks cflinuxfs2, cflinuxfs3 [#159457304]
+
+* Rebuild nginx 1.14.0, 1.14.0, 1.15.1, 1.15.2
+  for stacks cflinuxfs3 [#159252955]
+
+* Rebuild httpd 2.4.34
+  for stacks cflinuxfs3 [#159251990]
+
+* Add composer 1.7.0-RC, remove composer 1.6.5
+  for stacks cflinuxfs2, cflinuxfs3 [#159270623]
+
+* Rebuild CAAPM 10.7.0
+  for stacks cflinuxfs2, cflinuxfs3 [#159251493]
+
+* Change default php version from 5.6.36 to 7.2.8.
+  (https://www.pivotaltracker.com/story/show/144939015)
+
+* Updates for supporting stacks.
+  (https://www.pivotaltracker.com/story/show/144939015)
+
+v4.3.58 Jul 20, 2018
+=====================
+
+* Add php 5.6.37, remove php 5.6.35
+  (https://www.pivotaltracker.com/story/show/159190033)
+
+* Add php 7.0.31, remove php 7.0.29
+  (https://www.pivotaltracker.com/story/show/159184032)
+
+* Add php 7.1.20, remove php 7.1.17
+  (https://www.pivotaltracker.com/story/show/159191900)
+
+* Add php 7.2.8, remove php 7.2.5
+  (https://www.pivotaltracker.com/story/show/159166665)
+
+* Add appdynamics 4.5.0.1547, remove appdynamics 4.4.3.1216
+  (https://www.pivotaltracker.com/story/show/159025420)
+  (https://www.pivotaltracker.com/story/show/158976533)
+
+* Add httpd 2.4.34, remove httpd 2.4.33
+  (https://www.pivotaltracker.com/story/show/159095662)
+
+* Add nginx 1.15.1, remove nginx 1.15.0
+  (https://www.pivotaltracker.com/story/show/158800160)
+
+v4.3.57 Jun 26, 2018
+=====================
+
+* Add php 7.1.19, remove 7.1.16
+  (https://www.pivotaltracker.com/story/show/158502251)
+
+* Add php 7.2.7, remove 7.2.4
+  (https://www.pivotaltracker.com/story/show/158468183)
+
+v4.3.56 Jun 05, 2018
+=====================
+* Support packaging with associated stacks
+  (https://www.pivotaltracker.com/story/show/153256959)
+
+* Add nginx 1.15.0, remove nginx 1.13.12
+  (https://www.pivotaltracker.com/story/show/158114558)
+
+* Remove nginx 1.12.2.
+  (https://www.pivotaltracker.com/story/show/156851318)
+
+v4.3.55 May 15, 2018
+=====================
+
+* Add default version for CA APM agent
+  (https://www.pivotaltracker.com/story/show/157446795)
+
+* Update default version of newrelic
+  (https://www.pivotaltracker.com/story/show/157204067)
+
+* Add newrelic 8.1.0.209, remove newrelic 8.0.0.204
+  (https://www.pivotaltracker.com/story/show/157204067)
+
+* Add ca_apm_php_agent 10.7.0
+  (https://www.pivotaltracker.com/story/show/157443324)
+  (https://www.pivotaltracker.com/story/show/157446795)
+
+* Update default httpd version to latest
+  (https://www.pivotaltracker.com/story/show/157256902)
+
+* Add httpd 2.4.33, remove httpd 2.4.29
+  (https://www.pivotaltracker.com/story/show/157256902)
+
+* Add appdynamics 4.4.3.1216, remove appdynamics 4.4.2.861
+  (https://www.pivotaltracker.com/story/show/157375734)
+
+v4.3.54 May 08, 2018
+=====================
+* Rebuild php binaries to include GeoIP fix from v4.3.52
+  (https://www.pivotaltracker.com/story/show/157287202)
+
+* Add appdynamics 4.4.3.1216, remove appdynamics 4.4.2.849
+  (https://www.pivotaltracker.com/story/show/157375734)
+  (https://www.pivotaltracker.com/story/show/157323165)
+
+* Add composer 1.6.5, remove composer 1.6.4
+  (https://www.pivotaltracker.com/story/show/157310510)
+
+
 v4.3.53 Apr 27, 2018
 =====================
 

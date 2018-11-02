@@ -12,6 +12,7 @@ import (
 
 var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
+
 	RunCf := func(args ...string) error {
 		command := exec.Command("cf", args...)
 		command.Stdout = GinkgoWriter
@@ -25,6 +26,8 @@ var _ = Describe("CF PHP Buildpack", func() {
 	})
 
 	It("configures appdynamics", func() {
+		SkipUnlessCflinuxfs2() // app depends on newrelic, so php5, so cflinuxfs2
+
 		app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_appdynamics"))
 		app.SetEnv("BP_DEBUG", "true")
 		Expect(app.PushNoStart()).To(Succeed())

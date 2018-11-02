@@ -349,18 +349,20 @@ class TestCompileHelpers(object):
         eq_(2, len([v for v in versions if v.startswith('5.6.')]))
         eq_(2, len([v for v in versions if v.startswith('7.0.')]))
         eq_(2, len([v for v in versions if v.startswith('7.1.')]))
+        eq_(2, len([v for v in versions if v.startswith('7.2.')]))
 
     def test_validate_php_version(self):
         ctx = {
-            'ALL_PHP_VERSIONS': ['5.6.31', '5.6.30'],
+            'ALL_PHP_VERSIONS': ['5.6.31', '5.6.30', '7.1.0'],
             'PHP_56_LATEST': '5.6.31',
-            'PHP_VERSION': '5.6.30'
+            'PHP_DEFAULT': '7.1.0'
         }
-        validate_php_version(ctx)
-        eq_('5.6.30', ctx['PHP_VERSION'])
-        ctx['PHP_VERSION'] = '5.6.29'
-        validate_php_version(ctx)
-        eq_('5.6.31', ctx['PHP_VERSION'])
+
         ctx['PHP_VERSION'] = '5.6.30'
         validate_php_version(ctx)
         eq_('5.6.30', ctx['PHP_VERSION'])
+
+        ctx['PHP_VERSION'] = '5.6.29'
+        validate_php_version(ctx)
+        eq_(ctx['PHP_DEFAULT'], ctx['PHP_VERSION'])
+

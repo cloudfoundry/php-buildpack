@@ -6,9 +6,11 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
+	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -25,7 +27,7 @@ type BpData struct {
 
 var Data BpData
 
-func InitBpData() *BpData {
+func InitBpData(stack string, stackAssociationSupported bool) *BpData {
 	cutlass.SeedRandom()
 
 	Data.BpVersion = cutlass.RandStringRunes(6)
@@ -42,24 +44,27 @@ func InitBpData() *BpData {
 	var ok bool
 	Data.BpLanguage, ok = obj["language"].(string)
 	Expect(ok).To(BeTrue())
+	bpLanguage := strings.Replace(Data.BpLanguage, "-", "_", -1)
 
-	Data.Cached = "brats_" + Data.BpLanguage + "_cached_" + Data.BpVersion
-	Data.Uncached = "brats_" + Data.BpLanguage + "_uncached_" + Data.BpVersion
+	Data.Cached = "brats_" + bpLanguage + "_cached_" + Data.BpVersion
+	Data.Uncached = "brats_" + bpLanguage + "_uncached_" + Data.BpVersion
 
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
+		defer GinkgoRecover()
 		fmt.Fprintln(os.Stderr, "Start build cached buildpack")
-		cachedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpackExtra(Data.Cached, Data.BpVersion, true)
+		cachedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpackExtra(Data.Cached, Data.BpVersion, stack, true, stackAssociationSupported)
 		Expect(err).NotTo(HaveOccurred())
 		Data.CachedFile = cachedBuildpack.File
 		fmt.Fprintln(os.Stderr, "Finish cached buildpack")
 	}()
 	go func() {
 		defer wg.Done()
+		defer GinkgoRecover()
 		fmt.Fprintln(os.Stderr, "Start build uncached buildpack")
-		uncachedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpackExtra(Data.Uncached, Data.BpVersion, false)
+		uncachedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpackExtra(Data.Uncached, Data.BpVersion, stack, false, stackAssociationSupported)
 		Expect(err).NotTo(HaveOccurred())
 		Data.UncachedFile = uncachedBuildpack.File
 		fmt.Fprintln(os.Stderr, "Finish uncached buildpack")

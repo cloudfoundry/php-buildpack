@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	httpmock "gopkg.in/jarcoal/httpmock.v1"
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/jarcoal/httpmock.v1"
+	"gopkg.in/yaml.v2"
 
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/libbuildpack/packager"
@@ -23,10 +23,12 @@ var _ = Describe("Packager", func() {
 		buildpackDir string
 		version      string
 		cacheDir     string
+		stack        string
+		err          error
 	)
 
 	BeforeEach(func() {
-		var err error
+		stack = "cflinuxfs2"
 		buildpackDir = "./fixtures/good"
 		cacheDir, err = ioutil.TempDir("", "packager-cachedir")
 		Expect(err).To(BeNil())
@@ -40,18 +42,120 @@ var _ = Describe("Packager", func() {
 		var cached bool
 		AfterEach(func() { os.Remove(zipFile) })
 
+		AssertStack := func() {
+			var manifest *packager.Manifest
+			Context("stack specified and matches any dependency in manifest.yml", func() {
+				BeforeEach(func() { stack = "cflinuxfs2" })
+				JustBeforeEach(func() {
+					manifestYml, err := ZipContents(zipFile, "manifest.yml")
+					Expect(err).To(BeNil())
+					manifest = &packager.Manifest{}
+					Expect(yaml.Unmarshal([]byte(manifestYml), manifest)).To(Succeed())
+				})
+
+				It("removes dependencies for other stacks from the manifest", func() {
+					Expect(len(manifest.Dependencies)).To(Equal(1))
+					Expect(manifest.Dependencies[0].SHA256).To(Equal("b11329c3fd6dbe9dddcb8dd90f18a4bf441858a6b5bfaccae5f91e5c7d2b3596"))
+				})
+
+				It("removes cfstacks from the remaining dependencies", func() {
+					Expect(manifest.Dependencies[0].Stacks).To(BeNil())
+				})
+
+				It("adds a top-level stack: key to the manifest", func() {
+					Expect(manifest.Stack).To(Equal(stack))
+				})
+			})
+
+			Context("empty stack specified", func() {
+				BeforeEach(func() { stack = "" })
+				JustBeforeEach(func() {
+					manifestYml, err := ZipContents(zipFile, "manifest.yml")
+					Expect(err).To(BeNil())
+					manifest = &packager.Manifest{}
+					Expect(yaml.Unmarshal([]byte(manifestYml), manifest)).To(Succeed())
+				})
+
+				It("includes dependencies for all stacks in the manifest", func() {
+					Expect(len(manifest.Dependencies)).To(Equal(2))
+				})
+
+				It("does not add a top-level stack: key to the manifest", func() {
+					Expect(manifest.Stack).To(Equal(""))
+				})
+
+				It("does not remove cf_stacks from dependencies", func() {
+					Expect(manifest.Dependencies[0].Stacks).To(Equal([]string{"cflinuxfs2"}))
+					Expect(manifest.Dependencies[1].Stacks).To(Equal([]string{"cflinuxfs3"}))
+				})
+			})
+		}
+
+		Context("manifest.yml was already packaged", func() {
+			Context("setting specific stack", func() {
+				BeforeEach(func() { stack = "cflinuxfs2" })
+				It("returns an error", func() {
+					zipFile, err = packager.Package("./fixtures/prepackaged", cacheDir, version, stack, cached)
+					Expect(err).To(MatchError("Cannot package from already packaged buildpack manifest"))
+				})
+			})
+
+			Context("setting any stack", func() {
+
+				BeforeEach(func() { stack = "" })
+
+				It("returns an error", func() {
+					zipFile, err = packager.Package("./fixtures/prepackaged", cacheDir, version, stack, cached)
+					Expect(err).To(MatchError("Cannot package from already packaged buildpack manifest"))
+				})
+			})
+		})
+
+		Context("manifest.yml has no dependencies", func() {
+			BeforeEach(func() { stack = "cflinuxfs2" })
+
+			It("allows stack when packaging", func() {
+				zipFile, err = packager.Package("./fixtures/no_dependencies", cacheDir, version, stack, cached)
+				Expect(err).To(BeNil())
+			})
+		})
+
+		Context("stack is invalid", func() {
+			Context("stack not found in any dependencies", func() {
+				BeforeEach(func() { stack = "nonexistent-stack" })
+
+				It("returns an error", func() {
+					zipFile, err = packager.Package(buildpackDir, cacheDir, version, stack, cached)
+					Expect(err).To(MatchError("Stack `nonexistent-stack` not found in manifest"))
+				})
+			})
+			Context("stack not found in any default dependencies", func() {
+				BeforeEach(func() {
+					stack = "cflinuxfs3"
+					buildpackDir = "./fixtures/missing_default_fs3"
+				})
+
+				It("returns an error", func() {
+					zipFile, err = packager.Package(buildpackDir, cacheDir, version, stack, cached)
+					Expect(err).To(MatchError("No matching default dependency `ruby` for stack `cflinuxfs3`"))
+				})
+			})
+		})
+
 		Context("uncached", func() {
 			BeforeEach(func() { cached = false })
 			JustBeforeEach(func() {
 				var err error
-				zipFile, err = packager.Package(buildpackDir, cacheDir, version, cached)
+				zipFile, err = packager.Package(buildpackDir, cacheDir, version, stack, cached)
 				Expect(err).To(BeNil())
 			})
+
+			AssertStack()
 
 			It("generates a zipfile with name", func() {
 				dir, err := filepath.Abs(buildpackDir)
 				Expect(err).To(BeNil())
-				Expect(zipFile).To(Equal(filepath.Join(dir, fmt.Sprintf("ruby_buildpack-v%s.zip", version))))
+				Expect(zipFile).To(Equal(filepath.Join(dir, fmt.Sprintf("ruby_buildpack-cflinuxfs2-v%s.zip", version))))
 			})
 
 			It("includes files listed in manifest.yml", func() {
@@ -90,14 +194,16 @@ var _ = Describe("Packager", func() {
 			BeforeEach(func() { cached = true })
 			JustBeforeEach(func() {
 				var err error
-				zipFile, err = packager.Package(buildpackDir, cacheDir, version, cached)
+				zipFile, err = packager.Package(buildpackDir, cacheDir, version, stack, cached)
 				Expect(err).To(BeNil())
 			})
+
+			AssertStack()
 
 			It("generates a zipfile with name", func() {
 				dir, err := filepath.Abs(buildpackDir)
 				Expect(err).To(BeNil())
-				Expect(zipFile).To(Equal(filepath.Join(dir, fmt.Sprintf("ruby_buildpack-cached-v%s.zip", version))))
+				Expect(zipFile).To(Equal(filepath.Join(dir, fmt.Sprintf("ruby_buildpack-cached-cflinuxfs2-v%s.zip", version))))
 			})
 
 			It("includes files listed in manifest.yml", func() {
@@ -117,8 +223,22 @@ var _ = Describe("Packager", func() {
 				Expect(err.Error()).To(HavePrefix("ignoredfile not found in"))
 			})
 
-			It("includes dependencies", func() {
-				Expect(ZipContents(zipFile, "dependencies/d39cae561ec1f485d1a4a58304e87105/rfc2324.txt")).To(ContainSubstring("Hyper Text Coffee Pot Control Protocol"))
+			Describe("including dependencies", func() {
+				Context("when a stack is specified", func() {
+					It("includes ONLY dependencies for the specified stack", func() {
+						Expect(ZipContents(zipFile, "dependencies/d39cae561ec1f485d1a4a58304e87105/rfc2324.txt")).To(ContainSubstring("Hyper Text Coffee Pot Control Protocol"))
+						_, err := ZipContents(zipFile, "dependencies/ff1eb131521acf5bc95db59b2a2c29c0/rfc2549.txt")
+						Expect(err.Error()).To(HavePrefix("dependencies/ff1eb131521acf5bc95db59b2a2c29c0/rfc2549.txt not found in"))
+					})
+				})
+				Context("when the empty stack is specified", func() {
+					BeforeEach(func() { stack = "" })
+
+					It("includes dependencies for ALL stacks if the empty stack is used", func() {
+						Expect(ZipContents(zipFile, "dependencies/d39cae561ec1f485d1a4a58304e87105/rfc2324.txt")).To(ContainSubstring("Hyper Text Coffee Pot Control Protocol"))
+						Expect(ZipContents(zipFile, "dependencies/ff1eb131521acf5bc95db59b2a2c29c0/rfc2549.txt")).To(ContainSubstring("IP over Avian Carriers with Quality of Service"))
+					})
+				})
 			})
 
 			It("sets file on entries", func() {
@@ -169,7 +289,7 @@ var _ = Describe("Packager", func() {
 			})
 			JustBeforeEach(func() {
 				var err error
-				zipFile, err = packager.Package(buildpackDir, cacheDir, version, cached)
+				zipFile, err = packager.Package(buildpackDir, cacheDir, version, stack, cached)
 				Expect(err).To(BeNil())
 			})
 			It("gets zipfile name", func() {
@@ -182,7 +302,7 @@ var _ = Describe("Packager", func() {
 				}
 				dir, err := filepath.Abs(buildpackDir)
 				Expect(err).To(BeNil())
-				Expect(zipFile).To(Equal(filepath.Join(dir, fmt.Sprintf("ruby_buildpack%s-v%s.zip", cachedStr, version))))
+				Expect(zipFile).To(Equal(filepath.Join(dir, fmt.Sprintf("ruby_buildpack%s-cflinuxfs2-v%s.zip", cachedStr, version))))
 			})
 
 			It("includes files listed in manifest.yml", func() {
@@ -209,9 +329,28 @@ var _ = Describe("Packager", func() {
 				buildpackDir = "./fixtures/bad"
 			})
 			It("includes dependencies", func() {
-				_, err := packager.Package(buildpackDir, cacheDir, version, cached)
+				zipFile, err = packager.Package(buildpackDir, cacheDir, version, stack, cached)
 				Expect(err).ToNot(BeNil())
 				Expect(err.Error()).To(ContainSubstring("dependency sha256 mismatch: expected sha256 fffffff, actual sha256 b11329c3fd6dbe9dddcb8dd90f18a4bf441858a6b5bfaccae5f91e5c7d2b3596"))
+			})
+		})
+
+		Context("packaging with no stack", func() {
+			BeforeEach(func() {
+				cached = false
+				stack = ""
+			})
+
+			JustBeforeEach(func() {
+				var err error
+				zipFile, err = packager.Package(buildpackDir, cacheDir, version, stack, cached)
+				Expect(err).To(BeNil())
+			})
+
+			It("generates a zipfile with name", func() {
+				dir, err := filepath.Abs(buildpackDir)
+				Expect(err).To(BeNil())
+				Expect(zipFile).To(Equal(filepath.Join(dir, fmt.Sprintf("ruby_buildpack-v%s.zip", version))))
 			})
 		})
 	})

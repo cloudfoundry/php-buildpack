@@ -94,12 +94,10 @@ class PhpAssertHelper(object):
                 .path('etc', 'php.ini')
                 .path('sbin', 'php-fpm')
                 .path('bin')
-            .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20131226')  # this timestamp is PHP5.6 specific
+            .root(build_dir, 'php', 'lib', 'php', 'extensions', 'no-debug-non-zts-20170718')
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
-                .path('mcrypt.so')
             .exists())
 
 
@@ -252,11 +250,10 @@ class NoWebServerAssertHelper(object):
                 .path('bin', 'php')
                 .path('bin', 'phar.phar')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20131226')  # this timestamp is PHP5.6.x specific
+                  'no-debug-non-zts-20170718')
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
-                .path('mcrypt.so')
             .exists())
 
     def assert_no_web_dir(self, build_dir, webdir):
@@ -274,14 +271,14 @@ class NewRelicAssertHelper(object):
         (fah.expect()
             .root(build_dir, 'newrelic')  # noqa
                 .path('daemon', 'newrelic-daemon.x64')
-                .path('agent', 'x64', 'newrelic-20131226.so')
+                .path('agent', 'x64', 'newrelic-20170718.so')
             .exists())
         tfah = TextFileAssertHelper()
         (tfah.expect()
             .on_file(build_dir, 'php', 'etc', 'php.ini')
             .any_line()
-            .equals(
-                'extension=@{HOME}/newrelic/agent/x64/newrelic-20131226.so\n')
+            .startswith(
+                'extension=@{HOME}/newrelic/agent/x64/newrelic')
             .equals('[newrelic]\n')
             .equals('newrelic.license=@{NEWRELIC_LICENSE}\n')
             .equals('newrelic.appname=app-name-1\n'))

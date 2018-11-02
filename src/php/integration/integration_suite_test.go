@@ -22,6 +22,7 @@ import (
 
 var bpDir string
 var buildpackVersion string
+var stack string
 var packagedBuildpack cutlass.VersionedBuildpackPackage
 
 func init() {
@@ -34,10 +35,11 @@ func init() {
 
 var _ = SynchronizedBeforeSuite(func() []byte {
 	// Run once
-	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty()) // Required for some tests
+	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty(), "Please set COMPOSER_GITHUB_OAUTH_TOKEN") // Required for some tests
 
+	stack = os.Getenv("CF_STACK")
 	if buildpackVersion == "" {
-		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack()
+		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(stack, ApiHasStackAssociation())
 		Expect(err).NotTo(HaveOccurred())
 
 		data, err := json.Marshal(packagedBuildpack)
@@ -105,10 +107,21 @@ func ApiGreaterThan(version string) bool {
 }
 
 func ApiHasTask() bool {
-	return ApiGreaterThan("2.75.0")
+	supported, err := cutlass.ApiGreaterThan("2.75.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
 }
+
 func ApiHasMultiBuildpack() bool {
-	return ApiGreaterThan("3.27.0")
+	supported, err := cutlass.ApiGreaterThan("2.90.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
+}
+
+func ApiHasStackAssociation() bool {
+	supported, err := cutlass.ApiGreaterThan("2.113.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
 }
 
 func SkipUnlessUncached() {
@@ -120,6 +133,12 @@ func SkipUnlessUncached() {
 func SkipUnlessCached() {
 	if !cutlass.Cached {
 		Skip("Running uncached tests")
+	}
+}
+
+func SkipUnlessCflinuxfs2() {
+	if stack != "cflinuxfs2" {
+		Skip("Skipping because the current stack is not cflinuxfs2")
 	}
 }
 
@@ -155,13 +174,14 @@ func AssertUsesProxyDuringStagingIfPresent(fixtureName string) {
 			Expect(err).To(BeNil())
 			defer os.Remove(bpFile)
 
-			traffic, err := cutlass.InternetTraffic(
+			traffic, _, _, err := cutlass.InternetTraffic(
 				bpDir,
 				filepath.Join("fixtures", fixtureName),
 				bpFile,
 				[]string{"HTTP_PROXY=" + proxy.URL, "HTTPS_PROXY=" + proxy.URL},
 			)
 			Expect(err).To(BeNil())
+			// Expect(built).To(BeTrue())
 
 			destUrl, err := url.Parse(proxy.URL)
 			Expect(err).To(BeNil())
@@ -183,13 +203,14 @@ func AssertNoInternetTraffic(fixtureName string) {
 		Expect(err).To(BeNil())
 		defer os.Remove(bpFile)
 
-		traffic, err := cutlass.InternetTraffic(
+		traffic, _, _, err := cutlass.InternetTraffic(
 			bpDir,
 			filepath.Join("fixtures", fixtureName),
 			bpFile,
 			[]string{},
 		)
 		Expect(err).To(BeNil())
+		// Expect(built).To(BeTrue())
 		Expect(traffic).To(BeEmpty())
 	})
 }

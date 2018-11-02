@@ -27,7 +27,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 					Expect(err).ToNot(HaveOccurred())
 					Expect(headers["StatusCode"]).To(Equal([]string{"500"}))
 
-					Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP message: PHP Fatal error:  Uncaught exception 'AMQPConnectionException'"))
+					Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP message: PHP Fatal error:  Uncaught AMQPConnectionException"))
 				})
 			})
 		})

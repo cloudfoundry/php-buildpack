@@ -1,7 +1,6 @@
 package cutlass
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -14,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/blang/semver"
 	"github.com/tidwall/gjson"
 )
 
@@ -46,7 +46,7 @@ type App struct {
 	Memory       string
 	Disk         string
 	StartCommand string
-	Stdout       *bytes.Buffer
+	Stdout       *Buffer
 	appGUID      string
 	env          map[string]string
 	logCmd       *exec.Cmd
@@ -56,7 +56,7 @@ func New(fixture string) *App {
 	return &App{
 		Name:         filepath.Base(fixture) + "-" + RandStringRunes(20),
 		Path:         fixture,
-		Stack:        "",
+		Stack:        os.Getenv("CF_STACK"),
 		Buildpacks:   []string{},
 		Memory:       DefaultMemory,
 		Disk:         DefaultDisk,
@@ -81,6 +81,22 @@ func ApiVersion() (string, error) {
 		return "", err
 	}
 	return info.ApiVersion, nil
+}
+
+func ApiGreaterThan(version string) (bool, error) {
+	apiVersionString, err := ApiVersion()
+	if err != nil {
+		return false, err
+	}
+	apiVersion, err := semver.Make(apiVersionString)
+	if err != nil {
+		return false, err
+	}
+	reqVersion, err := semver.ParseRange(">= " + version)
+	if err != nil {
+		return false, err
+	}
+	return reqVersion(apiVersion), nil
 }
 
 func Stacks() ([]string, error) {
@@ -126,26 +142,42 @@ func DeleteBuildpack(language string) error {
 	return nil
 }
 
-func UpdateBuildpack(language, file string) error {
-	command := exec.Command("cf", "update-buildpack", fmt.Sprintf("%s_buildpack", language), "-p", file, "--enable")
+func UpdateBuildpack(language, file, stack string) error {
+	command := exec.Command("cf", "update-buildpack", fmt.Sprintf("%s_buildpack", language), "-p", file, "--enable", "-s", stack)
 	if data, err := command.CombinedOutput(); err != nil {
-		fmt.Println(string(data))
-		return err
+		return fmt.Errorf("Failed to update buildpack by running '%s':\n%s\n%v", strings.Join(command.Args, " "), string(data), err)
 	}
 	return nil
 }
 
 func createBuildpack(language, file string) error {
 	command := exec.Command("cf", "create-buildpack", fmt.Sprintf("%s_buildpack", language), file, "100", "--enable")
-	if _, err := command.CombinedOutput(); err != nil {
-		return err
+	if data, err := command.CombinedOutput(); err != nil {
+		return fmt.Errorf("Failed to create buildpack by running '%s':\n%s\n%v", strings.Join(command.Args, " "), string(data), err)
 	}
 	return nil
 }
 
-func CreateOrUpdateBuildpack(language, file string) error {
+func CountBuildpack(language string) (int, error) {
+	command := exec.Command("cf", "buildpacks")
+	targetBpname := fmt.Sprintf("%s_buildpack", language)
+	matches := 0
+	lines, err := command.CombinedOutput()
+	if err != nil {
+		return -1, err
+	}
+	for _, line := range strings.Split(string(lines), "\n") {
+		bpname := strings.SplitN(line, " ", 2)[0]
+		if bpname == targetBpname {
+			matches++
+		}
+	}
+	return matches, nil
+}
+
+func CreateOrUpdateBuildpack(language, file, stack string) error {
 	createBuildpack(language, file)
-	return UpdateBuildpack(language, file)
+	return UpdateBuildpack(language, file, stack)
 }
 
 func (a *App) ConfirmBuildpack(version string) error {
@@ -169,6 +201,16 @@ func (a *App) RunTask(command string) ([]byte, error) {
 		return bytes, err
 	}
 	return bytes, nil
+}
+
+func (a *App) Stop() error {
+	command := exec.Command("cf", "stop", a.Name)
+	command.Stdout = DefaultStdoutStderr
+	command.Stderr = DefaultStdoutStderr
+	if err := command.Run(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (a *App) Restart() error {
@@ -253,8 +295,8 @@ func (a *App) PushNoStart() error {
 	if a.Stack != "" {
 		args = append(args, "-s", a.Stack)
 	}
-	if len(a.Buildpacks) == 1 {
-		args = append(args, "-b", a.Buildpacks[len(a.Buildpacks)-1])
+	for _, buildpack := range a.Buildpacks {
+		args = append(args, "-b", buildpack)
 	}
 	if _, err := os.Stat(filepath.Join(a.Path, "manifest.yml")); err == nil {
 		args = append(args, "-f", filepath.Join(a.Path, "manifest.yml"))
@@ -264,9 +306,6 @@ func (a *App) PushNoStart() error {
 	}
 	if a.Disk != "" {
 		args = append(args, "-k", a.Disk)
-	}
-	if a.StartCommand != "" {
-		args = append(args, "-c", a.StartCommand)
 	}
 	if a.StartCommand != "" {
 		args = append(args, "-c", a.StartCommand)
@@ -290,7 +329,7 @@ func (a *App) PushNoStart() error {
 	if a.logCmd == nil {
 		a.logCmd = exec.Command("cf", "logs", a.Name)
 		a.logCmd.Stderr = DefaultStdoutStderr
-		a.Stdout = bytes.NewBuffer(nil)
+		a.Stdout = &Buffer{}
 		a.logCmd.Stdout = a.Stdout
 		if err := a.logCmd.Start(); err != nil {
 			return err
@@ -300,21 +339,32 @@ func (a *App) PushNoStart() error {
 	return nil
 }
 
+func (a *App) V3Push() error {
+	if err := a.PushNoStart(); err != nil {
+		return err
+	}
+
+	args := []string{"v3-push", a.Name, "-p", a.Path}
+	if len(a.Buildpacks) > 1 {
+		for _, buildpack := range a.Buildpacks {
+			args = append(args, "-b", buildpack)
+		}
+	}
+	command := exec.Command("cf", args...)
+	command.Stdout = DefaultStdoutStderr
+	command.Stderr = DefaultStdoutStderr
+	if err := command.Run(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (a *App) Push() error {
 	if err := a.PushNoStart(); err != nil {
 		return err
 	}
 
-	var args []string
-	if len(a.Buildpacks) > 1 {
-		args = []string{"v3-push", a.Name, "-p", a.Path}
-		for _, buildpack := range a.Buildpacks {
-			args = append(args, "-b", buildpack)
-		}
-	} else {
-		args = []string{"start", a.Name}
-	}
-	command := exec.Command("cf", args...)
+	command := exec.Command("cf", "start", a.Name)
 	command.Stdout = DefaultStdoutStderr
 	command.Stderr = DefaultStdoutStderr
 	if err := command.Run(); err != nil {

@@ -1,4 +1,5 @@
 {
+    "PHP_VERSION": "{PHP_56_LATEST}",
     "ZEND_EXTENSIONS": ["ioncube", "opcache", "xdebug"],
     "PHP_EXTENSIONS": [
         "amqp",
@@ -69,5 +70,6 @@
         "yaml",
         "zip",
         "zlib"
-    ]
+    ],
+    "GEOIP_LOCATION": "geo"
 }
