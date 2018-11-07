@@ -1,3 +1,24 @@
+v4.3.64 Nov 07, 2018
+=====================
+
+* Add nginx 1.15.6, remove nginx 1.15.5
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161755150)
+
+* Add nginx 1.14.1, remove nginx 1.14.0
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161755152)
+
+* Add composer 1.7.3, remove composer 1.7.2
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161644852)
+
+* Fix composer_install_options env var by passing it as a space separated string
+  (https://www.pivotaltracker.com/story/show/155737946)
+
+* Merge pull request #253 from pbleuse-orange/develop
+   Fix COMPOSER_INSTALL_OPTIONS ignored
+
 v4.3.63 Oct 29, 2018
 =====================
 
