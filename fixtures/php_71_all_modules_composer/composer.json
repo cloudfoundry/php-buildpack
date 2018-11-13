@@ -58,6 +58,14 @@
         "ext-yaf": "*",
         "ext-yaml": "*",
         "ext-zip": "*",
-        "ext-zlib": "*"
+        "ext-zlib": "*",
+        "ext-tidy": "*",
+        "ext-enchant": "*",
+        "ext-interbase": "*",
+        "ext-pdo_firebird": "*",
+        "ext-readline": "*",
+        "ext-wddx": "*",
+        "ext-xmlrpc": "*",
+        "ext-recode": "*"
     }
 }
