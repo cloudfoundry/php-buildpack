@@ -44,6 +44,8 @@
 
   echo "Value of variable is currently ";
   print_r($get_response);
+
+  $reader = phpiredis_reader_create();
 ?>
 </body>
 </html>
