@@ -79,6 +79,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   - cflinuxfs3
+  osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
 - name: composer
   version: 1.7.3
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.7.3-bc6cbcd2.phar
