@@ -259,7 +259,6 @@ class TestCompileHelpers(object):
         eq_('zend_extension="zmod1.so"',
             ctx['ZEND_EXTENSIONS'])
 
-
     def setup_php_ini_dir(self, extensions):
         ini_dir = os.path.join(self.build_dir, '.bp-config', 'php', 'php.ini.d')
         os.makedirs(ini_dir)
@@ -295,6 +294,31 @@ class TestCompileHelpers(object):
         }
         self.setup_php_ini_dir("extension=pumpkin.so\nextension= apple.so\nextension=pie.so")
         validate_php_ini_extensions(ctx)
+
+
+    @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['redis', 'igbinary'])
+    @mock.patch('compile_helpers._get_compiled_modules', return_value=['redis', 'igbinary'])
+    def test_validate_php_ini_extensions_when_redis_is_specified_without_igbinary(self, supported_func, compiled_func):
+        ctx = {
+            'BUILD_DIR': self.build_dir,
+            'PHP_EXTENSIONS': [],
+        }
+        self.setup_php_ini_dir("extension=redis.so")
+        validate_php_ini_extensions(ctx)
+        eq_(['igbinary'],
+            ctx['PHP_EXTENSIONS'])
+
+    @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['redis', 'igbinary'])
+    @mock.patch('compile_helpers._get_compiled_modules', return_value=['redis', 'igbinary'])
+    def test_validate_php_ini_extensions_when_redis_and_igbinary_are_present(self, supported_func, compiled_func):
+        ctx = {
+            'BUILD_DIR': self.build_dir,
+            'PHP_EXTENSIONS': [],
+        }
+        self.setup_php_ini_dir("extension=redis.so\nextension=igbinary.so")
+        validate_php_ini_extensions(ctx)
+        eq_([],
+            ctx['PHP_EXTENSIONS'])
 
     @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin'])
     @mock.patch('compile_helpers._get_compiled_modules', return_value=['pie', 'apple'])
