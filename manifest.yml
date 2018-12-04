@@ -215,10 +215,11 @@ dependencies:
   - zlib
 - name: php
   version: 5.6.38
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-f671cca5.tgz
-  sha256: f671cca5d8bc9953a338ec279f9acac7ab72eb09552527d5b915c8b0cfb8cbfa
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-92527fa5.tgz
+  sha256: 92527fa56216d0a14a8437529a072b135dafb9a2c77bf06647161bc23c105c10
   cf_stacks:
   - cflinuxfs2
+  source: https://php.net/distributions/php-5.6.38.tar.gz
   modules:
   - amqp
   - apcu
