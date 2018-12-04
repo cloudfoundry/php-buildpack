@@ -736,10 +736,11 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.24
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.24-linux-x64-cflinuxfs2-ff4e7db9.tgz
-  sha256: ff4e7db9bbc69f82a4244bcc33ddffedf880803a55a6fcaa33caf363db851d24
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.24-linux-x64-cflinuxfs2-f143c4ec.tgz
+  sha256: f143c4ec730651e280a2b8aa59aaa31ba45ff6fa77d116643c2d6db62c251ff4
   cf_stacks:
   - cflinuxfs2
+  source: https://php.net/distributions/php-7.1.24.tar.gz
   modules:
   - amqp
   - apcu
@@ -811,10 +812,11 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.24
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.24-linux-x64-cflinuxfs3-450353d4.tgz
-  sha256: 450353d43d6240c86b08aefdaf242121a1a58deddc97c7fe077580add8a319a0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.24-linux-x64-cflinuxfs3-4203b777.tgz
+  sha256: 4203b777c1be7b54295b609df31b6d72548a2474929ab6ff35d2d96758b90ce4
   cf_stacks:
   - cflinuxfs3
+  source: https://php.net/distributions/php-7.1.24.tar.gz
   modules:
   - amqp
   - apcu
