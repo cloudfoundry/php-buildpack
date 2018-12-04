@@ -1,3 +1,29 @@
+v4.3.65 Dec 04, 2018
+=====================
+
+* Add composer 1.8.0, remove composer 1.7.3
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162377924)
+
+* Add fix for redis extension
+  (https://www.pivotaltracker.com/story/show/162054194)
+
+* Add nginx 1.15.7, remove nginx 1.15.6
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162240857)
+
+* Add appdynamics 4.5.4.2296, remove appdynamics 4.5.2.2042
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162088431)
+
+* Add php 7.1.24, remove php 7.1.21
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161816597)
+
+* Add php 7.2.12, remove php 7.2.9
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/161809024)
+
 v4.3.64 Nov 07, 2018
 =====================
 
