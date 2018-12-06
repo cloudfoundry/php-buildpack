@@ -16,7 +16,7 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 7.2.12
+  version: 7.2.13
 - name: httpd
   version: 2.4.37
 - name: newrelic
@@ -897,9 +897,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.11-linux-x64-cflinuxfs2-77151e3d.tgz
-  sha256: 77151e3de92f72f6f3a7a599d7b06487f50d17ee0e8003fb3dc38b7e979c82bd
+  version: 7.2.12
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.12-linux-x64-cflinuxfs2-e1d96c1d.tgz
+  sha256: e1d96c1d5567916da678634e130ead38ea04f5b064ff43ba7dc470c06e58487a
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -971,9 +971,9 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.11-linux-x64-cflinuxfs3-e6157202.tgz
-  sha256: e61572021498ad40c556efbe3ce1f70649b0245331eb51701c74dec50ac888a0
+  version: 7.2.12
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.12-linux-x64-cflinuxfs3-be11b884.tgz
+  sha256: be11b88447047161e4c5c6b2fb8dcf5a95b30582d71f13d735449c7577a4a6b9
   cf_stacks:
   - cflinuxfs3
   modules:
@@ -1045,12 +1045,12 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.12-linux-x64-cflinuxfs2-02522e6b.tgz
-  sha256: 02522e6b70dcd46c9d5036e94d58aabacfc83954f73bebe2fc760d39da1e59f5
+  version: 7.2.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.13-linux-x64-cflinuxfs2-8e8d38f0.tgz
+  sha256: 8e8d38f0104f12c26960e1d569e777b01bc0e32660b627da09487c537a708d5f
   cf_stacks:
   - cflinuxfs2
-  source: https://php.net/distributions/php-7.2.12.tar.gz
+  source: https://php.net/distributions/php-7.2.13.tar.gz
   modules:
   - amqp
   - apcu
@@ -1120,12 +1120,12 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.12-linux-x64-cflinuxfs3-5155f82e.tgz
-  sha256: 5155f82e1f00d0b5c9226550af2233ed61882899e4f407bcddc9a667a0d0973e
+  version: 7.2.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.13-linux-x64-cflinuxfs3-90b9d886.tgz
+  sha256: 90b9d886bd24fda703f36b3836114dfb3ca12ad8b0b9e4f6a0279d2ff2019526
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.2.12.tar.gz
+  source: https://php.net/distributions/php-7.2.13.tar.gz
   modules:
   - amqp
   - apcu
