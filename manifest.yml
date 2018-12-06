@@ -136,9 +136,9 @@ dependencies:
   - cflinuxfs3
   source: http://nginx.org/download/nginx-1.15.7.tar.gz
 - name: php
-  version: 5.6.37
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.37-linux-x64-cflinuxfs2-4523b185.tgz
-  sha256: 4523b18592fd8a3ef248a46d7e8207d6061a2af4e366efe7e5bf72e051a7d953
+  version: 5.6.38
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-f671cca5.tgz
+  sha256: f671cca5d8bc9953a338ec279f9acac7ab72eb09552527d5b915c8b0cfb8cbfa
   cf_stacks:
   - cflinuxfs2
   modules:
@@ -148,6 +148,7 @@ dependencies:
   - cassandra
   - curl
   - dba
+  - enchant
   - exif
   - fileinfo
   - ftp
@@ -159,6 +160,7 @@ dependencies:
   - igbinary
   - imagick
   - imap
+  - interbase
   - ioncube
   - ldap
   - lua
@@ -180,6 +182,7 @@ dependencies:
   - pcntl
   - pdo
   - pdo_dblib
+  - pdo_firebird
   - pdo_mysql
   - pdo_odbc
   - pdo_pgsql
@@ -192,6 +195,7 @@ dependencies:
   - pspell
   - rdkafka
   - readline
+  - recode
   - redis
   - shmop
   - snmp
@@ -204,22 +208,25 @@ dependencies:
   - sysvmsg
   - sysvsem
   - sysvshm
+  - tidy
   - twig
+  - wddx
   - xcache
   - xdebug
   - xhprof
+  - xmlrpc
   - xsl
   - yaf
   - yaml
   - zip
   - zlib
 - name: php
-  version: 5.6.38
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-92527fa5.tgz
-  sha256: 92527fa56216d0a14a8437529a072b135dafb9a2c77bf06647161bc23c105c10
+  version: 5.6.39
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.39-linux-x64-cflinuxfs2-c69179a3.tgz
+  sha256: c69179a360872026207df568aef3de9df4b7f765bd2762134108f6717c1c1572
   cf_stacks:
   - cflinuxfs2
-  source: https://php.net/distributions/php-5.6.38.tar.gz
+  source: https://php.net/distributions/php-5.6.39.tar.gz
   modules:
   - amqp
   - apcu
