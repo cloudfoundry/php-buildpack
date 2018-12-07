@@ -1,3 +1,31 @@
+v4.3.66 Dec 07, 2018
+=====================
+
+* Add appdynamics 4.5.5.2452, remove appdynamics 4.5.4.2296
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162499475)
+
+* Add php 7.2.13, remove php 7.2.11
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162483893)
+
+* Add php 7.1.25, remove php 7.1.23
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162483894)
+
+* Add php 7.0.33, remove php 7.0.31
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162494097)
+
+* Add php 5.6.39, remove php 5.6.37
+  for stack(s) cflinuxfs2
+  (https://www.pivotaltracker.com/story/show/162481819)
+
+* Add nginx 1.14.2, remove nginx 1.14.1
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162417429)
+
+
 v4.3.65 Dec 04, 2018
 =====================
 
