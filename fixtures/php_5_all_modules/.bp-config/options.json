@@ -1,6 +1,9 @@
 {
-    "PHP_VERSION": "{PHP_56_LATEST}",
-    "ZEND_EXTENSIONS": ["ioncube", "opcache", "xdebug"],
+    "ZEND_EXTENSIONS": [
+        "ioncube",
+        "opcache",
+        "xdebug"
+    ],
     "PHP_EXTENSIONS": [
         "amqp",
         "apcu",
@@ -8,6 +11,7 @@
         "cassandra",
         "curl",
         "dba",
+        "enchant",
         "exif",
         "fileinfo",
         "ftp",
@@ -19,6 +23,7 @@
         "igbinary",
         "imagick",
         "imap",
+        "interbase",
         "ldap",
         "lua",
         "lzf",
@@ -38,6 +43,7 @@
         "pcntl",
         "pdo",
         "pdo_dblib",
+        "pdo_firebird",
         "pdo_mysql",
         "pdo_odbc",
         "pdo_pgsql",
@@ -50,6 +56,7 @@
         "pspell",
         "rdkafka",
         "readline",
+        "recode",
         "redis",
         "shmop",
         "snmp",
@@ -62,14 +69,18 @@
         "sysvmsg",
         "sysvsem",
         "sysvshm",
+        "tidy",
         "twig",
+        "wddx",
         "xcache",
         "xhprof",
+        "xmlrpc",
         "xsl",
         "yaf",
         "yaml",
         "zip",
         "zlib"
     ],
+    "PHP_VERSION": "{PHP_56_LATEST}",
     "GEOIP_LOCATION": "geo"
 }
