@@ -91,7 +91,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		It("deploying a basic PHP7.1 app with sql extensions", func() {
 			SkipUnlessCflinuxfs3()
 
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_71_fs3_sqlsrv)")
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_71_fs3_sqlsrv"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 
 			By("warns about deprecated PHP_EXTENSIONS", func() {
@@ -105,7 +105,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		It("deploying a basic PHP7.2 app with sql extensions", func() {
 			SkipUnlessCflinuxfs3()
 
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_72_fs3_sqlsrv)")
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_72_fs3_sqlsrv"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 
 			By("warns about deprecated PHP_EXTENSIONS", func() {
