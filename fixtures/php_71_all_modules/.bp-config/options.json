@@ -69,9 +69,7 @@
     "yaf",
     "yaml",
     "zip",
-    "zlib",
-    "sqlsrv",
-    "pdo_sqlsrv"
+    "zlib"
   ],
   "PHP_VERSION": "{PHP_71_LATEST}",
   "GEOIP_LOCATION": "geo"

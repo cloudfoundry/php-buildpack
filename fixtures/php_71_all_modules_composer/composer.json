@@ -66,8 +66,6 @@
         "ext-yaf": "*",
         "ext-yaml": "*",
         "ext-zip": "*",
-        "ext-zlib": "*",
-        "ext-sqlsrv": "*",
-        "ext-pdo_sqlsrv": "*"
+        "ext-zlib": "*"
     }
 }

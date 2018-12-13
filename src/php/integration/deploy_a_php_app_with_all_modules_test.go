@@ -87,6 +87,34 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 			ItLoadsAllTheModules(app, "7.1")
 		})
+
+		It("deploying a basic PHP7.1 app with sql extensions", func() {
+			SkipUnlessCflinuxfs3()
+
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_71_fs3_sqlsrv)")
+			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
+
+			By("warns about deprecated PHP_EXTENSIONS", func() {
+				PushAppAndConfirm(app)
+				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+			})
+
+			ItLoadsAllTheModules(app, "7.1")
+		})
+
+		It("deploying a basic PHP7.2 app with sql extensions", func() {
+			SkipUnlessCflinuxfs3()
+
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_72_fs3_sqlsrv)")
+			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
+
+			By("warns about deprecated PHP_EXTENSIONS", func() {
+				PushAppAndConfirm(app)
+				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
+			})
+
+			ItLoadsAllTheModules(app, "7.2")
+		})
 	})
 
 	Context("extensions are specified in composer.json", func() {

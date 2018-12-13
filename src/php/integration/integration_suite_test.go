@@ -142,6 +142,12 @@ func SkipUnlessCflinuxfs2() {
 	}
 }
 
+func SkipUnlessCflinuxfs3() {
+	if stack != "cflinuxfs3" {
+		Skip("Skipping because the current stack is not cflinuxfs3")
+	}
+}
+
 func DestroyApp(app *cutlass.App) *cutlass.App {
 	if app != nil {
 		app.Destroy()
