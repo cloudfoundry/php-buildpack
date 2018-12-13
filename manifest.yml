@@ -762,8 +762,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.25
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs2-3495fbb5.tgz
-  sha256: 3495fbb5601a77dc7483f375cc2645ba632e346c594967cca6945d1e88addab7
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs2-ea840524.tgz
+  sha256: ea8405240d0e2a7c4b330cdc0aa3ff9c0cdf9a53536f539b7b730f58dcb51191
   cf_stacks:
   - cflinuxfs2
   source: https://php.net/distributions/php-7.1.25.tar.gz
@@ -838,8 +838,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.25
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs3-637aa7bb.tgz
-  sha256: 637aa7bbc55be58c5ecfbb5c3db2a800270712c31f3944e2ea1a2e5bb8d4b2c2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs3-b8507fd8.tgz
+  sha256: b8507fd8d3d45baa3deb0aef4a65a29c3aa68a783e1f7d71e6de1d185a0503b2
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.1.25.tar.gz
@@ -883,6 +883,7 @@ dependencies:
   - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
+  - pdo_sqlsrv
   - pgsql
   - phalcon
   - phpiredis
@@ -897,6 +898,7 @@ dependencies:
   - soap
   - sockets
   - solr
+  - sqlsrv
   - stomp
   - sysvmsg
   - sysvsem
