@@ -1,3 +1,9 @@
+v4.3.67 Dec 18, 2018
+=====================
+
+* Add sqlsrv and pdo_sqlsrv to php7 on cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162546591)
+
 v4.3.66 Dec 07, 2018
 =====================
 
