@@ -99,7 +99,11 @@ var _ = Describe("CF PHP Buildpack", func() {
 				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
 			})
 
-			ItLoadsAllTheModules(app, "7.1")
+			body, err := app.GetBody("/")
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "sqlsrv"))
+			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "pdo_sqlsrv"))
 		})
 
 		It("deploying a basic PHP7.2 app with sql extensions", func() {
@@ -113,7 +117,11 @@ var _ = Describe("CF PHP Buildpack", func() {
 				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
 			})
 
-			ItLoadsAllTheModules(app, "7.2")
+			body, err := app.GetBody("/")
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "sqlsrv"))
+			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "pdo_sqlsrv"))
 		})
 	})
 
