@@ -23,7 +23,6 @@
         "ext-lua": "*",
         "ext-lzf": "*",
         "ext-mailparse": "*",
-        "ext-maxminddb": "*",
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
         "ext-memcached": "*",

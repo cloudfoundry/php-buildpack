@@ -7,7 +7,8 @@
   "PHP_EXTENSIONS": [
     "sqlsrv",
     "pdo",
-    "pdo_sqlsrv"
+    "pdo_sqlsrv",
+    "maxminddb"
   ],
-  "PHP_VERSION": "{PHP_72_LATEST}"
+  "PHP_VERSION": "{PHP_71_LATEST}"
 }
