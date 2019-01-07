@@ -27,6 +27,7 @@
     "lua",
     "lzf",
     "mailparse",
+    "maxminddb",
     "mbstring",
     "mcrypt",
     "memcached",
