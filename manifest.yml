@@ -763,8 +763,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.25
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs2-ea840524.tgz
-  sha256: ea8405240d0e2a7c4b330cdc0aa3ff9c0cdf9a53536f539b7b730f58dcb51191
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs2-4b7318ea.tgz
+  sha256: 4b7318eacb06aa343e7861ac3e681e28bcf16f2895e6519a732568700e22a7d8
   cf_stacks:
   - cflinuxfs2
   source: https://php.net/distributions/php-7.1.25.tar.gz
@@ -839,8 +839,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.25
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs3-b8507fd8.tgz
-  sha256: b8507fd8d3d45baa3deb0aef4a65a29c3aa68a783e1f7d71e6de1d185a0503b2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.25-linux-x64-cflinuxfs3-e56989e7.tgz
+  sha256: e56989e725eef83b5314178040c6533930df3e4ae13650bbaea6e73fb8bef7c5
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.1.25.tar.gz
@@ -868,6 +868,7 @@ dependencies:
   - lua
   - lzf
   - mailparse
+  - maxminddb
   - mbstring
   - mcrypt
   - memcached
