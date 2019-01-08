@@ -1,3 +1,13 @@
+v4.3.68 Jan 08, 2019
+=====================
+
+* Added support for maxmind extension
+  (https://www.pivotaltracker.com/story/show/156570432)
+
+* Add nginx 1.15.8, remove nginx 1.15.7
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162839811)
+
 v4.3.67 Dec 18, 2018
 =====================
 
