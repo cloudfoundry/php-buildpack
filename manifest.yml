@@ -136,11 +136,12 @@ dependencies:
   - cflinuxfs3
   source: http://nginx.org/download/nginx-1.15.8.tar.gz
 - name: php
-  version: 5.6.38
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.38-linux-x64-cflinuxfs2-f671cca5.tgz
-  sha256: f671cca5d8bc9953a338ec279f9acac7ab72eb09552527d5b915c8b0cfb8cbfa
+  version: 5.6.39
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.39-linux-x64-cflinuxfs2-83bd915e.tgz
+  sha256: 83bd915e5b18d8e851faee6b85a8ae88e2acdca9c82db52e03b7ea899a9ad140
   cf_stacks:
   - cflinuxfs2
+  source: https://php.net/distributions/php-5.6.39.tar.gz
   modules:
   - amqp
   - apcu
@@ -221,12 +222,12 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 5.6.39
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.39-linux-x64-cflinuxfs2-83bd915e.tgz
-  sha256: 83bd915e5b18d8e851faee6b85a8ae88e2acdca9c82db52e03b7ea899a9ad140
+  version: 5.6.40
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.40-linux-x64-cflinuxfs2-2389be08.tgz
+  sha256: 2389be08b9e2aaeaf3f346a5f70ec45b34d4d0ba579f68123a44bcb9cfcee697
   cf_stacks:
   - cflinuxfs2
-  source: https://php.net/distributions/php-5.6.39.tar.gz
+  source: https://php.net/distributions/php-5.6.40.tar.gz
   modules:
   - amqp
   - apcu
