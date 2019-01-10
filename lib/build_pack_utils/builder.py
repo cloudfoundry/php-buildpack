@@ -70,6 +70,9 @@ class Configurer(object):
         return self
 
     def validate(self):
+        if os.path.isfile((os.path.join(self.builder._ctx['BUILD_DIR'], '.cloudfoundry', 'sentinal'))):
+            raise Exception('ERROR: You are running a V2 buildpack after a V3 buildpack. This is unsupported.')
+
         web_server = self.builder._ctx['WEB_SERVER']
         if web_server != 'none' and web_server != 'nginx' and web_server != 'httpd':
             sys.stderr.write("{0} isn't a supported web server. Supported web servers are 'httpd' & 'nginx'\n".format(web_server))
