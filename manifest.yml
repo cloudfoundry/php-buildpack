@@ -1231,6 +1231,73 @@ dependencies:
   - zip
   - zlib
 - name: php
+  version: 7.3.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.0-linux-x64-cflinuxfs3-5b84b3d3.tgz
+  sha256: 5b84b3d322cc62ac992f0fff956b5cdefbd6a19335daadce5946b32c0a79ad76
+  cf_stacks:
+  - cflinuxfs3
+  source: https://php.net/distributions/php-7.3.0.tar.gz
+  modules:
+  - apcu
+  - bz2
+  - cassandra
+  - curl
+  - dba
+  - enchant
+  - exif
+  - fileinfo
+  - ftp
+  - gd
+  - geoip
+  - gettext
+  - gmp
+  - igbinary
+  - imagick
+  - imap
+  - interbase
+  - ldap
+  - lua
+  - lzf
+  - maxminddb
+  - mbstring
+  - mongodb
+  - msgpack
+  - mysqli
+  - oauth
+  - opcache
+  - openssl
+  - pcntl
+  - pdo
+  - pdo_firebird
+  - pdo_mysql
+  - pdo_odbc
+  - pdo_pgsql
+  - pdo_sqlite
+  - pgsql
+  - phpiredis
+  - protobuf
+  - pspell
+  - rdkafka
+  - readline
+  - recode
+  - redis
+  - shmop
+  - snmp
+  - soap
+  - sockets
+  - stomp
+  - sysvmsg
+  - sysvsem
+  - sysvshm
+  - tideways_xhprof
+  - tidy
+  - wddx
+  - xmlrpc
+  - xsl
+  - yaml
+  - zip
+  - zlib
+- name: php
   version: 7.3.1
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.1-linux-x64-cflinuxfs3-8b596605.tgz
   sha256: 8b596605f749b15be8077837ba08763c9ef4095cb76c092106d933eb612653bc
