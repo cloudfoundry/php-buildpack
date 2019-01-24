@@ -26,7 +26,7 @@ default_versions:
 - name: composer
   version: 1.8.0
 - name: CAAPM
-  version: 10.7.0
+  version: 10.7.3
 url_to_dependency_map:
 - match: appdynamics-php-agent-linux_x64-(\d+\.\d+\.\d+\.\d+)
   name: appdynamics
@@ -66,12 +66,13 @@ dependency_deprecation_dates:
   link: http://php.net/supported-versions.php
 dependencies:
 - name: CAAPM
-  version: 10.7.0
-  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-10.7.0_linux.tar.gz
-  sha256: d2bfb020dd91e6c474911da9c7fd94ba3c41a4794675c49ce97c809e2dfa20a4
+  version: 10.7.3
+  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-10.7.3_linux.tar.gz
+  sha256: 573e7b8c73f77a2eaf10f032f8658142e6462b2ffb41ef2e3f4192ed5e529a2d
   cf_stacks:
   - cflinuxfs2
   - cflinuxfs3
+  osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
 - name: appdynamics
   version: 4.5.6.2534
   uri: https://packages.appdynamics.com/php/4.5.6.2534/appdynamics-php-agent-linux_x64-4.5.6.2534.tar.bz2
