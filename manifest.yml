@@ -1256,7 +1256,6 @@ dependencies:
   - imap
   - interbase
   - ldap
-  - libzip
   - lua
   - lzf
   - maxminddb
@@ -1297,6 +1296,7 @@ dependencies:
   - xsl
   - yaml
   - zip
+  - zlib
 - name: php
   version: 7.3.1
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.1-linux-x64-cflinuxfs3-b4407dfa.tgz
