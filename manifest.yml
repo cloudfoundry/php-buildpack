@@ -1299,8 +1299,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.3.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.1-linux-x64-cflinuxfs3-4501983b.tgz
-  sha256: 4501983b9d660081726b6b72313f8148fe27795a1135cec03b758504879c8473
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.1-linux-x64-cflinuxfs3-9b1e6ad0.tgz
+  sha256: 9b1e6ad04042e77b5596f5bd7116e286b1ff6b333dabc53d95ad40f7e7a9e1a6
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.1.tar.gz
