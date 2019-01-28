@@ -1299,8 +1299,8 @@ dependencies:
   - zip
 - name: php
   version: 7.3.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.1-linux-x64-cflinuxfs3-3fda857a.tgz
-  sha256: 3fda857a039a2dc43cb4e8cea1feb414821e83c2bddace6c9798fb9c2b8ca035
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.1-linux-x64-cflinuxfs3-b4407dfa.tgz
+  sha256: b4407dfa43d0a2087179a4e4f7cb442335e0879d49a1a2be99ea801f0ae0b1ee
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.1.tar.gz
@@ -1363,4 +1363,3 @@ dependencies:
   - xsl
   - yaml
   - zip
-  - zlib
