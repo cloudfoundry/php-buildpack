@@ -1,3 +1,32 @@
+v4.3.70 Jan 31, 2019
+=====================
+
+* Add composer 1.8.3, remove composer 1.8.2
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163583504)
+
+* Add libzip and remove zlib
+  (https://www.pivotaltracker.com/story/show/163115785)
+
+* Add php 7.3.0, 7.3.1, and adds a default php-fpm.conf file for 7.3.x
+  (https://www.pivotaltracker.com/story/show/163115785)
+
+* Add php 7.3.1, remove php 7.3.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163115785)
+
+* Add php 7.3.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/162482741)
+
+* Adds PHP_73_LATEST value to options.json
+  (https://www.pivotaltracker.com/story/show/163115785)
+
+* Add httpd 2.4.38, remove httpd 2.4.37
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163412491)
+
+
 v4.3.69 Jan 22, 2019
 =====================
 
