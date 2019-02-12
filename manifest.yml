@@ -85,6 +85,7 @@ dependencies:
   - cflinuxfs2
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
+  source_sha256: b7d5d7cd869a365e23cf4aca8263d7ce817f613109ca76c238a5943baf98f0f5
 - name: composer
   version: 1.8.4
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.8.4-6faf282d.phar
