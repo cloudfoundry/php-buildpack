@@ -88,13 +88,18 @@ class DynatraceInstaller(object):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
+    def get_buildpack_version(self):
+        return open(self._ctx['BP_DIR'] + "/VERSION").read()
+
     def _retry_download(self, url, dest):
         tries = 3
         base_waittime = 3
 
         for attempt in range(tries):
             try:
-                result = urllib2.urlopen(url)
+                request = urllib2.Request(url)
+                request.add_header("user-agent", "cf-php-buildpack/" + self.get_buildpack_version())
+                result = urllib2.urlopen(request)
                 f = open(dest, 'w')
                 f.write(result.read())
                 f.close()
