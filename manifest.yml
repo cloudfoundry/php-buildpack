@@ -1312,8 +1312,8 @@ dependencies:
   - zip
 - name: php
   version: 7.3.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.2-linux-x64-cflinuxfs3-07eb4327.tgz
-  sha256: 07eb4327a952ee9f9a01d89a1fcb0c1df44ccfaeb0e87417fd7dbfbf9d00d0bc
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.2-linux-x64-cflinuxfs3-1eda829a.tgz
+  sha256: 1eda829a1380f26909a936b8a03da1d4b4e34eb27c6d3d035b0c7953264534f8
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.2.tar.gz
