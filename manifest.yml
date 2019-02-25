@@ -1188,7 +1188,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.15.tar.gz
-  source_sha256: 9b13bde9f5a32d6f6bdb8b911bb55bb818d0c4073538f8dc48aa2deb560f55a3
+  source_sha256: e7f5805d60614c04341928e2feb6255a41ff8aaa774d9eea07aabe9e5f9b4d84
   modules:
   - amqp
   - apcu
