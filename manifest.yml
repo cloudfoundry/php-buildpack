@@ -332,7 +332,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   source: https://php.net/distributions/php-7.0.32.tar.gz
-  source_sha256: 08d13389f611ec55f3b9164347a97e410099238a3dd85946e556a288ce366fbe
+  source_sha256: '08d13389f611ec55f3b9164347a97e410099238a3dd85946e556a288ce366fbe'
   modules:
   - amqp
   - apcu
@@ -409,7 +409,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.0.32.tar.gz
-  source_sha256: 08d13389f611ec55f3b9164347a97e410099238a3dd85946e556a288ce366fbe
+  source_sha256: '08d13389f611ec55f3b9164347a97e410099238a3dd85946e556a288ce366fbe'
   modules:
   - amqp
   - apcu
@@ -800,7 +800,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs2
   source: https://php.net/distributions/php-7.1.26.tar.gz
-  source_sha256: 069315d3c3f964fd165bbbb3c2fc56005813e2cf97bed05055318dcc4e775328
+  source_sha256: '069315d3c3f964fd165bbbb3c2fc56005813e2cf97bed05055318dcc4e775328'
   modules:
   - amqp
   - apcu
@@ -877,7 +877,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.1.26.tar.gz
-  source_sha256: 069315d3c3f964fd165bbbb3c2fc56005813e2cf97bed05055318dcc4e775328
+  source_sha256: '069315d3c3f964fd165bbbb3c2fc56005813e2cf97bed05055318dcc4e775328'
   modules:
   - amqp
   - apcu
@@ -1188,7 +1188,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.15.tar.gz
-  source_sha256: e7f5805d60614c04341928e2feb6255a41ff8aaa774d9eea07aabe9e5f9b4d84
+  source_sha256: 9b13bde9f5a32d6f6bdb8b911bb55bb818d0c4073538f8dc48aa2deb560f55a3
   modules:
   - amqp
   - apcu
