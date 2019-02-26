@@ -32,7 +32,6 @@ class DynatraceInstaller(object):
         self._ctx = ctx
         self._detected = False
         self._run_installer = True
-        self.app_name = None
         self.dynatrace_server = None
         try:
             self._log.info("Initializing")
@@ -68,6 +67,7 @@ class DynatraceInstaller(object):
             self._ctx['DYNATRACE_ENVIRONMENT_ID'] = detected_services[0].get('environmentid', None)
             self._ctx['DYNATRACE_TOKEN'] = detected_services[0].get('apitoken', None)
             self._ctx['DYNATRACE_SKIPERRORS'] = detected_services[0].get('skiperrors', None)
+            self._ctx['DYNATRACE_LOCATION'] = detected_services[0].get('location', None)
 
             self._convert_api_url()
             self._detected = True
@@ -88,13 +88,19 @@ class DynatraceInstaller(object):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
+    def get_buildpack_version(self):
+        with open(os.path.join(self._ctx['BP_DIR'], "VERSION")) as version_file:
+            return version_file.read()
+
     def _retry_download(self, url, dest):
         tries = 3
         base_waittime = 3
 
         for attempt in range(tries):
             try:
-                result = urllib2.urlopen(url)
+                request = urllib2.Request(url)
+                request.add_header("user-agent", "cf-php-buildpack/" + self.get_buildpack_version())
+                result = urllib2.urlopen(request)
                 f = open(dest, 'w')
                 f.write(result.read())
                 f.close()
@@ -125,9 +131,9 @@ class DynatraceInstaller(object):
                 _log.error('ERROR: Dynatrace agent download failed')
                 raise
 
-
     def run_installer(self):
         return self._run_installer
+
     # executing the downloaded paas-installer
     def extract_paas_agent(self):
         installer = self._get_paas_installer_path()
@@ -148,8 +154,6 @@ class DynatraceInstaller(object):
 
     # adding LD_PRELOAD to the exisiting dynatrace-env.sh file
     def adding_ld_preload_settings(self):
-        vcap_app = self._ctx.get('VCAP_APPLICATION', {})
-        app_name = vcap_app.get('name', None)
         envfile    = os.path.join(self._ctx['BUILD_DIR'], '.profile.d', 'dynatrace-env.sh')
         agent_path = None
         manifest_file = os.path.join(self._ctx['BUILD_DIR'], 'dynatrace', 'oneagent', 'manifest.json')
@@ -170,10 +174,16 @@ class DynatraceInstaller(object):
         # prepending agent path with installer directory
         agent_path = os.path.join(self._ctx['HOME'], 'app', 'dynatrace', 'oneagent', agent_path)
 
-        ld_preload = '\nexport LD_PRELOAD="' + agent_path + '"'
-        host_name  = '\nexport DT_HOST_ID=' + app_name + '_${CF_INSTANCE_INDEX}'
+        extra_env = '\nexport LD_PRELOAD="{}"'.format(agent_path)
+        extra_env += '\nexport DT_LOGSTREAM=${DT_LOGSTREAM:-stdout}'
+
+        location = self._ctx.get('DYNATRACE_LOCATION')
+        if location:
+            extra_env += '\nexport DT_LOCATION="${{DT_LOCATION:-{}}}"'.format(location)
+
         with open(envfile, "a") as file:
-            file.write(ld_preload + host_name)
+            file.write(extra_env)
+
 
 # Extension Methods
 def compile(install):
