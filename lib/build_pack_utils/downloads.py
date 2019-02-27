@@ -16,7 +16,7 @@ class Downloader(object):
     def _init_proxy(self):
         handlers = {}
         for key in self._ctx.keys():
-            if key.lower().endswith('_proxy'):
+            if key.lower().endswith('_proxy') and self._ctx[key]:
                 handlers[key.split('_')[0]] = self._ctx[key]
         self._log.debug('Loaded proxy handlers [%s]', handlers)
         openers = []
