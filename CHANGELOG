@@ -1,3 +1,44 @@
+v4.3.71 Mar 01, 2019
+=====================
+
+* Add php 7.2.15, remove php 7.2.13
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163787459)
+
+* Add composer 1.8.4, remove composer 1.8.3
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163860100)
+
+* Add php 7.3.2, remove php 7.3.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163787462)
+
+* Add nginx 1.15.9, remove nginx 1.15.8
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/164249501)
+
+* Add appdynamics 4.5.7.2643, remove appdynamics 4.5.6.2534
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/164136366)
+
+* Check if proxy env is empty before adding the handler
+
+* Updates to the Dynatrace extension
+  - Set logging to stdout by default.
+  - Don't explicitly set the host ID, the agent will do so automatically.
+  - Support config entry "location" for the service
+
+* Add source and source_sha256 to buildpack manifest
+  (https://www.pivotaltracker.com/story/show/163711928)
+  (https://www.pivotaltracker.com/story/show/163114792)
+
+* Update PHP Extensions
+  (https://www.pivotaltracker.com/story/show/162899806)
+
+* Check if proxy env is empty before adding the handler
+  In cases where the variable is set but empty, the handler is added
+  and download may fail as urllib can't parse the host.
+
 v4.3.70 Jan 31, 2019
 =====================
 
