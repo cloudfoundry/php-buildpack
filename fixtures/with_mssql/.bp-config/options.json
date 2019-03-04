@@ -1,4 +1,4 @@
 {
-  "PHP_VERSION": "{PHP_56_LATEST}",
+  "PHP_VERSION": "{PHP_71_LATEST}",
   "PHP_EXTENSIONS": ["pdo", "pdo_dblib"]
 }

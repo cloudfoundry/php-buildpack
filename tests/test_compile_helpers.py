@@ -227,44 +227,11 @@ class TestCompileHelpers(object):
         self.assert_exists(self.build_dir, 'app.php')
         eq_(1, len(os.listdir(self.build_dir)))
 
-    def test_convert_php_extensions_56(self):
-        ctx = {
-            'PHP_VERSION': '5.6.x',
-            'PHP_EXTENSIONS': ['mod1', 'mod2', 'mod3'],
-            'ZEND_EXTENSIONS': ['zmod1', 'zmod2']
-        }
-        convert_php_extensions(ctx)
-        eq_('extension=mod1.so\nextension=mod2.so\nextension=mod3.so',
-            ctx['PHP_EXTENSIONS'])
-        eq_('zend_extension="zmod1.so"\nzend_extension="zmod2.so"',
-            ctx['ZEND_EXTENSIONS'])
-
-    def test_convert_php_extensions_56_none(self):
-        ctx = {
-            'PHP_VERSION': '5.6.x',
-            'PHP_EXTENSIONS': [],
-            'ZEND_EXTENSIONS': []
-        }
-        convert_php_extensions(ctx)
-        eq_('', ctx['PHP_EXTENSIONS'])
-        eq_('', ctx['ZEND_EXTENSIONS'])
-
-    def test_convert_php_extensions_56_one(self):
-        ctx = {
-            'PHP_VERSION': '5.6.x',
-            'PHP_EXTENSIONS': ['mod1'],
-            'ZEND_EXTENSIONS': ['zmod1']
-        }
-        convert_php_extensions(ctx)
-        eq_('zend_extension="zmod1.so"',
-            ctx['ZEND_EXTENSIONS'])
-
     def setup_php_ini_dir(self, extensions):
         ini_dir = os.path.join(self.build_dir, '.bp-config', 'php', 'php.ini.d')
         os.makedirs(ini_dir)
         with open(os.path.join(ini_dir, 'somthing.ini'), 'w') as f:
             f.write(extensions)
-
 
     @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin'])
     @mock.patch('compile_helpers._get_compiled_modules', return_value=['pie'])
@@ -294,7 +261,6 @@ class TestCompileHelpers(object):
         }
         self.setup_php_ini_dir("extension=pumpkin.so\nextension= apple.so\nextension=pie.so")
         validate_php_ini_extensions(ctx)
-
 
     @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['redis', 'igbinary'])
     @mock.patch('compile_helpers._get_compiled_modules', return_value=['redis', 'igbinary'])
@@ -337,7 +303,6 @@ class TestCompileHelpers(object):
         }
         validate_php_ini_extensions(ctx)
 
-
     def test_is_web_app(self):
         ctx = {}
         eq_(True, is_web_app(ctx))
@@ -370,23 +335,6 @@ class TestCompileHelpers(object):
         manifest = load_manifest(ctx)
         dependencies = manifest['dependencies']
         versions = find_all_php_versions(dependencies)
-        eq_(2, len([v for v in versions if v.startswith('5.6.')]))
-        eq_(2, len([v for v in versions if v.startswith('7.0.')]))
         eq_(2, len([v for v in versions if v.startswith('7.1.')]))
         eq_(2, len([v for v in versions if v.startswith('7.2.')]))
-
-    def test_validate_php_version(self):
-        ctx = {
-            'ALL_PHP_VERSIONS': ['5.6.31', '5.6.30', '7.1.0'],
-            'PHP_56_LATEST': '5.6.31',
-            'PHP_DEFAULT': '7.1.0'
-        }
-
-        ctx['PHP_VERSION'] = '5.6.30'
-        validate_php_version(ctx)
-        eq_('5.6.30', ctx['PHP_VERSION'])
-
-        ctx['PHP_VERSION'] = '5.6.29'
-        validate_php_version(ctx)
-        eq_(ctx['PHP_DEFAULT'], ctx['PHP_VERSION'])
 
