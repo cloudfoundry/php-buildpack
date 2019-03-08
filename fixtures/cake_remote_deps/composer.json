@@ -18,7 +18,7 @@
 		"source": "https://github.com/cakephp/cakephp"
 	},
 	"require": {
-		"php": "7.1.x",
+		"php": "7.1.*",
 		"ext-mcrypt": "*"
 	},
 	"require-dev": {
