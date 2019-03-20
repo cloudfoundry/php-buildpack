@@ -7,4 +7,4 @@ source .envrc
 
 cd src/*/integration/..
 export CF_STACK=${CF_STACK:-cflinuxfs2}
-ginkgo -mod vendor -r -skipPackage=brats,integration
+ginkgo -r -skipPackage=brats,integration
