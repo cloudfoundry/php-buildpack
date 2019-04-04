@@ -1,3 +1,18 @@
+v4.3.73 Apr 04, 2019
+=====================
+
+* Add httpd 2.4.39, remove httpd 2.4.38
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/165044236)
+
+* Add nginx 1.15.10, remove nginx 1.15.9
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/164899138)
+
+* Add appdynamics 4.5.8.2700, remove appdynamics 4.5.7.2661
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/164895105)
+
 v4.3.72 Mar 08, 2019
 =====================
 
