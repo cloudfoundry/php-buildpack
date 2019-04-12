@@ -28,7 +28,7 @@ var _ = Describe("Compile", func() {
 			cmd.Dir = bpDir
 		})
 
-		It("fails with a helpful error message", func() {
+		It("fails with a very helpful error message", func() {
 			out := bytes.Buffer{}
 			session, err := gexec.Start(cmd, &out, &out)
 			Expect(err).ToNot(HaveOccurred())
