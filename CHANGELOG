@@ -1,22 +1,3 @@
-v4.3.74 Apr 09, 2019
-=====================
-
-* Add composer 1.8.5, remove composer 1.8.4
-  for stack(s) cflinuxfs2, cflinuxfs3
-  (https://www.pivotaltracker.com/story/show/165221414)
-
-* Add nginx 1.15.11, remove nginx 1.15.10
-  for stack(s) cflinuxfs2, cflinuxfs3
-  (https://www.pivotaltracker.com/story/show/165215032)
-
-* Add php 7.1.28, remove php 7.1.26
-  for stack(s) cflinuxfs2, cflinuxfs3
-  (https://www.pivotaltracker.com/story/show/165128941)
-
-* Add php 7.2.17, remove php 7.2.15
-  for stack(s) cflinuxfs2, cflinuxfs3
-  (https://www.pivotaltracker.com/story/show/165125089)
-
 v4.3.73 Apr 04, 2019
 =====================
 
