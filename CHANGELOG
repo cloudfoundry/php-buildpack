@@ -20,10 +20,6 @@ v4.3.74 Apr 09, 2019
 v4.3.73 Apr 04, 2019
 =====================
 
-* Add php 7.3.4, remove php 7.3.2
-  for stack(s) cflinuxfs3 
-  (https://www.pivotaltracker.com/story/show/165119913)
-
 * Add httpd 2.4.39, remove httpd 2.4.38
   for stack(s) cflinuxfs2, cflinuxfs3
   (https://www.pivotaltracker.com/story/show/165044236)
