@@ -1,3 +1,24 @@
+v4.3.77 May 06, 2019
+=====================
+
+* Merge pull request #300 from dmikusa-pivotal/develop
+  Move the inclusion of php-fpm config snippets to the end of the php-fpm.conf file
+
+* Add php 7.1.29, remove php 7.1.27
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/165785258)
+
+* Add php 7.2.18, remove php 7.2.16
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/165763831)
+
+* Add php 7.3.5, remove php 7.3.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/165762914)
+
+* Move the inclusion of php-fpm config snippets to the end of the php-fpm.conf file. This allows users to override all settings. See Issue #299.
+
+
 v4.3.76 May 01, 2019
 =====================
 
