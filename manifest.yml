@@ -844,8 +844,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.3.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.5-linux-x64-cflinuxfs3-b919dac6.tgz
-  sha256: b919dac634ae2b825bf0c1f99cc617ab6de983f22c3b7bc6e07c9c713843ccec
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.5-linux-x64-cflinuxfs3-0442bd80.tgz
+  sha256: 0442bd80f91e2b74c24384146fe7f65fd5c3f35be706e6917e8753b34fd5ac09
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.5.tar.gz
@@ -868,11 +868,14 @@ dependencies:
   - imagick
   - imap
   - interbase
+  - ioncube
   - ldap
   - lua
   - lzf
+  - mailparse
   - maxminddb
   - mbstring
+  - memcached
   - mongodb
   - msgpack
   - mysqli
@@ -886,7 +889,9 @@ dependencies:
   - pdo_odbc
   - pdo_pgsql
   - pdo_sqlite
+  - pdo_sqlsrv
   - pgsql
+  - phalcon
   - phpiredis
   - protobuf
   - pspell
@@ -898,6 +903,7 @@ dependencies:
   - snmp
   - soap
   - sockets
+  - sqlsrv
   - stomp
   - sysvmsg
   - sysvsem
@@ -905,6 +911,7 @@ dependencies:
   - tideways_xhprof
   - tidy
   - wddx
+  - xdebug
   - xmlrpc
   - xsl
   - yaml
