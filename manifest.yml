@@ -621,8 +621,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.18
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.18-linux-x64-cflinuxfs2-01d2226b.tgz
-  sha256: 01d2226b69acc18bf1a3c53d74a2ddc2ba67d3bc6a09bac81938e054803e7c57
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.18-linux-x64-cflinuxfs2-f750ee19.tgz
+  sha256: f750ee19fa46469408501bbff811b6cb19b3f9d93e1a32a45cbe7a735f0fcd24
   cf_stacks:
   - cflinuxfs2
   source: https://php.net/distributions/php-7.2.18.tar.gz
@@ -697,8 +697,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.2.18
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.18-linux-x64-cflinuxfs3-db82eef3.tgz
-  sha256: db82eef322de3c76cb9033bb9c7068c23daf4f4cbcc313c525268cde9afc39ed
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.18-linux-x64-cflinuxfs3-4fc78f99.tgz
+  sha256: 4fc78f993532b1f956511c464e78df72b85d7dd4ae0b34240b6b5d812694d690
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.18.tar.gz
