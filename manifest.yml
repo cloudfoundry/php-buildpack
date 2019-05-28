@@ -22,7 +22,7 @@ default_versions:
 - name: newrelic
   version: 8.1.0.209
 - name: nginx
-  version: 1.15.12
+  version: 1.17.0
 - name: composer
   version: 1.8.5
 - name: CAAPM
@@ -150,6 +150,22 @@ dependencies:
   - cflinuxfs3
   source: http://nginx.org/download/nginx-1.16.0.tar.gz
   source_sha256: 4fd376bad78797e7f18094a00f0f1088259326436b537eb5af69b01be2ca1345
+- name: nginx
+  version: 1.17.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.17.0-linux-x64-cflinuxfs2-f35aff96.tgz
+  sha256: f35aff96e3daf4f1655586682a8732f812fb105935d30299c2a505de6f769249
+  cf_stacks:
+  - cflinuxfs2
+  source: http://nginx.org/download/nginx-1.17.0.tar.gz
+  source_sha256: e21b5d06cd53e86afb94f0b3678e0abb0c0f011433471fa3d895cefa65ae0fab
+- name: nginx
+  version: 1.17.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.17.0-linux-x64-cflinuxfs3-10287b21.tgz
+  sha256: 10287b218411cd972ee1747f5a93e5efd6aa5d4dc4c089b4883cb419905abd5c
+  cf_stacks:
+  - cflinuxfs3
+  source: http://nginx.org/download/nginx-1.17.0.tar.gz
+  source_sha256: e21b5d06cd53e86afb94f0b3678e0abb0c0f011433471fa3d895cefa65ae0fab
 - name: php
   version: 7.1.28
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.28-linux-x64-cflinuxfs2-c89b8828.tgz
