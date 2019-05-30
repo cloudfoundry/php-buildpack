@@ -860,8 +860,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.3.6
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.6-linux-x64-cflinuxfs3-09d2da71.tgz
-  sha256: '09d2da7198e864d30c6e731f24566119f6dc4eda2e61ccd1b6a9438a8c473e41'
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.6-linux-x64-cflinuxfs3-8501f374.tgz
+  sha256: 8501f374e66deaa04efbe5252bc640f000f0a763696d8b7c69981a2cf5ad98d3
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.6.tar.gz
