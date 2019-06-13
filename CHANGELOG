@@ -1,3 +1,63 @@
+v4.3.78 Jun 13, 2019
+=====================
+
+* Bump composer default version from 1.8.5 to 1.8.6
+
+* Rebuild php 7.1.30
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166361054)
+
+* Add composer 1.8.6, remove composer 1.8.5
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166609732)
+
+* Remove nginx 1.14.x
+  (https://www.pivotaltracker.com/story/show/165681345)
+
+* Add php 7.1.30, remove php 7.1.28
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166361054)
+
+* Rebuild php 7.2.19
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166356122)
+
+* Rebuild php 7.3.6
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166350862)
+
+* Add php 7.2.19, remove php 7.2.17
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166356122)
+
+* Add php 7.3.6, remove php 7.3.4
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166350862)
+
+* Change default nginx version to 1.15.x
+  (https://www.pivotaltracker.com/story/show/166292306)
+
+* Add nginx 1.17.0
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166292306)
+
+* Rebuild php 7.3.5
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/165762914)
+
+* Rebuild php 7.1.29
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/165785258)
+
+* Rebuild php 7.2.18
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/165763831)
+
+* Add appdynamics 4.5.10.2820, remove appdynamics 4.5.9.2753
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/166220988)
+
+
 v4.3.77 May 06, 2019
 =====================
 
