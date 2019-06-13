@@ -67,7 +67,7 @@ class DynatraceInstaller(object):
             self._ctx['DYNATRACE_ENVIRONMENT_ID'] = detected_services[0].get('environmentid', None)
             self._ctx['DYNATRACE_TOKEN'] = detected_services[0].get('apitoken', None)
             self._ctx['DYNATRACE_SKIPERRORS'] = detected_services[0].get('skiperrors', None)
-            self._ctx['DYNATRACE_LOCATION'] = detected_services[0].get('location', None)
+            self._ctx['DYNATRACE_NETWORK_ZONE'] = detected_services[0].get('networkzone', None)
 
             self._convert_api_url()
             self._detected = True
@@ -177,9 +177,9 @@ class DynatraceInstaller(object):
         extra_env = '\nexport LD_PRELOAD="{}"'.format(agent_path)
         extra_env += '\nexport DT_LOGSTREAM=${DT_LOGSTREAM:-stdout}'
 
-        location = self._ctx.get('DYNATRACE_LOCATION')
-        if location:
-            extra_env += '\nexport DT_LOCATION="${{DT_LOCATION:-{}}}"'.format(location)
+        network_zone = self._ctx.get('DYNATRACE_NETWORK_ZONE')
+        if network_zone:
+            extra_env += '\nexport DT_NETWORK_ZONE="${{DT_NETWORK_ZONE:-{}}}"'.format(network_zone)
 
         with open(envfile, "a") as file:
             file.write(extra_env)
