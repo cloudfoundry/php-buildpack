@@ -2,7 +2,7 @@ module github.com/cloudfoundry/php-buildpack
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
-	github.com/cloudfoundry/libbuildpack v0.0.0-20190606141245-8119571fa48b
+	github.com/cloudfoundry/libbuildpack v0.0.0-20190614194448-f28b4097bc6b
 	github.com/golang/mock v1.3.1 // indirect
 	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/onsi/ginkgo v1.8.0
