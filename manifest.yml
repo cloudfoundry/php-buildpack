@@ -71,6 +71,11 @@ dependency_deprecation_dates:
   name: php
   date: 2020-11-30
   link: http://php.net/supported-versions.php
+- version_line: 7.2.x
+  name: php
+  date: 2020-11-30
+  link: http://php.net/supported-versions.php
+  match: 7.2.\d+
 - match: 7.3.\d+
   version_line: '7.3'
   name: php
