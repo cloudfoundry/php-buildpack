@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Downloads and configures Dynatrace OneAgent for Paas.
+Downloads and configures Dynatrace OneAgent.
 """
 
 from __future__ import print_function
@@ -76,8 +76,8 @@ class DynatraceInstaller(object):
             self._log.warning("More than one matching service found!")
             raise SystemExit(1)
 
-    # returns paas-installer path
-    def _get_paas_installer_path(self):
+    # returns oneagent installer path
+    def _get_oneagent_installer_path(self):
         return os.path.join(self._ctx['BUILD_DIR'], 'dynatrace', 'paasInstaller.sh')
 
     def should_install(self):
@@ -113,10 +113,10 @@ class DynatraceInstaller(object):
 
         raise last_exception
 
-    # downloading the paas agent from the 'DYNATRACE_API_URL'
-    def download_paas_agent_installer(self):
+    # downloading the oneagent from the 'DYNATRACE_API_URL'
+    def download_oneagent_installer(self):
         self.create_folder(os.path.join(self._ctx['BUILD_DIR'], 'dynatrace'))
-        installer = self._get_paas_installer_path()
+        installer = self._get_oneagent_installer_path()
         url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?Api-Token=' + self._ctx['DYNATRACE_TOKEN'] + '&bitness=64&include=php&include=nginx&include=apache'
         skiperrors = self._ctx['DYNATRACE_SKIPERRORS']
 
@@ -134,14 +134,14 @@ class DynatraceInstaller(object):
     def run_installer(self):
         return self._run_installer
 
-    # executing the downloaded paas-installer
-    def extract_paas_agent(self):
-        installer = self._get_paas_installer_path()
+    # executing the downloaded oneagent installer
+    def extract_oneagent(self):
+        installer = self._get_oneagent_installer_path()
         call([installer, self._ctx['BUILD_DIR']])
 
-    # removing the paas-installer
-    def cleanup_paas_installer(self):
-        installer = self._get_paas_installer_path()
+    # removing the oneagent installer
+    def cleanup_oneagent_installer(self):
+        installer = self._get_oneagent_installer_path()
         os.remove(installer)
 
     # copying the exisiting dynatrace-env.sh file
@@ -189,13 +189,13 @@ class DynatraceInstaller(object):
 def compile(install):
     dynatrace = DynatraceInstaller(install.builder._ctx)
     if dynatrace.should_install():
-        _log.info("Downloading Dynatrace PAAS-Agent Installer")
-        dynatrace.download_paas_agent_installer()
+        _log.info("Downloading Dynatrace OneAgent Installer")
+        dynatrace.download_oneagent_installer()
         if dynatrace.run_installer():
-            _log.info("Extracting Dynatrace PAAS-Agent")
-            dynatrace.extract_paas_agent()
-            _log.info("Removing Dynatrace PAAS-Agent Installer")
-            dynatrace.cleanup_paas_installer()
+            _log.info("Extracting Dynatrace OneAgent")
+            dynatrace.extract_oneagent()
+            _log.info("Removing Dynatrace OneAgent Installer")
+            dynatrace.cleanup_oneagent_installer()
             _log.info("Adding Dynatrace specific Environment Vars")
             dynatrace.adding_environment_variables()
             _log.info("Adding Dynatrace LD_PRELOAD settings")

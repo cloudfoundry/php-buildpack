@@ -52,13 +52,13 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("Found one matching Dynatrace service"))
 
 		By("downloading dynatrace agent")
-		Expect(app.Stdout.String()).To(ContainSubstring("Downloading Dynatrace PAAS-Agent Installer"))
+		Expect(app.Stdout.String()).To(ContainSubstring("Downloading Dynatrace OneAgent Installer"))
 
 		By("extracting dynatrace agent")
-		Expect(app.Stdout.String()).To(ContainSubstring("Extracting Dynatrace PAAS-Agent"))
+		Expect(app.Stdout.String()).To(ContainSubstring("Extracting Dynatrace OneAgent"))
 
 		By("removing dynatrace agent installer")
-		Expect(app.Stdout.String()).To(ContainSubstring("Removing Dynatrace PAAS-Agent Installer"))
+		Expect(app.Stdout.String()).To(ContainSubstring("Removing Dynatrace OneAgent Installer"))
 
 		By("adding environment vars")
 		Expect(app.Stdout.String()).To(ContainSubstring("Adding Dynatrace specific Environment Vars"))
@@ -106,7 +106,7 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("Found one matching Dynatrace service"))
 
 		By("downloading dynatrace agent")
-		Expect(app.Stdout.String()).To(ContainSubstring("Downloading Dynatrace PAAS-Agent Installer"))
+		Expect(app.Stdout.String()).To(ContainSubstring("Downloading Dynatrace OneAgent Installer"))
 
 		By("download retries work")
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, retrying in 4 seconds"))
@@ -117,7 +117,7 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, skipping installation"))
 
 		By("no further installer logs")
-		Expect(app.Stdout.String()).ToNot(ContainSubstring("Extracting Dynatrace PAAS-Agent"))
+		Expect(app.Stdout.String()).ToNot(ContainSubstring("Extracting Dynatrace OneAgent"))
 	})
 
 	It("Deploy app with single dynatrace service, wrong url and skiperrors not set", func() {
@@ -136,7 +136,7 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("Found one matching Dynatrace service"))
 
 		By("downloading dynatrace agent")
-		Expect(app.Stdout.String()).To(ContainSubstring("Downloading Dynatrace PAAS-Agent Installer"))
+		Expect(app.Stdout.String()).To(ContainSubstring("Downloading Dynatrace OneAgent Installer"))
 
 		By("download retries work")
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, retrying in 4 seconds"))
@@ -147,6 +147,6 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("ERROR: Dynatrace agent download failed"))
 
 		By("no further installer logs")
-		Expect(app.Stdout.String()).ToNot(ContainSubstring("Extracting Dynatrace PAAS-Agent"))
+		Expect(app.Stdout.String()).ToNot(ContainSubstring("Extracting Dynatrace OneAgent"))
 	})
 })
