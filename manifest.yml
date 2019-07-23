@@ -140,16 +140,16 @@ dependencies:
   source_sha256: 3d5b90aa17de1700709ae4ec6c4d73d87c888b06c510391bf7104b006fdb2abe
 - name: nginx
   version: 1.16.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.0-linux-x64-cflinuxfs2-a0231cf3.tgz
-  sha256: a0231cf381e5b1321a803b4b9d2fc4b79d52b7b0142e5dee413005c4a8cdc032
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.0-linux-x64-cflinuxfs2-715f5fcc.tgz
+  sha256: 715f5fcc4d11f1baa2fe13ce5907b28945cc37f8b486838243fc9b354627390b
   cf_stacks:
   - cflinuxfs2
   source: http://nginx.org/download/nginx-1.16.0.tar.gz
   source_sha256: 4fd376bad78797e7f18094a00f0f1088259326436b537eb5af69b01be2ca1345
 - name: nginx
   version: 1.16.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.0-linux-x64-cflinuxfs3-2b1c3f75.tgz
-  sha256: 2b1c3f75e0073e4f1fbb208dec4c7869d9f9f32bfb701879b09815a8f6069a48
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.0-linux-x64-cflinuxfs3-8e2471f5.tgz
+  sha256: 8e2471f5da0e5b2ff5e707a9d527ff18d1a9ce2f103c33c1dda027e78676e6c6
   cf_stacks:
   - cflinuxfs3
   source: http://nginx.org/download/nginx-1.16.0.tar.gz
