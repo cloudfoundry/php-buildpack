@@ -203,7 +203,7 @@ func AssertNoInternetTraffic(fixtureName string) {
 	It("has no traffic", func() {
 		SkipUnlessCached()
 
-		bpFile := filepath.Join(bpDir, buildpackVersion+"tmp")
+		bpFile := filepath.Join(bpDir, buildpackVersion+"tmp"+cutlass.RandStringRunes(8))
 		cmd := exec.Command("cp", packagedBuildpack.File, bpFile)
 		err := cmd.Run()
 		Expect(err).To(BeNil())
