@@ -28,12 +28,12 @@ var _ = Describe("Compile", func() {
 			cmd.Dir = bpDir
 		})
 
-		It("fails with a helpful error message", func() {
+		It("fails with a very helpful error message", func() {
 			out := bytes.Buffer{}
 			session, err := gexec.Start(cmd, &out, &out)
 			Expect(err).ToNot(HaveOccurred())
 
-			Eventually(session.ExitCode, 10*time.Second).Should(Equal(44))
+			Eventually(session.ExitCode, 120*time.Second).Should(Equal(44))
 			Expect(out.String()).To(ContainSubstring("not supported by this buildpack"))
 		})
 	})

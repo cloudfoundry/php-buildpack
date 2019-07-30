@@ -167,13 +167,21 @@ def _parse_extensions_from_ini_file(file):
 def validate_php_ini_extensions(ctx):
     all_supported =  _get_supported_php_extensions(ctx) + _get_compiled_modules(ctx)
     ini_files = glob.glob(os.path.join(ctx["BUILD_DIR"], '.bp-config', 'php', 'php.ini.d', '*.ini'))
+    is_redis = False
+    is_igbinary = False
 
     for file in ini_files:
         extensions = _parse_extensions_from_ini_file(file)
         for ext in extensions:
             if ext not in all_supported:
                 raise RuntimeError("The extension '%s' is not provided by this buildpack." % ext)
+            elif ext == "redis":
+                is_redis = True
+            elif ext == "igbinary":
+                is_igbinary  = True
 
+    if is_redis and not is_igbinary:
+        ctx['PHP_EXTENSIONS'].append("igbinary")
 
 def include_fpm_d_confs(ctx):
     ctx['PHP_FPM_CONF_INCLUDE'] = ''

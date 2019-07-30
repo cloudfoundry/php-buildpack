@@ -30,7 +30,7 @@ class TestNewRelic(object):
         self.build_dir = tempfile.mkdtemp('build-')
         self.php_dir = os.path.join(self.build_dir, 'php', 'etc')
         os.makedirs(self.php_dir)
-        shutil.copy('defaults/config/php/5.6.x/php.ini', self.php_dir)
+        shutil.copy('defaults/config/php/7.1.x/php.ini', self.php_dir)
 
     def tearDown(self):
         if os.path.exists(self.build_dir):

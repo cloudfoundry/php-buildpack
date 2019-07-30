@@ -364,6 +364,7 @@ class ComposerCommandRunner(object):
         env['COMPOSER_VENDOR_DIR'] = self._ctx['COMPOSER_VENDOR_DIR']
         env['COMPOSER_BIN_DIR'] = self._ctx['COMPOSER_BIN_DIR']
         env['COMPOSER_CACHE_DIR'] = self._ctx['COMPOSER_CACHE_DIR']
+        env['COMPOSER_INSTALL_OPTIONS'] = ' '.join(self._ctx['COMPOSER_INSTALL_OPTIONS'])
 
         # prevent key system variables from being overridden
         env['LD_LIBRARY_PATH'] = self._strategy.ld_library_path()

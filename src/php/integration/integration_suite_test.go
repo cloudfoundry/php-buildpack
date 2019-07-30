@@ -142,6 +142,12 @@ func SkipUnlessCflinuxfs2() {
 	}
 }
 
+func SkipUnlessCflinuxfs3() {
+	if stack != "cflinuxfs3" {
+		Skip("Skipping because the current stack is not cflinuxfs3")
+	}
+}
+
 func DestroyApp(app *cutlass.App) *cutlass.App {
 	if app != nil {
 		app.Destroy()
@@ -197,7 +203,7 @@ func AssertNoInternetTraffic(fixtureName string) {
 	It("has no traffic", func() {
 		SkipUnlessCached()
 
-		bpFile := filepath.Join(bpDir, buildpackVersion+"tmp")
+		bpFile := filepath.Join(bpDir, buildpackVersion+"tmp"+cutlass.RandStringRunes(8))
 		cmd := exec.Command("cp", packagedBuildpack.File, bpFile)
 		err := cmd.Run()
 		Expect(err).To(BeNil())

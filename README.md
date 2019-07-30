@@ -46,7 +46,7 @@ Buildpacks use the [Cutlass](https://github.com/cloudfoundry/libbuildpack/tree/m
 To run integration tests, run the following command:
 
 ```
-./script/integration
+./scripts/integration.sh
 ```
 
 ### Unit Tests
@@ -54,7 +54,7 @@ To run integration tests, run the following command:
 To run unit tests, run the following command:
 
 ```bash
-./script/unit
+./scripts/unit
 ```
 
 ### Requirements
