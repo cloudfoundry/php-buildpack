@@ -26,10 +26,9 @@ var _ = Describe("CF PHP Buildpack", func() {
 	})
 
 	It("configures appdynamics", func() {
-		SkipUnlessCflinuxfs2() // app depends on newrelic, so php5, so cflinuxfs2
-
 		app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_appdynamics"))
 		app.SetEnv("BP_DEBUG", "true")
+		app.Disk = "1G"
 		Expect(app.PushNoStart()).To(Succeed())
 
 		Expect(RunCf("cups", "with_appdynamics", "-p", `{"account-access-key":"fe244dc3-372f-4d36-83b0-379973103c5c","account-name":"customer1","host-name":"testhostname.com","port":"8090","ssl-enabled":"False"}`)).To(Succeed())
@@ -57,6 +56,13 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 		By("should install appdynamics agent", func() {
 			Eventually(app.Stdout.String).Should(ContainSubstring("Installing AppDynamics package..."))
+		})
+
+		By("should display appdynamics agent module", func() {
+			body, err := app.GetBody("/")
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "appdynamics_agent"))
 		})
 	})
 })
