@@ -1,0 +1,163 @@
+2019-08-06 17:44:51 Error: [PDOException] SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Driver.php on line 92
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Driver.php(92): PDO->__construct('mysql:host=loca...', 'my_app', 'secret', Array)
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php(106): Cake\Database\Driver->_connect('mysql:host=loca...', Array)
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Schema/BaseSchema.php(45): Cake\Database\Driver\Mysql->connect()
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Dialect/MysqlDialectTrait.php(63): Cake\Database\Schema\BaseSchema->__construct(Object(Cake\Database\Driver\Mysql))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(52): Cake\Database\Driver\Mysql->schemaDialect()
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Schema/CachedCollection.php(42): Cake\Database\Schema\Collection->__construct(Object(Cake\Database\Connection))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Connection.php(391): Cake\Database\Schema\CachedCollection->__construct(Object(Cake\Database\Connection), true)
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(1095): Cake\Database\Connection->getSchemaCollection()
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(1049): Bake\Shell\Task\ModelTask->_getAllTables()
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(213): Bake\Shell\Task\ModelTask->listAll()
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(131): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(114): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'users', 'Users')
+#12 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(101): Bake\Shell\Task\ModelTask->bake('Users')
+#13 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(532): Bake\Shell\Task\ModelTask->main('users')
+#14 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(525): Cake\Console\Shell->runCommand(Array, false, Array)
+#15 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(384): Cake\Console\Shell->runCommand(Array, true)
+#16 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(162): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#17 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#18 {main}
+
+
+Caused by: [PDOException] PDO::__construct(): The server requested authentication method unknown to the client [caching_sha2_password] in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Driver.php on line 92
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Driver.php(92): PDO->__construct('mysql:host=loca...', 'my_app', 'secret', Array)
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php(106): Cake\Database\Driver->_connect('mysql:host=loca...', Array)
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Schema/BaseSchema.php(45): Cake\Database\Driver\Mysql->connect()
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Dialect/MysqlDialectTrait.php(63): Cake\Database\Schema\BaseSchema->__construct(Object(Cake\Database\Driver\Mysql))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(52): Cake\Database\Driver\Mysql->schemaDialect()
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Schema/CachedCollection.php(42): Cake\Database\Schema\Collection->__construct(Object(Cake\Database\Connection))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Database/Connection.php(391): Cake\Database\Schema\CachedCollection->__construct(Object(Cake\Database\Connection), true)
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(1095): Cake\Database\Connection->getSchemaCollection()
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(1049): Bake\Shell\Task\ModelTask->_getAllTables()
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(213): Bake\Shell\Task\ModelTask->listAll()
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(131): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(114): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'users', 'Users')
+#12 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/bake/src/Shell/Task/ModelTask.php(101): Bake\Shell\Task\ModelTask->bake('Users')
+#13 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(532): Bake\Shell\Task\ModelTask->main('users')
+#14 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(525): Cake\Console\Shell->runCommand(Array, false, Array)
+#15 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(384): Cake\Console\Shell->runCommand(Array, true)
+#16 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(162): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#17 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#18 {main}
+
+
+2019-08-06 17:55:54 Error: [RuntimeException] Unknown command `cake serve`. Run `cake --help` to get the list of valid commands. in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php on line 346
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(157): Cake\Console\CommandRunner->resolveName(Object(Cake\Console\CommandCollection), Object(Cake\Console\ConsoleIo), 'serve')
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#2 {main}
+
+
+2019-08-06 17:58:20 Error: [RuntimeException] Unknown command `cake schema`. Run `cake --help` to get the list of valid commands. in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php on line 346
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(157): Cake\Console\CommandRunner->resolveName(Object(Cake\Console\CommandCollection), Object(Cake\Console\ConsoleIo), 'schema')
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#2 {main}
+
+
+2019-08-06 17:59:11 Error: [InvalidArgumentException] Could not infer database type from driver in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/ConfigurationTrait.php on line 157
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/ConfigurationTrait.php(82): Migrations\Command\Seed->getAdapterName('Sqlite')
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/robmorgan/phinx/src/Phinx/Console/Command/AbstractCommand.php(92): Migrations\Command\Seed->getConfig()
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/CommandTrait.php(64): Phinx\Console\Command\AbstractCommand->bootstrap(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/Seed.php(70): Migrations\Command\Seed->bootstrap(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Command/Command.php(255): Migrations\Command\Seed->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(921): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(273): Symfony\Component\Console\Application->doRunCommand(Object(Migrations\Command\Seed), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(149): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(109): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(532): Migrations\Shell\MigrationsShell->main('migrations', 'seed')
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(165): Cake\Console\Shell->runCommand(Array, true, Array)
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(384): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#12 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(162): Cake\Console\CommandRunner->runShell(Object(Migrations\Shell\MigrationsShell), Array)
+#13 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#14 {main}
+
+
+2019-08-06 18:06:04 Error: [Symfony\Component\Console\Exception\RuntimeException] Not enough arguments (missing: "name"). in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Input/Input.php on line 76
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Command/Command.php(250): Symfony\Component\Console\Input\Input->validate()
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(921): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(273): Symfony\Component\Console\Application->doRunCommand(Object(Migrations\Command\Create), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(149): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(109): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(532): Migrations\Shell\MigrationsShell->main('migrations', 'create')
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(165): Cake\Console\Shell->runCommand(Array, true, Array)
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(384): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(162): Cake\Console\CommandRunner->runShell(Object(Migrations\Shell\MigrationsShell), Array)
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#10 {main}
+
+
+2019-08-06 18:06:30 Error: [InvalidArgumentException] Could not infer database type from driver in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/ConfigurationTrait.php on line 157
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/ConfigurationTrait.php(82): Migrations\Command\Create->getAdapterName('Sqlite')
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/robmorgan/phinx/src/Phinx/Console/Command/AbstractCommand.php(92): Migrations\Command\Create->getConfig()
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/CommandTrait.php(64): Phinx\Console\Command\AbstractCommand->bootstrap(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/robmorgan/phinx/src/Phinx/Console/Command/Create.php(153): Migrations\Command\Create->bootstrap(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/CommandTrait.php(35): Phinx\Console\Command\Create->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/Create.php(72): Migrations\Command\Create->parentExecute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Command/Command.php(255): Migrations\Command\Create->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(921): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(273): Symfony\Component\Console\Application->doRunCommand(Object(Migrations\Command\Create), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(149): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(109): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(532): Migrations\Shell\MigrationsShell->main('migrations', 'create', 'users')
+#12 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(165): Cake\Console\Shell->runCommand(Array, true, Array)
+#13 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(384): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#14 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(162): Cake\Console\CommandRunner->runShell(Object(Migrations\Shell\MigrationsShell), Array)
+#15 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#16 {main}
+
+
+2019-08-06 18:07:43 Error: [InvalidArgumentException] The migration class name "users" is invalid. Please use CamelCase format. in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/robmorgan/phinx/src/Phinx/Console/Command/Create.php on line 176
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/CommandTrait.php(35): Phinx\Console\Command\Create->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/Create.php(72): Migrations\Command\Create->parentExecute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Command/Command.php(255): Migrations\Command\Create->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(921): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(273): Symfony\Component\Console\Application->doRunCommand(Object(Migrations\Command\Create), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(149): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(109): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(532): Migrations\Shell\MigrationsShell->main('migrations', 'create', 'users')
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(165): Cake\Console\Shell->runCommand(Array, true, Array)
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(384): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(162): Cake\Console\CommandRunner->runShell(Object(Migrations\Shell\MigrationsShell), Array)
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#12 {main}
+
+
+2019-08-06 18:08:00 Error: [InvalidArgumentException] The migration class name "addUsers" is invalid. Please use CamelCase format. in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/robmorgan/phinx/src/Phinx/Console/Command/Create.php on line 176
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/CommandTrait.php(35): Phinx\Console\Command\Create->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Command/Create.php(72): Migrations\Command\Create->parentExecute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Command/Command.php(255): Migrations\Command\Create->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(921): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(273): Symfony\Component\Console\Application->doRunCommand(Object(Migrations\Command\Create), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/symfony/console/Application.php(149): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(109): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/Shell.php(532): Migrations\Shell\MigrationsShell->main('migrations', 'create', 'addUsers')
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/migrations/src/Shell/MigrationsShell.php(165): Cake\Console\Shell->runCommand(Array, true, Array)
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(384): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(162): Cake\Console\CommandRunner->runShell(Object(Migrations\Shell\MigrationsShell), Array)
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#12 {main}
+
+
+2019-08-06 18:18:25 Error: [RuntimeException] Unknown command `cake migration`. Run `cake --help` to get the list of valid commands. in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php on line 346
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(157): Cake\Console\CommandRunner->resolveName(Object(Cake\Console\CommandCollection), Object(Cake\Console\ConsoleIo), 'migration')
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#2 {main}
+
+
+2019-08-06 18:18:36 Error: [RuntimeException] Unknown command `cake migrate`. Run `cake --help` to get the list of valid commands. in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php on line 346
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Console/CommandRunner.php(157): Cake\Console\CommandRunner->resolveName(Object(Cake\Console\CommandCollection), Object(Cake\Console\ConsoleIo), 'migrate')
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/bin/cake.php(12): Cake\Console\CommandRunner->run(Array)
+#2 {main}
+
+

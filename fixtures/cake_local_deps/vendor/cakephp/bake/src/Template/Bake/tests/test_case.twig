@@ -1,0 +1,152 @@
+{#
+/**
+ * Test Case bake template
+ *
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+{% set isController = type|lower == 'controller' %}
+{% set isShell = type|lower == 'shell' %}
+{% set isCommand = type|lower == 'command' %}
+{% if isController %}
+    {%- set traitName = 'IntegrationTestTrait' %}
+{% elseif isShell or isCommand %}
+    {%- set traitName = 'ConsoleIntegrationTestTrait' %}
+{% endif %}
+{%- set uses = uses|merge(["Cake\\TestSuite\\TestCase"]) %}
+{% if traitName %}
+    {%- set uses = uses|merge(["Cake\\TestSuite\\#{traitName}"]) %}
+{% endif %}
+
+{%- set uses = uses|sort %}
+<?php
+namespace {{ baseNamespace }}\Test\TestCase\{{ subNamespace }};
+
+{% for dependency in uses %}
+use {{ dependency }};
+{% endfor %}
+
+/**
+ * {{ fullClassName }} Test Case
+{% if isController or isCommand %}
+ *
+ * @uses \{{ fullClassName }}
+{% endif %}
+ */
+class {{ className }}Test extends TestCase
+{
+{% if traitName %}
+    use {{ traitName }};
+{% if properties or fixtures or construction or methods %}
+
+{% endif %}
+{% endif %}
+{% if properties %}
+{% for propertyInfo in properties %}
+{% if loop.index > 1 %}
+
+{% endif %}
+    /**
+     * {{ propertyInfo.description }}
+     *
+     * @var {{ propertyInfo.type }}
+     */
+    public ${{ propertyInfo.name }}{% if propertyInfo.value is defined and propertyInfo.value %} = {{ propertyInfo.value }}{% endif %};
+{% if loop.last and (fixtures or construction or methods) %}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{%- if fixtures %}
+    /**
+     * Fixtures
+     *
+     * @var array
+     */
+    public $fixtures = [{{ Bake.stringifyList(fixtures|values)|raw }}];
+{% if construction or methods %}
+
+{% endif %}
+{% endif %}
+
+{%- if construction %}
+    /**
+     * setUp method
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+{% if preConstruct %}
+        {{ preConstruct|raw }}
+{% endif %}
+{% if isCommand %}
+        {{ construction|raw }}
+{% else %}
+        $this->{{ (subject ~ ' = ' ~ construction)|raw }}
+{% endif %}
+{% if postConstruct %}
+        {{ postConstruct|raw }}
+{% endif %}
+    }
+{% if not isCommand %}
+
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        unset($this->{{ subject }});
+
+        parent::tearDown();
+    }
+{% if methods %}
+
+{% endif %}
+{% endif %}
+{% endif %}
+
+{%- for method in methods %}
+{% if loop.index > 1 %}
+
+{% endif %}
+    /**
+     * Test {{ method }} method
+     *
+     * @return void
+     */
+    public function test{{ method|camelize }}()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+{% endfor %}
+
+{%- if not methods %}
+{%- if traitName or properties or fixtures or construction or methods %}
+
+{% endif %}
+    /**
+     * Test initial setup
+     *
+     * @return void
+     */
+    public function testInitialization()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+{% endif %}
+}

@@ -17,9 +17,8 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("deploying a Cake application with local dependencies", func() {
 		It("", func() {
 			SkipUnlessCached()
-			SkipUnlessCflinuxfs2()
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_local_deps"))
-			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
+			app.StartCommand = "$HOME/bin/cake migrations migrate && $HOME/.bp/bin/start"
 			PushAppAndConfirm(app)
 
 			body, err := app.GetBody("/")
@@ -27,7 +26,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			Expect(body).To(ContainSubstring("CakePHP"))
 			Expect(body).ToNot(ContainSubstring("Missing Database Table"))
 
-			Expect(app.GetBody("/users/add")).To(ContainSubstring("Add New User"))
+			Expect(app.GetBody("/users/add")).To(ContainSubstring("Add User"))
 		})
 
 		AssertNoInternetTraffic("cake_local_deps")
@@ -36,16 +35,16 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("deploying a Cake application with remote dependencies", func() {
 		It("", func() {
 			SkipUnlessUncached()
-			SkipUnlessCflinuxfs2()
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_remote_deps"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
-			app.StartCommand = "$HOME/app/Console/cake schema create -y && $HOME/.bp/bin/start"
+			app.StartCommand = "$HOME/bin/cake migrations migrate && $HOME/.bp/bin/start"
 			PushAppAndConfirm(app)
 
 			body, err := app.GetBody("/")
 			Expect(err).ToNot(HaveOccurred())
 			Expect(body).To(ContainSubstring("CakePHP"))
 			Expect(body).ToNot(ContainSubstring("Missing Database Table"))
+			Expect(app.GetBody("/users/add")).To(ContainSubstring("Add User"))
 		})
 	})
 })

@@ -1,43 +1,51 @@
-CakePHP
-=======
+# CakePHP Application Skeleton
 
-[![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
+[![Build Status](https://img.shields.io/travis/cakephp/app/master.svg?style=flat-square)](https://travis-ci.org/cakephp/app)
+[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
 
-CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
-Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
+A skeleton for creating applications with [CakePHP](https://cakephp.org) 3.x.
 
-Some Handy Links
-----------------
+The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
 
-[CakePHP](http://www.cakephp.org) - The rapid development PHP framework
+## Installation
 
-[CookBook](http://book.cakephp.org) - THE CakePHP user documentation; start learning here!
+1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
+2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
 
-[API](http://api.cakephp.org) - A reference to CakePHP's classes
+If Composer is installed globally, run
 
-[Plugins](http://plugins.cakephp.org/) - A repository of extensions to the framework
+```bash
+composer create-project --prefer-dist cakephp/app
+```
 
-[The Bakery](http://bakery.cakephp.org) - Tips, tutorials and articles
+In case you want to use a custom app dir name (e.g. `/myapp/`):
 
-[Community Center](http://community.cakephp.org) - A source for everything community related
+```bash
+composer create-project --prefer-dist cakephp/app myapp
+```
 
-[Training](http://training.cakephp.org) - Join a live session and get skilled with the framework
+You can now either use your machine's webserver to view the default home page, or start
+up the built-in webserver with:
 
-[CakeFest](http://cakefest.org) - Don't miss our annual CakePHP conference
+```bash
+bin/cake server -p 8765
+```
 
-[Cake Software Foundation](http://cakefoundation.org) - Promoting development related to CakePHP
+Then visit `http://localhost:8765` to see the welcome page.
 
-Get Support!
-------------
+## Update
 
-[#cakephp](http://webchat.freenode.net/?channels=#cakephp) on irc.freenode.net - Come chat with us, we have cake
+Since this skeleton is a starting point for your application and various files
+would have been modified as per your needs, there isn't a way to provide
+automated upgrades, so you have to do any updates manually.
 
-[Google Group](https://groups.google.com/group/cake-php) - Community mailing list and forum
+## Configuration
 
-[GitHub Issues](https://github.com/cakephp/cakephp/issues) - Got issues? Please tell us!
+Read and edit `config/app.php` and setup the `'Datasources'` and any other
+configuration relevant for your application.
 
-[Roadmaps](https://github.com/cakephp/cakephp/wiki#roadmaps) - Want to contribute? Get involved!
+## Layout
 
-[![Bake Status](https://secure.travis-ci.org/cakephp/cakephp.png?branch=master)](http://travis-ci.org/cakephp/cakephp)
-
-![Cake Power](https://raw.github.com/cakephp/cakephp/master/lib/Cake/Console/Templates/skel/webroot/img/cake.power.gif)
+The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) (v5) CSS
+framework by default. You can, however, replace it with any other library or
+custom styles.

@@ -1,0 +1,77 @@
+2019-08-06 17:40:56 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Users could not be found.
+Exception Attributes: array (
+  'class' => 'Users',
+  'plugin' => false,
+  'prefix' => false,
+  '_ext' => false,
+)
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(39): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(91): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/BaseApplication.php(235): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Middleware/CsrfProtectionMiddleware.php(123): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\Middleware\CsrfProtectionMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(168): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(88): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#12 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(96): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#13 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#14 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/debug_kit/src/Middleware/DebugKitMiddleware.php(53): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#15 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): DebugKit\Middleware\DebugKitMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#16 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#17 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Server.php(98): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#18 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/webroot/index.php(40): Cake\Http\Server->run()
+#19 {main}
+Request URL: /users/
+
+
+2019-08-06 17:41:04 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Users could not be found.
+Exception Attributes: array (
+  'class' => 'Users',
+  'plugin' => false,
+  'prefix' => false,
+  '_ext' => false,
+)
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(39): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(91): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/BaseApplication.php(235): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#5 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Middleware/CsrfProtectionMiddleware.php(123): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#6 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\Middleware\CsrfProtectionMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#7 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#8 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(168): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(88): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#12 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(96): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#13 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#14 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/debug_kit/src/Middleware/DebugKitMiddleware.php(53): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#15 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(65): DebugKit\Middleware\DebugKitMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#16 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#17 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Http/Server.php(98): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#18 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/webroot/index.php(40): Cake\Http\Server->run()
+#19 {main}
+Request URL: /users/add
+
+
+2019-08-06 17:44:10 Error: Fatal Error (1): Class 'AppController' not found in [/Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/src/Controller/UsersController.php, line 2]
+Request URL: /users/add
+Trace:
+Cake\Error\BaseErrorHandler::handleFatalError() - CORE/src/Error/BaseErrorHandler.php, line 229
+Cake\Error\BaseErrorHandler::Cake\Error\{closure}() - CORE/src/Error/BaseErrorHandler.php, line 109
+[main] - [internal], line ??
+
+
+
+2019-08-06 17:44:10 Error: [Cake\Error\FatalErrorException] Class 'AppController' not found in /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/src/Controller/UsersController.php on line 2
+Stack Trace:
+#0 /Users/pivotal/workspace/php-buildpack/fixtures/new-cake-test/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php(109): Cake\Error\BaseErrorHandler->handleFatalError(1, 'Class 'AppContr...', '/Users/pivotal/...', 2)
+#1 [internal function]: Cake\Error\BaseErrorHandler->Cake\Error\{closure}()
+#2 {main}
+
+
+Request URL: /users/add

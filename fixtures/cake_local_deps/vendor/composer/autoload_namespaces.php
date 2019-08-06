@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log'),
-    'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
+    'josegonzalez\\Dotenv' => array($vendorDir . '/josegonzalez/dotenv/src', $vendorDir . '/josegonzalez/dotenv/tests'),
+    'Umpirsky\\' => array($vendorDir . '/umpirsky/twig-php-function/src'),
+    'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
+    'Aptoma' => array($vendorDir . '/aptoma/twig-markdown/src'),
 );
