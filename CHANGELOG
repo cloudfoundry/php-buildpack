@@ -1,3 +1,33 @@
+v4.3.80 Aug 09, 2019
+=====================
+
+* Fix appdynamics installation paths (#317)
+  - Make appdynamics test run on cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/167706665)
+
+* Update default composer version to 1.9.0
+  (https://www.pivotaltracker.com/story/show/167682628)
+
+* Add composer 1.9.0, remove composer 1.8.6
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/167681938)
+
+* Add php 7.1.31, remove php 7.1.29
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/167657652)
+
+* Add php 7.3.8, remove php 7.3.6
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/167642055)
+
+* Add php 7.2.21, remove php 7.2.19
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/167642066)
+
+* Updated php.ini files to pull in latest changes from upstream
+  We strive to make this update a no-op, but we make no guarantees that the config behavior will remain the same as compared to previous versions.
+  (https://www.pivotaltracker.com/story/show/158246149)
+
 v4.3.79 Jul 26, 2019
 =====================
 
