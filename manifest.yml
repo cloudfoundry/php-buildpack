@@ -18,7 +18,7 @@ default_versions:
 - name: php
   version: 7.2.21
 - name: httpd
-  version: 2.4.39
+  version: 2.4.41
 - name: newrelic
   version: 8.1.0.209
 - name: nginx
