@@ -1,3 +1,26 @@
+v4.3.82 Sep 05, 2019
+=====================
+
+* Removes nginx 1.15.x because it is deprecated
+  (https://www.pivotaltracker.com/story/show/167242213)
+
+* Add php 7.1.32, remove php 7.1.30
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/168213253)
+
+* Add php 7.2.22, remove php 7.2.20
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/168207560)
+
+* Add php 7.3.9, remove php 7.3.7
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/168192143)
+
+* Add appdynamics 4.5.13.3045, remove appdynamics 4.5.12.2925
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/168185275)
+
+
 v4.3.81 Aug 23, 2019
 =====================
 
