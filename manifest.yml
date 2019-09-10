@@ -20,7 +20,7 @@ default_versions:
 - name: httpd
   version: 2.4.41
 - name: newrelic
-  version: 8.1.0.209
+  version: 9.1.0.246
 - name: nginx
   version: 1.17.3
 - name: composer
@@ -111,9 +111,9 @@ dependencies:
   source: http://archive.apache.org/dist/httpd/httpd-2.4.41.tar.bz2
   source_sha256: 133d48298fe5315ae9366a0ec66282fa4040efa5d566174481077ade7d18ea40
 - name: newrelic
-  version: 8.1.0.209
-  uri: https://download.newrelic.com/php_agent/archive/8.1.0.209/newrelic-php5-8.1.0.209-linux.tar.gz
-  sha256: be1ad4e9ff3113305bc320e6dfd33e233da7ad1b8c8815ccfbfbe99af71cafa3
+  version: 9.1.0.246
+  uri: https://download.newrelic.com/php_agent/archive/9.1.0.246/newrelic-php5-9.1.0.246-linux.tar.gz
+  sha256: 9cbde17a3b06ec11494b9238cf63b47a89e92b55e18457fc0489020d303f0bd8
   cf_stacks:
   - cflinuxfs2
   - cflinuxfs3
