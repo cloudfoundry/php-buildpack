@@ -136,12 +136,6 @@ func SkipUnlessCached() {
 	}
 }
 
-func SkipUnlessCflinuxfs2() {
-	if stack != "cflinuxfs2" {
-		Skip("Skipping because the current stack is not cflinuxfs2")
-	}
-}
-
 func SkipUnlessCflinuxfs3() {
 	if stack != "cflinuxfs3" {
 		Skip("Skipping because the current stack is not cflinuxfs3")

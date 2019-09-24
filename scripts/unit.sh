@@ -6,5 +6,5 @@ source .envrc
 ./scripts/install_tools.sh
 
 cd src/*/integration/..
-export CF_STACK=${CF_STACK:-cflinuxfs2}
+export CF_STACK=${CF_STACK:-cflinuxfs3}
 ginkgo -r -skipPackage=brats,integration

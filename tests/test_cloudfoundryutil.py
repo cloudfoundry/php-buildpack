@@ -85,7 +85,7 @@ dependencies:
   version: 7.0.9
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.9-linux-x64-1469765150.tgz
   cf_stacks:
-  - cflinuxfs2
+  - cflinuxfs3
   sha256: 19e8318e1cee3fa9fd8fdcc358f01076
 '''
 
@@ -118,6 +118,6 @@ dependencies:
   version: 7.0.9
   uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.9-linux-x64-1469765150.tgz
   cf_stacks:
-  - cflinuxfs2
+  - cflinuxfs3
   sha256: 19e8318e1cee3fa9fd8fdcc358f01076
 '''
