@@ -20,7 +20,7 @@ var _ = Describe("Compile", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			if IsDockerAvailable() {
-				cmd = exec.Command("docker", "run", "--rm", "-e", "'CF_STACK=unsupported'", "-v", bpDir+":/buildpack:ro", "-w", "/buildpack", "cloudfoundry/cflinuxfs2", "./bin/compile", "/tmp/abcd", "/tmp/efgh")
+				cmd = exec.Command("docker", "run", "--rm", "-e", "'CF_STACK=unsupported'", "-v", bpDir+":/buildpack:ro", "-w", "/buildpack", "cloudfoundry/cflinuxfs3", "./bin/compile", "/tmp/abcd", "/tmp/efgh")
 			} else {
 				cmd = exec.Command("./bin/compile", "/tmp/abcd", "/tmp/efgh")
 				cmd.Env = append(os.Environ(), "CF_STACK=unsupported")

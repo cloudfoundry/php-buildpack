@@ -19,11 +19,11 @@ var _ = Describe("python unit tests", func() {
 
 		var cmd *exec.Cmd
 		if IsDockerAvailable() {
-			image := "cloudfoundry/cflinuxfs2"
+			image := "cloudfoundry/cflinuxfs3"
 
 			err = exec.Command("docker", "pull", image).Run()
 			Expect(err).ToNot(HaveOccurred())
-			cmd = exec.Command("docker", "run", "--rm", "-e", "COMPOSER_GITHUB_OAUTH_TOKEN="+os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"), "-e", "CF_STACK=cflinuxfs2", "-v", bpDir+":/buildpack2:ro", image, "bash", "-c", "cp -r /buildpack2 /buildpack; cd /buildpack; export TMPDIR=$(mktemp -d) && sudo apt-get install -y python-dev python-pip && pip install -r requirements.txt && ./run_tests.sh")
+			cmd = exec.Command("docker", "run", "--rm", "-e", "COMPOSER_GITHUB_OAUTH_TOKEN="+os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"), "-e", "CF_STACK=cflinuxfs3", "-v", bpDir+":/buildpack2:ro", image, "bash", "-c", "cp -r /buildpack2 /buildpack; cd /buildpack; export TMPDIR=$(mktemp -d) && sudo apt-get update && sudo apt-get install -y python-dev python-pip && pip install -r requirements.txt && ./run_tests.sh")
 		} else {
 			tmpDir, err := ioutil.TempDir("", "php-unit")
 			Expect(err).ToNot(HaveOccurred())
