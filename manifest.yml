@@ -80,7 +80,6 @@ dependencies:
   uri: https://packages.appdynamics.com/php/4.5.14.3101/appdynamics-php-agent-linux_x64-4.5.14.3101.tar.bz2
   sha256: 0201acdb492a997acab3f0a9a3ed3cbafc2114614cfa174cea7ce1fc967afa26
   cf_stacks:
-  - cflinuxfs2
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
   source_sha256: 0201acdb492a997acab3f0a9a3ed3cbafc2114614cfa174cea7ce1fc967afa26
