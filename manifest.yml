@@ -76,13 +76,14 @@ dependencies:
   - cflinuxfs3
   osl: https://docops.ca.com/ca-apm/10-7/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
 - name: appdynamics
-  version: 4.5.13.3045
-  uri: https://packages.appdynamics.com/php/4.5.13.3045/appdynamics-php-agent-linux_x64-4.5.13.3045.tar.bz2
-  sha256: a131b1fa547381e5398abc6677b1202db4a263c1a5293a1bc22978935131cfea
+  version: 4.5.14.3101
+  uri: https://packages.appdynamics.com/php/4.5.14.3101/appdynamics-php-agent-linux_x64-4.5.14.3101.tar.bz2
+  sha256: 0201acdb492a997acab3f0a9a3ed3cbafc2114614cfa174cea7ce1fc967afa26
   cf_stacks:
+  - cflinuxfs2
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
-  source_sha256: a131b1fa547381e5398abc6677b1202db4a263c1a5293a1bc22978935131cfea
+  source_sha256: 0201acdb492a997acab3f0a9a3ed3cbafc2114614cfa174cea7ce1fc967afa26
 - name: composer
   version: 1.9.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.9.0-1126fd75.phar

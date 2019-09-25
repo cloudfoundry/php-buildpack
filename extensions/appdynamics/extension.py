@@ -51,7 +51,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         """
         return {
                 'APPDYNAMICS_HOST': 'packages.appdynamics.com',
-                'APPDYNAMICS_VERSION': '4.5.13.3045',
+                'APPDYNAMICS_VERSION': '4.5.14.3101',
                 'APPDYNAMICS_PACKAGE': 'appdynamics-php-agent-linux_x64-{APPDYNAMICS_VERSION}.tar.bz2',
                 'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/php/{APPDYNAMICS_VERSION}/{APPDYNAMICS_PACKAGE}'
         }
