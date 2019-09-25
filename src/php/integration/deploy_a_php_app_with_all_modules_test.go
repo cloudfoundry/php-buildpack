@@ -55,22 +55,8 @@ var _ = Describe("CF PHP Buildpack", func() {
 			})
 
 			ItLoadsAllTheModules(app, "7.1")
-		})
-
-		It("deploying a basic PHP7.1 app with cflinuxfs3 only extensions", func() {
-			SkipUnlessCflinuxfs3()
-
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_71_fs3_extensions"))
-			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
-
-			By("warns about deprecated PHP_EXTENSIONS", func() {
-				PushAppAndConfirm(app)
-				Expect(app.Stdout.String()).To(ContainSubstring("Warning: PHP_EXTENSIONS in options.json is deprecated."))
-			})
-
 			body, err := app.GetBody("/")
 			Expect(err).ToNot(HaveOccurred())
-
 			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "sqlsrv"))
 			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "pdo_sqlsrv"))
 			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", "maxminddb"))
