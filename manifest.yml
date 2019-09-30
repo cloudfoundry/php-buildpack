@@ -16,7 +16,7 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 7.2.22
+  version: 7.2.23
 - name: httpd
   version: 2.4.41
 - name: newrelic
@@ -283,13 +283,13 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.21
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.21-linux-x64-cflinuxfs3-f5eae770.tgz
-  sha256: f5eae7704a2e8fd3eecff85850c6f302ce8e7da73cb75e56ff64a65c60779195
+  version: 7.2.22
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.22-linux-x64-cflinuxfs3-c9315fce.tgz
+  sha256: c9315fce7090db3c26d5823d5ed60a1851864dc44fda5dfe50998862c9d2219b
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.2.21.tar.gz
-  source_sha256: 8327682bee4a8fd2edf5bbfcc393d986b945bec433fc74458d05e766701b313c
+  source: https://php.net/distributions/php-7.2.22.tar.gz
+  source_sha256: 6e2ccc77484c27971d4550b7071a57b79bc910bfb2d4a74a57ae2c18b78c3dc7
   modules:
   - amqp
   - apcu
@@ -362,13 +362,13 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.2.22
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.22-linux-x64-cflinuxfs3-c9315fce.tgz
-  sha256: c9315fce7090db3c26d5823d5ed60a1851864dc44fda5dfe50998862c9d2219b
+  version: 7.2.23
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.23-linux-x64-cflinuxfs3-7c9e73be.tgz
+  sha256: 7c9e73be2c08c5809307f59533f35f7577265af722836a181014f963e37f62e9
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.2.22.tar.gz
-  source_sha256: 6e2ccc77484c27971d4550b7071a57b79bc910bfb2d4a74a57ae2c18b78c3dc7
+  source: https://php.net/distributions/php-7.2.23.tar.gz
+  source_sha256: b32b426c84ff45154d6c11f00aff433bcac831a5c0a09bf0297075eefaea8fcc
   modules:
   - amqp
   - apcu
