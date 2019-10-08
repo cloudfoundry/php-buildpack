@@ -516,8 +516,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.3.10
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.10-linux-x64-cflinuxfs3-479b6128.tgz
-  sha256: 479b61280081c8ae05876231f61a55ee9361d5875ca861de7287b50446b1a2a7
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.10-linux-x64-cflinuxfs3-9996372a.tgz
+  sha256: 9996372a5e0aed8f8bef95c85a01f5e425bb10452cf5daa2cf94ceb151964b53
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.10.tar.gz
