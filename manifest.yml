@@ -204,8 +204,8 @@ dependencies:
   - zlib
 - name: php
   version: 7.1.32
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.32-linux-x64-cflinuxfs3-3fbe637b.tgz
-  sha256: 3fbe637b70ac3d89452a62176fae1688b515f6a6a91ae2a4b5d20b7cd4293bd9
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.32-linux-x64-cflinuxfs3-bb73cf6a.tgz
+  sha256: bb73cf6aff98fee621cce8623a383ed6aceca11ac5a03b099c7d0f6383100ddb
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.1.32.tar.gz
@@ -271,6 +271,7 @@ dependencies:
   - sysvmsg
   - sysvsem
   - sysvshm
+  - tideways
   - tideways_xhprof
   - tidy
   - wddx
