@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -20,7 +19,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying a basic PHP71 app with custom conf files in php.ini.d dir in app root", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_71_with_php_ini_d"))
+			app = cutlass.New(Fixtures("php_71_with_php_ini_d"))
 		})
 
 		It("sets custom configurations", func() {
@@ -32,7 +31,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying an app with an invalid extension in php.ini.d dir", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "invalid_php_ini_d"))
+			app = cutlass.New(Fixtures("invalid_php_ini_d"))
 		})
 
 		It("fails during staging", func() {

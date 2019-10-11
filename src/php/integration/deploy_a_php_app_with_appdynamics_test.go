@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os/exec"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -26,7 +25,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	})
 
 	It("configures appdynamics", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_appdynamics"))
+		app = cutlass.New(Fixtures("with_appdynamics"))
 		app.SetEnv("BP_DEBUG", "true")
 		app.Disk = "1G"
 		Expect(app.PushNoStart()).To(Succeed())

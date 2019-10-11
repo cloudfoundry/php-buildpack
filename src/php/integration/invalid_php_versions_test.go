@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -15,7 +14,7 @@ var _ = Describe("invalid PHP versions", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("version is specified using .bp-config/options.json", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "invalid_php_version"))
+		app = cutlass.New(Fixtures("invalid_php_version"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 
 		By("stages successfully")
@@ -30,7 +29,7 @@ var _ = Describe("invalid PHP versions", func() {
 	})
 
 	It("version is specified using composer.json", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "invalid_php_version_composer"))
+		app = cutlass.New(Fixtures("invalid_php_version_composer"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 
 		By("does not stage successfully")

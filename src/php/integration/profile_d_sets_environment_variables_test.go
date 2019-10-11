@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -16,7 +15,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying a PHP app with .profile.d directory", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_profile_d"))
+			app = cutlass.New(Fixtures("with_profile_d"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			PushAppAndConfirm(app)
 		})
@@ -31,7 +30,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			Skip(".profile script functionality not supported before CF API version 2.75.0")
 		}
 
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_profile_script"))
+		app = cutlass.New(Fixtures("with_profile_script"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		PushAppAndConfirm(app)
 

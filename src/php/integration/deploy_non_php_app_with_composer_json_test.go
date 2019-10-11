@@ -1,7 +1,6 @@
 package integration_test
 
 import (
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -16,7 +15,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying a non php app with composer.json file", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "non_php_composer_json"))
+			app = cutlass.New(Fixtures("non_php_composer_json"))
 		})
 		It("does not detect the app", func() {
 			Expect(app.Push()).ToNot(Succeed())

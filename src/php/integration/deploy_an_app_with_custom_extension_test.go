@@ -1,8 +1,6 @@
 package integration_test
 
 import (
-	"path/filepath"
-
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
 	. "github.com/onsi/ginkgo"
@@ -15,7 +13,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("app has a custom extension", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "custom_extension"))
+			app = cutlass.New(Fixtures("custom_extension"))
 			PushAppAndConfirm(app)
 		})
 		It("deploys successfully", func() {

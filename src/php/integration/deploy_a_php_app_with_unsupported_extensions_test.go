@@ -1,8 +1,6 @@
 package integration_test
 
 import (
-	"path/filepath"
-
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
 	. "github.com/onsi/ginkgo"
@@ -14,7 +12,7 @@ var _ = Describe("An app deployed specifying unsupported extensions and valid", 
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("runs", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "unsupported_extensions"))
+		app = cutlass.New(Fixtures("unsupported_extensions"))
 		PushAppAndConfirm(app)
 
 		By("should say which extensions are not supported")

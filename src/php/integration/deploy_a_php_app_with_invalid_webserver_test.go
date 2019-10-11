@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -17,7 +16,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying a basic PHP app using 'apache' as the webserver", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "invalid_webserver"))
+			app = cutlass.New(Fixtures("invalid_webserver"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		})
 

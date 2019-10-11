@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -17,7 +16,7 @@ var _ = Describe("App that uses Kafka", func() {
 	Context("deploying a basic PHP app using RdKafka module", func() {
 		Context("after the RdKafka module has been loaded into PHP", func() {
 			BeforeEach(func() {
-				app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_rdkafka"))
+				app = cutlass.New(Fixtures("with_rdkafka"))
 				app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 				PushAppAndConfirm(app)
 			})

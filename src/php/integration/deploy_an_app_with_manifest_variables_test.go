@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -16,7 +15,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying a composer app with post install commands", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "composer_env_sniffer"))
+			app = cutlass.New(Fixtures("composer_env_sniffer"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			PushAppAndConfirm(app)
 		})

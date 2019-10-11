@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -16,7 +15,7 @@ var _ = Describe("When composer.json is invalid JSON", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("fails to stage", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "composer_invalid_json"))
+		app = cutlass.New(Fixtures("composer_invalid_json"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		Expect(app.Push()).ToNot(Succeed())
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())

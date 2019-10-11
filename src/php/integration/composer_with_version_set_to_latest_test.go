@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -15,7 +14,7 @@ var _ = Describe("Composer with version set to 'latest'", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "composer_latest_version"))
+		app = cutlass.New(Fixtures("composer_latest_version"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 
 		if cutlass.Cached {

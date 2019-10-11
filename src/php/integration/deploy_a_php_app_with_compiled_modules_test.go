@@ -1,8 +1,6 @@
 package integration_test
 
 import (
-	"path/filepath"
-
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
 	. "github.com/onsi/ginkgo"
@@ -14,7 +12,7 @@ var _ = Describe("deploying a basic PHP app with compiled modules in PHP_EXTENSI
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("starts", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_compiled_modules"))
+		app = cutlass.New(Fixtures("with_compiled_modules"))
 		PushAppAndConfirm(app)
 
 		By("does not log an error metioning libxml, simplexml, spl or sqlite3", func() {

@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -20,7 +19,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		})
 
 		It("succeeds", func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_newrelic"))
+			app = cutlass.New(Fixtures("with_newrelic"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			app.SetEnv("BP_DEBUG", "true")
 			PushAppAndConfirm(app)

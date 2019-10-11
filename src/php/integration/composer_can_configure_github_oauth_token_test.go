@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -18,7 +17,7 @@ var _ = Describe("Composer", func() {
 	BeforeEach(func() {
 		SkipUnlessUncached()
 
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "local_dependencies"))
+		app = cutlass.New(Fixtures("local_dependencies"))
 	})
 
 	It("deploying an app with valid $COMPOSER_GITHUB_OAUTH_TOKEN variable set", func() {

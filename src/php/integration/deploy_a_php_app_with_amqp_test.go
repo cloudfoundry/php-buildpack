@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -18,7 +17,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("deploying a basic PHP app using AMQP module", func() {
 		Context("after the AMQP module has been loaded into PHP", func() {
 			It("succeeds", func() {
-				app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_amqp"))
+				app = cutlass.New(Fixtures("with_amqp"))
 				app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 				PushAppAndConfirm(app)
 

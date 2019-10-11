@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -18,7 +17,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("deploying a basic PHP app using phpredis module", func() {
 		Context("after the phpredis module has been loaded into PHP", func() {
 			BeforeEach(func() {
-				app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_phpredis"))
+				app = cutlass.New(Fixtures("with_phpredis"))
 				app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 				PushAppAndConfirm(app)
 			})

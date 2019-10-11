@@ -1,7 +1,6 @@
 package integration_test
 
 import (
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -15,7 +14,7 @@ var _ = Describe("Composer with custom path", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("succeeds", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "composer_custom_path"))
+		app = cutlass.New(Fixtures("composer_custom_path"))
 		app.SetEnv("COMPOSER_PATH", "meatball/sub")
 		PushAppAndConfirm(app)
 

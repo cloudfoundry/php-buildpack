@@ -96,6 +96,14 @@ func Restart(app *cutlass.App) {
 	Eventually(func() ([]string, error) { return app.InstanceStates() }, 20*time.Second).Should(Equal([]string{"RUNNING"}))
 }
 
+func Fixtures(names ...string) string {
+	root, err := cutlass.FindRoot()
+	Expect(err).NotTo(HaveOccurred())
+
+	names = append([]string{root, "fixtures"}, names...)
+	return filepath.Join(names...)
+}
+
 func ApiGreaterThan(version string) bool {
 	apiVersionString, err := cutlass.ApiVersion()
 	Expect(err).To(BeNil())
@@ -176,7 +184,7 @@ func AssertUsesProxyDuringStagingIfPresent(fixtureName string) {
 
 			traffic, _, _, err := cutlass.InternetTraffic(
 				bpDir,
-				filepath.Join("fixtures", fixtureName),
+				Fixtures(fixtureName),
 				bpFile,
 				[]string{"HTTP_PROXY=" + proxy.URL, "HTTPS_PROXY=" + proxy.URL},
 			)
@@ -205,7 +213,7 @@ func AssertNoInternetTraffic(fixtureName string) {
 
 		traffic, _, _, err := cutlass.InternetTraffic(
 			bpDir,
-			filepath.Join("fixtures", fixtureName),
+			Fixtures(fixtureName),
 			bpFile,
 			[]string{},
 		)

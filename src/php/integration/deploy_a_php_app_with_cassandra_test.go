@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -32,7 +31,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("deploying a basic PHP app using Cassandra module", func() {
 		Context("after the Cassandra module has been loaded into PHP", func() {
 			It("configures Cassandra", func() {
-				app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_cassandra"))
+				app = cutlass.New(Fixtures("with_cassandra"))
 				app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 				Expect(app.PushNoStart()).To(Succeed())
 

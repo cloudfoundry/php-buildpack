@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os/exec"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -21,7 +20,7 @@ var _ = Describe("Deploy app with", func() {
 	}
 
 	BeforeEach(func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "with_dynatrace"))
+		app = cutlass.New(Fixtures("with_dynatrace"))
 		app.SetEnv("BP_DEBUG", "true")
 		Expect(app.PushNoStart()).To(Succeed())
 	})

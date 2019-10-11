@@ -17,7 +17,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 	Context("deploying a basic PHP app using the latest PHP71", func() {
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_71_latest"))
+			app = cutlass.New(Fixtures("php_71_latest"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		})
 

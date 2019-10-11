@@ -1,8 +1,6 @@
 package integration_test
 
 import (
-	"path/filepath"
-
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
 	. "github.com/onsi/ginkgo"
@@ -14,7 +12,7 @@ var _ = Describe("Composer with unicode env variables", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	It("", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "strangechars"))
+		app = cutlass.New(Fixtures("strangechars"))
 		app.SetEnv("BP_DEBUG", "1")
 
 		PushAppAndConfirm(app)

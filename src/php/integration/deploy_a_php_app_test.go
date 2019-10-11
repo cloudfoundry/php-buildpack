@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -15,7 +14,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	AfterEach(func() { app = DestroyApp(app) })
 
 	BeforeEach(func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "php_app"))
+		app = cutlass.New(Fixtures("php_app"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		app.SetEnv("BP_DEBUG", "1")
 	})

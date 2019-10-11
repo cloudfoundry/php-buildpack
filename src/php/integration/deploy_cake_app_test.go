@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -17,7 +16,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("deploying a Cake application with local dependencies", func() {
 		It("", func() {
 			SkipUnlessCached()
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_local_deps"))
+			app = cutlass.New(Fixtures("cake_local_deps"))
 			app.StartCommand = "$HOME/bin/cake migrations migrate && $HOME/.bp/bin/start"
 			PushAppAndConfirm(app)
 
@@ -35,7 +34,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	Context("deploying a Cake application with remote dependencies", func() {
 		It("", func() {
 			SkipUnlessUncached()
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "cake_remote_deps"))
+			app = cutlass.New(Fixtures("cake_remote_deps"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			app.StartCommand = "$HOME/bin/cake migrations migrate && $HOME/.bp/bin/start"
 			PushAppAndConfirm(app)

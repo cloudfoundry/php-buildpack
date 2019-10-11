@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"os"
-	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -17,7 +16,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	It("deploying a symfony 2.1 app with locally-vendored dependencies", func() {
 		SkipUnlessCached()
 
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "symfony_2_local_deps"))
+		app = cutlass.New(Fixtures("symfony_2_local_deps"))
 		PushAppAndConfirm(app)
 
 		By("dynamically generates the content for the root route")
@@ -30,7 +29,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	It("deploying a symfony 2.1 app with remotely-sourced dependencies", func() {
 		SkipUnlessUncached()
 
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "symfony_2_remote_deps"))
+		app = cutlass.New(Fixtures("symfony_2_remote_deps"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		PushAppAndConfirm(app)
 
@@ -39,7 +38,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 	})
 
 	It("deploying a symfony 2.8 app", func() {
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "symfony_28_remote_deps"))
+		app = cutlass.New(Fixtures("symfony_28_remote_deps"))
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		PushAppAndConfirm(app)
 
