@@ -20,6 +20,10 @@ v4.4.0 Oct 11, 2019
 * Add and use newrelic 9.1.0.246, remove newrelic 8.1.0.209.
   (https://www.pivotaltracker.com/story/show/168401200)
 
+* Bumped PHP modules
+	- Fixes Github Issue [#322](https://github.com/cloudfoundry/php-buildpack/issues/322)
+  (https://www.pivotaltracker.com/story/show/168863951)
+
 
 v4.3.82 Sep 05, 2019
 =====================
