@@ -1,3 +1,32 @@
+v4.4.1 Oct 28, 2019
+====================
+
+* Pin nginx default version
+  * Default versions in the php buildpack can't be floating versions
+
+* Add php 7.1.33, remove php 7.1.31
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169354460)
+
+* Update nginx 1.17.x version to float.
+
+* Add php 7.2.24, remove php 7.2.22
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169338343)
+
+* Add php 7.3.11, remove php 7.3.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169338344)
+
+* Add nginx 1.17.5, remove nginx 1.17.4
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169293588)
+
+* Add appdynamics 4.5.15.3142, remove appdynamics 4.5.14.3101
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169281539)
+
+
 v4.4.0 Oct 11, 2019
 =====================
 
