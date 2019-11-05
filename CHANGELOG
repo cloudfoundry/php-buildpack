@@ -1,3 +1,14 @@
+v4.4.2 Nov 05, 2019
+====================
+
+* Update default composer version to 1.9.1
+  (https://www.pivotaltracker.com/story/show/169568686)
+
+* Add composer 1.9.1, remove composer 1.9.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169507186)
+
+
 v4.4.1 Oct 28, 2019
 ====================
 
