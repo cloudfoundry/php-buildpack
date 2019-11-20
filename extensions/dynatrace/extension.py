@@ -100,6 +100,7 @@ class DynatraceInstaller(object):
             try:
                 request = urllib2.Request(url)
                 request.add_header("user-agent", "cf-php-buildpack/" + self.get_buildpack_version())
+                request.add_header("Authorization", "Api-Token {token}".format(token=self._ctx['DYNATRACE_TOKEN']))
                 result = urllib2.urlopen(request)
                 f = open(dest, 'w')
                 f.write(result.read())
@@ -117,7 +118,7 @@ class DynatraceInstaller(object):
     def download_oneagent_installer(self):
         self.create_folder(os.path.join(self._ctx['BUILD_DIR'], 'dynatrace'))
         installer = self._get_oneagent_installer_path()
-        url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?Api-Token=' + self._ctx['DYNATRACE_TOKEN'] + '&bitness=64&include=php&include=nginx&include=apache'
+        url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?bitness=64&include=php&include=nginx&include=apache'
         skiperrors = self._ctx['DYNATRACE_SKIPERRORS']
 
         try:
