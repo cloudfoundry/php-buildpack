@@ -16,6 +16,11 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+var _ = func() bool {
+	testing.Init()
+	return true
+}()
+
 func init() {
 	flag.StringVar(&cutlass.DefaultMemory, "memory", "256M", "default memory for pushed apps")
 	flag.StringVar(&cutlass.DefaultDisk, "disk", "384M", "default disk for pushed apps")

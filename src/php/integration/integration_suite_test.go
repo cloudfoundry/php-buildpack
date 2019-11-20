@@ -25,6 +25,11 @@ var buildpackVersion string
 var stack string
 var packagedBuildpack cutlass.VersionedBuildpackPackage
 
+var _ = func() bool {
+	testing.Init()
+	return true
+}()
+
 func init() {
 	flag.StringVar(&buildpackVersion, "version", "", "version to use (builds if empty)")
 	flag.BoolVar(&cutlass.Cached, "cached", true, "cached buildpack")
