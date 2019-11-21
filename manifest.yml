@@ -441,13 +441,13 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.3.10
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.10-linux-x64-cflinuxfs3-d9a992a5.tgz
-  sha256: d9a992a53bf45981a55673978f9b6fe759b0412d531a9e8d894fd9b4a22dac25
+  version: 7.3.11
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.11-linux-x64-cflinuxfs3-4268e883.tgz
+  sha256: 4268e883c7c748106eb2d7dfcc2b2277ed2cfffe621afaf6241033773a3dc182
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.3.10.tar.gz
-  source_sha256: fb670723a9b8fda31c89529f27e0dda289d8af4b6ce9f152c8010876639c0fb4
+  source: https://php.net/distributions/php-7.3.11.tar.gz
+  source_sha256: 8f385f5bdf9193791f6c0f6303f518f3c324b6655ac108fdb3c426da7f3cf4d4
   modules:
   - apcu
   - bz2
@@ -516,13 +516,13 @@ dependencies:
   - zip
   - zlib
 - name: php
-  version: 7.3.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.11-linux-x64-cflinuxfs3-4268e883.tgz
-  sha256: 4268e883c7c748106eb2d7dfcc2b2277ed2cfffe621afaf6241033773a3dc182
+  version: 7.3.12
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.12-linux-x64-cflinuxfs3-dd6ec29f.tgz
+  sha256: dd6ec29fc7e5e09faf45397ce9f435ba0d8a0e05a9f2cfd0d5b06d1b77087189
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.3.11.tar.gz
-  source_sha256: 8f385f5bdf9193791f6c0f6303f518f3c324b6655ac108fdb3c426da7f3cf4d4
+  source: https://php.net/distributions/php-7.3.12.tar.gz
+  source_sha256: d617e5116f8472a628083f448ebe4afdbc4ac013c9a890b08946649dcbe61b34
   modules:
   - apcu
   - bz2
