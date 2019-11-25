@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'tmpdir'
+
+
+def php_modules_from(version:, url:)
+  Dir.mktmpdir do |dir|
+    Dir.chdir(dir) do
+      `wget --no-verbose #{url} && tar xzf #{File.basename(url)}`
+      Dir['php/lib/php/extensions/no-debug-non-zts-*/*.so'].collect do |file|
+        File.basename(file, '.so')
+      end.sort.reject do |m|
+        %w(odbc gnupg).include?(m)
+      end
+    end
+  end
+end
+
+manifest = YAML.load_file('manifest.yml')
+manifest['dependencies'].map do |dependency|
+  if dependency.fetch('name') == 'php'
+    expected_modules = php_modules_from(version: dependency.fetch('version'), url: dependency.fetch('uri')).sort
+    actual_modules = dependency['dependencies'].map{|d| d['name']}.sort
+    if expected_modules != actual_modules
+      puts "Mismatched dependencies for #{dependency['name']} #{dependency['version']}"
+      missing = expected_modules - actual_modules
+      extra = actual_modules - expected_modules
+      puts "Missing: #{missing.join(', ')}" unless missing.empty?
+      puts "Extra: #{extra.join(', ')}" unless extra.empty?
+      exit 1
+    end
+  end
+end
