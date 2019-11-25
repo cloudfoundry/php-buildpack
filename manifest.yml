@@ -130,78 +130,78 @@ dependencies:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.1.32.tar.gz
   source_sha256: 6e51a2fc610352438b2a1c40310468a1e2b5baf2fff43be77f9f408a9111590c
-  modules:
-  - amqp
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - enchant
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - geoip
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - interbase
-  - ioncube
-  - ldap
-  - lua
-  - lzf
-  - mailparse
-  - maxminddb
-  - mbstring
-  - mcrypt
-  - memcached
-  - mongodb
-  - msgpack
-  - mysqli
-  - oauth
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_firebird
-  - pdo_mysql
-  - pdo_odbc
-  - pdo_pgsql
-  - pdo_sqlite
-  - pdo_sqlsrv
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - pspell
-  - rdkafka
-  - readline
-  - recode
-  - redis
-  - shmop
-  - snmp
-  - soap
-  - sockets
-  - solr
-  - sqlsrv
-  - stomp
-  - sysvmsg
-  - sysvsem
-  - sysvshm
-  - tideways
-  - tideways_xhprof
-  - tidy
-  - wddx
-  - xdebug
-  - xmlrpc
-  - xsl
-  - yaf
-  - yaml
-  - zip
-  - zlib
+  dependencies:
+  - name: amqp
+  - name: apcu
+  - name: bz2
+  - name: cassandra
+  - name: curl
+  - name: dba
+  - name: enchant
+  - name: exif
+  - name: fileinfo
+  - name: ftp
+  - name: gd
+  - name: geoip
+  - name: gettext
+  - name: gmp
+  - name: igbinary
+  - name: imagick
+  - name: imap
+  - name: interbase
+  - name: ioncube
+  - name: ldap
+  - name: lua
+  - name: lzf
+  - name: mailparse
+  - name: maxminddb
+  - name: mbstring
+  - name: mcrypt
+  - name: memcached
+  - name: mongodb
+  - name: msgpack
+  - name: mysqli
+  - name: oauth
+  - name: opcache
+  - name: openssl
+  - name: pcntl
+  - name: pdo
+  - name: pdo_firebird
+  - name: pdo_mysql
+  - name: pdo_odbc
+  - name: pdo_pgsql
+  - name: pdo_sqlite
+  - name: pdo_sqlsrv
+  - name: pgsql
+  - name: phalcon
+  - name: phpiredis
+  - name: protobuf
+  - name: pspell
+  - name: rdkafka
+  - name: readline
+  - name: recode
+  - name: redis
+  - name: shmop
+  - name: snmp
+  - name: soap
+  - name: sockets
+  - name: solr
+  - name: sqlsrv
+  - name: stomp
+  - name: sysvmsg
+  - name: sysvsem
+  - name: sysvshm
+  - name: tideways
+  - name: tideways_xhprof
+  - name: tidy
+  - name: wddx
+  - name: xdebug
+  - name: xmlrpc
+  - name: xsl
+  - name: yaf
+  - name: yaml
+  - name: zip
+  - name: zlib
 - name: php
   version: 7.1.33
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.1.33-linux-x64-cflinuxfs3-8f3eb28c.tgz
@@ -210,78 +210,78 @@ dependencies:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.1.33.tar.gz
   source_sha256: 0055f368ffefe51d5a4483755bd17475e88e74302c08b727952831c5b2682ea2
-  modules:
-  - amqp
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - enchant
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - geoip
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - interbase
-  - ioncube
-  - ldap
-  - lua
-  - lzf
-  - mailparse
-  - maxminddb
-  - mbstring
-  - mcrypt
-  - memcached
-  - mongodb
-  - msgpack
-  - mysqli
-  - oauth
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_firebird
-  - pdo_mysql
-  - pdo_odbc
-  - pdo_pgsql
-  - pdo_sqlite
-  - pdo_sqlsrv
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - pspell
-  - rdkafka
-  - readline
-  - recode
-  - redis
-  - shmop
-  - snmp
-  - soap
-  - sockets
-  - solr
-  - sqlsrv
-  - stomp
-  - sysvmsg
-  - sysvsem
-  - sysvshm
-  - tideways
-  - tideways_xhprof
-  - tidy
-  - wddx
-  - xdebug
-  - xmlrpc
-  - xsl
-  - yaf
-  - yaml
-  - zip
-  - zlib
+  dependencies:
+  - name: amqp
+  - name: apcu
+  - name: bz2
+  - name: cassandra
+  - name: curl
+  - name: dba
+  - name: enchant
+  - name: exif
+  - name: fileinfo
+  - name: ftp
+  - name: gd
+  - name: geoip
+  - name: gettext
+  - name: gmp
+  - name: igbinary
+  - name: imagick
+  - name: imap
+  - name: interbase
+  - name: ioncube
+  - name: ldap
+  - name: lua
+  - name: lzf
+  - name: mailparse
+  - name: maxminddb
+  - name: mbstring
+  - name: mcrypt
+  - name: memcached
+  - name: mongodb
+  - name: msgpack
+  - name: mysqli
+  - name: oauth
+  - name: opcache
+  - name: openssl
+  - name: pcntl
+  - name: pdo
+  - name: pdo_firebird
+  - name: pdo_mysql
+  - name: pdo_odbc
+  - name: pdo_pgsql
+  - name: pdo_sqlite
+  - name: pdo_sqlsrv
+  - name: pgsql
+  - name: phalcon
+  - name: phpiredis
+  - name: protobuf
+  - name: pspell
+  - name: rdkafka
+  - name: readline
+  - name: recode
+  - name: redis
+  - name: shmop
+  - name: snmp
+  - name: soap
+  - name: sockets
+  - name: solr
+  - name: sqlsrv
+  - name: stomp
+  - name: sysvmsg
+  - name: sysvsem
+  - name: sysvshm
+  - name: tideways
+  - name: tideways_xhprof
+  - name: tidy
+  - name: wddx
+  - name: xdebug
+  - name: xmlrpc
+  - name: xsl
+  - name: yaf
+  - name: yaml
+  - name: zip
+  - name: zlib
 - name: php
   version: 7.2.24
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.24-linux-x64-cflinuxfs3-7a9bcb0f.tgz
@@ -290,77 +290,77 @@ dependencies:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.24.tar.gz
   source_sha256: 01baf7a34c856d2c552121fbad7296a8cde18389ce83db32f18252bc1cee4dd6
-  modules:
-  - amqp
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - enchant
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - geoip
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - interbase
-  - ioncube
-  - ldap
-  - lua
-  - lzf
-  - mailparse
-  - maxminddb
-  - mbstring
-  - memcached
-  - mongodb
-  - msgpack
-  - mysqli
-  - oauth
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_firebird
-  - pdo_mysql
-  - pdo_odbc
-  - pdo_pgsql
-  - pdo_sqlite
-  - pdo_sqlsrv
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - pspell
-  - rdkafka
-  - readline
-  - recode
-  - redis
-  - shmop
-  - snmp
-  - soap
-  - sockets
-  - sodium
-  - sqlsrv
-  - stomp
-  - sysvmsg
-  - sysvsem
-  - sysvshm
-  - tideways
-  - tideways_xhprof
-  - tidy
-  - wddx
-  - xdebug
-  - xmlrpc
-  - xsl
-  - yaf
-  - yaml
-  - zip
-  - zlib
+  dependencies:
+  - name: amqp
+  - name: apcu
+  - name: bz2
+  - name: cassandra
+  - name: curl
+  - name: dba
+  - name: enchant
+  - name: exif
+  - name: fileinfo
+  - name: ftp
+  - name: gd
+  - name: geoip
+  - name: gettext
+  - name: gmp
+  - name: igbinary
+  - name: imagick
+  - name: imap
+  - name: interbase
+  - name: ioncube
+  - name: ldap
+  - name: lua
+  - name: lzf
+  - name: mailparse
+  - name: maxminddb
+  - name: mbstring
+  - name: memcached
+  - name: mongodb
+  - name: msgpack
+  - name: mysqli
+  - name: oauth
+  - name: opcache
+  - name: openssl
+  - name: pcntl
+  - name: pdo
+  - name: pdo_firebird
+  - name: pdo_mysql
+  - name: pdo_odbc
+  - name: pdo_pgsql
+  - name: pdo_sqlite
+  - name: pdo_sqlsrv
+  - name: pgsql
+  - name: phalcon
+  - name: phpiredis
+  - name: protobuf
+  - name: pspell
+  - name: rdkafka
+  - name: readline
+  - name: recode
+  - name: redis
+  - name: shmop
+  - name: snmp
+  - name: soap
+  - name: sockets
+  - name: sodium
+  - name: sqlsrv
+  - name: stomp
+  - name: sysvmsg
+  - name: sysvsem
+  - name: sysvshm
+  - name: tideways
+  - name: tideways_xhprof
+  - name: tidy
+  - name: wddx
+  - name: xdebug
+  - name: xmlrpc
+  - name: xsl
+  - name: yaf
+  - name: yaml
+  - name: zip
+  - name: zlib
 - name: php
   version: 7.2.25
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.25-linux-x64-cflinuxfs3-3e0a7fc5.tgz
@@ -369,77 +369,77 @@ dependencies:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.25.tar.gz
   source_sha256: b2cb1bd46454d33b2c65c2fd559f464cd14e57dd47b953adf5caa77fdf0de52b
-  modules:
-  - amqp
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - enchant
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - geoip
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - interbase
-  - ioncube
-  - ldap
-  - lua
-  - lzf
-  - mailparse
-  - maxminddb
-  - mbstring
-  - memcached
-  - mongodb
-  - msgpack
-  - mysqli
-  - oauth
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_firebird
-  - pdo_mysql
-  - pdo_odbc
-  - pdo_pgsql
-  - pdo_sqlite
-  - pdo_sqlsrv
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - pspell
-  - rdkafka
-  - readline
-  - recode
-  - redis
-  - shmop
-  - snmp
-  - soap
-  - sockets
-  - sodium
-  - sqlsrv
-  - stomp
-  - sysvmsg
-  - sysvsem
-  - sysvshm
-  - tideways
-  - tideways_xhprof
-  - tidy
-  - wddx
-  - xdebug
-  - xmlrpc
-  - xsl
-  - yaf
-  - yaml
-  - zip
-  - zlib
+  dependencies:
+  - name: amqp
+  - name: apcu
+  - name: bz2
+  - name: cassandra
+  - name: curl
+  - name: dba
+  - name: enchant
+  - name: exif
+  - name: fileinfo
+  - name: ftp
+  - name: gd
+  - name: geoip
+  - name: gettext
+  - name: gmp
+  - name: igbinary
+  - name: imagick
+  - name: imap
+  - name: interbase
+  - name: ioncube
+  - name: ldap
+  - name: lua
+  - name: lzf
+  - name: mailparse
+  - name: maxminddb
+  - name: mbstring
+  - name: memcached
+  - name: mongodb
+  - name: msgpack
+  - name: mysqli
+  - name: oauth
+  - name: opcache
+  - name: openssl
+  - name: pcntl
+  - name: pdo
+  - name: pdo_firebird
+  - name: pdo_mysql
+  - name: pdo_odbc
+  - name: pdo_pgsql
+  - name: pdo_sqlite
+  - name: pdo_sqlsrv
+  - name: pgsql
+  - name: phalcon
+  - name: phpiredis
+  - name: protobuf
+  - name: pspell
+  - name: rdkafka
+  - name: readline
+  - name: recode
+  - name: redis
+  - name: shmop
+  - name: snmp
+  - name: soap
+  - name: sockets
+  - name: sodium
+  - name: sqlsrv
+  - name: stomp
+  - name: sysvmsg
+  - name: sysvsem
+  - name: sysvshm
+  - name: tideways
+  - name: tideways_xhprof
+  - name: tidy
+  - name: wddx
+  - name: xdebug
+  - name: xmlrpc
+  - name: xsl
+  - name: yaf
+  - name: yaml
+  - name: zip
+  - name: zlib
 - name: php
   version: 7.3.11
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.11-linux-x64-cflinuxfs3-4268e883.tgz
@@ -448,73 +448,73 @@ dependencies:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.11.tar.gz
   source_sha256: 8f385f5bdf9193791f6c0f6303f518f3c324b6655ac108fdb3c426da7f3cf4d4
-  modules:
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - enchant
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - geoip
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - interbase
-  - ioncube
-  - ldap
-  - lua
-  - lzf
-  - mailparse
-  - maxminddb
-  - mbstring
-  - memcached
-  - mongodb
-  - msgpack
-  - mysqli
-  - oauth
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_firebird
-  - pdo_mysql
-  - pdo_odbc
-  - pdo_pgsql
-  - pdo_sqlite
-  - pdo_sqlsrv
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - pspell
-  - rdkafka
-  - readline
-  - recode
-  - redis
-  - shmop
-  - snmp
-  - soap
-  - sockets
-  - sqlsrv
-  - stomp
-  - sysvmsg
-  - sysvsem
-  - sysvshm
-  - tideways_xhprof
-  - tidy
-  - wddx
-  - xdebug
-  - xmlrpc
-  - xsl
-  - yaml
-  - zip
-  - zlib
+  dependencies:
+  - name: apcu
+  - name: bz2
+  - name: cassandra
+  - name: curl
+  - name: dba
+  - name: enchant
+  - name: exif
+  - name: fileinfo
+  - name: ftp
+  - name: gd
+  - name: geoip
+  - name: gettext
+  - name: gmp
+  - name: igbinary
+  - name: imagick
+  - name: imap
+  - name: interbase
+  - name: ioncube
+  - name: ldap
+  - name: lua
+  - name: lzf
+  - name: mailparse
+  - name: maxminddb
+  - name: mbstring
+  - name: memcached
+  - name: mongodb
+  - name: msgpack
+  - name: mysqli
+  - name: oauth
+  - name: opcache
+  - name: openssl
+  - name: pcntl
+  - name: pdo
+  - name: pdo_firebird
+  - name: pdo_mysql
+  - name: pdo_odbc
+  - name: pdo_pgsql
+  - name: pdo_sqlite
+  - name: pdo_sqlsrv
+  - name: pgsql
+  - name: phalcon
+  - name: phpiredis
+  - name: protobuf
+  - name: pspell
+  - name: rdkafka
+  - name: readline
+  - name: recode
+  - name: redis
+  - name: shmop
+  - name: snmp
+  - name: soap
+  - name: sockets
+  - name: sqlsrv
+  - name: stomp
+  - name: sysvmsg
+  - name: sysvsem
+  - name: sysvshm
+  - name: tideways_xhprof
+  - name: tidy
+  - name: wddx
+  - name: xdebug
+  - name: xmlrpc
+  - name: xsl
+  - name: yaml
+  - name: zip
+  - name: zlib
 - name: php
   version: 7.3.12
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.12-linux-x64-cflinuxfs3-dd6ec29f.tgz
@@ -523,70 +523,70 @@ dependencies:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.12.tar.gz
   source_sha256: d617e5116f8472a628083f448ebe4afdbc4ac013c9a890b08946649dcbe61b34
-  modules:
-  - apcu
-  - bz2
-  - cassandra
-  - curl
-  - dba
-  - enchant
-  - exif
-  - fileinfo
-  - ftp
-  - gd
-  - geoip
-  - gettext
-  - gmp
-  - igbinary
-  - imagick
-  - imap
-  - interbase
-  - ioncube
-  - ldap
-  - lua
-  - lzf
-  - mailparse
-  - maxminddb
-  - mbstring
-  - memcached
-  - mongodb
-  - msgpack
-  - mysqli
-  - oauth
-  - opcache
-  - openssl
-  - pcntl
-  - pdo
-  - pdo_firebird
-  - pdo_mysql
-  - pdo_odbc
-  - pdo_pgsql
-  - pdo_sqlite
-  - pdo_sqlsrv
-  - pgsql
-  - phalcon
-  - phpiredis
-  - protobuf
-  - pspell
-  - rdkafka
-  - readline
-  - recode
-  - redis
-  - shmop
-  - snmp
-  - soap
-  - sockets
-  - sqlsrv
-  - stomp
-  - sysvmsg
-  - sysvsem
-  - sysvshm
-  - tideways_xhprof
-  - tidy
-  - wddx
-  - xdebug
-  - xmlrpc
-  - xsl
-  - yaml
-  - zip
-  - zlib
+  dependencies:
+  - name: apcu
+  - name: bz2
+  - name: cassandra
+  - name: curl
+  - name: dba
+  - name: enchant
+  - name: exif
+  - name: fileinfo
+  - name: ftp
+  - name: gd
+  - name: geoip
+  - name: gettext
+  - name: gmp
+  - name: igbinary
+  - name: imagick
+  - name: imap
+  - name: interbase
+  - name: ioncube
+  - name: ldap
+  - name: lua
+  - name: lzf
+  - name: mailparse
+  - name: maxminddb
+  - name: mbstring
+  - name: memcached
+  - name: mongodb
+  - name: msgpack
+  - name: mysqli
+  - name: oauth
+  - name: opcache
+  - name: openssl
+  - name: pcntl
+  - name: pdo
+  - name: pdo_firebird
+  - name: pdo_mysql
+  - name: pdo_odbc
+  - name: pdo_pgsql
+  - name: pdo_sqlite
+  - name: pdo_sqlsrv
+  - name: pgsql
+  - name: phalcon
+  - name: phpiredis
+  - name: protobuf
+  - name: pspell
+  - name: rdkafka
+  - name: readline
+  - name: recode
+  - name: redis
+  - name: shmop
+  - name: snmp
+  - name: soap
+  - name: sockets
+  - name: sqlsrv
+  - name: stomp
+  - name: sysvmsg
+  - name: sysvsem
+  - name: sysvshm
+  - name: tideways_xhprof
+  - name: tidy
+  - name: wddx
+  - name: xdebug
+  - name: xmlrpc
+  - name: xsl
+  - name: yaml
+  - name: zip
+  - name: zlib
