@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cloudfoundry/buildpack-packager
-  revision: 51027140385350743312176e6a0ce9c58c57dd56
-  tag: v2.3.20
+  revision: 098b0cb4012269960e09411e9981f7bafe3af47e
+  tag: v2.3.21
   specs:
-    buildpack-packager (2.3.20)
+    buildpack-packager (2.3.21)
       activesupport (~> 4.1)
       kwalify (~> 0)
       semantic
@@ -21,7 +21,7 @@ GEM
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     kwalify (0.7.2)
-    minitest (5.12.2)
+    minitest (5.13.0)
     semantic (1.6.1)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
