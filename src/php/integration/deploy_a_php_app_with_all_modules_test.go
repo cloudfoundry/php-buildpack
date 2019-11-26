@@ -12,19 +12,24 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+type SubDependency struct{
+	Name string
+	Version string
+}
+
 func ItLoadsAllTheModules(app *cutlass.App, phpVersion string) {
 	var manifest struct {
 		Dependencies []struct {
-			Name    string   `json:"name"`
-			Version string   `json:"version"`
-			Modules []string `json:"modules"`
+			Name    string          `json:"name"`
+			Version string          `json:"version"`
+			Modules []SubDependency `yaml:"dependencies"`
 		} `json:"dependencies"`
 	}
 	Expect((&libbuildpack.YAML{}).Load(filepath.Join(bpDir, "manifest.yml"), &manifest)).To(Succeed())
-	var modules []string
+	var subDependencies []SubDependency
 	for _, d := range manifest.Dependencies {
 		if d.Name == "php" && strings.HasPrefix(d.Version, phpVersion) {
-			modules = d.Modules
+			subDependencies = d.Modules
 			break
 		}
 	}
@@ -34,8 +39,8 @@ func ItLoadsAllTheModules(app *cutlass.App, phpVersion string) {
 		body, err := app.GetBody("/")
 		Expect(err).ToNot(HaveOccurred())
 
-		for _, moduleName := range modules {
-			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", moduleName))
+		for _, dependency := range subDependencies {
+			Expect(body).To(MatchRegexp("(?i)module_(Zend[+ ])?%s", dependency.Name))
 		}
 	})
 }

@@ -120,13 +120,13 @@ func PushApp(app *cutlass.App) {
 	Eventually(app.InstanceStates, 20*time.Second).Should(Equal([]string{"RUNNING"}))
 }
 
-func modulesForPHPVersion(version string) []string {
+func moduleNamesForPHPVersion(version string) []string {
 	manifest := struct {
 		ManifestEntries []struct {
 			Dependency struct {
 				Name    string   `yaml:"name"`
 				Version string   `yaml:"version"`
-				Modules []string `yaml:"modules"`
+				Modules []struct{Name string} `yaml:"dependencies"`
 			} `yaml:",inline"`
 		} `yaml:"dependencies"`
 	}{}
@@ -139,20 +139,19 @@ func modulesForPHPVersion(version string) []string {
 	for _, entry := range manifest.ManifestEntries {
 		if entry.Dependency.Name == "php" {
 			if entry.Dependency.Version == version {
-				modules := entry.Dependency.Modules
+				names := []string{}
 
 				// The "geoip" module triggers a download during staging.
 				// This can fail on our test environments because it may
 				// trigger DDOS protection. Therefore, we remove it
 				// and test it in isolation.
-				for i := range modules {
-					if modules[i] == "geoip" {
-						modules = append(modules[:i], modules[i+1:]...)
-						break
+				for _, module := range entry.Dependency.Modules {
+					if module.Name != "geoip" {
+						names = append(names, module.Name)
 					}
 				}
 
-				return modules
+				return names
 			}
 		}
 	}
@@ -160,7 +159,7 @@ func modulesForPHPVersion(version string) []string {
 }
 
 func zendExtensions(phpVersion string) (extensions []string) {
-	for _, module := range modulesForPHPVersion(phpVersion) {
+	for _, module := range moduleNamesForPHPVersion(phpVersion) {
 		if isZendExtension(module) {
 			extensions = append(extensions, module)
 		}
@@ -169,7 +168,7 @@ func zendExtensions(phpVersion string) (extensions []string) {
 }
 
 func phpExtensions(phpVersion string) (extensions []string) {
-	for _, module := range modulesForPHPVersion(phpVersion) {
+	for _, module := range moduleNamesForPHPVersion(phpVersion) {
 		if !isZendExtension(module) {
 			extensions = append(extensions, module)
 		}
