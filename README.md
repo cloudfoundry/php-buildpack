@@ -16,13 +16,19 @@ Official buildpack documentation can be found here: [php buildpack docs](http://
    git submodule update --init
    ```
 
+1. Check out a tagged release. It is not recommended to bundle buildpacks based on master or develop as these are moving targets.
+
+   ```bash
+   git checkout v4.4.2  # or whatever version you want, see releases page for available versions
+   ```
+
 1. Get latest buildpack dependencies
 
    ```shell
    BUNDLE_GEMFILE=cf.Gemfile bundle
    ```
 
-1. Build the buildpack
+1. Build the buildpack. Please note that the PHP buildpack still uses the older Ruby based buildpack packager. This is different than most of the other buildpacks which use a newer Golang based buildpack packager. You must use the Ruby based buildpack packager with the PHP buildpack.
 
    ```shell
    BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ] [ --any-stack | --stack=STACK ]
