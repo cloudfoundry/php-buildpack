@@ -67,6 +67,10 @@ dependency_deprecation_dates:
   date: 2021-12-06
   link: http://php.net/supported-versions.php
   match: 7.3.\d+
+- version_line: 7.4.x
+  name: php
+  date: 2022-11-08
+  link: http://php.net/supported-versions.php
 dependencies:
 - name: CAAPM
   version: 10.7.0
