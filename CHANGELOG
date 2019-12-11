@@ -1,3 +1,26 @@
+v4.4.3 Dec 11, 2019
+====================
+
+* Add appdynamics 4.5.16.3226, remove appdynamics 4.5.15.3142
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169914334)
+
+* Add php 7.2.25, remove php 7.2.23
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169902511)
+
+* Add php 7.3.12, remove php 7.3.10
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169891215)
+
+* Update nginx default version
+  (https://www.pivotaltracker.com/story/show/169841590)
+
+* Add nginx 1.17.6, remove nginx 1.17.5
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/169841590)
+
+
 v4.4.2 Nov 05, 2019
 ====================
 
