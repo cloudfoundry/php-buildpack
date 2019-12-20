@@ -1,3 +1,28 @@
+v4.4.4 Dec 20, 2019
+====================
+
+* Adds php 7.4.0
+   - Reverts  temporary removal
+
+* Update extensions dir for 7.4.x
+  (https://www.pivotaltracker.com/story/show/170359512)
+
+* Add php 7.2.26, remove php 7.2.24
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170360306)
+
+* Add php 7.3.13, remove php 7.3.11
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170360307)
+
+* Add php 7.4.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170359512)
+
+* Add appdynamics 4.5.17.3288, remove appdynamics 4.5.16.3226
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170355169)
+
 v4.4.3 Dec 11, 2019
 ====================
 
