@@ -98,8 +98,8 @@ dependencies:
   source_sha256: 7834fe8069d0a0c776275623365e70d7f681d5c4995d0f0e826a6e3823369afc
 - name: httpd
   version: 2.4.41
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.41-linux-x64-cflinuxfs3-9e9b6146.tgz
-  sha256: 9e9b61465a2229a8f598db52e609ef0d788313e38567e2fe937416cb5bd9463d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.41-linux-x64-cflinuxfs3-c66ed6c7.tgz
+  sha256: c66ed6c74ae4abd353c329c04fa5fd38a10001d72356215c0ee76713341ee421
   cf_stacks:
   - cflinuxfs3
   source: http://archive.apache.org/dist/httpd/httpd-2.4.41.tar.bz2
