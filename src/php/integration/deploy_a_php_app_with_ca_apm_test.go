@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("CF PHP Buildpack", func() {
+var _ = FDescribe("CF PHP Buildpack", func() {
 	var app *cutlass.App
 	var serviceName string
 	RunCf := func(args ...string) error {

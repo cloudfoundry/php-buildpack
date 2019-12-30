@@ -15,22 +15,22 @@ var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 
-	Context("deploying a basic PHP app using the latest PHP71", func() {
+	Context("deploying a basic PHP app using the latest PHP72", func() {
 		BeforeEach(func() {
-			app = cutlass.New(Fixtures("php_71_latest"))
+			app = cutlass.New(Fixtures("php_72_latest"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		})
 
-		It("installs the latest version of PHP71", func() {
+		It("installs the latest version of PHP72", func() {
 			var php struct {
-				Version71 string `json:"PHP_71_LATEST"`
+				Version72 string `json:"PHP_72_LATEST"`
 			}
 			Expect((&libbuildpack.JSON{}).Load(filepath.Join(bpDir, "defaults", "options.json"), &php)).To(Succeed())
 
 			PushAppAndConfirm(app)
 
 			Expect(app.Stdout.String()).To(ContainSubstring("Installing PHP"))
-			Expect(app.Stdout.String()).To(ContainSubstring("PHP " + php.Version71))
+			Expect(app.Stdout.String()).To(ContainSubstring("PHP " + php.Version72))
 		})
 	})
 })

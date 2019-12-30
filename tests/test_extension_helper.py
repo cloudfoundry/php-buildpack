@@ -14,9 +14,9 @@ class TestPHPExtensionHelper(object):
         self.build_dir = tempfile.mkdtemp(prefix='build-')
         self.phpCfgDir = os.path.join(self.build_dir, 'php', 'etc')
         os.makedirs(self.phpCfgDir)
-        shutil.copy('defaults/config/php/7.1.x/php.ini',
+        shutil.copy('defaults/config/php/7.2.x/php.ini',
                     self.phpCfgDir)
-        shutil.copy('defaults/config/php/7.1.x/php-fpm.conf',
+        shutil.copy('defaults/config/php/7.2.x/php-fpm.conf',
                     self.phpCfgDir)
 
     def tearDown(self):
@@ -35,7 +35,7 @@ class TestPHPExtensionHelper(object):
         eq_({}, ext._application)
         eq_(os.path.join(self.phpCfgDir, 'php.ini'), ext._php_ini_path)
         eq_(os.path.join(self.phpCfgDir, 'php-fpm.conf'), ext._php_fpm_path)
-        eq_(1921, len(ext._php_ini._lines))
+        eq_(1904, len(ext._php_ini._lines))
         eq_(523, len(ext._php_fpm._lines))
         eq_('20131226', ext._php_api)
         eq_(False, ext._should_compile())
