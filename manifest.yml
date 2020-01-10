@@ -113,8 +113,8 @@ dependencies:
   osl: https://docs.newrelic.com/docs/licenses/license-information/agent-licenses/java-agent-licenses
 - name: nginx
   version: 1.16.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.1-linux-x64-cflinuxfs3-4917bf93.tgz
-  sha256: 4917bf93604823709ac9b52d8409190e9edcbf12d5430c6388d7c9d0c771f96d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.1-linux-x64-cflinuxfs3-aa6f9f94.tgz
+  sha256: aa6f9f94826d074a115d8a90441df8e51edca9272327b85791d2e47399c245e0
   cf_stacks:
   - cflinuxfs3
   source: http://nginx.org/download/nginx-1.16.1.tar.gz
