@@ -2,6 +2,7 @@ package unit_test
 
 import (
 	"os/exec"
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -21,6 +22,6 @@ func IsDockerAvailable() bool {
 	session, err := gexec.Start(cmd, nil, nil)
 	Expect(err).ToNot(HaveOccurred())
 
-	session.Wait()
+	session.Wait(5 * time.Second)
 	return session.ExitCode() == 0
 }
