@@ -1,3 +1,11 @@
+v4.4.6 Jan 15, 2020
+====================
+
+* Rebuild httpd 2.4.41
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/168936681)
+
+
 v4.4.5 Jan 03, 2020
 ====================
 
