@@ -74,12 +74,13 @@ dependency_deprecation_dates:
   match: 7.4.\d+
 dependencies:
 - name: CAAPM
-  version: 10.7.0
-  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-10.7.0_linux.tar.gz
-  sha256: d2bfb020dd91e6c474911da9c7fd94ba3c41a4794675c49ce97c809e2dfa20a4
+  version: 20.1.0
+  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-20.1.0_linux.tar.gz
+  sha256: b53e056c2e544420b7809bfa1b11f1874d42ac421d62b177921bb6bb31916e78
   cf_stacks:
   - cflinuxfs3
-  osl: https://docops.ca.com/ca-apm/10-7/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
+  osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
+  source_sha256: b53e056c2e544420b7809bfa1b11f1874d42ac421d62b177921bb6bb31916e78
 - name: appdynamics
   version: 4.5.17.3288
   uri: https://packages.appdynamics.com/php/4.5.17.3288/appdynamics-php-agent-linux_x64-4.5.17.3288.tar.bz2
