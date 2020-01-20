@@ -64,13 +64,13 @@ dependency_deprecation_dates:
   match: 7.4.\d+
 dependencies:
 - name: appdynamics
-  version: 4.5.17.3288
-  uri: https://packages.appdynamics.com/php/4.5.17.3288/appdynamics-php-agent-linux_x64-4.5.17.3288.tar.bz2
-  sha256: aa68c7d56728ef7ced93e56bfadcc7926badef4b9e22946b2c843360d79409b4
+  version: 4.5.18.3343
+  uri: https://packages.appdynamics.com/php/4.5.18.3343/appdynamics-php-agent-linux_x64-4.5.18.3343.tar.bz2
+  sha256: 48acb73944c72190d14bdd1786ac0fa7f65235cec59e5e1d5b3eac5a33a2c6f3
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
-  source_sha256: aa68c7d56728ef7ced93e56bfadcc7926badef4b9e22946b2c843360d79409b4
+  source_sha256: 48acb73944c72190d14bdd1786ac0fa7f65235cec59e5e1d5b3eac5a33a2c6f3
 - name: composer
   version: 1.9.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.9.2-f9804d98.phar
