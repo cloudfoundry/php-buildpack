@@ -48,6 +48,8 @@ if __name__ == '__main__':
             .extension()
                 .from_build_pack('extensions/newrelic')
             .extension()
+                .from_build_pack('extensions/caapm')
+            .extension()
                 .from_build_pack('extensions/sessions')
             .extension()
                 .from_build_pack('extensions/composer')
