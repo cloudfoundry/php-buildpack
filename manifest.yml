@@ -25,12 +25,17 @@ default_versions:
   version: 1.17.8
 - name: composer
   version: 1.9.2
+- name: CAAPM
+  version: 20.1.0
 url_to_dependency_map:
 - match: appdynamics-php-agent-linux_x64-(\d+\.\d+\.\d+\.\d+)
   name: appdynamics
   version: "$1"
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
   name: newrelic
+  version: "$1"
+- match: CA-APM-PHPAgent-(\d+\.\d+\.\d+)_linux
+  name: CAAPM
   version: "$1"
 - match: "([^\\/]*)-(\\d+\\.\\d+\\.\\d+)"
   name: "$1"
@@ -94,6 +99,13 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.newrelic.com/docs/licenses/license-information/agent-licenses/java-agent-licenses
+- name: CAAPM
+  version: 20.1.0
+  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-20.1.0_linux.tar.gz
+  sha256: 4edd1d0b84bbff32c651cf340ed7493f0436904f929dd9f1f2d79f07ef3b7f70
+  cf_stacks:
+  - cflinuxfs3
+  osl: https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/application-performance-management/10-7/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments.html
 - name: nginx
   version: 1.16.1
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.1-linux-x64-cflinuxfs3-aa6f9f94.tgz
