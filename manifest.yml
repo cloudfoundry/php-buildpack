@@ -252,8 +252,8 @@ dependencies:
     version: 
 - name: php
   version: 7.2.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.27-linux-x64-cflinuxfs3-107678e8.tgz
-  sha256: 107678e84e0275c51bfcdcadf257aa933a6ca69f547df234537050481fd2f94a
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.27-linux-x64-cflinuxfs3-c7cefa72.tgz
+  sha256: c7cefa7263479781cc8e2f021b35c8f23d952bea9aca242b5c07761a576086d8
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.27.tar.gz
