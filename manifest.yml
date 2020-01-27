@@ -523,8 +523,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.2-linux-x64-cflinuxfs3-0a05296c.tgz
-  sha256: 0a05296c2eb3444d9ad305a1545ad2a1bab98ff7cf9f0d2497069a63c5c30ecc
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.2-linux-x64-cflinuxfs3-82231c18.tgz
+  sha256: 82231c18f5b4e2ccd1babb4c04b8c9881ed888f775f23e006af61a72bbf21433
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.2.tar.gz
