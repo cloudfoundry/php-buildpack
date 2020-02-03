@@ -513,8 +513,8 @@ dependencies:
     version: 
 - name: php
   version: 7.3.14
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.14-linux-x64-cflinuxfs3-209d3017.tgz
-  sha256: 209d301706c3a895d84a75cde756c8804f710c1817dc7fe4d53a044a28913db9
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.14-linux-x64-cflinuxfs3-c3059cde.tgz
+  sha256: c3059cdeb6f898cde79ddcc6192340e963ce281c1b6434ce9bbcd8a11313dca9
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.14.tar.gz
@@ -604,7 +604,7 @@ dependencies:
   - name: pspell
     version: 
   - name: rdkafka
-    version: 4.0.2
+    version: 3.1.2
   - name: readline
   - name: recode
   - name: redis
