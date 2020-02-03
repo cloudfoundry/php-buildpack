@@ -247,8 +247,8 @@ dependencies:
     version: 
 - name: php
   version: 7.2.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.27-linux-x64-cflinuxfs3-0f759fe1.tgz
-  sha256: 0f759fe1c485634fa5617ce86af5c667d9b79a17b814cc4a546293215a8a1951
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.27-linux-x64-cflinuxfs3-0391e55e.tgz
+  sha256: '0391e55e23cd8962a409f19e25b4adefb53a541e9ac02232ff0cd750af6cb91f'
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.27.tar.gz
@@ -332,7 +332,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 4.0.2
+    version: 3.4.4
   - name: phpiredis
     version: 1.0.0
   - name: protobuf
