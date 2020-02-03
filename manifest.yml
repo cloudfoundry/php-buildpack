@@ -387,15 +387,15 @@ dependencies:
     version: 
 - name: php
   version: 7.3.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.13-linux-x64-cflinuxfs3-673ff87b.tgz
-  sha256: 673ff87b597d893ed2754a158d31f66c4a564fd5bedf1eb600b03b1186c4fbba
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.13-linux-x64-cflinuxfs3-45d60475.tgz
+  sha256: 45d604757abe329b1d9850c0c9832258e44d8b11c0e0b1d52d4150a1a8d3e154
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.13.tar.gz
   source_sha256: 9cf835416a3471d7e6615e9288e76813d55ffaf60e0aa9ce74884a7c228cb6dd
   dependencies:
   - name: apcu
-    version: 5.1.17
+    version: 5.1.18
   - name: bz2
     version: 
   - name: cassandra
@@ -412,7 +412,6 @@ dependencies:
   - name: ftp
     version: 
   - name: gd
-    version: 
   - name: geoip
     version: 1.1.1
   - name: gettext
@@ -420,7 +419,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.0.1
+    version: 3.1.1
   - name: imagick
     version: 3.4.4
   - name: imap
@@ -435,15 +434,15 @@ dependencies:
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.0.3
+    version: 3.0.4
   - name: maxminddb
     version: 
   - name: mbstring
     version: 
   - name: memcached
-    version: 3.1.4
+    version: 3.1.5
   - name: mongodb
-    version: 1.6.0
+    version: 1.6.1
   - name: msgpack
     version: 2.0.3
   - name: mysqli
@@ -471,7 +470,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 3.4.4
+    version: 4.0.2
   - name: phpiredis
     version: 1.0.0
   - name: protobuf
@@ -483,7 +482,7 @@ dependencies:
   - name: readline
   - name: recode
   - name: redis
-    version: 5.0.2
+    version: 5.1.1
   - name: shmop
     version: 
   - name: snmp
@@ -508,14 +507,13 @@ dependencies:
   - name: tidy
   - name: wddx
   - name: xdebug
-    version: 2.8.1
+    version: 2.9.1
   - name: xmlrpc
   - name: xsl
     version: 
   - name: yaml
     version: 2.0.4
   - name: zip
-    version: 
   - name: zlib
     version: 
 - name: php
