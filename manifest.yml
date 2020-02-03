@@ -644,15 +644,15 @@ dependencies:
     version: 
 - name: php
   version: 7.4.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.1-linux-x64-cflinuxfs3-eeb23b61.tgz
-  sha256: eeb23b618e69ae7a9992ad5a672a5b0f3c34334976f5765b70c630c167bb9120
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.1-linux-x64-cflinuxfs3-64f05a80.tgz
+  sha256: 64f05a80e8ca9ec34321dc5c70655aed34637febe5d5f94edfa0325ad4091b09
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.1.tar.gz
   source_sha256: 67265d6bd48d828f4725964f71ca5c76c3da63b0d07bec5ec4e5acfdd3708073
   dependencies:
   - name: apcu
-    version: 5.1.17
+    version: 5.1.18
   - name: bz2
     version: 
   - name: curl
@@ -666,6 +666,7 @@ dependencies:
     version: 
   - name: ftp
     version: 
+  - name: gd
   - name: geoip
     version: 1.1.1
   - name: gettext
@@ -673,7 +674,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.0.1
+    version: 3.1.1
   - name: imagick
     version: 3.4.4
   - name: imap
@@ -685,15 +686,15 @@ dependencies:
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.0.3
+    version: 3.0.4
   - name: maxminddb
     version: 
   - name: mbstring
     version: 
   - name: memcached
-    version: 3.1.4
+    version: 3.1.5
   - name: mongodb
-    version: 1.6.0
+    version: 1.6.1
   - name: msgpack
     version: 2.0.3
   - name: mysqli
@@ -730,7 +731,7 @@ dependencies:
     version: 3.1.2
   - name: readline
   - name: redis
-    version: 5.0.2
+    version: 5.1.1
   - name: shmop
     version: 
   - name: snmp
@@ -754,12 +755,13 @@ dependencies:
     version: 5.0.2
   - name: tidy
   - name: xdebug
-    version: 2.8.1
+    version: 2.9.1
   - name: xmlrpc
   - name: xsl
     version: 
   - name: yaml
     version: 2.0.4
+  - name: zip
   - name: zlib
     version: 
 - name: php
