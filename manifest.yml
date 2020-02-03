@@ -112,8 +112,8 @@ dependencies:
   source_sha256: 97d23ecf6d5150b30e284b40e8a6f7e3bb5be6b601e373a4d013768d5a25965b
 - name: php
   version: 7.2.26
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.26-linux-x64-cflinuxfs3-d7884fb8.tgz
-  sha256: d7884fb84b32e12e7133108e7de27fa65ead818f908aaafc87fe7f72f106ab78
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.26-linux-x64-cflinuxfs3-155b219c.tgz
+  sha256: 155b219c9ff35b173ee822429f23fdf2f4e276e036cc0e6056c41be6b8e2b19f
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.26.tar.gz
@@ -122,7 +122,7 @@ dependencies:
   - name: amqp
     version: 1.9.4
   - name: apcu
-    version: 5.1.17
+    version: 5.1.18
   - name: bz2
     version: 
   - name: cassandra
@@ -139,7 +139,6 @@ dependencies:
   - name: ftp
     version: 
   - name: gd
-    version: 
   - name: geoip
     version: 1.1.1
   - name: gettext
@@ -147,7 +146,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.0.1
+    version: 3.1.1
   - name: imagick
     version: 3.4.4
   - name: imap
@@ -162,15 +161,15 @@ dependencies:
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.0.3
+    version: 3.0.4
   - name: maxminddb
     version: 
   - name: mbstring
     version: 
   - name: memcached
-    version: 3.1.4
+    version: 3.1.5
   - name: mongodb
-    version: 1.6.0
+    version: 1.6.1
   - name: msgpack
     version: 2.0.3
   - name: mysqli
@@ -198,7 +197,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 3.4.4
+    version: 4.0.2
   - name: phpiredis
     version: 1.0.0
   - name: protobuf
@@ -210,7 +209,7 @@ dependencies:
   - name: readline
   - name: recode
   - name: redis
-    version: 5.0.2
+    version: 5.1.1
   - name: shmop
     version: 
   - name: snmp
@@ -218,7 +217,6 @@ dependencies:
     version: 
   - name: sockets
     version: 
-  - name: sodium
   - name: solr
     version: 2.5.0
   - name: sqlsrv
@@ -231,23 +229,20 @@ dependencies:
     version: 
   - name: sysvshm
     version: 
-  - name: tideways
-    version: 4.1.7
   - name: tideways_xhprof
     version: 5.0.2
   - name: tidy
   - name: wddx
   - name: xdebug
-    version: 2.8.1
+    version: 2.9.1
   - name: xmlrpc
   - name: xsl
     version: 
   - name: yaf
-    version: 3.0.8
+    version: 3.0.9
   - name: yaml
     version: 2.0.4
   - name: zip
-    version: 
   - name: zlib
     version: 
 - name: php
