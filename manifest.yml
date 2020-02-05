@@ -112,8 +112,8 @@ dependencies:
   source_sha256: 97d23ecf6d5150b30e284b40e8a6f7e3bb5be6b601e373a4d013768d5a25965b
 - name: php
   version: 7.2.26
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.26-linux-x64-cflinuxfs3-b93d98c0.tgz
-  sha256: b93d98c0d87e1fc5750579b7e3e1c372cccddc0abae60ae15d829694424c4820
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.26-linux-x64-cflinuxfs3-c45aadbd.tgz
+  sha256: c45aadbdabd5ad5e8322faf410347bb37a72c679e947776286c9c1cd87e9e437
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.26.tar.gz
