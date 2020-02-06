@@ -68,6 +68,13 @@ dependency_deprecation_dates:
   link: http://php.net/supported-versions.php
   match: 7.4.\d+
 dependencies:
+- name: CAAPM
+  version: 20.1.0
+  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-20.1.0_linux.tar.gz
+  sha256: 4edd1d0b84bbff32c651cf340ed7493f0436904f929dd9f1f2d79f07ef3b7f70
+  cf_stacks:
+  - cflinuxfs3
+  osl: https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/application-performance-management/10-7/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments.html
 - name: appdynamics
   version: 4.5.18.3343
   uri: https://packages.appdynamics.com/php/4.5.18.3343/appdynamics-php-agent-linux_x64-4.5.18.3343.tar.bz2
@@ -77,13 +84,13 @@ dependencies:
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
   source_sha256: 48acb73944c72190d14bdd1786ac0fa7f65235cec59e5e1d5b3eac5a33a2c6f3
 - name: composer
-  version: 1.9.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.9.2-f9804d98.phar
-  sha256: f9804d987308c41785b84c47949bc3f631d05770ec3aab5c24a1db9361c63086
+  version: 1.9.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.9.3-e022309c.phar
+  sha256: e022309c59310e10dd6220618515849143fd02eb6684fa9833d9071da9f1075e
   cf_stacks:
   - cflinuxfs3
-  source: https://github.com/composer/composer/releases/download/1.9.2/composer.phar
-  source_sha256: f9804d987308c41785b84c47949bc3f631d05770ec3aab5c24a1db9361c63086
+  source: https://github.com/composer/composer/releases/download/1.9.3/composer.phar
+  source_sha256: e022309c59310e10dd6220618515849143fd02eb6684fa9833d9071da9f1075e
 - name: httpd
   version: 2.4.41
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.41-linux-x64-cflinuxfs3-14955ebb.tgz
@@ -99,13 +106,6 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.newrelic.com/docs/licenses/license-information/agent-licenses/java-agent-licenses
-- name: CAAPM
-  version: 20.1.0
-  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-20.1.0_linux.tar.gz
-  sha256: 4edd1d0b84bbff32c651cf340ed7493f0436904f929dd9f1f2d79f07ef3b7f70
-  cf_stacks:
-  - cflinuxfs3
-  osl: https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/application-performance-management/10-7/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments.html
 - name: nginx
   version: 1.16.1
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.16.1-linux-x64-cflinuxfs3-aa6f9f94.tgz
