@@ -1,3 +1,45 @@
+v4.4.7 Feb 06, 2020
+====================
+
+* Add composer 1.9.3, remove composer 1.9.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171128397)
+  (https://www.pivotaltracker.com/story/show/170703465)
+
+* Merge pull request #335 from CA-Application-Performance-Management/master
+  CAAPM_20.1.0 support is added.
+
+* Add php 7.3.14, remove php 7.3.12
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170869887)
+
+* Add php 7.2.27, remove php 7.2.25
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170867348)
+
+* Add php 7.4.2, remove php 7.4.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170865361)
+
+* Add nginx 1.17.8, remove nginx 1.17.7
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170822217)
+
+* Add appdynamics 4.5.18.3343, remove appdynamics 4.5.17.3288
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170793950)
+
+* Remove PHP 7.1
+  * Remove CAAPM because no other PHP versions are compatible with it
+  * Move fixture apps from 7.1 to 7.2. Some of the extensions needed to be
+  modifies (sodium is included in 7.2, but mcrypt is not).
+  (https://www.pivotaltracker.com/story/show/169756943)
+
+* Add CAAPM 20.1.0, remove CAAPM 10.7.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170768186)
+
+
 v4.4.6 Jan 15, 2020
 ====================
 
