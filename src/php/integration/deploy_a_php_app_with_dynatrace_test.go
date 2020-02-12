@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = FDescribe("Deploy app with", func() {
+var _ = Describe("Deploy app with", func() {
 	var (
 		app                       *cutlass.App
 		serviceName, serviceName2 string
@@ -56,9 +56,9 @@ var _ = FDescribe("Deploy app with", func() {
 		}
 	})
 
-	It("single dynatrace service without manifest.json", func() {
+	FIt("single dynatrace service without manifest.json", func() {
 		serviceName = "dynatrace-service-" + cutlass.RandStringRunes(20)
-		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s","environmentid":"envid"}`, dynatraceAPIURI))).To(Succeed())
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s/without-agent-path","environmentid":"envid"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 		Expect(RunCf("start", app.Name)).To(Succeed())
 		ConfirmRunning(app)

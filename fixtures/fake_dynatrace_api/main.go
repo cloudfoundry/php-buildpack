@@ -22,6 +22,12 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		var withoutAgentPath bool
+		if strings.HasPrefix(req.URL.Path, "/without-agent-path") {
+			req.URL.Path = strings.TrimPrefix(req.URL.Path, "/without-agent-path")
+			withoutAgentPath = true
+		}
+
 		switch req.URL.Path {
 		case "/v1/deployment/installer/agent/unix/paas-sh/latest":
 			context := struct{ URI string }{URI: application.ApplicationURIs[0]}
@@ -33,7 +39,7 @@ func main() {
 				return
 			}
 
-		case "/manifest.json", "/dynatrace-env.sh", "/liboneagentproc.so":
+		case "/dynatrace-env.sh", "/liboneagentproc.so":
 			contents, err := ioutil.ReadFile(strings.TrimPrefix(req.URL.Path, "/"))
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
@@ -41,6 +47,27 @@ func main() {
 				return
 			}
 			w.Write(contents)
+
+		case "/manifest.json":
+			payload := map[string]interface{}{}
+
+			if !withoutAgentPath {
+				file, err := os.Open("manifest.json")
+				if err != nil {
+					w.WriteHeader(http.StatusInternalServerError)
+					w.Write([]byte(err.Error()))
+					return
+				}
+
+				err = json.NewDecoder(file).Decode(&payload)
+				if err != nil {
+					w.WriteHeader(http.StatusInternalServerError)
+					w.Write([]byte(err.Error()))
+					return
+				}
+			}
+
+			json.NewEncoder(w).Encode(payload)
 
 		default:
 			w.WriteHeader(http.StatusNotFound)
