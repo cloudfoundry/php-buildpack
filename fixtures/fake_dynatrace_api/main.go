@@ -23,12 +23,14 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
 		var withoutAgentPath bool
-		if strings.HasPrefix(req.URL.Path, "/without-agent-path") {
-			req.URL.Path = strings.TrimPrefix(req.URL.Path, "/without-agent-path")
+		path := req.URL.Path
+
+		if strings.HasPrefix(path, "/without-agent-path") {
+			path = strings.TrimPrefix(path, "/without-agent-path")
 			withoutAgentPath = true
 		}
 
-		switch req.URL.Path {
+		switch path {
 		case "/v1/deployment/installer/agent/unix/paas-sh/latest":
 			context := struct{ URI string }{URI: application.ApplicationURIs[0]}
 			t := template.Must(template.New("install.sh").ParseFiles("install.sh"))
