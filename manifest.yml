@@ -84,13 +84,13 @@ dependencies:
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
   source_sha256: 48acb73944c72190d14bdd1786ac0fa7f65235cec59e5e1d5b3eac5a33a2c6f3
 - name: composer
-  version: 1.10.0-RC
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.10.0-RC-0021755f.phar
-  sha256: 0021755fb2f0231cb1bf36e27de58022728b96c5cfbcf6bc299908124f670904
+  version: 1.9.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer-1.9.3-e022309c.phar
+  sha256: e022309c59310e10dd6220618515849143fd02eb6684fa9833d9071da9f1075e
   cf_stacks:
   - cflinuxfs3
-  source: https://github.com/composer/composer/releases/download/1.10.0-RC/composer.phar
-  source_sha256: 0021755fb2f0231cb1bf36e27de58022728b96c5cfbcf6bc299908124f670904
+  source: https://github.com/composer/composer/releases/download/1.9.3/composer.phar
+  source_sha256: e022309c59310e10dd6220618515849143fd02eb6684fa9833d9071da9f1075e
 - name: httpd
   version: 2.4.41
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd-2.4.41-linux-x64-cflinuxfs3-14955ebb.tgz
