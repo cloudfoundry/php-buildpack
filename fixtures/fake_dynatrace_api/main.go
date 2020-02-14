@@ -25,14 +25,17 @@ func main() {
 		var withoutAgentPath bool
 		path := req.URL.Path
 
+		uri := application.ApplicationURIs[0]
+
 		if strings.HasPrefix(path, "/without-agent-path") {
+			uri = fmt.Sprintf("%s/without-agent-path", uri)
 			path = strings.TrimPrefix(path, "/without-agent-path")
 			withoutAgentPath = true
 		}
 
 		switch path {
 		case "/v1/deployment/installer/agent/unix/paas-sh/latest":
-			context := struct{ URI string }{URI: application.ApplicationURIs[0]}
+			context := struct{ URI string }{URI: uri}
 			t := template.Must(template.New("install.sh").ParseFiles("install.sh"))
 			err := t.Execute(w, context)
 			if err != nil {
