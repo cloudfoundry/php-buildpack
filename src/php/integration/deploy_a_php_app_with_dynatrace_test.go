@@ -56,7 +56,7 @@ var _ = Describe("Deploy app with", func() {
 		}
 	})
 
-	FIt("single dynatrace service without manifest.json", func() {
+	It("single dynatrace service without manifest.json", func() {
 		serviceName = "dynatrace-service-" + cutlass.RandStringRunes(20)
 		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s/without-agent-path","environmentid":"envid"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
