@@ -54,21 +54,26 @@ func main() {
 			w.Write(contents)
 
 		case "/manifest.json":
-			payload := map[string]interface{}{}
+			var payload map[string]interface{}
+			file, err := os.Open("manifest.json")
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(err.Error()))
+				return
+			}
+
+			err = json.NewDecoder(file).Decode(&payload)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(err.Error()))
+				return
+			}
 
 			if !withoutAgentPath {
-				file, err := os.Open("manifest.json")
-				if err != nil {
-					w.WriteHeader(http.StatusInternalServerError)
-					w.Write([]byte(err.Error()))
-					return
-				}
-
-				err = json.NewDecoder(file).Decode(&payload)
-				if err != nil {
-					w.WriteHeader(http.StatusInternalServerError)
-					w.Write([]byte(err.Error()))
-					return
+				payload["technologies"] = map[string]interface{}{
+					"process": map[string]interface{}{
+						"linux-x86-64": []struct{}{},
+					},
 				}
 			}
 
