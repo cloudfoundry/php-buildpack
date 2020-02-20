@@ -64,7 +64,6 @@
     "sysvmsg",
     "sysvsem",
     "sysvshm",
-    "tideways",
     "tideways_xhprof",
     "tidy",
     "wddx",

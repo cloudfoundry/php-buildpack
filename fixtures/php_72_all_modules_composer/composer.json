@@ -52,6 +52,7 @@
         "ext-snmp": "*",
         "ext-soap": "*",
         "ext-sockets": "*",
+        "ext-sodium": "*",
         "ext-solr": "*",
         "ext-sqlsrv": "*",
         "ext-stomp": "*",
