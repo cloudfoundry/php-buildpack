@@ -397,7 +397,7 @@ dependencies:
 - name: php
   version: 7.3.13
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.3.13-linux-x64-cflinuxfs3-1438d01a.tgz
-  sha256: '1438d01aaa84259cc5f4c5b7f6ec2d26627f7554def47aedc03380d76b4f74ea'
+  sha256: 1438d01aaa84259cc5f4c5b7f6ec2d26627f7554def47aedc03380d76b4f74ea
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.13.tar.gz
@@ -501,6 +501,7 @@ dependencies:
     version: 
   - name: sockets
     version: 
+  - name: sodium
   - name: solr
     version: 2.5.0
   - name: sqlsrv
