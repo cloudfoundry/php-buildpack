@@ -69,7 +69,7 @@ func main() {
 				return
 			}
 
-			if !withoutAgentPath {
+			if withoutAgentPath {
 				payload["technologies"] = map[string]interface{}{
 					"process": map[string]interface{}{
 						"linux-x86-64": []struct{}{},
