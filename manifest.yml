@@ -115,13 +115,13 @@ dependencies:
   source: http://nginx.org/download/nginx-1.16.1.tar.gz
   source_sha256: f11c2a6dd1d3515736f0324857957db2de98be862461b5a542a3ac6188dbe32b
 - name: nginx
-  version: 1.17.8
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.17.8-linux-x64-cflinuxfs3-6eade3ab.tgz
-  sha256: 6eade3abf18a832baa04fdfc6d0a9270e6d3d4d6e03e6b1c93bcfebb76f10ad1
+  version: 1.17.9
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-1.17.9-linux-x64-cflinuxfs3-d122d80d.tgz
+  sha256: d122d80d656d62ddae18bd5222f978780e31b3c1a2e3f25833d3c1225c9fe046
   cf_stacks:
   - cflinuxfs3
-  source: http://nginx.org/download/nginx-1.17.8.tar.gz
-  source_sha256: 97d23ecf6d5150b30e284b40e8a6f7e3bb5be6b601e373a4d013768d5a25965b
+  source: http://nginx.org/download/nginx-1.17.9.tar.gz
+  source_sha256: 7dd65d405c753c41b7fdab9415cfb4bdbaf093ec6d9f7432072d52cb7bcbb689
 - name: php
   version: 7.2.27
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.27-linux-x64-cflinuxfs3-aa549546.tgz
