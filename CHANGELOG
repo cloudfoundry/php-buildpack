@@ -1,3 +1,15 @@
+v4.4.9 Mar 09, 2020
+====================
+
+* Add nginx 1.17.9, remove nginx 1.17.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171603146)
+
+* Add appdynamics 20.3.0.3526, remove appdynamics 4.5.18.3343
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171600371)
+
+
 v4.4.8 Feb 25, 2020
 ====================
 
