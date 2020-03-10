@@ -794,8 +794,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.3-linux-x64-cflinuxfs3-46ee51a5.tgz
-  sha256: 46ee51a57120adf9c3623cf9855f163685acc75ea6f9a7968ae4a21029bcdc4f
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.3-linux-x64-cflinuxfs3-36aaa3d8.tgz
+  sha256: 36aaa3d8022652c4188a2410370ee8f63d04bd347aaaa4a9de8f7092b4aefc45
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.3.tar.gz
@@ -893,6 +893,8 @@ dependencies:
     version: 2.5.0
   - name: sqlsrv
     version: 5.6.1
+  - name: ssh2
+    version: 1.2
   - name: stomp
     version: 2.0.2
   - name: sysvmsg
