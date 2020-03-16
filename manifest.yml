@@ -24,7 +24,7 @@ default_versions:
 - name: nginx
   version: 1.17.9
 - name: composer
-  version: 1.9.3
+  version: 1.10.1
 - name: CAAPM
   version: 20.1.0
 url_to_dependency_map:
