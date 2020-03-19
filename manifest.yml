@@ -673,13 +673,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.4.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.2-linux-x64-cflinuxfs3-8f48263a.tgz
-  sha256: 8f48263a6f3d011d7337a0ef826b9061194ef89b25f8215e43defec7f0b322ac
+  version: 7.4.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.3-linux-x64-cflinuxfs3-46ee51a5.tgz
+  sha256: 46ee51a57120adf9c3623cf9855f163685acc75ea6f9a7968ae4a21029bcdc4f
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.2.tar.gz
-  source_sha256: e1b8dbf561ac1d871362054ff4cd62dca5e19c8c896567996525dda7c4b320f9
+  source: https://php.net/distributions/php-7.4.3.tar.gz
+  source_sha256: 58e421a1dba10da8542a014535cac77a78f0271afb901cc2bd363b881895a9ed
   dependencies:
   - name: apcu
     version: 5.1.18
@@ -773,8 +773,6 @@ dependencies:
     version: 2.5.0
   - name: sqlsrv
     version: 5.6.1
-  - name: ssh2
-    version: 1.2
   - name: stomp
     version: 2.0.2
   - name: sysvmsg
@@ -797,13 +795,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.4.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.3-linux-x64-cflinuxfs3-36aaa3d8.tgz
-  sha256: 36aaa3d8022652c4188a2410370ee8f63d04bd347aaaa4a9de8f7092b4aefc45
+  version: 7.4.4
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.4.4-linux-x64-cflinuxfs3-787e1173.tgz
+  sha256: 787e1173b331249b226464fa1d8ea0ec874af9e26f8fe1ee3a45952e32b07cab
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.3.tar.gz
-  source_sha256: 58e421a1dba10da8542a014535cac77a78f0271afb901cc2bd363b881895a9ed
+  source: https://php.net/distributions/php-7.4.4.tar.gz
+  source_sha256: 1581b3e10c7854597e1086937d5753cdf92d132865c06a50aed4f4f407138616
   dependencies:
   - name: apcu
     version: 5.1.18
