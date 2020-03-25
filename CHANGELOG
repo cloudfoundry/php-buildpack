@@ -1,3 +1,49 @@
+v4.4.10 Mar 25, 2020
+=====================
+
+* Add php 7.3.16, remove php 7.3.13
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171876818)
+
+* Add php 7.4.4, remove php 7.4.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171882325)
+
+* Add php 7.2.29, remove php 7.2.27
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171876814)
+
+* Update default composer version
+
+* Add composer 1.10.1, remove composer 1.9.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171796698)
+
+* Rebuild php 7.3.13
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170360307)
+
+* Rebuild php 7.4.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170865361)
+
+* Rebuild php 7.2.27
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170867348)
+
+* Rebuild php 7.4.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171380293)
+
+* Rebuild php 7.3.15
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171377838)
+
+* Rebuild php 7.2.28
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171377837)
+
+
 v4.4.9 Mar 09, 2020
 ====================
 
