@@ -1,3 +1,15 @@
+v4.4.11 Apr 02, 2020
+=====================
+
+* Add httpd 2.4.43, remove httpd 2.4.41
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172117902)
+
+* Add appdynamics 20.3.1.3604, remove appdynamics 20.3.0.3526
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171993598)
+
+
 v4.4.10 Mar 25, 2020
 =====================
 
