@@ -1,3 +1,15 @@
+v4.4.12 Apr 13, 2020
+=====================
+
+* Add composer 1.10.5, remove composer 1.10.4
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172260339)
+
+* Add composer 1.10.4, remove composer 1.10.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172247614)
+
+
 v4.4.11 Apr 02, 2020
 =====================
 
