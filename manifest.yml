@@ -16,7 +16,7 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 7.2.29
+  version: 7.2.30
 - name: httpd
   version: 2.4.43
 - name: newrelic
@@ -123,13 +123,13 @@ dependencies:
   source: http://nginx.org/download/nginx-1.17.10.tar.gz
   source_sha256: a9aa73f19c352a6b166d78e2a664bb3ef1295bbe6d3cc5aa7404bd4664ab4b83
 - name: php
-  version: 7.2.28
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.28-linux-x64-cflinuxfs3-1217a50b.tgz
-  sha256: 1217a50b9481fbfc7df2599bee9553f7da30f6b9d315136995168ed2e7a6396f
+  version: 7.2.29
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.29-linux-x64-cflinuxfs3-8e1a95c6.tgz
+  sha256: 8e1a95c6308179dae299af027e2cddcb94bac835910fad451641be8590be3038
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.2.28.tar.gz
-  source_sha256: ed5fede7602ccd8d1294b4e4aef7f92f4e3af58ab040bd349264b3f5dbef3261
+  source: https://php.net/distributions/php-7.2.29.tar.gz
+  source_sha256: ea5c96309394a03a38828cc182058be0c09dde1f00f35809622c2d05c50ee890
   dependencies:
   - name: amqp
     version: 1.9.4
@@ -234,6 +234,8 @@ dependencies:
     version: 2.5.0
   - name: sqlsrv
     version: 5.6.1
+  - name: ssh2
+    version: 1.2
   - name: stomp
     version: 2.0.2
   - name: sysvmsg
@@ -259,13 +261,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.2.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7-7.2.29-linux-x64-cflinuxfs3-8e1a95c6.tgz
-  sha256: 8e1a95c6308179dae299af027e2cddcb94bac835910fad451641be8590be3038
+  version: 7.2.30
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.30_linux_x64_cflinuxfs3_04e6d34d.tgz
+  sha256: 04e6d34d6ce95ab943ed79889dfe2c79276c0928a17195097f727b79a8651c9b
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.2.29.tar.gz
-  source_sha256: ea5c96309394a03a38828cc182058be0c09dde1f00f35809622c2d05c50ee890
+  source: https://php.net/distributions/php-7.2.30.tar.gz
+  source_sha256: daa53d22510b0fd433904d1c3de460746860a974b776f727ac8acecb44e16e2f
   dependencies:
   - name: amqp
     version: 1.9.4
