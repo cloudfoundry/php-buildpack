@@ -83,10 +83,10 @@ class CloudFoundryUtil(object):
         modules_pattern_key = dependency.upper() + "_MODULES_PATTERN"
 
         ctx[default_version_key] = output
-        ctx[download_url_key] = "/{0}/{1}/{0}-{1}.tar.gz".format(dependency, "{" + default_version_key + "}")
+        ctx[download_url_key] = "/{0}/{1}/{0}_{1}.tar.gz".format(dependency, "{" + default_version_key + "}")
 
         if dependency != "nginx":
-            ctx[modules_pattern_key] = "/{0}/{1}/{0}-{2}-{1}.tar.gz".format(dependency, "{" + default_version_key + "}", "{MODULE_NAME}")
+            ctx[modules_pattern_key] = "/{0}/{1}/{0}_{2}_{1}.tar.gz".format(dependency, "{" + default_version_key + "}", "{MODULE_NAME}")
 
         return ctx
 

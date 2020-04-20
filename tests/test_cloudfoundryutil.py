@@ -43,8 +43,8 @@ class TestCloudFoundryUtil(object):
         # output_dict['PHP_VERSION'] + output_dict['MODULE_NAME'] are interpolated into the strings returned
         # from the dict, so:
         output_dict['MODULE_NAME'] = 'test_default_versions'
-        eq_(output_dict['PHP_MODULES_PATTERN'], '/php/9.9.99/php-test_default_versions-9.9.99.tar.gz')
-        eq_(output_dict['PHP_DOWNLOAD_URL'], '/php/9.9.99/php-9.9.99.tar.gz')
+        eq_(output_dict['PHP_MODULES_PATTERN'], '/php/9.9.99/php_test_default_versions_9.9.99.tar.gz')
+        eq_(output_dict['PHP_DOWNLOAD_URL'], '/php/9.9.99/php_9.9.99.tar.gz')
 
     def test_default_version_is_not_in_manifest(self):
         exception = None
@@ -71,19 +71,19 @@ default_versions:
 dependencies:
 - name: php
   version: 5.6.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.23-linux-x64-1469767807.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_5.6.23_linux_x64_1469767807.tgz
   sha256: 9ffbd67e557f4569de8d876664a6bd33
 - name: php
   version: 5.6.24
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php-5.6.24-linux-x64-1469768750.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_5.6.24_linux_x64_1469768750.tgz
   sha256: 35b5e1ccce1f2ca7e55c81b11f278a3f
 - name: php
   version: 7.0.8
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.8-linux-x64-1469764417.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7_7.0.8_linux_x64_1469764417.tgz
   sha256: a479fec08ac8400ca9d775a88ddb2962
 - name: php
   version: 7.0.9
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7-7.0.9-linux-x64-1469765150.tgz
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php7/php7_7.0.9_linux_x64_1469765150.tgz
   cf_stacks:
   - cflinuxfs3
   sha256: 19e8318e1cee3fa9fd8fdcc358f01076
