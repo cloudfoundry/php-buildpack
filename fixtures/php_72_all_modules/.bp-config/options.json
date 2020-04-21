@@ -60,6 +60,7 @@
     "sodium",
     "solr",
     "sqlsrv",
+    "ssh2",
     "stomp",
     "sysvmsg",
     "sysvsem",
