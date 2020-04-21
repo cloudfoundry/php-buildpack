@@ -44,7 +44,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 		if cutlass.Cached {
 			By("downloads the binaries directly from the buildpack")
-			Expect(app.Stdout.String()).To(MatchRegexp(`Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php.*-linux-x64-.*.tgz\] to \[/tmp\]`))
+			Expect(app.Stdout.String()).To(MatchRegexp(`Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php.*_linux_x64_.*.tgz\] to \[/tmp\]`))
 		}
 	})
 
