@@ -1,3 +1,32 @@
+v4.4.13 Apr 23, 2020
+=====================
+
+* add ssh2 to php_72_all_modules fixutre
+  (https://www.pivotaltracker.com/story/show/172412499)
+
+* manually bump nginx version to 1.17.10
+  (https://www.pivotaltracker.com/story/show/172412499)
+
+* Fixes dependency templating (change '-' to '_')
+  (https://www.pivotaltracker.com/story/show/172412499)
+
+* Add php 7.2.30, remove php 7.2.28
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172388406)
+
+* Add php 7.4.5, remove php 7.4.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172351044)
+
+* Add php 7.3.17, remove php 7.3.15
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172349382)
+
+* Add nginx 1.17.10, remove nginx 1.17.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172313698)
+
+
 v4.4.12 Apr 13, 2020
 =====================
 
