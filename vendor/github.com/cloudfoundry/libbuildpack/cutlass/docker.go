@@ -14,7 +14,7 @@ import (
 	"code.cloudfoundry.org/lager"
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/libbuildpack/cutlass/docker"
-	"github.com/cloudfoundry/packit"
+	"github.com/paketo-buildpacks/packit/pexec"
 	"github.com/pkg/errors"
 )
 
@@ -103,10 +103,11 @@ func InternetTrafficForNetwork(networkName, fixturePath, buildpackPath string, e
 	// TODO: Take this out, after refactor all proxy tests to use EnsureUsesProxy
 	networkCommands := []string{
 		"(sudo tcpdump -i %s eth0 not udp port 53 and not udp port 1900 and not udp port 5353 and ip -t -Uw /tmp/dumplog &)",
-		"/buildpack/bin/detect /tmp/staged && echo 'Detect completed'",
-		"/buildpack/bin/supply /tmp/staged /tmp/cache /buildpack 0 && echo 'Supply completed'",
-		"/buildpack/bin/finalize /tmp/staged /tmp/cache /buildpack 0 /tmp && echo 'Finalize completed'",
-		"/buildpack/bin/release /tmp/staged && echo 'Release completed'",
+		"sudo -EHu vcap bash -c 'echo HOME=$HOME'",
+		"sudo -EHu vcap bash -c '/buildpack/bin/detect /tmp/staged' && echo 'Detect completed'",
+		"sudo -EHu vcap bash -c '/buildpack/bin/supply /tmp/staged /tmp/cache /buildpack 0' && echo 'Supply completed'",
+		"sudo -EHu vcap bash -c '/buildpack/bin/finalize /tmp/staged /tmp/cache /buildpack 0 /tmp' && echo 'Finalize completed'",
+		"sudo -EHu vcap bash -c '/buildpack/bin/release /tmp/staged' && echo 'Release completed'",
 		"sleep 1",
 		"pkill tcpdump; tcpdump -r %s /tmp/dumplog | sed -e 's/^/internet traffic: /' 2>&1 || true",
 	}
@@ -203,7 +204,7 @@ func ExecuteDockerFile(path, network, command string) (string, error) {
 	image := "internet_traffic_test" + RandStringRunes(8)
 
 	session.Debug("creating-cli")
-	cli := docker.NewCLI(packit.NewExecutable(docker.ExecutableName, session))
+	cli := docker.NewCLI(pexec.NewExecutable(docker.ExecutableName))
 
 	defer cli.RemoveImage(image, docker.RemoveImageOptions{Force: true})
 
