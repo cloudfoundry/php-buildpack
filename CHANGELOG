@@ -1,3 +1,11 @@
+v4.4.16 May 28, 2020
+=====================
+
+* Add php 7.3.18, remove php 7.3.16
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172968627)
+
+
 v4.4.15 May 20, 2020
 =====================
 
