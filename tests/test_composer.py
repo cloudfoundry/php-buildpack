@@ -79,7 +79,7 @@ class TestComposer(object):
         assert installer.calls().once()
         # make sure composer is installed
         assert installer._installer.calls().once()
-        assert re.match('/composer/[\d\.]+(-[a-z]+\d+)?/composer.phar', installer._installer.calls()[0].args[0]), \
+        assert re.match('/composer/[\d\.]+/composer.phar', installer._installer.calls()[0].args[0]), \
             "was %s" % installer._installer.calls()[0].args[0]
 
     def test_composer_tool_install_latest(self):
