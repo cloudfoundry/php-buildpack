@@ -56,6 +56,10 @@ dependency_deprecation_dates:
   name: nginx
   date: 2021-05-01
   link: https://nginx.org/
+- version_line: 1.19.x
+  name: nginx
+  date: 2021-05-01
+  link: https://nginx.org/
 - version_line: 7.2.x
   name: php
   date: 2020-11-30
@@ -134,6 +138,14 @@ dependencies:
   - cflinuxfs3
   source: http://nginx.org/download/nginx-1.18.0.tar.gz
   source_sha256: 4c373e7ab5bf91d34a4f11a0c9496561061ba5eee6020db272a17a7228d35f99
+- name: nginx
+  version: 1.19.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.19.0_linux_x64_cflinuxfs3_63dd4da1.tgz
+  sha256: 63dd4da1872162d831dd9693e2151d3cb83685cc72e10a39c879b74c0d002a1a
+  cf_stacks:
+  - cflinuxfs3
+  source: http://nginx.org/download/nginx-1.19.0.tar.gz
+  source_sha256: 44a616171fcd7d7ad7c6af3e6f3ad0879b54db5a5d21be874cd458b5691e36c8
 - name: php
   version: 7.2.30
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.30_linux_x64_cflinuxfs3_04e6d34d.tgz
