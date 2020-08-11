@@ -22,7 +22,7 @@ default_versions:
 - name: newrelic
   version: 9.1.0.246
 - name: nginx
-  version: 1.17.10
+  version: 1.19.1
 - name: composer
   version: 1.10.10
 - name: CAAPM
@@ -44,14 +44,6 @@ url_to_dependency_map:
   name: composer
   version: "$1"
 dependency_deprecation_dates:
-- version_line: 1.16.x
-  name: nginx
-  date: 2020-04-01
-  link: https://nginx.org/
-- version_line: 1.17.x
-  name: nginx
-  date: 2020-05-01
-  link: https://nginx.org/
 - version_line: 1.18.x
   name: nginx
   date: 2021-05-01
@@ -114,22 +106,6 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.newrelic.com/docs/licenses/license-information/agent-licenses/java-agent-licenses
-- name: nginx
-  version: 1.16.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.16.1_linux_x64_cflinuxfs3_d6ffd81d.tgz
-  sha256: d6ffd81d90de9dd3e86a0c9980fb0d687ec79ef1879df2e082a15655db22fd83
-  cf_stacks:
-  - cflinuxfs3
-  source: http://nginx.org/download/nginx-1.16.1.tar.gz
-  source_sha256: f11c2a6dd1d3515736f0324857957db2de98be862461b5a542a3ac6188dbe32b
-- name: nginx
-  version: 1.17.10
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.17.10_linux_x64_cflinuxfs3_76c8dfce.tgz
-  sha256: 76c8dfce906506eb192f61360bde5028d83d350f59abce7d54cb74254b31146a
-  cf_stacks:
-  - cflinuxfs3
-  source: http://nginx.org/download/nginx-1.17.10.tar.gz
-  source_sha256: a9aa73f19c352a6b166d78e2a664bb3ef1295bbe6d3cc5aa7404bd4664ab4b83
 - name: nginx
   version: 1.18.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.18.0_linux_x64_cflinuxfs3_195be92a.tgz
