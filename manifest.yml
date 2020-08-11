@@ -22,7 +22,7 @@ default_versions:
 - name: newrelic
   version: 9.1.0.246
 - name: nginx
-  version: 1.19.1
+  version: 1.19.2
 - name: composer
   version: 1.10.10
 - name: CAAPM
