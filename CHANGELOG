@@ -1,3 +1,35 @@
+v4.4.20 Aug 12, 2020
+=====================
+
+* Set default version for nginx to 1.19.1
+
+* Add nginx 1.19.2, remove nginx 1.19.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174279605)
+
+* Remove EOL'd nginx 1.16.x and 1.17.x
+
+* Add httpd 2.4.46, remove httpd 2.4.43
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174241747)
+
+* Add php 7.4.9, remove php 7.4.7
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174210693)
+
+* Add php 7.3.21, remove php 7.3.19
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174208568)
+
+* Add php 7.2.33, remove php 7.2.31
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174208559)
+
+* Add composer 1.10.10, remove composer 1.10.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174142324)
+
+
 v4.4.19 Jul 29, 2020
 =====================
 
