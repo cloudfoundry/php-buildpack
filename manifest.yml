@@ -16,7 +16,7 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 7.2.33
+  version: 7.2.34
 - name: httpd
   version: 2.4.46
 - name: newrelic
@@ -123,13 +123,13 @@ dependencies:
   source: http://nginx.org/download/nginx-1.19.3.tar.gz
   source_sha256: 91e5b74fa17879d2463294e93ad8f6ffc066696ae32ad0478ffe15ba0e9e8df0
 - name: php
-  version: 7.2.32
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.32_linux_x64_cflinuxfs3_44351be4.tgz
-  sha256: 44351be4f3445bb6414d741fb8861fd29cbf8a215f8e9b4f73db95db79b0f90a
+  version: 7.2.33
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.33_linux_x64_cflinuxfs3_22aa01a4.tgz
+  sha256: 22aa01a4a6e80407280b510065a430f7b5ea8aa0169e28251fe195d4964b2114
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.2.32.tar.gz
-  source_sha256: b3aabb99e574c407dd58ad071fc52e27c489608fe06f1330d688d0fb7349089c
+  source: https://php.net/distributions/php-7.2.33.tar.gz
+  source_sha256: 97bb6b88ddfa44f36c4fc84a1a718faef476f61b532d26ea29e3e9f6cd79d839
   dependencies:
   - name: amqp
     version: 1.9.4
@@ -261,13 +261,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.2.33
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.33_linux_x64_cflinuxfs3_22aa01a4.tgz
-  sha256: 22aa01a4a6e80407280b510065a430f7b5ea8aa0169e28251fe195d4964b2114
+  version: 7.2.34
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.34_linux_x64_cflinuxfs3_57d31712.tgz
+  sha256: 57d317122712d636409e8682c748502e3876a8d8c30dd8c6409805df6824ffd3
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.2.33.tar.gz
-  source_sha256: 97bb6b88ddfa44f36c4fc84a1a718faef476f61b532d26ea29e3e9f6cd79d839
+  source: https://php.net/distributions/php-7.2.34.tar.gz
+  source_sha256: 8b2777c741e83f188d3ca6d8e98ece7264acafee86787298fae57e05d0dddc78
   dependencies:
   - name: amqp
     version: 1.9.4
