@@ -262,15 +262,15 @@ dependencies:
     version: 
 - name: php
   version: 7.2.34
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.34_linux_x64_cflinuxfs3_57d31712.tgz
-  sha256: 57d317122712d636409e8682c748502e3876a8d8c30dd8c6409805df6824ffd3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.34_linux_x64_cflinuxfs3_c8302e43.tgz
+  sha256: c8302e4381dd66d2b9640a7e418cb00ff1986dba57f363e68b59903f97ea4be8
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.34.tar.gz
   source_sha256: 8b2777c741e83f188d3ca6d8e98ece7264acafee86787298fae57e05d0dddc78
   dependencies:
   - name: amqp
-    version: 1.9.4
+    version: 1.10.2
   - name: apcu
     version: 5.1.18
   - name: bz2
@@ -296,7 +296,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.1.1
+    version: 3.1.5
   - name: imagick
     version: 3.4.4
   - name: imap
@@ -307,11 +307,11 @@ dependencies:
   - name: ldap
     version: 
   - name: lua
-    version: 2.0.6
+    version: 2.0.7
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.0.4
+    version: 3.1.1
   - name: maxminddb
     version: 
   - name: mbstring
@@ -319,13 +319,13 @@ dependencies:
   - name: memcached
     version: 3.1.5
   - name: mongodb
-    version: 1.6.1
+    version: 1.8.0
   - name: msgpack
-    version: 2.0.3
+    version: 2.1.1
   - name: mysqli
     version: 
   - name: oauth
-    version: 2.0.4
+    version: 2.0.7
   - name: opcache
     version: 
   - name: openssl
@@ -343,11 +343,11 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.6.1
+    version: 5.8.1
   - name: pgsql
     version: 
   - name: phalcon
-    version: 3.4.4
+    version: 4.0.6
   - name: phpiredis
     version: 1.0.0
   - name: protobuf
@@ -355,11 +355,11 @@ dependencies:
   - name: pspell
     version: 
   - name: rdkafka
-    version: 3.1.2
+    version: 4.0.3
   - name: readline
   - name: recode
   - name: redis
-    version: 5.1.1
+    version: 5.3.1
   - name: shmop
     version: 
   - name: snmp
@@ -369,9 +369,9 @@ dependencies:
     version: 
   - name: sodium
   - name: solr
-    version: 2.5.0
+    version: 2.5.1
   - name: sqlsrv
-    version: 5.6.1
+    version: 5.8.1
   - name: ssh2
     version: 1.2
   - name: stomp
@@ -387,14 +387,14 @@ dependencies:
   - name: tidy
   - name: wddx
   - name: xdebug
-    version: 2.9.1
+    version: 2.9.8
   - name: xmlrpc
   - name: xsl
     version: 
   - name: yaf
-    version: 3.0.9
+    version: 3.2.5
   - name: yaml
-    version: 2.0.4
+    version: 2.1.0
   - name: zip
   - name: zlib
     version: 
