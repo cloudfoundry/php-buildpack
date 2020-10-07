@@ -262,8 +262,8 @@ dependencies:
     version: 
 - name: php
   version: 7.2.34
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.34_linux_x64_cflinuxfs3_c8302e43.tgz
-  sha256: c8302e4381dd66d2b9640a7e418cb00ff1986dba57f363e68b59903f97ea4be8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.2.34_linux_x64_cflinuxfs3_33eb86f5.tgz
+  sha256: 33eb86f527dc1942be22f697651e129803773c180927742c73cb5a5608a7b0b7
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.2.34.tar.gz
@@ -303,7 +303,7 @@ dependencies:
     version: 
   - name: interbase
   - name: ioncube
-    version: 10.3.8
+    version: 10.4.4
   - name: ldap
     version: 
   - name: lua
@@ -349,11 +349,13 @@ dependencies:
   - name: phalcon
     version: 4.0.6
   - name: phpiredis
-    version: 1.0.0
+    version: 1.0.1
   - name: protobuf
     version: 
   - name: pspell
     version: 
+  - name: psr
+    version: 1.0.0
   - name: rdkafka
     version: 4.0.3
   - name: readline
