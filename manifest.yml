@@ -800,8 +800,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.11_linux_x64_cflinuxfs3_c2e40486.tgz
-  sha256: c2e40486961c60c054436a777925cb2b6b11dfe433201a50ec5aae13fa9b4697
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.11_linux_x64_cflinuxfs3_bdd33d1f.tgz
+  sha256: bdd33d1fa5b60754748ab3b4a49ede68ea60b0795add5ef7eabf1e5e284009fd
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.11.tar.gz
@@ -835,6 +835,8 @@ dependencies:
     version: 3.4.4
   - name: imap
     version: 
+  - name: ioncube
+    version: 10.4.4
   - name: ldap
     version: 
   - name: lua
@@ -878,11 +880,13 @@ dependencies:
   - name: pgsql
     version: 
   - name: phpiredis
-    version: 1.0.0
+    version: 1.0.1
   - name: protobuf
     version: 
   - name: pspell
     version: 
+  - name: psr
+    version: 1.0.0
   - name: rdkafka
     version: 4.0.3
   - name: readline
