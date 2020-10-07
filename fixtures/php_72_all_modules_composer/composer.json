@@ -44,6 +44,7 @@
         "ext-phpiredis": "*",
         "ext-protobuf": "*",
         "ext-pspell": "*",
+        "ext-psr": "*",
         "ext-rdkafka": "*",
         "ext-readline": "*",
         "ext-recode": "*",
