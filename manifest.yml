@@ -684,8 +684,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.10
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.10_linux_x64_cflinuxfs3_809a3a7e.tgz
-  sha256: 809a3a7e4b8e945dcfb5fb8eab41cf7815c08b2bc45f188986feb341deff70b5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.10_linux_x64_cflinuxfs3_743e6aeb.tgz
+  sha256: 743e6aeb01a1ea544cceb13df53197bb186cd9518c18f9abcbb448b9c9c9eac6
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.10.tar.gz
@@ -714,19 +714,21 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.1.1
+    version: 3.1.5
   - name: imagick
     version: 3.4.4
   - name: imap
     version: 
+  - name: ioncube
+    version: 10.4.4
   - name: ldap
     version: 
   - name: lua
-    version: 2.0.6
+    version: 2.0.7
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.0.4
+    version: 3.1.1
   - name: maxminddb
     version: 
   - name: mbstring
@@ -734,13 +736,13 @@ dependencies:
   - name: memcached
     version: 3.1.5
   - name: mongodb
-    version: 1.6.1
+    version: 1.8.0
   - name: msgpack
-    version: 2.0.3
+    version: 2.1.1
   - name: mysqli
     version: 
   - name: oauth
-    version: 2.0.4
+    version: 2.0.7
   - name: opcache
     version: 
   - name: openssl
@@ -758,20 +760,22 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.6.1
+    version: 5.8.1
   - name: pgsql
     version: 
   - name: phpiredis
-    version: 1.0.0
+    version: 1.0.1
   - name: protobuf
     version: 
   - name: pspell
     version: 
+  - name: psr
+    version: 1.0.0
   - name: rdkafka
-    version: 3.1.2
+    version: 4.0.3
   - name: readline
   - name: redis
-    version: 5.1.1
+    version: 5.3.1
   - name: shmop
     version: 
   - name: snmp
@@ -780,9 +784,9 @@ dependencies:
   - name: sockets
     version: 
   - name: solr
-    version: 2.5.0
+    version: 2.5.1
   - name: sqlsrv
-    version: 5.6.1
+    version: 5.8.1
   - name: ssh2
     version: 1.2
   - name: stomp
@@ -797,12 +801,12 @@ dependencies:
     version: 5.0.2
   - name: tidy
   - name: xdebug
-    version: 2.9.1
+    version: 2.9.8
   - name: xmlrpc
   - name: xsl
     version: 
   - name: yaml
-    version: 2.0.4
+    version: 2.1.0
   - name: zip
   - name: zlib
     version: 
