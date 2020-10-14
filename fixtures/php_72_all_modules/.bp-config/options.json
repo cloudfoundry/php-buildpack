@@ -49,6 +49,7 @@
     "phpiredis",
     "protobuf",
     "pspell",
+    "psr",
     "rdkafka",
     "readline",
     "recode",
