@@ -1,3 +1,29 @@
+v4.4.23 Oct 21, 2020
+=====================
+
+* Add composer 1.10.15, remove composer 1.10.11
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175248667)
+  (https://www.pivotaltracker.com/story/show/175247231)
+  (https://www.pivotaltracker.com/story/show/174727609)
+
+* Add php 7.4.11, remove php 7.4.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175077027)
+
+* Add php 7.3.23, remove php 7.3.21
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175076701)
+
+* Add php 7.2.34, remove php 7.2.32
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175076072)
+
+* Add nginx 1.19.3, remove nginx 1.19.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175040162)
+
+
 v4.4.22 Sep 23, 2020
 =====================
 
