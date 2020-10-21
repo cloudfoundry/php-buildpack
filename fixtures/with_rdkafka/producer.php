@@ -18,6 +18,8 @@
     $testTopic = $producer->newTopic("test", $topicConf);
 
     $testTopic->produce(RD_KAFKA_PARTITION_UA, 0, "Hi");
+
+    echo "rdkafka loaded";
 ?>
 </body>
 </html>

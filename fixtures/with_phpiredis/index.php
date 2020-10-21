@@ -33,19 +33,15 @@
   $redis = phpiredis_connect($redisUrl, $redisPort);
   $response = phpiredis_command_bs($redis, array('AUTH', $redisPassword));
 
-  # Set value of variable to 10
   $set_response = phpiredis_command_bs($redis, array('SET', 'variable', 10));
-  $get_response = phpiredis_command_bs($redis, array('GET', 'variable'));
-
   echo "SET response was ";
   print_r($set_response);
 
   echo "<br/><br/><br/>";
 
+  $get_response = phpiredis_command_bs($redis, array('GET', 'variable'));
   echo "Value of variable is currently ";
   print_r($get_response);
-
-  $reader = phpiredis_reader_create();
 ?>
 </body>
 </html>
