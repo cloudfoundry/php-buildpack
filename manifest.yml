@@ -812,8 +812,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.11_linux_x64_cflinuxfs3_bdd33d1f.tgz
-  sha256: bdd33d1fa5b60754748ab3b4a49ede68ea60b0795add5ef7eabf1e5e284009fd
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.11_linux_x64_cflinuxfs3_5ee92dc1.tgz
+  sha256: 5ee92dc1e28a9c2ce8e3137e7f08c35756cb0a16c361ecf09fa60766056bf2b0
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.11.tar.gz
@@ -911,6 +911,7 @@ dependencies:
     version: 
   - name: sockets
     version: 
+  - name: sodium
   - name: solr
     version: 2.5.1
   - name: sqlsrv
