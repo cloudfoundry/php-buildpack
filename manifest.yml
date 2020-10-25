@@ -24,7 +24,7 @@ default_versions:
 - name: nginx
   version: 1.19.3
 - name: composer
-  version: 2.0.1
+  version: 2.0.2
 - name: CAAPM
   version: 20.1.0
 url_to_dependency_map:
@@ -84,13 +84,13 @@ dependencies:
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
   source_sha256: 7731298da802605a66ce70c9c2864c78f5229ce693e619832f7514962d41204c
 - name: composer
-  version: 2.0.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.0.1_linux_noarch_any-stack_4b4b118c.phar
-  sha256: 4b4b118cc54662e4813ba86efb215fdb19c5b29944c5919b4f2803c915aa2234
+  version: 2.0.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.0.2_linux_noarch_any-stack_5e122edd.phar
+  sha256: 5e122edd0f2a4fb01172b6b1c156b3d252d9205105b4ad169a4b09913ba6a859
   cf_stacks:
   - cflinuxfs3
-  source: https://github.com/composer/composer/releases/download/2.0.1/composer.phar
-  source_sha256: 4b4b118cc54662e4813ba86efb215fdb19c5b29944c5919b4f2803c915aa2234
+  source: https://github.com/composer/composer/releases/download/2.0.2/composer.phar
+  source_sha256: 5e122edd0f2a4fb01172b6b1c156b3d252d9205105b4ad169a4b09913ba6a859
 - name: httpd
   version: 2.4.46
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.46_linux_x64_cflinuxfs3_ead6e42f.tgz
