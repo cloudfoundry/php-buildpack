@@ -403,13 +403,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.3.22
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.3.22_linux_x64_cflinuxfs3_bdf76929.tgz
-  sha256: bdf76929493b6a71542e4e3fd2e54e62db4c3e13cda57f426cf71b48adeced54
+  version: 7.3.23
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.3.23_linux_x64_cflinuxfs3_8ebfe87e.tgz
+  sha256: 8ebfe87ef34c15110feceda4c383cc702b323a6c4662316cac9c61b5b6c0dcfe
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.3.22.tar.gz
-  source_sha256: 759426cb4054e3f23316c39710faff0bb8063fd0ea50fc2c5efa590429af1a22
+  source: https://php.net/distributions/php-7.3.23.tar.gz
+  source_sha256: a21094b9ba2d8fe7fa5838e6566e30cf4bfaf2c8a6dce90ff707c45d0d8d494d
   dependencies:
   - name: amqp
     version: 1.10.2
@@ -543,13 +543,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.3.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.3.23_linux_x64_cflinuxfs3_8ebfe87e.tgz
-  sha256: 8ebfe87ef34c15110feceda4c383cc702b323a6c4662316cac9c61b5b6c0dcfe
+  version: 7.3.24
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.3.24_linux_x64_cflinuxfs3_4a7f9b87.tgz
+  sha256: 4a7f9b878dbeffb836877505465e1a7d4c6f53136566f896f98c462eac4a98e9
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.3.23.tar.gz
-  source_sha256: a21094b9ba2d8fe7fa5838e6566e30cf4bfaf2c8a6dce90ff707c45d0d8d494d
+  source: https://php.net/distributions/php-7.3.24.tar.gz
+  source_sha256: ac06577e2aeb69d4bed3c1532ed84a548f01399e5481c144c3e61d146be8ced6
   dependencies:
   - name: amqp
     version: 1.10.2
