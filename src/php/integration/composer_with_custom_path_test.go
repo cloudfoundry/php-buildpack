@@ -18,6 +18,6 @@ var _ = Describe("Composer with custom path", func() {
 		app.SetEnv("COMPOSER_PATH", "meatball/sub")
 		PushAppAndConfirm(app)
 
-		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Loading composer repositories with package information"))
+		Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("Installing dependencies from lock file"))
 	})
 })
