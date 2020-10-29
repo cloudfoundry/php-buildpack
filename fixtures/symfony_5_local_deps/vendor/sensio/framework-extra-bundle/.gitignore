@@ -1,0 +1,7 @@
+/vendor
+coverage
+/tests/Fixtures/var
+phpunit.xml
+composer.lock
+/.php_cs.cache
+.phpunit.result.cache

@@ -162,9 +162,6 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, retrying in 5 seconds"))
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, retrying in 7 seconds"))
 
-		By("error during agent download")
-		Expect(app.Stdout.String()).To(ContainSubstring("ERROR: Dynatrace agent download failed"))
-
 		By("no further installer logs")
 		Expect(app.Stdout.String()).ToNot(ContainSubstring("Extracting Dynatrace OneAgent"))
 	})
