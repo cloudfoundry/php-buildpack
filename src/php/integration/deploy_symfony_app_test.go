@@ -20,7 +20,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		PushAppAndConfirm(app)
 
 		By("dynamically generates the content for the root route")
-		Expect(app.GetBody("/")).To(ContainSubstring("Welcome to the <strong>Symfony Demo</strong> application"))
+		Expect(app.GetBody("/")).To(ContainSubstring("Running on Symfony!"))
 	})
 
 	It("deploying a symfony 5 app with remotely-sourced dependencies", func() {
