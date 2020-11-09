@@ -59,7 +59,7 @@ class CAAPMInstaller(object):
 
         return {
             'CA_APM_DOWNLOAD_HOST': 'ca.bintray.com/apm-agents',
-            'CA_APM_DOWNLOAD_VERSION': '20.1.0',
+            'CA_APM_DOWNLOAD_VERSION': '20.11.0',
             'CA_APM_PHP_PACKAGE': 'CA-APM-PHPAgent-{CA_APM_DOWNLOAD_VERSION}_linux.tar.gz',
             'CAAPM_DOWNLOAD_URL': 'https://{CA_APM_DOWNLOAD_HOST}/{CA_APM_PHP_PACKAGE}'
         }
