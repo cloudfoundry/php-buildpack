@@ -26,7 +26,7 @@ default_versions:
 - name: composer
   version: 2.0.6
 - name: CAAPM
-  version: 20.1.0
+  version: 20.11.0
 url_to_dependency_map:
 - match: appdynamics-php-agent-linux_x64-(\d+\.\d+\.\d+\.\d+)
   name: appdynamics
@@ -69,12 +69,13 @@ dependency_deprecation_dates:
   match: 7.4.\d+
 dependencies:
 - name: CAAPM
-  version: 20.1.0
-  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-20.1.0_linux.tar.gz
-  sha256: 4edd1d0b84bbff32c651cf340ed7493f0436904f929dd9f1f2d79f07ef3b7f70
+  version: 20.11.0
+  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-20.11.0_linux.tar.gz
+  sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
   cf_stacks:
   - cflinuxfs3
-  osl: https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/application-performance-management/10-7/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments.html
+  osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
+  source_sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
 - name: appdynamics
   version: 20.4.0.3759
   uri: https://packages.appdynamics.com/php/20.4.0.3759/appdynamics-php-agent-linux_x64-20.4.0.3759.tar.bz2
