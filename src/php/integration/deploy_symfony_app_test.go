@@ -16,11 +16,12 @@ var _ = Describe("CF PHP Buildpack", func() {
 	It("deploying a symfony 5 app with locally-vendored dependencies", func() {
 		SkipUnlessCached()
 
-		app = cutlass.New(Fixtures("symfony_2_local_deps"))
+		app = cutlass.New(Fixtures("symfony_5_local_deps"))
+		app.Buildpacks = []string{"php_buildpack"}
 		PushAppAndConfirm(app)
 
 		By("dynamically generates the content for the root route")
-		Expect(app.GetBody("/")).To(ContainSubstring("Running on Symfony!"))
+		Expect(app.GetBody("/")).To(ContainSubstring("Welcome to the <strong>Symfony Demo</strong> application"))
 	})
 
 	It("deploying a symfony 5 app with remotely-sourced dependencies", func() {
