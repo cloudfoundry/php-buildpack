@@ -18,6 +18,8 @@ import os.path
 import logging
 from subprocess import call
 
+from build_pack_utils.compile_extensions import CompileExtensions
+
 _log = logging.getLogger('CAAPM')
 
 
@@ -57,9 +59,14 @@ class CAAPMInstaller(object):
     def _defaults(self):
         self._log.info("Loading defaults info")
 
+        manifest_file_path = os.path.join(self._ctx["BP_DIR"], "manifest.yml")
+
+        compile_ext = CompileExtensions(self._ctx["BP_DIR"])
+        _, default_version = compile_ext.default_version_for(manifest_file_path=manifest_file_path, dependency="CAAPM")
+
         return {
             'CA_APM_DOWNLOAD_HOST': 'ca.bintray.com/apm-agents',
-            'CA_APM_DOWNLOAD_VERSION': '20.11.0',
+            'CA_APM_DOWNLOAD_VERSION': default_version,
             'CA_APM_PHP_PACKAGE': 'CA-APM-PHPAgent-{CA_APM_DOWNLOAD_VERSION}_linux.tar.gz',
             'CAAPM_DOWNLOAD_URL': 'https://{CA_APM_DOWNLOAD_HOST}/{CA_APM_PHP_PACKAGE}'
         }
