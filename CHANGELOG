@@ -1,3 +1,23 @@
+v4.4.25 Nov 12, 2020
+=====================
+
+* Get caapm version from manifest default_versions section
+
+* removes unused fixtures, fixes symfony test to use symfony 5
+
+* Add CAAPM 20.11.0, remove CAAPM 20.1.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175635514)
+
+* Add composer 2.0.6, remove composer 2.0.5
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175627359)
+
+* Add php 7.4.12, remove php 7.4.10
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175502782)
+
+
 v4.4.24 Oct 30, 2020
 =====================
 
