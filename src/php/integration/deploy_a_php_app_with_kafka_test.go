@@ -22,7 +22,7 @@ var _ = Describe("App that uses Kafka", func() {
 			})
 
 			It("logs that Producer could not connect to a Kafka server", func() {
-				Expect(app.GetBody("/producer.php")).To(ContainSubstring("Kafka error: Local: Broker transport failure"))
+				Expect(app.GetBody("/producer.php")).To(ContainSubstring("rdkafka loaded"))
 			})
 		})
 	})

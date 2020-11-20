@@ -1,7 +1,9 @@
 package integration_test
 
 import (
+	"fmt"
 	"os/exec"
+	"time"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
 
@@ -10,9 +12,14 @@ import (
 )
 
 var _ = Describe("Deploy app with", func() {
-	var app *cutlass.App
-	var serviceName, serviceName2 string
-	RunCf := func(args ...string) error {
+	var (
+		app                       *cutlass.App
+		serviceName, serviceName2 string
+		dynatraceAPI              *cutlass.App
+		dynatraceAPIURI           string
+	)
+
+	var RunCf = func(args ...string) error {
 		command := exec.Command("cf", args...)
 		command.Stdout = GinkgoWriter
 		command.Stderr = GinkgoWriter
@@ -20,12 +27,25 @@ var _ = Describe("Deploy app with", func() {
 	}
 
 	BeforeEach(func() {
+		dynatraceAPI = cutlass.New(Fixtures("fake_dynatrace_api"))
+		dynatraceAPI.SetEnv("BP_DEBUG", "true")
+
+		Expect(dynatraceAPI.Push()).To(Succeed())
+		Eventually(func() ([]string, error) { return dynatraceAPI.InstanceStates() }, 60*time.Second).Should(Equal([]string{"RUNNING"}))
+
+		var err error
+		dynatraceAPIURI, err = dynatraceAPI.GetUrl("")
+		Expect(err).NotTo(HaveOccurred())
+
 		app = cutlass.New(Fixtures("with_dynatrace"))
 		app.SetEnv("BP_DEBUG", "true")
 		Expect(app.PushNoStart()).To(Succeed())
 	})
+
 	AfterEach(func() {
 		app = DestroyApp(app)
+		dynatraceAPI = DestroyApp(dynatraceAPI)
+
 		if serviceName != "" {
 			_ = RunCf("delete-service", "-f", serviceName)
 			serviceName = ""
@@ -38,7 +58,7 @@ var _ = Describe("Deploy app with", func() {
 
 	It("single dynatrace service without manifest.json", func() {
 		serviceName = "dynatrace-service-" + cutlass.RandStringRunes(20)
-		Expect(RunCf("cups", serviceName, "-p", `{"apitoken":"TOKEN","apiurl":"https://s3.amazonaws.com/dt-paas","environmentid":"envid"}`)).To(Succeed())
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s/without-agent-path","environmentid":"envid"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 		Expect(RunCf("start", app.Name)).To(Succeed())
 		ConfirmRunning(app)
@@ -71,11 +91,11 @@ var _ = Describe("Deploy app with", func() {
 
 	It("Deploy app with multiple dynatrace services", func() {
 		serviceName = "dynatrace-service-" + cutlass.RandStringRunes(20)
-		Expect(RunCf("cups", serviceName, "-p", `{"apitoken":"TOKEN","apiurl":"https://s3.amazonaws.com/dt-paas","environmentid":"envid"}`)).To(Succeed())
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s","environmentid":"envid"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 
 		serviceName2 = "dynatrace-service-" + cutlass.RandStringRunes(20)
-		Expect(RunCf("cups", serviceName2, "-p", `{"apitoken":"TOKEN","apiurl":"https://s3.amazonaws.com/dt-paas","environmentid":"envid_dupe"}`)).To(Succeed())
+		Expect(RunCf("cups", serviceName2, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s","environmentid":"envid_dupe"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName2)).To(Succeed())
 
 		By("deployment should fail")
@@ -91,7 +111,7 @@ var _ = Describe("Deploy app with", func() {
 
 	It("Deploy app with single dynatrace service, wrong url and skiperrors on true", func() {
 		serviceName = "dynatrace-service-" + cutlass.RandStringRunes(20)
-		Expect(RunCf("cups", serviceName, "-p", `{"apitoken":"TOKEN","apiurl":"https://s3.amazonaws.com/dt-paasFAIL","environmentid":"envid","skiperrors":"true"}`)).To(Succeed())
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s/no-such-endpoint","environmentid":"envid","skiperrors":"true"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 
 		By("deployment should not fail")
@@ -121,7 +141,7 @@ var _ = Describe("Deploy app with", func() {
 
 	It("Deploy app with single dynatrace service, wrong url and skiperrors not set", func() {
 		serviceName = "dynatrace-service-" + cutlass.RandStringRunes(20)
-		Expect(RunCf("cups", serviceName, "-p", `{"apitoken":"TOKEN","apiurl":"https://s3.amazonaws.com/dt-paasFAIL","environmentid":"envid"}`)).To(Succeed())
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"TOKEN","apiurl":"%s/no-such-endpoint","environmentid":"envid"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 
 		By("deployment should fail")
@@ -141,9 +161,6 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, retrying in 4 seconds"))
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, retrying in 5 seconds"))
 		Expect(app.Stdout.String()).To(ContainSubstring("Error during installer download, retrying in 7 seconds"))
-
-		By("error during agent download")
-		Expect(app.Stdout.String()).To(ContainSubstring("ERROR: Dynatrace agent download failed"))
 
 		By("no further installer logs")
 		Expect(app.Stdout.String()).ToNot(ContainSubstring("Extracting Dynatrace OneAgent"))

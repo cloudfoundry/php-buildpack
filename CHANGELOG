@@ -1,3 +1,394 @@
+v4.4.26 Nov 19, 2020
+=====================
+
+* Add composer 2.0.7, remove composer 2.0.6
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175721855)
+
+
+v4.4.25 Nov 12, 2020
+=====================
+
+* Get caapm version from manifest default_versions section
+
+* removes unused fixtures, fixes symfony test to use symfony 5
+
+* Add CAAPM 20.11.0, remove CAAPM 20.1.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175635514)
+
+* Add composer 2.0.6, remove composer 2.0.5
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175627359)
+
+* Add php 7.4.12, remove php 7.4.10
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175502782)
+
+
+v4.4.24 Oct 30, 2020
+=====================
+
+* Add php 7.3.24, remove php 7.3.22
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175494799)
+
+* Add composer 2.0.3, remove composer 1.10.15
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175481653)
+
+
+* Add nginx 1.19.4, remove nginx 1.19.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175461734)
+
+
+v4.4.23 Oct 21, 2020
+=====================
+
+* Add composer 1.10.15, remove composer 1.10.11
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175248667)
+  (https://www.pivotaltracker.com/story/show/175247231)
+  (https://www.pivotaltracker.com/story/show/174727609)
+
+* Add php 7.4.11, remove php 7.4.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175077027)
+
+* Add php 7.3.23, remove php 7.3.21
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175076701)
+
+* Add php 7.2.34, remove php 7.2.32
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175076072)
+
+* Add nginx 1.19.3, remove nginx 1.19.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/175040162)
+
+
+v4.4.22 Sep 23, 2020
+=====================
+
+* Add composer 1.10.13, remove composer 1.10.11
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174727609)
+  (https://www.pivotaltracker.com/story/show/174727603)
+
+
+v4.4.21 Sep 08, 2020
+=====================
+
+* Add composer 1.10.11, remove composer 1.10.10
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174712735)
+
+* Add php 7.4.10, remove php 7.4.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174648869)
+
+* Add php 7.3.22, remove php 7.3.20
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174642649)
+
+v4.4.20 Aug 12, 2020
+=====================
+
+* Set default version for nginx to 1.19.1
+
+* Add nginx 1.19.2, remove nginx 1.19.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174279605)
+
+* Remove EOL'd nginx 1.16.x and 1.17.x
+
+* Add httpd 2.4.46, remove httpd 2.4.43
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174241747)
+
+* Add php 7.4.9, remove php 7.4.7
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174210693)
+
+* Add php 7.3.21, remove php 7.3.19
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174208568)
+
+* Add php 7.2.33, remove php 7.2.31
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174208559)
+
+* Add composer 1.10.10, remove composer 1.10.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/174142324)
+
+
+v4.4.19 Jul 29, 2020
+=====================
+
+* Add composer 1.10.9, remove composer 1.10.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/173830267)
+
+* Add php 7.3.20, remove php 7.3.18
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/173729976)
+
+* Add php 7.2.32, remove php 7.2.30
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/173730682)
+
+
+v4.4.18 Jul 13, 2020
+=====================
+
+* Add php 7.4.8, remove php 7.4.6
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/173730715)
+
+
+v4.4.17 Jul 08, 2020
+=====================
+
+* Add nginx 1.19.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/173689583)
+  (https://www.pivotaltracker.com/story/show/173470659)
+
+* Add php 7.3.19, remove php 7.3.17
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172834862)
+
+* Add composer 1.10.8, remove composer 1.10.5
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/173501332)
+  (https://www.pivotaltracker.com/story/show/173147948)
+
+* Add php 7.4.7, remove php 7.4.5
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/173291637)
+
+
+v4.4.16 May 28, 2020
+=====================
+
+* Add php 7.3.18, remove php 7.3.16
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172968627)
+
+
+v4.4.15 May 20, 2020
+=====================
+
+* Add php 7.4.6, remove php 7.4.4
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172835594)
+
+* Add php 7.2.31, remove php 7.2.29
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172834865)
+
+* Add composer 1.10.6, remove composer 1.10.5
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172692399)
+
+
+v4.4.14 May 05, 2020
+=====================
+
+* Add nginx 1.18.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172657425)
+
+* Add appdynamics 20.4.0.3759, remove appdynamics 20.3.1.3604
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172578990)
+
+
+v4.4.13 Apr 23, 2020
+=====================
+
+* add ssh2 to php_72_all_modules fixutre
+  (https://www.pivotaltracker.com/story/show/172412499)
+
+* manually bump nginx version to 1.17.10
+  (https://www.pivotaltracker.com/story/show/172412499)
+
+* Fixes dependency templating (change '-' to '_')
+  (https://www.pivotaltracker.com/story/show/172412499)
+
+* Add php 7.2.30, remove php 7.2.28
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172388406)
+
+* Add php 7.4.5, remove php 7.4.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172351044)
+
+* Add php 7.3.17, remove php 7.3.15
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172349382)
+
+* Add nginx 1.17.10, remove nginx 1.17.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172313698)
+
+
+v4.4.12 Apr 13, 2020
+=====================
+
+* Add composer 1.10.5, remove composer 1.10.4
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172260339)
+
+* Add composer 1.10.4, remove composer 1.10.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172247614)
+
+
+v4.4.11 Apr 02, 2020
+=====================
+
+* Add httpd 2.4.43, remove httpd 2.4.41
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/172117902)
+
+* Add appdynamics 20.3.1.3604, remove appdynamics 20.3.0.3526
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171993598)
+
+
+v4.4.10 Mar 25, 2020
+=====================
+
+* Add php 7.3.16, remove php 7.3.13
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171876818)
+
+* Add php 7.4.4, remove php 7.4.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171882325)
+
+* Add php 7.2.29, remove php 7.2.27
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171876814)
+
+* Update default composer version
+
+* Add composer 1.10.1, remove composer 1.9.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171796698)
+
+* Rebuild php 7.3.13
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170360307)
+
+* Rebuild php 7.4.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170865361)
+
+* Rebuild php 7.2.27
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170867348)
+
+* Rebuild php 7.4.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171380293)
+
+* Rebuild php 7.3.15
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171377838)
+
+* Rebuild php 7.2.28
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171377837)
+
+
+v4.4.9 Mar 09, 2020
+====================
+
+* Add nginx 1.17.9, remove nginx 1.17.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171603146)
+
+* Add appdynamics 20.3.0.3526, remove appdynamics 4.5.18.3343
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171600371)
+
+
+v4.4.8 Feb 25, 2020
+====================
+
+* Add PHP 7.3.13 by hand
+  * The update task is not adding it for some reason
+  (https://www.pivotaltracker.com/story/show/171333874)
+
+* Remove PHP 7.3.14
+  * We need to rebuild this with different extensions, but it is no longer on the PHP download site. So we will rebuild with 7.3.13
+  (https://www.pivotaltracker.com/story/show/171333874)
+
+* Add sodium to 7.2 composer fixture
+  (https://www.pivotaltracker.com/story/show/171333874)
+
+* Add php 7.3.15, remove php 7.3.13
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171377838)
+
+* Add php 7.4.3, remove php 7.4.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171380293)
+
+* Add php 7.2.28, remove php 7.2.26
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171377837)
+
+* Merge pull request #328 from thschue/master
+  removed get-param and added header
+
+v4.4.7 Feb 06, 2020
+====================
+
+* Add composer 1.9.3, remove composer 1.9.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/171128397)
+  (https://www.pivotaltracker.com/story/show/170703465)
+
+* Merge pull request #335 from CA-Application-Performance-Management/master
+  CAAPM_20.1.0 support is added.
+
+* Add php 7.3.14, remove php 7.3.12
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170869887)
+
+* Add php 7.2.27, remove php 7.2.25
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170867348)
+
+* Add php 7.4.2, remove php 7.4.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170865361)
+
+* Add nginx 1.17.8, remove nginx 1.17.7
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170822217)
+
+* Add appdynamics 4.5.18.3343, remove appdynamics 4.5.17.3288
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170793950)
+
+* Remove PHP 7.1
+  * Remove CAAPM because no other PHP versions are compatible with it
+  * Move fixture apps from 7.1 to 7.2. Some of the extensions needed to be
+  modifies (sodium is included in 7.2, but mcrypt is not).
+  (https://www.pivotaltracker.com/story/show/169756943)
+
+* Add CAAPM 20.1.0, remove CAAPM 10.7.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/170768186)
+
+
 v4.4.6 Jan 15, 2020
 ====================
 
