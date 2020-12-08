@@ -6,7 +6,7 @@ require (
 	github.com/nxadm/tail v1.4.5 // indirect
 	github.com/onsi/ginkgo v1.14.2
 	github.com/onsi/gomega v1.10.3
-	golang.org/x/sys v0.0.0-20201201145000-ef89a241ccb3 // indirect
+	golang.org/x/sys v0.0.0-20201207223542-d4d67f95c62d // indirect
 )
 
 go 1.13
