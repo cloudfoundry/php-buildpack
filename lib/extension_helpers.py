@@ -160,7 +160,6 @@ class PHPExtensionHelper(ExtensionHelper):
         ExtensionHelper.__init__(self, ctx)
         self._php_ini = None
         self._php_fpm = None
-        self._php_api = None
 
     def load_config(self):
         if not self._php_ini:
@@ -171,9 +170,3 @@ class PHPExtensionHelper(ExtensionHelper):
             self._php_fpm_path = os.path.join(self._ctx['BUILD_DIR'], 'php',
                                               'etc', 'php-fpm.conf')
             self._php_fpm = utils.ConfigFileEditor(self._php_fpm_path)
-        if not self._php_api:
-            self._php_api = self._get_api()
-
-    def _get_api(self):
-        if self._ctx['PHP_VERSION'].startswith('7.1'):
-            return '20131226'

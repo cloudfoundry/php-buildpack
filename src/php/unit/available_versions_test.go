@@ -24,13 +24,6 @@ var _ = Describe("Options.JSON", func() {
 		versions = manifest.AllDependencyVersions("php")
 	})
 
-	It("PHP_72_LATEST will have the latest 7.2 version", func() {
-		latest, err := libbuildpack.FindMatchingVersion("7.2.x", versions)
-		Expect(err).NotTo(HaveOccurred())
-
-		Expect(defaults["PHP_72_LATEST"]).To(Equal(latest))
-	})
-
 	It("PHP_73_LATEST will have the latest 7.3 version", func() {
 		latest, err := libbuildpack.FindMatchingVersion("7.3.x", versions)
 		Expect(err).NotTo(HaveOccurred())

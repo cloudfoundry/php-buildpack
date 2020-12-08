@@ -1,4 +1,3 @@
 {
-    "PHP_VERSION": "{PHP_72_LATEST}",
     "PHP_EXTENSIONS": ["cassandra"]
 }

@@ -14,9 +14,9 @@ class TestPHPExtensionHelper(object):
         self.build_dir = tempfile.mkdtemp(prefix='build-')
         self.phpCfgDir = os.path.join(self.build_dir, 'php', 'etc')
         os.makedirs(self.phpCfgDir)
-        shutil.copy('defaults/config/php/7.1.x/php.ini',
+        shutil.copy('defaults/config/php/7.3.x/php.ini',
                     self.phpCfgDir)
-        shutil.copy('defaults/config/php/7.1.x/php-fpm.conf',
+        shutil.copy('defaults/config/php/7.3.x/php-fpm.conf',
                     self.phpCfgDir)
 
     def tearDown(self):
@@ -26,7 +26,7 @@ class TestPHPExtensionHelper(object):
     def test_basic(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
         ext = PHPExtensionHelper(ctx)
         ext.load_config()
@@ -35,9 +35,8 @@ class TestPHPExtensionHelper(object):
         eq_({}, ext._application)
         eq_(os.path.join(self.phpCfgDir, 'php.ini'), ext._php_ini_path)
         eq_(os.path.join(self.phpCfgDir, 'php-fpm.conf'), ext._php_fpm_path)
-        eq_(1921, len(ext._php_ini._lines))
+        eq_(1916, len(ext._php_ini._lines))
         eq_(523, len(ext._php_fpm._lines))
-        eq_('20131226', ext._php_api)
         eq_(False, ext._should_compile())
         eq_(False, ext._should_configure())
         eq_(None, ext.configure())
@@ -49,7 +48,7 @@ class TestPHPExtensionHelper(object):
     def test_merge_defaults(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3',
+            'PHP_VERSION': '7.3.25',
             'SOME_JUNK': 'jkl;'
         })
 
@@ -63,12 +62,12 @@ class TestPHPExtensionHelper(object):
         eq_(4, len(ext._ctx))
         eq_('asdf', ext._ctx['DEFAULT_JUNK'])
         eq_('jkl;', ext._ctx['SOME_JUNK'])
-        eq_('7.1.3', ext._ctx['PHP_VERSION'])
+        eq_('7.3.25', ext._ctx['PHP_VERSION'])
 
     def test_compile_runs(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -83,7 +82,7 @@ class TestPHPExtensionHelper(object):
     def test_compile_doesnt_run(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -98,7 +97,7 @@ class TestPHPExtensionHelper(object):
     def test_configure_runs(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -113,7 +112,7 @@ class TestPHPExtensionHelper(object):
     def test_configure_doesnt_run(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -128,7 +127,7 @@ class TestPHPExtensionHelper(object):
     def test_preprocess_commands_runs(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -143,7 +142,7 @@ class TestPHPExtensionHelper(object):
     def test_preprocess_commands_doesnt_run(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -158,7 +157,7 @@ class TestPHPExtensionHelper(object):
     def test_service_commands_runs(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -173,7 +172,7 @@ class TestPHPExtensionHelper(object):
     def test_service_commands_doesnt_run(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -188,7 +187,7 @@ class TestPHPExtensionHelper(object):
     def test_service_environment_runs(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):
@@ -203,7 +202,7 @@ class TestPHPExtensionHelper(object):
     def test_service_environment_doesnt_run(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.1.3'
+            'PHP_VERSION': '7.3.25'
         })
 
         class MyExtn(PHPExtensionHelper):

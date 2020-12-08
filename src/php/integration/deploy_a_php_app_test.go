@@ -24,7 +24,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 		By("installs our hard-coded default version of PHP")
 		Expect(app.Stdout.String()).To(ContainSubstring("Installing PHP"))
-		Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.2"))
+		Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.3"))
 
 		By("does not return the version of PHP in the response headers")
 		body, headers, err := app.Get("/", map[string]string{})

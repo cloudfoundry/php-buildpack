@@ -13,9 +13,9 @@ var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 
-	Context("deploying a PHP72 app with custom conf files in fpm.d dir in app root", func() {
+	Context("deploying a PHP app with custom conf files in fpm.d dir in app root", func() {
 		It("sets custom configurations", func() {
-			app = cutlass.New(Fixtures("php_72_with_fpm_d"))
+			app = cutlass.New(Fixtures("php_with_fpm_d"))
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			PushAppAndConfirm(app)
 

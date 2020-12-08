@@ -1,4 +1,3 @@
 {
-    "PHP_EXTENSIONS": ["libxml", "sqlite3", "SPL", "SimpleXML"],
-    "PHP_VERSION": "{PHP_72_LATEST}"
+    "PHP_EXTENSIONS": ["libxml", "sqlite3", "SPL", "SimpleXML"]
 }

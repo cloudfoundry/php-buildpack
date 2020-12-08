@@ -76,6 +76,5 @@
     "zip",
     "zlib"
   ],
-  "PHP_VERSION": "{PHP_72_LATEST}",
   "GEOIP_LOCATION": "geo"
 }

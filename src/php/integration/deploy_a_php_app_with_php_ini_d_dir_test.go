@@ -17,15 +17,14 @@ var _ = Describe("CF PHP Buildpack", func() {
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 	})
 
-	Context("deploying a basic PHP72 app with custom conf files in php.ini.d dir in app root", func() {
+	Context("deploying a basic PHP app with custom conf files in php.ini.d dir in app root", func() {
 		BeforeEach(func() {
-			app = cutlass.New(Fixtures("php_72_with_php_ini_d"))
+			app = cutlass.New(Fixtures("php_with_php_ini_d"))
 		})
 
 		It("sets custom configurations", func() {
 			PushAppAndConfirm(app)
 			Expect(app.GetBody("/")).To(ContainSubstring("teststring"))
-			Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.2"))
 		})
 	})
 
