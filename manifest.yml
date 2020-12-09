@@ -400,13 +400,15 @@ dependencies:
     version: 
 - name: php
   version: 7.4.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.12_linux_x64_cflinuxfs3_5864dddb.tgz
-  sha256: 5864dddb62a3b12cad89deb8a9b1558fc55c8535f2d891c8080eb1eb96efc8a2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.4.12_linux_x64_cflinuxfs3_d62223c2.tgz
+  sha256: d62223c2c4c2331588c50b8f8de6197557a63a10a205549f058feb9a0ca4c1a9
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.12.tar.gz
   source_sha256: f056d74409a71f17218f76538c6a2d7b59ee99db9db7685fa0ab9cd0d4c0f286
   dependencies:
+  - name: amqp
+    version: 1.10.2
   - name: apcu
     version: 5.1.18
   - name: bz2
