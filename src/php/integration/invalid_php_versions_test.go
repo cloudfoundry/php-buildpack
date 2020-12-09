@@ -19,13 +19,13 @@ var _ = Describe("invalid PHP versions", func() {
 
 		By("stages successfully")
 		PushAppAndConfirm(app)
-		Expect(app.GetBody("/")).To(ContainSubstring("PHP Version 7.3"))
+		Expect(app.GetBody("/")).To(ContainSubstring("PHP Version 7.4"))
 
 		By("logs that an invalid version was provided")
-		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: PHP version 7.34.5 not available, using default version (7.3."))
+		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: PHP version 7.34.5 not available, using default version (7.4."))
 
 		By("uses the default PHP version")
-		Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.3"))
+		Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.4"))
 	})
 
 	It("version is specified using composer.json", func() {
@@ -37,9 +37,9 @@ var _ = Describe("invalid PHP versions", func() {
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
 		By("logs that an invalid version was provided")
-		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: PHP version >=9.7.0 not available, using default version (7.3."))
+		Expect(app.Stdout.String()).To(ContainSubstring("WARNING: PHP version >=9.7.0 not available, using default version (7.4."))
 
 		By("uses the default PHP version")
-		Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.3"))
+		Expect(app.Stdout.String()).To(ContainSubstring("PHP 7.4"))
 	})
 })
