@@ -94,7 +94,7 @@ class PhpAssertHelper(object):
                 .path('etc', 'php.ini')
                 .path('sbin', 'php-fpm')
                 .path('bin')
-                .root(build_dir, 'php', 'lib', 'php', 'extensions', 'no-debug-non-zts-20180731') # this should match defaults/config/php/<DEFAULT VERSION>/php.ini extensions_dir value
+                .root(build_dir, 'php', 'lib', 'php', 'extensions','no-debug-non-zts-20190902') # this should match defaults/config/php/<DEFAULT VERSION>/php.ini extensions_dir value
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
@@ -250,7 +250,7 @@ class NoWebServerAssertHelper(object):
                 .path('bin', 'php')
                 .path('bin', 'phar.phar')
             .root(build_dir, 'php', 'lib', 'php', 'extensions',
-                  'no-debug-non-zts-20180731') # this should match defaults/config/php/<DEFAULT VERSION>/php.ini extensions_dir value
+                  'no-debug-non-zts-20190902') # this should match defaults/config/php/<DEFAULT VERSION>/php.ini extensions_dir value
                 .path('bz2.so')
                 .path('zlib.so')
                 .path('curl.so')
