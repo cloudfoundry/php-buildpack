@@ -1,3 +1,13 @@
+v4.4.28 Dec 11, 2020
+=====================
+
+* makes PHP 7.4 default version, removes PHP 7.2
+
+* Add composer 2.0.8, remove composer 2.0.7
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176002324)
+
+
 v4.4.27 Dec 02, 2020
 =====================
 
