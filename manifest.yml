@@ -260,8 +260,8 @@ dependencies:
     version: 
 - name: php
   version: 7.3.25
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php7_7.3.25_linux_x64_cflinuxfs3_1ca89c0c.tgz
-  sha256: 1ca89c0cb5202dde80ac371db2703bd986f3587600f456999d24da09f96eb9bf
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.3.25_linux_x64_cflinuxfs3_66325337.tgz
+  sha256: 66325337987e2c9567e224fa154e6cbc29cafd80112d2b806ab6b0d22d9a509c
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.25.tar.gz
@@ -287,8 +287,6 @@ dependencies:
   - name: ftp
     version: 
   - name: gd
-  - name: geoip
-    version: 1.1.1
   - name: gettext
     version: 
   - name: gmp
@@ -311,7 +309,7 @@ dependencies:
   - name: mailparse
     version: 3.1.1
   - name: maxminddb
-    version: 
+    version: 1.8.0
   - name: mbstring
     version: 
   - name: memcached
@@ -345,7 +343,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 4.0.6
+    version: 4.1.0
   - name: phpiredis
     version: 1.0.1
   - name: protobuf
@@ -353,7 +351,7 @@ dependencies:
   - name: pspell
     version: 
   - name: psr
-    version: 1.0.0
+    version: 1.0.1
   - name: rdkafka
     version: 4.0.3
   - name: readline
