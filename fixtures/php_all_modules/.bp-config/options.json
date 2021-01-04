@@ -15,7 +15,6 @@
     "fileinfo",
     "ftp",
     "gd",
-    "geoip",
     "gettext",
     "gmp",
     "igbinary",
@@ -69,6 +68,5 @@
     "yaml",
     "zip",
     "zlib"
-  ],
-  "GEOIP_LOCATION": "geo"
+  ]
 }
