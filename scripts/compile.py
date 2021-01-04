@@ -44,8 +44,6 @@ if __name__ == '__main__':
             .extension()
                 .from_build_pack('extensions/dynatrace')
             .extension()
-                .from_build_pack('extensions/geoip')
-            .extension()
                 .from_build_pack('extensions/newrelic')
             .extension()
                 .from_build_pack('extensions/caapm')

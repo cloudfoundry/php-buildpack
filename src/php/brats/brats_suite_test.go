@@ -124,9 +124,9 @@ func moduleNamesForPHPVersion(version string) []string {
 	manifest := struct {
 		ManifestEntries []struct {
 			Dependency struct {
-				Name    string   `yaml:"name"`
-				Version string   `yaml:"version"`
-				Modules []struct{Name string} `yaml:"dependencies"`
+				Name    string                  `yaml:"name"`
+				Version string                  `yaml:"version"`
+				Modules []struct{ Name string } `yaml:"dependencies"`
 			} `yaml:",inline"`
 		} `yaml:"dependencies"`
 	}{}
@@ -141,14 +141,8 @@ func moduleNamesForPHPVersion(version string) []string {
 			if entry.Dependency.Version == version {
 				names := []string{}
 
-				// The "geoip" module triggers a download during staging.
-				// This can fail on our test environments because it may
-				// trigger DDOS protection. Therefore, we remove it
-				// and test it in isolation.
 				for _, module := range entry.Dependency.Modules {
-					if module.Name != "geoip" {
-						names = append(names, module.Name)
-					}
+					names = append(names, module.Name)
 				}
 
 				return names

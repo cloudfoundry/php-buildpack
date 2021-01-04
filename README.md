@@ -116,11 +116,6 @@ Included non-core extensions:
     - `apiurl`
     - `environmentid`
     - `apitoken`
-- [`geoip`](extensions/geoip) - Configures geoip & optionally downloads geoip databases
-  - Looks for a bound service with name `geoip-service` and value `credentials` with sub-keys
-    - `username`
-    - `license`
-    - `products`
 - [`newrelic`](extensions/newrelic) - [Downloads, installs and configures the NewRelic agent for PHP](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-newrelic.html)
 - [`session`](extensions/session) - [Configures PHP to store session information in a bound Redis or Memcached service instance](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-sessions.html) 
 
