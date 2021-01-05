@@ -120,8 +120,8 @@ dependencies:
   source_sha256: b11195a02b1d3285ddf2987e02c6b6d28df41bb1b1dd25f33542848ef4fc33b5
 - name: php
   version: 7.3.24
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.3.24_linux_x64_cflinuxfs3_b9652d34.tgz
-  sha256: b9652d34e7d2e98e6778ac6776634a77c30568d03023090ff7755a505fc2e6f6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.3.24_linux_x64_cflinuxfs3_76bd97b3.tgz
+  sha256: 76bd97b377e68ba036b1e35d97a3f971c401a7f02bdf45b4ceb74d0e888b3a5e
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.3.24.tar.gz
@@ -130,7 +130,7 @@ dependencies:
   - name: amqp
     version: 1.10.2
   - name: apcu
-    version: 5.1.18
+    version: 5.1.19
   - name: bz2
     version: 
   - name: cassandra
@@ -152,7 +152,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.1.5
+    version: 3.1.6
   - name: imagick
     version: 3.4.4
   - name: imap
@@ -175,9 +175,9 @@ dependencies:
   - name: memcached
     version: 3.1.5
   - name: mongodb
-    version: 1.8.0
+    version: 1.9.0
   - name: msgpack
-    version: 2.1.1
+    version: 2.1.2
   - name: mysqli
     version: 
   - name: oauth
@@ -213,11 +213,11 @@ dependencies:
   - name: psr
     version: 1.0.1
   - name: rdkafka
-    version: 4.0.3
+    version: 4.1.1
   - name: readline
   - name: recode
   - name: redis
-    version: 5.3.1
+    version: 5.3.2
   - name: shmop
     version: 
   - name: snmp
@@ -245,14 +245,14 @@ dependencies:
   - name: tidy
   - name: wddx
   - name: xdebug
-    version: 2.9.8
+    version: 3.0.1
   - name: xmlrpc
   - name: xsl
     version: 
   - name: yaf
     version: 3.2.5
   - name: yaml
-    version: 2.1.0
+    version: 2.2.0
   - name: zip
   - name: zlib
     version: 
