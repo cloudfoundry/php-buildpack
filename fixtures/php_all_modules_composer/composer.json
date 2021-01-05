@@ -62,6 +62,8 @@
         "ext-xsl": "*",
         "ext-yaml": "*",
         "ext-zip": "*",
-        "ext-zlib": "*"
+        "ext-zlib": "*",
+        "ext-yaf" : "*",
+        "ext-phalcon": "*"
     }
 }
