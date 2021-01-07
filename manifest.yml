@@ -395,18 +395,18 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.4.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.12_linux_x64_cflinuxfs3_2d55a5f4.tgz
-  sha256: 2d55a5f4515b3199c15833dd41a14e8c3982ab8406dead503f4dc1bee17cb5ce
+  version: 7.4.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.13_linux_x64_cflinuxfs3_7df81a86.tgz
+  sha256: 7df81a86a8a3b5c1731aab385df41613606d1d8207c60cb5bf82e8bf6707b4ba
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.12.tar.gz
-  source_sha256: f056d74409a71f17218f76538c6a2d7b59ee99db9db7685fa0ab9cd0d4c0f286
+  source: https://php.net/distributions/php-7.4.13.tar.gz
+  source_sha256: '0865cff41e7210de2537bcd5750377cfe09a9312b9b44c1a166cf372d5204b8f'
   dependencies:
   - name: amqp
     version: 1.10.2
   - name: apcu
-    version: 5.1.19
+    version: 5.1.18
   - name: bz2
     version: 
   - name: curl
@@ -426,7 +426,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.1.6
+    version: 3.1.5
   - name: imagick
     version: 3.4.4
   - name: imap
@@ -448,9 +448,9 @@ dependencies:
   - name: memcached
     version: 3.1.5
   - name: mongodb
-    version: 1.9.0
+    version: 1.8.0
   - name: msgpack
-    version: 2.1.2
+    version: 2.1.1
   - name: mysqli
     version: 
   - name: oauth
@@ -486,10 +486,10 @@ dependencies:
   - name: psr
     version: 1.0.1
   - name: rdkafka
-    version: 4.1.1
+    version: 4.0.3
   - name: readline
   - name: redis
-    version: 5.3.2
+    version: 5.3.1
   - name: shmop
     version: 
   - name: snmp
@@ -516,25 +516,25 @@ dependencies:
     version: 5.0.2
   - name: tidy
   - name: xdebug
-    version: 3.0.1
+    version: 2.9.8
   - name: xmlrpc
   - name: xsl
     version: 
   - name: yaf
     version: 3.2.5
   - name: yaml
-    version: 2.2.0
+    version: 2.1.0
   - name: zip
   - name: zlib
     version: 
 - name: php
-  version: 7.4.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.13_linux_x64_cflinuxfs3_3adfbb7a.tgz
-  sha256: 3adfbb7aaabf370fc5cb648021f869209b37c4c309bf14b7ee71e2861a36dd3a
+  version: 7.4.14
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.14_linux_x64_cflinuxfs3_3c03ed74.tgz
+  sha256: 3c03ed74001d62fe16305e3665d2d0e49897e4c530aa92e185dd1ac7942868d8
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.13.tar.gz
-  source_sha256: '0865cff41e7210de2537bcd5750377cfe09a9312b9b44c1a166cf372d5204b8f'
+  source: https://php.net/distributions/php-7.4.14.tar.gz
+  source_sha256: d359183e2436f4ab30b70d4fbd881b5705a46b2e68cc6069fe91cd63d6e98e13
   dependencies:
   - name: amqp
     version: 1.10.2
