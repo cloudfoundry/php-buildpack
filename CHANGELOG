@@ -1,3 +1,31 @@
+v4.4.30 Jan 27, 2021
+=====================
+
+* Update extensions path for php 8.0
+
+* Add php 8.0 config files
+  - for the php-fpm.conf we copied the 7.4 and modified the date on the
+  extension directory path
+
+  - got the php.ini from https://github.com/php/php-src/blob/PHP-8.0/php.ini-production and added in changes from the 7.4 php.ini file
+
+* Add composer 2.0.9, remove composer 2.0.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176681430)
+
+* Add php 8.0.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176419118)
+
+* Add php 7.3.26, remove php 7.3.24
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176393984)
+
+* Add php 7.4.14, remove php 7.4.12
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176393522)
+
+
 v4.4.29 Jan 05, 2021
 =====================
 
