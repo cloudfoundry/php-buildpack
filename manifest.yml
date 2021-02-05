@@ -777,3 +777,115 @@ dependencies:
   - name: zip
   - name: zlib
     version: 
+- name: php
+  version: 8.0.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.2_linux_x64_cflinuxfs3_c6a58cc0.tgz
+  sha256: c6a58cc060dd9c472e0c926f14ea9cf04da39f1e3937b6e311b42866970069f3
+  cf_stacks:
+  - cflinuxfs3
+  source: https://php.net/distributions/php-8.0.2.tar.gz
+  source_sha256: cc17a32f76beb5f405da39a548218b3b6736710884fcd761838098553df149da
+  dependencies:
+  - name: apcu
+    version: 5.1.19
+  - name: bz2
+    version: 
+  - name: curl
+    version: 
+  - name: dba
+    version: 
+  - name: enchant
+  - name: exif
+    version: 
+  - name: fileinfo
+    version: 
+  - name: ftp
+    version: 
+  - name: gd
+  - name: gettext
+    version: 
+  - name: gmp
+    version: 
+  - name: igbinary
+    version: 3.1.6
+  - name: imap
+    version: 
+  - name: ldap
+    version: 
+  - name: lzf
+    version: 
+  - name: mailparse
+    version: 3.1.1
+  - name: maxminddb
+    version: 1.8.0
+  - name: mbstring
+    version: 
+  - name: memcached
+    version: 3.1.5
+  - name: mongodb
+    version: 1.9.0
+  - name: msgpack
+    version: 2.1.2
+  - name: mysqli
+    version: 
+  - name: oauth
+    version: 2.0.7
+  - name: opcache
+    version: 
+  - name: openssl
+    version: 
+  - name: pcntl
+    version: 
+  - name: pdo
+    version: 
+  - name: pdo_firebird
+  - name: pdo_mysql
+    version: 
+  - name: pdo_odbc
+  - name: pdo_pgsql
+    version: 
+  - name: pdo_sqlite
+    version: 
+  - name: pdo_sqlsrv
+    version: 5.9.0beta2
+  - name: pgsql
+    version: 
+  - name: phpiredis
+    version: 1.0.1
+  - name: pspell
+    version: 
+  - name: psr
+    version: 1.0.1
+  - name: readline
+  - name: redis
+    version: 5.3.2
+  - name: shmop
+    version: 
+  - name: snmp
+  - name: soap
+    version: 
+  - name: sockets
+    version: 
+  - name: sodium
+  - name: solr
+    version: 2.5.1
+  - name: sqlsrv
+    version: 5.9.0beta2
+  - name: sysvmsg
+    version: 
+  - name: sysvsem
+    version: 
+  - name: sysvshm
+    version: 
+  - name: tidy
+  - name: xdebug
+    version: 3.0.1
+  - name: xsl
+    version: 
+  - name: yaf
+    version: 3.2.5
+  - name: yaml
+    version: 2.2.0
+  - name: zip
+  - name: zlib
+    version: 
