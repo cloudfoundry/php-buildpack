@@ -1,3 +1,28 @@
+v4.4.31 Feb 10, 2021
+=====================
+
+* Add php 8.0.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176800709)
+
+* Merge pull request #444 from Tobion/patch-1
+  remove mcrypt from default PHP_EXTENSIONS options
+
+* remove mcrypt from default PHP_EXTENSIONS options
+  mcrypt is removed in php 7.2, see https://www.php.net/manual/en/intro.mcrypt.php
+  So the buildpack has no php version anymore that could use mcrypt. So there is no point in having it as default.
+  This prevents the warning
+  > The extension 'mcrypt' is not provided by this buildpack.
+
+* Add php 7.4.15, remove php 7.4.13
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176800350)
+
+* Add php 7.3.27, remove php 7.3.25
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/176800242)
+
+
 v4.4.30 Jan 27, 2021
 =====================
 
