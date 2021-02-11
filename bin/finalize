@@ -26,6 +26,7 @@ BP=$(dirname $(dirname $0))
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 DEPS_DIR=${3:-}
+DEPS_IDX=${4:-}
 PROFILE_DIR=${5:-}
 
 BUILDPACK_PATH=$BP
@@ -34,6 +35,7 @@ source $BP/compile-extensions/lib/common
 
 $BP/compile-extensions/bin/check_stack_support
 $BP/compile-extensions/bin/check_buildpack_version $BP $CACHE_DIR
+$BP/compile-extensions/bin/write_config_yml $BP "$DEPS_DIR/$DEPS_IDX"
 
 env_vars=$($BP/compile-extensions/bin/build_path_from_supply $DEPS_DIR)
 for env_var in $env_vars; do
