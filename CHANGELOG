@@ -1,3 +1,19 @@
+v4.4.34 Mar 10, 2021
+=====================
+
+* Add nginx 1.19.8, remove nginx 1.19.7
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177269723)
+
+* Add php 8.0.3, remove php 8.0.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177211021)
+
+* Add php 7.4.16, remove php 7.4.14
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177209736)
+
+
 v4.4.33 Mar 02, 2021
 =====================
 
