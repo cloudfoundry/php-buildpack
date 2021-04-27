@@ -1,3 +1,14 @@
+v4.4.37 Apr 27, 2021
+=====================
+
+* Add composer 2.0.13, remove composer 2.0.12
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177925809)
+
+* Add nginx 1.20.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177855209)
+
 v4.4.36 Apr 19, 2021
 =====================
 
