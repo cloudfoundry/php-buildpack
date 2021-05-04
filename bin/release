@@ -23,4 +23,4 @@
 BP=$(dirname $(dirname $0))
 export PYTHONPATH=$BP/lib
 
-python $BP/scripts/release.py $1
+python2 $BP/scripts/release.py $1
