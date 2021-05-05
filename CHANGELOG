@@ -1,3 +1,23 @@
+v4.4.38 May 05, 2021
+=====================
+
+* Use python2 explicitly when running the buildpack
+
+* Add php 7.4.18, remove php 7.4.15
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177977416)
+
+* Add php 8.0.5, remove php 8.0.2
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177965966)
+
+* Add php 7.3.28, remove php 7.3.26
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/177962562)
+
+* Update libbuildpack
+
+
 v4.4.37 Apr 27, 2021
 =====================
 
