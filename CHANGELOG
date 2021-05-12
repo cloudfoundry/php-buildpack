@@ -1,3 +1,19 @@
+v4.4.39 May 12, 2021
+=====================
+
+* Add php 8.0.6, remove php 8.0.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/178072299)
+
+* Updates defaults/options.json to use newer PHP version
+
+* Updates default version for PHP to version included in manifest
+
+* Add php 7.4.19, remove php 7.4.16
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/178051161)
+
+
 v4.4.38 May 05, 2021
 =====================
 
