@@ -70,7 +70,7 @@ dependency_deprecation_dates:
 dependencies:
 - name: CAAPM
   version: 20.11.0
-  uri: https://ca.bintray.com/apm-agents/CA-APM-PHPAgent-20.11.0_linux.tar.gz
+  uri: https://packages.broadcom.com/artifactory/apm-agents/CA-APM-PHPAgent-20.11.0_linux.tar.gz
   sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
   cf_stacks:
   - cflinuxfs3
