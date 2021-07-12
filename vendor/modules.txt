@@ -4,14 +4,14 @@ code.cloudfoundry.org/lager
 github.com/Masterminds/semver
 # github.com/blang/semver v3.5.1+incompatible
 github.com/blang/semver
-# github.com/cloudfoundry/libbuildpack v0.0.0-20210712182817-8dfe3d1a03a7
+# github.com/cloudfoundry/libbuildpack v0.0.0-20210712202459-4099e4643253
 github.com/cloudfoundry/libbuildpack
 github.com/cloudfoundry/libbuildpack/bratshelper
 github.com/cloudfoundry/libbuildpack/cutlass
 github.com/cloudfoundry/libbuildpack/cutlass/docker
 github.com/cloudfoundry/libbuildpack/cutlass/glow
 github.com/cloudfoundry/libbuildpack/packager
-# github.com/elazarl/goproxy v0.0.0-20190911111923-ecfe977594f1
+# github.com/elazarl/goproxy v0.0.0-20210110162100-a92cc753f88e
 github.com/elazarl/goproxy
 # github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
@@ -62,13 +62,13 @@ github.com/onsi/gomega/types
 github.com/paketo-buildpacks/packit/pexec
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
-# github.com/tidwall/gjson v1.7.5
+# github.com/tidwall/gjson v1.8.1
 github.com/tidwall/gjson
 # github.com/tidwall/match v1.0.3
 github.com/tidwall/match
-# github.com/tidwall/pretty v1.1.0
+# github.com/tidwall/pretty v1.2.0
 github.com/tidwall/pretty
-# golang.org/x/net v0.0.0-20210505024714-0287a6fb4125
+# golang.org/x/net v0.0.0-20210614182718-04defd469f4e
 golang.org/x/net/html
 golang.org/x/net/html/atom
 golang.org/x/net/html/charset
