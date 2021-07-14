@@ -1,3 +1,25 @@
+v4.4.44 Jul 14, 2021
+=====================
+
+* Add php 7.3.29, remove php 7.3.27
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/178739455)
+
+* Add php 7.4.21, remove php 7.4.19
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/178743793)
+
+* Add php 8.0.8, remove php 8.0.6
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/178741126)
+
+* Add nginx 1.21.1, remove nginx 1.21.0
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/178784811)
+
+* Update CA APM source due to service end of Bintray.
+
+
 v4.4.43 Jun 28, 2021
 =====================
 
