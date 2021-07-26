@@ -2,7 +2,7 @@ module github.com/cloudfoundry/php-buildpack
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
-	github.com/cloudfoundry/libbuildpack v0.0.0-20210712202459-4099e4643253
+	github.com/cloudfoundry/libbuildpack v0.0.0-20210726164432-80929621d448
 	github.com/elazarl/goproxy v0.0.0-20210110162100-a92cc753f88e // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20210110162100-a92cc753f88e // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
