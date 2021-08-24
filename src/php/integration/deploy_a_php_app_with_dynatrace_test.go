@@ -169,25 +169,14 @@ var _ = Describe("Deploy app with", func() {
 	Context("deploying a PHP app with Dynatrace agent with configured network zone", func() {
 		It("checks if networkzone setting was successful", func() {
 			serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
-			command := exec.Command("cf", "cups", serviceName, "-p", fmt.Sprintf("'{\"apitoken\":\"secretpaastoken\",\"apiurl\":\"%s\",\"environmentid\":\"envid\", \"networkzone\":\"testzone\"}'", dynatraceAPIURI))
-			_, err := command.CombinedOutput()
-			Expect(err).To(BeNil())
-			createdServices = append(createdServices, serviceName)
-
-			command = exec.Command("cf", "bind-service", app.Name, serviceName)
-			_, err = command.CombinedOutput()
-			Expect(err).To(BeNil())
-			command = exec.Command("cf", "restage", app.Name)
-			_, err = command.Output()
-			Expect(err).To(BeNil())
+			Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone"}`, dynatraceAPIURI))).To(Succeed())
+			Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
+			Expect(RunCf("start", app.Name)).To(Succeed())
+			ConfirmRunning(app)
 
 			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
-			Expect(app.Stdout.String()).To(ContainSubstring("Dynatrace service credentials found. Setting up Dynatrace OneAgent."))
-			Expect(app.Stdout.String()).To(ContainSubstring("Starting Dynatrace OneAgent installer"))
-			Expect(app.Stdout.String()).To(ContainSubstring("Copy dynatrace-env.sh"))
+			Expect(app.Stdout.String()).To(ContainSubstring("Extracting Dynatrace OneAgent"))
 			Expect(app.Stdout.String()).To(ContainSubstring("Setting DT_NETWORK_ZONE..."))
-			Expect(app.Stdout.String()).To(ContainSubstring("Dynatrace OneAgent installed."))
-			Expect(app.Stdout.String()).To(ContainSubstring("Dynatrace OneAgent injection is set up."))
 		})
 	})
 
