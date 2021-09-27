@@ -117,7 +117,7 @@ Included non-core extensions:
     - `environmentid`
     - `apitoken`
 - [`newrelic`](extensions/newrelic) - [Downloads, installs and configures the NewRelic agent for PHP](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-newrelic.html)
-- [`session`](extensions/session) - [Configures PHP to store session information in a bound Redis or Memcached service instance](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-sessions.html) 
+- [`sessions`](extensions/sessions) - [Configures PHP to store session information in a bound Redis or Memcached service instance](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-sessions.html)
 
 ### Adding extensions
 
@@ -125,7 +125,7 @@ In general, you shouldn't need to modify the buildpack itself.  Instead creating
 
 To create an extension, simply create a folder.  The name of the folder will be the name of the extension.  Inside that folder, create a file called `extension.py`. That file will contain your code.  Inside that file, put your extension methods and any additional required code.
 
-It's not necessary to fork the buildpack to add extensions for your app. The buildpack will notice and use extensions if you place them in a `.extensions` folder at your application root. See the [extensions directory in the `cf-ex-wordpress` example](https://github.com/cloudfoundry-samples/cf-ex-wordpress/tree/master/.extensions/wordpress) for a sample.
+It's not necessary to fork the buildpack to add extensions for your app. The buildpack will notice and use extensions if you place them in a `.extensions` folder at your application root. See the [extensions directory in the this example](./fixtures/custom_extension/.extensions/phpmyadmin/extension.py) for a sample.
 
 #### Methods
 
