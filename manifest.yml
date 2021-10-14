@@ -779,15 +779,15 @@ dependencies:
     version: 
 - name: php
   version: 8.0.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.11_linux_x64_cflinuxfs3_683d1602.tgz
-  sha256: 683d1602819e8ff9f427bd8e07b325e5a4c56ac40fdd47731955163e5635adfc
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.11_linux_x64_cflinuxfs3_adb250d8.tgz
+  sha256: adb250d864114fdb868ca0d70caed2de906d2bb10d75ec7bff4881fd054ac686
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.11.tar.gz
   source_sha256: c6a461f57b4bcb46cd4dec443253b1e2e8e981466f1280093322b7864afe8be7
   dependencies:
   - name: apcu
-    version: 5.1.19
+    version: 5.1.21
   - name: bz2
     version: 
   - name: curl
@@ -807,7 +807,9 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.1.6
+    version: 3.2.6
+  - name: imagick
+    version: 3.5.1
   - name: imap
     version: 
   - name: ldap
@@ -815,15 +817,15 @@ dependencies:
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.1.1
+    version: 3.1.2
   - name: maxminddb
-    version: 1.8.0
+    version: 1.10.1
   - name: mbstring
     version: 
   - name: memcached
     version: 3.1.5
   - name: mongodb
-    version: 1.9.0
+    version: 1.10.0
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -847,7 +849,7 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.9.0beta2
+    version: 5.9.0
   - name: pgsql
     version: 
   - name: phpiredis
@@ -855,10 +857,12 @@ dependencies:
   - name: pspell
     version: 
   - name: psr
-    version: 1.0.1
+    version: 1.1.0
+  - name: rdkafka
+    version: 5.0.0
   - name: readline
   - name: redis
-    version: 5.3.2
+    version: 5.3.4
   - name: shmop
     version: 
   - name: snmp
@@ -870,22 +874,26 @@ dependencies:
   - name: solr
     version: 2.5.1
   - name: sqlsrv
-    version: 5.9.0beta2
+    version: 5.9.0
+  - name: ssh2
+    version: 1.3.1
   - name: sysvmsg
     version: 
   - name: sysvsem
     version: 
   - name: sysvshm
     version: 
+  - name: tideways_xhprof
+    version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.0.1
+    version: 3.1.0
   - name: xsl
     version: 
   - name: yaf
-    version: 3.2.5
+    version: 3.3.3
   - name: yaml
-    version: 2.2.0
+    version: 2.2.1
   - name: zip
   - name: zlib
     version: 
