@@ -1,3 +1,21 @@
+v4.4.49 Oct 29, 2021
+=====================
+
+* Add php 7.3.32, remove php 7.3.30
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180111448)
+
+* Change default PHP option to 7.4.25
+
+* Add php 7.4.25, remove php 7.4.23
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180050070)
+
+* Add php 8.0.12, remove php 8.0.10
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180027269)
+
+
 v4.4.48 Oct 18, 2021
 =====================
 
