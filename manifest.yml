@@ -666,13 +666,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.0.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.11_linux_x64_cflinuxfs3_adb250d8.tgz
-  sha256: adb250d864114fdb868ca0d70caed2de906d2bb10d75ec7bff4881fd054ac686
+  version: 8.0.12
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.12_linux_x64_cflinuxfs3_45377027.tgz
+  sha256: 453770270dc5252656749093146ddc959d7961ebbb1b8dbcb40a7c69f2855196
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-8.0.11.tar.gz
-  source_sha256: c6a461f57b4bcb46cd4dec443253b1e2e8e981466f1280093322b7864afe8be7
+  source: https://php.net/distributions/php-8.0.12.tar.gz
+  source_sha256: a5b78f04a89d3b401465febf449c7ea9de48681f92803dd8dc2bf922812d572b
   dependencies:
   - name: apcu
     version: 5.1.21
@@ -786,13 +786,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.0.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.12_linux_x64_cflinuxfs3_45377027.tgz
-  sha256: 453770270dc5252656749093146ddc959d7961ebbb1b8dbcb40a7c69f2855196
+  version: 8.0.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.13_linux_x64_cflinuxfs3_44302e97.tgz
+  sha256: 44302e97d9d84cfbc27bf5c0ae952fab9d47340595ba242bce7a106f68bc7562
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-8.0.12.tar.gz
-  source_sha256: a5b78f04a89d3b401465febf449c7ea9de48681f92803dd8dc2bf922812d572b
+  source: https://php.net/distributions/php-8.0.13.tar.gz
+  source_sha256: b4c2d27c954e1b0d84fd4bfef4d252e154ba479e7db11abd89358f2164ee7cc8
   dependencies:
   - name: apcu
     version: 5.1.21
