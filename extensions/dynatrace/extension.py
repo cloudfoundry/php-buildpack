@@ -121,7 +121,7 @@ class DynatraceInstaller(object):
         url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?bitness=64&include=php&include=nginx&include=apache'
         if self._ctx['DYNATRACE_NETWORK_ZONE']:
             self._log.info("Setting DT_NETWORK_ZONE...")
-            url = url + ("&networkzone=%s" % self._ctx['DYNATRACE_NETWORK_ZONE'])
+            url = url + ("&networkZone=%s" % self._ctx['DYNATRACE_NETWORK_ZONE'])
         skiperrors = self._ctx['DYNATRACE_SKIPERRORS']
 
         try:
