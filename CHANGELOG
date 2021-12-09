@@ -1,3 +1,114 @@
+v4.4.50 Nov 30, 2021
+=====================
+
+* Add composer 2.1.14, remove composer 2.1.9
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180475505)
+
+* Add php 8.0.13, remove php 8.0.11
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180370555)
+
+* Add php 7.3.33, remove php 7.3.31
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180359191)
+
+* Add php 7.4.26, remove php 7.4.24
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180358792)
+
+* Add nginx 1.20.2, remove nginx 1.20.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180330923)
+
+* Fix default nginx version (now 1.21.4)
+
+* Add nginx 1.21.4, remove nginx 1.21.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180167967)
+
+
+v4.4.49 Oct 29, 2021
+=====================
+
+* Add php 7.3.32, remove php 7.3.30
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180111448)
+
+* Change default PHP option to 7.4.25
+
+* Add php 7.4.25, remove php 7.4.23
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180050070)
+
+* Add php 8.0.12, remove php 8.0.10
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180027269)
+
+
+v4.4.48 Oct 18, 2021
+=====================
+
+* Rebuild php 7.4.24
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179691875)
+
+* Rebuild php 8.0.11
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179688148)
+
+* Rebuild php 7.3.31
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179685195)
+
+* Update libbuildpack
+
+
+v4.4.47 Oct 12, 2021
+=====================
+
+* Add httpd 2.4.51, remove httpd 2.4.49
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179860892)
+  (https://www.pivotaltracker.com/story/show/179830907)
+
+* Add composer 2.1.9, remove composer 2.1.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179815635)
+
+
+v4.4.46 Sep 27, 2021
+=====================
+
+* Change default php version to 7.4.23
+
+* Add php 7.4.24, remove php 7.4.21
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179691875)
+
+* Add php 8.0.11, remove php 8.0.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179688148)
+
+* Add php 7.3.31, remove php 7.3.29
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179685195)
+
+* Add httpd 2.4.49, remove httpd 2.4.48
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179615871)
+
+* Add composer 2.1.8, remove composer 2.1.6
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179591725)
+  (https://www.pivotaltracker.com/story/show/179577534)
+
+* Add nginx 1.21.3, remove nginx 1.21.1
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/179497106)
+  (https://www.pivotaltracker.com/story/show/179423127)
+
+
 v4.4.45 Aug 31, 2021
 =====================
 
