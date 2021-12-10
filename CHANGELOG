@@ -1,3 +1,13 @@
+v4.4.51 Dec 10, 2021
+=====================
+
+* Update libbuildpack
+
+* Update Pygments due to dependabot sec alert
+
+* Fixed case of networkzone query parameter for Dynatrace OneAgent download
+
+
 v4.4.50 Nov 30, 2021
 =====================
 
