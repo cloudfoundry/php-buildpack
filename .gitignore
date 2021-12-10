@@ -16,3 +16,4 @@ DebugKit
 !vendor/**
 /.bin/
 .idea
+.vscode/
