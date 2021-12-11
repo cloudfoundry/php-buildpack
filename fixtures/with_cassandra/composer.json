@@ -1,6 +1,6 @@
 {
     "require": {
-        "php" :"7.4.*" ,
+        "php" :"7.3.*" ,
         "ext-cassandra": "*",
         "cloudfoundry-community/cf-helper-php": "1.6.*"
     }
