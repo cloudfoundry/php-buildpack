@@ -28,7 +28,7 @@ default_versions:
 - name: CAAPM
   version: 20.11.0
 url_to_dependency_map:
-- match: appdynamics-php-agent-linux_x64-(\d+\.\d+\.\d+\.\d+)
+- match: appdynamics-php-agent-linux-x64-(\d+\.\d+\.\d+\.\d+)
   name: appdynamics
   version: "$1"
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
@@ -77,13 +77,13 @@ dependencies:
   osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
   source_sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
 - name: appdynamics
-  version: 20.4.0.3759
-  uri: https://packages.appdynamics.com/php/20.4.0.3759/appdynamics-php-agent-linux_x64-20.4.0.3759.tar.bz2
-  sha256: 7731298da802605a66ce70c9c2864c78f5229ce693e619832f7514962d41204c
+  version: 21.12.0.401
+  uri: https://buildpacks.cloudfoundry.org/dependencies/manual-binaries/appdynamics/appdynamics-php-agent-x64-linux-21.12.0.401.tar.bz2
+  sha256: bf7d16f3cc5c1cd8b9f22bb5a748fd26e5be0ccb1bf27154a675966ff40290f9
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
-  source_sha256: 7731298da802605a66ce70c9c2864c78f5229ce693e619832f7514962d41204c
+  source_sha256: bf7d16f3cc5c1cd8b9f22bb5a748fd26e5be0ccb1bf27154a675966ff40290f9
 - name: composer
   version: 2.1.14
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.1.14_linux_noarch_any-stack_d44a9045.phar
