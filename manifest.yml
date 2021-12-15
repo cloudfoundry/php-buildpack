@@ -77,9 +77,9 @@ dependencies:
   osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
   source_sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
 - name: appdynamics
-  version: 21.12.0.401
-  uri: https://buildpacks.cloudfoundry.org/dependencies/manual-binaries/appdynamics/appdynamics-php-agent-x64-linux-21.12.0.401.tar.bz2
-  sha256: bf7d16f3cc5c1cd8b9f22bb5a748fd26e5be0ccb1bf27154a675966ff40290f9
+  version: 21.12.1.404
+  uri: https://buildpacks.cloudfoundry.org/dependencies/manual-binaries/appdynamics/appdynamics-php-agent-x64-linux-21.12.1.404.tar.bz2
+  sha256: df4ad53418ce3b25bbff1b92bdd3141810b87e68fceb74845305d37f01722be1
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
