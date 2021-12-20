@@ -18,7 +18,7 @@ default_versions:
 - name: php
   version: 7.4.27
 - name: httpd
-  version: 2.4.51
+  version: 2.4.52
 - name: newrelic
   version: 9.14.0.290
 - name: nginx
@@ -93,13 +93,13 @@ dependencies:
   source: https://github.com/composer/composer/releases/download/2.1.14/composer.phar
   source_sha256: d44a904520f9aaa766e8b4b05d2d9a766ad9a6f03fa1a48518224aad703061a4
 - name: httpd
-  version: 2.4.51
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.51_linux_x64_cflinuxfs3_d4cfd7d8.tgz
-  sha256: d4cfd7d84f2454563396f7afccb9d5b9a07bd4eb2a7624f62811c1ecc4018685
+  version: 2.4.52
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.52_linux_x64_cflinuxfs3_64e37a14.tgz
+  sha256: 64e37a141b9ad32a505898cc1679ce254f8559ddaf9e65e829b7df1a454a988e
   cf_stacks:
   - cflinuxfs3
-  source: http://archive.apache.org/dist/httpd/httpd-2.4.51.tar.bz2
-  source_sha256: 20e01d81fecf077690a4439e3969a9b22a09a8d43c525356e863407741b838f4
+  source: http://archive.apache.org/dist/httpd/httpd-2.4.52.tar.bz2
+  source_sha256: 0127f7dc497e9983e9c51474bed75e45607f2f870a7675a86dc90af6d572f5c9
 - name: newrelic
   version: 9.14.0.290
   uri: https://download.newrelic.com/php_agent/archive/9.14.0.290/newrelic-php5-9.14.0.290-linux.tar.gz
