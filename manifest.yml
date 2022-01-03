@@ -83,7 +83,7 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
-  source_sha256: bf7d16f3cc5c1cd8b9f22bb5a748fd26e5be0ccb1bf27154a675966ff40290f9
+  source_sha256: bef91d9d42b2e7d8a98025cb98ea84c54a4deba9ce870a23282f441399812367
 - name: composer
   version: 2.2.3
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.2.3_linux_noarch_any-stack_721cc27f.phar
