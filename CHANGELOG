@@ -1,3 +1,29 @@
+v4.4.54 Jan 03, 2022
+=====================
+
+* Add appdynamics agent 21.12.2.13, remove 21.12.1.404
+  This patch fixes [CVE-2021-45105](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-45105) (log4shell vulnerability)
+
+* Add composer 2.2.3, remove composer 2.1.14
+
+* Add nginx 1.21.5, remove nginx 1.21.4
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180755261)
+
+* Add httpd 2.4.52, remove httpd 2.4.51
+  This patch fixes [CVE-2021-44224](https://nvd.nist.gov/vuln/detail/CVE-2021-44224)
+
+* Add php 8.0.14, remove php 8.0.12
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180676488)
+
+* Add php 7.4.27, remove php 7.4.25
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180663834)
+
+* Fix default PHP version
+
+
 v4.4.53 Dec 15, 2021
 =====================
 
