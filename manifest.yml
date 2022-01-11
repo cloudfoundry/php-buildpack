@@ -28,7 +28,7 @@ default_versions:
 - name: CAAPM
   version: 20.11.0
 url_to_dependency_map:
-- match: appdynamics-(\d+\.\d+\.\d+-\d+\)
+- match: appdynamics-(\d+\.\d+\.\d+-\d+)
   name: appdynamics
   version: "$1"
 - match: newrelic-php5-(\d+\.\d+\.\d+\.\d+)-linux
