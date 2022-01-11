@@ -50,10 +50,10 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         object is created.
         """
         return {
-                'APPDYNAMICS_HOST': 'packages.appdynamics.com',
-                'APPDYNAMICS_VERSION': '21.12.2.13',
-                'APPDYNAMICS_PACKAGE': 'appdynamics-php-agent-x64-linux-{APPDYNAMICS_VERSION}.tar.bz2',
-                'APPDYNAMICS_DOWNLOAD_URL': 'https://buildpacks.cloudfoundry.org/dependencies/manual-binaries/appdynamics/appdynamics-php-agent-x64-linux-{APPDYNAMICS_VERSION}.tar.bz2'
+                'APPDYNAMICS_HOST': 'download.run.pivotal.io',
+                'APPDYNAMICS_VERSION': '22.1.0-14',
+                'APPDYNAMICS_PACKAGE': 'appdynamics-{APPDYNAMICS_VERSION}.tar.gz',
+                'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/appdynamics-php/{APPDYNAMICS_PACKAGE}'
         }
 
     def _should_compile(self):
