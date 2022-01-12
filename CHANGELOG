@@ -1,3 +1,21 @@
+v4.4.55 Jan 12, 2022
+=====================
+
+* Bump appdynamics agent to 22.1.0
+
+* Rebuild php 8.0.14 to update modules
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180876324)
+
+* Rebuild php 7.4.27 to update modules
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180876315)
+
+* Add composer 2.2.4, remove composer 2.2.3
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/180845998)
+
+
 v4.4.54 Jan 03, 2022
 =====================
 
