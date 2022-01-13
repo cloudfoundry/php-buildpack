@@ -77,7 +77,7 @@ dependencies:
   osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
   source_sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
 - name: appdynamics
-  version: 22.1.0-14
+  version: 22.1.0.14
   uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.1.0-14.tar.bz2
   sha256: d31f71e60aacf54d62748a5b8400b8aba67d251ac3045f86e1c4f66ad80f4404
   cf_stacks:
