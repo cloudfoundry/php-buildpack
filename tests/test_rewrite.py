@@ -37,7 +37,7 @@ class TestRewriteScriptPhp(BaseRewriteScript):
 
     def setUp(self):
         BaseRewriteScript.setUp(self)
-        shutil.copytree('defaults/config/php/7.3.x', self.cfg_dir)
+        shutil.copytree('defaults/config/php/7.4.x', self.cfg_dir)
 
     def tearDown(self):
         BaseRewriteScript.tearDown(self)
