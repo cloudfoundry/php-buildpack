@@ -77,13 +77,13 @@ dependencies:
   osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
   source_sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
 - name: appdynamics
-  version: 22.1.1-440
-  uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.1.1-440.tar.bz2
-  sha256: 83da06f778b007788fb12c0d776c421db3539f7319567da92c097cbd64f0c76b
+  version: 22.3.0-501
+  uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.3.0-501.tar.bz2
+  sha256: 32bae94a3ad342ef22108217966c8dd52ad6d7de18182f7c2cc55af7df0eb432
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
-  source_sha256: 83da06f778b007788fb12c0d776c421db3539f7319567da92c097cbd64f0c76b
+  source_sha256: 32bae94a3ad342ef22108217966c8dd52ad6d7de18182f7c2cc55af7df0eb432
 - name: composer
   version: 2.2.7
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.2.7_linux_noarch_any-stack_10040ded.phar
