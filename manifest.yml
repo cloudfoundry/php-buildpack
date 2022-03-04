@@ -635,8 +635,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.2_linux_x64_cflinuxfs3_f4e4c761.tgz
-  sha256: f4e4c761c7780b0d027cc4bc0eab40977c36f0b4da09670eb9953b438d405b9c
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.2_linux_x64_cflinuxfs3_47ef975b.tgz
+  sha256: 47ef975b8a1d5314f46a684995809de54c6979cd2a6a7d1c34ae9699fd100baa
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.2.tar.gz
@@ -665,9 +665,9 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.6
+    version: 3.2.7
   - name: imagick
-    version: 3.6.0
+    version: 3.7.0
   - name: imap
     version: 
   - name: ldap
@@ -675,7 +675,7 @@ dependencies:
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.1.2
+    version: 3.1.3
   - name: maxminddb
     version: 1.11.0
   - name: mbstring
@@ -683,7 +683,7 @@ dependencies:
   - name: memcached
     version: 3.1.5
   - name: mongodb
-    version: 1.12.0
+    version: 1.12.1
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -715,10 +715,10 @@ dependencies:
   - name: psr
     version: 1.2.0
   - name: rdkafka
-    version: 5.0.2
+    version: 6.0.1
   - name: readline
   - name: redis
-    version: 5.3.5
+    version: 5.3.7
   - name: shmop
     version: 
   - name: snmp
@@ -741,7 +741,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.1.2
+    version: 3.1.3
   - name: xsl
     version: 
   - name: yaf
