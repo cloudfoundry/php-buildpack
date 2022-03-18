@@ -1,3 +1,11 @@
+v4.4.58 Mar 18, 2022
+=====================
+
+* Add composer 2.2.9, remove composer 2.2.7 for stack(s) cflinuxfs3
+
+* Add httpd 2.4.53, remove httpd 2.4.52 for stack(s) cflinuxfs3
+
+
 v4.4.57 Mar 08, 2022
 =====================
 
