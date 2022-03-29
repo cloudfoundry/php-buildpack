@@ -8,8 +8,8 @@ github.com/VividCortex/ewma v1.1.1/go.mod h1:2Tkkvm3sRDVXaiyucHiACn4cqf7DpdyLvmx
 github.com/blang/semver v3.5.1+incompatible h1:cQNTCjp13qL8KC3Nbxr/y2Bqb63oX6wdnnjpJbkM4JQ=
 github.com/blang/semver v3.5.1+incompatible/go.mod h1:kRBLl5iJ+tD4TcOOxsy/0fnwebNt5EWlYSAyrTnjyyk=
 github.com/cheggaaa/pb/v3 v3.0.8/go.mod h1:UICbiLec/XO6Hw6k+BHEtHeQFzzBH4i2/qk/ow1EJTA=
-github.com/cloudfoundry/libbuildpack v0.0.0-20220104002832-0463886d7d21 h1:fXTyybmE4NhuyJ9bJ0R0bFjS63WAurjPyc0lc7HaSKc=
-github.com/cloudfoundry/libbuildpack v0.0.0-20220104002832-0463886d7d21/go.mod h1:QzV014YWibd+IfVgJUlR+/xvWSaMdDa+73TrezD6e8o=
+github.com/cloudfoundry/libbuildpack v0.0.0-20220329192604-c8ccbfd4cb8d h1:lw83FcgLqRAfbC2xt9lXc+o8NKwx3GWDaJTaAVyDEt4=
+github.com/cloudfoundry/libbuildpack v0.0.0-20220329192604-c8ccbfd4cb8d/go.mod h1:QzV014YWibd+IfVgJUlR+/xvWSaMdDa+73TrezD6e8o=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
