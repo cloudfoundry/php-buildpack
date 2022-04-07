@@ -14,7 +14,9 @@ namespace Symfony\Flex;
 use Composer\IO\IOInterface;
 use Composer\Package\AliasPackage;
 use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 use Composer\Semver\Constraint\Constraint;
+use Composer\Semver\Intervals;
 use Composer\Semver\VersionParser;
 
 /**
@@ -40,13 +42,27 @@ class PackageFilter
 
     /**
      * @param PackageInterface[] $data
+     * @param PackageInterface[] $lockedPackages
      *
      * @return PackageInterface[]
      */
-    public function removeLegacyPackages(array $data): array
+    public function removeLegacyPackages(array $data, RootPackageInterface $rootPackage, array $lockedPackages): array
     {
         if (!$this->symfonyConstraints || !$data) {
             return $data;
+        }
+
+        $lockedVersions = [];
+        foreach ($lockedPackages as $package) {
+            $lockedVersions[$package->getName()] = [$package->getVersion()];
+            if ($package instanceof AliasPackage) {
+                $lockedVersions[$package->getName()][] = $package->getAliasOf()->getVersion();
+            }
+        }
+
+        $rootConstraints = [];
+        foreach ($rootPackage->getRequires() + $rootPackage->getDevRequires() as $name => $link) {
+            $rootConstraints[$name] = $link->getConstraint();
         }
 
         $knownVersions = $this->getVersions();
@@ -59,7 +75,12 @@ class PackageFilter
             if ($package instanceof AliasPackage) {
                 $versions[] = $package->getAliasOf()->getVersion();
             }
-            if ('symfony/symfony' !== $name && !isset($knownVersions['splits'][$name])) {
+
+            if ('symfony/symfony' !== $name && (
+                !isset($knownVersions['splits'][$name])
+                || array_intersect($versions, $lockedVersions[$name] ?? [])
+                || (isset($rootConstraints[$name]) && !Intervals::haveIntersections($this->symfonyConstraints, $rootConstraints[$name]))
+            )) {
                 $filteredPackages[] = $package;
                 continue;
             }
@@ -101,6 +122,9 @@ class PackageFilter
         $this->downloader = null;
         $okVersions = [];
 
+        if (!isset($versions['splits'])) {
+            throw new \LogicException('The Flex index is missing a "splits" entry. Did you forget to add "flex://defaults" in the "extra.symfony.endpoint" array of your composer.json?');
+        }
         foreach ($versions['splits'] as $name => $vers) {
             foreach ($vers as $i => $v) {
                 if (!isset($okVersions[$v])) {

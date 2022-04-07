@@ -12,6 +12,9 @@
 namespace Symfony\Flex\Command;
 
 use Composer\Command\RequireCommand as BaseRequireCommand;
+use Composer\Factory;
+use Composer\Json\JsonFile;
+use Composer\Json\JsonManipulator;
 use Composer\Plugin\PluginInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,10 +24,12 @@ use Symfony\Flex\PackageResolver;
 class RequireCommand extends BaseRequireCommand
 {
     private $resolver;
+    private $updateComposerLock;
 
-    public function __construct(PackageResolver $resolver)
+    public function __construct(PackageResolver $resolver, \Closure $updateComposerLock = null)
     {
         $this->resolver = $resolver;
+        $this->updateComposerLock = $updateComposerLock;
 
         parent::__construct();
     }
@@ -32,12 +37,16 @@ class RequireCommand extends BaseRequireCommand
     protected function configure()
     {
         parent::configure();
-        $this->addOption('no-unpack', null, InputOption::VALUE_NONE, 'Disable unpacking Symfony packs in composer.json.');
+        $this->addOption('no-unpack', null, InputOption::VALUE_NONE, '[DEPRECATED] Disable unpacking Symfony packs in composer.json.');
         $this->addOption('unpack', null, InputOption::VALUE_NONE, '[DEPRECATED] Unpacking is now enabled by default.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($input->getOption('no-unpack')) {
+            $this->getIO()->writeError('<warning>The "--unpack" command line option is deprecated; unpacking is now enabled by default.</warning>');
+        }
+
         if ($input->getOption('unpack')) {
             $this->getIO()->writeError('<warning>The "--unpack" command line option is deprecated; unpacking is now enabled by default.</warning>');
         }
@@ -51,15 +60,31 @@ class RequireCommand extends BaseRequireCommand
             $input->setOption('no-suggest', true);
         }
 
-        $ret = parent::execute($input, $output) ?? 0;
+        $file = Factory::getComposerFile();
+        $contents = file_get_contents($file);
+        $json = JsonFile::parseJson($contents);
 
-        if (0 !== $ret || $input->getOption('no-unpack') || $input->getOption('no-update')) {
-            return $ret;
+        if (\array_key_exists('require-dev', $json) && !$json['require-dev'] && (new JsonManipulator($contents))->removeMainKey('require-dev')) {
+            $manipulator = new JsonManipulator($contents);
+            $manipulator->addLink('require-dev', 'php', '*');
+            file_put_contents($file, $manipulator->getContents());
+        } else {
+            $file = null;
         }
+        unset($contents, $json, $manipulator);
 
-        $unpackCommand = new UnpackCommand($this->resolver);
-        $unpackCommand->setApplication($this->getApplication());
+        try {
+            return parent::execute($input, $output) ?? 0;
+        } finally {
+            if (null !== $file) {
+                $manipulator = new JsonManipulator(file_get_contents($file));
+                $manipulator->removeSubNode('require-dev', 'php');
+                file_put_contents($file, $manipulator->getContents());
 
-        return $unpackCommand->execute($input, $output);
+                if ($this->updateComposerLock) {
+                    ($this->updateComposerLock)();
+                }
+            }
+        }
     }
 }

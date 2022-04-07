@@ -23,7 +23,7 @@
         "symfony/console": "^5.1",
         "symfony/dotenv": "^5.1",
         "symfony/expression-language": "^5.1",
-        "symfony/flex": "^1.1",
+        "symfony/flex": "^1.14.5",
         "symfony/form": "^5.1",
         "symfony/framework-bundle": "^5.1",
         "symfony/intl": "^5.1",
@@ -33,13 +33,15 @@
         "symfony/security-bundle": "^5.1",
         "symfony/string": "^5.1",
         "symfony/translation": "^5.1",
-        "symfony/twig-pack": "^1.0",
+        "symfony/twig-bundle": "5.1.*",
         "symfony/validator": "^5.1",
         "symfony/webpack-encore-bundle": "^1.4",
         "symfony/yaml": "^5.1",
         "tgalopin/html-sanitizer-bundle": "^1.2",
+        "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.0",
-        "twig/markdown-extra": "^3.0"
+        "twig/markdown-extra": "^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.2",
@@ -60,7 +62,10 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true
+        }
     },
     "autoload": {
         "psr-4": {

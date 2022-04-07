@@ -21,7 +21,6 @@ use Composer\Repository\PlatformRepository;
 class PackageResolver
 {
     private static $SYMFONY_VERSIONS = ['lts', 'previous', 'stable', 'next', 'dev'];
-    private static $aliases;
     private $downloader;
 
     public function __construct(Downloader $downloader)
@@ -31,46 +30,20 @@ class PackageResolver
 
     public function resolve(array $arguments = [], bool $isRequire = false): array
     {
-        $versionParser = new VersionParser();
-
-        // first pass split on : and = to separate package names and versions
-        $explodedArguments = [];
-        foreach ($arguments as $argument) {
-            if ((false !== $pos = strpos($argument, ':')) || (false !== $pos = strpos($argument, '='))) {
-                $explodedArguments[] = substr($argument, 0, $pos);
-                $explodedArguments[] = substr($argument, $pos + 1);
-            } else {
-                $explodedArguments[] = $argument;
-            }
-        }
-
-        // second pass to resolve package names
+        // first pass split on : and = to resolve package names
         $packages = [];
-        foreach ($explodedArguments as $i => $argument) {
-            if (false === strpos($argument, '/') && !preg_match(PlatformRepository::PLATFORM_PACKAGE_REGEX, $argument) && !\in_array($argument, ['mirrors', 'nothing'])) {
-                if (null === self::$aliases) {
-                    self::$aliases = $this->downloader->get('/aliases.json')->getBody();
-                }
-
-                if (isset(self::$aliases[$argument])) {
-                    $argument = self::$aliases[$argument];
-                } else {
-                    // is it a version or an alias that does not exist?
-                    try {
-                        $versionParser->parseConstraints($argument);
-                    } catch (\UnexpectedValueException $e) {
-                        // is it a special Symfony version?
-                        if (!\in_array($argument, self::$SYMFONY_VERSIONS, true)) {
-                            $this->throwAlternatives($argument, $i);
-                        }
-                    }
-                }
+        foreach ($arguments as $i => $argument) {
+            if ((false !== $pos = strpos($argument, ':')) || (false !== $pos = strpos($argument, '='))) {
+                $package = $this->resolvePackageName(substr($argument, 0, $pos), $i);
+                $version = substr($argument, $pos + 1);
+                $packages[] = $package.':'.$version;
+            } else {
+                $packages[] = $this->resolvePackageName($argument, $i);
             }
-
-            $packages[] = $argument;
         }
 
-        // third pass to resolve versions
+        // second pass to resolve versions
+        $versionParser = new VersionParser();
         $requires = [];
         foreach ($versionParser->parseNameVersionPairs($packages) as $package) {
             $requires[] = $package['name'].$this->parseVersion($package['name'], $package['version'] ?? '', $isRequire);
@@ -111,15 +84,41 @@ class PackageResolver
         return ':'.$version;
     }
 
+    private function resolvePackageName(string $argument, int $position): string
+    {
+        if (false !== strpos($argument, '/') || preg_match(PlatformRepository::PLATFORM_PACKAGE_REGEX, $argument) || preg_match('{(?<=[a-z0-9_/-])\*|\*(?=[a-z0-9_/-])}i', $argument) || \in_array($argument, ['lock', 'mirrors', 'nothing', ''])) {
+            return $argument;
+        }
+
+        $aliases = $this->downloader->getAliases();
+
+        if (isset($aliases[$argument])) {
+            $argument = $aliases[$argument];
+        } else {
+            // is it a version or an alias that does not exist?
+            try {
+                $versionParser = new VersionParser();
+                $versionParser->parseConstraints($argument);
+            } catch (\UnexpectedValueException $e) {
+                // is it a special Symfony version?
+                if (!\in_array($argument, self::$SYMFONY_VERSIONS, true)) {
+                    $this->throwAlternatives($argument, $position);
+                }
+            }
+        }
+
+        return $argument;
+    }
+
     /**
      * @throws \UnexpectedValueException
      */
     private function throwAlternatives(string $argument, int $position)
     {
         $alternatives = [];
-        foreach (self::$aliases as $alias => $package) {
+        foreach ($this->downloader->getAliases() as $alias => $package) {
             $lev = levenshtein($argument, $alias);
-            if ($lev <= \strlen($argument) / 3 || false !== strpos($alias, $argument)) {
+            if ($lev <= \strlen($argument) / 3 || ('' !== $argument && false !== strpos($alias, $argument))) {
                 $alternatives[$package][] = $alias;
             }
         }
