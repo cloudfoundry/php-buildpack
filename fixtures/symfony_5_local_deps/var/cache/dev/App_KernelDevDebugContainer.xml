@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="kernel.project_dir">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</parameter>
+    <parameter key="kernel.project_dir">/test/fixtures/symfony_5_local_deps</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.debug">true</parameter>
-    <parameter key="kernel.cache_dir">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev</parameter>
-    <parameter key="kernel.logs_dir">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/log</parameter>
+    <parameter key="kernel.cache_dir">/test/fixtures/symfony_5_local_deps/var/cache/dev</parameter>
+    <parameter key="kernel.logs_dir">/test/fixtures/symfony_5_local_deps/var/log</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="SecurityBundle">Symfony\Bundle\SecurityBundle\SecurityBundle</parameter>
@@ -24,59 +24,59 @@
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/framework-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/framework-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
       <parameter key="SecurityBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SecurityBundle</parameter>
       </parameter>
       <parameter key="DoctrineBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
       </parameter>
       <parameter key="SensioFrameworkExtraBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/sensio/framework-extra-bundle/src</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/sensio/framework-extra-bundle/src</parameter>
         <parameter key="namespace">Sensio\Bundle\FrameworkExtraBundle</parameter>
       </parameter>
       <parameter key="MonologBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/monolog-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/monolog-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\MonologBundle</parameter>
       </parameter>
       <parameter key="TwigBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\TwigBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\DebugBundle</parameter>
       </parameter>
       <parameter key="WebProfilerBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\WebProfilerBundle</parameter>
       </parameter>
       <parameter key="DoctrineMigrationsBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-migrations-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
       </parameter>
       <parameter key="DoctrineFixturesBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-fixtures-bundle</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-fixtures-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\FixturesBundle</parameter>
       </parameter>
       <parameter key="WebpackEncoreBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/webpack-encore-bundle/src</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/webpack-encore-bundle/src</parameter>
         <parameter key="namespace">Symfony\WebpackEncoreBundle</parameter>
       </parameter>
       <parameter key="MakerBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/maker-bundle/src</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/symfony/maker-bundle/src</parameter>
         <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
       </parameter>
       <parameter key="TwigExtraBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/twig/extra-bundle/src</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/twig/extra-bundle/src</parameter>
         <parameter key="namespace">Twig\Extra\TwigExtraBundle</parameter>
       </parameter>
       <parameter key="HtmlSanitizerBundle" type="collection">
-        <parameter key="path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/tgalopin/html-sanitizer-bundle/src</parameter>
+        <parameter key="path">/test/fixtures/symfony_5_local_deps/vendor/tgalopin/html-sanitizer-bundle/src</parameter>
         <parameter key="namespace">HtmlSanitizer\Bundle</parameter>
       </parameter>
     </parameter>
@@ -130,21 +130,21 @@
       <parameter key="cookie_samesite">lax</parameter>
       <parameter key="gc_probability">1</parameter>
     </parameter>
-    <parameter key="session.save_path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/sessions</parameter>
+    <parameter key="session.save_path">/test/fixtures/symfony_5_local_deps/var/cache/dev/sessions</parameter>
     <parameter key="session.metadata.update_threshold">0</parameter>
     <parameter key="form.type_extension.csrf.enabled">true</parameter>
     <parameter key="form.type_extension.csrf.field_name">_token</parameter>
     <parameter key="asset.request_context.base_path">null</parameter>
     <parameter key="asset.request_context.secure">null</parameter>
-    <parameter key="validator.mapping.cache.file">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/validation.php</parameter>
+    <parameter key="validator.mapping.cache.file">/test/fixtures/symfony_5_local_deps/var/cache/dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="translator.logging">false</parameter>
-    <parameter key="translator.default_path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations</parameter>
+    <parameter key="translator.default_path">/test/fixtures/symfony_5_local_deps/translations</parameter>
     <parameter key="profiler_listener.only_exceptions">false</parameter>
     <parameter key="profiler_listener.only_master_requests">false</parameter>
-    <parameter key="profiler.storage.dsn">file:/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/profiler</parameter>
+    <parameter key="profiler.storage.dsn">file:/test/fixtures/symfony_5_local_deps/var/cache/dev/profiler</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/App_KernelDevDebugContainer.xml</parameter>
+    <parameter key="debug.container.dump">/test/fixtures/symfony_5_local_deps/var/cache/dev/App_KernelDevDebugContainer.xml</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url"></parameter>
@@ -230,7 +230,7 @@
     <parameter key="doctrine.orm.second_level_cache.cache_configuration.class">Doctrine\ORM\Cache\CacheConfiguration</parameter>
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
-    <parameter key="doctrine.orm.proxy_dir">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/doctrine/orm/Proxies</parameter>
+    <parameter key="doctrine.orm.proxy_dir">/test/fixtures/symfony_5_local_deps/var/cache/dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
     <parameter key="monolog.use_microseconds">true</parameter>
     <parameter key="monolog.swift_mailer.handlers" type="collection"/>
@@ -255,7 +255,7 @@
       <parameter>form/layout.html.twig</parameter>
       <parameter>form/fields.html.twig</parameter>
     </parameter>
-    <parameter key="twig.default_path">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates</parameter>
+    <parameter key="twig.default_path">/test/fixtures/symfony_5_local_deps/templates</parameter>
     <parameter key="env(VAR_DUMPER_SERVER)">127.0.0.1:9912</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -378,28 +378,28 @@
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
-        <argument type="service" id=".service_locator.GcpeMM3.App\Controller\Admin\BlogController"/>
+        <argument type="service" id=".service_locator.NR9bxsq.App\Controller\Admin\BlogController"/>
       </call>
     </service>
     <service id="App\Controller\BlogController" class="App\Controller\BlogController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
-        <argument type="service" id=".service_locator.GcpeMM3.App\Controller\BlogController"/>
+        <argument type="service" id=".service_locator.NR9bxsq.App\Controller\BlogController"/>
       </call>
     </service>
     <service id="App\Controller\SecurityController" class="App\Controller\SecurityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
-        <argument type="service" id=".service_locator.GcpeMM3.App\Controller\SecurityController"/>
+        <argument type="service" id=".service_locator.NR9bxsq.App\Controller\SecurityController"/>
       </call>
     </service>
     <service id="App\Controller\UserController" class="App\Controller\UserController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
-        <argument type="service" id=".service_locator.GcpeMM3.App\Controller\UserController"/>
+        <argument type="service" id=".service_locator.NR9bxsq.App\Controller\UserController"/>
       </call>
     </service>
     <service id="App\DataFixtures\AppFixtures" class="App\DataFixtures\AppFixtures" autowire="true" autoconfigure="true">
@@ -540,7 +540,7 @@
       <tag name="container.no_preload"/>
       <argument type="tagged_iterator" tag="kernel.cache_warmer"/>
       <argument>true</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/App_KernelDevDebugContainerDeprecations.log</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/App_KernelDevDebugContainerDeprecations.log</argument>
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer" public="true">
       <argument type="tagged_iterator" tag="kernel.cache_clearer"/>
@@ -719,21 +719,21 @@
         <argument>/_fragment</argument>
       </call>
     </service>
-    <service id=".2_~xXxbso7" public="false">
+    <service id=".2_~xddz4bw" public="false">
       <argument type="service" id="request_stack"/>
       <factory class="Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer" method="getAndCleanOutputBuffer"/>
     </service>
-    <service id=".1_~xXxbso7" public="false">
+    <service id=".1_~xddz4bw" public="false">
       <argument type="service" id="request_stack"/>
       <argument>true</argument>
       <factory class="Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer" method="isDebug"/>
     </service>
     <service id="error_handler.error_renderer.html" class="Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer">
-      <argument type="service" id=".1_~xXxbso7"/>
+      <argument type="service" id=".1_~xddz4bw"/>
       <argument>UTF-8</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
-      <argument type="service" id=".2_~xXxbso7"/>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
+      <argument type="service" id=".2_~xddz4bw"/>
       <argument type="service" id="monolog.logger" on-invalid="null"/>
     </service>
     <service id="console.error_listener" class="Symfony\Component\Console\EventListener\ErrorListener" public="false">
@@ -757,7 +757,7 @@
       <tag name="console.command" command="assets:install"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="filesystem"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <call method="setName">
         <argument>assets:install</argument>
       </call>
@@ -892,16 +892,16 @@
       <argument type="service" id="translator.data_collector"/>
       <argument type="service" id="translation.reader"/>
       <argument type="service" id="translation.extractor"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/translations</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/templates</argument>
       <argument type="collection">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations</argument>
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations</argument>
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations</argument>
       </argument>
       <argument type="collection">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form</argument>
       </argument>
       <call method="setName">
         <argument>debug:translation</argument>
@@ -914,16 +914,16 @@
       <argument type="service" id="translation.reader"/>
       <argument type="service" id="translation.extractor"/>
       <argument>en</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/translations</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/templates</argument>
       <argument type="collection">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations</argument>
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations</argument>
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations</argument>
       </argument>
       <argument type="collection">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form</argument>
       </argument>
       <call method="setName">
         <argument>translation:update</argument>
@@ -1079,7 +1079,7 @@
       <argument></argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -1108,7 +1108,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
@@ -1219,8 +1219,8 @@
       <argument>0</argument>
       <argument>false</argument>
     </service>
-    <service id=".1_NativeFileSessionHandler~dwAkabR" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler" public="false">
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/sessions</argument>
+    <service id=".1_NativeFileSessionHandler~zkne9jJ" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler" public="false">
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/sessions</argument>
     </service>
     <service id="session" class="Symfony\Component\HttpFoundation\Session\Session" public="true">
       <argument type="service" id="session.storage.native"/>
@@ -1254,12 +1254,12 @@
       <deprecated package="symfony/framework-bundle" version="5.1">The "%service_id%" service is deprecated, use "$session-&gt;getAttributeBag()" instead.</deprecated>
     </service>
     <service id="session.storage.mock_file" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage" public="false">
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/sessions</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/sessions</argument>
       <argument>MOCKSESSID</argument>
       <argument type="service" id="session.storage.metadata_bag"/>
     </service>
     <service id="session.handler.native_file" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\StrictSessionHandler" public="false">
-      <argument type="service" id=".1_NativeFileSessionHandler~dwAkabR"/>
+      <argument type="service" id=".1_NativeFileSessionHandler~zkne9jJ"/>
     </service>
     <service id="session.abstract_handler" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHandler" public="false">
       <argument></argument>
@@ -1291,7 +1291,7 @@
       <tag name="twig.extension"/>
     </service>
     <service id="form.resolved_type_factory" class="Symfony\Component\Form\Extension\DataCollector\Proxy\ResolvedTypeFactoryDataCollectorProxy" public="false">
-      <argument type="service" id=".1_ResolvedFormTypeFactory~lHlxFTB"/>
+      <argument type="service" id=".1_ResolvedFormTypeFactory~0LnNATG"/>
       <argument type="service" id="data_collector.form"/>
     </service>
     <service id="form.registry" class="Symfony\Component\Form\FormRegistry" public="false">
@@ -1439,7 +1439,7 @@
       <argument type="service" id="http_client"/>
     </service>
     <service id="assets._version__default" class="Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy" public="false">
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/public/build/manifest.json</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/public/build/manifest.json</argument>
     </service>
     <service id="assets._default_package" class="Symfony\Component\Asset\PathPackage" public="false">
       <argument></argument>
@@ -1512,7 +1512,7 @@
       </call>
       <call method="addXmlMappings">
         <argument type="collection">
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/config/validation.xml</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/config/validation.xml</argument>
         </argument>
       </call>
       <call method="enableAnnotationMapping">
@@ -1537,10 +1537,10 @@
     <service id="validator.mapping.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer" public="false">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="validator.builder"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/validation.php</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/validation.php</argument>
     </service>
     <service id="validator.mapping.cache.adapter" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/validation.php</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/validation.php</argument>
       <argument type="service" id="cache.validator"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
@@ -1623,332 +1623,332 @@
         </argument>
       </argument>
       <argument type="collection">
-        <argument key="cache_dir">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/translations</argument>
+        <argument key="cache_dir">/test/fixtures/symfony_5_local_deps/var/cache/dev/translations</argument>
         <argument key="debug">true</argument>
         <argument key="resource_files" type="collection">
           <argument key="af" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.af.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.af.xlf</argument>
           </argument>
           <argument key="ar" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ar.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ar.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ar.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ar.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ar.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ar.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ar.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ar.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ar.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ar.xlf</argument>
           </argument>
           <argument key="az" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.az.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.az.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.az.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.az.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.az.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.az.xlf</argument>
           </argument>
           <argument key="be" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.be.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.be.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.be.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.be.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.be.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.be.xlf</argument>
           </argument>
           <argument key="bg" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.bg.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.bg.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.bg.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.bg.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.bg.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.bg.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.bg.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.bg.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.bg.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.bg.xlf</argument>
           </argument>
           <argument key="bs" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.bs.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.bs.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.bs.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.bs.xlf</argument>
           </argument>
           <argument key="ca" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ca.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ca.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ca.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ca.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ca.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ca.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ca.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ca.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ca.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ca.xlf</argument>
           </argument>
           <argument key="cs" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.cs.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.cs.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.cs.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.cs.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.cs.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.cs.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.cs.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.cs.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.cs.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.cs.xlf</argument>
           </argument>
           <argument key="cy" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.cy.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.cy.xlf</argument>
           </argument>
           <argument key="da" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.da.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.da.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.da.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.da.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.da.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.da.xlf</argument>
           </argument>
           <argument key="de" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.de.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.de.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.de.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.de.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.de.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.de.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.de.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.de.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.de.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.de.xlf</argument>
           </argument>
           <argument key="el" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.el.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.el.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.el.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.el.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.el.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.el.xlf</argument>
           </argument>
           <argument key="en" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.en.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.en.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.en.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.en.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.en.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.en.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.en.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.en.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.en.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.en.xlf</argument>
           </argument>
           <argument key="es" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.es.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.es.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.es.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.es.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.es.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.es.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.es.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.es.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.es.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.es.xlf</argument>
           </argument>
           <argument key="et" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.et.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.et.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.et.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.et.xlf</argument>
           </argument>
           <argument key="eu" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.eu.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.eu.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.eu.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.eu.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.eu.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.eu.xlf</argument>
           </argument>
           <argument key="fa" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.fa.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.fa.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.fa.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.fa.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.fa.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.fa.xlf</argument>
           </argument>
           <argument key="fi" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.fi.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.fi.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.fi.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.fi.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.fi.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.fi.xlf</argument>
           </argument>
           <argument key="fr" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.fr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.fr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.fr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.fr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.fr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.fr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.fr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.fr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.fr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.fr.xlf</argument>
           </argument>
           <argument key="gl" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.gl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.gl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.gl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.gl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.gl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.gl.xlf</argument>
           </argument>
           <argument key="he" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.he.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.he.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.he.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.he.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.he.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.he.xlf</argument>
           </argument>
           <argument key="hr" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.hr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.hr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.hr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.hr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.hr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.hr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.hr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.hr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.hr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.hr.xlf</argument>
           </argument>
           <argument key="hu" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.hu.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.hu.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.hu.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.hu.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.hu.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.hu.xlf</argument>
           </argument>
           <argument key="hy" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.hy.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.hy.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.hy.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.hy.xlf</argument>
           </argument>
           <argument key="id" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.id.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.id.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.id.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.id.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.id.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.id.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.id.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.id.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.id.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.id.xlf</argument>
           </argument>
           <argument key="it" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.it.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.it.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.it.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.it.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.it.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.it.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.it.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.it.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.it.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.it.xlf</argument>
           </argument>
           <argument key="ja" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ja.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ja.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ja.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ja.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ja.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ja.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ja.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ja.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ja.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ja.xlf</argument>
           </argument>
           <argument key="lb" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.lb.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.lb.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.lb.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.lb.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.lb.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.lb.xlf</argument>
           </argument>
           <argument key="lt" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.lt.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.lt.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.lt.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.lt.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.lt.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.lt.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.lt.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.lt.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.lt.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.lt.xlf</argument>
           </argument>
           <argument key="lv" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.lv.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.lv.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.lv.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.lv.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.lv.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.lv.xlf</argument>
           </argument>
           <argument key="mn" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.mn.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.mn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.mn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.mn.xlf</argument>
           </argument>
           <argument key="nb" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.nb.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.nb.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.nb.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.nb.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.nb.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.nb.xlf</argument>
           </argument>
           <argument key="nl" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.nl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.nl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.nl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.nl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.nl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.nl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.nl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.nl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.nl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.nl.xlf</argument>
           </argument>
           <argument key="nn" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.nn.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.nn.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.nn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.nn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.nn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.nn.xlf</argument>
           </argument>
           <argument key="no" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.no.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.no.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.no.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.no.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.no.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.no.xlf</argument>
           </argument>
           <argument key="pl" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.pl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.pl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.pl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.pl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.pl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.pl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.pl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.pl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.pl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.pl.xlf</argument>
           </argument>
           <argument key="pt" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.pt.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.pt.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.pt.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.pt.xlf</argument>
           </argument>
           <argument key="pt_BR" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.pt_BR.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.pt_BR.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.pt_BR.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.pt_BR.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.pt_BR.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.pt_BR.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.pt_BR.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.pt_BR.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.pt_BR.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.pt_BR.xlf</argument>
           </argument>
           <argument key="ro" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ro.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ro.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ro.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ro.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ro.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ro.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ro.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ro.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ro.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ro.xlf</argument>
           </argument>
           <argument key="ru" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ru.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ru.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ru.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ru.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ru.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.ru.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.ru.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.ru.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.ru.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.ru.xlf</argument>
           </argument>
           <argument key="sk" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sk.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sk.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sk.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.sk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.sk.xlf</argument>
           </argument>
           <argument key="sl" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.sl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.sl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.sl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.sl.xlf</argument>
           </argument>
           <argument key="sq" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sq.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sq.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sq.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sq.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sq.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sq.xlf</argument>
           </argument>
           <argument key="sr_Cyrl" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sr_Cyrl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sr_Cyrl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sr_Cyrl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sr_Cyrl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sr_Cyrl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sr_Cyrl.xlf</argument>
           </argument>
           <argument key="sr_Latn" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sr_Latn.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sr_Latn.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sr_Latn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sr_Latn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sr_Latn.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sr_Latn.xlf</argument>
           </argument>
           <argument key="sv" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sv.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sv.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sv.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.sv.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.sv.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.sv.xlf</argument>
           </argument>
           <argument key="th" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.th.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.th.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.th.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.th.xlf</argument>
           </argument>
           <argument key="tl" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.tl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.tl.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.tl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.tl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.tl.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.tl.xlf</argument>
           </argument>
           <argument key="tr" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.tr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.tr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.tr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.tr.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.tr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.tr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.tr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.tr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.tr.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.tr.xlf</argument>
           </argument>
           <argument key="uk" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.uk.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.uk.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.uk.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.uk.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.uk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.uk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.uk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.uk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.uk.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.uk.xlf</argument>
           </argument>
           <argument key="vi" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.vi.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.vi.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.vi.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.vi.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.vi.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.vi.xlf</argument>
           </argument>
           <argument key="zh_CN" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.zh_CN.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.zh_CN.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.zh_CN.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/messages+intl-icu.zh_CN.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations/validators+intl-icu.zh_CN.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.zh_CN.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.zh_CN.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.zh_CN.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/messages+intl-icu.zh_CN.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/translations/validators+intl-icu.zh_CN.xlf</argument>
           </argument>
           <argument key="zh_TW" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.zh_TW.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.zh_TW.xlf</argument>
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.zh_TW.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations/validators.zh_TW.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations/validators.zh_TW.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.zh_TW.xlf</argument>
           </argument>
           <argument key="pt_PT" type="collection">
-            <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.pt_PT.xlf</argument>
+            <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations/security.pt_PT.xlf</argument>
           </argument>
         </argument>
         <argument key="scanned_directories" type="collection">
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/framework-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/sensio/framework-extra-bundle/src/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/monolog-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-migrations-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-fixtures-bundle/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/webpack-encore-bundle/src/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/maker-bundle/src/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/twig/extra-bundle/src/translations</argument>
-          <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/tgalopin/html-sanitizer-bundle/src/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/validator/Resources/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/form/Resources/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-core/Resources/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/framework-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/sensio/framework-extra-bundle/src/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/monolog-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-migrations-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-fixtures-bundle/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/webpack-encore-bundle/src/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/maker-bundle/src/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/twig/extra-bundle/src/translations</argument>
+          <argument>/test/fixtures/symfony_5_local_deps/vendor/tgalopin/html-sanitizer-bundle/src/translations</argument>
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2238,7 +2238,7 @@
       </call>
     </service>
     <service id="profiler.storage" class="Symfony\Component\HttpKernel\Profiler\FileProfilerStorage" public="false">
-      <argument>file:/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/profiler</argument>
+      <argument>file:/test/fixtures/symfony_5_local_deps/var/cache/dev/profiler</argument>
     </service>
     <service id="profiler_listener" class="Symfony\Component\HttpKernel\EventListener\ProfilerListener" public="false">
       <tag name="kernel.event_subscriber"/>
@@ -2276,7 +2276,7 @@
       <tag name="data_collector" template="@WebProfiler/Collector/logger.html.twig" id="logger" priority="300"/>
       <tag name="monolog.logger" channel="profiler"/>
       <argument type="service" id="monolog.logger.profiler" on-invalid="ignore"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/App_KernelDevDebugContainer</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/App_KernelDevDebugContainer</argument>
       <argument type="service" id="request_stack" on-invalid="ignore"/>
     </service>
     <service id="data_collector.time" class="Symfony\Component\HttpKernel\DataCollector\TimeDataCollector" public="false">
@@ -2347,7 +2347,7 @@
         <argument>cache.serializer</argument>
       </argument>
     </service>
-    <service id=".1_ResolvedFormTypeFactory~lHlxFTB" class="Symfony\Component\Form\ResolvedFormTypeFactory" public="false"/>
+    <service id=".1_ResolvedFormTypeFactory~0LnNATG" class="Symfony\Component\Form\ResolvedFormTypeFactory" public="false"/>
     <service id="form.type_extension.form.data_collector" class="Symfony\Component\Form\Extension\DataCollector\Type\DataCollectorTypeExtension" public="false">
       <tag name="form.type_extension"/>
       <argument type="service" id="data_collector.form"/>
@@ -2392,7 +2392,7 @@
     <service id="debug.file_link_formatter" class="Symfony\Component\HttpKernel\Debug\FileLinkFormatter" public="false">
       <argument>null</argument>
       <argument type="service" id="request_stack" on-invalid="ignore"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <argument type="service" id="debug.file_link_formatter.url_format"/>
     </service>
     <service id="debug.stopwatch" class="Symfony\Component\Stopwatch\Stopwatch">
@@ -2908,10 +2908,10 @@
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor" public="false">
       <argument type="service" id="request_stack"/>
     </service>
-    <service id=".2_int~02LMqu5" class="int" public="false">
+    <service id=".2_int~LwrM0gd" class="int" public="false">
       <factory service="router.request_context" method="getHttpsPort"/>
     </service>
-    <service id=".1_int~02LMqu5" class="int" public="false">
+    <service id=".1_int~LwrM0gd" class="int" public="false">
       <factory service="router.request_context" method="getHttpPort"/>
     </service>
     <service id="routing.resolver" class="Symfony\Component\Config\Loader\LoaderResolver" public="false">
@@ -2980,7 +2980,7 @@
       <argument type="service" id=".service_locator.bKRvJhi.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
-        <argument key="cache_dir">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev</argument>
+        <argument key="cache_dir">/test/fixtures/symfony_5_local_deps/var/cache/dev</argument>
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\CompiledUrlGenerator</argument>
         <argument key="generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\CompiledUrlGeneratorDumper</argument>
@@ -3030,13 +3030,13 @@
       <argument type="service" id="request_stack"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="monolog.logger.request" on-invalid="ignore"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <argument>true</argument>
     </service>
     <service id="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" class="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" public="true">
       <argument type="service" id="router.default"/>
-      <argument type="service" id=".1_int~02LMqu5"/>
-      <argument type="service" id=".2_int~02LMqu5"/>
+      <argument type="service" id=".1_int~LwrM0gd"/>
+      <argument type="service" id=".2_int~LwrM0gd"/>
     </service>
     <service id="Symfony\Bundle\FrameworkBundle\Controller\TemplateController" class="Symfony\Bundle\FrameworkBundle\Controller\TemplateController" public="true">
       <argument type="service" id="twig" on-invalid="ignore"/>
@@ -3055,12 +3055,12 @@
       <argument type="service" id="file_locator"/>
       <argument type="service" id="routing.loader.annotation"/>
     </service>
-    <service id=".2_PhpArrayAdapter~APsr5kv" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/annotations.php</argument>
+    <service id=".2_PhpArrayAdapter~7jOJCXG" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/annotations.php</argument>
       <argument type="service" id="cache.annotations"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
-    <service id=".1_ArrayCache~APsr5kv" class="Doctrine\Common\Cache\ArrayCache" public="false"/>
+    <service id=".1_ArrayCache~7jOJCXG" class="Doctrine\Common\Cache\ArrayCache" public="false"/>
     <service id="annotations.reader" class="Doctrine\Common\Annotations\AnnotationReader" public="false">
       <call method="addGlobalIgnoredName">
         <argument>required</argument>
@@ -3075,7 +3075,7 @@
     <service id="annotations.cached_reader" class="Doctrine\Common\Annotations\CachedReader" public="false">
       <tag name="annotations.cached_reader"/>
       <argument type="service" id="annotations.reader"/>
-      <argument type="service" id=".1_ArrayCache~APsr5kv"/>
+      <argument type="service" id=".1_ArrayCache~7jOJCXG"/>
       <argument>true</argument>
       <property name="cacheProviderBackup" type="service" id="annotations.cache"/>
     </service>
@@ -3085,12 +3085,12 @@
     <service id="annotations.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer" public="false">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="annotations.reader"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/annotations.php</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/annotations.php</argument>
       <argument>#^Symfony\\(?:Component\\HttpKernel\\|Bundle\\FrameworkBundle\\Controller\\(?!.*Controller$))#</argument>
       <argument>true</argument>
     </service>
     <service id="annotations.cache" class="Symfony\Component\Cache\DoctrineProvider" public="false">
-      <argument type="service" id=".2_PhpArrayAdapter~APsr5kv"/>
+      <argument type="service" id=".2_PhpArrayAdapter~7jOJCXG"/>
     </service>
     <service id="property_accessor" class="Symfony\Component\PropertyAccess\PropertyAccessor" public="false">
       <argument>false</argument>
@@ -3102,7 +3102,7 @@
     </service>
     <service id="secrets.vault" class="Symfony\Bundle\FrameworkBundle\Secrets\SodiumVault">
       <tag name="container.env_var_loader"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/config/secrets/dev</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/config/secrets/dev</argument>
       <argument type="service" id="secrets.decryption_key" on-invalid="ignore"/>
     </service>
     <service id="secrets.decryption_key" class="Symfony\Component\String\LazyString" public="false">
@@ -3111,7 +3111,7 @@
       <factory class="Symfony\Component\String\LazyString" method="fromCallable"/>
     </service>
     <service id="secrets.local_vault" class="Symfony\Bundle\FrameworkBundle\Secrets\DotenvVault">
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/.env.dev.local</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/.env.dev.local</argument>
     </service>
     <service id="property_info" class="Symfony\Component\PropertyInfo\PropertyInfoExtractor" public="false">
       <argument type="iterator">
@@ -3291,10 +3291,10 @@
       <tag name="kernel.reset" method="reset"/>
       <argument type="service" id="cache.security_expression_language.recorder_inner"/>
     </service>
-    <service id=".2_int~0HGC.lz" class="int" public="false">
+    <service id=".2_int~VKHEXub" class="int" public="false">
       <factory service="router.request_context" method="getHttpsPort"/>
     </service>
-    <service id=".1_int~0HGC.lz" class="int" public="false">
+    <service id=".1_int~VKHEXub" class="int" public="false">
       <factory service="router.request_context" method="getHttpPort"/>
     </service>
     <service id="security.authentication.listener.anonymous" class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
@@ -3308,8 +3308,8 @@
       <argument></argument>
     </service>
     <service id="security.authentication.retry_entry_point" class="Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint" public="false">
-      <argument type="service" id=".1_int~0HGC.lz"/>
-      <argument type="service" id=".2_int~0HGC.lz"/>
+      <argument type="service" id=".1_int~VKHEXub"/>
+      <argument type="service" id=".2_int~VKHEXub"/>
     </service>
     <service id="security.authentication.basic_entry_point" class="Symfony\Component\Security\Http\EntryPoint\BasicAuthenticationEntryPoint" public="false"/>
     <service id="security.channel_listener" class="Symfony\Component\Security\Http\Firewall\ChannelListener" public="false">
@@ -3948,7 +3948,7 @@
       <argument type="collection"/>
       <factory service="doctrine.dbal.connection_factory" method="createConnection"/>
     </service>
-    <service id=".1_ServiceLocator~foqvjqD" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".1_ServiceLocator~jYRmMsg" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <argument type="collection"/>
     </service>
     <service id="doctrine.orm.proxy_cache_warmer" class="Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer" public="false">
@@ -4125,7 +4125,7 @@
         <argument type="service" id="doctrine.orm.default_metadata_driver"/>
       </call>
       <call method="setProxyDir">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/doctrine/orm/Proxies</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/doctrine/orm/Proxies</argument>
       </call>
       <call method="setProxyNamespace">
         <argument>Proxies</argument>
@@ -4155,7 +4155,7 @@
     <service id="doctrine.orm.default_annotation_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
       <argument type="service" id="annotations.cached_reader"/>
       <argument type="collection">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/src/Entity</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/src/Entity</argument>
       </argument>
     </service>
     <service id="doctrine.orm.default_metadata_driver" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain" public="false">
@@ -4326,7 +4326,7 @@
     <service id="monolog.processor.psr_log_message" class="Monolog\Processor\PsrLogMessageProcessor" public="false"/>
     <service id="monolog.handler.main" class="Monolog\Handler\StreamHandler">
       <tag name="kernel.reset" method="reset"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/log/dev.log</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/log/dev.log</argument>
       <argument>100</argument>
       <argument>true</argument>
       <argument>null</argument>
@@ -4344,7 +4344,7 @@
       <argument type="collection"/>
       <argument type="collection"/>
     </service>
-    <service id=".1_~YZYfgir" public="false">
+    <service id=".1_~JM9LXtT" public="false">
       <argument type="service" id="request_stack"/>
       <argument>true</argument>
       <factory class="Symfony\Bridge\Twig\ErrorRenderer\TwigErrorRenderer" method="isDebug"/>
@@ -4361,7 +4361,7 @@
       <argument type="service" id="twig.loader.native_filesystem"/>
       <argument type="collection">
         <argument key="autoescape">name</argument>
-        <argument key="cache">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/twig</argument>
+        <argument key="cache">/test/fixtures/symfony_5_local_deps/var/cache/dev/twig</argument>
         <argument key="charset">UTF-8</argument>
         <argument key="debug">true</argument>
         <argument key="strict_variables">true</argument>
@@ -4473,10 +4473,10 @@
     <service id="twig.template_iterator" class="Symfony\Bundle\TwigBundle\TemplateIterator" public="false">
       <argument type="service" id="kernel"/>
       <argument type="collection">
-        <argument key="/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email">email</argument>
-        <argument key="/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form">null</argument>
+        <argument key="/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email">email</argument>
+        <argument key="/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form">null</argument>
       </argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/templates</argument>
     </service>
     <service id="twig.template_cache_warmer" class="Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer" public="false">
       <tag name="kernel.cache_warmer"/>
@@ -4487,60 +4487,68 @@
     <service id="twig.loader.native_filesystem" class="Twig\Loader\FilesystemLoader" public="false">
       <tag name="twig.loader"/>
       <argument type="collection"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle/Resources/views</argument>
         <argument>Security</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/security-bundle/Resources/views</argument>
         <argument>!Security</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle/Resources/views</argument>
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-bundle/Resources/views</argument>
         <argument>!Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates/bundles/TwigBundle</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/templates/bundles/TwigBundle</argument>
         <argument>Twig</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates/bundles/TwigBundle</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/templates/bundles/TwigBundle</argument>
         <argument>!Twig</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/debug-bundle/Resources/views</argument>
         <argument>!Debug</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle/Resources/views</argument>
         <argument>WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle/Resources/views</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/web-profiler-bundle/Resources/views</argument>
         <argument>!WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-migrations-bundle/Resources/views</argument>
+        <argument>DoctrineMigrations</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/doctrine/doctrine-migrations-bundle/Resources/views</argument>
+        <argument>!DoctrineMigrations</argument>
+      </call>
+      <call method="addPath">
+        <argument>/test/fixtures/symfony_5_local_deps/templates</argument>
+      </call>
+      <call method="addPath">
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
         <argument>email</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Email</argument>
         <argument>!email</argument>
       </call>
       <call method="addPath">
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/vendor/symfony/twig-bridge/Resources/views/Form</argument>
       </call>
     </service>
     <service id="twig.loader.chain" class="Twig\Loader\ChainLoader" public="false"/>
@@ -4566,7 +4574,7 @@
     <service id="twig.extension.code" class="Symfony\Bridge\Twig\Extension\CodeExtension" public="false">
       <tag name="twig.extension"/>
       <argument type="service" id="debug.file_link_formatter" on-invalid="ignore"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <argument>UTF-8</argument>
     </service>
     <service id="twig.extension.routing" class="Symfony\Bridge\Twig\Extension\RoutingExtension" public="false">
@@ -4617,7 +4625,7 @@
     <service id="twig.error_renderer.html" class="Symfony\Bridge\Twig\ErrorRenderer\TwigErrorRenderer" public="false">
       <argument type="service" id="twig"/>
       <argument type="service" id="error_handler.error_renderer.html"/>
-      <argument type="service" id=".1_~YZYfgir"/>
+      <argument type="service" id=".1_~JM9LXtT"/>
     </service>
     <service id="twig.extension.form" class="Symfony\Bridge\Twig\Extension\FormExtension" public="false">
       <tag name="twig.extension"/>
@@ -4635,9 +4643,9 @@
       <tag name="console.command" command="debug:twig"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="twig"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <argument>%kernel.bundles_metadata%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/templates</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
       <call method="setName">
         <argument>debug:twig</argument>
@@ -4659,24 +4667,24 @@
     <service id="twig.mime_body_renderer" class="Symfony\Bridge\Twig\Mime\BodyRenderer">
       <argument type="service" id="twig"/>
     </service>
-    <service id=".6_HtmlDescriptor~M3qw13o" class="Symfony\Component\VarDumper\Command\Descriptor\HtmlDescriptor" public="false">
+    <service id=".6_HtmlDescriptor~zEfeJOe" class="Symfony\Component\VarDumper\Command\Descriptor\HtmlDescriptor" public="false">
       <argument type="service" id="var_dumper.html_dumper"/>
     </service>
-    <service id=".5_CliDescriptor~M3qw13o" class="Symfony\Component\VarDumper\Command\Descriptor\CliDescriptor" public="false">
+    <service id=".5_CliDescriptor~zEfeJOe" class="Symfony\Component\VarDumper\Command\Descriptor\CliDescriptor" public="false">
       <argument type="service" id="var_dumper.contextualized_cli_dumper.inner"/>
     </service>
-    <service id=".4_CliContextProvider~M3qw13o" class="Symfony\Component\VarDumper\Dumper\ContextProvider\CliContextProvider" public="false"/>
-    <service id=".3_RequestContextProvider~M3qw13o" class="Symfony\Component\VarDumper\Dumper\ContextProvider\RequestContextProvider" public="false">
+    <service id=".4_CliContextProvider~zEfeJOe" class="Symfony\Component\VarDumper\Dumper\ContextProvider\CliContextProvider" public="false"/>
+    <service id=".3_RequestContextProvider~zEfeJOe" class="Symfony\Component\VarDumper\Dumper\ContextProvider\RequestContextProvider" public="false">
       <argument type="service" id="request_stack"/>
     </service>
-    <service id=".2_SourceContextProvider~M3qw13o" class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider" public="false">
+    <service id=".2_SourceContextProvider~zEfeJOe" class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider" public="false">
       <argument>UTF-8</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
     </service>
-    <service id=".1_SourceContextProvider~M3qw13o" class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider" public="false">
+    <service id=".1_SourceContextProvider~zEfeJOe" class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider" public="false">
       <argument>UTF-8</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
     </service>
     <service id="twig.extension.dump" class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
@@ -4718,7 +4726,7 @@
     <service id="var_dumper.contextualized_cli_dumper" class="Symfony\Component\VarDumper\Dumper\ContextualizedDumper" public="false">
       <argument type="service" id="var_dumper.contextualized_cli_dumper.inner"/>
       <argument type="collection">
-        <argument key="source" type="service" id=".1_SourceContextProvider~M3qw13o"/>
+        <argument key="source" type="service" id=".1_SourceContextProvider~zEfeJOe"/>
       </argument>
     </service>
     <service id="var_dumper.html_dumper" class="Symfony\Component\VarDumper\Dumper\HtmlDumper" public="false">
@@ -4734,9 +4742,9 @@
     <service id="var_dumper.server_connection" class="Symfony\Component\VarDumper\Server\Connection" public="false">
       <argument>tcp://%env(VAR_DUMPER_SERVER)%</argument>
       <argument type="collection">
-        <argument key="source" type="service" id=".2_SourceContextProvider~M3qw13o"/>
-        <argument key="request" type="service" id=".3_RequestContextProvider~M3qw13o"/>
-        <argument key="cli" type="service" id=".4_CliContextProvider~M3qw13o"/>
+        <argument key="source" type="service" id=".2_SourceContextProvider~zEfeJOe"/>
+        <argument key="request" type="service" id=".3_RequestContextProvider~zEfeJOe"/>
+        <argument key="cli" type="service" id=".4_CliContextProvider~zEfeJOe"/>
       </argument>
     </service>
     <service id="var_dumper.dump_server" class="Symfony\Component\VarDumper\Server\DumpServer" public="false">
@@ -4749,8 +4757,8 @@
       <tag name="container.no_preload"/>
       <argument type="service" id="var_dumper.dump_server"/>
       <argument type="collection">
-        <argument key="cli" type="service" id=".5_CliDescriptor~M3qw13o"/>
-        <argument key="html" type="service" id=".6_HtmlDescriptor~M3qw13o"/>
+        <argument key="cli" type="service" id=".5_CliDescriptor~zEfeJOe"/>
+        <argument key="html" type="service" id=".6_HtmlDescriptor~zEfeJOe"/>
       </argument>
       <call method="setName">
         <argument>server:dump</argument>
@@ -4763,7 +4771,7 @@
         <argument>server:log</argument>
       </call>
     </service>
-    <service id=".2_HtmlDumper~nSssVhY" class="Symfony\Component\VarDumper\Dumper\HtmlDumper" public="false">
+    <service id=".2_HtmlDumper~i2GOUMC" class="Symfony\Component\VarDumper\Dumper\HtmlDumper" public="false">
       <argument>null</argument>
       <argument>UTF-8</argument>
       <argument>1</argument>
@@ -4774,14 +4782,14 @@
         </argument>
       </call>
     </service>
-    <service id=".1_NonceGenerator~nSssVhY" class="Symfony\Bundle\WebProfilerBundle\Csp\NonceGenerator" public="false"/>
+    <service id=".1_NonceGenerator~i2GOUMC" class="Symfony\Bundle\WebProfilerBundle\Csp\NonceGenerator" public="false"/>
     <service id="web_profiler.controller.profiler" class="Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController" public="true">
       <argument type="service" id="router.default" on-invalid="null"/>
       <argument type="service" id="profiler" on-invalid="null"/>
       <argument type="service" id="twig"/>
       <argument>%data_collector.templates%</argument>
       <argument type="service" id="web_profiler.csp.handler"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
     </service>
     <service id="web_profiler.controller.router" class="Symfony\Bundle\WebProfilerBundle\Controller\RouterController" public="true">
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -4795,11 +4803,11 @@
       <argument type="service" id="profiler" on-invalid="null"/>
     </service>
     <service id="web_profiler.csp.handler" class="Symfony\Bundle\WebProfilerBundle\Csp\ContentSecurityPolicyHandler" public="false">
-      <argument type="service" id=".1_NonceGenerator~nSssVhY"/>
+      <argument type="service" id=".1_NonceGenerator~i2GOUMC"/>
     </service>
     <service id="twig.extension.webprofiler" class="Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension" public="false">
       <tag name="twig.extension"/>
-      <argument type="service" id=".2_HtmlDumper~nSssVhY"/>
+      <argument type="service" id=".2_HtmlDumper~i2GOUMC"/>
     </service>
     <service id="debug.file_link_formatter.url_format" class="string" public="false">
       <argument type="service" id="router.default"/>
@@ -4833,7 +4841,7 @@
     <service id="doctrine.migrations.configuration" class="Doctrine\Migrations\Configuration\Configuration" public="false">
       <call method="addMigrationsDirectory">
         <argument>DoctrineMigrations</argument>
-        <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/migrations</argument>
+        <argument>/test/fixtures/symfony_5_local_deps/migrations</argument>
       </call>
       <call method="setAllOrNothing">
         <argument>false</argument>
@@ -4983,7 +4991,7 @@
         </argument>
       </call>
     </service>
-    <service id=".1_ServiceLocator~RITsMJ3" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".1_ServiceLocator~_r.M5h_" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="webpack_encore.entrypoint_lookup_collection" type="service" id="webpack_encore.entrypoint_lookup_collection"/>
@@ -5002,18 +5010,18 @@
     </service>
     <service id="webpack_encore.twig_entry_files_extension" class="Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension" public="false">
       <tag name="twig.extension"/>
-      <argument type="service" id=".1_ServiceLocator~RITsMJ3"/>
+      <argument type="service" id=".1_ServiceLocator~_r.M5h_"/>
     </service>
     <service id="webpack_encore.entrypoint_lookup.cache_warmer" class="Symfony\WebpackEncoreBundle\CacheWarmer\EntrypointCacheWarmer" public="false">
       <tag name="kernel.cache_warmer"/>
       <argument type="collection">
-        <argument key="_default">/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/public/build/entrypoints.json</argument>
+        <argument key="_default">/test/fixtures/symfony_5_local_deps/public/build/entrypoints.json</argument>
       </argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/webpack_encore.cache.php</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/webpack_encore.cache.php</argument>
       <argument type="service" id="cache.webpack_encore"/>
     </service>
     <service id="webpack_encore.cache" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/webpack_encore.cache.php</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/webpack_encore.cache.php</argument>
       <argument type="service" id="cache.webpack_encore"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
@@ -5031,7 +5039,7 @@
     </service>
     <service id="webpack_encore.entrypoint_lookup[_default]" class="Symfony\WebpackEncoreBundle\Asset\EntrypointLookup">
       <tag name="kernel.reset" method="reset"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/public/build/entrypoints.json</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/public/build/entrypoints.json</argument>
       <argument>null</argument>
       <argument>_default</argument>
       <argument>true</argument>
@@ -5046,8 +5054,8 @@
       <argument type="service" id="filesystem"/>
       <argument type="service" id="maker.autoloader_util"/>
       <argument type="service" id="maker.file_link_formatter"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/templates</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/templates</argument>
     </service>
     <service id="maker.autoloader_finder" class="Symfony\Bundle\MakerBundle\Util\ComposerAutoloaderFinder" public="false">
       <argument>App</argument>
@@ -5117,7 +5125,7 @@
       <tag name="maker.command"/>
       <argument type="service" id="maker.file_manager"/>
       <argument type="service" id="maker.doctrine_helper"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
       <argument type="service" id="maker.generator"/>
       <argument type="service" id="maker.entity_class_generator"/>
     </service>
@@ -5183,7 +5191,7 @@
     </service>
     <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration" public="false">
       <tag name="maker.command"/>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps</argument>
+      <argument>/test/fixtures/symfony_5_local_deps</argument>
     </service>
     <service id="twig.missing_extension_suggestor" class="Twig\Extra\TwigExtraBundle\MissingExtensionSuggestor" public="false"/>
     <service id="twig.extension.markdown" class="Twig\Extra\Markdown\MarkdownExtension" public="false">
@@ -5930,7 +5938,7 @@
         <argument key="translation.loader.yml" type="service" id="translation.loader.yml"/>
       </argument>
     </service>
-    <service id=".service_locator.GcpeMM3" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.NR9bxsq" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="doctrine" type="service" id="doctrine" on-invalid="ignore"/>
@@ -5946,29 +5954,29 @@
         <argument key="twig" type="service" id="twig" on-invalid="ignore"/>
       </argument>
     </service>
-    <service id=".service_locator.GcpeMM3.App\Controller\Admin\BlogController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.NR9bxsq.App\Controller\Admin\BlogController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\Admin\BlogController"/>
       <argument>App\Controller\Admin\BlogController</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.GcpeMM3" method="withContext"/>
+      <factory service=".service_locator.NR9bxsq" method="withContext"/>
     </service>
-    <service id=".service_locator.GcpeMM3.App\Controller\BlogController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.NR9bxsq.App\Controller\BlogController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\BlogController"/>
       <argument>App\Controller\BlogController</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.GcpeMM3" method="withContext"/>
+      <factory service=".service_locator.NR9bxsq" method="withContext"/>
     </service>
-    <service id=".service_locator.GcpeMM3.App\Controller\SecurityController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.NR9bxsq.App\Controller\SecurityController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\SecurityController"/>
       <argument>App\Controller\SecurityController</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.GcpeMM3" method="withContext"/>
+      <factory service=".service_locator.NR9bxsq" method="withContext"/>
     </service>
-    <service id=".service_locator.GcpeMM3.App\Controller\UserController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.NR9bxsq.App\Controller\UserController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\UserController"/>
       <argument>App\Controller\UserController</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.GcpeMM3" method="withContext"/>
+      <factory service=".service_locator.NR9bxsq" method="withContext"/>
     </service>
     <service id=".service_locator.s2oGJED" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
@@ -6323,59 +6331,59 @@
       </argument>
     </service>
     <service id="cache.app.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter" public="false">
-      <argument>XVx4ymH+6Q</argument>
+      <argument>eAxaXb0Fa1</argument>
       <argument>0</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
     </service>
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-      <argument>bWL6zPWbA6</argument>
+      <argument>mhmB8KfSUx</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-      <argument>2TBHFx0mZF</argument>
+      <argument>4BSmtZtpKS</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-      <argument>h2oz7O0gaB</argument>
+      <argument>v0wdLDMzo4</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.annotations.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-      <argument>+SR6-sjeIM</argument>
+      <argument>hShrlXyDir</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.property_info.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-      <argument>8N7NWzMkgF</argument>
+      <argument>LNrWuW-VH4</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.security_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-      <argument>HMcBsjHAT9</argument>
+      <argument>AaRU6pT6tH</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -6383,10 +6391,10 @@
     <service id="cache.doctrine.orm.default.result.recorder_inner" class="Symfony\Component\Cache\Adapter\ArrayAdapter" public="false"/>
     <service id="cache.doctrine.orm.default.query.recorder_inner" class="Symfony\Component\Cache\Adapter\ArrayAdapter" public="false"/>
     <service id="cache.webpack_encore.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-      <argument>1NJDZQfyXy</argument>
+      <argument>k3BRLkRryj</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/ubuntu/workspace/cloudfoundry/php-buildpack/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
+      <argument>/test/fixtures/symfony_5_local_deps/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -6538,9 +6546,9 @@
     <service id="Psr\Log\LoggerInterface $debugLogger" alias="monolog.logger.debug"/>
     <service id="Psr\Log\LoggerInterface $htmlSanitizerLogger" alias="monolog.logger.html-sanitizer"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
-    <service id=".service_locator.A.pnDXl" alias=".1_ServiceLocator~RITsMJ3" public="false"/>
+    <service id=".service_locator.A.pnDXl" alias=".1_ServiceLocator~_r.M5h_" public="false"/>
     <service id=".service_locator.AjmrG8B" alias=".service_locator.Xl5XdWY" public="false"/>
-    <service id=".service_locator.fMIvnhy" alias=".service_locator.GcpeMM3" public="false"/>
+    <service id=".service_locator.bduglYx" alias=".service_locator.NR9bxsq" public="false"/>
     <service id="validator" alias="debug.validator" public="true"/>
     <service id="translator.data_collector.inner" alias="translator.default" public="false"/>
     <service id="event_dispatcher" alias="debug.event_dispatcher" public="true"/>

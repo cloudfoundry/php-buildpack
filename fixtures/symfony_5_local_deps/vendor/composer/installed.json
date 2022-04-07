@@ -4330,17 +4330,17 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.9.10",
-            "version_normalized": "1.9.10.0",
+            "version": "v1.18.5",
+            "version_normalized": "1.18.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "7335ec033995aa34133e621627333368f260b626"
+                "reference": "10e438f53a972439675dc720706f0cd5c0ed94f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/7335ec033995aa34133e621627333368f260b626",
-                "reference": "7335ec033995aa34133e621627333368f260b626",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/10e438f53a972439675dc720706f0cd5c0ed94f1",
+                "reference": "10e438f53a972439675dc720706f0cd5c0ed94f1",
                 "shasum": ""
             },
             "require": {
@@ -4349,16 +4349,14 @@
             },
             "require-dev": {
                 "composer/composer": "^1.0.2|^2.0",
-                "symfony/dotenv": "^4.4|^5.0",
-                "symfony/phpunit-bridge": "^4.4|^5.0",
-                "symfony/process": "^3.4|^4.4|^5.0"
+                "symfony/dotenv": "^4.4|^5.0|^6.0",
+                "symfony/filesystem": "^4.4|^5.0|^6.0",
+                "symfony/phpunit-bridge": "^4.4.12|^5.0|^6.0",
+                "symfony/process": "^4.4|^5.0|^6.0"
             },
-            "time": "2020-10-14T17:41:54+00:00",
+            "time": "2022-02-16T17:26:46+00:00",
             "type": "composer-plugin",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "1.9-dev"
-                },
                 "class": "Symfony\\Flex\\Flex"
             },
             "installation-source": "dist",
@@ -4380,7 +4378,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.9.10"
+                "source": "https://github.com/symfony/flex/tree/v1.18.5"
             },
             "funding": [
                 {
@@ -7717,54 +7715,6 @@
             "install-path": "../symfony/twig-bundle"
         },
         {
-            "name": "symfony/twig-pack",
-            "version": "v1.0.2",
-            "version_normalized": "1.0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/twig-pack.git",
-                "reference": "08a73e833e07921c464336deb7630f93e85ef930"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-pack/zipball/08a73e833e07921c464336deb7630f93e85ef930",
-                "reference": "08a73e833e07921c464336deb7630f93e85ef930",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/twig-bundle": "*",
-                "twig/extra-bundle": "^2.12|^3.0",
-                "twig/twig": "^2.12|^3.0"
-            },
-            "time": "2020-10-19T08:46:41+00:00",
-            "type": "symfony-pack",
-            "installation-source": "dist",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A Twig pack for Symfony projects",
-            "support": {
-                "issues": "https://github.com/symfony/twig-pack/issues",
-                "source": "https://github.com/symfony/twig-pack/tree/v1.0.2"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "install-path": "../symfony/twig-pack"
-        },
-        {
             "name": "symfony/validator",
             "version": "v5.1.8",
             "version_normalized": "5.1.8.0",
@@ -8804,5 +8754,23 @@
             "install-path": "../zendframework/zend-eventmanager"
         }
     ],
-    "dev": true
+    "dev": true,
+    "dev-package-names": [
+        "composer/semver",
+        "composer/xdebug-handler",
+        "dama/doctrine-test-bundle",
+        "doctrine/data-fixtures",
+        "doctrine/doctrine-fixtures-bundle",
+        "friendsofphp/php-cs-fixer",
+        "nikic/php-parser",
+        "php-cs-fixer/diff",
+        "symfony/browser-kit",
+        "symfony/css-selector",
+        "symfony/debug-bundle",
+        "symfony/dom-crawler",
+        "symfony/maker-bundle",
+        "symfony/phpunit-bridge",
+        "symfony/process",
+        "symfony/web-profiler-bundle"
+    ]
 }

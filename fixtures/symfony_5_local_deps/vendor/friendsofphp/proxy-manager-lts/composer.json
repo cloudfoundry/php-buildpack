@@ -1,0 +1,60 @@
+{
+    "name":              "friendsofphp/proxy-manager-lts",
+    "description":       "Adding support for a wider range of PHP versions to ocramius/proxy-manager",
+    "type":              "library",
+    "license":           "MIT",
+    "homepage":          "https://github.com/FriendsOfPHP/proxy-manager-lts",
+    "keywords":          [
+        "proxy",
+        "proxy pattern",
+        "service proxies",
+        "lazy loading",
+        "aop"
+    ],
+    "authors": [
+        {
+            "name":     "Marco Pivetta",
+            "email":    "ocramius@gmail.com",
+            "homepage": "https://ocramius.github.io/"
+        },
+        {
+            "name":     "Nicolas Grekas",
+            "email":    "p@tchwork.com"
+        }
+    ],
+    "replace": {
+        "ocramius/proxy-manager": "^2.1"
+    },
+    "require": {
+        "php":                       ">=7.1",
+        "laminas/laminas-code":      "~3.4.1|^4.0",
+        "symfony/filesystem":        "^4.4.17|^5.0|^6.0"
+    },
+    "conflict": {
+        "zendframework/zend-stdlib": "<3.2.1",
+        "laminas/laminas-stdlib":    "<3.2.1"
+    },
+    "require-dev": {
+        "ext-phar":                     "*",
+        "symfony/phpunit-bridge":       "^5.4|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ProxyManager\\": "src/ProxyManager"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ProxyManagerTest\\": "tests/ProxyManagerTest",
+            "ProxyManagerTestAsset\\": "tests/ProxyManagerTestAsset",
+            "Laminas\\Server\\": "tests/Stubbed/Laminas/Server"
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "thanks": {
+            "name": "ocramius/proxy-manager",
+            "url": "https://github.com/Ocramius/ProxyManager"
+        }
+    }
+}
