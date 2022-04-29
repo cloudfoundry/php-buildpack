@@ -258,8 +258,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_eeaf9ed3.tgz
-  sha256: eeaf9ed36d90ce2d710900e4b34bde67b426b9df82c64335a3b8c710b22ff01f
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_7685f3c8.tgz
+  sha256: 7685f3c8ebda43d6738453cc291b6c132eb251427e8f4275df9d9fbdfd203d78
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.29.tar.gz
