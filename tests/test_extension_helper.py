@@ -62,7 +62,7 @@ class TestPHPExtensionHelper(object):
         eq_(4, len(ext._ctx))
         eq_('asdf', ext._ctx['DEFAULT_JUNK'])
         eq_('jkl;', ext._ctx['SOME_JUNK'])
-        eq_('7.4.27', ext._ctx['PHP_VERSION'])
+        eq_('7.4.29', ext._ctx['PHP_VERSION'])
 
     def test_compile_runs(self):
         ctx = utils.FormattedDict({
@@ -202,7 +202,7 @@ class TestPHPExtensionHelper(object):
     def test_service_environment_doesnt_run(self):
         ctx = utils.FormattedDict({
             'BUILD_DIR': self.build_dir,
-            'PHP_VERSION': '7.4.27'
+            'PHP_VERSION': '7.4.29'
         })
 
         class MyExtn(PHPExtensionHelper):
