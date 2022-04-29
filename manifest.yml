@@ -103,7 +103,7 @@ dependencies:
 - name: newrelic
   version: 9.20.0.310
   uri: https://download.newrelic.com/php_agent/archive/9.20.0.310/newrelic-php5-9.20.0.310-linux.tar.gz
-  sha256: 0095809b1a7e405d5aac675661df837a399d605bb9e515e1ce8c7e255279b9a3
+  sha256: '0095809b1a7e405d5aac675661df837a399d605bb9e515e1ce8c7e255279b9a3'
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.newrelic.com/docs/licenses/license-information/agent-licenses/java-agent-licenses
@@ -124,13 +124,13 @@ dependencies:
   source: http://nginx.org/download/nginx-1.21.6.tar.gz
   source_sha256: 66dc7081488811e9f925719e34d1b4504c2801c81dee2920e5452a86b11405ae
 - name: php
-  version: 7.4.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.27_linux_x64_cflinuxfs3_da9c3f8c.tgz
-  sha256: da9c3f8c2eff3289caf9f44abaa65ff73c64c28e3e2f7e80dc20af3fe15ba61a
+  version: 7.4.28
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.28_linux_x64_cflinuxfs3_0922e2af.tgz
+  sha256: '0922e2afccc53c7769c915a4b7382db3494e202d5ffb4f83e50eea8665093edd'
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.27.tar.gz
-  source_sha256: 564fd5bc9850370db0cb4058d9087f2f40177fa4921ce698a375416db9ab43ca
+  source: https://php.net/distributions/php-7.4.28.tar.gz
+  source_sha256: a04014cd1646b90547907e2e0ac5371594533960de317b6c7ac70bcb42db92fb
   dependencies:
   - name: amqp
     version: 1.11.0
@@ -257,13 +257,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.4.28
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.28_linux_x64_cflinuxfs3_0922e2af.tgz
-  sha256: '0922e2afccc53c7769c915a4b7382db3494e202d5ffb4f83e50eea8665093edd'
+  version: 7.4.29
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_1a39ea27.tgz
+  sha256: 1a39ea279f9b69dae7c129469b92848bad4df0738ce2b0a630810f87ec21d861
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.28.tar.gz
-  source_sha256: a04014cd1646b90547907e2e0ac5371594533960de317b6c7ac70bcb42db92fb
+  source: https://php.net/distributions/php-7.4.29.tar.gz
+  source_sha256: f73f89873bb9447cb99eb4863cf0a0deab4481cb8acf7552c0e70647e6885854
   dependencies:
   - name: amqp
     version: 1.11.0
