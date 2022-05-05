@@ -258,8 +258,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_7685f3c8.tgz
-  sha256: 7685f3c8ebda43d6738453cc291b6c132eb251427e8f4275df9d9fbdfd203d78
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_1a3f0714.tgz
+  sha256: 1a3f0714e27a86afd3c67ae036ee76fa995aa6bc0b30e09886c67705f1ef0fe8
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.29.tar.gz
@@ -294,7 +294,7 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 11.0.0
+    version: 11.0.1
   - name: ldap
     version: 
   - name: lua
