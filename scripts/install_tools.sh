@@ -7,8 +7,7 @@ source .envrc
 if [ ! -f .bin/ginkgo ]; then
   pushd /tmp > /dev/null || return
     GOBIN="${OLDPWD}/.bin" \
-      go get \
-        -u \
+      go install \
         github.com/onsi/ginkgo/ginkgo@latest
   popd > /dev/null || return
 fi
