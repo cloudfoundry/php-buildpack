@@ -166,33 +166,28 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).ToNot(ContainSubstring("Extracting Dynatrace OneAgent"))
 	})
 
-	Context("deploying a PHP app with Dynatrace agent with configured network zone", func() {
-		It("checks if networkzone setting was successful", func() {
-			serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
-			Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone"}`, dynatraceAPIURI))).To(Succeed())
-			Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
-			Expect(RunCf("start", app.Name)).To(Succeed())
-			ConfirmRunning(app)
+	It("Deploy app with single dynatrace service and network zone set", func() {
+		serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone"}`, dynatraceAPIURI))).To(Succeed())
+		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
+		Expect(RunCf("start", app.Name)).To(Succeed())
+		ConfirmRunning(app)
 
-			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
-			Expect(app.Stdout.String()).To(ContainSubstring("Extracting Dynatrace OneAgent"))
-			Expect(app.Stdout.String()).To(ContainSubstring("Setting DT_NETWORK_ZONE..."))
-		})
+		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
+		Expect(app.Stdout.String()).To(ContainSubstring("Extracting Dynatrace OneAgent"))
+		Expect(app.Stdout.String()).To(ContainSubstring("Setting DT_NETWORK_ZONE..."))
 	})
 
-	Context("deploying a PHP app with Dynatrace OneAgent with configured network zone", func() {
-		It("checks if agent config update via API was successful", func() {
-			serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
-			Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone"}`, dynatraceAPIURI))).To(Succeed())
-			Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
-			Expect(RunCf("start", app.Name)).To(Succeed())
-			ConfirmRunning(app)
+	It("Deploy app with single dynatrace service and check for config update", func() {
+		serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone"}`, dynatraceAPIURI))).To(Succeed())
+		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
+		Expect(RunCf("start", app.Name)).To(Succeed())
+		ConfirmRunning(app)
 
-			// we want to see the update in the config
-			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
-			Expect(app.Stdout.String()).To(ContainSubstring("Fetching updated OneAgent configuration from tenant..."))
-			Expect(app.Stdout.String()).To(ContainSubstring("Finished writing updated OneAgent config back to"))
-		})
+		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
+		Expect(app.Stdout.String()).To(ContainSubstring("Fetching updated OneAgent configuration from tenant..."))
+		Expect(app.Stdout.String()).To(ContainSubstring("Finished writing updated OneAgent config back to"))
 	})
 
 })
