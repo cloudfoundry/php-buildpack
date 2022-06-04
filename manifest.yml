@@ -250,8 +250,8 @@ dependencies:
     version: 
 - name: php
   version: 7.4.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_1a3f0714.tgz
-  sha256: 1a3f0714e27a86afd3c67ae036ee76fa995aa6bc0b30e09886c67705f1ef0fe8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_7f5c3365.tgz
+  sha256: 7f5c33659ca18813273adab761798a45e953e1a8f765af38e094a6a96d5f90d5
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.29.tar.gz
@@ -326,7 +326,7 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.10.0
+    version: 5.10.1
   - name: pgsql
     version: 
   - name: phalcon
@@ -355,11 +355,11 @@ dependencies:
   - name: solr
     version: 2.5.1
   - name: sqlsrv
-    version: 5.10.0
+    version: 5.10.1
   - name: ssh2
     version: 1.3.1
   - name: stomp
-    version: 2.0.2
+    version: 2.0.3
   - name: sysvmsg
     version: 
   - name: sysvsem
@@ -375,7 +375,7 @@ dependencies:
   - name: xsl
     version: 
   - name: yaf
-    version: 3.3.4
+    version: 3.3.5
   - name: yaml
     version: 2.2.2
   - name: zip
