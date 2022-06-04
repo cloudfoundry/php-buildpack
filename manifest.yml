@@ -627,8 +627,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.5_linux_x64_cflinuxfs3_0ddf0bdb.tgz
-  sha256: 0ddf0bdb3ad6b5f5d89ffee862468cfef3a6e2f0e563084cbb22f82e9176f3f9
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.5_linux_x64_cflinuxfs3_fcbb8bf7.tgz
+  sha256: fcbb8bf7f9fc02d1f1420e77e8992565ee208f528f82607f2e78a0613df4a707
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.5.tar.gz
@@ -737,7 +737,7 @@ dependencies:
   - name: xsl
     version: 
   - name: yaf
-    version: 3.3.4
+    version: 3.3.5
   - name: yaml
     version: 2.2.2
   - name: zip
