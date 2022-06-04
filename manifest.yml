@@ -505,8 +505,8 @@ dependencies:
     version: 
 - name: php
   version: 8.0.19
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.19_linux_x64_cflinuxfs3_3d73ae31.tgz
-  sha256: 3d73ae31c7c48cdb334d2cb0b1aa2c43f392bc7c605638f300714c446a1aa431
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.19_linux_x64_cflinuxfs3_2188990c.tgz
+  sha256: 2188990c6d56e4f3f4c41b6c0827c6850a564cdec4e38114c0b001ad98ba5fce
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.19.tar.gz
@@ -577,7 +577,7 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.10.0
+    version: 5.10.1
   - name: pgsql
     version: 
   - name: phpiredis
@@ -602,7 +602,7 @@ dependencies:
   - name: solr
     version: 2.5.1
   - name: sqlsrv
-    version: 5.10.0
+    version: 5.10.1
   - name: ssh2
     version: 1.3.1
   - name: sysvmsg
@@ -619,7 +619,7 @@ dependencies:
   - name: xsl
     version: 
   - name: yaf
-    version: 3.3.4
+    version: 3.3.5
   - name: yaml
     version: 2.2.2
   - name: zip
