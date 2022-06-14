@@ -1,3 +1,13 @@
+v4.4.63 Jun 14, 2022
+=====================
+
+* Add php 7.4.30, remove php 7.4.28 for stack(s) cflinuxfs3
+
+* Add php 8.1.7, remove php 8.1.5 for stack(s) cflinuxfs3
+
+* Add php 8.0.20, remove php 8.0.18 for stack(s) cflinuxfs3
+
+
 v4.4.62 Jun 10, 2022
 =====================
 
