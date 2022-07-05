@@ -17,15 +17,18 @@ Downloads and configures Dynatrace OneAgent.
 """
 
 from __future__ import print_function
-import os
-import logging
-from subprocess import call
-import urllib2
+
 import json
-import time
+import logging
+import os
 import re
+import time
+from subprocess import call
+
+import urllib2
 
 _log = logging.getLogger('dynatrace')
+
 
 class DynatraceInstaller(object):
     def __init__(self, ctx):
@@ -45,8 +48,9 @@ class DynatraceInstaller(object):
 
     # set 'DYNATRACE_API_URL' if not available
     def _convert_api_url(self):
-        if self._ctx['DYNATRACE_API_URL'] == None:
-            self._ctx['DYNATRACE_API_URL'] = 'https://' + self._ctx['DYNATRACE_ENVIRONMENT_ID'] + '.live.dynatrace.com/api'
+        if self._ctx['DYNATRACE_API_URL'] is None:
+            self._ctx['DYNATRACE_API_URL'] = 'https://' + self._ctx[
+                'DYNATRACE_ENVIRONMENT_ID'] + '.live.dynatrace.com/api'
 
     # verify if 'dynatrace' service is available
     def _load_service_info(self):
@@ -110,8 +114,8 @@ class DynatraceInstaller(object):
             # TODO change to 'err' if this is correct
             except IOError as exc:
                 last_exception = exc
-                waittime = base_waittime + 2**attempt
-                _log.warn("Error during installer download, retrying in %s seconds" % (waittime))
+                waittime = base_waittime + 2 ** attempt
+                _log.warning("Error during installer download, retrying in %s seconds" % waittime)
                 time.sleep(waittime)
 
         raise last_exception
@@ -120,7 +124,9 @@ class DynatraceInstaller(object):
     def download_oneagent_installer(self):
         self.create_folder(os.path.join(self._ctx['BUILD_DIR'], 'dynatrace'))
         installer = self._get_oneagent_installer_path()
-        url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?bitness=64&include=php&include=nginx&include=apache'
+        url = self._ctx[
+                  'DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?bitness=64&include=php' \
+                                         '&include=nginx&include=apache '
         if self._ctx['DYNATRACE_NETWORK_ZONE']:
             self._log.info("Setting DT_NETWORK_ZONE...")
             url = url + ("&networkZone=%s" % self._ctx['DYNATRACE_NETWORK_ZONE'])
@@ -131,7 +137,7 @@ class DynatraceInstaller(object):
             os.chmod(installer, 0o777)
         except IOError as exc:
             if skiperrors == 'true':
-                _log.warn('Error during installer download, skipping installation: %s' % (exc))
+                _log.warning('Error during installer download, skipping installation: %s' % exc)
                 self._run_installer = False
             else:
                 _log.error('ERROR: Dynatrace agent download failed')
@@ -152,15 +158,15 @@ class DynatraceInstaller(object):
 
     # copying the exisiting dynatrace-env.sh file
     def adding_environment_variables(self):
-        source      = os.path.join(self._ctx['BUILD_DIR'], 'dynatrace', 'oneagent', 'dynatrace-env.sh')
-        dest        = os.path.join(self._ctx['BUILD_DIR'], '.profile.d', 'dynatrace-env.sh')
+        source = os.path.join(self._ctx['BUILD_DIR'], 'dynatrace', 'oneagent', 'dynatrace-env.sh')
+        dest = os.path.join(self._ctx['BUILD_DIR'], '.profile.d', 'dynatrace-env.sh')
         dest_folder = os.path.join(self._ctx['BUILD_DIR'], '.profile.d')
         self.create_folder(dest_folder)
         os.rename(source, dest)
 
     # adding LD_PRELOAD to the exisiting dynatrace-env.sh file
     def adding_ld_preload_settings(self):
-        envfile    = os.path.join(self._ctx['BUILD_DIR'], '.profile.d', 'dynatrace-env.sh')
+        envfile = os.path.join(self._ctx['BUILD_DIR'], '.profile.d', 'dynatrace-env.sh')
         agent_path = None
         manifest_file = os.path.join(self._ctx['BUILD_DIR'], 'dynatrace', 'oneagent', 'manifest.json')
 
@@ -205,10 +211,10 @@ class DynatraceInstaller(object):
             result = urllib2.urlopen(request)
         except IOError as err:
             if skiperrors == 'true':
-                _log.warn('Error during agent config update, skipping it: %s'% (err))
+                _log.warning('Error during agent config update, skipping it: %s' % err)
                 return
             else:
-                _log.error('ERROR: Failed to download most recent OneAgent config from API: %s '% (err))
+                _log.warning('ERROR: Failed to download most recent OneAgent config from API: %s ' % err)
                 raise
         _log.debug("Successfully fetched OneAgent config from API")
 
@@ -233,7 +239,6 @@ class DynatraceInstaller(object):
 
             config_from_api[section][key] = value
 
-
         # read static config from standalone installer
         try:
             agent_config_path = os.path.join(
@@ -246,8 +251,8 @@ class DynatraceInstaller(object):
             agent_config_file = open(agent_config_path, 'r')
             agent_config_data = agent_config_file.readlines()
             agent_config_file.close()
-        except IOERROR as err:
-            _log.error("ERROR: Failed to read OneAgent config file: %s" % (err))
+        except IOError as err:
+            _log.error("ERROR: Failed to read OneAgent config file: %s" % err)
             raise
 
         _log.debug("Successfully read OneAgent config from " + agent_config_path)
@@ -265,7 +270,7 @@ class DynatraceInstaller(object):
                 config_section = line
                 continue
 
-            if  line.startswith('#'):
+            if line.startswith('#'):
                 # skipping over lines that are purely comments
                 continue
             elif line == "":
@@ -283,7 +288,7 @@ class DynatraceInstaller(object):
             rest_of_the_line = line.split()[1:]
             # the join-construct is needed to convert the list, we get back from the slicing,
             # into a proper string again.
-            #Otherwise we'd need to do the conversion whe writing the data back to the
+            # Otherwise, we'd need to do the conversion whe writing the data back to the
             # config file, which would be more cumbersome.
             config_line_value = ' '.join(rest_of_the_line)
             config_from_agent[config_section][config_line_key] = config_line_value
@@ -314,11 +319,10 @@ class DynatraceInstaller(object):
                 overwrite_agent_config_file.write("\n")
             overwrite_agent_config_file.close()
         except IOError as err:
-            _log.error("ERROR: Failed to write updated config to OneAgent config file: %s" % (err))
+            _log.error("ERROR: Failed to write updated config to OneAgent config file: %s" % err)
             raise
 
         _log.debug("Finished writing updated OneAgent config back to " + agent_config_path)
-
 
 
 # Extension Methods
