@@ -44,7 +44,7 @@ func main() {
 				return
 			}
 
-		case "/dynatrace-env.sh", "/liboneagentproc.so":
+		case "/dynatrace-env.sh", "/liboneagentproc.so", "/ruxitagentproc.conf":
 			contents, err := ioutil.ReadFile(strings.TrimPrefix(req.URL.Path, "/"))
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
@@ -78,6 +78,16 @@ func main() {
 			}
 
 			json.NewEncoder(w).Encode(payload)
+
+		case "/v1/deployment/installer/agent/processmoduleconfig":
+			fakeConfig, err := ioutil.ReadFile("fake_config.json")
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(err.Error()))
+				return
+			}
+			w.Write(fakeConfig)
+
 
 		default:
 			w.WriteHeader(http.StatusNotFound)
