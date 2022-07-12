@@ -383,8 +383,8 @@ dependencies:
     version: 
 - name: php
   version: 8.0.20
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.20_linux_x64_cflinuxfs3_855886ca.tgz
-  sha256: 855886ca7cda39dd67d0f27054322708f5960fe65566a3a4794a34b729517b07
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.20_linux_x64_cflinuxfs3_05fec8d4.tgz
+  sha256: 05fec8d412d3dfb1cabd52fa1c269539de07084c268eb30808faca7e0438bc1f
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.20.tar.gz
@@ -465,7 +465,7 @@ dependencies:
   - name: psr
     version: 1.2.0
   - name: rdkafka
-    version: 6.0.1
+    version: 6.0.3
   - name: readline
   - name: redis
     version: 5.3.7
@@ -493,7 +493,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.1.4
+    version: 3.1.5
   - name: xsl
     version: 
   - name: yaf
