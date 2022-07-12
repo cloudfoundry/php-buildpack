@@ -49,7 +49,8 @@ class DynatraceInstaller(object):
     # set 'DYNATRACE_API_URL' if not available
     def _convert_api_url(self):
         if self._ctx['DYNATRACE_API_URL'] == None:
-            self._ctx['DYNATRACE_API_URL'] = 'https://' + self._ctx['DYNATRACE_ENVIRONMENT_ID'] + '.live.dynatrace.com/api'
+            self._ctx['DYNATRACE_API_URL'] = 'https://' + self._ctx[
+                'DYNATRACE_ENVIRONMENT_ID'] + '.live.dynatrace.com/api'
 
     # verify if 'dynatrace' service is available
     def _load_service_info(self):
@@ -123,7 +124,7 @@ class DynatraceInstaller(object):
     def download_oneagent_installer(self):
         self.create_folder(os.path.join(self._ctx['BUILD_DIR'], 'dynatrace'))
         installer = self._get_oneagent_installer_path()
-        url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest'
+        url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?bitness=64&include=php&include=nginx&include=apache'
         if self._ctx['DYNATRACE_NETWORK_ZONE']:
             self._log.info("Setting DT_NETWORK_ZONE...")
             url = url + ("&networkZone=%s" % self._ctx['DYNATRACE_NETWORK_ZONE'])
@@ -238,13 +239,16 @@ class DynatraceInstaller(object):
 
         # read static config from standalone installer
         try:
-            agent_config_path = os.path.join(
+            agent_config_folder = os.path.join(
                 self._ctx['BUILD_DIR'],
                 'dynatrace',
                 'oneagent',
                 'agent',
-                'conf',
-                'ruxitagentproc.conf')
+                'conf')
+            agent_config_path = os.path.join(agent_config_folder, 'ruxitagentproc.conf')
+            if not os.path.isfile(agent_config_path):
+                _log.warning('ERROR: Failed to find OneAgent config file: %s ' % agent_config_path)
+                raise
             agent_config_file = open(agent_config_path, 'r')
             agent_config_data = agent_config_file.readlines()
             agent_config_file.close()

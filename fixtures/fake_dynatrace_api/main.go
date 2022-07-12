@@ -45,7 +45,11 @@ func main() {
 			}
 
 		case "/dynatrace-env.sh", "/liboneagentproc.so", "/ruxitagentproc.conf":
-			contents, err := ioutil.ReadFile(strings.TrimPrefix(req.URL.Path, "/"))
+			requestUrl := req.URL.Path
+			if strings.Contains(requestUrl, "without-agent-path") {
+				requestUrl = strings.TrimPrefix(requestUrl, "/without-agent-path")
+			}
+			contents, err := ioutil.ReadFile(strings.TrimPrefix(requestUrl, "/"))
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(err.Error()))
@@ -87,7 +91,6 @@ func main() {
 				return
 			}
 			w.Write(fakeConfig)
-
 
 		default:
 			w.WriteHeader(http.StatusNotFound)
