@@ -117,8 +117,8 @@ dependencies:
   source_sha256: 5eee1bd1c23e3b9477a45532f1f36ae6178b43d571a9607e6953cef26d5df1e2
 - name: php
   version: 7.4.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_22c9ccfb.tgz
-  sha256: 22c9ccfb55fbb4146c88f74ca7203305c915de0c18b2b00a6e24690607fe4f3e
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_d715b6f8.tgz
+  sha256: d715b6f892717b7b2d4280d4d14dafedfc52fe4b6709cd7eb31dbe8f71b0d0b5
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-7.4.29.tar.gz
@@ -169,7 +169,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.13.0
+    version: 1.14.0
   - name: msgpack
     version: 2.1.2
   - name: mysqli
