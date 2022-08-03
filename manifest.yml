@@ -745,8 +745,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.8
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.8_linux_x64_cflinuxfs3_e40eaf0f.tgz
-  sha256: e40eaf0f81ee5ed75f32788408a1a2c9ea5841ce2c498c8acf9ec0c4da7fcc03
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.8_linux_x64_cflinuxfs3_417ac1f8.tgz
+  sha256: 417ac1f8141902495e352ccd8f2b38c97192f6aef710155dc27193f966d392e4
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.8.tar.gz
@@ -793,7 +793,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.13.0
+    version: 1.14.0
   - name: msgpack
     version: 2.1.2
   - name: mysqli
