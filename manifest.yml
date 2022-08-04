@@ -626,13 +626,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.1.7
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.7_linux_x64_cflinuxfs3_734aab8c.tgz
-  sha256: 734aab8c9716d1793ab4dc23eb37d04e27b17425127e610a88821fff356869ad
+  version: 8.1.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.8_linux_x64_cflinuxfs3_e40eaf0f.tgz
+  sha256: e40eaf0f81ee5ed75f32788408a1a2c9ea5841ce2c498c8acf9ec0c4da7fcc03
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-8.1.7.tar.gz
-  source_sha256: 5f0b422a117633c86d48d028934b8dc078309d4247e7565ea34b2686189abdd8
+  source: https://php.net/distributions/php-8.1.8.tar.gz
+  source_sha256: 889d910558d2492f7f2236921b9bcde620674c8b684ec02d126060f8ca45dc8d
   dependencies:
   - name: amqp
     version: 1.11.0
@@ -675,7 +675,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.14.0
+    version: 1.13.0
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -744,13 +744,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.1.8
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.8_linux_x64_cflinuxfs3_417ac1f8.tgz
-  sha256: 417ac1f8141902495e352ccd8f2b38c97192f6aef710155dc27193f966d392e4
+  version: 8.1.9
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.9_linux_x64_cflinuxfs3_3f3e4da2.tgz
+  sha256: 3f3e4da23f3979ba8d6a15c789b084c965abfdebaa898aec905cefacf0b70954
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-8.1.8.tar.gz
-  source_sha256: 889d910558d2492f7f2236921b9bcde620674c8b684ec02d126060f8ca45dc8d
+  source: https://php.net/distributions/php-8.1.9.tar.gz
+  source_sha256: 954cf77f7e0a70dc765e7639acdfdccd164be5cd1bce3dbe9d10c58dca631e76
   dependencies:
   - name: amqp
     version: 1.11.0
