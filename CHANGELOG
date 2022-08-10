@@ -1,3 +1,15 @@
+v4.4.65 Aug 10, 2022
+=====================
+
+* Add php 8.0.22, remove php 8.0.20 for stack(s) cflinuxfs3
+
+* Add php 8.1.9, remove php 8.1.7 for stack(s) cflinuxfs3
+
+* Add nginx 1.23.1, remove nginx 1.23.0 for stack(s) cflinuxfs3
+
+* Add appdynamics 22.8.0-588, remove appdynamics 22.3.0-501 for stack(s) cflinuxfs3
+
+
 v4.4.64 Jul 13, 2022
 =====================
 
