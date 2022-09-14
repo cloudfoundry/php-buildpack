@@ -1,3 +1,20 @@
+v4.4.66 Sep 14, 2022
+=====================
+
+* Add php 8.0.23, remove php 8.0.21
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/183155275)
+
+* Add php 8.1.10, remove php 8.1.8
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/183154369)
+
+* Add composer 2.4.1, remove composer 2.3.10
+  for stack(s) cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/183038970)
+  (https://www.pivotaltracker.com/story/show/183001218)
+
+
 v4.4.65 Aug 10, 2022
 =====================
 
