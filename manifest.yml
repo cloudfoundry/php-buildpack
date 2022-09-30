@@ -116,13 +116,13 @@ dependencies:
   source: http://nginx.org/download/nginx-1.23.1.tar.gz
   source_sha256: 5eee1bd1c23e3b9477a45532f1f36ae6178b43d571a9607e6953cef26d5df1e2
 - name: php
-  version: 7.4.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.29_linux_x64_cflinuxfs3_d715b6f8.tgz
-  sha256: d715b6f892717b7b2d4280d4d14dafedfc52fe4b6709cd7eb31dbe8f71b0d0b5
+  version: 7.4.30
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.30_linux_x64_cflinuxfs3_8bf54d2e.tgz
+  sha256: 8bf54d2e601064bfd709aa2a1b2417bba3dff852caf163c4669c2aeb97d6bf32
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.29.tar.gz
-  source_sha256: f73f89873bb9447cb99eb4863cf0a0deab4481cb8acf7552c0e70647e6885854
+  source: https://php.net/distributions/php-7.4.30.tar.gz
+  source_sha256: e37ea37e0f79109351ac615da85eb7c2c336101fc5bc802ee79a124a4310dc10
   dependencies:
   - name: amqp
     version: 1.11.0
@@ -249,13 +249,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 7.4.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.30_linux_x64_cflinuxfs3_8bf54d2e.tgz
-  sha256: 8bf54d2e601064bfd709aa2a1b2417bba3dff852caf163c4669c2aeb97d6bf32
+  version: 7.4.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_7.4.32_linux_x64_cflinuxfs3_e1ff8f8d.tgz
+  sha256: e1ff8f8d422f8524e583bd971b0c0a6883db0dfaa817b1686dd35855965df997
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-7.4.30.tar.gz
-  source_sha256: e37ea37e0f79109351ac615da85eb7c2c336101fc5bc802ee79a124a4310dc10
+  source: https://php.net/distributions/php-7.4.32.tar.gz
+  source_sha256: 197e3372afd69694eb6b230838305eb9e1cbe5db272e0fa3bbe0d38e329a95bc
   dependencies:
   - name: amqp
     version: 1.11.0
