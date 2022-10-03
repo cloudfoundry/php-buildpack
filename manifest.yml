@@ -745,8 +745,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.11_linux_x64_cflinuxfs3_f175e1f9.tgz
-  sha256: f175e1f9753f5bccd8d07a9e172b65bcdd5dc2aa29d213d41703c1eaca3a4ac6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.11_linux_x64_cflinuxfs3_4e981704.tgz
+  sha256: 4e981704b6c2812e3884875d1da8b8d24c564ae3a5269b30c226bef71501f353
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.11.tar.gz
@@ -755,7 +755,7 @@ dependencies:
   - name: amqp
     version: 1.11.0
   - name: apcu
-    version: 5.1.21
+    version: 5.1.22
   - name: bz2
     version: 
   - name: curl
@@ -785,7 +785,7 @@ dependencies:
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.1.3
+    version: 3.1.4
   - name: maxminddb
     version: 1.11.0
   - name: mbstring
@@ -793,7 +793,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.14.0
+    version: 1.14.1
   - name: msgpack
     version: 2.1.2
   - name: mysqli
