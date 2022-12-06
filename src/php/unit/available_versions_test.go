@@ -24,10 +24,24 @@ var _ = Describe("Options.JSON", func() {
 		versions = manifest.AllDependencyVersions("php")
 	})
 
-	It("PHP_74_LATEST will have the latest 7.4 version", func() {
-		latest, err := libbuildpack.FindMatchingVersion("7.4.x", versions)
+	It("PHP_80_LATEST will have the latest 8.0 version", func() {
+		latest, err := libbuildpack.FindMatchingVersion("8.0.x", versions)
 		Expect(err).NotTo(HaveOccurred())
 
-		Expect(defaults["PHP_74_LATEST"]).To(Equal(latest))
+		Expect(defaults["PHP_80_LATEST"]).To(Equal(latest))
+	})
+
+	It("PHP_81_LATEST will have the latest 8.1 version", func() {
+		latest, err := libbuildpack.FindMatchingVersion("8.1.x", versions)
+		Expect(err).NotTo(HaveOccurred())
+
+		Expect(defaults["PHP_81_LATEST"]).To(Equal(latest))
+	})
+
+	It("PHP_DEFAULT will have the latest 8.1 version", func() {
+		latest, err := libbuildpack.FindMatchingVersion("8.1.x", versions)
+		Expect(err).NotTo(HaveOccurred())
+
+		Expect(defaults["PHP_DEFAULT"]).To(Equal(latest))
 	})
 })
