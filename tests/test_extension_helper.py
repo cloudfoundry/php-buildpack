@@ -35,7 +35,7 @@ class TestPHPExtensionHelper(object):
         eq_({}, ext._application)
         eq_(os.path.join(self.phpCfgDir, 'php.ini'), ext._php_ini_path)
         eq_(os.path.join(self.phpCfgDir, 'php-fpm.conf'), ext._php_fpm_path)
-        eq_(1916, len(ext._php_ini._lines))
+        eq_(1914, len(ext._php_ini._lines))
         eq_(523, len(ext._php_fpm._lines))
         eq_(False, ext._should_compile())
         eq_(False, ext._should_configure())
