@@ -238,8 +238,8 @@ dependencies:
     version: 
 - name: php
   version: 8.0.26
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.26_linux_x64_cflinuxfs3_e7791f70.tgz
-  sha256: e7791f709462f82db64c4b6cd209bc95f73e7e061f643d653b015efc183aa5a5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.26_linux_x64_cflinuxfs3_07252bac.tgz
+  sha256: 07252bac02bdb507274a9610aec4fa347173fd53cda6cf7916e95ed9b0912b42
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.26.tar.gz
@@ -268,7 +268,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.7
+    version: 3.2.12
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -286,7 +286,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.14.1
+    version: 1.15.0
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -313,6 +313,8 @@ dependencies:
     version: 5.10.1
   - name: pgsql
     version: 
+  - name: phalcon
+    version: 5.1.2
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -333,11 +335,13 @@ dependencies:
     version: 
   - name: sodium
   - name: solr
-    version: 2.5.1
+    version: 2.6.0
   - name: sqlsrv
     version: 5.10.1
   - name: ssh2
     version: 1.3.1
+  - name: stomp
+    version: 2.0.3
   - name: sysvmsg
     version: 
   - name: sysvsem
@@ -348,7 +352,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.1.5
+    version: 3.1.6
   - name: xsl
     version: 
   - name: yaf
