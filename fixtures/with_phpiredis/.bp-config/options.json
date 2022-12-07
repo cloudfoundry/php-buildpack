@@ -1,4 +1,4 @@
 {
-    "PHP_VERSION": "7.0.28",
+    "PHP_VERSION": "8.1.13",
     "PHP_EXTENSIONS": ["phpiredis"]
 }
