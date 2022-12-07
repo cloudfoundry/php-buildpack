@@ -1,6 +1,5 @@
 {
   "ZEND_EXTENSIONS": [
-    "ioncube",
     "opcache",
     "xdebug"
   ],
@@ -21,7 +20,6 @@
     "imagick",
     "imap",
     "ldap",
-    "lua",
     "lzf",
     "mailparse",
     "maxminddb",
@@ -43,7 +41,6 @@
     "pdo_sqlsrv",
     "pgsql",
     "phpiredis",
-    "protobuf",
     "pspell",
     "psr",
     "rdkafka",
@@ -63,7 +60,6 @@
     "sysvshm",
     "tideways_xhprof",
     "tidy",
-    "xmlrpc",
     "xsl",
     "yaml",
     "yaf",
