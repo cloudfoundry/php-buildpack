@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/onsi/gomega/format"
 	"net/url"
 	"os"
 	"os/exec"
@@ -41,7 +42,7 @@ func init() {
 var _ = SynchronizedBeforeSuite(func() []byte {
 	// Run once
 	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty(), "Please set COMPOSER_GITHUB_OAUTH_TOKEN") // Required for some tests
-
+	format.MaxLength = 0
 	stack = os.Getenv("CF_STACK")
 	if buildpackVersion == "" {
 		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(stack, ApiHasStackAssociation())

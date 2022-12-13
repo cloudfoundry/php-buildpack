@@ -17,7 +17,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		app = cutlass.New(Fixtures("laminas-local-deps"))
 		PushAppAndConfirm(app)
 
-		Expect(app.GetBody("/")).To(ContainSubstring("Welcome to Zend Framework"))
+		Expect(app.GetBody("/")).To(ContainSubstring("Laminas MVC Skeleton Application"))
 	})
 
 	AssertNoInternetTraffic("laminas-local-deps")
@@ -27,6 +27,6 @@ var _ = Describe("CF PHP Buildpack", func() {
 		app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 		PushAppAndConfirm(app)
 
-		Expect(app.GetBody("/")).To(ContainSubstring("Welcome to Zend Framework"))
+		Expect(app.GetBody("/")).To(ContainSubstring("Laminas MVC Skeleton Application"))
 	})
 })
