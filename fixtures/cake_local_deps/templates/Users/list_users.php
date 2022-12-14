@@ -1,7 +1,8 @@
+<h1>List Users</h1>
 <table id="tbl-users-list" class="table table-bordered table-striped">
   <thead>
       <tr>
-            <td colspan="5" align="right"><a href="<?= $this->Url->build('/add-user/', ['fullBase' => true]) ?>">Add User</a></td>
+            <td colspan="5" align="right"><a href="<?= $this->Url->build('/users/add', ['fullBase' => true]) ?>">Add User</a></td>
        </tr>
       <tr>
           <th>ID</th>
@@ -23,8 +24,6 @@
                   <td><?= $data->phone_no ?></td>
                   <td>
                       <form id="frm-delete-user-<?= $data->id ?>" action="<?= $this->Url->build('/delete-user/' . $data->id, ['fullBase' => false]) ?>" method="post"><input type="hidden" value="<?= $data->id ?>" name="id" /></form>
-                      <a href="<?= $this->Url->build('/edit-user/' . $data->id, ['fullBase' => true]) ?>" class="btn btn-warning">Edit</a>
-                      <a href="javascript:void(0)" onclick="if(confirm('Are you sure want to delete ?')){ $('#frm-delete-user-<?= $data->id ?>').submit() }" class="btn btn-danger">Delete</a>
                   </td>
               </tr>
       <?php

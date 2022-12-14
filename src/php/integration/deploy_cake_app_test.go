@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = PDescribe("CF PHP Buildpack", func() {
+var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
 	AfterEach(func() { app = DestroyApp(app) })
 
@@ -25,7 +25,7 @@ var _ = PDescribe("CF PHP Buildpack", func() {
 			Expect(body).To(ContainSubstring("CakePHP"))
 			Expect(body).ToNot(ContainSubstring("Missing Database Table"))
 
-			Expect(app.GetBody("/users/add")).To(ContainSubstring("Add User"))
+			Expect(app.GetBody("/users")).To(ContainSubstring("List Users"))
 		})
 
 		AssertNoInternetTraffic("cake_local_deps")
@@ -43,6 +43,7 @@ var _ = PDescribe("CF PHP Buildpack", func() {
 			Expect(err).ToNot(HaveOccurred())
 			Expect(body).To(ContainSubstring("CakePHP"))
 			Expect(body).ToNot(ContainSubstring("Missing Database Table"))
+
 			Expect(app.GetBody("/users/add")).To(ContainSubstring("Add User"))
 		})
 	})

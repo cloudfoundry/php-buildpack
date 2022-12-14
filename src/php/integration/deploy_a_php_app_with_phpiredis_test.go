@@ -25,7 +25,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			It("logs that the approrpiate phpiredis method was invoked", func() {
 				Expect(app.GetBody("/")).To(ContainSubstring("Redis Connection with phpiredis"))
 
-				Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP message: PHP Warning:  phpiredis_command_bs() expects parameter 1 to be resource"))
+				Eventually(app.Stdout.String, 10*time.Second).Should(ContainSubstring("PHP Fatal error:  Uncaught TypeError: phpiredis_command_bs(): Argument #1 ($connection) must be of type resource"))
 			})
 		})
 	})

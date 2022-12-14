@@ -1,3 +1,4 @@
+<h1>Add User</h1>
 <?= $this->Form->create($user, [
   "id" => "frm-add-branch"
 ]) ?>
