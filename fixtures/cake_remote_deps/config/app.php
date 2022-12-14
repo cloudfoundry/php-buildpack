@@ -169,14 +169,14 @@ return [
      *   The conventional location for custom renderers is in `src/Error`. Your exception renderer needs to
      *   implement the `render()` method and return either a string or Http\Response.
      *   `errorRenderer` - string - The class responsible for rendering PHP errors. The selected
-     *   class will be used for both web and CLI contexts. If you want different classes for each environment 
+     *   class will be used for both web and CLI contexts. If you want different classes for each environment
      *   you'll need to write that conditional logic as well. Error renderers need to
      *   to implement the `Cake\Error\ErrorRendererInterface`.
      * - `skipLog` - array - List of exceptions to skip for logging. Exceptions that
      *   extend one of the listed exceptions will also be skipped for logging.
      *   E.g.:
      *   `'skipLog' => ['Cake\Http\Exception\NotFoundException', 'Cake\Http\Exception\UnauthorizedException']`
-     * - `extraFatalErrorMemory` - int - The number of megabytes to increase the memory limit by 
+     * - `extraFatalErrorMemory` - int - The number of megabytes to increase the memory limit by
      *   when a fatal error is encountered. This allows
      *   breathing room to complete logging or error handling.
      * - `ignoredDeprecationPaths` - array - A list of glob compatible file paths that deprecations
@@ -282,37 +282,30 @@ return [
      *   other RDBMS.
      */
     'Datasources' => [
-        /*
-         * These configurations should contain permanent settings used
-         * by all environments.
-         *
-         * The values in app_local.php will override any values set here
-         * and should be used for local and per-environment configurations.
-         *
-         * Environment variable based configurations can be loaded here or
-         * in app_local.php depending on the applications needs.
-         */
         'default' => [
             'className' => Connection::class,
-            'driver' => Mysql::class,
+            'driver' => \Cake\Database\Driver\Sqlite::class,
             'persistent' => false,
-            'timezone' => 'UTC',
-
+            'host' => 'localhost',
             /*
-             * For MariaDB/MySQL the internal default changed from utf8 to utf8mb4, aka full utf-8 support, in CakePHP 3.6
+             * CakePHP will use the default DB port based on the driver selected
+             * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
+             * the following line and set the port accordingly
+             */
+            //'port' => 'non_standard_port_number',
+            'username' => 'my_app',
+            'password' => 'secret',
+            'database' => '/tmp/test.db',
+            /*
+             * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
             //'encoding' => 'utf8mb4',
-
-            /*
-             * If your MySQL server is configured with `skip-character-set-client-handshake`
-             * then you MUST use the `flags` config to set your charset encoding.
-             * For e.g. `'flags' => [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4']`
-             */
+            'timezone' => 'UTC',
             'flags' => [],
             'cacheMetadata' => true,
             'log' => false,
 
-            /*
+            /**
              * Set identifier quoting to true if you are using reserved words or
              * special characters in your table or column names. Enabling this
              * setting will result in queries built using the Query Builder having
@@ -322,7 +315,7 @@ return [
              */
             'quoteIdentifiers' => false,
 
-            /*
+            /**
              * During development, if using MySQL < 5.6, uncommenting the
              * following line could boost the speed at which schema metadata is
              * fetched from the database. It can also be set directly with the
@@ -330,22 +323,29 @@ return [
              * which is the recommended value in production environments
              */
             //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
+
+            'url' => env('DATABASE_URL', null),
         ],
 
-        /*
+        /**
          * The test connection is used during the test suite.
          */
         'test' => [
             'className' => Connection::class,
             'driver' => Mysql::class,
             'persistent' => false,
-            'timezone' => 'UTC',
+            'host' => 'localhost',
+            //'port' => 'non_standard_port_number',
+            'username' => 'my_app',
+            'password' => 'secret',
+            'database' => 'test_myapp',
             //'encoding' => 'utf8mb4',
-            'flags' => [],
+            'timezone' => 'UTC',
             'cacheMetadata' => true,
             'quoteIdentifiers' => false,
             'log' => false,
             //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
+            'url' => env('DATABASE_TEST_URL', null),
         ],
     ],
 

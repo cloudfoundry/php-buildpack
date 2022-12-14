@@ -1,5 +1,6 @@
 {
   "ZEND_EXTENSIONS": [
+    "ioncube",
     "opcache",
     "xdebug"
   ],
