@@ -104,8 +104,8 @@ dependencies:
   source_sha256: 75cb5787dbb9fae18b14810f91cc4343f64ce4c24e27302136fb52498042ba54
 - name: php
   version: 8.0.25
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.25_linux_x64_cflinuxfs3_0c5407ba.tgz
-  sha256: 0c5407ba21d0e64b0050f64fda64b39872fbc70d622bee577ff76258ed7a3f64
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.25_linux_x64_cflinuxfs3_ad5f0f36.tgz
+  sha256: ad5f0f36f9c436639e307cec21a9d49e91f4b9e74349d5338196b629615f02b8
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.25.tar.gz
@@ -218,7 +218,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.1.6
+    version: 3.2.0
   - name: xsl
     version: 
   - name: yaf
