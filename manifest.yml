@@ -230,8 +230,8 @@ dependencies:
     version: 
 - name: php
   version: 8.0.26
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.26_linux_x64_cflinuxfs3_07252bac.tgz
-  sha256: 07252bac02bdb507274a9610aec4fa347173fd53cda6cf7916e95ed9b0912b42
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.26_linux_x64_cflinuxfs3_44ca5aca.tgz
+  sha256: 44ca5aca01d4e171e1ba808cdfa11d831ee7e9119b8ad4a1c8e4d80b91ee1abd
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.26.tar.gz
@@ -344,7 +344,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.1.6
+    version: 3.2.0
   - name: xsl
     version: 
   - name: yaf
