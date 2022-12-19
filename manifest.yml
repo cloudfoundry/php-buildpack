@@ -612,8 +612,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.0_linux_x64_cflinuxfs3_2c1cd594.tgz
-  sha256: 2c1cd5948e58b16bca440ed91a574786a8ca872e75cf75b010b183570f9c3eac
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.0_linux_x64_cflinuxfs3_ddbd5e42.tgz
+  sha256: ddbd5e4276ce97c04634c23c9e401b2de41ed0b2734a89cbfc856b5f2feb4ade
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.0.tar.gz
