@@ -1,3 +1,21 @@
+v4.5.0 Dec 21, 2022
+=====================
+
+* Deprecate PHP 7.4.x
+
+* Remove CAAPM Agent not supported by PHP 8 (https://github.com/cloudfoundry/php-buildpack/issues/746)
+
+* Update default PHP Version to 8.1.13
+
+* Add appdynamics 22.12.0-667, remove appdynamics 22.10.0-627 for stack(s) cflinuxfs3
+
+* Add nginx 1.23.3, remove nginx 1.23.2 for stack(s) cflinuxfs3
+
+* Add php 8.0.26, remove php 8.0.24 for stack(s) cflinuxfs3
+
+* Add php 8.1.13, remove php 8.1.11 for stack(s) cflinuxfs3
+
+
 v4.4.68 Nov 17, 2022
 =====================
 
