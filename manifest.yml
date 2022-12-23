@@ -51,13 +51,13 @@ dependency_deprecation_dates:
   match: 8.1.\d+
 dependencies:
 - name: appdynamics
-  version: 22.12.0-667
-  uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.12.0-667.tar.bz2
-  sha256: eec8a4f2e4f0df0d57c65137323a37b2ef856339470042fdff01432108ffe165
+  version: 22.12.1-677
+  uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.12.1-677.tar.bz2
+  sha256: 00f463c4eeb15e8ad65b1c8f020688d74ab5218c584d785e67950c7a81195363
   cf_stacks:
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
-  source_sha256: eec8a4f2e4f0df0d57c65137323a37b2ef856339470042fdff01432108ffe165
+  source_sha256: 00f463c4eeb15e8ad65b1c8f020688d74ab5218c584d785e67950c7a81195363
 - name: composer
   version: 2.5.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.5.0_linux_noarch_any-stack_b571610e.phar
@@ -604,4 +604,4 @@ dependencies:
     version: 2.2.2
   - name: zip
   - name: zlib
-    version:
+    version: 
