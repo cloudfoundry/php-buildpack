@@ -230,8 +230,8 @@ dependencies:
     version: 
 - name: php
   version: 8.0.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.27_linux_x64_cflinuxfs3_6c38254a.tgz
-  sha256: 6c38254acb0fd371dce2227d1b37dbdb11fff9c15314a8c72094e780656258c6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.27_linux_x64_cflinuxfs3_a51a9f13.tgz
+  sha256: a51a9f139bd87a7f141a1506ee3c2a8693b7162386da1ff10f271f4d188a2279
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.27.tar.gz
@@ -306,7 +306,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.1.2
+    version: 5.1.4
   - name: phpiredis
     version: 1.0.1
   - name: pspell
