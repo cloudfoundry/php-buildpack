@@ -484,8 +484,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.14
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.14_linux_x64_cflinuxfs3_5b852074.tgz
-  sha256: 5b8520743d21b0266c0d6cda52d5178ef87ae0b374093be4721bcb7b47b13a50
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.14_linux_x64_cflinuxfs3_1827ab19.tgz
+  sha256: 1827ab191a45c418ffb3d7ca23fe874bc2d813684439d28137afcddad7cb5226
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.14.tar.gz
@@ -520,7 +520,7 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 12.0.3
+    version: 12.0.5
   - name: ldap
     version: 
   - name: lzf
@@ -562,7 +562,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.1.2
+    version: 5.1.4
   - name: phpiredis
     version: 1.0.1
   - name: pspell
