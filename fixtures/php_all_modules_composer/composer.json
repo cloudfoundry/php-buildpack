@@ -1,6 +1,5 @@
 {
     "require": {
-        "php": ">=7.2",
         "ext-amqp": "*",
         "ext-apcu": "*",
         "ext-bz2": "*",
@@ -19,8 +18,8 @@
         "ext-ldap": "*",
         "ext-lzf": "*",
         "ext-mailparse": "*",
-        "ext-mbstring": "*",
         "ext-maxminddb": "*",
+        "ext-mbstring": "*",
         "ext-memcached": "*",
         "ext-mongodb": "*",
         "ext-msgpack": "*",
