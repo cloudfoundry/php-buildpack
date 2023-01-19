@@ -1,4 +1,4 @@
-Pygments==2.5.2
+Pygments==2.7.4
 argparse==1.2.1
 dingus==0.3.4
 flake8==2.1.0
