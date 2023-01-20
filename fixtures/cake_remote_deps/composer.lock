@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cakephp/cakephp",
-            "version": "4.4.8",
+            "version": "4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "ad188775dde89ad758dad9923ff558900914d59c"
+                "reference": "3b089816d7cae4cff0a2a4de3e1ee651f73979df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/ad188775dde89ad758dad9923ff558900914d59c",
-                "reference": "ad188775dde89ad758dad9923ff558900914d59c",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/3b089816d7cae4cff0a2a4de3e1ee651f73979df",
+                "reference": "3b089816d7cae4cff0a2a4de3e1ee651f73979df",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/cakephp"
             },
-            "time": "2022-12-02T02:29:42+00:00"
+            "time": "2023-01-06T03:13:27+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -279,16 +279,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.3.4",
+            "version": "1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "69098eca243998b53eed7a48d82dedd28b447cd5"
+                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/69098eca243998b53eed7a48d82dedd28b447cd5",
-                "reference": "69098eca243998b53eed7a48d82dedd28b447cd5",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
+                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
                 "shasum": ""
             },
             "require": {
@@ -335,7 +335,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.3.4"
+                "source": "https://github.com/composer/ca-bundle/tree/1.3.5"
             },
             "funding": [
                 {
@@ -351,20 +351,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-12T12:08:29+00:00"
+            "time": "2023-01-11T08:27:00+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
-            "version": "2.22.0",
+            "version": "2.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diactoros.git",
-                "reference": "df8c7f9e11d854269f4aa7c06ffa38caa42e4405"
+                "reference": "6028af6c3b5ced4d063a680d2483cce67578b902"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/df8c7f9e11d854269f4aa7c06ffa38caa42e4405",
-                "reference": "df8c7f9e11d854269f4aa7c06ffa38caa42e4405",
+                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/6028af6c3b5ced4d063a680d2483cce67578b902",
+                "reference": "6028af6c3b5ced4d063a680d2483cce67578b902",
                 "shasum": ""
             },
             "require": {
@@ -386,10 +386,10 @@
                 "ext-libxml": "*",
                 "http-interop/http-factory-tests": "^0.9.0",
                 "laminas/laminas-coding-standard": "^2.4.0",
-                "php-http/psr7-integration-tests": "^1.1.1",
-                "phpunit/phpunit": "^9.5.26",
-                "psalm/plugin-phpunit": "^0.18.0",
-                "vimeo/psalm": "^4.29.0"
+                "php-http/psr7-integration-tests": "^1.2",
+                "phpunit/phpunit": "^9.5.27",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "vimeo/psalm": "^5.4"
             },
             "type": "library",
             "extra": {
@@ -448,20 +448,20 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-22T05:54:54+00:00"
+            "time": "2022-12-20T12:22:40+00:00"
         },
         {
             "name": "laminas/laminas-httphandlerrunner",
-            "version": "2.4.0",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-httphandlerrunner.git",
-                "reference": "d15af53895fd581b5a448a09fd9a4baebc4ae6e5"
+                "reference": "7a47834aaad7852816d2ec4fdbb0492163b039ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/d15af53895fd581b5a448a09fd9a4baebc4ae6e5",
-                "reference": "d15af53895fd581b5a448a09fd9a4baebc4ae6e5",
+                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/7a47834aaad7852816d2ec4fdbb0492163b039ae",
+                "reference": "7a47834aaad7852816d2ec4fdbb0492163b039ae",
                 "shasum": ""
             },
             "require": {
@@ -473,9 +473,9 @@
             "require-dev": {
                 "laminas/laminas-coding-standard": "~2.4.0",
                 "laminas/laminas-diactoros": "^2.18",
-                "phpunit/phpunit": "^9.5.25",
-                "psalm/plugin-phpunit": "^0.17.0",
-                "vimeo/psalm": "^4.28"
+                "phpunit/phpunit": "^9.5.26",
+                "psalm/plugin-phpunit": "^0.18.0",
+                "vimeo/psalm": "^5.0.0"
             },
             "type": "library",
             "extra": {
@@ -515,7 +515,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-10-25T13:41:39+00:00"
+            "time": "2023-01-05T21:54:03+00:00"
         },
         {
             "name": "league/container",
