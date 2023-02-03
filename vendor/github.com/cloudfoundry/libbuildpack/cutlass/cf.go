@@ -201,15 +201,17 @@ func CreateOrUpdateBuildpack(language, file, stack string) error {
 }
 
 func (a *App) ConfirmBuildpack(version string) error {
-	if !strings.Contains(a.Stdout.String(), fmt.Sprintf("Buildpack version %s\n", version)) {
+	output := a.Stdout.String()
+	if !strings.Contains(output, fmt.Sprintf("Buildpack version %s\n", version)) {
 		var versionLine string
 		for _, line := range strings.Split(a.Stdout.String(), "\n") {
 			if versionLine == "" && strings.Contains(line, " Buildpack version ") {
 				versionLine = line
 			}
 		}
-		return fmt.Errorf("Wrong buildpack version. Expected '%s', but this was logged: %s", version, versionLine)
+		return fmt.Errorf("Wrong buildpack version. Expected '%q', but this was logged: %q\nOutput: %s", version, versionLine, output)
 	}
+
 	return nil
 }
 
@@ -351,16 +353,31 @@ func (a *App) PushNoStart() error {
 	}
 
 	if a.logCmd == nil {
-		a.logCmd = exec.Command("cf", "logs", a.Name)
-		a.logCmd.Stderr = DefaultStdoutStderr
 		a.Stdout = &Buffer{}
-		a.logCmd.Stdout = a.Stdout
-		if err := a.logCmd.Start(); err != nil {
-			return err
-		}
+		go a.reconnectLogs()
 	}
 
 	return nil
+}
+
+func (a *App) reconnectLogs() {
+	for {
+		if a.Stdout == nil {
+			return
+		}
+
+		a.logCmd = exec.Command("cf", "logs", a.Name)
+		a.logCmd.Stderr = DefaultStdoutStderr
+		a.logCmd.Stdout = a.Stdout
+
+		err := a.logCmd.Run()
+		if err != nil {
+			fmt.Fprintln(DefaultStdoutStderr, err)
+			continue
+		}
+
+		return
+	}
 }
 
 func (a *App) V3Push() error {
@@ -490,9 +507,13 @@ func (a *App) DownloadDroplet(path string) error {
 
 func (a *App) Destroy() error {
 	if a.logCmd != nil && a.logCmd.Process != nil {
+		a.Stdout = nil
+
 		if err := a.logCmd.Process.Kill(); err != nil {
 			return err
 		}
+
+		a.logCmd = nil
 	}
 
 	command := exec.Command("cf", "delete", "-f", a.Name)
