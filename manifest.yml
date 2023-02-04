@@ -73,10 +73,18 @@ dependencies:
   source_sha256: f1b94fee11a5bd6a1aae5d77c8da269df27c705fcc806ebf4c8c2e6fa8645c20
 - name: httpd
   version: 2.4.55
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.55_linux_x64_cflinuxfs3_b0358b21.tgz
-  sha256: b0358b214d4cbe341bda9c8de01acbd3ebd059a0a87303510ec91cfbfc4f846e
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.55_linux_x64_cflinuxfs3_b09f4c7b.tgz
+  sha256: b09f4c7b995525b0d63404f5e24e4aabf802b6a16d8208df023e38a25d0c6e86
   cf_stacks:
   - cflinuxfs3
+  source: http://archive.apache.org/dist/httpd/httpd-2.4.55.tar.bz2
+  source_sha256: 11d6ba19e36c0b93ca62e47e6ffc2d2f2884942694bce0f23f39c71bdc5f69ac
+- name: httpd
+  version: 2.4.55
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.55_linux_x64_cflinuxfs4_32983a3f.tgz
+  sha256: 32983a3f98b399685b34abc80f7902c76513cac7a877de48536cab1a756106a6
+  cf_stacks:
+  - cflinuxfs4
   source: http://archive.apache.org/dist/httpd/httpd-2.4.55.tar.bz2
   source_sha256: 11d6ba19e36c0b93ca62e47e6ffc2d2f2884942694bce0f23f39c71bdc5f69ac
 - name: newrelic
