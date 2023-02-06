@@ -60,6 +60,7 @@ dependencies:
   uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.12.1-677.tar.bz2
   sha256: 00f463c4eeb15e8ad65b1c8f020688d74ab5218c584d785e67950c7a81195363
   cf_stacks:
+  - cflinuxfs4
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
   source_sha256: 00f463c4eeb15e8ad65b1c8f020688d74ab5218c584d785e67950c7a81195363
