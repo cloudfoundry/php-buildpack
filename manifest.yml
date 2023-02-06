@@ -97,13 +97,21 @@ dependencies:
   - cflinuxfs3
   osl: https://docs.newrelic.com/docs/licenses/license-information/agent-licenses/java-agent-licenses
 - name: nginx
-  version: 1.22.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.22.0_linux_x64_cflinuxfs3_4db1de21.tgz
-  sha256: 4db1de217d56db3b42e033e8f06e053b824c3a2da5dcf43e12abfcddd3567383
+  version: 1.22.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.22.1_linux_x64_cflinuxfs3_9e698209.tgz
+  sha256: 9e6982092c609f80379f1f43d5a67d2537ea183314612af91ad32b91d5d601a5
   cf_stacks:
   - cflinuxfs3
-  source: http://nginx.org/download/nginx-1.22.0.tar.gz
-  source_sha256: b33d569a6f11a01433a57ce17e83935e953ad4dc77cdd4d40f896c88ac26eb53
+  source: http://nginx.org/download/nginx-1.22.1.tar.gz
+  source_sha256: 9ebb333a9e82b952acd3e2b4aeb1d4ff6406f72491bab6cd9fe69f0dea737f31
+- name: nginx
+  version: 1.22.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.22.1_linux_x64_cflinuxfs4_7006928c.tgz
+  sha256: 7006928ce68482c1b9a01fdc298b93ed9329bf09e030bfb2de5f293ef444ff47
+  cf_stacks:
+  - cflinuxfs4
+  source: http://nginx.org/download/nginx-1.22.1.tar.gz
+  source_sha256: 9ebb333a9e82b952acd3e2b4aeb1d4ff6406f72491bab6cd9fe69f0dea737f31
 - name: nginx
   version: 1.23.3
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.23.3_linux_x64_cflinuxfs3_5fec77fe.tgz
