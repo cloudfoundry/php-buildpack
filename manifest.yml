@@ -256,8 +256,8 @@ dependencies:
     version: 
 - name: php
   version: 8.0.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.27_linux_x64_cflinuxfs3_a51a9f13.tgz
-  sha256: a51a9f139bd87a7f141a1506ee3c2a8693b7162386da1ff10f271f4d188a2279
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.27_linux_x64_cflinuxfs3_77771447.tgz
+  sha256: 77771447f2718466576b68b7ced1925a0cd2a68291f603b232a35b47a2e4aa43
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.27.tar.gz
@@ -286,7 +286,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.12
+    version: 3.2.13
   - name: imagick
     version: 3.7.0
   - name: imap
