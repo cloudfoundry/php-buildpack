@@ -98,7 +98,6 @@ ENTRYPOINT ["bundle", "exec", "buildpack-packager"]
 EOF
     docker build -t buildpack-packager . &> /dev/null
 
-    echo "Running buildpack-packager with flags: ${stack_flag} ${cached_flag}"
     docker run --rm -v ${ROOTDIR}:/buildpack -w /buildpack buildpack-packager ${stack_flag} ${cached_flag} &> /dev/null
     util::print::success "Buildpack packaged successfully"
 
