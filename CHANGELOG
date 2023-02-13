@@ -1,3 +1,28 @@
+v4.5.2 Feb 13, 2023
+====================
+
+* Update buildpack-packager to 2.3.22
+
+* Update php default to latest 8.1.x version (#807)
+
+* Updating version for php for 8.2.X (#805)
+
+* Add php 8.2.2
+  for stack(s) cflinuxfs3, cflinuxfs4
+  (https://www.pivotaltracker.com/story/show/184381976)
+
+* Add php 8.1.15, remove php 8.1.13
+  for stack(s) cflinuxfs3, cflinuxfs4
+  (https://www.pivotaltracker.com/story/show/184388841)
+
+* Add nginx 1.22.1, remove nginx 1.22.0
+  for stack(s) cflinuxfs4, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/183579473)
+
+* Add composer 2.5.2, remove composer 2.5.1
+  for stack(s) cflinuxfs4, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/184394919)
+
 v4.5.1 Jan 19, 2023
 ====================
 
