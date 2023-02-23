@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+shopt -s expand_aliases
 
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -21,13 +22,18 @@ set -e
 #  python script.  However, this is here in case the
 #  build pack needs to do anything to bootstrap the
 #  python scripts, like install Python.
-BP=$(dirname $(dirname $0))
 
+BP=$(dirname $(dirname $0))
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 DEPS_DIR=${3:-}
 DEPS_IDX=${4:-}
 PROFILE_DIR=${5:-}
+
+# Install python if stack is cflinuxfs4 so its available during staging and build
+if [ "$CF_STACK" == "cflinuxfs4" ]; then
+  source "$BP/bin/install-python" "$DEPS_DIR/$DEPS_IDX" "$BP"
+fi
 
 BUILDPACK_PATH=$BP
 export BUILDPACK_PATH

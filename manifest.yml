@@ -55,6 +55,13 @@ dependency_deprecation_dates:
   link: http://php.net/supported-versions.php
   match: 8.2.\d+
 dependencies:
+- name: python
+  version: 2.7.18
+  uri: https://buildpacks.cloudfoundry.org/dependencies/python/python_2.7.18_linux_x64_cflinuxfs4_4454dcd.tgz
+  sha256: 4454dcd542031cdc3b839def90f5cad06ac2ed2cacddf3a209b3c0ab13904fc3
+  cf_stacks:
+  - cflinuxfs4
+  source_sha256: 4454dcd542031cdc3b839def90f5cad06ac2ed2cacddf3a209b3c0ab13904fc3
 - name: appdynamics
   version: 22.12.1-677
   uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.12.1-677.tar.bz2
@@ -95,6 +102,7 @@ dependencies:
   sha256: '0095809b1a7e405d5aac675661df837a399d605bb9e515e1ce8c7e255279b9a3'
   cf_stacks:
   - cflinuxfs3
+  - cflinuxfs4
   osl: https://docs.newrelic.com/docs/licenses/license-information/agent-licenses/java-agent-licenses
 - name: nginx
   version: 1.22.1
