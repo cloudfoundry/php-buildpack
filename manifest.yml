@@ -16,7 +16,7 @@ exclude_files:
 - php_buildpack-*v*
 default_versions:
 - name: php
-  version: 8.1.14
+  version: 8.1.16
 - name: httpd
   version: 2.4.55
 - name: newrelic
