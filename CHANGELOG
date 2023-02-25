@@ -1,3 +1,15 @@
+v4.5.3 Feb 24, 2023
+====================
+
+* Add php 8.1.16, remove php 8.1.14
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add php 8.2.3, remove php 8.2.1
+  for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add php 8.0.28, remove php 8.0.26
+  for stack(s) cflinuxfs3
+
 v4.5.2 Feb 13, 2023
 ====================
 
