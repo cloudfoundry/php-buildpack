@@ -6,18 +6,21 @@ function main() {
   install_dir="$1"
   buildpack_dir="$2"
 
-  python_dep_name=$(get_python_from_manifest "$buildpack_dir")
-  echo "-------> Providing Python $(echo $python_dep_name | cut -d'_' -f 2) (required by the buildpack to run in cflinuxfs4)"
+  if [ ! -d "/tmp/python/bin" ]; then
+    python_dep_name=$(get_python_from_manifest "$buildpack_dir")
+    echo "-------> Providing Python $(echo $python_dep_name | cut -d'_' -f 2) (required by the buildpack to run in cflinuxfs4)"
 
-  if [ ! -d "$buildpack_dir/dependencies" ]; then
-    setup_online "$python_dep_name" "$install_dir" "$buildpack_dir"
-  else
-    setup_offline "$python_dep_name" "$install_dir" "$buildpack_dir"
+    if [ ! -d "$buildpack_dir/dependencies" ]; then
+      setup_online "$python_dep_name" "$install_dir" "$buildpack_dir"
+    else
+      setup_offline "$python_dep_name" "$install_dir" "$buildpack_dir"
+    fi
+  elif [ $install_dir != "/tmp/python" ]; then
+    cp -r "/tmp/python/." "$install_dir"
   fi
 
   export LD_LIBRARY_PATH="$install_dir/lib:/lib"
   export PATH="$install_dir/bin:${PATH:-}"
-
   alias python2=python2.7
 }
 
