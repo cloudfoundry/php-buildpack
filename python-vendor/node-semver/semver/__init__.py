@@ -640,7 +640,10 @@ class Range(object):
         #  First, split based on boolean or ||
         self.raw = range_
         xs = [self.parse_range(r.strip()) for r in re.split(r"\s*\|\|\s*", range_)]
-        self.set = [r for r in xs if len(r) >= 0]
+        # Collection length comparison should be meaningful.
+        # The length of a collection is always greater than or equal to zero.
+        # Possibly  the intent is to have a non-zero length check
+        self.set = [r for r in xs if len(r) > 0]
 
         if not len(self.set):
             raise ValueError("Invalid SemVer Range: {}".format(range_))
