@@ -36,14 +36,13 @@ func init() {
 	flag.BoolVar(&cutlass.Cached, "cached", true, "cached buildpack")
 	flag.StringVar(&cutlass.DefaultMemory, "memory", "256M", "default memory for pushed apps")
 	flag.StringVar(&cutlass.DefaultDisk, "disk", "384M", "default disk for pushed apps")
+	flag.StringVar(&stack, "stack", "cflinuxfs3", "stack to use when pushing apps")
 	flag.Parse()
 }
 
 var _ = SynchronizedBeforeSuite(func() []byte {
-	// Run once
 	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty(), "Please set COMPOSER_GITHUB_OAUTH_TOKEN") // Required for some tests
 	format.MaxLength = 0
-	stack = os.Getenv("CF_STACK")
 	if buildpackVersion == "" {
 		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(stack, ApiHasStackAssociation())
 		Expect(err).NotTo(HaveOccurred())
