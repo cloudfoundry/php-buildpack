@@ -41,9 +41,7 @@ func init() {
 }
 
 var _ = SynchronizedBeforeSuite(func() []byte {
-	err := os.Setenv("COMPOSER_GITHUB_OAUTH_TOKEN", "TEST")
-	Expect(err).NotTo(HaveOccurred())
-
+	Expect(os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN")).ToNot(BeEmpty(), "Please set COMPOSER_GITHUB_OAUTH_TOKEN") // Required for some tests
 	format.MaxLength = 0
 	if buildpackVersion == "" {
 		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(stack, ApiHasStackAssociation())

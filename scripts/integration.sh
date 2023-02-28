@@ -13,24 +13,62 @@ source "${ROOTDIR}/scripts/.util/print.sh"
 # shellcheck source=SCRIPTDIR/.util/tools.sh
 source "${ROOTDIR}/scripts/.util/tools.sh"
 
+function usage() {
+  cat <<-USAGE
+integration.sh --github-token <token> [OPTIONS]
+Runs the integration tests.
+OPTIONS
+  --help                  -h  prints the command usage
+  --github-token <token>      GitHub token to use when making API requests
+USAGE
+}
+
 function main() {
-  local src stack platform token
+  local src stack token
+  token="${1}"
+
+
+  while [[ "${#}" != 0 ]]; do
+    case "${1}" in
+      --github-token)
+        token="${2}"
+        shift 2
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      *)
+        echo "Unknown option: ${1}"
+        usage
+        exit 1
+        ;;
+    esac
+  done
+
+  if [[ -z "${token:-}" ]]; then
+    echo "Missing required argument: --github-token"
+    usage
+    exit 1
+  fi
+
   src="$(find "${ROOTDIR}/src" -mindepth 1 -maxdepth 1 -type d )"
   stack="${CF_STACK:-$(jq -r -S .stack "${ROOTDIR}/config.json")}"
 
   util::tools::cf::install --directory "${ROOTDIR}/.bin"
 
   # Run uncached tests
-  specs::run "false" "${stack}"
+  specs::run "false" "${stack}" "${token}"
 
   # Run cached tests
-  specs::run "true" "${stack}"
+  specs::run "true" "${stack}" "${token}"
 }
 
 function specs::run() {
-  local cached stack
+  local cached stack token
   cached="${1}"
   stack="${2}"
+  token="${3}"
 
   local nodes cached_flag stack_flag
   cached_flag="--cached=${cached}"
@@ -49,6 +87,7 @@ function specs::run() {
   util::print::title "Running integration tests (cached=${cached}, stack=${stack})"
 
   CF_STACK="${stack}" \
+  COMPOSER_GITHUB_OAUTH_TOKEN="${token}" \
   BUILDPACK_FILE="${BUILDPACK_FILE:-"${buildpack_file}"}" \
   GOMAXPROCS="${GOMAXPROCS:-"${nodes}"}" \
     go test \
