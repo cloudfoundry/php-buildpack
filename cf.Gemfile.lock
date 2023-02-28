@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cloudfoundry/buildpack-packager
-  revision: 080f6fb773bf151dfae87a22d6852749d6be968a
-  tag: v2.3.22
+  revision: f88bfee41cf46d5b6ea487d6c30a99ed7c0e51eb
+  tag: v2.3.23
   specs:
-    buildpack-packager (2.3.22)
+    buildpack-packager (2.3.23)
       activesupport (~> 4.1)
       kwalify (~> 0)
       semantic
@@ -37,7 +37,7 @@ DEPENDENCIES
   buildpack-packager!
 
 RUBY VERSION
-   ruby 2.3.1p112
+   ruby 3.0.5p211
 
 BUNDLED WITH
-   2.1.4
+   2.2.33

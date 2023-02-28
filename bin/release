@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -21,6 +22,15 @@
 #  build pack needs to do anything to bootstrap the
 #  python scripts, like install Python.
 BP=$(dirname $(dirname $0))
+
+# Install python if stack is cflinuxfs4 so its available during staging
+if [ "$CF_STACK" == "cflinuxfs4" ]; then
+  PYTHON_DIR="/tmp/python"
+  mkdir -p "${PYTHON_DIR}"
+  source "$BP/bin/install-python" "$PYTHON_DIR" "$BP" &> /dev/null
+fi
+
+
 export PYTHONPATH=$BP/lib
 
 python2 $BP/scripts/release.py $1
