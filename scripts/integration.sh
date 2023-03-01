@@ -13,6 +13,7 @@ source "${ROOTDIR}/scripts/.util/print.sh"
 # shellcheck source=SCRIPTDIR/.util/tools.sh
 source "${ROOTDIR}/scripts/.util/tools.sh"
 
+#TODO
 function usage() {
   cat <<-USAGE
 integration.sh --github-token <token> [OPTIONS]
@@ -25,31 +26,13 @@ USAGE
 
 function main() {
   local src stack token
-  token="${1}"
 
-
-  while [[ "${#}" != 0 ]]; do
-    case "${1}" in
-      --github-token)
-        token="${2}"
-        shift 2
-        ;;
-      -h|--help)
-        usage
-        exit 0
-        ;;
-      *)
-        echo "Unknown option: ${1}"
-        usage
-        exit 1
-        ;;
-    esac
-  done
-
-  if [[ -z "${token:-}" ]]; then
-    echo "Missing required argument: --github-token"
+  if [[ -z "${COMPOSER_GITHUB_OAUTH_TOKEN:-}" ]]; then
+    echo "Missing required argument: --github-token <token> or COMPOSER_GITHUB_OAUTH_TOKEN environment variable"
     usage
     exit 1
+  else
+    token="${COMPOSER_GITHUB_OAUTH_TOKEN}"
   fi
 
   src="$(find "${ROOTDIR}/src" -mindepth 1 -maxdepth 1 -type d )"
