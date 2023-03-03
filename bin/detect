@@ -30,5 +30,5 @@ if [ "$CF_STACK" == "cflinuxfs4" ]; then
 fi
 
 export PYTHONPATH=$BP/lib
-VERSION="$(cat "$BP"/VERSION)}"
+VERSION="$(cat "$BP"/VERSION)"
 python2 "$BP/"scripts/detect.py "$1" "$VERSION"
