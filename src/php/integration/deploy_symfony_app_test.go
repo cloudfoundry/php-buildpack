@@ -11,7 +11,9 @@ import (
 
 var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
-	AfterEach(func() { app = DestroyApp(app) })
+	AfterEach(func() {
+		app = DestroyApp(app)
+	})
 
 	It("deploying a symfony 5 app with locally-vendored dependencies", func() {
 		SkipUnlessCached()
