@@ -55,13 +55,6 @@ dependency_deprecation_dates:
   link: http://php.net/supported-versions.php
   match: 8.2.\d+
 dependencies:
-- name: python
-  version: 2.7.18
-  uri: https://buildpacks.cloudfoundry.org/dependencies/python/python_2.7.18_linux_x64_cflinuxfs4_4454dcd.tgz
-  sha256: 4454dcd542031cdc3b839def90f5cad06ac2ed2cacddf3a209b3c0ab13904fc3
-  cf_stacks:
-  - cflinuxfs4
-  source_sha256: 4454dcd542031cdc3b839def90f5cad06ac2ed2cacddf3a209b3c0ab13904fc3
 - name: appdynamics
   version: 22.12.1-677
   uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-22.12.1-677.tar.bz2
@@ -646,8 +639,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.16
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.16_linux_x64_cflinuxfs3_0de3cbd1.tgz
-  sha256: 0de3cbd174f7b70beacb2a61c9ed4ecad2ce6cd56f1531583455dc69eada1127
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.16_linux_x64_cflinuxfs3_27477656.tgz
+  sha256: 2747765634a6c3ebd367b942fe9350a31ef3fe7461207e63065a8e464b404def
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.16.tar.gz
@@ -676,7 +669,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.13
+    version: 3.2.14
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -696,7 +689,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.15.0
+    version: 1.15.1
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -724,7 +717,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.1.4
+    version: 5.2.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -774,12 +767,12 @@ dependencies:
     version: 
 - name: php
   version: 8.1.16
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.16_linux_x64_cflinuxfs4_3aec8a90.tgz
-  sha256: 3aec8a90deef2825e2d1e52ed279d169a772e51e836f0fe8965855832d35a0c5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.16_linux_x64_cflinuxfs4_a251d28e.tgz
+  sha256: a251d28eedd586164ca6d86a81f051d5096d81331c91d77881acd9a1116499b0
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.1.16.tar.gz
-  source_sha256: cb1f2ef7af37aa9978e7742818d9edbf27b1db009bc3dfefe7dc522cb3d3423d
+  source_sha256: a929fb9ed3bc364a5dea4f64954e8aaaa3408b87df04d7c6f743a190f5594e84
   dependencies:
   - name: amqp
     version: 1.11.0
@@ -804,7 +797,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.13
+    version: 3.2.14
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -824,7 +817,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.15.0
+    version: 1.15.1
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -852,7 +845,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.1.4
+    version: 5.2.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1388,3 +1381,10 @@ dependencies:
   - name: zip
   - name: zlib
     version: 
+- name: python
+  version: 2.7.18
+  uri: https://buildpacks.cloudfoundry.org/dependencies/python/python_2.7.18_linux_x64_cflinuxfs4_4454dcd.tgz
+  sha256: 4454dcd542031cdc3b839def90f5cad06ac2ed2cacddf3a209b3c0ab13904fc3
+  cf_stacks:
+  - cflinuxfs4
+  source_sha256: 4454dcd542031cdc3b839def90f5cad06ac2ed2cacddf3a209b3c0ab13904fc3
