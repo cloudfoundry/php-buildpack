@@ -14,10 +14,9 @@ readonly ROOTDIR
 source "${ROOTDIR}/scripts/.util/print.sh"
 
 function main() {
-  local stack version cached output
+  local stack cached
   stack="any"
   cached="false"
-  output="${ROOTDIR}/build/buildpack.zip"
 
   while [[ "${#}" != 0 ]]; do
     case "${1}" in
@@ -98,11 +97,12 @@ ENTRYPOINT ["bundle", "exec", "buildpack-packager"]
 EOF
     docker build -t buildpack-packager . &> /dev/null
 
-    docker run --rm -v ${ROOTDIR}:/buildpack -w /buildpack buildpack-packager ${stack_flag} ${cached_flag} &> /dev/null
+    docker run --rm -v "${ROOTDIR}":/buildpack -w /buildpack buildpack-packager "${stack_flag}" ${cached_flag} &> /dev/null
     util::print::success "Buildpack packaged successfully"
 
-    rm Dockerfile
   popd &> /dev/null
+
+  rm -f "${ROOTDIR}/Dockerfile"
 }
 
 main "${@:-}"

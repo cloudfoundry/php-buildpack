@@ -34,7 +34,7 @@ function main() {
 
   util::print::title "Run Buildpack Runtime Acceptance Tests"
 
-  ginkgo -r --flakeAttempts=$GINKGO_ATTEMPTS -nodes $GINKGO_NODES
+  ginkgo -r --flakeAttempts="$GINKGO_ATTEMPTS" -nodes "$GINKGO_NODES"
 }
 
 main "${@:-}"
