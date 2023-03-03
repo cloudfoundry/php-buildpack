@@ -22,7 +22,7 @@ set -e
 #  build pack needs to do anything to bootstrap the
 #  python scripts, like install Python.
 
-BP=$(dirname $(dirname $0))
+BP=$(dirname "$(dirname "$0")")
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 DEPS_DIR=${3:-}
@@ -36,13 +36,13 @@ fi
 
 BUILDPACK_PATH=$BP
 export BUILDPACK_PATH
-source $BP/compile-extensions/lib/common
+source "$BP"/compile-extensions/lib/common
 
-$BP/compile-extensions/bin/check_stack_support
-$BP/compile-extensions/bin/check_buildpack_version $BP $CACHE_DIR
-$BP/compile-extensions/bin/write_config_yml $BP "$DEPS_DIR/$DEPS_IDX"
+"$BP"/compile-extensions/bin/check_stack_support
+"$BP"/compile-extensions/bin/check_buildpack_version "$BP" "$CACHE_DIR"
+"$BP"/compile-extensions/bin/write_config_yml "$BP" "$DEPS_DIR/$DEPS_IDX"
 
-env_vars=$($BP/compile-extensions/bin/build_path_from_supply $DEPS_DIR)
+env_vars=$("$BP"/compile-extensions/bin/build_path_from_supply "$DEPS_DIR")
 for env_var in $env_vars; do
   export $env_var
 done
@@ -50,11 +50,11 @@ done
 export PYTHONPATH=$BP/lib
 unset PYTHONHOME
 
-python2 $BP/scripts/compile.py $BUILD_DIR $CACHE_DIR
+python2 "$BP"/scripts/compile.py "$BUILD_DIR" "$CACHE_DIR"
 
-pushd $BUILD_DIR/.profile.d > /dev/null
+pushd "$BUILD_DIR"/.profile.d > /dev/null
   for f in *; do mv "$f" "finalize_$f"; done
 popd > /dev/null
 
-$BP/compile-extensions/bin/write_profiled_from_supply $DEPS_DIR $BUILD_DIR $PROFILE_DIR
-$BP/compile-extensions/bin/store_buildpack_metadata $BP $CACHE_DIR
+"$BP"/compile-extensions/bin/write_profiled_from_supply "$DEPS_DIR" "$BUILD_DIR" "$PROFILE_DIR"
+"$BP"/compile-extensions/bin/store_buildpack_metadata "$BP" "$CACHE_DIR"
