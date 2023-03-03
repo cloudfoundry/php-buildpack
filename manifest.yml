@@ -1139,8 +1139,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.3_linux_x64_cflinuxfs3_d7c8357d.tgz
-  sha256: d7c8357d601d22aa6858732588b6b70baa40472e88a5505ccb0d611c60219346
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.3_linux_x64_cflinuxfs3_0b99e1da.tgz
+  sha256: 0b99e1da504816512e13ec6679da197916dcd5a748bfb31332108473af76413b
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.3.tar.gz
@@ -1169,7 +1169,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.13
+    version: 3.2.14
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -1187,7 +1187,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.15.0
+    version: 1.15.1
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -1214,6 +1214,8 @@ dependencies:
     version: 5.10.1
   - name: pgsql
     version: 
+  - name: phalcon
+    version: 5.2.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1261,8 +1263,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.3_linux_x64_cflinuxfs4_57166cd4.tgz
-  sha256: 57166cd4c727b669debbf35dc80dfbe2af45d565065a0653cbfafacd662cbf5d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.3_linux_x64_cflinuxfs4_4855785e.tgz
+  sha256: 4855785e4916f791b648ad2c7904e679de6c3110a13bc169f8d19238bfbebc21
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.2.3.tar.gz
@@ -1291,7 +1293,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.13
+    version: 3.2.14
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -1309,7 +1311,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.15.0
+    version: 1.15.1
   - name: msgpack
     version: 2.1.2
   - name: mysqli
@@ -1336,6 +1338,8 @@ dependencies:
     version: 5.10.1
   - name: pgsql
     version: 
+  - name: phalcon
+    version: 5.2.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
