@@ -57,7 +57,9 @@ func ItLoadsAllTheModules(app *cutlass.App) {
 
 var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
-	AfterEach(func() { app = DestroyApp(app) })
+	AfterEach(func() {
+		app = DestroyApp(app)
+	})
 
 	Context("extensions are specified in .bp-config", func() {
 		It("deploying a basic PHP app that loads all prepackaged extensions", func() {

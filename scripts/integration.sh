@@ -13,23 +13,11 @@ source "${ROOTDIR}/scripts/.util/print.sh"
 # shellcheck source=SCRIPTDIR/.util/tools.sh
 source "${ROOTDIR}/scripts/.util/tools.sh"
 
-#TODO
-function usage() {
-  cat <<-USAGE
-integration.sh --github-token <token> [OPTIONS]
-Runs the integration tests.
-OPTIONS
-  --help                  -h  prints the command usage
-  --github-token <token>      GitHub token to use when making API requests
-USAGE
-}
-
 function main() {
   local src stack token
 
   if [[ -z "${COMPOSER_GITHUB_OAUTH_TOKEN:-}" ]]; then
-    echo "Missing required argument: --github-token <token> or COMPOSER_GITHUB_OAUTH_TOKEN environment variable"
-    usage
+    echo "Missing required environment variable: COMPOSER_GITHUB_OAUTH_TOKEN"
     exit 1
   else
     token="${COMPOSER_GITHUB_OAUTH_TOKEN}"

@@ -9,7 +9,9 @@ import (
 
 var _ = Describe("CF PHP Buildpack", func() {
 	var app *cutlass.App
-	AfterEach(func() { app = DestroyApp(app) })
+	AfterEach(func() {
+		app = DestroyApp(app)
+	})
 
 	Context("app has a custom extension", func() {
 		BeforeEach(func() {
@@ -17,7 +19,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			PushAppAndConfirm(app)
 		})
 		It("deploys successfully", func() {
-			Expect(app.Stdout.String()).To(ContainSubstring("https://files.phpmyadmin.net//phpMyAdmin/4.3.12/phpMyAdmin-4.3.12-english.tar.gz"))
+			Expect(app.Stdout.String()).To(ContainSubstring("Installing PHPMyAdmin 4.3.12"))
 		})
 	})
 })
