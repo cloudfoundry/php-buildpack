@@ -10,6 +10,13 @@ Official buildpack documentation can be found here: [php buildpack docs](http://
 
 ### Building the Buildpack
 
+#### Option 1: Using the `package.sh` script
+1. Run `./scripts/package.sh [ --uncached | --cached ] [ --stack=STACK ]`
+
+This requires that you have `docker` installed on your local machine, as it
+will run packaging setup within a `ruby` image.
+
+#### Option 2: Manually use the `buildpack-packager`
 1. Make sure you have fetched submodules
 
    ```bash
@@ -22,7 +29,7 @@ Official buildpack documentation can be found here: [php buildpack docs](http://
    git checkout v4.4.2  # or whatever version you want, see releases page for available versions
    ```
 
-1. Get latest buildpack dependencies
+1. Get latest buildpack dependencies, this will require having Ruby 3.0 or running in a Ruby 3.0 container image
 
    ```shell
    BUNDLE_GEMFILE=cf.Gemfile bundle
