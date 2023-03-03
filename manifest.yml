@@ -20,7 +20,7 @@ default_versions:
 - name: httpd
   version: 2.4.55
 - name: newrelic
-  version: 9.20.0.310
+  version: 10.6.0.318
 - name: nginx
   version: 1.23.3
 - name: composer
@@ -90,9 +90,9 @@ dependencies:
   source: http://archive.apache.org/dist/httpd/httpd-2.4.55.tar.bz2
   source_sha256: 11d6ba19e36c0b93ca62e47e6ffc2d2f2884942694bce0f23f39c71bdc5f69ac
 - name: newrelic
-  version: 9.20.0.310
-  uri: https://download.newrelic.com/php_agent/archive/9.20.0.310/newrelic-php5-9.20.0.310-linux.tar.gz
-  sha256: '0095809b1a7e405d5aac675661df837a399d605bb9e515e1ce8c7e255279b9a3'
+  version: 10.6.0.318
+  uri: https://download.newrelic.com/php_agent/archive/10.6.0.318/newrelic-php5-10.6.0.318-linux.tar.gz
+  sha256: 7546099afc67db467b49c6903cf6e8738bd8e6964cfc1b627d892e796203e4ac
   cf_stacks:
   - cflinuxfs3
   - cflinuxfs4
