@@ -1,3 +1,14 @@
+v4.6.0 Mar 03, 2023
+====================
+
+* Add composer 2.5.4, remove composer 2.5.2 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Bump newrelic to 10.6.0.318
+
+* Add appdynamics 23.2.0-684, remove appdynamics 22.12.1-677 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add cflinuxfs4 stack support
+
 v4.5.3 Feb 24, 2023
 ====================
 
