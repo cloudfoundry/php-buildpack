@@ -1,3 +1,11 @@
+v4.6.1 Mar 15, 2023
+====================
+
+* Add httpd 2.4.56, remove httpd 2.4.55 (#845)
+  for stack(s) cflinuxfs3, cflinuxfs4
+  (https://www.pivotaltracker.com/story/show/184641061)
+
+
 v4.6.0 Mar 03, 2023
 ====================
 
