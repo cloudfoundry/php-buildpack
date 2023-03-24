@@ -1,3 +1,10 @@
+v4.6.2 Mar 24, 2023
+====================
+
+* Add composer 2.5.5, remove composer 2.5.4 for stack(s) cflinuxfs4, cflinuxfs3
+
+* BYO Ruby (Required by the buildpack)
+
 v4.6.1 Mar 15, 2023
 ====================
 
