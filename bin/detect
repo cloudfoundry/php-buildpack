@@ -27,6 +27,10 @@ if [ "$CF_STACK" == "cflinuxfs4" ]; then
   PYTHON_DIR="/tmp/python"
   mkdir -p "${PYTHON_DIR}"
   source "$BP/bin/install-python" "$PYTHON_DIR" "$BP" &> /dev/null
+
+  RUBY_DIR="/tmp/ruby"
+  mkdir -p "${RUBY_DIR}"
+  source "$BP/bin/install-ruby" "$RUBY_DIR" "$BP" &> /dev/null
 fi
 
 export PYTHONPATH=$BP/lib

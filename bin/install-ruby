@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+shopt -s expand_aliases
+
+function main() {
+  local install_dir="$1"
+  local buildpack_dir="$2"
+  local ruby_dep_name=$(get_ruby_from_manifest "$buildpack_dir")
+
+  if [[ ! -d "/tmp/ruby/bin" ]]; then
+    setup_ruby "$ruby_dep_name" "$install_dir" "$buildpack_dir"
+  elif [[ $install_dir != "/tmp/ruby" ]]; then
+    cp -r "/tmp/ruby/." "$install_dir"
+  fi
+  export PATH="$install_dir/bin:${PATH:-}"
+  alias ruby=ruby3
+}
+
+function setup_ruby() {
+  local ruby_dep_name="$1"
+  local install_dir="$2"
+  local buildpack_dir="$3"
+
+  if [[ -d "$buildpack_dir/dependencies" ]]; then
+    tar -xzf "$buildpack_dir/dependencies/https___buildpacks.cloudfoundry.org_dependencies_ruby_$ruby_dep_name" -C "$install_dir"
+  else
+    curl -Ls "https://buildpacks.cloudfoundry.org/dependencies/ruby/ruby_3.0.5_linux_x64_cflinuxfs3_098393c3.tgz" | tar -xzf - -C "$install_dir"
+  fi
+}
+
+function get_ruby_from_manifest() {
+  local buildpack_dir="$1"
+  grep -A 3 "name: ruby" < "$buildpack_dir/manifest.yml" | awk '/uri:/ {print $2}' | cut -d'/' -f 6
+}
+
+main "${@:-}"
