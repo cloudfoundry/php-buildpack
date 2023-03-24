@@ -35,7 +35,7 @@ func init() {
 	flag.StringVar(&buildpackVersion, "version", "", "version to use (builds if empty)")
 	flag.BoolVar(&cutlass.Cached, "cached", true, "cached buildpack")
 	flag.StringVar(&cutlass.DefaultMemory, "memory", "256M", "default memory for pushed apps")
-	flag.StringVar(&cutlass.DefaultDisk, "disk", "500M", "default disk for pushed apps")
+	flag.StringVar(&cutlass.DefaultDisk, "disk", "750M", "default disk for pushed apps")
 	flag.StringVar(&stack, "stack", "cflinuxfs3", "stack to use when pushing apps")
 	flag.Parse()
 }
