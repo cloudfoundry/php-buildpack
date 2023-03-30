@@ -30,7 +30,7 @@ if [ "$CF_STACK" == "cflinuxfs4" ]; then
   mkdir -p "${PYTHON_DIR}"
   source "$BP/bin/install-python" "$PYTHON_DIR" "$BP" &> /dev/null
 
-  RUBY_DIR="/tmp/ruby"
+  RUBY_DIR="/tmp/php-buildpack/ruby"
   mkdir -p "${RUBY_DIR}"
   source "$BP/bin/install-ruby" "$RUBY_DIR" "$BP" &> /dev/null
 fi

@@ -8,10 +8,10 @@ function main() {
   local buildpack_dir="$2"
   local ruby_dep_name=$(get_ruby_from_manifest "$buildpack_dir")
 
-  if [[ ! -d "/tmp/ruby/bin" ]]; then
+  if [[ ! -d "/tmp/php-buildpack/ruby/bin" ]]; then
     setup_ruby "$ruby_dep_name" "$install_dir" "$buildpack_dir"
-  elif [[ $install_dir != "/tmp/ruby" ]]; then
-    cp -r "/tmp/ruby/." "$install_dir"
+  elif [[ $install_dir != "/tmp/php-buildpack/ruby" ]]; then
+    cp -r "/tmp/php-buildpack/ruby/." "$install_dir"
   fi
   export PATH="$install_dir/bin:${PATH:-}"
   alias ruby=ruby3
