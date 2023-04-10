@@ -1,3 +1,13 @@
+v4.6.4 Apr 07, 2023
+====================
+
+* update go modules
+
+* bump default nginx version
+
+* Add nginx 1.23.4, remove nginx 1.23.3 (#857)
+  for stack(s) cflinuxfs4, cflinuxfs3
+
 v4.6.3 Mar 30, 2023
 ====================
 
