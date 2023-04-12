@@ -8,10 +8,10 @@ function main() {
   local buildpack_dir="$2"
   local python_dep_name=$(get_python_from_manifest "$buildpack_dir")
 
-  if [[ ! -d "/tmp/python/bin" ]]; then
+  if [[ ! -d "/tmp/php-buildpack/python/bin" ]]; then
     setup_python "$python_dep_name" "$install_dir" "$buildpack_dir"
-  elif [[ $install_dir != "/tmp/python" ]]; then
-    cp -r "/tmp/python/." "$install_dir"
+  elif [[ $install_dir != "/tmp/php-buildpack/python" ]]; then
+    cp -r "/tmp/php-buildpack/python/." "$install_dir"
   fi
 
   export LD_LIBRARY_PATH="$install_dir/lib:${LD_LIBRARY_PATH:-}"
