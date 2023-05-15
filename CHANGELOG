@@ -1,3 +1,13 @@
+v4.6.5 May 15, 2023
+====================
+
+* Add appdynamics 23.4.0-724, remove appdynamics 23.2.0-684 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Install bootstrapped Python into dpack specific location
+
+* Add httpd 2.4.57, remove httpd 2.4.56 for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.4 Apr 07, 2023
 ====================
 
