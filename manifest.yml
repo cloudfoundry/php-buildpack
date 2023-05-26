@@ -22,7 +22,7 @@ default_versions:
 - name: newrelic
   version: 10.6.0.318
 - name: nginx
-  version: 1.23.4
+  version: 1.25.0
 - name: composer
   version: 2.5.5
 url_to_dependency_map:
@@ -113,22 +113,6 @@ dependencies:
   - cflinuxfs4
   source: http://nginx.org/download/nginx-1.22.1.tar.gz
   source_sha256: 9ebb333a9e82b952acd3e2b4aeb1d4ff6406f72491bab6cd9fe69f0dea737f31
-- name: nginx
-  version: 1.23.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.23.4_linux_x64_cflinuxfs3_3a90319b.tgz
-  sha256: 3a90319b867a30efdc88eec6741dc572b27d082a5807a9cad8981a08bdb4b055
-  cf_stacks:
-  - cflinuxfs3
-  source: http://nginx.org/download/nginx-1.23.4.tar.gz
-  source_sha256: d43300e36bb249a7e6edc60bca1b0fc372a0bafce2f346d76acfb677a8790fc0
-- name: nginx
-  version: 1.23.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.23.4_linux_x64_cflinuxfs4_009f05c2.tgz
-  sha256: '009f05c2b2fe7edab1eed7ad83402b4fcd22965e18f3c010a1ae7c64c061a371'
-  cf_stacks:
-  - cflinuxfs4
-  source: http://nginx.org/download/nginx-1.23.4.tar.gz
-  source_sha256: d43300e36bb249a7e6edc60bca1b0fc372a0bafce2f346d76acfb677a8790fc0
 - name: nginx
   version: 1.25.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.25.0_linux_x64_cflinuxfs3_4aa5ffeb.tgz
