@@ -1,3 +1,15 @@
+v4.6.6 Jun 08, 2023
+====================
+
+* Add nginx 1.24.0, remove nginx 1.22.1 for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add nginx 1.25.0, remove nginx 1.23.4 for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add composer 2.5.7, remove composer 2.5.5 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Update default nginx version from 1.23.4 to 1.25.0
+
+
 v4.6.5 May 15, 2023
 ====================
 
