@@ -23,7 +23,7 @@ default_versions:
 - name: newrelic
   version: 10.6.0.318
 - name: nginx
-  version: 1.25.0
+  version: 1.25.1
 - name: composer
   version: 2.5.8
 url_to_dependency_map:
