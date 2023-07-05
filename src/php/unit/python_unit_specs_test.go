@@ -19,7 +19,7 @@ var _ = Describe("python unit tests", func() {
 
 		var cmd *exec.Cmd
 		if IsDockerAvailable() {
-			image := "cloudfoundry/cflinuxfs3"
+			image := "cloudfoundry/cflinuxfs3:0.356.0"
 
 			err = exec.Command("docker", "pull", image).Run()
 			Expect(err).ToNot(HaveOccurred())
