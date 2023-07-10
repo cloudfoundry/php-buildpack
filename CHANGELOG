@@ -1,3 +1,13 @@
+v4.6.7 Jul 07, 2023
+====================
+
+* manifest.yml: don't ship requirements.txt only used in unit test. Also lets scanners avoid https://nvd.nist.gov/vuln/detail/CVE-2021-27291
+
+* Add composer 2.5.8, remove composer 2.5.7 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add nginx 1.25.1, remove nginx 1.25.0 for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.6 Jun 08, 2023
 ====================
 
