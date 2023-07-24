@@ -33,7 +33,7 @@ function setup_python() {
 
 function get_python_from_manifest() {
   local buildpack_dir="$1"
-  grep -A 3 "name: python" < "$buildpack_dir/manifest.yml" | awk '/uri:/ {print $2}' | cut -d'/' -f 6
+  cat "$buildpack_dir/manifest.yml" | awk '/uri:/ && /\/python\// {print}' | sed 's:.*/::'
 }
 
 main "${@:-}"

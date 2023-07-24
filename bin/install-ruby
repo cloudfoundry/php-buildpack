@@ -31,7 +31,7 @@ function setup_ruby() {
 
 function get_ruby_from_manifest() {
   local buildpack_dir="$1"
-  grep -A 3 "name: ruby" < "$buildpack_dir/manifest.yml" | awk '/uri:/ {print $2}' | cut -d'/' -f 6
+  cat "$buildpack_dir/manifest.yml" | awk '/uri:/ && /\/ruby\// {print}' | sed 's:.*/::'
 }
 
 main "${@:-}"
