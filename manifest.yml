@@ -57,14 +57,14 @@ dependency_deprecation_dates:
   match: 8.2.\d+
 dependencies:
 - name: appdynamics
-  version: 23.7.0-746
-  uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-23.7.0-746.tar.bz2
-  sha256: bef41e07c72107c1185e81fe1d14e396bfbc3f974dc67a244c96ff73560a58a6
+  version: 23.7.1-751
+  uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-23.7.1-751.tar.bz2
+  sha256: 5bbfa8d84e87d314b571831ea04c0ec7da9539a63db9809ebaa5e6b93373f65d
   cf_stacks:
   - cflinuxfs4
   - cflinuxfs3
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
-  source_sha256: bef41e07c72107c1185e81fe1d14e396bfbc3f974dc67a244c96ff73560a58a6
+  source_sha256: 5bbfa8d84e87d314b571831ea04c0ec7da9539a63db9809ebaa5e6b93373f65d
 - name: composer
   version: 2.5.8
   uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.5.8_linux_noarch_any-stack_f07934fa.phar
