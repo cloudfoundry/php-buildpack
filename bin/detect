@@ -22,16 +22,13 @@
 #  python scripts, like install Python.
 BP=$(dirname "$(dirname "$0")")
 
-# Install python if stack is cflinuxfs4 so its available during staging
-if [ "$CF_STACK" == "cflinuxfs4" ]; then
-  PYTHON_DIR="/tmp/php-buildpack/python"
-  mkdir -p "${PYTHON_DIR}"
-  source "$BP/bin/install-python" "$PYTHON_DIR" "$BP" &> /dev/null
+PYTHON_DIR="/tmp/php-buildpack/python"
+mkdir -p "${PYTHON_DIR}"
+source "$BP/bin/install-python" "$PYTHON_DIR" "$BP" &> /dev/null
 
-  RUBY_DIR="/tmp/php-buildpack/ruby"
-  mkdir -p "${RUBY_DIR}"
-  source "$BP/bin/install-ruby" "$RUBY_DIR" "$BP" &> /dev/null
-fi
+RUBY_DIR="/tmp/php-buildpack/ruby"
+mkdir -p "${RUBY_DIR}"
+source "$BP/bin/install-ruby" "$RUBY_DIR" "$BP" &> /dev/null
 
 export PYTHONPATH=$BP/lib
 VERSION="$(cat "$BP"/VERSION)"

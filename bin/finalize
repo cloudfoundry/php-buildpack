@@ -29,11 +29,8 @@ DEPS_DIR=${3:-}
 DEPS_IDX=${4:-}
 PROFILE_DIR=${5:-}
 
-# Install python if stack is cflinuxfs4 so its available during staging and build
-if [ "$CF_STACK" == "cflinuxfs4" ]; then
-  source "$BP/bin/install-python" "$DEPS_DIR/$DEPS_IDX" "$BP"
-  source "$BP/bin/install-ruby" "$DEPS_DIR/$DEPS_IDX" "$BP"
-fi
+source "$BP/bin/install-python" "$DEPS_DIR/$DEPS_IDX" "$BP"
+source "$BP/bin/install-ruby" "$DEPS_DIR/$DEPS_IDX" "$BP"
 
 BUILDPACK_PATH=$BP
 export BUILDPACK_PATH
