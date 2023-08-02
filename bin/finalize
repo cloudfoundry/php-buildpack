@@ -29,8 +29,10 @@ DEPS_DIR=${3:-}
 DEPS_IDX=${4:-}
 PROFILE_DIR=${5:-}
 
-# Install python if stack is cflinuxfs4 so its available during staging and build
-if [ "$CF_STACK" == "cflinuxfs4" ]; then
+# Generally stacks do not have ruby or python installed, with the exception of cflinuxfs3, so we install them here
+# We deliberately skip re-installing python and ruby on the cflinuxfs3 stack to avoid compatibility issues
+# (e.g. the bootstrapped python is incompatible with cflinuxfs3 due to being compiled on a newer version of GBLIC)
+if [ "$CF_STACK" != "cflinuxfs3" ]; then
   source "$BP/bin/install-python" "$DEPS_DIR/$DEPS_IDX" "$BP"
   source "$BP/bin/install-ruby" "$DEPS_DIR/$DEPS_IDX" "$BP"
 fi
