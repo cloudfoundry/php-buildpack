@@ -1,3 +1,15 @@
+v4.6.9 Aug 23, 2023
+====================
+
+* Add php 8.1.22, remove php 8.1.20 (#911)
+
+* Add php 8.0.30, remove php 8.0.28 (#910)
+
+* Add nginx 1.25.2, remove nginx 1.25.1
+
+* Update default Nginx version (#909)
+
+
 v4.6.8 Aug 03, 2023
 ====================
 
