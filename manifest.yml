@@ -640,15 +640,15 @@ dependencies:
     version: 
 - name: php
   version: 8.1.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs3-dev_a2aa7a3d.tgz
-  sha256: a2aa7a3d8f918fe87e9b32d546cb9f9ae84eb0f902674f06a37084ce71075acf
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs3-dev_710eebab.tgz
+  sha256: 710eebabd5feae650c374ac78b3225778851ae07bda87d484858e0d885439c5d
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.23.tar.gz
   source_sha256: ec5330b3978edc8fe2f78830720505bf69d12542622b5cddccee63ae3a0e5b58
   dependencies:
   - name: amqp
-    version: 1.11.0
+    version: 2.0.0
   - name: apcu
     version: 5.1.22
   - name: bz2
@@ -676,13 +676,13 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 12.0.5
+    version: 13.0.1
   - name: ldap
     version: 
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.1.5
+    version: 3.1.6
   - name: maxminddb
     version: 1.11.0
   - name: mbstring
@@ -690,7 +690,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.1
+    version: 1.16.2
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -718,7 +718,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.2.3
+    version: 5.3.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -768,15 +768,15 @@ dependencies:
     version: 
 - name: php
   version: 8.1.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs4_806130da.tgz
-  sha256: 806130da076d306cd8c3f626eb0f5ceda5339b3fe46f653c97f29ca0e42cc806
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs4_51c5ad09.tgz
+  sha256: 51c5ad09f5385c86b89cff145cf1a6c604a9a14094d0a858c41a16fc99f9a644
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.1.23.tar.gz
   source_sha256: ec5330b3978edc8fe2f78830720505bf69d12542622b5cddccee63ae3a0e5b58
   dependencies:
   - name: amqp
-    version: 1.11.0
+    version: 2.0.0
   - name: apcu
     version: 5.1.22
   - name: bz2
@@ -804,13 +804,13 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 12.0.5
+    version: 13.0.1
   - name: ldap
     version: 
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.1.5
+    version: 3.1.6
   - name: maxminddb
     version: 1.11.0
   - name: mbstring
@@ -818,7 +818,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.1
+    version: 1.16.2
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -846,7 +846,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.2.3
+    version: 5.3.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
