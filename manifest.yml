@@ -258,15 +258,15 @@ dependencies:
     version: 
 - name: php
   version: 8.0.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.30_linux_x64_cflinuxfs3-dev_99e562bd.tgz
-  sha256: 99e562bd36cb2b256b2e6f61320c2ffed11c23698c6ae3c5e91d75f32fb1811f
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.30_linux_x64_cflinuxfs3-dev_3f055abe.tgz
+  sha256: 3f055abea7bceea439cf598f0b9e0d5595233c9726c0cdcc44950195f68ccfa4
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.30.tar.gz
   source_sha256: 449d2048fcb20a314d8c218097c6d1047a9f1c5bb72aa54d5d3eba0a27a4c80c
   dependencies:
   - name: amqp
-    version: 1.11.0
+    version: 2.0.0
   - name: apcu
     version: 5.1.22
   - name: bz2
@@ -298,7 +298,7 @@ dependencies:
   - name: lzf
     version: 
   - name: mailparse
-    version: 3.1.5
+    version: 3.1.6
   - name: maxminddb
     version: 1.11.0
   - name: mbstring
@@ -306,7 +306,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.1
+    version: 1.16.2
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -334,7 +334,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.2.3
+    version: 5.3.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
