@@ -1,3 +1,11 @@
+v4.6.10 Sep 06, 2023
+=====================
+
+* Add composer 2.6.2, remove composer 2.5.8 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add php 8.1.23, remove php 8.1.21 for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.9 Aug 23, 2023
 ====================
 
