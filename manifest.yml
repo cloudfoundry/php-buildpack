@@ -640,15 +640,15 @@ dependencies:
     version: 
 - name: php
   version: 8.1.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs3-dev_710eebab.tgz
-  sha256: 710eebabd5feae650c374ac78b3225778851ae07bda87d484858e0d885439c5d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs3-dev_5fff5020.tgz
+  sha256: 5fff50204872d041031a0986a9eb98a92ac67f0fe0fb7caffc866143c66352bc
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.23.tar.gz
   source_sha256: ec5330b3978edc8fe2f78830720505bf69d12542622b5cddccee63ae3a0e5b58
   dependencies:
   - name: amqp
-    version: 2.0.0
+    version: 2.1.0
   - name: apcu
     version: 5.1.22
   - name: bz2
@@ -676,7 +676,7 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 13.0.1
+    version: 13.0.2
   - name: ldap
     version: 
   - name: lzf
@@ -714,11 +714,11 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.11.0
+    version: 5.11.1
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.0
+    version: 5.3.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -729,7 +729,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 5.3.7
+    version: 6.0.1
   - name: shmop
     version: 
   - name: snmp
@@ -741,7 +741,7 @@ dependencies:
   - name: solr
     version: 2.6.0
   - name: sqlsrv
-    version: 5.11.0
+    version: 5.11.1
   - name: ssh2
     version: '1.4'
   - name: stomp
@@ -768,15 +768,15 @@ dependencies:
     version: 
 - name: php
   version: 8.1.23
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs4_51c5ad09.tgz
-  sha256: 51c5ad09f5385c86b89cff145cf1a6c604a9a14094d0a858c41a16fc99f9a644
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.23_linux_x64_cflinuxfs4_2984f093.tgz
+  sha256: 2984f093deac4a521c855e9802867fb70bbe18b0285bea82bbbac3be54ff2cf0
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.1.23.tar.gz
   source_sha256: ec5330b3978edc8fe2f78830720505bf69d12542622b5cddccee63ae3a0e5b58
   dependencies:
   - name: amqp
-    version: 2.0.0
+    version: 2.1.0
   - name: apcu
     version: 5.1.22
   - name: bz2
@@ -804,7 +804,7 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 13.0.1
+    version: 13.0.2
   - name: ldap
     version: 
   - name: lzf
@@ -842,11 +842,11 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.11.0
+    version: 5.11.1
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.0
+    version: 5.3.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -857,7 +857,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 5.3.7
+    version: 6.0.1
   - name: shmop
     version: 
   - name: snmp
@@ -869,7 +869,7 @@ dependencies:
   - name: solr
     version: 2.6.0
   - name: sqlsrv
-    version: 5.11.0
+    version: 5.11.1
   - name: ssh2
     version: '1.4'
   - name: stomp
