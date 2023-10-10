@@ -258,15 +258,15 @@ dependencies:
     version: 
 - name: php
   version: 8.0.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.30_linux_x64_cflinuxfs3-dev_3f055abe.tgz
-  sha256: 3f055abea7bceea439cf598f0b9e0d5595233c9726c0cdcc44950195f68ccfa4
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.30_linux_x64_cflinuxfs3-dev_fdd4fe53.tgz
+  sha256: fdd4fe53276dd67c6245642fe544041c12dcf0137bf179864cc7f1698c7ea800
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.30.tar.gz
   source_sha256: 449d2048fcb20a314d8c218097c6d1047a9f1c5bb72aa54d5d3eba0a27a4c80c
   dependencies:
   - name: amqp
-    version: 2.0.0
+    version: 2.1.0
   - name: apcu
     version: 5.1.22
   - name: bz2
@@ -330,11 +330,11 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.11.0
+    version: 5.11.1
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.0
+    version: 5.3.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -345,7 +345,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 5.3.7
+    version: 6.0.1
   - name: shmop
     version: 
   - name: snmp
@@ -357,7 +357,7 @@ dependencies:
   - name: solr
     version: 2.6.0
   - name: sqlsrv
-    version: 5.11.0
+    version: 5.11.1
   - name: ssh2
     version: '1.4'
   - name: stomp
