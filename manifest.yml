@@ -132,17 +132,17 @@ dependencies:
   source_sha256: 64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86
 - name: php
   version: 8.0.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.29_linux_x64_cflinuxfs3-dev_a2e65e34.tgz
-  sha256: a2e65e34e0fde8177bbeeb4635a9d776e27f8d719eb8f81e6105dd2f47e672c7
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.0.29_linux_x64_cflinuxfs3-dev_f9d06214.tgz
+  sha256: f9d062148896bb177ec93a180a7dcd5bdb40f19b99e29f6b13fca68d650f1e0a
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.0.29.tar.gz
   source_sha256: db6ee08df5706365f624cde1cffb20ad6de1effe59d7e886337213a09f2e2684
   dependencies:
   - name: amqp
-    version: 2.1.0
+    version: 2.1.1
   - name: apcu
-    version: 5.1.22
+    version: 5.1.23
   - name: bz2
     version: 
   - name: curl
@@ -180,7 +180,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.2
+    version: 1.17.0
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -208,7 +208,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.1
+    version: 5.4.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -219,7 +219,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 6.0.1
+    version: 6.0.2
   - name: shmop
     version: 
   - name: snmp
