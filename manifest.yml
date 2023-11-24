@@ -1148,17 +1148,17 @@ dependencies:
     version: 
 - name: php
   version: 8.2.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs3-dev_1b151f0f.tgz
-  sha256: 1b151f0f3605616a074f08655bec12043a5325398a96f0b71b3f3a99171134df
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs3-dev_71f51d36.tgz
+  sha256: 71f51d361ec10f94e10ecf88a759c736d24e9f60eab86cf21501ea712a63e897
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.12.tar.gz
   source_sha256: b2b74a91f5fac14ce10ece0ac210f6f5d72f4367a3cb638e80d117d183750a21
   dependencies:
   - name: amqp
-    version: 2.1.0
+    version: 2.1.1
   - name: apcu
-    version: 5.1.22
+    version: 5.1.23
   - name: bz2
     version: 
   - name: curl
@@ -1198,7 +1198,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.2
+    version: 1.17.0
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1226,7 +1226,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.1
+    version: 5.4.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1237,7 +1237,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 6.0.1
+    version: 6.0.2
   - name: shmop
     version: 
   - name: snmp
@@ -1274,17 +1274,17 @@ dependencies:
     version: 
 - name: php
   version: 8.2.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs4_eb8beb7a.tgz
-  sha256: eb8beb7ab147c5e4951f3e617dab44d28d945330520228c28273e8044bbad505
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs4_2c42edc2.tgz
+  sha256: 2c42edc22c57b1b2b796c0b097aad05b6db4f5fce4f679e543a04e03aa15285b
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.2.12.tar.gz
   source_sha256: b2b74a91f5fac14ce10ece0ac210f6f5d72f4367a3cb638e80d117d183750a21
   dependencies:
   - name: amqp
-    version: 2.1.0
+    version: 2.1.1
   - name: apcu
-    version: 5.1.22
+    version: 5.1.23
   - name: bz2
     version: 
   - name: curl
@@ -1324,7 +1324,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.2
+    version: 1.17.0
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1352,7 +1352,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.1
+    version: 5.4.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1363,7 +1363,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 6.0.1
+    version: 6.0.2
   - name: shmop
     version: 
   - name: snmp
