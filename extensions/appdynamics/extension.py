@@ -51,7 +51,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         """
         return {
                 'APPDYNAMICS_HOST': 'download.run.pivotal.io',
-                'APPDYNAMICS_VERSION': '23.7.1-751',
+                'APPDYNAMICS_VERSION': '23.11.0-839',
                 'APPDYNAMICS_PACKAGE': 'appdynamics-{APPDYNAMICS_VERSION}.tar.bz2',
                 'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/appdynamics-php/{APPDYNAMICS_PACKAGE}'
         }
