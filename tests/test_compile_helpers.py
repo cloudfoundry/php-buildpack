@@ -335,6 +335,6 @@ class TestCompileHelpers(object):
         manifest = load_manifest(ctx)
         dependencies = manifest['dependencies']
         versions = find_all_php_versions(dependencies)
-        eq_(2, len([v for v in versions if v.startswith('8.0.')]))
         eq_(2, len([v for v in versions if v.startswith('8.1.')]))
+        eq_(2, len([v for v in versions if v.startswith('8.2.')]))
 
