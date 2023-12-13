@@ -639,17 +639,17 @@ dependencies:
     version: 
 - name: php
   version: 8.2.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs3-dev_1b151f0f.tgz
-  sha256: 1b151f0f3605616a074f08655bec12043a5325398a96f0b71b3f3a99171134df
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs3-dev_8f0f7179.tgz
+  sha256: 8f0f7179d57c7c5a1b22e95cb7cc8fa4ff5ec026f19c77f30422ff5537cbff96
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.12.tar.gz
   source_sha256: b2b74a91f5fac14ce10ece0ac210f6f5d72f4367a3cb638e80d117d183750a21
   dependencies:
   - name: amqp
-    version: 2.1.0
+    version: 2.1.1
   - name: apcu
-    version: 5.1.22
+    version: 5.1.23
   - name: bz2
     version: 
   - name: curl
@@ -669,7 +669,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.14
+    version: 3.2.15
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -683,13 +683,13 @@ dependencies:
   - name: mailparse
     version: 3.1.6
   - name: maxminddb
-    version: 1.11.0
+    version: 1.11.1
   - name: mbstring
     version: 
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.2
+    version: 1.17.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -717,7 +717,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.1
+    version: 5.4.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -728,7 +728,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 6.0.1
+    version: 6.0.2
   - name: shmop
     version: 
   - name: snmp
@@ -755,7 +755,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.2.2
+    version: 3.3.0
   - name: xsl
     version: 
   - name: yaml
@@ -765,17 +765,17 @@ dependencies:
     version: 
 - name: php
   version: 8.2.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs4_eb8beb7a.tgz
-  sha256: eb8beb7ab147c5e4951f3e617dab44d28d945330520228c28273e8044bbad505
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.12_linux_x64_cflinuxfs4_7b6ed0eb.tgz
+  sha256: 7b6ed0ebf54b02d38405fc38fcec53b85fddfda8c48c02b21dacb9798731ec52
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.2.12.tar.gz
   source_sha256: b2b74a91f5fac14ce10ece0ac210f6f5d72f4367a3cb638e80d117d183750a21
   dependencies:
   - name: amqp
-    version: 2.1.0
+    version: 2.1.1
   - name: apcu
-    version: 5.1.22
+    version: 5.1.23
   - name: bz2
     version: 
   - name: curl
@@ -795,7 +795,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.14
+    version: 3.2.15
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -809,13 +809,13 @@ dependencies:
   - name: mailparse
     version: 3.1.6
   - name: maxminddb
-    version: 1.11.0
+    version: 1.11.1
   - name: mbstring
     version: 
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.16.2
+    version: 1.17.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -843,7 +843,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.3.1
+    version: 5.4.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -854,7 +854,7 @@ dependencies:
     version: 6.0.3
   - name: readline
   - name: redis
-    version: 6.0.1
+    version: 6.0.2
   - name: shmop
     version: 
   - name: snmp
@@ -881,7 +881,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.2.2
+    version: 3.3.0
   - name: xsl
     version: 
   - name: yaml
