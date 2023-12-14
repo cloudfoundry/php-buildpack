@@ -891,8 +891,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs3-dev_20d32031.tgz
-  sha256: 20d3203127c3922bce5e116cf46adeba8c94e5b9bcb95c1f6a41f3e6efa078eb
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs3-dev_e1a45bf9.tgz
+  sha256: e1a45bf92d13a14cb5c0a7882ac51cac82f8e9af559c58866510c4371b62e80f
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.13.tar.gz
@@ -921,7 +921,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.14
+    version: 3.2.15
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -935,13 +935,13 @@ dependencies:
   - name: mailparse
     version: 3.1.6
   - name: maxminddb
-    version: 1.11.0
+    version: 1.11.1
   - name: mbstring
     version: 
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.0
+    version: 1.17.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1007,7 +1007,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.2.2
+    version: 3.3.0
   - name: xsl
     version: 
   - name: yaml
@@ -1017,8 +1017,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs4_300ddf44.tgz
-  sha256: 300ddf445c97cc703799145573a0d012fbffba574f6501fdbef19420f4ddd90b
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs4_956286d8.tgz
+  sha256: 956286d8dfc28e72d0d6c35a9978ef107f63f0b47098817e7d6652c7e1384f9b
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.2.13.tar.gz
@@ -1047,7 +1047,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.14
+    version: 3.2.15
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -1061,13 +1061,13 @@ dependencies:
   - name: mailparse
     version: 3.1.6
   - name: maxminddb
-    version: 1.11.0
+    version: 1.11.1
   - name: mbstring
     version: 
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.0
+    version: 1.17.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1133,7 +1133,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.2.2
+    version: 3.3.0
   - name: xsl
     version: 
   - name: yaml
