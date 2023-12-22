@@ -19,7 +19,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 			PushAppAndConfirm(app)
 		})
 		It("deploys successfully", func() {
-			Expect(app.Stdout.String()).To(ContainSubstring("Installing PHPMyAdmin 4.3.12"))
+			Expect(app.Stdout.String()).To(ContainSubstring("Installing PHPMyAdmin 5.2.1"))
 		})
 	})
 })
