@@ -644,8 +644,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs3-dev_20d32031.tgz
-  sha256: 20d3203127c3922bce5e116cf46adeba8c94e5b9bcb95c1f6a41f3e6efa078eb
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs3-dev_ccabf93a.tgz
+  sha256: ccabf93aebafd3723bb49238f20c9f6d7a27fffd865a402e1bb0a9f043363c23
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.13.tar.gz
@@ -674,7 +674,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.14
+    version: 3.2.15
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -688,13 +688,13 @@ dependencies:
   - name: mailparse
     version: 3.1.6
   - name: maxminddb
-    version: 1.11.0
+    version: 1.11.1
   - name: mbstring
     version: 
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.0
+    version: 1.17.2
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -722,7 +722,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.4.0
+    version: 5.5.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -760,7 +760,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.2.2
+    version: 3.3.1
   - name: xsl
     version: 
   - name: yaml
@@ -770,8 +770,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs4_300ddf44.tgz
-  sha256: 300ddf445c97cc703799145573a0d012fbffba574f6501fdbef19420f4ddd90b
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.13_linux_x64_cflinuxfs4_5cc042c7.tgz
+  sha256: 5cc042c7da1038487e567d752641faf846d7066072536ae3abd35c2196848335
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.2.13.tar.gz
@@ -800,7 +800,7 @@ dependencies:
   - name: gmp
     version: 
   - name: igbinary
-    version: 3.2.14
+    version: 3.2.15
   - name: imagick
     version: 3.7.0
   - name: imap
@@ -814,13 +814,13 @@ dependencies:
   - name: mailparse
     version: 3.1.6
   - name: maxminddb
-    version: 1.11.0
+    version: 1.11.1
   - name: mbstring
     version: 
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.0
+    version: 1.17.2
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -848,7 +848,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.4.0
+    version: 5.5.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -886,7 +886,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.2.2
+    version: 3.3.1
   - name: xsl
     version: 
   - name: yaml
