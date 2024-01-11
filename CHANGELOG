@@ -1,3 +1,19 @@
+v4.6.14 Jan 11, 2024
+=====================
+
+* Deprecate PHP 8.0.x (EOL)
+
+* Add php 8.3.1 for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add php 8.1.27, remove php 8.1.25 for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add php 8.2.14, remove php 8.2.12 for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add composer 2.6.6, remove composer 2.6.5 for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add appdynamics 23.11.0-839, remove appdynamics 23.7.1-751 for stack(s) cflinuxfs3, cflinuxfs4
+
+
 v4.6.13 Nov 24, 2023
 =====================
 
