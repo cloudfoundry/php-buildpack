@@ -1,0 +1,61 @@
+<?php //%255BApp%255CController%255CBlogController%2523index%255D%255B1%255D
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+        clone ($p['Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\Cache'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\Cache')),
+    ],
+    null,
+    [
+        'Symfony\\Component\\Routing\\Annotation\\Route' => [
+            'path' => [
+                '/',
+                '/rss.xml',
+                '/page/{page<[1-9]\\d*>}',
+            ],
+            'name' => [
+                'blog_index',
+                'blog_rss',
+                'blog_index_paginated',
+            ],
+            'defaults' => [
+                [
+                    'page' => '1',
+                    '_format' => 'html',
+                ],
+                [
+                    'page' => '1',
+                    '_format' => 'xml',
+                ],
+                [
+                    '_format' => 'html',
+                ],
+            ],
+            'methods' => [
+                [
+                    'GET',
+                ],
+                [
+                    'GET',
+                ],
+                [
+                    'GET',
+                ],
+            ],
+        ],
+        'Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\Cache' => [
+            'smaxage' => [
+                3 => '10',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+        $o[2],
+        $o[3],
+    ],
+    []
+); }];
