@@ -12,6 +12,7 @@ use Doctrine\Migrations\Metadata\AvailableMigration;
 use Doctrine\Migrations\Metadata\AvailableMigrationsSet;
 use Doctrine\Migrations\Version\MigrationFactory;
 use Doctrine\Migrations\Version\Version;
+
 use function class_exists;
 
 /**
@@ -22,20 +23,10 @@ use function class_exists;
  */
 class FilesystemMigrationsRepository implements MigrationsRepository
 {
-    /** @var bool */
-    private $migrationsLoaded = false;
-
-    /** @var array<string, string> */
-    private $migrationDirectories;
-
-    /** @var MigrationFinder */
-    private $migrationFinder;
-
-    /** @var MigrationFactory */
-    private $versionFactory;
+    private bool $migrationsLoaded = false;
 
     /** @var AvailableMigration[] */
-    private $migrations = [];
+    private array $migrations = [];
 
     /**
      * @param string[]              $classes
@@ -43,23 +34,19 @@ class FilesystemMigrationsRepository implements MigrationsRepository
      */
     public function __construct(
         array $classes,
-        array $migrationDirectories,
-        MigrationFinder $migrationFinder,
-        MigrationFactory $versionFactory
+        private readonly array $migrationDirectories,
+        private readonly MigrationFinder $migrationFinder,
+        private readonly MigrationFactory $versionFactory,
     ) {
-        $this->migrationDirectories = $migrationDirectories;
-        $this->migrationFinder      = $migrationFinder;
-        $this->versionFactory       = $versionFactory;
-
         $this->registerMigrations($classes);
     }
 
-    private function registerMigrationInstance(Version $version, AbstractMigration $migration) : AvailableMigration
+    private function registerMigrationInstance(Version $version, AbstractMigration $migration): AvailableMigration
     {
         if (isset($this->migrations[(string) $version])) {
             throw DuplicateMigrationVersion::new(
                 (string) $version,
-                (string) $version
+                (string) $version,
             );
         }
 
@@ -69,7 +56,7 @@ class FilesystemMigrationsRepository implements MigrationsRepository
     }
 
     /** @throws MigrationException */
-    public function registerMigration(string $migrationClassName) : AvailableMigration
+    public function registerMigration(string $migrationClassName): AvailableMigration
     {
         $this->ensureMigrationClassExists($migrationClassName);
 
@@ -84,7 +71,7 @@ class FilesystemMigrationsRepository implements MigrationsRepository
      *
      * @return AvailableMigration[]
      */
-    private function registerMigrations(array $migrations) : array
+    private function registerMigrations(array $migrations): array
     {
         $versions = [];
 
@@ -95,14 +82,14 @@ class FilesystemMigrationsRepository implements MigrationsRepository
         return $versions;
     }
 
-    public function hasMigration(string $version) : bool
+    public function hasMigration(string $version): bool
     {
         $this->loadMigrationsFromDirectories();
 
         return isset($this->migrations[$version]);
     }
 
-    public function getMigration(Version $version) : AvailableMigration
+    public function getMigration(Version $version): AvailableMigration
     {
         $this->loadMigrationsFromDirectories();
 
@@ -116,7 +103,7 @@ class FilesystemMigrationsRepository implements MigrationsRepository
     /**
      * Returns a non-sorted set of migrations.
      */
-    public function getMigrations() : AvailableMigrationsSet
+    public function getMigrations(): AvailableMigrationsSet
     {
         $this->loadMigrationsFromDirectories();
 
@@ -124,14 +111,14 @@ class FilesystemMigrationsRepository implements MigrationsRepository
     }
 
     /** @throws MigrationException */
-    private function ensureMigrationClassExists(string $class) : void
+    private function ensureMigrationClassExists(string $class): void
     {
         if (! class_exists($class)) {
             throw MigrationClassNotFound::new($class);
         }
     }
 
-    private function loadMigrationsFromDirectories() : void
+    private function loadMigrationsFromDirectories(): void
     {
         $migrationDirectories = $this->migrationDirectories;
 
@@ -144,7 +131,7 @@ class FilesystemMigrationsRepository implements MigrationsRepository
         foreach ($migrationDirectories as $namespace => $path) {
                 $migrations = $this->migrationFinder->findMigrations(
                     $path,
-                    $namespace
+                    $namespace,
                 );
                 $this->registerMigrations($migrations);
         }

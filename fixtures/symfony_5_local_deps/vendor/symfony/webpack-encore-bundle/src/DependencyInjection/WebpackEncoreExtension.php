@@ -20,12 +20,13 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\WebLink\EventListener\AddLinkHeaderListener;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
+use Symfony\WebpackEncoreBundle\EventListener\ResetAssetsEventListener;
 
 final class WebpackEncoreExtension extends Extension
 {
     private const ENTRYPOINTS_FILE_NAME = 'entrypoints.json';
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Resources/config'));
         $loader->load('services.xml');
@@ -57,6 +58,9 @@ final class WebpackEncoreExtension extends Extension
 
         $container->getDefinition('webpack_encore.entrypoint_lookup_collection')
             ->replaceArgument(0, ServiceLocatorTagPass::register($container, $factories));
+
+        $container->getDefinition(ResetAssetsEventListener::class)
+            ->setArgument(1, array_keys($factories));
         if (false !== $config['output_path']) {
             $container->setAlias(EntrypointLookupInterface::class, new Alias($this->getEntrypointServiceId('_default')));
         }
@@ -68,7 +72,9 @@ final class WebpackEncoreExtension extends Extension
         }
 
         $container->getDefinition('webpack_encore.tag_renderer')
-            ->replaceArgument(2, $defaultAttributes);
+            ->replaceArgument(2, $defaultAttributes)
+            ->replaceArgument(3, $config['script_attributes'])
+            ->replaceArgument(4, $config['link_attributes']);
 
         if ($config['preload']) {
             if (!class_exists(AddLinkHeaderListener::class)) {

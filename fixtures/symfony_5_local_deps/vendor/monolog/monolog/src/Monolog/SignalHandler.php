@@ -22,28 +22,36 @@ use ReflectionExtension;
  */
 class SignalHandler
 {
-    private $logger;
+    private LoggerInterface $logger;
 
-    private $previousSignalHandler = [];
-    private $signalLevelMap = [];
-    private $signalRestartSyscalls = [];
+    /** @var array<int, callable|string|int> SIG_DFL, SIG_IGN or previous callable */
+    private array $previousSignalHandler = [];
+    /** @var array<int, \Psr\Log\LogLevel::*> */
+    private array $signalLevelMap = [];
+    /** @var array<int, bool> */
+    private array $signalRestartSyscalls = [];
 
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
-    public function registerSignalHandler($signo, $level = LogLevel::CRITICAL, bool $callPrevious = true, bool $restartSyscalls = true, ?bool $async = true): self
+    /**
+     * @param  int|string|Level $level Level or level name
+     * @return $this
+     *
+     * @phpstan-param value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::* $level
+     */
+    public function registerSignalHandler(int $signo, int|string|Level $level = LogLevel::CRITICAL, bool $callPrevious = true, bool $restartSyscalls = true, ?bool $async = true): self
     {
         if (!extension_loaded('pcntl') || !function_exists('pcntl_signal')) {
             return $this;
         }
 
+        $level = Logger::toMonologLevel($level)->toPsrLogLevel();
+
         if ($callPrevious) {
             $handler = pcntl_signal_get_handler($signo);
-            if ($handler === false) {
-                return $this;
-            }
             $this->previousSignalHandler[$signo] = $handler;
         } else {
             unset($this->previousSignalHandler[$signo]);
@@ -60,14 +68,17 @@ class SignalHandler
         return $this;
     }
 
-    public function handleSignal($signo, array $siginfo = null): void
+    /**
+     * @param mixed $siginfo
+     */
+    public function handleSignal(int $signo, $siginfo = null): void
     {
+        /** @var array<int, string> $signals */
         static $signals = [];
 
-        if (!$signals && extension_loaded('pcntl')) {
+        if (\count($signals) === 0 && extension_loaded('pcntl')) {
             $pcntl = new ReflectionExtension('pcntl');
-            // HHVM 3.24.2 returns an empty array.
-            foreach ($pcntl->getConstants() ?: get_defined_constants(true)['Core'] as $name => $value) {
+            foreach ($pcntl->getConstants() as $name => $value) {
                 if (substr($name, 0, 3) === 'SIG' && $name[3] !== '_' && is_int($value)) {
                     $signals[$value] = $name;
                 }
@@ -83,7 +94,7 @@ class SignalHandler
             return;
         }
 
-        if ($this->previousSignalHandler[$signo] === true || $this->previousSignalHandler[$signo] === SIG_DFL) {
+        if ($this->previousSignalHandler[$signo] === SIG_DFL) {
             if (extension_loaded('pcntl') && function_exists('pcntl_signal') && function_exists('pcntl_sigprocmask') && function_exists('pcntl_signal_dispatch')
                 && extension_loaded('posix') && function_exists('posix_getpid') && function_exists('posix_kill')
             ) {

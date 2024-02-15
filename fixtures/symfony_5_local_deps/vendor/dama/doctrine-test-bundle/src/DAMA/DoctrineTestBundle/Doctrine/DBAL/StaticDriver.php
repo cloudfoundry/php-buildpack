@@ -2,16 +2,12 @@
 
 namespace DAMA\DoctrineTestBundle\Doctrine\DBAL;
 
+use Doctrine\DBAL\Connection\StaticServerVersionProvider;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\Driver\DriverException;
-use Doctrine\DBAL\Driver\ExceptionConverterDriver;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Doctrine\DBAL\VersionAwarePlatformDriver;
 
-class StaticDriver implements Driver, ExceptionConverterDriver, VersionAwarePlatformDriver
+class StaticDriver extends Driver\Middleware\AbstractDriverMiddleware
 {
     /**
      * @var Connection[]
@@ -23,91 +19,31 @@ class StaticDriver implements Driver, ExceptionConverterDriver, VersionAwarePlat
      */
     private static $keepStaticConnections = false;
 
-    /**
-     * @var Driver
-     */
-    private $underlyingDriver;
-
-    /**
-     * @var AbstractPlatform
-     */
-    private $platform;
-
-    public function __construct(Driver $underlyingDriver, AbstractPlatform $platform)
+    public function connect(array $params): Connection
     {
-        $this->underlyingDriver = $underlyingDriver;
-        $this->platform = $platform;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function connect(array $params, $username = null, $password = null, array $driverOptions = []): Connection
-    {
-        if (!self::$keepStaticConnections) {
-            return $this->underlyingDriver->connect($params, $username, $password, $driverOptions);
+        if (!self::isKeepStaticConnections()
+            || !isset($params['dama.keep_static'])
+            || !$params['dama.keep_static']
+        ) {
+            return parent::connect($params);
         }
 
-        $key = $params['dama.connection_name'] ?? sha1(serialize($params).$username.$password);
+        $key = sha1(json_encode($params));
 
         if (!isset(self::$connections[$key])) {
-            self::$connections[$key] = $this->underlyingDriver->connect($params, $username, $password, $driverOptions);
+            self::$connections[$key] = parent::connect($params);
             self::$connections[$key]->beginTransaction();
         }
 
-        return new StaticConnection(self::$connections[$key]);
-    }
+        $connection = self::$connections[$key];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDatabasePlatform(): AbstractPlatform
-    {
-        return $this->platform;
-    }
+        $platform = $this->getPlatform($connection, $params);
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSchemaManager(\Doctrine\DBAL\Connection $conn): AbstractSchemaManager
-    {
-        return $this->underlyingDriver->getSchemaManager($conn);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return $this->underlyingDriver->getName();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDatabase(\Doctrine\DBAL\Connection $conn): ?string
-    {
-        return $this->underlyingDriver->getDatabase($conn);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertException($message, DriverException $exception): Exception\DriverException
-    {
-        if ($this->underlyingDriver instanceof ExceptionConverterDriver) {
-            return $this->underlyingDriver->convertException($message, $exception);
+        if (!$platform->supportsSavepoints()) {
+            throw new \RuntimeException('This bundle only works for database platforms that support savepoints.');
         }
 
-        return new Exception\DriverException($message, $exception);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createDatabasePlatformForVersion($version): AbstractPlatform
-    {
-        return $this->platform;
+        return new StaticConnection($connection, $platform);
     }
 
     public static function setKeepStaticConnections(bool $keepStaticConnections): void
@@ -122,22 +58,45 @@ class StaticDriver implements Driver, ExceptionConverterDriver, VersionAwarePlat
 
     public static function beginTransaction(): void
     {
-        foreach (self::$connections as $con) {
-            $con->beginTransaction();
+        foreach (self::$connections as $connection) {
+            $connection->beginTransaction();
         }
     }
 
     public static function rollBack(): void
     {
-        foreach (self::$connections as $con) {
-            $con->rollBack();
+        foreach (self::$connections as $connection) {
+            $connection->rollBack();
         }
     }
 
     public static function commit(): void
     {
-        foreach (self::$connections as $con) {
-            $con->commit();
+        foreach (self::$connections as $connection) {
+            $connection->commit();
         }
+    }
+
+    private function getPlatform(Connection $connection, array $params): AbstractPlatform
+    {
+        if (isset($params['platform'])) {
+            return $params['platform'];
+        }
+
+        // DBAL 3
+        if (method_exists($this, 'createDatabasePlatformForVersion')) {
+            if (isset($params['serverVersion'])) {
+                return $this->createDatabasePlatformForVersion($params['serverVersion']);
+            }
+
+            return $this->getDatabasePlatform();
+        }
+
+        // DBAL 4
+        return $this->getDatabasePlatform(
+            isset($params['serverVersion'])
+                ? new StaticServerVersionProvider($params['serverVersion'])
+                : $connection,
+        );
     }
 }

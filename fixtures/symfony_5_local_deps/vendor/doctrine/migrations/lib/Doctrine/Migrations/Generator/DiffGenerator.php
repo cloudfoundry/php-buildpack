@@ -11,6 +11,7 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Generator\Exception\NoChangesDetected;
 use Doctrine\Migrations\Provider\SchemaProvider;
+
 use function preg_match;
 use function strpos;
 use function substr;
@@ -23,50 +24,27 @@ use function substr;
  */
 class DiffGenerator
 {
-    /** @var DBALConfiguration */
-    private $dbalConfiguration;
-
-    /** @var AbstractSchemaManager */
-    private $schemaManager;
-
-    /** @var SchemaProvider */
-    private $schemaProvider;
-
-    /** @var AbstractPlatform */
-    private $platform;
-
-    /** @var Generator */
-    private $migrationGenerator;
-
-    /** @var SqlGenerator */
-    private $migrationSqlGenerator;
-
+    /** @param AbstractSchemaManager<AbstractPlatform> $schemaManager */
     public function __construct(
-        DBALConfiguration $dbalConfiguration,
-        AbstractSchemaManager $schemaManager,
-        SchemaProvider $schemaProvider,
-        AbstractPlatform $platform,
-        Generator $migrationGenerator,
-        SqlGenerator $migrationSqlGenerator
+        private readonly DBALConfiguration $dbalConfiguration,
+        private readonly AbstractSchemaManager $schemaManager,
+        private readonly SchemaProvider $schemaProvider,
+        private readonly AbstractPlatform $platform,
+        private readonly Generator $migrationGenerator,
+        private readonly SqlGenerator $migrationSqlGenerator,
+        private readonly SchemaProvider $emptySchemaProvider,
     ) {
-        $this->dbalConfiguration     = $dbalConfiguration;
-        $this->schemaManager         = $schemaManager;
-        $this->schemaProvider        = $schemaProvider;
-        $this->platform              = $platform;
-        $this->migrationGenerator    = $migrationGenerator;
-        $this->migrationSqlGenerator = $migrationSqlGenerator;
     }
 
-    /**
-     * @throws NoChangesDetected
-     */
+    /** @throws NoChangesDetected */
     public function generate(
         string $fqcn,
-        ?string $filterExpression,
+        string|null $filterExpression,
         bool $formatted = false,
         int $lineLength = 120,
-        bool $checkDbPlatform = true
-    ) : string {
+        bool $checkDbPlatform = true,
+        bool $fromEmptySchema = false,
+    ): string {
         if ($filterExpression !== null) {
             $this->dbalConfiguration->setSchemaAssetsFilter(
                 static function ($assetName) use ($filterExpression) {
@@ -75,26 +53,34 @@ class DiffGenerator
                     }
 
                     return preg_match($filterExpression, $assetName);
-                }
+                },
             );
         }
 
-        $fromSchema = $this->createFromSchema();
+        $fromSchema = $fromEmptySchema
+            ? $this->createEmptySchema()
+            : $this->createFromSchema();
 
         $toSchema = $this->createToSchema();
 
+        $comparator = $this->schemaManager->createComparator();
+
+        $upSql = $this->platform->getAlterSchemaSQL($comparator->compareSchemas($fromSchema, $toSchema));
+
         $up = $this->migrationSqlGenerator->generate(
-            $fromSchema->getMigrateToSql($toSchema, $this->platform),
+            $upSql,
             $formatted,
             $lineLength,
-            $checkDbPlatform
+            $checkDbPlatform,
         );
 
+        $downSql = $this->platform->getAlterSchemaSQL($comparator->compareSchemas($toSchema, $fromSchema));
+
         $down = $this->migrationSqlGenerator->generate(
-            $fromSchema->getMigrateFromSql($toSchema, $this->platform),
+            $downSql,
             $formatted,
             $lineLength,
-            $checkDbPlatform
+            $checkDbPlatform,
         );
 
         if ($up === '' && $down === '') {
@@ -104,16 +90,21 @@ class DiffGenerator
         return $this->migrationGenerator->generateMigration(
             $fqcn,
             $up,
-            $down
+            $down,
         );
     }
 
-    private function createFromSchema() : Schema
+    private function createEmptySchema(): Schema
     {
-        return $this->schemaManager->createSchema();
+        return $this->emptySchemaProvider->createSchema();
     }
 
-    private function createToSchema() : Schema
+    private function createFromSchema(): Schema
+    {
+        return $this->schemaManager->introspectSchema();
+    }
+
+    private function createToSchema(): Schema
     {
         $toSchema = $this->schemaProvider->createSchema();
 
@@ -140,7 +131,7 @@ class DiffGenerator
      * a namespaced name with the form `{namespace}.{tableName}`. This extracts
      * the table name from that.
      */
-    private function resolveTableName(string $name) : string
+    private function resolveTableName(string $name): string
     {
         $pos = strpos($name, '.');
 

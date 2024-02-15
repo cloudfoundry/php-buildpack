@@ -1,0 +1,583 @@
+@import "variables";
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootswatch/dist/flatly/bootswatch";
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~@fortawesome/fontawesome-free/css/v4-shims.css";
+@import "~highlight.js/styles/github-dark-dimmed.css";
+
+// pick the Lato fonts individually to avoid importing the entire font family
+@import '~lato-font/scss/public-api';
+
+@include lato-include-font('normal');
+@include lato-include-font('bold');
+
+:root {
+  --font-heading: 2.5rem;
+  --font-title: 2rem;
+  --font-subtitle: 1.5rem;
+  --font-default: 19px;
+  --secondary-color: #ecf0f1;
+  --text-color: #2c3e50;
+  --blue: #007bff;
+  --red: #dc3545;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --success: var(--green);
+  --navbar-margin-bottom: 21px;
+  --navbar-toggler-padding-x: .75rem;
+  --white: #fff;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-7500: #e9ecec;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+  --black: #000;
+}
+
+/* Basic styles
+   ------------------------------------------------------------------------- */
+h1, .h1 {
+  font-size: var(--font-heading);
+}
+
+h3, .h3 {
+  font-size: var(--font-subtitle);
+}
+
+p, ul, ol {
+  font-size: var(--font-default);
+  margin-bottom: 1.5em
+}
+
+strong {
+  font-weight: bold;
+}
+
+li:not(.nav-item) {
+  margin-bottom: 0.5em
+}
+
+code {
+  background: var(--secondary-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-size: 90%;
+  padding: 2px 4px;
+}
+
+.text-danger, .text-danger:hover {
+  color: var(--red);
+}
+
+i {
+  margin-right: 0.25em
+}
+
+.table.table-middle-aligned th,
+.table.table-middle-aligned td {
+  vertical-align: middle;
+}
+
+.doclink {
+  color: inherit
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.help-block {
+  display: block;
+}
+
+.alert-danger ul {
+  margin-bottom: 0;
+}
+
+.btn {
+  padding: 10px 15px;
+}
+
+form legend {
+  font-size: 22.5px;
+}
+
+/* Utilities
+   ------------------------------------------------------------------------- */
+.jumbotron {
+  padding: 1.5rem 1rem
+}
+
+.well {
+  background-color: var(--secondary-color);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  min-height: 20px;
+  padding: 19px;
+}
+
+/* Page elements
+   ------------------------------------------------------------------------- */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body:not(#homepage) {
+  padding-top: 110px
+}
+
+header nav.navbar {
+  margin-bottom: var(--navbar-margin-bottom);
+}
+header nav.navbar .navbar-brand {
+  padding: 0;
+}
+header nav.navbar .navbar-toggler {
+  padding: 0 var(--navbar-toggler-padding-x);
+}
+header nav.navbar .nav-item {
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+#locale-selector-modal {
+  background: var(--text-color);
+}
+@media (min-width: 768px) {
+  #locale-selector-modal .modal-dialog {
+    max-width: 800px;
+    width: 96%;
+  }
+}
+#locale-selector-modal .modal-content {
+  border: 0;
+}
+#locale-selector-modal .modal-header {
+  background: var(--text-color);
+  border-bottom: 0;
+  color: var(--white);
+}
+#locale-selector-modal .modal-header .close {
+  color: var(--white);
+  opacity: 1;
+}
+#locale-selector-modal .modal-body {
+  background: var(--text-color);
+}
+#locale-selector-modal .modal-body .locales {
+  list-style: none;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  #locale-selector-modal .modal-body .locales {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px 20px;
+  }
+}
+#locale-selector-modal .modal-body .locales li {
+  border-radius: 4px;
+  margin-bottom: 10px;
+  position: relative;
+}
+@media (min-width: 768px) {
+  #locale-selector-modal .modal-body .locales li {
+    margin: 0;
+  }
+}
+#locale-selector-modal .modal-body .locales li.rtl a {
+  direction: rtl;
+}
+#locale-selector-modal .modal-body .locales li a {
+  align-items: center;
+  background: #fff;
+  border-radius: 4px;
+  color: var(--gray-900);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+#locale-selector-modal .modal-body .locales li a small {
+  border-radius: 4px;
+  border: 2px solid var(--gray-300);
+  color: var(--gray-800);
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.1;
+  margin-inline-start: 10px;
+  min-width: 26px;
+  padding: 2px 6px;
+  text-align: center;
+  text-transform: uppercase;
+}
+#locale-selector-modal .modal-body .locales li:hover a {
+  outline: 3px solid #18bc9c;
+  outline-offset: -5px;
+}
+#locale-selector-modal .modal-body .locales li:hover a small {
+  background: #18bc9c;
+  border-color: #18bc9c;
+  color: #fff;
+}
+#locale-selector-modal .modal-body .locales li.active a,
+#locale-selector-modal .modal-body .locales li:hover.active a {
+  background: #18bc9c;
+  color: #fff;
+  outline: none;
+}
+#locale-selector-modal .modal-body .locales li.active a small,
+#locale-selector-modal .modal-body .locales li:hover.active a small {
+  background: transparent;
+  border-color: #fff;
+  color: #fff;
+}
+
+.body-container {
+  flex: 1;
+  /* needed to prevent pages with a very small height and browsers not supporting flex */
+  min-height: 600px
+}
+
+.body-container #main h1, .body-container #main h2 {
+  margin-top: 0
+}
+
+#sidebar .section {
+  margin-bottom: 2em
+}
+
+#sidebar p {
+  font-size: 15px
+}
+
+#sidebar p + p {
+  margin: 1.5em 0 0
+}
+
+footer {
+  background: var(--secondary-color);
+  margin-top: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em
+}
+
+footer p {
+  color: var(--gray-700);
+  font-size: 13px;
+  margin-bottom: 0.25em
+}
+
+footer #footer-resources {
+  text-align: right
+}
+
+footer #footer-resources i {
+  color: var(--gray-700);
+  font-size: 28.5px;
+  margin-left: 0.5em
+}
+
+#sourceCodeModal .modal-header {
+  border-bottom: 0;
+  padding: 1rem 1rem 0;
+}
+#sourceCodeModal .modal-header h3 { font-size: 18px; margin-top: 0; }
+#sourceCodeModal .nav-tabs {
+  border-bottom-color: #95a5a6;
+  margin-bottom: 15px;
+}
+#sourceCodeModal .nav-tabs .nav-link { font-size: 16px; }
+#sourceCodeModal .nav-tabs .nav-link.active { border-color: #95a5a6 #95a5a6 #fff; }
+#sourceCodeModal .nav-tabs .nav-link:not(.active):hover { border-color: transparent; text-decoration: underline; }
+#sourceCodeModal .tab-content {
+  .file-link { font-size: 16px; margin: 0 0 10px 5px; }
+}
+#sourceCodeModal pre {
+  margin-bottom: 0;
+  padding: 0;
+  display: block;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+#sourceCodeModal pre code {
+  border-radius: 6px;
+  white-space: pre-wrap;
+}
+
+#confirmationModal .modal-dialog {
+  width: 500px
+}
+
+#confirmationModal .modal-footer button {
+  min-width: 75px
+}
+
+/* Misc. elements
+   ------------------------------------------------------------------------- */
+.section.rss a {
+  color: var(--orange);
+  font-size: 21px;
+}
+
+/* Forms
+   ------------------------------------------------------------------------- */
+.form-control {
+  height: 45px;
+}
+
+.form-group.has-error .form-control {
+  border-color: var(--red);
+}
+
+.form-group.has-error .control-label {
+  color: var(--red);
+}
+
+.form-group.has-error .help-block {
+  background-color: var(--red);
+  color: var(--white);
+  font-size: 15px;
+  padding: 1em
+}
+
+.form-group.has-error .help-block ul,
+.form-group.has-error .help-block li {
+  margin-bottom: 0
+}
+
+.form-group.has-error .help-block li + li {
+  margin-top: 0.5em;
+}
+
+textarea {
+  max-width: 100%
+}
+
+/* Page: 'Technical Requirements Checker'
+   ------------------------------------------------------------------------- */
+body#requirements_checker header h1 {
+  margin-bottom: 0;
+  margin-top: 0
+}
+
+body#requirements_checker header h1 span {
+  font-size: 120%;
+  opacity: 0.7;
+  padding: 0 5px
+}
+
+body#requirements_checker .panel li {
+  margin-bottom: 1em
+}
+
+/* Page: 'Homepage'
+   ------------------------------------------------------------------------- */
+body#homepage {
+  text-align: center;
+}
+body#homepage .page-header {
+  padding-bottom: 9.5px;
+  margin: 42px 0px 21px;
+}
+body#homepage .page-header h1 {
+  font-size: 39px;
+  margin-top: 21px;
+  margin-bottom: 10.5px
+}
+body#homepage .jumbotron {
+  padding: 48px 60px !important;
+}
+body#homepage .jumbotron .btn {
+  font-size: 19px;
+  line-height: 1.33333;
+  padding: 18px 27px;
+  border-radius: 6px;
+}
+body#homepage .jumbotron P {
+  margin-bottom: 15px;
+  font-size: 23px;
+  font-weight: 200
+}
+
+/* Page: 'Login'
+   ------------------------------------------------------------------------- */
+body#login #login-users-help p {
+  font-size: 15px;
+  line-height: 1.42857
+}
+
+body#login #login-users-help p:last-child {
+  margin-bottom: 0
+}
+
+body#login #login-users-help p .label {
+  margin-right: 5px
+}
+
+body#login #login-users-help p .console {
+  display: block;
+  margin: 5px 0;
+  padding: 10px
+}
+
+body#login .form-group-password {
+  position: relative;
+}
+body#login .form-group-password input {
+  padding-right: 48px;
+}
+body#login .form-group-password button {
+  background: transparent;
+  border: 0;
+  color: var(--text-color);
+  height: 45px;
+  outline: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+body#login #login-help table td {
+  vertical-align: middle;
+}
+
+/* Common Blog page elements
+   ------------------------------------------------------------------------- */
+.post h2 {
+  font-size: var(--font-title);
+}
+
+.post-metadata {
+  color: var(--gray-600);
+  font-size: var(--font-default);
+  margin-bottom: 16px;
+}
+
+.post-metadata .metadata {
+  margin-right: 1.5em;
+}
+
+.post-tags .badge {
+  margin-right: 5px;
+  color: var(--gray-700);
+  padding: .5rem .75rem;
+  background-color: var(--gray-200);
+}
+.post-tags .badge.badge-success {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+/* Page: 'Blog index'
+   ------------------------------------------------------------------------- */
+body#blog_index #main h1,
+body#blog_index #main p {
+  margin-bottom: 0.5em
+}
+
+body#blog_index article.post {
+  margin-bottom: 3em;
+}
+
+body#blog_index .post-metadata {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+body#blog_index .post-tags .label-default {
+  background-color: var(--gray-7500);
+  color: #6d8283;
+}
+
+body#blog_index .post-tags .label-default i {
+  color: #a3b2b2;
+}
+
+/* Page: 'Blog post show'
+   ------------------------------------------------------------------------- */
+body#blog_post_show #main h3 {
+  margin-bottom: 0.75em
+}
+
+body#blog_post_show .post-tags .label-default {
+  background-color: var(--gray-7500);
+  color: #6D8283;
+  font-size: 16px;
+  margin-right: 10px;
+  padding: .4em 1em .5em;
+}
+
+body#blog_post_show .post-tags .label-default i {
+  color: #95A6A7;
+}
+
+body#blog_post_show #post-add-comment {
+  margin: 2em 0
+}
+
+body#blog_post_show #post-add-comment p {
+  margin-bottom: 0
+}
+
+body#blog_post_show #post-add-comment p a.btn {
+  margin-right: 0.5em
+}
+
+body#blog_post_show .post-comment {
+  margin-bottom: 2em
+}
+
+body#blog_post_show .post-comment h4 {
+  font-size: 13px;
+  line-height: 1.42857;
+  margin-top: 0
+}
+
+body#blog_post_show .post-comment h4 strong {
+  display: block
+}
+
+/* Page: 'Comment form error'
+   ------------------------------------------------------------------------- */
+body#comment_form_error h1.text-danger {
+  margin-bottom: 1em
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .container {
+    width: 98%;
+  }
+}
+
+/* Page: 'Blog search'
+   ------------------------------------------------------------------------- */
+body#blog_search #main h1,
+body#blog_search #main p {
+  margin-bottom: 0.5em
+}
+
+body#blog_search article.post:first-child {
+  margin-top: 2em;
+}
+
+body#blog_search article.post {
+  margin-bottom: 2em;
+}
+
+body#blog_search .post-metadata {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.input-group button.btn {
+  padding-bottom: 0;
+  padding-top: 0;
+}

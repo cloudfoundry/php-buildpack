@@ -26,12 +26,12 @@ use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
  */
 class PathPackage extends Package
 {
-    private $basePath;
+    private string $basePath;
 
     /**
      * @param string $basePath The base path to be prepended to relative paths
      */
-    public function __construct(string $basePath, VersionStrategyInterface $versionStrategy, ContextInterface $context = null)
+    public function __construct(string $basePath, VersionStrategyInterface $versionStrategy, ?ContextInterface $context = null)
     {
         parent::__construct($versionStrategy, $context);
 
@@ -46,10 +46,7 @@ class PathPackage extends Package
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUrl(string $path)
+    public function getUrl(string $path): string
     {
         $versionedPath = parent::getUrl($path);
 
@@ -63,10 +60,8 @@ class PathPackage extends Package
 
     /**
      * Returns the base path.
-     *
-     * @return string The base path
      */
-    public function getBasePath()
+    public function getBasePath(): string
     {
         return $this->getContext()->getBasePath().$this->basePath;
     }

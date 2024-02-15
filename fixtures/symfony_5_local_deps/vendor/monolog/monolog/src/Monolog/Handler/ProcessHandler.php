@@ -11,7 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\LogRecord;
 
 /**
  * Stores to STDIN of any process, specified by a command.
@@ -33,23 +34,17 @@ class ProcessHandler extends AbstractProcessingHandler
      */
     private $process;
 
-    /**
-     * @var string
-     */
-    private $command;
+    private string $command;
+
+    private ?string $cwd;
 
     /**
-     * @var string|null
+     * @var resource[]
      */
-    private $cwd;
+    private array $pipes = [];
 
     /**
-     * @var array
-     */
-    private $pipes = [];
-
-    /**
-     * @var array
+     * @var array<int, string[]>
      */
     protected const DESCRIPTOR_SPEC = [
         0 => ['pipe', 'r'],  // STDIN is a pipe that the child will read from
@@ -60,12 +55,10 @@ class ProcessHandler extends AbstractProcessingHandler
     /**
      * @param  string                    $command Command for the process to start. Absolute paths are recommended,
      *                                            especially if you do not use the $cwd parameter.
-     * @param  string|int                $level   The minimum logging level at which this handler will be triggered.
-     * @param  bool                      $bubble  Whether the messages that are handled can bubble up the stack or not.
      * @param  string|null               $cwd     "Current working directory" (CWD) for the process to be executed in.
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $command, $level = Logger::DEBUG, bool $bubble = true, ?string $cwd = null)
+    public function __construct(string $command, int|string|Level $level = Level::Debug, bool $bubble = true, ?string $cwd = null)
     {
         if ($command === '') {
             throw new \InvalidArgumentException('The command argument must be a non-empty string.');
@@ -85,14 +78,14 @@ class ProcessHandler extends AbstractProcessingHandler
      *
      * @throws \UnexpectedValueException
      */
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         $this->ensureProcessIsStarted();
 
-        $this->writeProcessInput($record['formatted']);
+        $this->writeProcessInput($record->formatted);
 
         $errors = $this->readProcessErrors();
-        if (empty($errors) === false) {
+        if ($errors !== '') {
             throw new \UnexpectedValueException(sprintf('Errors while writing to process: %s', $errors));
         }
     }
@@ -136,7 +129,7 @@ class ProcessHandler extends AbstractProcessingHandler
 
         $errors = $this->readProcessErrors();
 
-        if (is_resource($this->process) === false || empty($errors) === false) {
+        if (is_resource($this->process) === false || $errors !== '') {
             throw new \UnexpectedValueException(
                 sprintf('The process "%s" could not be opened: ' . $errors, $this->command)
             );
@@ -164,7 +157,7 @@ class ProcessHandler extends AbstractProcessingHandler
      */
     protected function readProcessErrors(): string
     {
-        return stream_get_contents($this->pipes[2]);
+        return (string) stream_get_contents($this->pipes[2]);
     }
 
     /**
@@ -178,7 +171,7 @@ class ProcessHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function close(): void
     {

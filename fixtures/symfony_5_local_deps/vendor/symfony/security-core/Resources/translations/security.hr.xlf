@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="file.ext">
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="hr" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
                 <source>An authentication exception occurred.</source>
@@ -61,6 +61,18 @@
             <trans-unit id="16">
                 <source>Account is locked.</source>
                 <target>Račun je zaključan.</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Too many failed login attempts, please try again later.</source>
+                <target>Previše neuspjelih pokušaja prijave, molim pokušajte ponovo kasnije.</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Invalid or expired login link.</source>
+                <target>Link za prijavu je isteako ili je neispravan.</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Too many failed login attempts, please try again in %minutes% minute.</source>
+                <target>Previše neuspjelih pokušaja prijave, molim pokušajte ponovo za %minutes% minutu.</target>
             </trans-unit>
         </body>
     </file>

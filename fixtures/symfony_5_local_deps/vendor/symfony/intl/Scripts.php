@@ -35,7 +35,7 @@ final class Scripts extends ResourceBundle
             self::readEntry(['Names', $script]);
 
             return true;
-        } catch (MissingResourceException $e) {
+        } catch (MissingResourceException) {
             return false;
         }
     }
@@ -43,7 +43,7 @@ final class Scripts extends ResourceBundle
     /**
      * @throws MissingResourceException if the script code does not exist
      */
-    public static function getName(string $script, string $displayLocale = null): string
+    public static function getName(string $script, ?string $displayLocale = null): string
     {
         return self::readEntry(['Names', $script], $displayLocale);
     }
@@ -51,7 +51,7 @@ final class Scripts extends ResourceBundle
     /**
      * @return string[]
      */
-    public static function getNames($displayLocale = null): array
+    public static function getNames(?string $displayLocale = null): array
     {
         return self::asort(self::readEntry(['Names'], $displayLocale), $displayLocale);
     }

@@ -21,17 +21,12 @@ use Symfony\Component\HttpKernel\Controller\ContainerControllerResolver;
  */
 class ControllerResolver extends ContainerControllerResolver
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function instantiateController($class): object
+    protected function instantiateController(string $class): object
     {
-        return $this->configureController(parent::instantiateController($class), $class);
-    }
+        $controller = parent::instantiateController($class);
 
-    private function configureController($controller, string $class): object
-    {
         if ($controller instanceof ContainerAwareInterface) {
+            trigger_deprecation('symfony/dependency-injection', '6.4', 'Relying on "%s" to get the container in "%s" is deprecated, register the controller as a service and use dependency injection instead.', ContainerAwareInterface::class, get_debug_type($controller));
             $controller->setContainer($this->container);
         }
         if ($controller instanceof AbstractController) {

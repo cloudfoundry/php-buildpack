@@ -9,6 +9,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Query\Query;
 use RuntimeException;
 use Throwable;
+
 use function count;
 
 /**
@@ -19,142 +20,121 @@ use function count;
 final class ExecutionResult
 {
     /** @var Query[] */
-    private $sql = [];
+    private array $sql = [];
 
     /**
      * Seconds
-     *
-     * @var float|null
      */
-    private $time;
+    private float|null $time = null;
 
-    /** @var float|null */
-    private $memory;
+    private float|null $memory = null;
 
-    /** @var bool */
-    private $skipped = false;
+    private bool $skipped = false;
 
-    /** @var bool */
-    private $error = false;
+    private bool $error = false;
 
-    /** @var Throwable|null */
-    private $exception;
+    private Throwable|null $exception = null;
 
-    /** @var DateTimeImmutable|null */
-    private $executedAt;
+    private int $state;
 
-    /** @var int */
-    private $state;
+    private Schema|null $toSchema = null;
 
-    /** @var Schema|null */
-    private $toSchema;
-
-    /** @var Version */
-    private $version;
-
-    /** @var string */
-    private $direction;
-
-    public function __construct(Version $version, string $direction = Direction::UP, ?DateTimeImmutable $executedAt = null)
-    {
-        $this->executedAt = $executedAt;
-        $this->version    = $version;
-        $this->direction  = $direction;
+    public function __construct(
+        private readonly Version $version,
+        private readonly string $direction = Direction::UP,
+        private DateTimeImmutable|null $executedAt = null,
+    ) {
     }
 
-    public function getDirection() : string
+    public function getDirection(): string
     {
         return $this->direction;
     }
 
-    public function getExecutedAt() : ?DateTimeImmutable
+    public function getExecutedAt(): DateTimeImmutable|null
     {
         return $this->executedAt;
     }
 
-    public function setExecutedAt(DateTimeImmutable $executedAt) : void
+    public function setExecutedAt(DateTimeImmutable $executedAt): void
     {
         $this->executedAt = $executedAt;
     }
 
-    public function getVersion() : Version
+    public function getVersion(): Version
     {
         return $this->version;
     }
 
-    public function hasSql() : bool
+    public function hasSql(): bool
     {
         return count($this->sql) !== 0;
     }
 
-    /**
-     * @return Query[]
-     */
-    public function getSql() : array
+    /** @return Query[] */
+    public function getSql(): array
     {
         return $this->sql;
     }
 
-    /**
-     * @param Query[] $sql
-     */
-    public function setSql(array $sql) : void
+    /** @param Query[] $sql */
+    public function setSql(array $sql): void
     {
         $this->sql = $sql;
     }
 
-    public function getTime() : ?float
+    public function getTime(): float|null
     {
         return $this->time;
     }
 
-    public function setTime(float $time) : void
+    public function setTime(float $time): void
     {
         $this->time = $time;
     }
 
-    public function getMemory() : ?float
+    public function getMemory(): float|null
     {
         return $this->memory;
     }
 
-    public function setMemory(float $memory) : void
+    public function setMemory(float $memory): void
     {
         $this->memory = $memory;
     }
 
-    public function setSkipped(bool $skipped) : void
+    public function setSkipped(bool $skipped): void
     {
         $this->skipped = $skipped;
     }
 
-    public function isSkipped() : bool
+    public function isSkipped(): bool
     {
         return $this->skipped;
     }
 
-    public function setError(bool $error, ?Throwable $exception = null) : void
+    public function setError(bool $error, Throwable|null $exception = null): void
     {
         $this->error     = $error;
         $this->exception = $exception;
     }
 
-    public function hasError() : bool
+    public function hasError(): bool
     {
         return $this->error;
     }
 
-    public function getException() : ?Throwable
+    public function getException(): Throwable|null
     {
         return $this->exception;
     }
 
-    public function setToSchema(Schema $toSchema) : void
+    public function setToSchema(Schema $toSchema): void
     {
         $this->toSchema = $toSchema;
     }
 
-    public function getToSchema() : Schema
+    public function getToSchema(): Schema
     {
         if ($this->toSchema === null) {
             throw new RuntimeException('Cannot call getToSchema() when toSchema is null.');
@@ -163,12 +143,12 @@ final class ExecutionResult
         return $this->toSchema;
     }
 
-    public function getState() : int
+    public function getState(): int
     {
         return $this->state;
     }
 
-    public function setState(int $state) : void
+    public function setState(int $state): void
     {
         $this->state = $state;
     }

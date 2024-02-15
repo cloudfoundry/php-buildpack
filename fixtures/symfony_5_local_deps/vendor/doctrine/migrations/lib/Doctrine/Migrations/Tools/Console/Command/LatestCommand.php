@@ -5,19 +5,22 @@ declare(strict_types=1);
 namespace Doctrine\Migrations\Tools\Console\Command;
 
 use Doctrine\Migrations\Exception\NoMigrationsToExecute;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
 use function sprintf;
 
 /**
  * The LatestCommand class is responsible for outputting what your latest version is.
  */
+#[AsCommand(name: 'migrations:latest', description: 'Outputs the latest version')]
 final class LatestCommand extends DoctrineCommand
 {
-    /** @var string */
+    /** @var string|null */
     protected static $defaultName = 'migrations:latest';
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this
             ->setAliases(['latest'])
@@ -26,7 +29,7 @@ final class LatestCommand extends DoctrineCommand
         parent::configure();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $aliasResolver = $this->getDependencyFactory()->getVersionAliasResolver();
 
@@ -34,7 +37,7 @@ final class LatestCommand extends DoctrineCommand
             $version            = $aliasResolver->resolveVersionAlias('latest');
             $availableMigration = $this->getDependencyFactory()->getMigrationRepository()->getMigration($version);
             $description        = $availableMigration->getMigration()->getDescription();
-        } catch (NoMigrationsToExecute $e) {
+        } catch (NoMigrationsToExecute) {
             $version     = '0';
             $description = '';
         }
@@ -42,7 +45,7 @@ final class LatestCommand extends DoctrineCommand
         $this->io->text(sprintf(
             "<info>%s</info>%s\n",
             $version,
-            $description !== '' ? ' - ' . $description : ''
+            $description !== '' ? ' - ' . $description : '',
         ));
 
         return 0;

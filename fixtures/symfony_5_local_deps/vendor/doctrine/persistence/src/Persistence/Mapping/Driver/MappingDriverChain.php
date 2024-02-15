@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\Persistence\Mapping\Driver;
 
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\MappingException;
 
 use function array_keys;
-use function assert;
 use function spl_object_hash;
 use function strpos;
 
@@ -23,7 +24,7 @@ class MappingDriverChain implements MappingDriver
      */
     private $defaultDriver;
 
-    /** @var MappingDriver[] */
+    /** @var array<string, MappingDriver> */
     private $drivers = [];
 
     /**
@@ -49,11 +50,9 @@ class MappingDriverChain implements MappingDriver
     /**
      * Adds a nested driver.
      *
-     * @param string $namespace
-     *
      * @return void
      */
-    public function addDriver(MappingDriver $nestedDriver, $namespace)
+    public function addDriver(MappingDriver $nestedDriver, string $namespace)
     {
         $this->drivers[$namespace] = $nestedDriver;
     }
@@ -61,7 +60,7 @@ class MappingDriverChain implements MappingDriver
     /**
      * Gets the array of nested drivers.
      *
-     * @return MappingDriver[] $drivers
+     * @return array<string, MappingDriver> $drivers
      */
     public function getDrivers()
     {
@@ -71,10 +70,9 @@ class MappingDriverChain implements MappingDriver
     /**
      * {@inheritDoc}
      */
-    public function loadMetadataForClass($className, ClassMetadata $metadata)
+    public function loadMetadataForClass(string $className, ClassMetadata $metadata)
     {
         foreach ($this->drivers as $namespace => $driver) {
-            assert($driver instanceof MappingDriver);
             if (strpos($className, $namespace) === 0) {
                 $driver->loadMetadataForClass($className, $metadata);
 
@@ -100,7 +98,6 @@ class MappingDriverChain implements MappingDriver
         $driverClasses = [];
 
         foreach ($this->drivers as $namespace => $driver) {
-            assert($driver instanceof MappingDriver);
             $oid = spl_object_hash($driver);
 
             if (! isset($driverClasses[$oid])) {
@@ -128,10 +125,9 @@ class MappingDriverChain implements MappingDriver
     /**
      * {@inheritDoc}
      */
-    public function isTransient($className)
+    public function isTransient(string $className)
     {
         foreach ($this->drivers as $namespace => $driver) {
-            assert($driver instanceof MappingDriver);
             if (strpos($className, $namespace) === 0) {
                 return $driver->isTransient($className);
             }

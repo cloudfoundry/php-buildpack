@@ -23,24 +23,25 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 class TranslationWriter implements TranslationWriterInterface
 {
-    private $dumpers = [];
+    /**
+     * @var array<string, DumperInterface>
+     */
+    private array $dumpers = [];
 
     /**
      * Adds a dumper to the writer.
      *
-     * @param string $format The format of the dumper
+     * @return void
      */
-    public function addDumper($format, DumperInterface $dumper)
+    public function addDumper(string $format, DumperInterface $dumper)
     {
         $this->dumpers[$format] = $dumper;
     }
 
     /**
      * Obtains the list of supported formats.
-     *
-     * @return array
      */
-    public function getFormats()
+    public function getFormats(): array
     {
         return array_keys($this->dumpers);
     }
@@ -50,6 +51,8 @@ class TranslationWriter implements TranslationWriterInterface
      *
      * @param string $format  The format to use to dump the messages
      * @param array  $options Options that are passed to the dumper
+     *
+     * @return void
      *
      * @throws InvalidArgumentException
      */

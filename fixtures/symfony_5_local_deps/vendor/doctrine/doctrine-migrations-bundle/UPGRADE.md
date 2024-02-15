@@ -40,9 +40,18 @@ doctrine_migrations:
         table_storage:
             table_name: 'migration_versions'
             version_column_name: 'version'
-            version_column_length: 1024
+            version_column_length: 191
             executed_at_column_name: 'executed_at'
 ```
+If your project did not originally specify its own table definition configuration, you will need to configure the table name after the upgrade:
+
+```yaml
+doctrine_migrations:
+    storage:
+        table_storage:
+            table_name: 'migration_versions'
+```
+and then run the `doctrine:migrations:sync-metadata-storage` command.
 - The migration name has been dropped:
 
 Before
@@ -55,3 +64,23 @@ doctrine_migrations:
 After
 
 The parameter `name` has been dropped.
+
+
+- The default for `table_name` changed from `migration_versions` to `doctrine_migration_versions`. If you did not
+specify the `table_name` option, you now need to declare it explicitly to not lose migration data.
+
+```yaml
+doctrine_migrations:
+    storage:
+        table_storage:
+            table_name: 'migration_versions'
+```
+
+### Underlying doctrine/migrations library
+
+Upgrading this bundle to `3.0` will also update the `doctrine/migrations` library to the version `3.0`.
+Backward incompatible changes in `doctrine/migrations` 3.0 
+are documented in the dedicated [UPGRADE](https://github.com/doctrine/migrations/blob/3.0.x/UPGRADE.md) document. 
+
+- The container is not automatically injected anymore when a migration implements `ContainerAwareInterface`. Custom
+migration factories should be used to inject additional dependencies into migrations.

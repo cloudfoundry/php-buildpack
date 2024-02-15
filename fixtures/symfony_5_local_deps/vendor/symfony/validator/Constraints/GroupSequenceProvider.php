@@ -11,14 +11,23 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
+use Symfony\Component\Validator\Attribute\HasNamedArguments;
+
 /**
- * Annotation to define a group sequence provider.
+ * Attribute to define a group sequence provider.
  *
  * @Annotation
+ * @NamedArgumentConstructor
  * @Target({"CLASS", "ANNOTATION"})
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class GroupSequenceProvider
 {
+    #[HasNamedArguments]
+    public function __construct(public ?string $provider = null)
+    {
+    }
 }

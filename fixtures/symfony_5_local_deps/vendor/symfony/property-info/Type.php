@@ -20,16 +20,18 @@ namespace Symfony\Component\PropertyInfo;
  */
 class Type
 {
-    const BUILTIN_TYPE_INT = 'int';
-    const BUILTIN_TYPE_FLOAT = 'float';
-    const BUILTIN_TYPE_STRING = 'string';
-    const BUILTIN_TYPE_BOOL = 'bool';
-    const BUILTIN_TYPE_RESOURCE = 'resource';
-    const BUILTIN_TYPE_OBJECT = 'object';
-    const BUILTIN_TYPE_ARRAY = 'array';
-    const BUILTIN_TYPE_NULL = 'null';
-    const BUILTIN_TYPE_CALLABLE = 'callable';
-    const BUILTIN_TYPE_ITERABLE = 'iterable';
+    public const BUILTIN_TYPE_INT = 'int';
+    public const BUILTIN_TYPE_FLOAT = 'float';
+    public const BUILTIN_TYPE_STRING = 'string';
+    public const BUILTIN_TYPE_BOOL = 'bool';
+    public const BUILTIN_TYPE_RESOURCE = 'resource';
+    public const BUILTIN_TYPE_OBJECT = 'object';
+    public const BUILTIN_TYPE_ARRAY = 'array';
+    public const BUILTIN_TYPE_NULL = 'null';
+    public const BUILTIN_TYPE_FALSE = 'false';
+    public const BUILTIN_TYPE_TRUE = 'true';
+    public const BUILTIN_TYPE_CALLABLE = 'callable';
+    public const BUILTIN_TYPE_ITERABLE = 'iterable';
 
     /**
      * List of PHP builtin types.
@@ -45,21 +47,36 @@ class Type
         self::BUILTIN_TYPE_OBJECT,
         self::BUILTIN_TYPE_ARRAY,
         self::BUILTIN_TYPE_CALLABLE,
+        self::BUILTIN_TYPE_FALSE,
+        self::BUILTIN_TYPE_TRUE,
         self::BUILTIN_TYPE_NULL,
         self::BUILTIN_TYPE_ITERABLE,
     ];
 
-    private $builtinType;
-    private $nullable;
-    private $class;
-    private $collection;
-    private $collectionKeyType;
-    private $collectionValueType;
+    /**
+     * List of PHP builtin collection types.
+     *
+     * @var string[]
+     */
+    public static $builtinCollectionTypes = [
+        self::BUILTIN_TYPE_ARRAY,
+        self::BUILTIN_TYPE_ITERABLE,
+    ];
+
+    private string $builtinType;
+    private bool $nullable;
+    private ?string $class;
+    private bool $collection;
+    private array $collectionKeyType;
+    private array $collectionValueType;
 
     /**
+     * @param Type[]|Type|null $collectionKeyType
+     * @param Type[]|Type|null $collectionValueType
+     *
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $builtinType, bool $nullable = false, string $class = null, bool $collection = false, self $collectionKeyType = null, self $collectionValueType = null)
+    public function __construct(string $builtinType, bool $nullable = false, ?string $class = null, bool $collection = false, array|self|null $collectionKeyType = null, array|self|null $collectionValueType = null)
     {
         if (!\in_array($builtinType, self::$builtinTypes)) {
             throw new \InvalidArgumentException(sprintf('"%s" is not a valid PHP type.', $builtinType));
@@ -69,8 +86,27 @@ class Type
         $this->nullable = $nullable;
         $this->class = $class;
         $this->collection = $collection;
-        $this->collectionKeyType = $collectionKeyType;
-        $this->collectionValueType = $collectionValueType;
+        $this->collectionKeyType = $this->validateCollectionArgument($collectionKeyType, 5, '$collectionKeyType') ?? [];
+        $this->collectionValueType = $this->validateCollectionArgument($collectionValueType, 6, '$collectionValueType') ?? [];
+    }
+
+    private function validateCollectionArgument(array|self|null $collectionArgument, int $argumentIndex, string $argumentName): ?array
+    {
+        if (null === $collectionArgument) {
+            return null;
+        }
+
+        if (\is_array($collectionArgument)) {
+            foreach ($collectionArgument as $type) {
+                if (!$type instanceof self) {
+                    throw new \TypeError(sprintf('"%s()": Argument #%d (%s) must be of type "%s[]", "%s" or "null", array value "%s" given.', __METHOD__, $argumentIndex, $argumentName, self::class, self::class, get_debug_type($collectionArgument)));
+                }
+            }
+
+            return $collectionArgument;
+        }
+
+        return [$collectionArgument];
     }
 
     /**
@@ -104,21 +140,25 @@ class Type
     }
 
     /**
-     * Gets collection key type.
+     * Gets collection key types.
      *
      * Only applicable for a collection type.
+     *
+     * @return Type[]
      */
-    public function getCollectionKeyType(): ?self
+    public function getCollectionKeyTypes(): array
     {
         return $this->collectionKeyType;
     }
 
     /**
-     * Gets collection value type.
+     * Gets collection value types.
      *
      * Only applicable for a collection type.
+     *
+     * @return Type[]
      */
-    public function getCollectionValueType(): ?self
+    public function getCollectionValueTypes(): array
     {
         return $this->collectionValueType;
     }

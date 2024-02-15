@@ -1,6 +1,60 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * Add DSN parameter `peer_fingerprint` to verify TLS certificate fingerprint
+ * Change the default port for the `mailjet+smtp` transport from 465 to 587
+
+6.3
+---
+
+ * Add `MessageEvent::reject()` to allow rejecting an email before sending it
+ * Change the default port for the `mailgun+smtp` transport from 465 to 587
+ * Add `$authenticators` parameter in `EsmtpTransport` constructor and `EsmtpTransport::setAuthenticators()`
+  to allow overriding of default eSMTP authenticators
+
+6.2.7
+-----
+
+ * [BC BREAK] The following data providers for `TransportFactoryTestCase` are now static:
+  `supportsProvider()`, `createProvider()`, `unsupportedSchemeProvider()`and `incompleteDsnProvider()`
+
+6.2
+---
+
+ * Add a `mailer:test` command
+ * Add `SentMessageEvent` and `FailedMessageEvent` events
+
+6.1
+---
+
+ * Make `start()` and `stop()` methods public on `SmtpTransport`
+ * Improve extensibility of `EsmtpTransport`
+
+6.0
+---
+
+ * The `HttpTransportException` class takes a string at first argument
+
+5.4
+---
+
+ * Enable the mailer to operate on any PSR-14-compatible event dispatcher
+
+5.3
+---
+
+ * added the `mailer` monolog channel and set it on all transport definitions
+
+5.2.0
+-----
+
+ * added `NativeTransportFactory` to configure a transport based on php.ini settings
+ * added `local_domain`, `restart_threshold`, `restart_threshold_sleep` and `ping_threshold` options for `smtp`
+ * added `command` option for `sendmail`
+
 4.4.0
 -----
 

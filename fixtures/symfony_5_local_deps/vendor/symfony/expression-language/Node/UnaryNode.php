@@ -20,7 +20,7 @@ use Symfony\Component\ExpressionLanguage\Compiler;
  */
 class UnaryNode extends Node
 {
-    private static $operators = [
+    private const OPERATORS = [
         '!' => '!',
         'not' => '!',
         '+' => '+',
@@ -35,28 +35,26 @@ class UnaryNode extends Node
         );
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $compiler
             ->raw('(')
-            ->raw(self::$operators[$this->attributes['operator']])
+            ->raw(self::OPERATORS[$this->attributes['operator']])
             ->compile($this->nodes['node'])
             ->raw(')')
         ;
     }
 
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values): mixed
     {
         $value = $this->nodes['node']->evaluate($functions, $values);
-        switch ($this->attributes['operator']) {
-            case 'not':
-            case '!':
-                return !$value;
-            case '-':
-                return -$value;
-        }
 
-        return $value;
+        return match ($this->attributes['operator']) {
+            'not',
+            '!' => !$value,
+            '-' => -$value,
+            default => $value,
+        };
     }
 
     public function toArray(): array

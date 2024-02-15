@@ -1,6 +1,40 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * Allow setting the locale using `SYMFONY_PHPUNIT_LOCALE` env var
+
+6.3
+---
+
+ * Add support for mocking the `enum_exists` function
+ * Enable reporting of deprecations triggered by Doctrine by default
+
+6.2
+---
+
+ * Add support for mocking the `hrtime()` function
+
+6.1
+---
+
+ * Add option `ignoreFile` to configure a file that lists deprecation messages to ignore
+
+6.0
+---
+
+ * Remove `SetUpTearDownTrait`
+
+5.3
+---
+
+ * bumped the minimum PHP version to 7.1.3
+ * bumped the minimum PHPUnit version to 7.5
+ * deprecated the `SetUpTearDownTrait` trait, use original methods with "void" return typehint.
+ * added `logFile` option to write deprecations to a file instead of echoing them
+
 5.1.0
 -----
 

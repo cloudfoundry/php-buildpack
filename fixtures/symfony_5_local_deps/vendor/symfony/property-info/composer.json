@@ -1,11 +1,11 @@
 {
     "name": "symfony/property-info",
     "type": "library",
-    "description": "Symfony Property Info Component",
+    "description": "Extracts information about PHP class' properties using metadata of popular sources",
     "keywords": [
         "property",
         "type",
-        "PHPDoc",
+        "phpdoc",
         "symfony",
         "validator",
         "doctrine"
@@ -23,27 +23,21 @@
         }
     ],
     "require": {
-        "php": ">=7.2.5",
-        "symfony/polyfill-php80": "^1.15",
-        "symfony/string": "^5.1"
+        "php": ">=8.1",
+        "symfony/string": "^5.4|^6.0|^7.0"
     },
     "require-dev": {
-        "symfony/serializer": "^4.4|^5.0",
-        "symfony/cache": "^4.4|^5.0",
-        "symfony/dependency-injection": "^4.4|^5.0",
-        "phpdocumentor/reflection-docblock": "^3.0|^4.0|^5.0",
-        "doctrine/annotations": "~1.7"
+        "symfony/serializer": "^6.4|^7.0",
+        "symfony/cache": "^5.4|^6.0|^7.0",
+        "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+        "phpdocumentor/reflection-docblock": "^5.2",
+        "phpstan/phpdoc-parser": "^1.0"
     },
     "conflict": {
-        "phpdocumentor/reflection-docblock": "<3.2.2",
-        "phpdocumentor/type-resolver": "<0.3.0",
-        "symfony/dependency-injection": "<4.4"
-    },
-    "suggest": {
-        "psr/cache-implementation": "To cache results",
-        "symfony/doctrine-bridge": "To use Doctrine metadata",
-        "phpdocumentor/reflection-docblock": "To use the PHPDoc",
-        "symfony/serializer": "To use Serializer metadata"
+        "phpdocumentor/reflection-docblock": "<5.2",
+        "phpdocumentor/type-resolver": "<1.5.1",
+        "symfony/dependency-injection": "<5.4",
+        "symfony/serializer": "<6.4"
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\PropertyInfo\\": "" },

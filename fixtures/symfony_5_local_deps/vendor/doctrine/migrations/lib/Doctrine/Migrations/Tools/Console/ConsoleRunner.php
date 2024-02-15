@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Doctrine\Migrations\Tools\Console;
 
-use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
-use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
+use Composer\InstalledVersions;
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
 use Doctrine\Migrations\Configuration\Migration\ConfigurationFileWithFallback;
 use Doctrine\Migrations\DependencyFactory;
@@ -24,14 +23,16 @@ use Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand;
 use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
-use PackageVersions\Versions;
 use RuntimeException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
+
+use function assert;
 use function file_exists;
 use function getcwd;
 use function is_readable;
 use function sprintf;
+
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -43,7 +44,7 @@ use const DIRECTORY_SEPARATOR;
  */
 class ConsoleRunner
 {
-    public static function findDependencyFactory() : ?DependencyFactory
+    public static function findDependencyFactory(): DependencyFactory|null
     {
         // Support for using the Doctrine ORM convention of providing a `cli-config.php` file.
         $configurationDirectories = [
@@ -68,7 +69,7 @@ class ConsoleRunner
             if (! is_readable($configurationFile)) {
                 throw new RuntimeException(sprintf(
                     'Configuration file "%s" cannot be read.',
-                    $configurationFile
+                    $configurationFile,
                 ));
             }
 
@@ -80,7 +81,7 @@ class ConsoleRunner
             throw new RuntimeException(sprintf(
                 'Configuration file "%s" must return an instance of "%s"',
                 $configurationFile,
-                DependencyFactory::class
+                DependencyFactory::class,
             ));
         }
 
@@ -88,16 +89,18 @@ class ConsoleRunner
     }
 
     /** @param DoctrineCommand[] $commands */
-    public static function run(array $commands = [], ?DependencyFactory $dependencyFactory = null) : void
+    public static function run(array $commands = [], DependencyFactory|null $dependencyFactory = null): void
     {
         $cli = static::createApplication($commands, $dependencyFactory);
         $cli->run();
     }
 
     /** @param DoctrineCommand[] $commands */
-    public static function createApplication(array $commands = [], ?DependencyFactory $dependencyFactory = null) : Application
+    public static function createApplication(array $commands = [], DependencyFactory|null $dependencyFactory = null): Application
     {
-        $cli = new Application('Doctrine Migrations', Versions::getVersion('doctrine/migrations'));
+        $version = InstalledVersions::getVersion('doctrine/migrations');
+        assert($version !== null);
+        $cli = new Application('Doctrine Migrations', $version);
         $cli->setCatchExceptions(true);
         self::addCommands($cli, $dependencyFactory);
         $cli->addCommands($commands);
@@ -105,7 +108,7 @@ class ConsoleRunner
         return $cli;
     }
 
-    public static function addCommands(Application $cli, ?DependencyFactory $dependencyFactory = null) : void
+    public static function addCommands(Application $cli, DependencyFactory|null $dependencyFactory = null): void
     {
         $cli->addCommands([
             new CurrentCommand($dependencyFactory),
@@ -122,19 +125,14 @@ class ConsoleRunner
             new ListCommand($dependencyFactory),
         ]);
 
-        if ($dependencyFactory === null || ! $dependencyFactory->hasEntityManager()) {
+        if ($dependencyFactory === null || ! $dependencyFactory->hasSchemaProvider()) {
             return;
         }
 
         $cli->add(new DiffCommand($dependencyFactory));
     }
 
-    /**
-     * @param mixed|HelperSet $dependencyFactory
-     *
-     * @return mixed|DependencyFactory
-     */
-    private static function checkLegacyConfiguration($dependencyFactory, string $configurationFile)
+    private static function checkLegacyConfiguration(mixed $dependencyFactory, string $configurationFile): mixed
     {
         if (! ($dependencyFactory instanceof HelperSet)) {
             return $dependencyFactory;
@@ -144,20 +142,13 @@ class ConsoleRunner
         if ($dependencyFactory->has('em') && $dependencyFactory->get('em') instanceof EntityManagerHelper) {
             return DependencyFactory::fromEntityManager(
                 $configurations,
-                new ExistingEntityManager($dependencyFactory->get('em')->getEntityManager())
-            );
-        }
-
-        if ($dependencyFactory->has('db') && $dependencyFactory->get('db') instanceof ConnectionHelper) {
-            return DependencyFactory::fromConnection(
-                $configurations,
-                new ExistingConnection($dependencyFactory->get('db')->getConnection())
+                new ExistingEntityManager($dependencyFactory->get('em')->getEntityManager()),
             );
         }
 
         throw new RuntimeException(sprintf(
             'Configuration HelperSet returned by "%s" does not have a valid "em" or the "db" helper.',
-            $configurationFile
+            $configurationFile,
         ));
     }
 }

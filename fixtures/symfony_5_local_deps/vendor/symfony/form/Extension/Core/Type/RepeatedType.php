@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RepeatedType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -45,7 +45,7 @@ class RepeatedType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -57,6 +57,7 @@ class RepeatedType extends AbstractType
             'first_name' => 'first',
             'second_name' => 'second',
             'error_bubbling' => false,
+            'invalid_message' => 'The values do not match.',
         ]);
 
         $resolver->setAllowedTypes('options', 'array');
@@ -64,10 +65,7 @@ class RepeatedType extends AbstractType
         $resolver->setAllowedTypes('second_options', 'array');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'repeated';
     }

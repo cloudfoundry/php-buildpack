@@ -1,6 +1,51 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * Add FQCN and FQCN::method aliases for routes loaded from attributes/annotations when applicable
+ * Add native return type to `AnnotationClassLoader::setResolver()`
+ * Deprecate Doctrine annotations support in favor of native attributes
+ * Change the constructor signature of `AnnotationClassLoader` to `__construct(?string $env = null)`, passing an annotation reader as first argument is deprecated
+ * Deprecate `AnnotationClassLoader`, use `AttributeClassLoader` instead
+ * Deprecate `AnnotationDirectoryLoader`, use `AttributeDirectoryLoader` instead
+ * Deprecate `AnnotationFileLoader`, use `AttributeFileLoader` instead
+ * Add `AddExpressionLanguageProvidersPass` (moved from `FrameworkBundle`)
+ * Add aliases for all classes in the `Annotation` namespace to `Attribute`
+
+6.2
+---
+
+ * Add `Requirement::POSITIVE_INT` for common ids and pagination
+
+6.1
+---
+
+ * Add `getMissingParameters` and `getRouteName` methods on `MissingMandatoryParametersException`
+ * Allow using UTF-8 parameter names
+ * Support the `attribute` type (alias of `annotation`) in annotation loaders
+ * Already encoded slashes are not decoded nor double-encoded anymore when generating URLs (query parameters)
+ * Add `EnumRequirement` to help generate route requirements from a `\BackedEnum`
+ * Add `Requirement`, a collection of universal regular-expression constants to use as route parameter requirements
+ * Add `params` variable to condition expression
+ * Deprecate not passing route parameters as the fourth argument to `UrlMatcher::handleRouteRequirements()`
+
+5.3
+---
+
+ * Already encoded slashes are not decoded nor double-encoded anymore when generating URLs
+ * Add support for per-env configuration in XML and Yaml loaders
+ * Deprecate creating instances of the `Route` annotation class by passing an array of parameters
+ * Add `RoutingConfigurator::env()` to get the current environment
+
+5.2.0
+-----
+
+ * Added support for inline definition of requirements and defaults for host
+ * Added support for `\A` and `\z` as regex start and end for route requirement
+ * Added support for `#[Route]` attributes
+
 5.1.0
 -----
 
@@ -66,15 +111,15 @@ CHANGELOG
 3.3.0
 -----
 
-  * [DEPRECATION] Class parameters have been deprecated and will be removed in 4.0.
-    * router.options.generator_class
-    * router.options.generator_base_class
-    * router.options.generator_dumper_class
-    * router.options.matcher_class
-    * router.options.matcher_base_class
-    * router.options.matcher_dumper_class
-    * router.options.matcher.cache_class
-    * router.options.generator.cache_class
+ * [DEPRECATION] Class parameters have been deprecated and will be removed in 4.0.
+   * router.options.generator_class
+   * router.options.generator_base_class
+   * router.options.generator_dumper_class
+   * router.options.matcher_class
+   * router.options.matcher_base_class
+   * router.options.matcher_dumper_class
+   * router.options.matcher.cache_class
+   * router.options.generator.cache_class
 
 3.2.0
 -----

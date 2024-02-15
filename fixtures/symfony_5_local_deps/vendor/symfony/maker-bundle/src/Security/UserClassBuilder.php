@@ -13,6 +13,8 @@ namespace Symfony\Bundle\MakerBundle\Security;
 
 use PhpParser\Node;
 use Symfony\Bundle\MakerBundle\Util\ClassSourceManipulator;
+use Symfony\Bundle\MakerBundle\Util\ClassSource\Model\ClassProperty;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -22,7 +24,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class UserClassBuilder
 {
-    public function addUserInterfaceImplementation(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig)
+    public function addUserInterfaceImplementation(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig): void
     {
         $manipulator->addInterface(UserInterface::class);
 
@@ -30,29 +32,39 @@ final class UserClassBuilder
 
         $this->addGetRoles($manipulator, $userClassConfig);
 
-        $this->addGetPassword($manipulator, $userClassConfig);
+        $this->addPasswordImplementation($manipulator, $userClassConfig);
 
-        $this->addGetSalt($manipulator, $userClassConfig);
-
-        $this->addEraseCredentials($manipulator, $userClassConfig);
+        $this->addEraseCredentials($manipulator);
     }
 
-    private function addGetUsername(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig)
+    private function addPasswordImplementation(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig): void
+    {
+        if (!$userClassConfig->hasPassword()) {
+            return;
+        }
+
+        $manipulator->addInterface(PasswordAuthenticatedUserInterface::class);
+
+        $this->addGetPassword($manipulator, $userClassConfig);
+    }
+
+    private function addGetUsername(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig): void
     {
         if ($userClassConfig->isEntity()) {
             // add entity property
             $manipulator->addEntityField(
-                $userClassConfig->getIdentityPropertyName(),
-                [
-                    'type' => 'string',
-                    // https://github.com/FriendsOfSymfony/FOSUserBundle/issues/1919
-                    'length' => 180,
-                    'unique' => true,
-                ]
+                new ClassProperty(
+                    propertyName: $userClassConfig->getIdentityPropertyName(),
+                    type: 'string',
+                    length: 180,
+                    unique: true,
+                )
             );
         } else {
             // add normal property
-            $manipulator->addProperty($userClassConfig->getIdentityPropertyName());
+            $manipulator->addProperty(
+                name: $userClassConfig->getIdentityPropertyName()
+            );
 
             $manipulator->addGetter(
                 $userClassConfig->getIdentityPropertyName(),
@@ -70,7 +82,7 @@ final class UserClassBuilder
         // define getUsername (if it was defined above, this will override)
         $manipulator->addAccessorMethod(
             $userClassConfig->getIdentityPropertyName(),
-            'getUsername',
+            'getUserIdentifier',
             'string',
             false,
             [
@@ -82,22 +94,18 @@ final class UserClassBuilder
         );
     }
 
-    private function addGetRoles(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig)
+    private function addGetRoles(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig): void
     {
         if ($userClassConfig->isEntity()) {
             // add entity property
             $manipulator->addEntityField(
-                'roles',
-                [
-                    'type' => 'json',
-                ]
+                new ClassProperty(propertyName: 'roles', type: 'json')
             );
         } else {
             // add normal property
             $manipulator->addProperty(
-                'roles',
-                [],
-                new Node\Expr\Array_([], ['kind' => Node\Expr\Array_::KIND_SHORT])
+                name: 'roles',
+                defaultValue: new Node\Expr\Array_([], ['kind' => Node\Expr\Array_::KIND_SHORT])
             );
 
             $manipulator->addGetter(
@@ -159,19 +167,26 @@ final class UserClassBuilder
         $manipulator->addMethodBuilder($builder);
     }
 
-    private function addGetPassword(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig)
+    private function addGetPassword(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig): void
     {
         if (!$userClassConfig->hasPassword()) {
             // add an empty method only
             $builder = $manipulator->createMethodBuilder(
                 'getPassword',
-                null,
-                false,
-                ['@see UserInterface']
+                'string',
+                true,
+                [
+                    'This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.',
+                    '',
+                    '@see PasswordAuthenticatedUserInterface',
+                ]
             );
+
             $builder->addStmt(
-                $manipulator->createMethodLevelCommentNode(
-                    'not needed for apps that do not check user passwords'
+                new Node\Stmt\Return_(
+                    new Node\Expr\ConstFetch(
+                        new Node\Name('null')
+                    )
                 )
             );
 
@@ -184,15 +199,14 @@ final class UserClassBuilder
         if ($userClassConfig->isEntity()) {
             // add entity property
             $manipulator->addEntityField(
-                'password',
-                [
-                    'type' => 'string',
-                ],
-                [$propertyDocs]
+                new ClassProperty(propertyName: 'password', type: 'string', comments: [$propertyDocs])
             );
         } else {
             // add normal property
-            $manipulator->addProperty('password', [$propertyDocs]);
+            $manipulator->addProperty(
+                name: 'password',
+                comments: [$propertyDocs]
+            );
 
             $manipulator->addGetter(
                 'password',
@@ -214,44 +228,17 @@ final class UserClassBuilder
             'string',
             false,
             [
-                '@see UserInterface',
-            ],
-            true
+                '@see PasswordAuthenticatedUserInterface',
+            ]
         );
     }
 
-    private function addGetSalt(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig)
-    {
-        // add getSalt(): always empty
-        $builder = $manipulator->createMethodBuilder(
-            'getSalt',
-            null,
-            false,
-            ['@see UserInterface']
-        );
-        if ($userClassConfig->hasPassword()) {
-            $builder->addStmt(
-                $manipulator->createMethodLevelCommentNode(
-                    'not needed when using the "bcrypt" algorithm in security.yaml'
-                )
-            );
-        } else {
-            $builder->addStmt(
-                $manipulator->createMethodLevelCommentNode(
-                    'not needed for apps that do not check user passwords'
-                )
-            );
-        }
-
-        $manipulator->addMethodBuilder($builder);
-    }
-
-    private function addEraseCredentials(ClassSourceManipulator $manipulator, UserClassConfiguration $userClassConfig)
+    private function addEraseCredentials(ClassSourceManipulator $manipulator): void
     {
         // add eraseCredentials: always empty
         $builder = $manipulator->createMethodBuilder(
             'eraseCredentials',
-            null,
+            'void',
             false,
             ['@see UserInterface']
         );

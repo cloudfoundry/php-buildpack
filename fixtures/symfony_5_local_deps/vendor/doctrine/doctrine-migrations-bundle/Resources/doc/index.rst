@@ -41,11 +41,10 @@ application:
 
     # config/packages/doctrine_migrations.yaml
 
-
     doctrine_migrations:
         # List of namespace/path pairs to search for migrations, at least one required
         migrations_paths:
-            'App\Migrations': 'src/App'
+            'App\Migrations': '%kernel.project_dir%/src/App'
             'AnotherApp\Migrations': '/path/to/other/migrations'
             'SomeBundle\Migrations': '@SomeBundle/Migrations'
 
@@ -65,9 +64,8 @@ application:
             table_storage:
                 table_name: 'doctrine_migration_versions'
                 version_column_name: 'version'
-                version_column_length: 1024
+                version_column_length: 192
                 executed_at_column_name: 'executed_at'
-                execution_time_column_name: 'execution_time'
 
         # Possible values: "BY_YEAR", "BY_YEAR_AND_MONTH", false
         organize_migrations: false
@@ -81,6 +79,12 @@ application:
         # Adds an extra check in the generated migrations to ensure that is executed on the same database type.
         check_database_platform: true
 
+        # Whether or not to wrap migrations in a single transaction.
+        transactional: true
+
+        # Whether or not to enable the profiler collector to calculate and visualize migration status. This adds some queries overhead.
+        # enable_profiler: false
+
         services:
             # Custom migration sorting service id
             'Doctrine\Migrations\Version\Comparator': ~
@@ -92,13 +96,9 @@ application:
             # Custom migration sorting service id via callables (MyCallableFactory must be a callable)
             'Doctrine\Migrations\Version\Comparator': 'MyCallableFactory'
 
-
-
-
-- The ``services`` node allows you to provide custom services to the underlying ``DependencyFactory`` part
-of ``doctrine/migrations``.
-
+- The ``services`` node allows you to provide custom services to the underlying ``DependencyFactory`` part of ``doctrine/migrations``.
 - The node ``factories`` is similar to ``services``, with the difference that it accepts only callables.
+
 The provided callable must return the service to be passed to the ``DependencyFactory``.
 The callable will receive as first argument the ``DependencyFactory`` itself,
 allowing you to fetch other dependencies from the factory while instantiating your custom dependencies.
@@ -231,6 +231,74 @@ You can skip single migrations by explicitly adding them to the ``migration_vers
 
 Doctrine will then assume that this migration has already been run and will ignore it.
 
+Migration Dependencies
+----------------------
+
+Migrations can have dependencies on external services (such as geolocation, mailer, data processing services...) that
+can be used to have more powerful migrations. Those dependencies are not automatically injected into your migrations
+but need to be injected using custom migrations factories.
+
+Here is an example on how to inject the service container into your migrations:
+
+.. configuration-block::
+
+    .. code-block:: yaml
+
+        # config/packages/doctrine_migrations.yaml
+        doctrine_migrations:
+            services:
+                 'Doctrine\Migrations\Version\MigrationFactory': 'App\Migrations\Factory\MigrationFactoryDecorator'
+
+        # config/services.yaml
+        services:
+            Doctrine\Migrations\Version\DbalMigrationFactory: ~
+            App\Migrations\Factory\MigrationFactoryDecorator:
+                decorates: Doctrine\Migrations\Version\DbalMigrationFactory
+                arguments: ['@App\Migrations\Factory\MigrationFactoryDecorator.inner', '@service_container']
+
+
+.. code-block:: php
+
+    declare(strict_types=1);
+
+    namespace App\Migrations\Factory;
+
+    use Doctrine\Migrations\AbstractMigration;
+    use Doctrine\Migrations\Version\MigrationFactory;
+    use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+    use Symfony\Component\DependencyInjection\ContainerInterface;
+
+    class MigrationFactoryDecorator implements MigrationFactory
+    {
+        private $migrationFactory;
+        private $container;
+
+        public function __construct(MigrationFactory $migrationFactory, ContainerInterface $container)
+        {
+            $this->migrationFactory = $migrationFactory;
+            $this->container        = $container;
+        }
+
+        public function createVersion(string $migrationClassName): AbstractMigration
+        {
+            $instance = $this->migrationFactory->createVersion($migrationClassName);
+
+            if ($instance instanceof ContainerAwareInterface) {
+                $instance->setContainer($this->container);
+            }
+
+            return $instance;
+        }
+    }
+
+
+.. tip::
+
+    If your migration class implements the interface ``Symfony\Component\DependencyInjection\ContainerAwareInterface``
+    this bundle will automatically inject the default symfony container into your migration class
+    (this because the ``MigrationFactoryDecorator`` shown in this example is the default migration factory used by this bundle).
+
+
 Generating Migrations Automatically
 -----------------------------------
 
@@ -271,7 +339,7 @@ for Doctrine's ORM:
 
     .. code-block:: yaml
 
-        # config/doctrine/User.orm.yml
+        # config/doctrine/User.orm.yaml
         App\Entity\User:
             type: entity
             table: user
@@ -360,7 +428,7 @@ just have to add the following configuration option to your doctrine configurati
 
     .. code-block:: xml
 
-        <doctrine:dbal schema-filter="~^(?!t_)~" ... />
+        <doctrine:dbal schema-filter="~^(?!t_)~" />
 
 
     .. code-block:: php
@@ -378,7 +446,23 @@ This ignores the tables, and any named objects such as sequences, on the DBAL le
 Note that if you have multiple connections configured then the ``schema_filter`` configuration
 will need to be placed per-connection.
 
+Troubleshooting out of sync metadata storage issue
+--------------------------------------------------
+``doctrine/migrations`` relies on a properly configured Database server version in the connection string to manage the table storing the
+migrations, also known as the metadata storage.
+
+If you encounter the error ``The metadata storage is not up to date, please run the sync-metadata-storage command to fix this issue.``
+when running the command ``doctrine:migrations:migrate`` or the suggested command itself ``doctrine:migrations:sync-metadata-storage`` please
+check the database connection string, and make sure that the proper server version is defined. If you are running a MariaDB database,
+you should prefix the server version with ``mariadb-`` (ex: ``mariadb-10.2.12``). See the `configuring_database`_ section.
+
+Example connection string for MariaDB:
+
+.. code-block:: terminal
+    DATABASE_URL=mysql://root:@127.0.0.1:3306/testtest?serverVersion=mariadb-10.4.11
+
 .. _documentation: https://www.doctrine-project.org/projects/doctrine-migrations/en/current/index.html
+.. _configuring_database: https://symfony.com/doc/current/doctrine.html#configuring-the-database
 .. _DoctrineMigrationsBundle: https://github.com/doctrine/DoctrineMigrationsBundle
 .. _`Doctrine Database Migrations`: https://github.com/doctrine/migrations
 .. _`Symfony Flex`: https://symfony.com/doc/current/setup/flex.html

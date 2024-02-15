@@ -12,6 +12,7 @@
 namespace Symfony\Component\ExpressionLanguage\Node;
 
 use Symfony\Component\ExpressionLanguage\Compiler;
+use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -20,17 +21,20 @@ use Symfony\Component\ExpressionLanguage\Compiler;
  */
 class BinaryNode extends Node
 {
-    private static $operators = [
+    private const OPERATORS = [
         '~' => '.',
         'and' => '&&',
         'or' => '||',
     ];
 
-    private static $functions = [
+    private const FUNCTIONS = [
         '**' => 'pow',
         '..' => 'range',
-        'in' => 'in_array',
-        'not in' => '!in_array',
+        'in' => '\\'.self::class.'::inArray',
+        'not in' => '!\\'.self::class.'::inArray',
+        'contains' => 'str_contains',
+        'starts with' => 'str_starts_with',
+        'ends with' => 'str_ends_with',
     ];
 
     public function __construct(string $operator, Node $left, Node $right)
@@ -41,13 +45,17 @@ class BinaryNode extends Node
         );
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $operator = $this->attributes['operator'];
 
         if ('matches' == $operator) {
+            if ($this->nodes['right'] instanceof ConstantNode) {
+                $this->evaluateMatches($this->nodes['right']->evaluate([], []), '');
+            }
+
             $compiler
-                ->raw('preg_match(')
+                ->raw('(static function ($regexp, $str) { set_error_handler(static fn ($t, $m) => throw new \Symfony\Component\ExpressionLanguage\SyntaxError(sprintf(\'Regexp "%s" passed to "matches" is not valid\', $regexp).substr($m, 12))); try { return preg_match($regexp, (string) $str); } finally { restore_error_handler(); } })(')
                 ->compile($this->nodes['right'])
                 ->raw(', ')
                 ->compile($this->nodes['left'])
@@ -57,9 +65,9 @@ class BinaryNode extends Node
             return;
         }
 
-        if (isset(self::$functions[$operator])) {
+        if (isset(self::FUNCTIONS[$operator])) {
             $compiler
-                ->raw(sprintf('%s(', self::$functions[$operator]))
+                ->raw(sprintf('%s(', self::FUNCTIONS[$operator]))
                 ->compile($this->nodes['left'])
                 ->raw(', ')
                 ->compile($this->nodes['right'])
@@ -69,8 +77,8 @@ class BinaryNode extends Node
             return;
         }
 
-        if (isset(self::$operators[$operator])) {
-            $operator = self::$operators[$operator];
+        if (isset(self::OPERATORS[$operator])) {
+            $operator = self::OPERATORS[$operator];
         }
 
         $compiler
@@ -84,18 +92,18 @@ class BinaryNode extends Node
         ;
     }
 
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values): mixed
     {
         $operator = $this->attributes['operator'];
         $left = $this->nodes['left']->evaluate($functions, $values);
 
-        if (isset(self::$functions[$operator])) {
+        if (isset(self::FUNCTIONS[$operator])) {
             $right = $this->nodes['right']->evaluate($functions, $values);
 
             if ('not in' === $operator) {
-                return !\in_array($left, $right);
+                return !self::inArray($left, $right);
             }
-            $f = self::$functions[$operator];
+            $f = self::FUNCTIONS[$operator];
 
             return $f($left, $right);
         }
@@ -135,9 +143,9 @@ class BinaryNode extends Node
             case '<=':
                 return $left <= $right;
             case 'not in':
-                return !\in_array($left, $right);
+                return !self::inArray($left, $right);
             case 'in':
-                return \in_array($left, $right);
+                return self::inArray($left, $right);
             case '+':
                 return $left + $right;
             case '-':
@@ -159,12 +167,38 @@ class BinaryNode extends Node
 
                 return $left % $right;
             case 'matches':
-                return preg_match($right, $left);
+                return $this->evaluateMatches($right, $left);
         }
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return ['(', $this->nodes['left'], ' '.$this->attributes['operator'].' ', $this->nodes['right'], ')'];
+    }
+
+    /**
+     * @internal to be replaced by an inline strict call to in_array() in version 7.0
+     */
+    public static function inArray($value, array $array): bool
+    {
+        if (false === $key = array_search($value, $array)) {
+            return false;
+        }
+
+        if (!\in_array($value, $array, true)) {
+            trigger_deprecation('symfony/expression-language', '6.3', 'The "in" operator will use strict comparisons in Symfony 7.0. Loose match found with key "%s" for value %s. Normalize the array parameter so it only has the expected types or implement loose matching in your own expression function.', $key, json_encode($value));
+        }
+
+        return true;
+    }
+
+    private function evaluateMatches(string $regexp, ?string $str): int
+    {
+        set_error_handler(static fn ($t, $m) => throw new SyntaxError(sprintf('Regexp "%s" passed to "matches" is not valid', $regexp).substr($m, 12)));
+        try {
+            return preg_match($regexp, (string) $str);
+        } finally {
+            restore_error_handler();
+        }
     }
 }

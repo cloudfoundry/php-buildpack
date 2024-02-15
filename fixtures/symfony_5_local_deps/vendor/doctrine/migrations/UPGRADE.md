@@ -1,4 +1,13 @@
-# Upgrade to 3.0
+# Upgrade to 3.6
+
+## Console
+- The `--all-or-nothing` option for `migrations:migrate` does not accept a value anymore, and passing it a 
+  value will generate a deprecation. Specifying `--all-or-nothing` will wrap all the migrations to be 
+  executed into a single transaction, regardless of the specified configuration.
+
+
+
+# Upgrade to 3.1
 
 - The "version" is the FQCN of the migration class (existing entries in the migrations table will be automatically updated).
 - `MigrationsEventArgs` and `MigrationsVersionEventArgs` expose different API, 
@@ -13,12 +22,17 @@ please refer to the [Code BC breaks](#code-bc-breaks) section.
   use `migrations:list` instead.
 - The `--write-sql` option for `migrations:migrate` and `migrations:execute` does not imply dry-run anymore,  
 use the `--dry-run` parameter instead.  
+- The `--db` option has been renamed to `--conn`.  
 
 ## Migrations table
 
 - The migrations table now has a new column named `execution_time`.
 - Running the `migrations:migrate` or `migrations:execute` command will automatically upgrade the migration
 table structure; a dedicated `migrations:sync-metadata-storage` command is available to sync manually the migrations table. 
+
+## Migration template
+
+- The `<version>` placeholder has been replaced by the `<className>` placeholder.
 
 ## Configuration files
 
@@ -44,7 +58,6 @@ return [
 <?php
 
 return [
-    'name' => 'My Project Migrations',
 
     'table_storage' => [
         'table_name' => 'doctrine_migration_versions',
@@ -65,6 +78,8 @@ return [
 ```
 
 Files in XML, YAML or JSON also changed in a similar way. Please refer to the official documentation for more details.
+
+Note: the `name` property has been removed.
 
 Note: the option in `table_storage` needs to be updated only if you have changed the metadata table settings
 by using v2 options such as `table_name`, `column_name`, `column_length` or `executed_at_column_name`. If you did not change

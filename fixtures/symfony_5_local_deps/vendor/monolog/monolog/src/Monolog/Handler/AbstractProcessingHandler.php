@@ -11,6 +11,8 @@
 
 namespace Monolog\Handler;
 
+use Monolog\LogRecord;
+
 /**
  * Base Handler class providing the Handler structure, including processors and formatters
  *
@@ -25,19 +27,19 @@ abstract class AbstractProcessingHandler extends AbstractHandler implements Proc
     use FormattableHandlerTrait;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function handle(array $record): bool
+    public function handle(LogRecord $record): bool
     {
         if (!$this->isHandling($record)) {
             return false;
         }
 
-        if ($this->processors) {
+        if (\count($this->processors) > 0) {
             $record = $this->processRecord($record);
         }
 
-        $record['formatted'] = $this->getFormatter()->format($record);
+        $record->formatted = $this->getFormatter()->format($record);
 
         $this->write($record);
 
@@ -45,11 +47,11 @@ abstract class AbstractProcessingHandler extends AbstractHandler implements Proc
     }
 
     /**
-     * Writes the record down to the log of the implementing handler
+     * Writes the (already formatted) record down to the log of the implementing handler
      */
-    abstract protected function write(array $record): void;
+    abstract protected function write(LogRecord $record): void;
 
-    public function reset()
+    public function reset(): void
     {
         parent::reset();
 

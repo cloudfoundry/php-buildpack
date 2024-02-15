@@ -8,77 +8,88 @@ use Doctrine\Migrations\Exception\NoMigrationsFoundWithCriteria;
 use Doctrine\Migrations\Exception\NoMigrationsToExecute;
 use Doctrine\Migrations\Exception\UnknownMigrationVersion;
 use Doctrine\Migrations\Metadata\ExecutedMigrationsList;
+use Doctrine\Migrations\Tools\Console\ConsoleInputMigratorConfigurationFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
 use function count;
+use function dirname;
 use function getcwd;
 use function in_array;
+use function is_dir;
 use function is_string;
 use function is_writable;
 use function sprintf;
-use function strpos;
+use function str_starts_with;
 
 /**
  * The MigrateCommand class is responsible for executing a migration from the current version to another
  * version up or down. It will calculate all the migration versions that need to be executed and execute them.
  */
+#[AsCommand(name: 'migrations:migrate', description: 'Execute a migration to a specified version or the latest available version.')]
 final class MigrateCommand extends DoctrineCommand
 {
-    /** @var string */
+    /** @var string|null */
     protected static $defaultName = 'migrations:migrate';
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this
             ->setAliases(['migrate'])
             ->setDescription(
-                'Execute a migration to a specified version or the latest available version.'
+                'Execute a migration to a specified version or the latest available version.',
             )
             ->addArgument(
                 'version',
                 InputArgument::OPTIONAL,
                 'The version FQCN or alias (first, prev, next, latest) to migrate to.',
-                'latest'
+                'latest',
             )
             ->addOption(
                 'write-sql',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'The path to output the migration SQL file instead of executing it. Defaults to current working directory.',
-                false
+                'The path to output the migration SQL file. Defaults to current working directory.',
+                false,
             )
             ->addOption(
                 'dry-run',
                 null,
                 InputOption::VALUE_NONE,
-                'Execute the migration as a dry run.'
+                'Execute the migration as a dry run.',
             )
             ->addOption(
                 'query-time',
                 null,
                 InputOption::VALUE_NONE,
-                'Time all the queries individually.'
+                'Time all the queries individually.',
             )
             ->addOption(
                 'allow-no-migration',
                 null,
                 InputOption::VALUE_NONE,
-                'Do not throw an exception if no migration is available.'
+                'Do not throw an exception if no migration is available.',
             )
             ->addOption(
                 'all-or-nothing',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Wrap the entire migration in a transaction.',
-                false
+                ConsoleInputMigratorConfigurationFactory::ABSENT_CONFIG_VALUE,
             )
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command executes a migration to a specified version or the latest available version:
 
     <info>%command.full_name%</info>
+
+You can show more information about the process by increasing the verbosity level. To see the
+executed queries, set the level to debug with <comment>-vv</comment>:
+
+    <info>%command.full_name% -vv</info>
 
 You can optionally manually specify the version you wish to migrate to:
 
@@ -87,7 +98,7 @@ You can optionally manually specify the version you wish to migrate to:
 You can specify the version you wish to migrate to using an alias:
 
     <info>%command.full_name% prev</info>
-    <info>These alias are defined : first, latest, prev, current and next</info>
+    <info>These alias are defined: first, latest, prev, current and next</info>
 
 You can specify the version you wish to migrate to using an number against the current version:
 
@@ -97,7 +108,7 @@ You can also execute the migration as a <comment>--dry-run</comment>:
 
     <info>%command.full_name% FQCN --dry-run</info>
 
-You can output the would be executed SQL statements to a file with <comment>--write-sql</comment>:
+You can output the prepared SQL statements to a file with <comment>--write-sql</comment>:
 
     <info>%command.full_name% FQCN --write-sql</info>
 
@@ -110,18 +121,22 @@ You can also time all the different queries if you wanna know which one is takin
     <info>%command.full_name% --query-time</info>
 
 Use the --all-or-nothing option to wrap the entire migration in a transaction.
-EOT
-            );
+
+EOT);
 
         parent::configure();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $migratorConfigurationFactory = $this->getDependencyFactory()->getConsoleInputMigratorConfigurationFactory();
         $migratorConfiguration        = $migratorConfigurationFactory->getMigratorConfiguration($input);
 
-        $question = 'WARNING! You are about to execute a database migration that could result in schema changes and data loss. Are you sure you wish to continue?';
+        $databaseName = (string) $this->getDependencyFactory()->getConnection()->getDatabase();
+        $question     = sprintf(
+            'WARNING! You are about to execute a migration in database "%s" that could result in schema changes and data loss. Are you sure you wish to continue?',
+            $databaseName === '' ? '<unnamed>' : $databaseName,
+        );
         if (! $migratorConfiguration->isDryRun() && ! $this->canExecute($question, $input)) {
             $this->io->error('Migration cancelled!');
 
@@ -134,7 +149,8 @@ EOT
         $versionAlias     = $input->getArgument('version');
 
         $path = $input->getOption('write-sql') ?? getcwd();
-        if (is_string($path) && ! is_writable($path)) {
+
+        if (is_string($path) && ! $this->isPathWritable($path)) {
             $this->io->error(sprintf('The path "%s" not writeable!', $path));
 
             return 1;
@@ -144,7 +160,7 @@ EOT
         if (count($migrationRepository->getMigrations()) === 0) {
             $message = sprintf(
                 'The version "%s" couldn\'t be reached, there are no registered migrations.',
-                $versionAlias
+                $versionAlias,
             );
 
             if ($allowNoMigration) {
@@ -160,14 +176,14 @@ EOT
 
         try {
             $version = $this->getDependencyFactory()->getVersionAliasResolver()->resolveVersionAlias($versionAlias);
-        } catch (UnknownMigrationVersion $e) {
+        } catch (UnknownMigrationVersion) {
             $this->io->error(sprintf(
                 'Unknown version: %s',
-                OutputFormatter::escape($versionAlias)
+                OutputFormatter::escape($versionAlias),
             ));
 
             return 1;
-        } catch (NoMigrationsToExecute|NoMigrationsFoundWithCriteria $e) {
+        } catch (NoMigrationsToExecute | NoMigrationsFoundWithCriteria) {
             return $this->exitForAlias($versionAlias);
         }
 
@@ -190,7 +206,7 @@ EOT
             [
                 'direction' => $plan->getDirection(),
                 'to' => (string) $version,
-            ]
+            ],
         );
 
         $migrator = $this->getDependencyFactory()->getMigrator();
@@ -201,6 +217,10 @@ EOT
             $writer->write($path, $plan->getDirection(), $sql);
         }
 
+        $this->io->success(sprintf(
+            'Successfully migrated to version: %s',
+            $version,
+        ));
         $this->io->newLine();
 
         return 0;
@@ -208,21 +228,19 @@ EOT
 
     private function checkExecutedUnavailableMigrations(
         ExecutedMigrationsList $executedUnavailableMigrations,
-        InputInterface $input
-    ) : bool {
+        InputInterface $input,
+    ): bool {
         if (count($executedUnavailableMigrations) !== 0) {
             $this->io->warning(sprintf(
                 'You have %s previously executed migrations in the database that are not registered migrations.',
-                count($executedUnavailableMigrations)
+                count($executedUnavailableMigrations),
             ));
 
             foreach ($executedUnavailableMigrations->getItems() as $executedUnavailableMigration) {
                 $this->io->text(sprintf(
                     '<comment>>></comment> %s (<comment>%s</comment>)',
-                    $executedUnavailableMigration->getExecutedAt() !== null
-                        ? $executedUnavailableMigration->getExecutedAt()->format('Y-m-d H:i:s')
-                        : null,
-                    $executedUnavailableMigration->getVersion()
+                    $executedUnavailableMigration->getExecutedAt()?->format('Y-m-d H:i:s'),
+                    $executedUnavailableMigration->getVersion(),
                 ));
             }
 
@@ -238,7 +256,7 @@ EOT
         return true;
     }
 
-    private function exitForAlias(string $versionAlias) : int
+    private function exitForAlias(string $versionAlias): int
     {
         $version = $this->getDependencyFactory()->getVersionAliasResolver()->resolveVersionAlias('current');
 
@@ -247,27 +265,32 @@ EOT
             $message = sprintf(
                 'Already at the %s version ("%s")',
                 $versionAlias,
-                (string) $version
+                (string) $version,
             );
 
             $this->io->success($message);
-        } elseif (in_array($versionAlias, ['next', 'prev'], true) || strpos($versionAlias, 'current') === 0) {
+        } elseif (in_array($versionAlias, ['next', 'prev'], true) || str_starts_with($versionAlias, 'current')) {
             $message = sprintf(
                 'The version "%s" couldn\'t be reached, you are at version "%s"',
                 $versionAlias,
-                (string) $version
+                (string) $version,
             );
 
             $this->io->error($message);
         } else {
             $message = sprintf(
                 'You are already at version "%s"',
-                (string) $version
+                (string) $version,
             );
 
             $this->io->success($message);
         }
 
         return 0;
+    }
+
+    private function isPathWritable(string $path): bool
+    {
+        return is_writable($path) || is_dir($path) || is_writable(dirname($path));
     }
 }

@@ -12,9 +12,10 @@
 namespace Monolog\Handler;
 
 use Gelf\PublisherInterface;
-use Monolog\Logger;
+use Monolog\Level;
 use Monolog\Formatter\GelfMessageFormatter;
 use Monolog\Formatter\FormatterInterface;
+use Monolog\LogRecord;
 
 /**
  * Handler to send messages to a Graylog2 (http://www.graylog2.org) server
@@ -25,16 +26,14 @@ use Monolog\Formatter\FormatterInterface;
 class GelfHandler extends AbstractProcessingHandler
 {
     /**
-     * @var PublisherInterface|null the publisher object that sends the message to the server
+     * @var PublisherInterface the publisher object that sends the message to the server
      */
-    protected $publisher;
+    protected PublisherInterface $publisher;
 
     /**
-     * @param PublisherInterface $publisher a publisher object
-     * @param string|int         $level     The minimum logging level at which this handler will be triggered
-     * @param bool               $bubble    Whether the messages that are handled can bubble up the stack or not
+     * @param PublisherInterface $publisher a gelf publisher object
      */
-    public function __construct(PublisherInterface $publisher, $level = Logger::DEBUG, bool $bubble = true)
+    public function __construct(PublisherInterface $publisher, int|string|Level $level = Level::Debug, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
 
@@ -42,15 +41,15 @@ class GelfHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
-        $this->publisher->publish($record['formatted']);
+        $this->publisher->publish($record->formatted);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function getDefaultFormatter(): FormatterInterface
     {

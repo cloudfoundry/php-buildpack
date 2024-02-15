@@ -9,13 +9,30 @@ use Symfony\Component\VarDumper\Cloner\Data;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
+use function addslashes;
+use function array_key_exists;
+use function bin2hex;
+use function implode;
+use function is_array;
+use function is_bool;
+use function is_object;
+use function is_string;
+use function method_exists;
+use function preg_match;
+use function preg_replace_callback;
+use function sprintf;
+use function strtoupper;
+use function substr;
+use function trigger_deprecation;
+
 /**
  * This class contains the needed functions in order to do the query highlighting
+ *
+ * @internal since 2.11
  */
 class DoctrineExtension extends AbstractExtension
 {
-    /** @var SqlFormatter */
-    private $sqlFormatter;
+    private SqlFormatter $sqlFormatter;
 
     /**
      * Define our functions
@@ -30,48 +47,6 @@ class DoctrineExtension extends AbstractExtension
             new TwigFilter('doctrine_format_sql', [$this, 'formatSql'], ['is_safe' => ['html']]),
             new TwigFilter('doctrine_replace_query_parameters', [$this, 'replaceQueryParameters']),
         ];
-    }
-
-    /**
-     * Get the possible combinations of elements from the given array
-     */
-    private function getPossibleCombinations(array $elements, int $combinationsLevel) : array
-    {
-        $baseCount = count($elements);
-        $result    = [];
-
-        if ($combinationsLevel === 1) {
-            foreach ($elements as $element) {
-                $result[] = [$element];
-            }
-
-            return $result;
-        }
-
-        $nextLevelElements = $this->getPossibleCombinations($elements, $combinationsLevel - 1);
-
-        foreach ($nextLevelElements as $nextLevelElement) {
-            $lastElement = $nextLevelElement[$combinationsLevel - 2];
-            $found       = false;
-
-            foreach ($elements as $key => $element) {
-                if ($element === $lastElement) {
-                    $found = true;
-                    continue;
-                }
-
-                if ($found !== true || $key >= $baseCount) {
-                    continue;
-                }
-
-                $tmp              = $nextLevelElement;
-                $newCombination   = array_slice($tmp, 0);
-                $newCombination[] = $element;
-                $result[]         = array_slice($newCombination, 0);
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -106,8 +81,8 @@ class DoctrineExtension extends AbstractExtension
                 $result = implode(', ', $result) ?: 'NULL';
                 break;
 
-            case is_object($result):
-                $result = addslashes((string) $result);
+            case is_object($result) && method_exists($result, '__toString'):
+                $result = addslashes($result->__toString());
                 break;
 
             case $result === null:
@@ -125,8 +100,8 @@ class DoctrineExtension extends AbstractExtension
     /**
      * Return a query with the parameters replaced
      *
-     * @param string     $query
-     * @param array|Data $parameters
+     * @param string       $query
+     * @param mixed[]|Data $parameters
      *
      * @return string
      */
@@ -157,7 +132,7 @@ class DoctrineExtension extends AbstractExtension
 
                 return $result;
             },
-            $query
+            $query,
         );
     }
 
@@ -171,7 +146,12 @@ class DoctrineExtension extends AbstractExtension
      */
     public function formatQuery($sql, $highlightOnly = false)
     {
-        @trigger_error(sprintf('The "%s()" method is deprecated and will be removed in DoctrineBundle 3.0.', __METHOD__), E_USER_DEPRECATED);
+        trigger_deprecation(
+            'doctrine/doctrine-bundle',
+            '2.1',
+            'The "%s()" method is deprecated and will be removed in doctrine-bundle 3.0.',
+            __METHOD__,
+        );
 
         $this->setUpSqlFormatter(true, true);
 
@@ -181,25 +161,25 @@ class DoctrineExtension extends AbstractExtension
 
         return sprintf(
             '<div class="highlight highlight-sql"><pre>%s</pre></div>',
-            $this->sqlFormatter->format($sql)
+            $this->sqlFormatter->format($sql),
         );
     }
 
-    public function prettifySql(string $sql) : string
+    public function prettifySql(string $sql): string
     {
         $this->setUpSqlFormatter();
 
         return $this->sqlFormatter->highlight($sql);
     }
 
-    public function formatSql(string $sql, bool $highlight) : string
+    public function formatSql(string $sql, bool $highlight): string
     {
         $this->setUpSqlFormatter($highlight);
 
         return $this->sqlFormatter->format($sql);
     }
 
-    private function setUpSqlFormatter(bool $highlight = true, bool $legacy = false) : void
+    private function setUpSqlFormatter(bool $highlight = true, bool $legacy = false): void
     {
         $this->sqlFormatter = new SqlFormatter($highlight ? new HtmlHighlighter([
             HtmlHighlighter::HIGHLIGHT_PRE            => 'class="highlight highlight-sql"',
@@ -213,15 +193,5 @@ class DoctrineExtension extends AbstractExtension
             HtmlHighlighter::HIGHLIGHT_COMMENT        => 'class="comment"',
             HtmlHighlighter::HIGHLIGHT_VARIABLE       => 'class="variable"',
         ], ! $legacy) : new NullHighlighter());
-    }
-
-    /**
-     * Get the name of the extension
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'doctrine_extension';
     }
 }

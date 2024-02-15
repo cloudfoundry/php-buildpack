@@ -10,13 +10,11 @@ use Doctrine\Persistence\ManagerRegistry;
 
 final class ManagerRegistryEntityManager implements EntityManagerLoader
 {
-    /** @var ManagerRegistry */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    /** @var string|null */
-    private $defaultManagerName;
+    private string|null $defaultManagerName = null;
 
-    public static function withSimpleDefault(ManagerRegistry $registry, ?string $managerName = null): self
+    public static function withSimpleDefault(ManagerRegistry $registry, string|null $managerName = null): self
     {
         $that                     = new self();
         $that->registry           = $registry;
@@ -29,7 +27,7 @@ final class ManagerRegistryEntityManager implements EntityManagerLoader
     {
     }
 
-    public function getEntityManager(?string $name = null): EntityManagerInterface
+    public function getEntityManager(string|null $name = null): EntityManagerInterface
     {
         $managerName = $name ?? $this->defaultManagerName;
 

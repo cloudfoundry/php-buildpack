@@ -20,10 +20,10 @@ use Symfony\Component\Cache\Exception\InvalidArgumentException;
  */
 trait FilesystemCommonTrait
 {
-    private $directory;
-    private $tmp;
+    private string $directory;
+    private string $tmpSuffix;
 
-    private function init(string $namespace, ?string $directory)
+    private function init(string $namespace, ?string $directory): void
     {
         if (!isset($directory[0])) {
             $directory = sys_get_temp_dir().\DIRECTORY_SEPARATOR.'symfony-cache';
@@ -50,15 +50,12 @@ trait FilesystemCommonTrait
         $this->directory = $directory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doClear(string $namespace)
+    protected function doClear(string $namespace): bool
     {
         $ok = true;
 
         foreach ($this->scanHashDir($this->directory) as $file) {
-            if ('' !== $namespace && 0 !== strpos($this->getFileKey($file), $namespace)) {
+            if ('' !== $namespace && !str_starts_with($this->getFileKey($file), $namespace)) {
                 continue;
             }
 
@@ -68,10 +65,7 @@ trait FilesystemCommonTrait
         return $ok;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doDelete(array $ids)
+    protected function doDelete(array $ids): bool
     {
         $ok = true;
 
@@ -83,34 +77,55 @@ trait FilesystemCommonTrait
         return $ok;
     }
 
-    protected function doUnlink($file)
+    /**
+     * @return bool
+     */
+    protected function doUnlink(string $file)
     {
         return @unlink($file);
     }
 
-    private function write(string $file, string $data, int $expiresAt = null)
+    private function write(string $file, string $data, ?int $expiresAt = null): bool
     {
-        set_error_handler(__CLASS__.'::throwError');
+        $unlink = false;
+        set_error_handler(static fn ($type, $message, $file, $line) => throw new \ErrorException($message, 0, $type, $file, $line));
         try {
-            if (null === $this->tmp) {
-                $this->tmp = $this->directory.uniqid('', true);
+            $tmp = $this->directory.$this->tmpSuffix ??= str_replace('/', '-', base64_encode(random_bytes(6)));
+            try {
+                $h = fopen($tmp, 'x');
+            } catch (\ErrorException $e) {
+                if (!str_contains($e->getMessage(), 'File exists')) {
+                    throw $e;
+                }
+
+                $tmp = $this->directory.$this->tmpSuffix = str_replace('/', '-', base64_encode(random_bytes(6)));
+                $h = fopen($tmp, 'x');
             }
-            file_put_contents($this->tmp, $data);
+            fwrite($h, $data);
+            fclose($h);
+            $unlink = true;
 
             if (null !== $expiresAt) {
-                touch($this->tmp, $expiresAt);
+                touch($tmp, $expiresAt ?: time() + 31556952); // 1 year in seconds
             }
 
-            return rename($this->tmp, $file);
+            $success = rename($tmp, $file);
+            $unlink = !$success;
+
+            return $success;
         } finally {
             restore_error_handler();
+
+            if ($unlink) {
+                @unlink($tmp);
+            }
         }
     }
 
-    private function getFile(string $id, bool $mkdir = false, string $directory = null)
+    private function getFile(string $id, bool $mkdir = false, ?string $directory = null): string
     {
-        // Use MD5 to favor speed over security, which is not an issue here
-        $hash = str_replace('/', '-', base64_encode(hash('md5', static::class.$id, true)));
+        // Use xxh128 to favor speed over security, which is not an issue here
+        $hash = str_replace('/', '-', base64_encode(hash('xxh128', static::class.$id, true)));
         $dir = ($directory ?? $this->directory).strtoupper($hash[0].\DIRECTORY_SEPARATOR.$hash[1].\DIRECTORY_SEPARATOR);
 
         if ($mkdir && !is_dir($dir)) {
@@ -152,22 +167,14 @@ trait FilesystemCommonTrait
         }
     }
 
-    /**
-     * @internal
-     */
-    public static function throwError($type, $message, $file, $line)
-    {
-        throw new \ErrorException($message, 0, $type, $file, $line);
-    }
-
-    /**
-     * @return array
-     */
-    public function __sleep()
+    public function __sleep(): array
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
@@ -178,8 +185,8 @@ trait FilesystemCommonTrait
         if (method_exists(parent::class, '__destruct')) {
             parent::__destruct();
         }
-        if (null !== $this->tmp && is_file($this->tmp)) {
-            unlink($this->tmp);
+        if (isset($this->tmpSuffix) && is_file($this->directory.$this->tmpSuffix)) {
+            unlink($this->directory.$this->tmpSuffix);
         }
     }
 }

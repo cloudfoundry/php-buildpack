@@ -23,13 +23,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class ControllerSubscriber implements EventSubscriberInterface
+final class ControllerSubscriber implements EventSubscriberInterface
 {
-    private $twigExtension;
-
-    public function __construct(SourceCodeExtension $twigExtension)
-    {
-        $this->twigExtension = $twigExtension;
+    public function __construct(
+        private readonly SourceCodeExtension $twigExtension
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -44,7 +42,7 @@ class ControllerSubscriber implements EventSubscriberInterface
         // this check is needed because in Symfony a request can perform any
         // number of sub-requests. See
         // https://symfony.com/doc/current/components/http_kernel.html#sub-requests
-        if ($event->isMasterRequest()) {
+        if ($event->isMainRequest()) {
             $this->twigExtension->setController($event->getController());
         }
     }

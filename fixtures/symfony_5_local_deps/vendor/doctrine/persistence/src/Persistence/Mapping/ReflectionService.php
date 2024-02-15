@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\Persistence\Mapping;
 
 use ReflectionClass;
@@ -16,7 +18,6 @@ interface ReflectionService
     /**
      * Returns an array of the parent classes (not interfaces) for the given class.
      *
-     * @param string $class
      * @psalm-param class-string $class
      *
      * @return string[]
@@ -24,30 +25,27 @@ interface ReflectionService
      *
      * @throws MappingException
      */
-    public function getParentClasses($class);
+    public function getParentClasses(string $class);
 
     /**
      * Returns the shortname of a class.
      *
-     * @param string $class
      * @psalm-param class-string $class
      *
      * @return string
      */
-    public function getClassShortName($class);
+    public function getClassShortName(string $class);
 
     /**
-     * @param string $class
      * @psalm-param class-string $class
      *
      * @return string
      */
-    public function getClassNamespace($class);
+    public function getClassNamespace(string $class);
 
     /**
      * Returns a reflection class instance or null.
      *
-     * @param string $class
      * @psalm-param class-string<T> $class
      *
      * @return ReflectionClass|null
@@ -55,27 +53,23 @@ interface ReflectionService
      *
      * @template T of object
      */
-    public function getClass($class);
+    public function getClass(string $class);
 
     /**
      * Returns an accessible property (setAccessible(true)) or null.
      *
-     * @param string $class
-     * @param string $property
      * @psalm-param class-string $class
      *
      * @return ReflectionProperty|null
      */
-    public function getAccessibleProperty($class, $property);
+    public function getAccessibleProperty(string $class, string $property);
 
     /**
      * Checks if the class have a public method with the given name.
      *
-     * @param mixed $class
-     * @param mixed $method
      * @psalm-param class-string $class
      *
      * @return bool
      */
-    public function hasPublicMethod($class, $method);
+    public function hasPublicMethod(string $class, string $method);
 }

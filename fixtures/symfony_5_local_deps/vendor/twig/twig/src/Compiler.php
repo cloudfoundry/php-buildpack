@@ -46,7 +46,7 @@ class Compiler
     /**
      * @return $this
      */
-    public function compile(Node $node, int $indentation = 0)
+    public function reset(int $indentation = 0)
     {
         $this->lastLine = null;
         $this->source = '';
@@ -57,6 +57,15 @@ class Compiler
         $this->indentation = $indentation;
         $this->varNameSalt = 0;
 
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function compile(Node $node, int $indentation = 0)
+    {
+        $this->reset($indentation);
         $node->compile($this);
 
         return $this;
@@ -122,14 +131,14 @@ class Compiler
     public function repr($value)
     {
         if (\is_int($value) || \is_float($value)) {
-            if (false !== $locale = setlocale(LC_NUMERIC, '0')) {
-                setlocale(LC_NUMERIC, 'C');
+            if (false !== $locale = setlocale(\LC_NUMERIC, '0')) {
+                setlocale(\LC_NUMERIC, 'C');
             }
 
             $this->raw(var_export($value, true));
 
             if (false !== $locale) {
-                setlocale(LC_NUMERIC, $locale);
+                setlocale(\LC_NUMERIC, $locale);
             }
         } elseif (null === $value) {
             $this->raw('null');
@@ -209,6 +218,6 @@ class Compiler
 
     public function getVarName(): string
     {
-        return sprintf('__internal_%s', hash('sha256', __METHOD__.$this->varNameSalt++));
+        return sprintf('__internal_compile_%d', $this->varNameSalt++);
     }
 }

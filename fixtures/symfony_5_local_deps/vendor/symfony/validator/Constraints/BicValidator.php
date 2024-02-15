@@ -29,8 +29,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class BicValidator extends ConstraintValidator
 {
+    // Reference: https://www.iban.com/structure
     private const BIC_COUNTRY_TO_IBAN_COUNTRY_MAP = [
-        // Reference: https://www.ecbs.org/iban/france-bank-account-number.html
+        // FR includes:
         'GF' => 'FR', // French Guiana
         'PF' => 'FR', // French Polynesia
         'TF' => 'FR', // French Southern Territories
@@ -39,26 +40,33 @@ class BicValidator extends ConstraintValidator
         'YT' => 'FR', // Mayotte
         'NC' => 'FR', // New Caledonia
         'RE' => 'FR', // Reunion
+        'BL' => 'FR', // Saint Barthelemy
+        'MF' => 'FR', // Saint Martin (French part)
         'PM' => 'FR', // Saint Pierre and Miquelon
         'WF' => 'FR', // Wallis and Futuna Islands
-        // Reference: https://www.ecbs.org/iban/united-kingdom-uk-bank-account-number.html
+        // GB includes:
         'JE' => 'GB', // Jersey
         'IM' => 'GB', // Isle of Man
         'GG' => 'GB', // Guernsey
         'VG' => 'GB', // British Virgin Islands
+        // FI includes:
+        'AX' => 'FI', // Aland Islands
+        // ES includes:
+        'IC' => 'ES', // Canary Islands
+        'EA' => 'ES', // Ceuta and Melilla
     ];
 
-    private $propertyAccessor;
+    private ?PropertyAccessor $propertyAccessor;
 
-    public function __construct(PropertyAccessor $propertyAccessor = null)
+    public function __construct(?PropertyAccessor $propertyAccessor = null)
     {
         $this->propertyAccessor = $propertyAccessor;
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint)
     {
         if (!$constraint instanceof Bic) {
             throw new UnexpectedTypeException($constraint, Bic::class);
@@ -68,7 +76,7 @@ class BicValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
+        if (!\is_scalar($value) && !$value instanceof \Stringable) {
             throw new UnexpectedValueException($value, 'string');
         }
 
@@ -104,7 +112,8 @@ class BicValidator extends ConstraintValidator
             return;
         }
 
-        if (!Countries::exists(substr($canonicalize, 4, 2))) {
+        $bicCountryCode = substr($canonicalize, 4, 2);
+        if (!isset(self::BIC_COUNTRY_TO_IBAN_COUNTRY_MAP[$bicCountryCode]) && !Countries::exists($bicCountryCode)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Bic::INVALID_COUNTRY_CODE_ERROR)
@@ -137,7 +146,7 @@ class BicValidator extends ConstraintValidator
             return;
         }
         $ibanCountryCode = substr($iban, 0, 2);
-        if (ctype_alpha($ibanCountryCode) && !$this->bicAndIbanCountriesMatch(substr($canonicalize, 4, 2), $ibanCountryCode)) {
+        if (ctype_alpha($ibanCountryCode) && !$this->bicAndIbanCountriesMatch($bicCountryCode, $ibanCountryCode)) {
             $this->context->buildViolation($constraint->ibanMessage)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setParameter('{{ iban }}', $iban)
@@ -150,7 +159,7 @@ class BicValidator extends ConstraintValidator
     {
         if (null === $this->propertyAccessor) {
             if (!class_exists(PropertyAccess::class)) {
-                throw new LogicException('Unable to use property path as the Symfony PropertyAccess component is not installed.');
+                throw new LogicException('Unable to use property path as the Symfony PropertyAccess component is not installed. Try running "composer require symfony/property-access".');
             }
             $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
         }

@@ -1,3 +1,0 @@
-<?php //%255BCountable%255D%255B1%255D
-
-return [PHP_INT_MAX, []];

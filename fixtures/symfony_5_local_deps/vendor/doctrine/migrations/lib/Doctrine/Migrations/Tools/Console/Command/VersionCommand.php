@@ -13,24 +13,26 @@ use Doctrine\Migrations\Tools\Console\Exception\VersionDoesNotExist;
 use Doctrine\Migrations\Version\Direction;
 use Doctrine\Migrations\Version\ExecutionResult;
 use Doctrine\Migrations\Version\Version;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
 use function sprintf;
 
 /**
  * The VersionCommand class is responsible for manually adding and deleting migration versions from the tracking table.
  */
+#[AsCommand(name: 'migrations:version', description: 'Manually add and delete migration versions from the version table.')]
 final class VersionCommand extends DoctrineCommand
 {
-    /** @var string */
+    /** @var string|null */
     protected static $defaultName = 'migrations:version';
 
-    /** @var bool */
-    private $markMigrated;
+    private bool $markMigrated;
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this
             ->setAliases(['version'])
@@ -39,39 +41,39 @@ final class VersionCommand extends DoctrineCommand
                 'version',
                 InputArgument::OPTIONAL,
                 'The version to add or delete.',
-                null
+                null,
             )
             ->addOption(
                 'add',
                 null,
                 InputOption::VALUE_NONE,
-                'Add the specified version.'
+                'Add the specified version.',
             )
             ->addOption(
                 'delete',
                 null,
                 InputOption::VALUE_NONE,
-                'Delete the specified version.'
+                'Delete the specified version.',
             )
             ->addOption(
                 'all',
                 null,
                 InputOption::VALUE_NONE,
-                'Apply to all the versions.'
+                'Apply to all the versions.',
             )
             ->addOption(
                 'range-from',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Apply from specified version.'
+                'Apply from specified version.',
             )
             ->addOption(
                 'range-to',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Apply to specified version.'
+                'Apply to specified version.',
             )
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command allows you to manually add, delete or synchronize migration versions from the version table:
 
     <info>%command.full_name% MIGRATION-FQCN --add</info>
@@ -93,16 +95,13 @@ If you want to synchronize by adding or deleting some range of migration version
 You can also execute this command without a warning message which you need to interact with:
 
     <info>%command.full_name% --no-interaction</info>
-EOT
-            );
+EOT);
 
         parent::configure();
     }
 
-    /**
-     * @throws InvalidOptionUsage
-     */
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    /** @throws InvalidOptionUsage */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption('add') === false && $input->getOption('delete') === false) {
             throw InvalidOptionUsage::new('You must specify whether you want to --add or --delete the specified version.');
@@ -127,10 +126,8 @@ EOT
         return 0;
     }
 
-    /**
-     * @throws InvalidOptionUsage
-     */
-    private function markVersions(InputInterface $input, OutputInterface $output) : void
+    /** @throws InvalidOptionUsage */
+    private function markVersions(InputInterface $input, OutputInterface $output): void
     {
         $affectedVersion = $input->getArgument('version');
         $allOption       = $input->getOption('all');
@@ -139,13 +136,13 @@ EOT
 
         if ($allOption === true && ($rangeFromOption !== null || $rangeToOption !== null)) {
             throw InvalidOptionUsage::new(
-                'Options --all and --range-to/--range-from both used. You should use only one of them.'
+                'Options --all and --range-to/--range-from both used. You should use only one of them.',
             );
         }
 
         if ($rangeFromOption !== null xor $rangeToOption !== null) {
             throw InvalidOptionUsage::new(
-                'Options --range-to and --range-from should be used together.'
+                'Options --range-to and --range-from should be used together.',
             );
         }
 
@@ -188,11 +185,11 @@ EOT
      * @throws VersionDoesNotExist
      * @throws UnknownMigrationVersion
      */
-    private function mark(InputInterface $input, OutputInterface $output, Version $version, bool $all, ExecutedMigrationsList $executedMigrations) : void
+    private function mark(InputInterface $input, OutputInterface $output, Version $version, bool $all, ExecutedMigrationsList $executedMigrations): void
     {
         try {
             $availableMigration = $this->getDependencyFactory()->getMigrationRepository()->getMigration($version);
-        } catch (MigrationClassNotFound $e) {
+        } catch (MigrationClassNotFound) {
             $availableMigration = null;
         }
 
@@ -213,7 +210,7 @@ EOT
                 $storage->complete($migrationResult);
                 $this->io->text(sprintf(
                     "<info>%s</info> deleted from the version table.\n",
-                    (string) $version
+                    (string) $version,
                 ));
 
                 return;
@@ -248,7 +245,7 @@ EOT
 
             $this->io->text(sprintf(
                 "<info>%s</info> added to the version table.\n",
-                (string) $version
+                (string) $version,
             ));
         } else {
             $migrationResult = new ExecutionResult($version, Direction::DOWN);
@@ -256,7 +253,7 @@ EOT
 
             $this->io->text(sprintf(
                 "<info>%s</info> deleted from the version table.\n",
-                (string) $version
+                (string) $version,
             ));
         }
     }

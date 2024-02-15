@@ -14,7 +14,7 @@ namespace Symfony\Component\Intl;
 use Symfony\Component\Intl\Data\Bundle\Reader\BufferedBundleReader;
 use Symfony\Component\Intl\Data\Bundle\Reader\BundleEntryReader;
 use Symfony\Component\Intl\Data\Bundle\Reader\BundleEntryReaderInterface;
-use Symfony\Component\Intl\Data\Bundle\Reader\JsonBundleReader;
+use Symfony\Component\Intl\Data\Bundle\Reader\PhpBundleReader;
 
 /**
  * @author Roland Franssen <franssen.roland@gmail.com>
@@ -23,7 +23,7 @@ use Symfony\Component\Intl\Data\Bundle\Reader\JsonBundleReader;
  */
 abstract class ResourceBundle
 {
-    private static $entryReader;
+    private static BundleEntryReader $entryReader;
 
     abstract protected static function getPath(): string;
 
@@ -32,22 +32,22 @@ abstract class ResourceBundle
      *
      * @see BundleEntryReaderInterface::readEntry()
      *
-     * @param string[] $indices  The indices to read from the bundle
-     * @param string   $locale   The locale to read
-     * @param bool     $fallback Whether to merge the value with the value from
-     *                           the fallback locale (e.g. "en" for "en_GB").
-     *                           Only applicable if the result is multivalued
-     *                           (i.e. array or \ArrayAccess) or cannot be found
-     *                           in the requested locale.
+     * @param string[]    $indices  The indices to read from the bundle
+     * @param string|null $locale   The locale to read
+     * @param bool        $fallback Whether to merge the value with the value from
+     *                              the fallback locale (e.g. "en" for "en_GB").
+     *                              Only applicable if the result is multivalued
+     *                              (i.e. array or \ArrayAccess) or cannot be found
+     *                              in the requested locale.
      *
      * @return mixed returns an array or {@link \ArrayAccess} instance for
      *               complex data and a scalar value for simple data
      */
-    final protected static function readEntry(array $indices, string $locale = null, bool $fallback = true)
+    final protected static function readEntry(array $indices, ?string $locale = null, bool $fallback = true): mixed
     {
-        if (null === self::$entryReader) {
+        if (!isset(self::$entryReader)) {
             self::$entryReader = new BundleEntryReader(new BufferedBundleReader(
-                new JsonBundleReader(),
+                new PhpBundleReader(),
                 Intl::BUFFER_SIZE
             ));
 
@@ -58,7 +58,7 @@ abstract class ResourceBundle
         return self::$entryReader->readEntry(static::getPath(), $locale ?? \Locale::getDefault(), $indices, $fallback);
     }
 
-    final protected static function asort(iterable $list, string $locale = null): array
+    final protected static function asort(iterable $list, ?string $locale = null): array
     {
         if ($list instanceof \Traversable) {
             $list = iterator_to_array($list);

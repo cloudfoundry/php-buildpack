@@ -13,16 +13,21 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 
+use function is_a;
+use function method_exists;
+use function sprintf;
+use function substr;
+
 /**
  * Class for Symfony bundles to register entity listeners
+ *
+ * @final since 2.9
  */
 class EntityListenerPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** @return void */
     public function process(ContainerBuilder $container)
     {
         $resolvers = $this->findAndSortTaggedServices('doctrine.orm.entity_listener', $container);
@@ -32,7 +37,7 @@ class EntityListenerPass implements CompilerPassInterface
         foreach ($resolvers as $reference) {
             $id = $reference->__toString();
             foreach ($container->getDefinition($id)->getTag('doctrine.orm.entity_listener') as $attributes) {
-                $name          = isset($attributes['entity_manager']) ? $attributes['entity_manager'] : $container->getParameter('doctrine.default_entity_manager');
+                $name          = $attributes['entity_manager'] ?? $container->getParameter('doctrine.default_entity_manager');
                 $entityManager = sprintf('doctrine.orm.%s_entity_manager', $name);
 
                 if (! $container->hasDefinition($entityManager)) {
@@ -48,7 +53,7 @@ class EntityListenerPass implements CompilerPassInterface
                 $resolver = $container->findDefinition($resolverId);
                 $resolver->setPublic(true);
 
-                if (isset($attributes['entity']) && isset($attributes['event'])) {
+                if (isset($attributes['entity'])) {
                     $this->attachToListener($container, $name, $this->getConcreteDefinitionClass($container->findDefinition($id), $container, $id), $attributes);
                 }
 
@@ -59,7 +64,7 @@ class EntityListenerPass implements CompilerPassInterface
                 if ($lazyByAttribute && ! $resolverSupportsLazyListeners) {
                     throw new InvalidArgumentException(sprintf(
                         'Lazy-loaded entity listeners can only be resolved by a resolver implementing %s.',
-                        EntityListenerServiceResolver::class
+                        EntityListenerServiceResolver::class,
                     ));
                 }
 
@@ -73,6 +78,7 @@ class EntityListenerPass implements CompilerPassInterface
                         if (! isset($lazyServiceReferencesByResolver[$resolverId])) {
                             $lazyServiceReferencesByResolver[$resolverId] = [];
                         }
+
                         $lazyServiceReferencesByResolver[$resolverId][$id] = new Reference($id);
                     } else {
                         $listener->setPublic(true);
@@ -88,7 +94,8 @@ class EntityListenerPass implements CompilerPassInterface
         }
     }
 
-    private function attachToListener(ContainerBuilder $container, string $name, string $class, array $attributes) : void
+    /** @param array{entity: class-string, event?: ?string, method?: string} $attributes */
+    private function attachToListener(ContainerBuilder $container, string $name, string $class, array $attributes): void
     {
         $listenerId = sprintf('doctrine.orm.%s_listeners.attach_entity_listeners', $name);
 
@@ -99,19 +106,19 @@ class EntityListenerPass implements CompilerPassInterface
         $args = [
             $attributes['entity'],
             $class,
-            $attributes['event'],
+            $attributes['event'] ?? null,
         ];
 
         if (isset($attributes['method'])) {
             $args[] = $attributes['method'];
-        } elseif (! method_exists($class, $attributes['event']) && method_exists($class, '__invoke')) {
+        } elseif (isset($attributes['event']) && ! method_exists($class, $attributes['event']) && method_exists($class, '__invoke')) {
             $args[] = '__invoke';
         }
 
         $container->findDefinition($listenerId)->addMethodCall('addEntityListener', $args);
     }
 
-    private function getResolverClass(Definition $resolver, ContainerBuilder $container, string $id) : string
+    private function getResolverClass(Definition $resolver, ContainerBuilder $container, string $id): string
     {
         $resolverClass = $this->getConcreteDefinitionClass($resolver, $container, $id);
 
@@ -123,7 +130,7 @@ class EntityListenerPass implements CompilerPassInterface
         return $resolverClass;
     }
 
-    private function getConcreteDefinitionClass(Definition $definition, ContainerBuilder $container, string $id) : string
+    private function getConcreteDefinitionClass(Definition $definition, ContainerBuilder $container, string $id): string
     {
         $class = $definition->getClass();
         if ($class) {

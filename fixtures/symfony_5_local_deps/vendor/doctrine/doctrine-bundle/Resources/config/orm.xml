@@ -35,6 +35,7 @@
         <parameter key="doctrine.orm.metadata.yml.class">Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver</parameter>
         <parameter key="doctrine.orm.metadata.php.class">Doctrine\ORM\Mapping\Driver\PHPDriver</parameter>
         <parameter key="doctrine.orm.metadata.staticphp.class">Doctrine\ORM\Mapping\Driver\StaticPHPDriver</parameter>
+        <parameter key="doctrine.orm.metadata.attribute.class">Doctrine\ORM\Mapping\Driver\AttributeDriver</parameter>
 
         <!-- cache warmer -->
         <parameter key="doctrine.orm.proxy_cache_warmer.class">Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer</parameter>
@@ -97,9 +98,7 @@
 
         <service id="doctrine.orm.configuration" class="%doctrine.orm.configuration.class%" abstract="true" public="false" />
 
-        <service id="doctrine.orm.entity_manager.abstract" class="%doctrine.orm.entity_manager.class%" abstract="true" lazy="true">
-            <factory class="%doctrine.orm.entity_manager.class%" method="create" />
-        </service>
+        <service id="doctrine.orm.entity_manager.abstract" class="%doctrine.orm.entity_manager.class%" abstract="true" lazy="true" />
 
         <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory" public="false">
             <argument type="service">
@@ -133,9 +132,33 @@
 
         <!-- listeners -->
         <service id="doctrine.orm.listeners.resolve_target_entity" class="%doctrine.orm.listeners.resolve_target_entity.class%" public="false" />
+        <service id="doctrine.orm.listeners.doctrine_dbal_cache_adapter_schema_subscriber" class="Symfony\Bridge\Doctrine\SchemaListener\DoctrineDbalCacheAdapterSchemaSubscriber">
+            <argument type="collection" /> <!-- DoctrineDbalAdapter instances -->
+            <tag name="doctrine.event_subscriber" />
+        </service>
+        <service id="doctrine.orm.listeners.doctrine_dbal_cache_adapter_schema_listener" class="Symfony\Bridge\Doctrine\SchemaListener\DoctrineDbalCacheAdapterSchemaListener">
+            <argument type="collection" /> <!-- DoctrineDbalAdapter instances -->
+            <tag name="doctrine.event_listener" event="postGenerateSchema" />
+        </service>
         <service id="doctrine.orm.listeners.pdo_cache_adapter_doctrine_schema_subscriber" class="Symfony\Bridge\Doctrine\SchemaListener\PdoCacheAdapterDoctrineSchemaSubscriber">
             <argument type="collection" /> <!-- PdoAdapter instances -->
             <tag name="doctrine.event_subscriber" />
+        </service>
+        <service id="doctrine.orm.listeners.doctrine_token_provider_schema_subscriber" class="Symfony\Bridge\Doctrine\SchemaListener\RememberMeTokenProviderDoctrineSchemaSubscriber">
+            <argument type="tagged" tag="security.remember_me_handler" />
+            <tag name="doctrine.event_subscriber" />
+        </service>
+        <service id="doctrine.orm.listeners.doctrine_token_provider_schema_listener" class="Symfony\Bridge\Doctrine\SchemaListener\RememberMeTokenProviderDoctrineSchemaListener">
+            <argument type="tagged" tag="security.remember_me_handler" />
+            <tag name="doctrine.event_listener" event="postGenerateSchema" />
+        </service>
+        <service id="doctrine.orm.listeners.pdo_session_handler_schema_listener" class="Symfony\Bridge\Doctrine\SchemaListener\PdoSessionHandlerSchemaListener">
+            <argument type="service" id="session.handler" />
+            <tag name="doctrine.event_listener" event="postGenerateSchema" />
+        </service>
+        <service id="doctrine.orm.listeners.lock_store_schema_listener" class="Symfony\Bridge\Doctrine\SchemaListener\LockStoreSchemaListener">
+            <argument type="tagged" tag="lock.store" />
+            <tag name="doctrine.event_listener" event="postGenerateSchema" />
         </service>
 
         <!-- naming strategy -->
@@ -150,60 +173,97 @@
         <service id="doctrine.orm.quote_strategy.default" class="%doctrine.orm.quote_strategy.default.class%" public="false" />
         <service id="doctrine.orm.quote_strategy.ansi" class="%doctrine.orm.quote_strategy.ansi.class%" public="false" />
 
+        <!-- custom id generators -->
+        <service id="doctrine.ulid_generator" class="Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator">
+            <argument type="service" id="ulid.factory" on-invalid="ignore" />
+            <tag name="doctrine.id_generator" />
+        </service>
+
+        <service id="doctrine.uuid_generator" class="Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator">
+            <argument type="service" id="uuid.factory" on-invalid="ignore" />
+            <tag name="doctrine.id_generator" />
+        </service>
+
+        <service id="doctrine.orm.command.entity_manager_provider" class="Doctrine\Bundle\DoctrineBundle\Orm\ManagerRegistryAwareEntityManagerProvider">
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service id="doctrine.orm.entity_value_resolver" class="Symfony\Bridge\Doctrine\ArgumentResolver\EntityValueResolver">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine.orm.entity_value_resolver.expression_language" on-invalid="ignore" />
+            <tag name="Symfony\Bridge\Doctrine\ArgumentResolver\EntityValueResolver" priority="110">controller.argument_value_resolver</tag>
+        </service>
+
+        <service id="doctrine.orm.entity_value_resolver.expression_language" class="Symfony\Component\ExpressionLanguage\ExpressionLanguage" />
+
         <!-- commands -->
-        <service id="doctrine.cache_clear_metadata_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearMetadataCacheDoctrineCommand">
+        <service id="doctrine.cache_clear_metadata_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:cache:clear-metadata" />
         </service>
 
-        <service id="doctrine.cache_clear_query_cache_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand">
+        <service id="doctrine.cache_clear_query_cache_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:cache:clear-query" />
         </service>
 
-        <service id="doctrine.cache_clear_result_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearResultCacheDoctrineCommand">
+        <service id="doctrine.cache_clear_result_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:cache:clear-result" />
         </service>
 
-        <service id="doctrine.cache_collection_region_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\CollectionRegionDoctrineCommand">
+        <service id="doctrine.cache_collection_region_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\CollectionRegionCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:cache:clear-collection-region" />
         </service>
 
-        <service id="doctrine.mapping_convert_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ConvertMappingDoctrineCommand">
+        <service id="doctrine.mapping_convert_command" class="Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:mapping:convert" />
         </service>
 
-        <service id="doctrine.schema_create_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\CreateSchemaDoctrineCommand">
+        <service id="doctrine.schema_create_command" class="Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:schema:create" />
         </service>
 
-        <service id="doctrine.schema_drop_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\DropSchemaDoctrineCommand">
+        <service id="doctrine.schema_drop_command" class="Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:schema:drop" />
         </service>
 
-        <service id="doctrine.ensure_production_settings_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\EnsureProductionSettingsDoctrineCommand">
+        <service id="doctrine.ensure_production_settings_command" class="Doctrine\ORM\Tools\Console\Command\EnsureProductionSettingsCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:ensure-production-settings" />
         </service>
 
-        <service id="doctrine.clear_entity_region_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\EntityRegionCacheDoctrineCommand">
+        <service id="doctrine.clear_entity_region_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\EntityRegionCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:cache:clear-entity-region" />
         </service>
 
-        <service id="doctrine.mapping_info_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\InfoDoctrineCommand">
+        <service id="doctrine.mapping_info_command" class="Doctrine\ORM\Tools\Console\Command\InfoCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:mapping:info" />
         </service>
 
-        <service id="doctrine.clear_query_region_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\QueryRegionCacheDoctrineCommand">
+        <service id="doctrine.clear_query_region_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\QueryRegionCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:cache:clear-query-region" />
         </service>
 
-        <service id="doctrine.query_dql_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\RunDqlDoctrineCommand">
+        <service id="doctrine.query_dql_command" class="Doctrine\ORM\Tools\Console\Command\RunDqlCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:query:dql" />
         </service>
 
-        <service id="doctrine.schema_update_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\UpdateSchemaDoctrineCommand">
+        <service id="doctrine.schema_update_command" class="Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:schema:update" />
         </service>
 
-        <service id="doctrine.schema_validate_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ValidateSchemaCommand">
+        <service id="doctrine.schema_validate_command" class="Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand">
+            <argument type="service" id="doctrine.orm.command.entity_manager_provider" />
             <tag name="console.command" command="doctrine:schema:validate" />
         </service>
 

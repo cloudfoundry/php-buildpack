@@ -11,6 +11,12 @@
 
 namespace Symfony\Component\Form;
 
+use Symfony\Component\Form\Event\PostSetDataEvent;
+use Symfony\Component\Form\Event\PostSubmitEvent;
+use Symfony\Component\Form\Event\PreSetDataEvent;
+use Symfony\Component\Form\Event\PreSubmitEvent;
+use Symfony\Component\Form\Event\SubmitEvent;
+
 /**
  * To learn more about how form events work check the documentation
  * entry at {@link https://symfony.com/doc/any/components/form/form_events.html}.
@@ -31,7 +37,7 @@ final class FormEvents
      *
      * @Event("Symfony\Component\Form\Event\PreSubmitEvent")
      */
-    const PRE_SUBMIT = 'form.pre_submit';
+    public const PRE_SUBMIT = 'form.pre_submit';
 
     /**
      * The SUBMIT event is dispatched after the Form::submit() method
@@ -50,7 +56,7 @@ final class FormEvents
      *
      * @Event("Symfony\Component\Form\Event\SubmitEvent")
      */
-    const SUBMIT = 'form.submit';
+    public const SUBMIT = 'form.submit';
 
     /**
      * The FormEvents::POST_SUBMIT event is dispatched at the very end of the Form::submit().
@@ -65,7 +71,7 @@ final class FormEvents
      *
      * @Event("Symfony\Component\Form\Event\PostSubmitEvent")
      */
-    const POST_SUBMIT = 'form.post_submit';
+    public const POST_SUBMIT = 'form.post_submit';
 
     /**
      * The FormEvents::PRE_SET_DATA event is dispatched at the beginning of the Form::setData() method.
@@ -76,7 +82,7 @@ final class FormEvents
      *
      * @Event("Symfony\Component\Form\Event\PreSetDataEvent")
      */
-    const PRE_SET_DATA = 'form.pre_set_data';
+    public const PRE_SET_DATA = 'form.pre_set_data';
 
     /**
      * The FormEvents::POST_SET_DATA event is dispatched at the end of the Form::setData() method.
@@ -86,7 +92,20 @@ final class FormEvents
      *
      * @Event("Symfony\Component\Form\Event\PostSetDataEvent")
      */
-    const POST_SET_DATA = 'form.post_set_data';
+    public const POST_SET_DATA = 'form.post_set_data';
+
+    /**
+     * Event aliases.
+     *
+     * These aliases can be consumed by RegisterListenersPass.
+     */
+    public const ALIASES = [
+        PreSubmitEvent::class => self::PRE_SUBMIT,
+        SubmitEvent::class => self::SUBMIT,
+        PostSubmitEvent::class => self::POST_SUBMIT,
+        PreSetDataEvent::class => self::PRE_SET_DATA,
+        PostSetDataEvent::class => self::POST_SET_DATA,
+    ];
 
     private function __construct()
     {

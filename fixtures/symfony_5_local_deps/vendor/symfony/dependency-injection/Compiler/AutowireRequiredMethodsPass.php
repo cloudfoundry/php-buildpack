@@ -12,18 +12,18 @@
 namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
- * Looks for definitions with autowiring enabled and registers their corresponding "@required" methods as setters.
+ * Looks for definitions with autowiring enabled and registers their corresponding "#[Required]" methods as setters.
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
 class AutowireRequiredMethodsPass extends AbstractRecursivePass
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, bool $isRoot = false)
+    protected bool $skipScalars = true;
+
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         $value = parent::processValue($value, $isRoot);
 
@@ -37,7 +37,7 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
         $alreadyCalledMethods = [];
         $withers = [];
 
-        foreach ($value->getMethodCalls() as list($method)) {
+        foreach ($value->getMethodCalls() as [$method]) {
             $alreadyCalledMethods[strtolower($method)] = true;
         }
 
@@ -49,8 +49,18 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
             }
 
             while (true) {
+                if ($r->getAttributes(Required::class)) {
+                    if ($this->isWither($r, $r->getDocComment() ?: '')) {
+                        $withers[] = [$r->name, [], true];
+                    } else {
+                        $value->addMethodCall($r->name, []);
+                    }
+                    break;
+                }
                 if (false !== $doc = $r->getDocComment()) {
                     if (false !== stripos($doc, '@required') && preg_match('#(?:^/\*\*|\n\s*+\*)\s*+@required(?:\s|\*/$)#i', $doc)) {
+                        trigger_deprecation('symfony/dependency-injection', '6.3', 'Relying on the "@required" annotation on method "%s::%s()" is deprecated, use the "Symfony\Contracts\Service\Attribute\Required" attribute instead.', $reflectionMethod->class, $reflectionMethod->name);
+
                         if ($this->isWither($reflectionMethod, $doc)) {
                             $withers[] = [$reflectionMethod->name, [], true];
                         } else {
@@ -64,7 +74,7 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
                 }
                 try {
                     $r = $r->getPrototype();
-                } catch (\ReflectionException $e) {
+                } catch (\ReflectionException) {
                     break; // method has no prototype
                 }
             }

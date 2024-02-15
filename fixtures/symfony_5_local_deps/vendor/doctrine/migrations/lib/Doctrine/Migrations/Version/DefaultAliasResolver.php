@@ -8,6 +8,7 @@ use Doctrine\Migrations\Exception\NoMigrationsFoundWithCriteria;
 use Doctrine\Migrations\Exception\NoMigrationsToExecute;
 use Doctrine\Migrations\Exception\UnknownMigrationVersion;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
+
 use function substr;
 
 /**
@@ -23,23 +24,11 @@ final class DefaultAliasResolver implements AliasResolver
     private const ALIAS_NEXT    = 'next';
     private const ALIAS_LATEST  = 'latest';
 
-    /** @var MigrationPlanCalculator */
-    private $migrationPlanCalculator;
-
-    /** @var MetadataStorage */
-    private $metadataStorage;
-
-    /** @var MigrationStatusCalculator */
-    private $migrationStatusCalculator;
-
     public function __construct(
-        MigrationPlanCalculator $migrationPlanCalculator,
-        MetadataStorage $metadataStorage,
-        MigrationStatusCalculator $migrationStatusCalculator
+        private readonly MigrationPlanCalculator $migrationPlanCalculator,
+        private readonly MetadataStorage $metadataStorage,
+        private readonly MigrationStatusCalculator $migrationStatusCalculator,
     ) {
-        $this->migrationPlanCalculator   = $migrationPlanCalculator;
-        $this->metadataStorage           = $metadataStorage;
-        $this->migrationStatusCalculator = $migrationStatusCalculator;
     }
 
     /**
@@ -59,7 +48,7 @@ final class DefaultAliasResolver implements AliasResolver
      * @throws UnknownMigrationVersion
      * @throws NoMigrationsFoundWithCriteria
      */
-    public function resolveVersionAlias(string $alias) : Version
+    public function resolveVersionAlias(string $alias): Version
     {
         $availableMigrations = $this->migrationPlanCalculator->getMigrations();
         $executedMigrations  = $this->metadataStorage->getExecutedMigrations();
@@ -68,10 +57,11 @@ final class DefaultAliasResolver implements AliasResolver
             case self::ALIAS_FIRST:
             case '0':
                 return new Version('0');
+
             case self::ALIAS_CURRENT:
                 try {
                     return $executedMigrations->getLast()->getVersion();
-                } catch (NoMigrationsFoundWithCriteria $e) {
+                } catch (NoMigrationsFoundWithCriteria) {
                     return new Version('0');
                 }
 
@@ -79,7 +69,7 @@ final class DefaultAliasResolver implements AliasResolver
             case self::ALIAS_PREV:
                 try {
                     return $executedMigrations->getLast(-1)->getVersion();
-                } catch (NoMigrationsFoundWithCriteria $e) {
+                } catch (NoMigrationsFoundWithCriteria) {
                     return new Version('0');
                 }
 
@@ -97,7 +87,7 @@ final class DefaultAliasResolver implements AliasResolver
             case self::ALIAS_LATEST:
                 try {
                     return $availableMigrations->getLast()->getVersion();
-                } catch (NoMigrationsFoundWithCriteria $e) {
+                } catch (NoMigrationsFoundWithCriteria) {
                     return $this->resolveVersionAlias(self::ALIAS_CURRENT);
                 }
 
