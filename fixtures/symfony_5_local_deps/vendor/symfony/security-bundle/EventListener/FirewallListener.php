@@ -25,8 +25,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 class FirewallListener extends Firewall
 {
-    private $map;
-    private $logoutUrlGenerator;
+    private FirewallMapInterface $map;
+    private LogoutUrlGenerator $logoutUrlGenerator;
 
     public function __construct(FirewallMapInterface $map, EventDispatcherInterface $dispatcher, LogoutUrlGenerator $logoutUrlGenerator)
     {
@@ -36,9 +36,12 @@ class FirewallListener extends Firewall
         parent::__construct($map, $dispatcher);
     }
 
+    /**
+     * @return void
+     */
     public function configureLogoutUrlGenerator(RequestEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
@@ -47,19 +50,19 @@ class FirewallListener extends Firewall
         }
     }
 
+    /**
+     * @return void
+     */
     public function onKernelFinishRequest(FinishRequestEvent $event)
     {
-        if ($event->isMasterRequest()) {
+        if ($event->isMainRequest()) {
             $this->logoutUrlGenerator->setCurrentFirewall(null);
         }
 
         parent::onKernelFinishRequest($event);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [

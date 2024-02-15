@@ -9,7 +9,6 @@
 
 namespace Symfony\WebpackEncoreBundle\CacheWarmer;
 
-use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Bundle\FrameworkBundle\CacheWarmer\AbstractPhpFileCacheWarmer;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
@@ -19,16 +18,13 @@ class EntrypointCacheWarmer extends AbstractPhpFileCacheWarmer
 {
     private $cacheKeys;
 
-    public function __construct(array $cacheKeys, string $phpArrayFile, CacheItemPoolInterface $fallbackPool)
+    public function __construct(array $cacheKeys, string $phpArrayFile)
     {
         $this->cacheKeys = $cacheKeys;
-        parent::__construct($phpArrayFile, $fallbackPool);
+        parent::__construct($phpArrayFile);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doWarmUp($cacheDir, ArrayAdapter $arrayAdapter)
+    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter, string $buildDir = null): bool
     {
         foreach ($this->cacheKeys as $cacheKey => $path) {
             // If the file does not exist then just skip past this entry point.

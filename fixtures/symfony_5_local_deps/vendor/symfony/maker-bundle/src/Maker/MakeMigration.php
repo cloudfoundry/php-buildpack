@@ -19,6 +19,8 @@ use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\InputConfiguration;
+use Symfony\Bundle\MakerBundle\Util\CliOutputHelper;
+use Symfony\Bundle\MakerBundle\Util\MakerFileLinkFormatter;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -31,21 +33,22 @@ use Symfony\Component\Console\Input\InputOption;
  */
 final class MakeMigration extends AbstractMaker implements ApplicationAwareMakerInterface
 {
-    private $projectDir;
+    private Application $application;
 
-    /**
-     * @var Application
-     */
-    private $application;
-
-    public function __construct(string $projectDir)
-    {
-        $this->projectDir = $projectDir;
+    public function __construct(
+        private string $projectDir,
+        private ?MakerFileLinkFormatter $makerFileLinkFormatter = null,
+    ) {
     }
 
     public static function getCommandName(): string
     {
         return 'make:migration';
+    }
+
+    public static function getCommandDescription(): string
+    {
+        return 'Create a new migration based on database changes';
     }
 
     public function setApplication(Application $application)
@@ -56,7 +59,6 @@ final class MakeMigration extends AbstractMaker implements ApplicationAwareMaker
     public function configureCommand(Command $command, InputConfiguration $inputConf)
     {
         $command
-            ->setDescription('Creates a new migration based on database changes')
             ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeMigration.txt'))
         ;
 
@@ -87,10 +89,15 @@ final class MakeMigration extends AbstractMaker implements ApplicationAwareMaker
         // end 2.x support
 
         $generateMigrationCommand = $this->application->find('doctrine:migrations:diff');
+        $generateMigrationCommandInput = new ArgvInput($options);
+
+        if (!$input->isInteractive()) {
+            $generateMigrationCommandInput->setInteractive(false);
+        }
 
         $commandOutput = new MigrationDiffFilteredOutput($io->getOutput());
         try {
-            $returnCode = $generateMigrationCommand->run(new ArgvInput($options), $commandOutput);
+            $returnCode = $generateMigrationCommand->run($generateMigrationCommandInput, $commandOutput);
 
             // non-zero code would ideally mean the internal command has already printed an errror
             // this happens if you "decline" generating a migration when you already
@@ -101,24 +108,26 @@ final class MakeMigration extends AbstractMaker implements ApplicationAwareMaker
 
             $migrationOutput = $commandOutput->fetch();
 
-            if (false !== strpos($migrationOutput, 'No changes detected')) {
+            if (str_contains($migrationOutput, 'No changes detected')) {
                 $this->noChangesMessage($io);
 
                 return;
             }
-        } catch (\Doctrine\Migrations\Generator\Exception\NoChangesDetected $exception) {
+        } catch (\Doctrine\Migrations\Generator\Exception\NoChangesDetected) {
             $this->noChangesMessage($io);
 
             return;
         }
 
+        $absolutePath = $this->getGeneratedMigrationFilename($migrationOutput);
+        $relativePath = str_replace($this->projectDir.'/', '', $absolutePath);
+
+        $io->comment('<fg=blue>created</>: '.($this->makerFileLinkFormatter?->makeLinkedPath($absolutePath, $relativePath) ?? $relativePath));
+
         $this->writeSuccessMessage($io);
 
-        $migrationName = $this->getGeneratedMigrationFilename($migrationOutput);
-
         $io->text([
-            sprintf('Next: Review the new migration <info>%s</info>', $migrationName),
-            'Then: Run the migration with <info>php bin/console doctrine:migrations:migrate</info>',
+            sprintf('Review the new migration then run it with <info>%s doctrine:migrations:migrate</info>', CliOutputHelper::getCommandPrefix()),
             'See <fg=yellow>https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html</>',
         ]);
     }
@@ -138,18 +147,18 @@ final class MakeMigration extends AbstractMaker implements ApplicationAwareMaker
     {
         $dependencies->addClassDependency(
             DoctrineMigrationsBundle::class,
-            'migrations'
+            'doctrine/doctrine-migrations-bundle'
         );
     }
 
     private function getGeneratedMigrationFilename(string $migrationOutput): string
     {
-        preg_match('#"(.*?)"#', $migrationOutput, $matches);
+        preg_match('#"<info>(.*?)</info>"#', $migrationOutput, $matches);
 
-        if (!isset($matches[0])) {
+        if (!isset($matches[1])) {
             throw new \Exception('Your migration generated successfully, but an error occurred printing the summary of what occurred.');
         }
 
-        return str_replace($this->projectDir.'/', '', $matches[0]);
+        return $matches[1];
     }
 }

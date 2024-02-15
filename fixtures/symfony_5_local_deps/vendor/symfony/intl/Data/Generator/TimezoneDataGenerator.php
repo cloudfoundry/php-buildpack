@@ -35,13 +35,10 @@ class TimezoneDataGenerator extends AbstractDataGenerator
      *
      * @var string[]
      */
-    private $zoneIds = [];
-    private $zoneToCountryMapping = [];
-    private $localeAliases = [];
+    private array $zoneIds = [];
+    private array $zoneToCountryMapping = [];
+    private array $localeAliases = [];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function scanLocales(LocaleScanner $scanner, string $sourceDir): array
     {
         $this->localeAliases = $scanner->scanAliases($sourceDir.'/locales');
@@ -49,10 +46,7 @@ class TimezoneDataGenerator extends AbstractDataGenerator
         return $scanner->scanLocales($sourceDir.'/zone');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function compileTemporaryBundles(BundleCompilerInterface $compiler, string $sourceDir, string $tempDir)
+    protected function compileTemporaryBundles(BundleCompilerInterface $compiler, string $sourceDir, string $tempDir): void
     {
         $filesystem = new Filesystem();
         $filesystem->mkdir($tempDir.'/region');
@@ -63,18 +57,12 @@ class TimezoneDataGenerator extends AbstractDataGenerator
         $compiler->compile($sourceDir.'/misc/windowsZones.txt', $tempDir);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function preGenerate()
+    protected function preGenerate(): void
     {
         $this->zoneIds = [];
         $this->zoneToCountryMapping = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function generateDataForLocale(BundleEntryReaderInterface $reader, string $tempDir, string $displayLocale): ?array
     {
         if (!$this->zoneToCountryMapping) {
@@ -122,9 +110,6 @@ class TimezoneDataGenerator extends AbstractDataGenerator
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function generateDataForRoot(BundleEntryReaderInterface $reader, string $tempDir): ?array
     {
         $rootBundle = $reader->read($tempDir, 'root');
@@ -134,9 +119,6 @@ class TimezoneDataGenerator extends AbstractDataGenerator
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function generateDataForMeta(BundleEntryReaderInterface $reader, string $tempDir): ?array
     {
         $rootBundle = $reader->read($tempDir, 'root');
@@ -177,12 +159,12 @@ class TimezoneDataGenerator extends AbstractDataGenerator
 
         $regionFormat = $reader->readEntry($tempDir, $locale, ['zoneStrings', 'regionFormat']);
         $fallbackFormat = $reader->readEntry($tempDir, $locale, ['zoneStrings', 'fallbackFormat']);
-        $resolveName = function (string $id, string $city = null) use ($reader, $tempDir, $locale, $regionFormat, $fallbackFormat): ?string {
+        $resolveName = function (string $id, ?string $city = null) use ($reader, $tempDir, $locale, $regionFormat, $fallbackFormat): ?string {
             // Resolve default name as described per http://cldr.unicode.org/translation/timezones
             if (isset($this->zoneToCountryMapping[$id])) {
                 try {
                     $country = $reader->readEntry($tempDir.'/region', $locale, ['Countries', $this->zoneToCountryMapping[$id]]);
-                } catch (MissingResourceException $e) {
+                } catch (MissingResourceException) {
                     return null;
                 }
 
@@ -200,7 +182,7 @@ class TimezoneDataGenerator extends AbstractDataGenerator
             foreach (\func_get_args() as $indices) {
                 try {
                     return $reader->readEntry($tempDir, $locale, $indices);
-                } catch (MissingResourceException $e) {
+                } catch (MissingResourceException) {
                 }
             }
 

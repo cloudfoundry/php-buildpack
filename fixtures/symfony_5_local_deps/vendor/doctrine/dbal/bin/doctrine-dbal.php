@@ -1,7 +1,15 @@
 <?php
 
 use Doctrine\DBAL\Tools\Console\ConsoleRunner;
-use Symfony\Component\Console\Helper\HelperSet;
+
+fwrite(
+    STDERR,
+    '[Warning] The use of this script is discouraged.'
+        . ' You find instructions on how to bootstrap the console runner in our documentation.'
+        . PHP_EOL,
+);
+
+echo PHP_EOL . PHP_EOL;
 
 $files       = [__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'];
 $loader      = null;
@@ -41,17 +49,7 @@ if (! is_readable($configFile)) {
     exit(1);
 }
 
-$commands  = [];
-$helperSet = require $configFile;
+$commands           = [];
+$connectionProvider = require $configFile;
 
-if (! $helperSet instanceof HelperSet) {
-    foreach ($GLOBALS as $helperSetCandidate) {
-        if ($helperSetCandidate instanceof HelperSet) {
-            $helperSet = $helperSetCandidate;
-
-            break;
-        }
-    }
-}
-
-ConsoleRunner::run($helperSet, $commands);
+ConsoleRunner::run($connectionProvider, $commands);

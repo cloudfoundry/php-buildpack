@@ -26,16 +26,19 @@ use function Symfony\Component\String\u;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class RedirectToPreferredLocaleSubscriber implements EventSubscriberInterface
+final class RedirectToPreferredLocaleSubscriber implements EventSubscriberInterface
 {
-    private $urlGenerator;
-    private $locales;
-    private $defaultLocale;
+    /**
+     * @var string[]
+     */
+    private array $locales;
+    private readonly string $defaultLocale;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, string $locales, string $defaultLocale = null)
-    {
-        $this->urlGenerator = $urlGenerator;
-
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+        string $locales,
+        string $defaultLocale = null
+    ) {
         $this->locales = explode('|', trim($locales));
         if (empty($this->locales)) {
             throw new \UnexpectedValueException('The list of supported locales must not be empty.');
@@ -66,7 +69,7 @@ class RedirectToPreferredLocaleSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
 
         // Ignore sub-requests and all URLs but the homepage
-        if (!$event->isMasterRequest() || '/' !== $request->getPathInfo()) {
+        if (!$event->isMainRequest() || '/' !== $request->getPathInfo()) {
             return;
         }
         // Ignore requests from referrers with the same HTTP host in order to prevent

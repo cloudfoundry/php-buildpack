@@ -2,115 +2,58 @@
 
 namespace DAMA\DoctrineTestBundle\Doctrine\DBAL;
 
-use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Middleware\AbstractConnectionMiddleware;
 
 /**
- * Wraps a real connection and just skips the first call to beginTransaction as a transaction is already started on the underlying connection.
+ * Wraps a real connection and makes sure the initial nested transaction is using a savepoint.
  */
-class StaticConnection implements Connection
-{
-    /**
-     * @var Connection
-     */
-    private $connection;
-
-    /**
-     * @var bool
-     */
-    private $transactionStarted = false;
-
-    public function __construct(Connection $connection)
+if (method_exists(Connection::class, 'getEventManager')) {
+    // DBAL < 4
+    class StaticConnection extends AbstractConnectionMiddleware
     {
-        $this->connection = $connection;
-    }
+        use StaticConnectionTrait;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepare($prepareString): Statement
-    {
-        return $this->connection->prepare($prepareString);
-    }
+        public function beginTransaction(): bool
+        {
+            $this->doBeginTransaction();
 
-    /**
-     * {@inheritdoc}
-     */
-    public function query(): Statement
-    {
-        return call_user_func_array([$this->connection, 'query'], func_get_args());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function quote($input, $type = \PDO::PARAM_STR)
-    {
-        return $this->connection->quote($input, $type);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function exec($statement): int
-    {
-        return $this->connection->exec($statement);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function lastInsertId($name = null): string
-    {
-        return $this->connection->lastInsertId($name);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction(): bool
-    {
-        if ($this->transactionStarted) {
-            return $this->connection->beginTransaction();
+            return true;
         }
 
-        return $this->transactionStarted = true;
-    }
+        public function commit(): bool
+        {
+            $this->doCommit();
 
-    /**
-     * {@inheritdoc}
-     */
-    public function commit(): bool
-    {
-        return $this->connection->commit();
-    }
+            return true;
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rollBack(): bool
-    {
-        return $this->connection->rollBack();
-    }
+        public function rollBack(): bool
+        {
+            $this->doRollBack();
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorCode(): ?string
-    {
-        return $this->connection->errorCode();
+            return true;
+        }
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function errorInfo(): array
+} else {
+    // DBAL >= 4
+    class StaticConnection extends AbstractConnectionMiddleware
     {
-        return $this->connection->errorInfo();
-    }
+        use StaticConnectionTrait;
 
-    public function getWrappedConnection(): Connection
-    {
-        return $this->connection;
+        public function beginTransaction(): void
+        {
+            $this->doBeginTransaction();
+        }
+
+        public function commit(): void
+        {
+            $this->doCommit();
+        }
+
+        public function rollBack(): void
+        {
+            $this->doRollBack();
+        }
     }
 }

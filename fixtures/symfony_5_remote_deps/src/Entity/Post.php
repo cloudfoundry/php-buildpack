@@ -11,17 +11,15 @@
 
 namespace App\Entity;
 
+use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
- * @ORM\Table(name="symfony_demo_post")
- * @UniqueEntity(fields={"slug"}, errorPath="title", message="post.slug_unique")
- *
  * Defines the properties of the Post entity to represent the blog posts.
  *
  * See https://symfony.com/doc/current/doctrine.html#creating-an-entity-class
@@ -33,87 +31,55 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  */
+#[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\Table(name: 'symfony_demo_post')]
+#[UniqueEntity(fields: ['slug'], errorPath: 'title', message: 'post.slug_unique')]
 class Post
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
+
+    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
+    private ?string $title = null;
+
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $slug = null;
+
+    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank(message: 'post.blank_summary')]
+    #[Assert\Length(max: 255)]
+    private ?string $summary = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'post.blank_content')]
+    #[Assert\Length(min: 10, minMessage: 'post.too_short_content')]
+    private ?string $content = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private \DateTime $publishedAt;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank
+     * @var Collection<int, Comment>
      */
-    private $title;
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['publishedAt' => 'DESC'])]
+    private Collection $comments;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * @var Collection<int, Tag>
      */
-    private $slug;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="post.blank_summary")
-     * @Assert\Length(max=255)
-     */
-    private $summary;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="post.blank_content")
-     * @Assert\Length(min=10, minMessage="post.too_short_content")
-     */
-    private $content;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $publishedAt;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
-
-    /**
-     * @var Comment[]|Collection
-     *
-     * @ORM\OneToMany(
-     *      targetEntity="Comment",
-     *      mappedBy="post",
-     *      orphanRemoval=true,
-     *      cascade={"persist"}
-     * )
-     * @ORM\OrderBy({"publishedAt": "DESC"})
-     */
-    private $comments;
-
-    /**
-     * @var Tag[]|Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
-     * @ORM\JoinTable(name="symfony_demo_post_tag")
-     * @ORM\OrderBy({"name": "ASC"})
-     * @Assert\Count(max="4", maxMessage="post.too_many_tags")
-     */
-    private $tags;
+    #[ORM\ManyToMany(targetEntity: Tag::class, cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'symfony_demo_post_tag')]
+    #[ORM\OrderBy(['name' => 'ASC'])]
+    #[Assert\Count(max: 4, maxMessage: 'post.too_many_tags')]
+    private Collection $tags;
 
     public function __construct()
     {
@@ -132,7 +98,7 @@ class Post
         return $this->title;
     }
 
-    public function setTitle(string $title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
@@ -152,7 +118,7 @@ class Post
         return $this->content;
     }
 
-    public function setContent(string $content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
@@ -177,6 +143,9 @@ class Post
         $this->author = $author;
     }
 
+    /**
+     * @return Collection<int, Comment>
+     */
     public function getComments(): Collection
     {
         return $this->comments;
@@ -200,7 +169,7 @@ class Post
         return $this->summary;
     }
 
-    public function setSummary(string $summary): void
+    public function setSummary(?string $summary): void
     {
         $this->summary = $summary;
     }
@@ -219,6 +188,9 @@ class Post
         $this->tags->removeElement($tag);
     }
 
+    /**
+     * @return Collection<int, Tag>
+     */
     public function getTags(): Collection
     {
         return $this->tags;

@@ -11,26 +11,35 @@
 
 namespace Symfony\Component\Form\Extension\Validator\ViolationMapper;
 
+use Symfony\Component\Form\FileUploadError;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormRendererInterface;
 use Symfony\Component\Form\Util\InheritDataAwareIterator;
 use Symfony\Component\PropertyAccess\PropertyPathBuilder;
 use Symfony\Component\PropertyAccess\PropertyPathIterator;
 use Symfony\Component\PropertyAccess\PropertyPathIteratorInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 class ViolationMapper implements ViolationMapperInterface
 {
-    /**
-     * @var bool
-     */
-    private $allowNonSynchronized;
+    private ?FormRendererInterface $formRenderer;
+    private ?TranslatorInterface $translator;
+    private bool $allowNonSynchronized = false;
+
+    public function __construct(?FormRendererInterface $formRenderer = null, ?TranslatorInterface $translator = null)
+    {
+        $this->formRenderer = $formRenderer;
+        $this->translator = $translator;
+    }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function mapViolation(ConstraintViolation $violation, FormInterface $form, bool $allowNonSynchronized = false)
     {
@@ -48,7 +57,7 @@ class ViolationMapper implements ViolationMapperInterface
         $match = false;
 
         // Don't create a ViolationPath instance for empty property paths
-        if (\strlen($violation->getPropertyPath()) > 0) {
+        if ('' !== $violation->getPropertyPath()) {
             $violationPath = new ViolationPath($violation->getPropertyPath());
             $relativePath = $this->reconstructPath($violationPath, $form);
         }
@@ -124,9 +133,85 @@ class ViolationMapper implements ViolationMapperInterface
 
         // Only add the error if the form is synchronized
         if ($this->acceptsErrors($scope)) {
+            if ($violation->getConstraint() instanceof File && (string) \UPLOAD_ERR_INI_SIZE === $violation->getCode()) {
+                $errorsTarget = $scope;
+
+                while (null !== $errorsTarget->getParent() && $errorsTarget->getConfig()->getErrorBubbling()) {
+                    $errorsTarget = $errorsTarget->getParent();
+                }
+
+                $errors = $errorsTarget->getErrors();
+                $errorsTarget->clearErrors();
+
+                foreach ($errors as $error) {
+                    if (!$error instanceof FileUploadError) {
+                        $errorsTarget->addError($error);
+                    }
+                }
+            }
+
+            $message = $violation->getMessage();
+            $messageTemplate = $violation->getMessageTemplate();
+
+            if (str_contains($message, '{{ label }}') || str_contains($messageTemplate, '{{ label }}')) {
+                $form = $scope;
+
+                do {
+                    $labelFormat = $form->getConfig()->getOption('label_format');
+                } while (null === $labelFormat && null !== $form = $form->getParent());
+
+                if (null !== $labelFormat) {
+                    $label = str_replace(
+                        [
+                            '%name%',
+                            '%id%',
+                        ],
+                        [
+                            $scope->getName(),
+                            (string) $scope->getPropertyPath(),
+                        ],
+                        $labelFormat
+                    );
+                } else {
+                    $label = $scope->getConfig()->getOption('label');
+                }
+
+                if (false !== $label) {
+                    if (null === $label && null !== $this->formRenderer) {
+                        $label = $this->formRenderer->humanize($scope->getName());
+                    } else {
+                        $label ??= $scope->getName();
+                    }
+
+                    if (null !== $this->translator) {
+                        $form = $scope;
+                        $translationParameters[] = $form->getConfig()->getOption('label_translation_parameters', []);
+
+                        do {
+                            $translationDomain = $form->getConfig()->getOption('translation_domain');
+                            array_unshift(
+                                $translationParameters,
+                                $form->getConfig()->getOption('label_translation_parameters', [])
+                            );
+                        } while (null === $translationDomain && null !== $form = $form->getParent());
+
+                        $translationParameters = array_merge([], ...$translationParameters);
+
+                        $label = $this->translator->trans(
+                            $label,
+                            $translationParameters,
+                            $translationDomain
+                        );
+                    }
+
+                    $message = str_replace('{{ label }}', $label, $message);
+                    $messageTemplate = str_replace('{{ label }}', $label, $messageTemplate);
+                }
+            }
+
             $scope->addError(new FormError(
-                $violation->getMessage(),
-                $violation->getMessageTemplate(),
+                $message,
+                $messageTemplate,
                 $violation->getParameters(),
                 $violation->getPlural(),
                 $violation
@@ -187,7 +272,7 @@ class ViolationMapper implements ViolationMapperInterface
                 if ($childPath === $chunk) {
                     $target = $child;
                     $foundAtIndex = $it->key();
-                } elseif (0 === strpos($childPath, $chunk)) {
+                } elseif (str_starts_with($childPath, $chunk)) {
                     continue;
                 }
 

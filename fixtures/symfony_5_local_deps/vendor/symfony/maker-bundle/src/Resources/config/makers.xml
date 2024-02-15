@@ -12,15 +12,21 @@
                 <argument type="service" id="maker.security_config_updater" />
                 <argument type="service" id="maker.generator" />
                 <argument type="service" id="maker.doctrine_helper" />
+                <argument type="service" id="maker.security_controller_builder" />
                 <tag name="maker.command" />
             </service>
 
             <service id="maker.maker.make_command" class="Symfony\Bundle\MakerBundle\Maker\MakeCommand">
+                <argument type="service" id="maker.php_compat_util" />
+                <tag name="maker.command" />
+            </service>
+
+            <service id="maker.maker.make_twig_component" class="Symfony\Bundle\MakerBundle\Maker\MakeTwigComponent">
                 <tag name="maker.command" />
             </service>
 
             <service id="maker.maker.make_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeController">
-                <argument type="service" id="maker.file_manager" />
+                <argument type="service" id="maker.php_compat_util" />
                 <tag name="maker.command" />
             </service>
 
@@ -38,9 +44,10 @@
             <service id="maker.maker.make_entity" class="Symfony\Bundle\MakerBundle\Maker\MakeEntity">
                 <argument type="service" id="maker.file_manager" />
                 <argument type="service" id="maker.doctrine_helper" />
-                <argument>%kernel.project_dir%</argument>
+                <argument>null</argument>
                 <argument type="service" id="maker.generator" />
                 <argument type="service" id="maker.entity_class_generator" />
+                <argument type="service" id="maker.php_compat_util" />
                 <tag name="maker.command" />
             </service>
 
@@ -56,6 +63,12 @@
 
             <service id="maker.maker.make_functional_test" class="Symfony\Bundle\MakerBundle\Maker\MakeFunctionalTest">
                 <tag name="maker.command" />
+                <deprecated package="symfony/maker-bundle" version="1.29">The "%service_id%" service is deprecated, use "maker.maker.make_test" instead.</deprecated>
+            </service>
+
+            <service id="maker.maker.make_listener" class="Symfony\Bundle\MakerBundle\Maker\MakeListener">
+                <tag name="maker.command" />
+                <argument type="service" id="maker.event_registry" />
             </service>
 
             <service id="maker.maker.make_message" class="Symfony\Bundle\MakerBundle\Maker\MakeMessage">
@@ -70,7 +83,8 @@
             <service id="maker.maker.make_registration_form" class="Symfony\Bundle\MakerBundle\Maker\MakeRegistrationForm">
                 <argument type="service" id="maker.file_manager" />
                 <argument type="service" id="maker.renderer.form_type_renderer" />
-                <argument type="service" id="router" />
+                <argument type="service" id="maker.doctrine_helper" />
+                <argument type="service" id="router" on-invalid="ignore" />
                 <tag name="maker.command" />
             </service>
 
@@ -92,14 +106,20 @@
             <service id="maker.maker.make_subscriber" class="Symfony\Bundle\MakerBundle\Maker\MakeSubscriber">
                 <tag name="maker.command" />
                 <argument type="service" id="maker.event_registry" />
+                <deprecated package="symfony/maker-bundle" version="1.51">The "%service_id%" service is deprecated, use "maker.maker.make_listener" instead.</deprecated>
             </service>
 
             <service id="maker.maker.make_twig_extension" class="Symfony\Bundle\MakerBundle\Maker\MakeTwigExtension">
                 <tag name="maker.command" />
             </service>
 
+            <service id="maker.maker.make_test" class="Symfony\Bundle\MakerBundle\Maker\MakeTest">
+                <tag name="maker.command" />
+            </service>
+
             <service id="maker.maker.make_unit_test" class="Symfony\Bundle\MakerBundle\Maker\MakeUnitTest">
                 <tag name="maker.command" />
+                <deprecated package="symfony/maker-bundle" version="1.29">The "%service_id%" service is deprecated, use "maker.maker.make_test" instead.</deprecated>
             </service>
 
             <service id="maker.maker.make_validator" class="Symfony\Bundle\MakerBundle\Maker\MakeValidator">
@@ -114,13 +134,25 @@
                 <argument type="service" id="maker.file_manager" />
                 <argument type="service" id="maker.user_class_builder" />
                 <argument type="service" id="maker.security_config_updater" />
-                <argument type="service" id="maker.doctrine_helper" />
                 <argument type="service" id="maker.entity_class_generator" />
+                <argument type="service" id="maker.doctrine_helper" />
                 <tag name="maker.command" />
             </service>
 
             <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration">
                 <argument>%kernel.project_dir%</argument>
+                <argument type="service" id="maker.file_link_formatter" />
+                <tag name="maker.command" />
+            </service>
+
+            <service id="maker.maker.make_stimulus_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeStimulusController">
+                <tag name="maker.command" />
+            </service>
+
+            <service id="maker.maker.make_form_login" class="Symfony\Bundle\MakerBundle\Maker\Security\MakeFormLogin">
+                <argument type="service" id="maker.file_manager" />
+                <argument type="service" id="maker.security_config_updater" />
+                <argument type="service" id="maker.security_controller_builder" />
                 <tag name="maker.command" />
             </service>
         </services>

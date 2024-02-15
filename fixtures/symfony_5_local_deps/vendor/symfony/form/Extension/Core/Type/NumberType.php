@@ -24,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class NumberType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -41,17 +41,23 @@ class NumberType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         if ($options['html5']) {
             $view->vars['type'] = 'number';
+
+            if (!isset($view->vars['attr']['step'])) {
+                $view->vars['attr']['step'] = 'any';
+            }
+        } else {
+            $view->vars['attr']['inputmode'] = 0 === $options['scale'] ? 'numeric' : 'decimal';
         }
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -63,6 +69,7 @@ class NumberType extends AbstractType
             'compound' => false,
             'input' => 'number',
             'html5' => false,
+            'invalid_message' => 'Please enter a number.',
         ]);
 
         $resolver->setAllowedValues('rounding_mode', [
@@ -78,7 +85,7 @@ class NumberType extends AbstractType
         $resolver->setAllowedTypes('scale', ['null', 'int']);
         $resolver->setAllowedTypes('html5', 'bool');
 
-        $resolver->setNormalizer('grouping', function (Options $options, $value) {
+        $resolver->setNormalizer('grouping', static function (Options $options, $value) {
             if (true === $value && $options['html5']) {
                 throw new LogicException('Cannot use the "grouping" option when the "html5" option is enabled.');
             }
@@ -87,10 +94,7 @@ class NumberType extends AbstractType
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'number';
     }

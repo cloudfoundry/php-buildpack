@@ -18,7 +18,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 /**
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class Paginator
+final class Paginator
 {
     /**
      * Use constants to define configuration options that rarely change instead
@@ -26,18 +26,20 @@ class Paginator
      *
      * See https://symfony.com/doc/current/best_practices.html#use-constants-to-define-options-that-rarely-change
      */
-    public const PAGE_SIZE = 10;
+    final public const PAGE_SIZE = 10;
 
-    private $queryBuilder;
-    private $currentPage;
-    private $pageSize;
-    private $results;
-    private $numResults;
+    private int $currentPage;
+    private int $numResults;
 
-    public function __construct(DoctrineQueryBuilder $queryBuilder, int $pageSize = self::PAGE_SIZE)
-    {
-        $this->queryBuilder = $queryBuilder;
-        $this->pageSize = $pageSize;
+    /**
+     * @var \Traversable<array-key, object>
+     */
+    private \Traversable $results;
+
+    public function __construct(
+        private readonly DoctrineQueryBuilder $queryBuilder,
+        private readonly int $pageSize = self::PAGE_SIZE
+    ) {
     }
 
     public function paginate(int $page = 1): self
@@ -50,13 +52,20 @@ class Paginator
             ->setMaxResults($this->pageSize)
             ->getQuery();
 
-        if (0 === \count($this->queryBuilder->getDQLPart('join'))) {
+        /** @var array<string, mixed> $joinDqlParts */
+        $joinDqlParts = $this->queryBuilder->getDQLPart('join');
+
+        if (0 === \count($joinDqlParts)) {
             $query->setHint(CountWalker::HINT_DISTINCT, false);
         }
 
+        /** @var DoctrinePaginator<object> $paginator */
         $paginator = new DoctrinePaginator($query, true);
 
-        $useOutputWalkers = \count($this->queryBuilder->getDQLPart('having') ?: []) > 0;
+        /** @var array<string, mixed> $havingDqlParts */
+        $havingDqlParts = $this->queryBuilder->getDQLPart('having');
+
+        $useOutputWalkers = \count($havingDqlParts ?: []) > 0;
         $paginator->setUseOutputWalkers($useOutputWalkers);
 
         $this->results = $paginator->getIterator();
@@ -110,6 +119,9 @@ class Paginator
         return $this->numResults;
     }
 
+    /**
+     * @return \Traversable<int, object>
+     */
     public function getResults(): \Traversable
     {
         return $this->results;

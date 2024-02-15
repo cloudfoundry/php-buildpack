@@ -8,6 +8,7 @@ use Doctrine\Migrations\Exception\RollupFailed;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\Version\ExecutionResult;
 use Doctrine\Migrations\Version\Version;
+
 use function count;
 
 /**
@@ -18,24 +19,14 @@ use function count;
  */
 class Rollup
 {
-    /** @var MigrationsRepository */
-    private $migrationRepository;
-
-    /** @var MetadataStorage */
-    private $metadataStorage;
-
     public function __construct(
-        MetadataStorage $metadataStorage,
-        MigrationsRepository $migrationRepository
+        private readonly MetadataStorage $metadataStorage,
+        private readonly MigrationsRepository $migrationRepository,
     ) {
-        $this->migrationRepository = $migrationRepository;
-        $this->metadataStorage     = $metadataStorage;
     }
 
-    /**
-     * @throws RollupFailed
-     */
-    public function rollup() : Version
+    /** @throws RollupFailed */
+    public function rollup(): Version
     {
         $versions = $this->migrationRepository->getMigrations();
 

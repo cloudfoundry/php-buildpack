@@ -24,6 +24,9 @@ class TwigEnvironmentPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 
+    /**
+     * @return void
+     */
     public function process(ContainerBuilder $container)
     {
         if (false === $container->hasDefinition('twig')) {
@@ -43,14 +46,14 @@ class TwigEnvironmentPass implements CompilerPassInterface
             $methodCall = ['addExtension', [$extension]];
             $extensionClass = $container->getDefinition((string) $extension)->getClass();
 
-            if (\is_string($extensionClass) && 0 === strpos($extensionClass, 'Symfony\Bridge\Twig\Extension')) {
+            if (\is_string($extensionClass) && str_starts_with($extensionClass, 'Symfony\Bridge\Twig\Extension')) {
                 $twigBridgeExtensionsMethodCalls[] = $methodCall;
             } else {
                 $othersExtensionsMethodCalls[] = $methodCall;
             }
         }
 
-        if (!empty($twigBridgeExtensionsMethodCalls) || !empty($othersExtensionsMethodCalls)) {
+        if ($twigBridgeExtensionsMethodCalls || $othersExtensionsMethodCalls) {
             $definition->setMethodCalls(array_merge($twigBridgeExtensionsMethodCalls, $othersExtensionsMethodCalls, $currentMethodCalls));
         }
     }

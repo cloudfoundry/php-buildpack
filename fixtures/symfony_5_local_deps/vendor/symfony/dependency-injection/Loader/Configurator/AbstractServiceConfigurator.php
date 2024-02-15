@@ -18,9 +18,9 @@ abstract class AbstractServiceConfigurator extends AbstractConfigurator
 {
     protected $parent;
     protected $id;
-    private $defaultTags = [];
+    private array $defaultTags = [];
 
-    public function __construct(ServicesConfigurator $parent, Definition $definition, string $id = null, array $defaultTags = [])
+    public function __construct(ServicesConfigurator $parent, Definition $definition, ?string $id = null, array $defaultTags = [])
     {
         $this->parent = $parent;
         $this->definition = $definition;
@@ -32,8 +32,8 @@ abstract class AbstractServiceConfigurator extends AbstractConfigurator
     {
         // default tags should be added last
         foreach ($this->defaultTags as $name => $attributes) {
-            foreach ($attributes as $attributes) {
-                $this->definition->addTag($name, $attributes);
+            foreach ($attributes as $attribute) {
+                $this->definition->addTag($name, $attribute);
             }
         }
         $this->defaultTags = [];
@@ -42,7 +42,7 @@ abstract class AbstractServiceConfigurator extends AbstractConfigurator
     /**
      * Registers a service.
      */
-    final public function set(?string $id, string $class = null): ServiceConfigurator
+    final public function set(?string $id, ?string $class = null): ServiceConfigurator
     {
         $this->__destruct();
 
@@ -82,6 +82,16 @@ abstract class AbstractServiceConfigurator extends AbstractConfigurator
     }
 
     /**
+     * Removes an already defined service definition or alias.
+     */
+    final public function remove(string $id): ServicesConfigurator
+    {
+        $this->__destruct();
+
+        return $this->parent->remove($id);
+    }
+
+    /**
      * Registers a stack of decorator services.
      *
      * @param InlineServiceConfigurator[]|ReferenceConfigurator[] $services
@@ -96,7 +106,7 @@ abstract class AbstractServiceConfigurator extends AbstractConfigurator
     /**
      * Registers a service.
      */
-    final public function __invoke(string $id, string $class = null): ServiceConfigurator
+    final public function __invoke(string $id, ?string $class = null): ServiceConfigurator
     {
         $this->__destruct();
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Doctrine\Persistence\Reflection;
+declare(strict_types=1);
 
-use ReflectionProperty;
+namespace Doctrine\Persistence\Reflection;
 
 /**
  * PHP Typed No Default Reflection Property - special override for typed properties without a default value.
  */
-class TypedNoDefaultReflectionProperty extends ReflectionProperty
+class TypedNoDefaultReflectionProperty extends RuntimeReflectionProperty
 {
     use TypedNoDefaultReflectionPropertyBase;
 }

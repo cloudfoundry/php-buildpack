@@ -11,7 +11,6 @@
 
 namespace Symfony\Bundle\MakerBundle\Security;
 
-use Symfony\Bundle\MakerBundle\Exception\RuntimeCommandException;
 use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\MakerBundle\Validator;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -26,7 +25,7 @@ final class InteractiveSecurityHelper
     {
         $realFirewalls = array_filter(
             $securityData['security']['firewalls'] ?? [],
-            function ($item) {
+            static function ($item) {
                 return !isset($item['security']) || true === $item['security'];
             }
         );
@@ -46,43 +45,6 @@ final class InteractiveSecurityHelper
         );
     }
 
-    public function guessEntryPoint(SymfonyStyle $io, array $securityData, string $authenticatorClass, string $firewallName)
-    {
-        if (!isset($securityData['security'])) {
-            $securityData['security'] = [];
-        }
-
-        if (!isset($securityData['security']['firewalls'])) {
-            $securityData['security']['firewalls'] = [];
-        }
-
-        $firewalls = $securityData['security']['firewalls'];
-        if (!isset($firewalls[$firewallName])) {
-            throw new RuntimeCommandException(sprintf('Firewall "%s" does not exist', $firewallName));
-        }
-
-        if (!isset($firewalls[$firewallName]['guard'])
-            || !isset($firewalls[$firewallName]['guard']['authenticators'])
-            || !$firewalls[$firewallName]['guard']['authenticators']
-            || isset($firewalls[$firewallName]['guard']['entry_point'])) {
-            return null;
-        }
-
-        $authenticators = $firewalls[$firewallName]['guard']['authenticators'];
-        $authenticators[] = $authenticatorClass;
-
-        return $io->choice(
-            'The entry point for your firewall is what should happen when an anonymous user tries to access
-a protected page. For example, a common "entry point" behavior is to redirect to the login page.
-The "entry point" behavior is controlled by the start() method on your authenticator.
-However, you will now have multiple authenticators. You need to choose which authenticator\'s
-start() method should be used as the entry point (the start() method on all other
-authenticators will be ignored, and can be blank.',
-            $authenticators,
-            current($authenticators)
-        );
-    }
-
     public function guessUserClass(SymfonyStyle $io, array $providers, string $questionText = null): string
     {
         if (1 === \count($providers) && isset(current($providers)['entity'])) {
@@ -91,13 +53,11 @@ authenticators will be ignored, and can be blank.',
             return $entityProvider['entity']['class'];
         }
 
-        $userClass = $io->ask(
+        return $io->ask(
             $questionText ?? 'Enter the User class that you want to authenticate (e.g. <fg=yellow>App\\Entity\\User</>)',
             $this->guessUserClassDefault(),
             [Validator::class, 'classIsUserInterface']
         );
-
-        return $userClass;
     }
 
     private function guessUserClassDefault(): string
@@ -184,24 +144,24 @@ authenticators will be ignored, and can be blank.',
 
     public function getAuthenticatorClasses(array $firewallData): array
     {
-        $authenticatorClasses = [];
-
-        if (!isset($firewallData['guard'])) {
-            return [];
+        if (isset($firewallData['guard'])) {
+            return array_filter($firewallData['guard']['authenticators'] ?? [], static function ($authenticator) {
+                return class_exists($authenticator);
+            });
         }
 
-        if (!isset($firewallData['guard']['authenticators'])) {
-            return [];
-        }
-
-        foreach ($firewallData['guard']['authenticators'] as $authenticator) {
-            // skip service id's - as they won't work for autowiring
-            if (class_exists($authenticator)) {
-                $authenticatorClasses[] = $authenticator;
+        if (isset($firewallData['custom_authenticator'])) {
+            $authenticators = $firewallData['custom_authenticator'];
+            if (\is_string($authenticators)) {
+                $authenticators = [$authenticators];
             }
+
+            return array_filter($authenticators, static function ($authenticator) {
+                return class_exists($authenticator);
+            });
         }
 
-        return $authenticatorClasses;
+        return [];
     }
 
     public function guessPasswordSetter(SymfonyStyle $io, string $userClass): string

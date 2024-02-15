@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 class RouterDataCollector extends DataCollector
 {
     /**
-     * @var \SplObjectStorage
+     * @var \SplObjectStorage<Request, callable>
      */
     protected $controllers;
 
@@ -32,11 +32,9 @@ class RouterDataCollector extends DataCollector
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @final
      */
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         if ($response instanceof RedirectResponse) {
             $this->data['redirect'] = true;
@@ -50,6 +48,9 @@ class RouterDataCollector extends DataCollector
         unset($this->controllers[$request]);
     }
 
+    /**
+     * @return void
+     */
     public function reset()
     {
         $this->controllers = new \SplObjectStorage();
@@ -61,13 +62,18 @@ class RouterDataCollector extends DataCollector
         ];
     }
 
-    protected function guessRoute(Request $request, $controller)
+    /**
+     * @return string
+     */
+    protected function guessRoute(Request $request, string|object|array $controller)
     {
         return 'n/a';
     }
 
     /**
      * Remembers the controller associated to each request.
+     *
+     * @return void
      */
     public function onKernelController(ControllerEvent $event)
     {
@@ -77,31 +83,22 @@ class RouterDataCollector extends DataCollector
     /**
      * @return bool Whether this request will result in a redirect
      */
-    public function getRedirect()
+    public function getRedirect(): bool
     {
         return $this->data['redirect'];
     }
 
-    /**
-     * @return string|null The target URL
-     */
-    public function getTargetUrl()
+    public function getTargetUrl(): ?string
     {
         return $this->data['url'];
     }
 
-    /**
-     * @return string|null The target route
-     */
-    public function getTargetRoute()
+    public function getTargetRoute(): ?string
     {
         return $this->data['route'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'router';
     }

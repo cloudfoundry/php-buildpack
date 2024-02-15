@@ -24,25 +24,23 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 /**
- * RouterController.
- *
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @internal
  */
 class RouterController
 {
-    private $profiler;
-    private $twig;
-    private $matcher;
-    private $routes;
+    private ?Profiler $profiler;
+    private Environment $twig;
+    private ?UrlMatcherInterface $matcher;
+    private ?RouteCollection $routes;
 
     /**
      * @var ExpressionFunctionProviderInterface[]
      */
-    private $expressionLanguageProviders = [];
+    private iterable $expressionLanguageProviders;
 
-    public function __construct(Profiler $profiler = null, Environment $twig, UrlMatcherInterface $matcher = null, RouteCollection $routes = null, iterable $expressionLanguageProviders = [])
+    public function __construct(?Profiler $profiler, Environment $twig, ?UrlMatcherInterface $matcher = null, ?RouteCollection $routes = null, iterable $expressionLanguageProviders = [])
     {
         $this->profiler = $profiler;
         $this->twig = $twig;
@@ -54,11 +52,9 @@ class RouterController
     /**
      * Renders the profiler panel for the given token.
      *
-     * @return Response A Response instance
-     *
      * @throws NotFoundHttpException
      */
-    public function panelAction(string $token)
+    public function panelAction(string $token): Response
     {
         if (null === $this->profiler) {
             throw new NotFoundHttpException('The profiler must be enabled.');
@@ -90,7 +86,7 @@ class RouterController
         $traceRequest = Request::create(
             $request->getPathInfo(),
             $request->getRequestServer(true)->get('REQUEST_METHOD'),
-            [],
+            \in_array($request->getMethod(), ['DELETE', 'PATCH', 'POST', 'PUT'], true) ? $request->getRequestRequest()->all() : $request->getRequestQuery()->all(),
             $request->getRequestCookies(true)->all(),
             [],
             $request->getRequestServer(true)->all()

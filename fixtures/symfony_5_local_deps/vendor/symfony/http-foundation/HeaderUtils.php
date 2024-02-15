@@ -33,17 +33,21 @@ class HeaderUtils
      *
      * Example:
      *
-     *     HeaderUtils::split("da, en-gb;q=0.8", ",;")
+     *     HeaderUtils::split('da, en-gb;q=0.8', ',;')
      *     // => ['da'], ['en-gb', 'q=0.8']]
      *
      * @param string $separators List of characters to split on, ordered by
-     *                           precedence, e.g. ",", ";=", or ",;="
+     *                           precedence, e.g. ',', ';=', or ',;='
      *
      * @return array Nested array with as many levels as there are characters in
      *               $separators
      */
     public static function split(string $header, string $separators): array
     {
+        if ('' === $separators) {
+            throw new \InvalidArgumentException('At least one separator must be specified.');
+        }
+
         $quotedSeparators = preg_quote($separators, '/');
 
         preg_match_all('
@@ -77,8 +81,8 @@ class HeaderUtils
      *
      * Example:
      *
-     *     HeaderUtils::combine([["foo", "abc"], ["bar"]])
-     *     // => ["foo" => "abc", "bar" => true]
+     *     HeaderUtils::combine([['foo', 'abc'], ['bar']])
+     *     // => ['foo' => 'abc', 'bar' => true]
      */
     public static function combine(array $parts): array
     {
@@ -95,13 +99,13 @@ class HeaderUtils
     /**
      * Joins an associative array into a string for use in an HTTP header.
      *
-     * The key and value of each entry are joined with "=", and all entries
+     * The key and value of each entry are joined with '=', and all entries
      * are joined with the specified separator and an additional space (for
      * readability). Values are quoted if necessary.
      *
      * Example:
      *
-     *     HeaderUtils::toString(["foo" => "abc", "bar" => true, "baz" => "a b c"], ",")
+     *     HeaderUtils::toString(['foo' => 'abc', 'bar' => true, 'baz' => 'a b c'], ',')
      *     // => 'foo=abc, bar, baz="a b c"'
      */
     public static function toString(array $assoc, string $separator): string
@@ -138,7 +142,7 @@ class HeaderUtils
      * Decodes a quoted string.
      *
      * If passed an unquoted string that matches the "token" construct (as
-     * defined in the HTTP specification), it is passed through verbatimly.
+     * defined in the HTTP specification), it is passed through verbatim.
      */
     public static function unquote(string $s): string
     {
@@ -146,15 +150,13 @@ class HeaderUtils
     }
 
     /**
-     * Generates a HTTP Content-Disposition field-value.
+     * Generates an HTTP Content-Disposition field-value.
      *
      * @param string $disposition      One of "inline" or "attachment"
      * @param string $filename         A unicode string
      * @param string $filenameFallback A string containing only ASCII characters that
      *                                 is semantically equivalent to $filename. If the filename is already ASCII,
      *                                 it can be omitted, or just copied from $filename
-     *
-     * @return string A string suitable for use as a Content-Disposition field-value
      *
      * @throws \InvalidArgumentException
      *
@@ -176,12 +178,12 @@ class HeaderUtils
         }
 
         // percent characters aren't safe in fallback.
-        if (false !== strpos($filenameFallback, '%')) {
+        if (str_contains($filenameFallback, '%')) {
             throw new \InvalidArgumentException('The filename fallback cannot contain the "%" character.');
         }
 
         // path separators aren't allowed in either.
-        if (false !== strpos($filename, '/') || false !== strpos($filename, '\\') || false !== strpos($filenameFallback, '/') || false !== strpos($filenameFallback, '\\')) {
+        if (str_contains($filename, '/') || str_contains($filename, '\\') || str_contains($filenameFallback, '/') || str_contains($filenameFallback, '\\')) {
             throw new \InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\\" characters.');
         }
 
@@ -193,30 +195,98 @@ class HeaderUtils
         return $disposition.'; '.self::toString($params, ';');
     }
 
-    private static function groupParts(array $matches, string $separators): array
+    /**
+     * Like parse_str(), but preserves dots in variable names.
+     */
+    public static function parseQuery(string $query, bool $ignoreBrackets = false, string $separator = '&'): array
+    {
+        $q = [];
+
+        foreach (explode($separator, $query) as $v) {
+            if (false !== $i = strpos($v, "\0")) {
+                $v = substr($v, 0, $i);
+            }
+
+            if (false === $i = strpos($v, '=')) {
+                $k = urldecode($v);
+                $v = '';
+            } else {
+                $k = urldecode(substr($v, 0, $i));
+                $v = substr($v, $i);
+            }
+
+            if (false !== $i = strpos($k, "\0")) {
+                $k = substr($k, 0, $i);
+            }
+
+            $k = ltrim($k, ' ');
+
+            if ($ignoreBrackets) {
+                $q[$k][] = urldecode(substr($v, 1));
+
+                continue;
+            }
+
+            if (false === $i = strpos($k, '[')) {
+                $q[] = bin2hex($k).$v;
+            } else {
+                $q[] = bin2hex(substr($k, 0, $i)).rawurlencode(substr($k, $i)).$v;
+            }
+        }
+
+        if ($ignoreBrackets) {
+            return $q;
+        }
+
+        parse_str(implode('&', $q), $q);
+
+        $query = [];
+
+        foreach ($q as $k => $v) {
+            if (false !== $i = strpos($k, '_')) {
+                $query[substr_replace($k, hex2bin(substr($k, 0, $i)).'[', 0, 1 + $i)] = $v;
+            } else {
+                $query[hex2bin($k)] = $v;
+            }
+        }
+
+        return $query;
+    }
+
+    private static function groupParts(array $matches, string $separators, bool $first = true): array
     {
         $separator = $separators[0];
-        $partSeparators = substr($separators, 1);
-
+        $separators = substr($separators, 1) ?: '';
         $i = 0;
+
+        if ('' === $separators && !$first) {
+            $parts = [''];
+
+            foreach ($matches as $match) {
+                if (!$i && isset($match['separator'])) {
+                    $i = 1;
+                    $parts[1] = '';
+                } else {
+                    $parts[$i] .= self::unquote($match[0]);
+                }
+            }
+
+            return $parts;
+        }
+
+        $parts = [];
         $partMatches = [];
+
         foreach ($matches as $match) {
-            if (isset($match['separator']) && $match['separator'] === $separator) {
+            if (($match['separator'] ?? null) === $separator) {
                 ++$i;
             } else {
                 $partMatches[$i][] = $match;
             }
         }
 
-        $parts = [];
-        if ($partSeparators) {
-            foreach ($partMatches as $matches) {
-                $parts[] = self::groupParts($matches, $partSeparators);
-            }
-        } else {
-            foreach ($partMatches as $matches) {
-                $parts[] = self::unquote($matches[0][0]);
-            }
+        foreach ($partMatches as $matches) {
+            $parts[] = '' === $separators ? self::unquote($matches[0][0]) : self::groupParts($matches, $separators, false);
         }
 
         return $parts;

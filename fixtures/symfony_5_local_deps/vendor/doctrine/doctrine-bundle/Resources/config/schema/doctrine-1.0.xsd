@@ -29,9 +29,8 @@
         <xsd:attribute name="driver-class" type="xsd:string" />
         <xsd:attribute name="wrapper-class" type="xsd:string" />
         <xsd:attribute name="keep-slave" type="xsd:string" />
+        <xsd:attribute name="keep-replica" type="xsd:string" />
         <xsd:attribute name="platform-service" type="xsd:string" />
-        <xsd:attribute name="shard-choser" type="xsd:string" />
-        <xsd:attribute name="shard-choser-service" type="xsd:string" />
         <xsd:attribute name="auto-commit" type="xsd:string" />
         <xsd:attribute name="schema-filter" type="xsd:string" />
         <xsd:attribute name="logging" type="xsd:string" default="false" />
@@ -39,7 +38,10 @@
         <xsd:attribute name="profiling-collect-backtrace" type="xsd:string" default="false" />
         <xsd:attribute name="profiling-collect-schema-errors" type="xsd:string" default="true" />
         <xsd:attribute name="server-version" type="xsd:string" />
+        <xsd:attribute name="schema-manager-factory" type="xsd:string" />
+        <xsd:attribute name="result-cache" type="xsd:string" />
         <xsd:attribute name="use-savepoints" type="xsd:boolean" />
+        <xsd:attribute name="disable-type-comments" type="xsd:boolean" />
         <xsd:attributeGroup ref="driver-config" />
     </xsd:attributeGroup>
 
@@ -50,6 +52,8 @@
         <xsd:attribute name="port" type="xsd:string" />
         <xsd:attribute name="user" type="xsd:string" />
         <xsd:attribute name="password" type="xsd:string" />
+        <xsd:attribute name="override-url" type="xsd:boolean" />
+        <xsd:attribute name="dbname-suffix" type="xsd:string" />
         <xsd:attribute name="application-name" type="xsd:string" />
         <xsd:attribute name="path" type="xsd:string" />
         <xsd:attribute name="unix-socket" type="xsd:string" />
@@ -77,8 +81,8 @@
         <xsd:choice>
             <xsd:element name="option" type="option" />
             <xsd:element name="mapping-type" type="named_scalar" />
-            <xsd:element name="slave" type="slave" />
-            <xsd:element name="shard" type="shard" />
+            <xsd:element name="slave" type="replica" />
+            <xsd:element name="replica" type="replica" />
             <xsd:element name="default-table-option" type="named_scalar" />
         </xsd:choice>
     </xsd:group>
@@ -87,11 +91,20 @@
         <xsd:choice minOccurs="0" maxOccurs="unbounded">
             <xsd:element name="connection" type="connection" />
             <xsd:element name="type" type="named_scalar" />
+            <xsd:element name="driver-scheme" type="driver_scheme" />
             <xsd:group ref="connection-child-config" />
         </xsd:choice>
 
         <xsd:attribute name="default-connection" type="xsd:string" />
         <xsd:attributeGroup ref="connection-config" />
+    </xsd:complexType>
+
+    <xsd:complexType name="driver_scheme">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="scheme" type="xsd:string" use="required" />
+            </xsd:extension>
+        </xsd:simpleContent>
     </xsd:complexType>
 
     <xsd:complexType name="option">
@@ -109,13 +122,8 @@
         <xsd:attributeGroup ref="connection-config" />
     </xsd:complexType>
 
-    <xsd:complexType name="slave">
+    <xsd:complexType name="replica">
         <xsd:attribute name="name" type="xsd:string" use="required" />
-        <xsd:attributeGroup ref="driver-config" />
-    </xsd:complexType>
-
-    <xsd:complexType name="shard">
-        <xsd:attribute name="id" type="xsd:integer" use="required" />
         <xsd:attributeGroup ref="driver-config" />
     </xsd:complexType>
 
@@ -141,6 +149,7 @@
         <xsd:attribute name="proxy-dir" type="xsd:string" />
         <xsd:attribute name="proxy-namespace" type="xsd:string" />
         <xsd:attribute name="auto-generate-proxy-classes" type="xsd:string" default="false" />
+        <xsd:attribute name="enable-lazy-ghost-objects" type="xsd:boolean" />
         <xsd:attributeGroup ref="entity-manager-config" />
     </xsd:complexType>
 
@@ -208,6 +217,7 @@
             <xsd:element name="filter" type="filter" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="entity-listeners" type="entity_listeners" minOccurs="0" maxOccurs="1" />
             <xsd:element name="second-level-cache" type="second-level-cache" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="schema-ignore-class" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
         </xsd:choice>
     </xsd:group>
 
@@ -220,6 +230,8 @@
         <xsd:attribute name="quote-strategy" type="xsd:string" />
         <xsd:attribute name="entity-listener-resolver" type="xsd:string" />
         <xsd:attribute name="repository-factory" type="xsd:string" />
+        <xsd:attribute name="report-fields-where-declared" type="xsd:boolean" />
+        <xsd:attribute name="validate-xml-mapping" type="xsd:boolean" />
     </xsd:attributeGroup>
 
     <xsd:complexType name="filter" mixed="true">

@@ -12,7 +12,9 @@
 namespace Symfony\Bridge\PhpUnit;
 
 use PHPUnit\Framework\TestResult;
-use PHPUnit\Util\ErrorHandler;
+use PHPUnit\Runner\ErrorHandler;
+use PHPUnit\Util\Error\Handler;
+use PHPUnit\Util\ErrorHandler as UtilErrorHandler;
 use Symfony\Bridge\PhpUnit\DeprecationErrorHandler\Configuration;
 use Symfony\Bridge\PhpUnit\DeprecationErrorHandler\Deprecation;
 use Symfony\Bridge\PhpUnit\DeprecationErrorHandler\DeprecationGroup;
@@ -25,9 +27,9 @@ use Symfony\Component\ErrorHandler\DebugClassLoader;
  */
 class DeprecationErrorHandler
 {
-    const MODE_DISABLED = 'disabled';
-    const MODE_WEAK = 'max[total]=999999&verbose=0';
-    const MODE_STRICT = 'max[total]=0';
+    public const MODE_DISABLED = 'disabled';
+    public const MODE_WEAK = 'max[total]=999999&verbose=0';
+    public const MODE_STRICT = 'max[total]=0';
 
     private $mode;
     private $configuration;
@@ -38,7 +40,7 @@ class DeprecationErrorHandler
     private $deprecationGroups = [];
 
     private static $isRegistered = false;
-    private static $isAtLeastPhpUnit83;
+    private static $errorHandler;
 
     public function __construct()
     {
@@ -49,8 +51,9 @@ class DeprecationErrorHandler
      * Registers and configures the deprecation handler.
      *
      * The mode is a query string with options:
-     *  - "disabled" to disable the deprecation handler
+     *  - "disabled" to enable/disable the deprecation handler
      *  - "verbose" to enable/disable displaying the deprecation report
+     *  - "quiet" to disable displaying the deprecation report only for some groups (i.e. quiet[]=other)
      *  - "max" to configure the number of deprecations to allow before exiting with a non-zero
      *    status code; it's an array with keys "total", "self", "direct" and "indirect"
      *
@@ -73,7 +76,12 @@ class DeprecationErrorHandler
         if (null !== $oldErrorHandler) {
             restore_error_handler();
 
-            if ($oldErrorHandler instanceof ErrorHandler || [ErrorHandler::class, 'handleError'] === $oldErrorHandler) {
+            if (
+                $oldErrorHandler instanceof UtilErrorHandler
+                || [UtilErrorHandler::class, 'handleError'] === $oldErrorHandler
+                || $oldErrorHandler instanceof ErrorHandler
+                || [ErrorHandler::class, 'handleError'] === $oldErrorHandler
+            ) {
                 restore_error_handler();
                 self::register($mode);
             }
@@ -124,40 +132,50 @@ class DeprecationErrorHandler
             return \call_user_func(self::getPhpUnitErrorHandler(), $type, $msg, $file, $line, $context);
         }
 
-        $deprecation = new Deprecation($msg, debug_backtrace(), $file);
+        $trace = debug_backtrace();
+
+        if (isset($trace[1]['function'], $trace[1]['args'][0]) && ('trigger_error' === $trace[1]['function'] || 'user_error' === $trace[1]['function'])) {
+            $msg = $trace[1]['args'][0];
+        }
+
+        $deprecation = new Deprecation($msg, $trace, $file, \E_DEPRECATED === $type);
         if ($deprecation->isMuted()) {
             return null;
         }
-        $group = 'other';
+        if ($this->getConfiguration()->isIgnoredDeprecation($deprecation)) {
+            return null;
+        }
+        if ($this->getConfiguration()->isBaselineDeprecation($deprecation)) {
+            return null;
+        }
 
-        if ($deprecation->originatesFromAnObject()) {
+        $msg = $deprecation->getMessage();
+
+        if (\E_DEPRECATED !== $type && (error_reporting() & $type)) {
+            $group = 'unsilenced';
+        } elseif ($deprecation->isLegacy()) {
+            $group = 'legacy';
+        } else {
+            $group = [
+                Deprecation::TYPE_SELF => 'self',
+                Deprecation::TYPE_DIRECT => 'direct',
+                Deprecation::TYPE_INDIRECT => 'indirect',
+                Deprecation::TYPE_UNDETERMINED => 'other',
+            ][$deprecation->getType()];
+        }
+
+        if ($this->getConfiguration()->shouldDisplayStackTrace($msg)) {
+            echo "\n".ucfirst($group).' '.$deprecation->toString();
+
+            exit(1);
+        }
+
+        if ('legacy' === $group) {
+            $this->deprecationGroups[$group]->addNotice();
+        } elseif ($deprecation->originatesFromAnObject()) {
             $class = $deprecation->originatingClass();
             $method = $deprecation->originatingMethod();
-            $msg = $deprecation->getMessage();
-
-            if (error_reporting() & $type) {
-                $group = 'unsilenced';
-            } elseif ($deprecation->isLegacy()) {
-                $group = 'legacy';
-            } else {
-                $group = [
-                    Deprecation::TYPE_SELF => 'self',
-                    Deprecation::TYPE_DIRECT => 'direct',
-                    Deprecation::TYPE_INDIRECT => 'indirect',
-                    Deprecation::TYPE_UNDETERMINED => 'other',
-                ][$deprecation->getType()];
-            }
-
-            if ($this->getConfiguration()->shouldDisplayStackTrace($msg)) {
-                echo "\n".ucfirst($group).' '.$deprecation->toString();
-
-                exit(1);
-            }
-            if ('legacy' !== $group) {
-                $this->deprecationGroups[$group]->addNoticeFromObject($msg, $class, $method);
-            } else {
-                $this->deprecationGroups[$group]->addNotice();
-            }
+            $this->deprecationGroups[$group]->addNoticeFromObject($msg, $class, $method);
         } else {
             $this->deprecationGroups[$group]->addNoticeFromProceduralCode($msg);
         }
@@ -179,7 +197,7 @@ class DeprecationErrorHandler
         if (class_exists(DebugClassLoader::class, false)) {
             DebugClassLoader::checkClasses();
         }
-        $currErrorHandler = set_error_handler('var_dump');
+        $currErrorHandler = set_error_handler('is_int');
         restore_error_handler();
 
         if ($currErrorHandler !== [$this, 'handleError']) {
@@ -191,7 +209,7 @@ class DeprecationErrorHandler
         // store failing status
         $isFailing = !$configuration->tolerates($this->deprecationGroups);
 
-        $this->displayDeprecations($groups, $configuration, $isFailing);
+        $this->displayDeprecations($groups, $configuration);
 
         $this->resetDeprecationGroups();
 
@@ -204,7 +222,11 @@ class DeprecationErrorHandler
             }
 
             $isFailingAtShutdown = !$configuration->tolerates($this->deprecationGroups);
-            $this->displayDeprecations($groups, $configuration, $isFailingAtShutdown);
+            $this->displayDeprecations($groups, $configuration);
+
+            if ($configuration->isGeneratingBaseline()) {
+                $configuration->writeBaseline();
+            }
 
             if ($isFailing || $isFailingAtShutdown) {
                 exit(1);
@@ -230,13 +252,7 @@ class DeprecationErrorHandler
             return $this->configuration;
         }
         if (false === $mode = $this->mode) {
-            if (isset($_SERVER['SYMFONY_DEPRECATIONS_HELPER'])) {
-                $mode = $_SERVER['SYMFONY_DEPRECATIONS_HELPER'];
-            } elseif (isset($_ENV['SYMFONY_DEPRECATIONS_HELPER'])) {
-                $mode = $_ENV['SYMFONY_DEPRECATIONS_HELPER'];
-            } else {
-                $mode = getenv('SYMFONY_DEPRECATIONS_HELPER');
-            }
+            $mode = $_SERVER['SYMFONY_DEPRECATIONS_HELPER'] ?? $_ENV['SYMFONY_DEPRECATIONS_HELPER'] ?? getenv('SYMFONY_DEPRECATIONS_HELPER');
         }
         if ('strict' === $mode) {
             return $this->configuration = Configuration::inStrictMode();
@@ -282,40 +298,57 @@ class DeprecationErrorHandler
     /**
      * @param string[]      $groups
      * @param Configuration $configuration
-     * @param bool          $isFailing
+     *
+     * @throws \InvalidArgumentException
      */
-    private function displayDeprecations($groups, $configuration, $isFailing)
+    private function displayDeprecations($groups, $configuration)
     {
         $cmp = function ($a, $b) {
             return $b->count() - $a->count();
         };
 
+        if ($configuration->shouldWriteToLogFile()) {
+            if (false === $handle = @fopen($file = $configuration->getLogFile(), 'a')) {
+                throw new \InvalidArgumentException(sprintf('The configured log file "%s" is not writeable.', $file));
+            }
+        } else {
+            $handle = fopen('php://output', 'w');
+        }
+
         foreach ($groups as $group) {
             if ($this->deprecationGroups[$group]->count()) {
-                echo "\n", self::colorize(
-                    sprintf(
-                        '%s deprecation notices (%d)',
-                        \in_array($group, ['direct', 'indirect', 'self'], true) ? "Remaining $group" : ucfirst($group),
-                        $this->deprecationGroups[$group]->count()
-                    ),
-                    'legacy' !== $group && 'indirect' !== $group
-                ), "\n";
+                $deprecationGroupMessage = sprintf(
+                    '%s deprecation notices (%d)',
+                    \in_array($group, ['direct', 'indirect', 'self'], true) ? "Remaining $group" : ucfirst($group),
+                    $this->deprecationGroups[$group]->count()
+                );
+                if ($configuration->shouldWriteToLogFile()) {
+                    fwrite($handle, "\n$deprecationGroupMessage\n");
+                } else {
+                    fwrite($handle, "\n".self::colorize($deprecationGroupMessage, 'legacy' !== $group && 'indirect' !== $group)."\n");
+                }
 
-                if ('legacy' !== $group && !$configuration->verboseOutput($group) && !$isFailing) {
+                // Skip the verbose output if the group is quiet and not failing according to its threshold:
+                if ('legacy' !== $group && !$configuration->verboseOutput($group) && $configuration->toleratesForGroup($group, $this->deprecationGroups)) {
                     continue;
                 }
                 $notices = $this->deprecationGroups[$group]->notices();
                 uasort($notices, $cmp);
 
                 foreach ($notices as $msg => $notice) {
-                    echo "\n  ", $notice->count(), 'x: ', $msg, "\n";
+                    fwrite($handle, sprintf("\n  %sx: %s\n", $notice->count(), $msg));
 
                     $countsByCaller = $notice->getCountsByCaller();
                     arsort($countsByCaller);
+                    $limit = 5;
 
                     foreach ($countsByCaller as $method => $count) {
                         if ('count' !== $method) {
-                            echo '    ', $count, 'x in ', preg_replace('/(.*)\\\\(.*?::.*?)$/', '$2 from $1', $method), "\n";
+                            if (!$limit--) {
+                                fwrite($handle, "    ...\n");
+                                break;
+                            }
+                            fwrite($handle, sprintf("    %dx in %s\n", $count, preg_replace('/(.*)\\\\(.*?::.*?)$/', '$2 from $1', $method)));
                         }
                     }
                 }
@@ -323,22 +356,31 @@ class DeprecationErrorHandler
         }
 
         if (!empty($notices)) {
-            echo "\n";
+            fwrite($handle, "\n");
         }
     }
 
-    private static function getPhpUnitErrorHandler()
+    private static function getPhpUnitErrorHandler(): callable
     {
-        if (!isset(self::$isAtLeastPhpUnit83)) {
-            self::$isAtLeastPhpUnit83 = class_exists('PHPUnit\Util\ErrorHandler') && method_exists('PHPUnit\Util\ErrorHandler', '__invoke');
+        if (!$eh = self::$errorHandler) {
+            if (class_exists(Handler::class)) {
+                $eh = self::$errorHandler = Handler::class;
+            } elseif (method_exists(UtilErrorHandler::class, '__invoke')) {
+                $eh = self::$errorHandler = UtilErrorHandler::class;
+            } elseif (method_exists(ErrorHandler::class, '__invoke')) {
+                $eh = self::$errorHandler = ErrorHandler::class;
+            } else {
+                return self::$errorHandler = 'PHPUnit\Util\ErrorHandler::handleError';
+            }
         }
-        if (!self::$isAtLeastPhpUnit83) {
-            return 'PHPUnit\Util\ErrorHandler::handleError';
+
+        if ('PHPUnit\Util\ErrorHandler::handleError' === $eh) {
+            return $eh;
         }
 
         foreach (debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS) as $frame) {
             if (isset($frame['object']) && $frame['object'] instanceof TestResult) {
-                return new ErrorHandler(
+                return new $eh(
                     $frame['object']->getConvertDeprecationsToExceptions(),
                     $frame['object']->getConvertErrorsToExceptions(),
                     $frame['object']->getConvertNoticesToExceptions(),
@@ -382,11 +424,11 @@ class DeprecationErrorHandler
         }
 
         if (\function_exists('stream_isatty')) {
-            return stream_isatty(\STDOUT);
+            return @stream_isatty(\STDOUT);
         }
 
         if (\function_exists('posix_isatty')) {
-            return posix_isatty(\STDOUT);
+            return @posix_isatty(\STDOUT);
         }
 
         $stat = fstat(\STDOUT);

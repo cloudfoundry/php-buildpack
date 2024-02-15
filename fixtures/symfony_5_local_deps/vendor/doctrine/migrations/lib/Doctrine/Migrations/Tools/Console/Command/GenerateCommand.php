@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Doctrine\Migrations\Tools\Console\Command;
 
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
 use function assert;
 use function is_string;
 use function key;
@@ -16,12 +18,13 @@ use function sprintf;
 /**
  * The GenerateCommand class is responsible for generating a blank migration class for you to modify to your needs.
  */
+#[AsCommand(name: 'migrations:generate', description: 'Generate a blank migration class.')]
 final class GenerateCommand extends DoctrineCommand
 {
-    /** @var string */
+    /** @var string|null */
     protected static $defaultName = 'migrations:generate';
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this
             ->setAliases(['generate'])
@@ -30,20 +33,19 @@ final class GenerateCommand extends DoctrineCommand
                 'namespace',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'The namespace to use for the migration (must be in the list of configured namespaces)'
+                'The namespace to use for the migration (must be in the list of configured namespaces)',
             )
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command generates a blank migration class:
 
     <info>%command.full_name%</info>
 
-EOT
-            );
+EOT);
 
         parent::configure();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configuration = $this->getDependencyFactory()->getConfiguration();
 
@@ -72,12 +74,12 @@ EOT
             '',
             sprintf(
                 'To run just this migration for testing purposes, you can use <info>migrations:execute --up \'%s\'</info>',
-                $fqcn
+                $fqcn,
             ),
             '',
             sprintf(
                 'To revert the migration you can use <info>migrations:execute --down \'%s\'</info>',
-                $fqcn
+                $fqcn,
             ),
             '',
         ]);

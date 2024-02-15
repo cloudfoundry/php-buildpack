@@ -23,9 +23,7 @@ namespace Symfony\Component\Validator;
 interface ObjectInitializerInterface
 {
     /**
-     * Initializes an object just before validation.
-     *
-     * @param object $object The object to validate
+     * @return void
      */
     public function initialize(object $object);
 }

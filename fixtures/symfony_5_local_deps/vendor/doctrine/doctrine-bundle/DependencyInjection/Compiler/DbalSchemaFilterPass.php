@@ -7,14 +7,16 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+use function sprintf;
+
 /**
  * Processes the doctrine.dbal.schema_filter
+ *
+ * @final since 2.9
  */
 class DbalSchemaFilterPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    /** @return void */
     public function process(ContainerBuilder $container)
     {
         $filters = $container->findTaggedServiceIds('doctrine.dbal.schema_filter');
@@ -22,7 +24,7 @@ class DbalSchemaFilterPass implements CompilerPassInterface
         $connectionFilters = [];
         foreach ($filters as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $name = isset($attributes['connection']) ? $attributes['connection'] : $container->getParameter('doctrine.default_connection');
+                $name = $attributes['connection'] ?? $container->getParameter('doctrine.default_connection');
 
                 if (! isset($connectionFilters[$name])) {
                     $connectionFilters[$name] = [];

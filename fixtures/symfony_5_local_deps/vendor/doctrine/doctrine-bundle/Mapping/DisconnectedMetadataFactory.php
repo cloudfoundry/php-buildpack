@@ -10,18 +10,19 @@ use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
+use function dirname;
+use function sprintf;
+use function str_replace;
+use function strpos;
+
 /**
  * This class provides methods to access Doctrine entity class metadata for a
  * given bundle, namespace or entity class, for generation purposes
  */
 class DisconnectedMetadataFactory
 {
-    /** @var ManagerRegistry */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    /**
-     * @param ManagerRegistry $registry A ManagerRegistry instance
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -105,22 +106,9 @@ class DisconnectedMetadataFactory
      */
     public function findNamespaceAndPathForMetadata(ClassMetadataCollection $metadata, $path = null)
     {
-        $all = $metadata->getMetadata();
-        if (class_exists($all[0]->name)) {
-            $r    = new ReflectionClass($all[0]->name);
-            $path = $this->getBasePathForClass($r->getName(), $r->getNamespaceName(), dirname($r->getFilename()));
-            $ns   = $r->getNamespaceName();
-        } elseif ($path) {
-            // Get namespace by removing the last component of the FQCN
-            $nsParts = explode('\\', $all[0]->name);
-            array_pop($nsParts);
-            $ns = implode('\\', $nsParts);
-        } else {
-            throw new RuntimeException(sprintf('Unable to determine where to save the "%s" class (use the --path option).', $all[0]->name));
-        }
-
-        $metadata->setPath($path);
-        $metadata->setNamespace($ns);
+        $r = new ReflectionClass($metadata->getMetadata()[0]->name);
+        $metadata->setPath($this->getBasePathForClass($r->getName(), $r->getNamespaceName(), dirname($r->getFilename())));
+        $metadata->setNamespace($r->getNamespaceName());
     }
 
     /**
@@ -128,7 +116,7 @@ class DisconnectedMetadataFactory
      *
      * @throws RuntimeException When base path not found.
      */
-    private function getBasePathForClass(string $name, string $namespace, string $path) : string
+    private function getBasePathForClass(string $name, string $namespace, string $path): string
     {
         $namespace   = str_replace('\\', '/', $namespace);
         $search      = str_replace('\\', '/', $path);
@@ -141,7 +129,7 @@ class DisconnectedMetadataFactory
         return $destination;
     }
 
-    private function getMetadataForNamespace(string $namespace) : ClassMetadataCollection
+    private function getMetadataForNamespace(string $namespace): ClassMetadataCollection
     {
         $metadata = [];
         foreach ($this->getAllMetadata() as $m) {
@@ -155,7 +143,7 @@ class DisconnectedMetadataFactory
         return new ClassMetadataCollection($metadata);
     }
 
-    private function getMetadataForClass(string $entity) : ClassMetadataCollection
+    private function getMetadataForClass(string $entity): ClassMetadataCollection
     {
         foreach ($this->registry->getManagers() as $em) {
             $cmf = new DisconnectedClassMetadataFactory();
@@ -169,10 +157,8 @@ class DisconnectedMetadataFactory
         return new ClassMetadataCollection([]);
     }
 
-    /**
-     * @return ClassMetadata[]
-     */
-    private function getAllMetadata() : array
+    /** @return ClassMetadata[] */
+    private function getAllMetadata(): array
     {
         $metadata = [];
         foreach ($this->registry->getManagers() as $em) {

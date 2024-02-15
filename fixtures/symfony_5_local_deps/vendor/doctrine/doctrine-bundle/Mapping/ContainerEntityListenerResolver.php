@@ -6,32 +6,33 @@ use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
-/**
- * @final
- */
+use function get_class;
+use function gettype;
+use function is_object;
+use function sprintf;
+use function trim;
+
+/** @final */
 class ContainerEntityListenerResolver implements EntityListenerServiceResolver
 {
-    /** @var ContainerInterface */
-    private $container;
+    private ContainerInterface $container;
 
     /** @var object[] Map to store entity listener instances. */
-    private $instances = [];
+    private array $instances = [];
 
     /** @var string[] Map to store registered service ids */
-    private $serviceIds = [];
+    private array $serviceIds = [];
 
-    /**
-     * @param ContainerInterface $container a service locator for listeners
-     */
+    /** @param ContainerInterface $container a service locator for listeners */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function clear($className = null)
+    public function clear($className = null): void
     {
         if ($className === null) {
             $this->instances = [];
@@ -45,9 +46,9 @@ class ContainerEntityListenerResolver implements EntityListenerServiceResolver
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function register($object)
+    public function register($object): void
     {
         if (! is_object($object)) {
             throw new InvalidArgumentException(sprintf('An object was expected, but got "%s".', gettype($object)));
@@ -59,7 +60,7 @@ class ContainerEntityListenerResolver implements EntityListenerServiceResolver
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function registerService($className, $serviceId)
     {
@@ -67,9 +68,9 @@ class ContainerEntityListenerResolver implements EntityListenerServiceResolver
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function resolve($className)
+    public function resolve($className): object
     {
         $className = $this->normalizeClassName($className);
 
@@ -84,10 +85,7 @@ class ContainerEntityListenerResolver implements EntityListenerServiceResolver
         return $this->instances[$className];
     }
 
-    /**
-     * @return object
-     */
-    private function resolveService(string $serviceId)
+    private function resolveService(string $serviceId): object
     {
         if (! $this->container->has($serviceId)) {
             throw new RuntimeException(sprintf('There is no service named "%s"', $serviceId));
@@ -96,7 +94,7 @@ class ContainerEntityListenerResolver implements EntityListenerServiceResolver
         return $this->container->get($serviceId);
     }
 
-    private function normalizeClassName(string $className) : string
+    private function normalizeClassName(string $className): string
     {
         return trim($className, '\\');
     }

@@ -11,10 +11,10 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
 class ManagerConfigurator
 {
     /** @var string[] */
-    private $enabledFilters = [];
+    private array $enabledFilters = [];
 
     /** @var array<string,array<string,string>> */
-    private $filtersParameters = [];
+    private array $filtersParameters = [];
 
     /**
      * @param string[]                           $enabledFilters
@@ -37,7 +37,7 @@ class ManagerConfigurator
     /**
      * Enables filters for a given entity manager
      */
-    private function enableFilters(EntityManagerInterface $entityManager) : void
+    private function enableFilters(EntityManagerInterface $entityManager): void
     {
         if (empty($this->enabledFilters)) {
             return;
@@ -45,19 +45,14 @@ class ManagerConfigurator
 
         $filterCollection = $entityManager->getFilters();
         foreach ($this->enabledFilters as $filter) {
-            $filterObject = $filterCollection->enable($filter);
-            if ($filterObject === null) {
-                continue;
-            }
-
-            $this->setFilterParameters($filter, $filterObject);
+            $this->setFilterParameters($filter, $filterCollection->enable($filter));
         }
     }
 
     /**
      * Sets default parameters for a given filter
      */
-    private function setFilterParameters(string $name, SQLFilter $filter) : void
+    private function setFilterParameters(string $name, SQLFilter $filter): void
     {
         if (empty($this->filtersParameters[$name])) {
             return;

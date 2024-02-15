@@ -11,21 +11,26 @@
 
 namespace Monolog\Processor;
 
+use Monolog\LogRecord;
+
 /**
  * Injects value of gethostname in all records
  */
 class HostnameProcessor implements ProcessorInterface
 {
-    private static $host;
+    private static string $host;
 
     public function __construct()
     {
         self::$host = (string) gethostname();
     }
 
-    public function __invoke(array $record): array
+    /**
+     * @inheritDoc
+     */
+    public function __invoke(LogRecord $record): LogRecord
     {
-        $record['extra']['hostname'] = self::$host;
+        $record->extra['hostname'] = self::$host;
 
         return $record;
     }

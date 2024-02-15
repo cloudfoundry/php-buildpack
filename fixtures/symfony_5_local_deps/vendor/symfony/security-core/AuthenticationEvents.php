@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Security\Core;
 
+use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
+
 final class AuthenticationEvents
 {
     /**
@@ -19,13 +21,14 @@ final class AuthenticationEvents
      *
      * @Event("Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent")
      */
-    const AUTHENTICATION_SUCCESS = 'security.authentication.success';
+    public const AUTHENTICATION_SUCCESS = 'security.authentication.success';
 
     /**
-     * The AUTHENTICATION_FAILURE event occurs after a user cannot be
-     * authenticated by any of the providers.
+     * Event aliases.
      *
-     * @Event("Symfony\Component\Security\Core\Event\AuthenticationFailureEvent")
+     * These aliases can be consumed by RegisterListenersPass.
      */
-    const AUTHENTICATION_FAILURE = 'security.authentication.failure';
+    public const ALIASES = [
+        AuthenticationSuccessEvent::class => self::AUTHENTICATION_SUCCESS,
+    ];
 }

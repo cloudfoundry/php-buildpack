@@ -3,35 +3,29 @@
 namespace Doctrine\Bundle\DoctrineBundle\Command\Proxy;
 
 use Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command to drop the database schema for a set of classes based on their mappings.
+ *
+ * @deprecated use Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand instead
  */
 class DropSchemaDoctrineCommand extends DropCommand
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
+    use OrmProxyCommand;
+
+    protected function configure(): void
     {
         parent::configure();
 
         $this
             ->setName('doctrine:schema:drop')
-            ->setDescription('Executes (or dumps) the SQL needed to drop the current database schema')
-            ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
-    }
+            ->setDescription('Executes (or dumps) the SQL needed to drop the current database schema');
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        DoctrineCommandHelper::setApplicationEntityManager($this->getApplication(), $input->getOption('em'));
+        if ($this->getDefinition()->hasOption('em')) {
+            return;
+        }
 
-        return parent::execute($input, $output);
+        $this->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
     }
 }

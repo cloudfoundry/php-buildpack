@@ -14,6 +14,9 @@ namespace Symfony\Component\Cache\DependencyInjection;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\ChainAdapter;
+use Symfony\Component\Cache\Adapter\NullAdapter;
+use Symfony\Component\Cache\Adapter\ParameterNormalizer;
+use Symfony\Component\Cache\Messenger\EarlyExpirationDispatcher;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -26,35 +29,19 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CachePoolPass implements CompilerPassInterface
 {
-    private $cachePoolTag;
-    private $kernelResetTag;
-    private $cacheClearerId;
-    private $cachePoolClearerTag;
-    private $cacheSystemClearerId;
-    private $cacheSystemClearerTag;
-
-    public function __construct(string $cachePoolTag = 'cache.pool', string $kernelResetTag = 'kernel.reset', string $cacheClearerId = 'cache.global_clearer', string $cachePoolClearerTag = 'cache.pool.clearer', string $cacheSystemClearerId = 'cache.system_clearer', string $cacheSystemClearerTag = 'kernel.cache_clearer')
-    {
-        $this->cachePoolTag = $cachePoolTag;
-        $this->kernelResetTag = $kernelResetTag;
-        $this->cacheClearerId = $cacheClearerId;
-        $this->cachePoolClearerTag = $cachePoolClearerTag;
-        $this->cacheSystemClearerId = $cacheSystemClearerId;
-        $this->cacheSystemClearerTag = $cacheSystemClearerTag;
-    }
-
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function process(ContainerBuilder $container)
     {
         if ($container->hasParameter('cache.prefix.seed')) {
-            $seed = '.'.$container->getParameterBag()->resolveValue($container->getParameter('cache.prefix.seed'));
+            $seed = $container->getParameterBag()->resolveValue($container->getParameter('cache.prefix.seed'));
         } else {
             $seed = '_'.$container->getParameter('kernel.project_dir');
+            $seed .= '.'.$container->getParameter('kernel.container_class');
         }
-        $seed .= '.'.$container->getParameter('kernel.container_class');
 
+        $needsMessageHandler = false;
         $allPools = [];
         $clearers = [];
         $attributes = [
@@ -62,9 +49,10 @@ class CachePoolPass implements CompilerPassInterface
             'name',
             'namespace',
             'default_lifetime',
+            'early_expiration_message_bus',
             'reset',
         ];
-        foreach ($container->findTaggedServiceIds($this->cachePoolTag) as $id => $tags) {
+        foreach ($container->findTaggedServiceIds('cache.pool') as $id => $tags) {
             $adapter = $pool = $container->getDefinition($id);
             if ($pool->isAbstract()) {
                 continue;
@@ -73,7 +61,7 @@ class CachePoolPass implements CompilerPassInterface
             while ($adapter instanceof ChildDefinition) {
                 $adapter = $container->findDefinition($adapter->getParent());
                 $class = $class ?: $adapter->getClass();
-                if ($t = $adapter->getTag($this->cachePoolTag)) {
+                if ($t = $adapter->getTag('cache.pool')) {
                     $tags[0] += $t[0];
                 }
             }
@@ -115,7 +103,7 @@ class CachePoolPass implements CompilerPassInterface
                     while ($adapter instanceof ChildDefinition) {
                         $adapter = $container->findDefinition($adapter->getParent());
                         $chainedClass = $chainedClass ?: $adapter->getClass();
-                        if ($t = $adapter->getTag($this->cachePoolTag)) {
+                        if ($t = $adapter->getTag('cache.pool')) {
                             $chainedTags[0] += $t[0];
                         }
                     }
@@ -130,7 +118,7 @@ class CachePoolPass implements CompilerPassInterface
                         $chainedPool->replaceArgument($i++, new Reference(static::getServiceProvider($container, $chainedTags[0]['provider'])));
                     }
 
-                    if (isset($tags[0]['namespace']) && ArrayAdapter::class !== $adapter->getClass()) {
+                    if (isset($tags[0]['namespace']) && !\in_array($adapter->getClass(), [ArrayAdapter::class, NullAdapter::class], true)) {
                         $chainedPool->replaceArgument($i++, $tags[0]['namespace']);
                     }
 
@@ -153,15 +141,33 @@ class CachePoolPass implements CompilerPassInterface
                     // no-op
                 } elseif ('reset' === $attr) {
                     if ($tags[0][$attr]) {
-                        $pool->addTag($this->kernelResetTag, ['method' => $tags[0][$attr]]);
+                        $pool->addTag('kernel.reset', ['method' => $tags[0][$attr]]);
                     }
-                } elseif ('namespace' !== $attr || ArrayAdapter::class !== $class) {
-                    $pool->replaceArgument($i++, $tags[0][$attr]);
+                } elseif ('early_expiration_message_bus' === $attr) {
+                    $needsMessageHandler = true;
+                    $pool->addMethodCall('setCallbackWrapper', [(new Definition(EarlyExpirationDispatcher::class))
+                        ->addArgument(new Reference($tags[0]['early_expiration_message_bus']))
+                        ->addArgument(new Reference('reverse_container'))
+                        ->addArgument((new Definition('callable'))
+                            ->setFactory([new Reference($id), 'setCallbackWrapper'])
+                            ->addArgument(null)
+                        ),
+                    ]);
+                    $pool->addTag('container.reversible');
+                } elseif ('namespace' !== $attr || !\in_array($class, [ArrayAdapter::class, NullAdapter::class], true)) {
+                    $argument = $tags[0][$attr];
+
+                    if ('default_lifetime' === $attr && !is_numeric($argument)) {
+                        $argument = (new Definition('int', [$argument]))
+                            ->setFactory([ParameterNormalizer::class, 'normalizeDuration']);
+                    }
+
+                    $pool->replaceArgument($i++, $argument);
                 }
                 unset($tags[0][$attr]);
             }
             if (!empty($tags[0])) {
-                throw new InvalidArgumentException(sprintf('Invalid "%s" tag for service "%s": accepted attributes are "clearer", "provider", "name", "namespace", "default_lifetime" and "reset", found "%s".', $this->cachePoolTag, $id, implode('", "', array_keys($tags[0]))));
+                throw new InvalidArgumentException(sprintf('Invalid "cache.pool" tag for service "%s": accepted attributes are "clearer", "provider", "name", "namespace", "default_lifetime", "early_expiration_message_bus" and "reset", found "%s".', $id, implode('", "', array_keys($tags[0]))));
             }
 
             if (null !== $clearer) {
@@ -171,11 +177,15 @@ class CachePoolPass implements CompilerPassInterface
             $allPools[$name] = new Reference($id, $container::IGNORE_ON_UNINITIALIZED_REFERENCE);
         }
 
-        $notAliasedCacheClearerId = $this->cacheClearerId;
-        while ($container->hasAlias($this->cacheClearerId)) {
-            $this->cacheClearerId = (string) $container->getAlias($this->cacheClearerId);
+        if (!$needsMessageHandler) {
+            $container->removeDefinition('cache.early_expiration_handler');
         }
-        if ($container->hasDefinition($this->cacheClearerId)) {
+
+        $notAliasedCacheClearerId = 'cache.global_clearer';
+        while ($container->hasAlias($notAliasedCacheClearerId)) {
+            $notAliasedCacheClearerId = (string) $container->getAlias($notAliasedCacheClearerId);
+        }
+        if ($container->hasDefinition($notAliasedCacheClearerId)) {
             $clearers[$notAliasedCacheClearerId] = $allPools;
         }
 
@@ -186,19 +196,29 @@ class CachePoolPass implements CompilerPassInterface
             } else {
                 $clearer->setArgument(0, $pools);
             }
-            $clearer->addTag($this->cachePoolClearerTag);
+            $clearer->addTag('cache.pool.clearer');
 
-            if ($this->cacheSystemClearerId === $id) {
-                $clearer->addTag($this->cacheSystemClearerTag);
+            if ('cache.system_clearer' === $id) {
+                $clearer->addTag('kernel.cache_clearer');
             }
         }
 
+        $allPoolsKeys = array_keys($allPools);
+
         if ($container->hasDefinition('console.command.cache_pool_list')) {
-            $container->getDefinition('console.command.cache_pool_list')->replaceArgument(0, array_keys($allPools));
+            $container->getDefinition('console.command.cache_pool_list')->replaceArgument(0, $allPoolsKeys);
+        }
+
+        if ($container->hasDefinition('console.command.cache_pool_clear')) {
+            $container->getDefinition('console.command.cache_pool_clear')->addArgument($allPoolsKeys);
+        }
+
+        if ($container->hasDefinition('console.command.cache_pool_delete')) {
+            $container->getDefinition('console.command.cache_pool_delete')->addArgument($allPoolsKeys);
         }
     }
 
-    private function getNamespace(string $seed, string $id)
+    private function getNamespace(string $seed, string $id): string
     {
         return substr(str_replace('/', '-', base64_encode(hash('sha256', $id.$seed, true))), 0, 10);
     }
@@ -206,7 +226,7 @@ class CachePoolPass implements CompilerPassInterface
     /**
      * @internal
      */
-    public static function getServiceProvider(ContainerBuilder $container, $name)
+    public static function getServiceProvider(ContainerBuilder $container, string $name): string
     {
         $container->resolveEnvPlaceholders($name, null, $usedEnvs);
 
@@ -215,7 +235,6 @@ class CachePoolPass implements CompilerPassInterface
 
             if (!$container->hasDefinition($name = '.cache_connection.'.ContainerBuilder::hash($dsn))) {
                 $definition = new Definition(AbstractAdapter::class);
-                $definition->setPublic(false);
                 $definition->setFactory([AbstractAdapter::class, 'createConnection']);
                 $definition->setArguments([$dsn, ['lazy' => true]]);
                 $container->setDefinition($name, $definition);

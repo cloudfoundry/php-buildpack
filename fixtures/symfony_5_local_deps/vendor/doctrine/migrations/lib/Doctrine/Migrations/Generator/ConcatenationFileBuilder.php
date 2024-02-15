@@ -7,6 +7,7 @@ namespace Doctrine\Migrations\Generator;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Migrations\Query\Query;
+
 use function sprintf;
 
 /**
@@ -20,9 +21,9 @@ final class ConcatenationFileBuilder implements FileBuilder
     public function buildMigrationFile(
         array $queriesByVersion,
         string $direction,
-        ?DateTimeInterface $now = null
-    ) : string {
-        $now    = $now ?? new DateTimeImmutable();
+        DateTimeInterface|null $now = null,
+    ): string {
+        $now  ??= new DateTimeImmutable();
         $string = sprintf("-- Doctrine Migration File Generated on %s\n", $now->format('Y-m-d H:i:s'));
 
         foreach ($queriesByVersion as $version => $queries) {

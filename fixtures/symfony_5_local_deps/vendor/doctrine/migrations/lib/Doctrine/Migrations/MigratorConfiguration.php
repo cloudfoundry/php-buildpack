@@ -16,75 +16,70 @@ use Doctrine\DBAL\Schema\Schema;
  */
 class MigratorConfiguration
 {
-    /** @var bool */
-    private $dryRun = false;
+    private bool $dryRun = false;
 
-    /** @var bool */
-    private $timeAllQueries = false;
+    private bool $timeAllQueries = false;
 
-    /** @var bool */
-    private $noMigrationException = false;
+    private bool $noMigrationException = false;
 
-    /** @var bool */
-    private $allOrNothing = false;
+    private bool $allOrNothing = false;
 
-    /** @var Schema|null */
-    private $fromSchema;
+    private Schema|null $fromSchema = null;
 
-    public function isDryRun() : bool
+    public function isDryRun(): bool
     {
         return $this->dryRun;
     }
 
-    public function setDryRun(bool $dryRun) : self
+    public function setDryRun(bool $dryRun): self
     {
         $this->dryRun = $dryRun;
 
         return $this;
     }
 
-    public function getTimeAllQueries() : bool
+    public function getTimeAllQueries(): bool
     {
         return $this->timeAllQueries;
     }
 
-    public function setTimeAllQueries(bool $timeAllQueries) : self
+    public function setTimeAllQueries(bool $timeAllQueries): self
     {
         $this->timeAllQueries = $timeAllQueries;
 
         return $this;
     }
 
-    public function getNoMigrationException() : bool
+    public function getNoMigrationException(): bool
     {
         return $this->noMigrationException;
     }
 
-    public function setNoMigrationException(bool $noMigrationException = false) : self
+    public function setNoMigrationException(bool $noMigrationException = false): self
     {
         $this->noMigrationException = $noMigrationException;
 
         return $this;
     }
 
-    public function isAllOrNothing() : bool
+    public function isAllOrNothing(): bool
     {
         return $this->allOrNothing;
     }
 
-    public function setAllOrNothing(bool $allOrNothing) : self
+    public function setAllOrNothing(bool $allOrNothing): self
     {
         $this->allOrNothing = $allOrNothing;
 
         return $this;
     }
 
-    public function getFromSchema() : ?Schema
+    public function getFromSchema(): Schema|null
     {
         return $this->fromSchema;
     }
 
-    public function setFromSchema(Schema $fromSchema) : self
+    public function setFromSchema(Schema $fromSchema): self
     {
         $this->fromSchema = $fromSchema;
 

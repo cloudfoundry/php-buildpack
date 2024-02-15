@@ -12,7 +12,7 @@
 namespace Symfony\Component\Intl\Data\Bundle\Reader;
 
 use Symfony\Component\Intl\Exception\ResourceBundleNotFoundException;
-use Symfony\Component\Intl\Exception\RuntimeException;
+use Symfony\Component\Intl\Util\GzipStreamWrapper;
 
 /**
  * Reads .php resource bundles.
@@ -23,10 +23,7 @@ use Symfony\Component\Intl\Exception\RuntimeException;
  */
 class PhpBundleReader implements BundleReaderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function read(string $path, string $locale)
+    public function read(string $path, string $locale): mixed
     {
         $fileName = $path.'/'.$locale.'.php';
 
@@ -35,12 +32,12 @@ class PhpBundleReader implements BundleReaderInterface
             throw new ResourceBundleNotFoundException(sprintf('The resource bundle "%s" does not exist.', $fileName));
         }
 
-        if (!file_exists($fileName)) {
-            throw new ResourceBundleNotFoundException(sprintf('The resource bundle "%s/%s.php" does not exist.', $path, $locale));
+        if (is_file($fileName.'.gz')) {
+            return GzipStreamWrapper::require($fileName.'.gz');
         }
 
         if (!is_file($fileName)) {
-            throw new RuntimeException(sprintf('The resource bundle "%s/%s.php" is not a file.', $path, $locale));
+            throw new ResourceBundleNotFoundException(sprintf('The resource bundle "%s" does not exist.', $fileName));
         }
 
         return include $fileName;

@@ -5,7 +5,7 @@
     "keywords": [
         "database"
     ],
-    "homepage": "http://www.doctrine-project.org",
+    "homepage": "https://www.doctrine-project.org",
     "license": "MIT",
     "authors": [
         {
@@ -14,19 +14,27 @@
         }
     ],
     "require": {
-        "php": "^7.2 || ^8.0",
-        "doctrine/common": "^2.13|^3.0",
-        "doctrine/persistence": "^1.3.3|^2.0"
+        "php": "^7.4 || ^8.0",
+        "doctrine/deprecations": "^0.5.3 || ^1.0",
+        "doctrine/persistence": "^2.0|^3.0"
     },
     "conflict": {
+        "doctrine/dbal": "<3.5 || >=5",
+        "doctrine/orm": "<2.14 || >=4",
         "doctrine/phpcr-odm": "<1.3.0"
     },
     "require-dev": {
-        "doctrine/coding-standard": "^6.0",
-        "doctrine/dbal": "^2.5.4",
+        "ext-sqlite3": "*",
+        "doctrine/annotations": "^1.12 || ^2",
+        "doctrine/coding-standard": "^12",
+        "doctrine/dbal": "^3.5 || ^4",
         "doctrine/mongodb-odm": "^1.3.0 || ^2.0.0",
-        "doctrine/orm": "^2.7.0",
-        "phpunit/phpunit": "^7.0"
+        "doctrine/orm": "^2.14 || ^3",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^9.6.13 || ^10.4.2",
+        "symfony/cache": "^5.4 || ^6.3 || ^7",
+        "symfony/var-exporter": "^5.4 || ^6.3 || ^7",
+        "vimeo/psalm": "^5.9"
     },
     "suggest": {
         "alcaeus/mongo-php-adapter": "For using MongoDB ODM 1.3 with PHP 7 (deprecated)",
@@ -35,21 +43,20 @@
         "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
     },
     "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.4.x-dev"
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "autoload": {
         "psr-4": {
-            "Doctrine\\Common\\DataFixtures\\": "lib/Doctrine/Common/DataFixtures"
+            "Doctrine\\Common\\DataFixtures\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Doctrine\\Tests\\": "tests/Doctrine/Tests"
+            "Doctrine\\Tests\\": "tests"
         }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\Persistence;
 
 use Doctrine\Persistence\Mapping\ClassMetadata;
@@ -24,7 +26,7 @@ interface ObjectManager
      *
      * @template T of object
      */
-    public function find($className, $id);
+    public function find(string $className, $id);
 
     /**
      * Tells the ObjectManager to make an instance managed and persistent.
@@ -38,7 +40,7 @@ interface ObjectManager
      *
      * @return void
      */
-    public function persist($object);
+    public function persist(object $object);
 
     /**
      * Removes an object instance.
@@ -49,32 +51,15 @@ interface ObjectManager
      *
      * @return void
      */
-    public function remove($object);
-
-    /**
-     * Merges the state of a detached object into the persistence context
-     * of this ObjectManager and returns the managed copy of the object.
-     * The object passed to merge will not become associated/managed with this ObjectManager.
-     *
-     * @deprecated Merge operation is deprecated and will be removed in Persistence 2.0.
-     *             Merging should be part of the business domain of an application rather than
-     *             a generic operation of ObjectManager.
-     *
-     * @param object $object
-     *
-     * @return object
-     */
-    public function merge($object);
+    public function remove(object $object);
 
     /**
      * Clears the ObjectManager. All objects that are currently managed
      * by this ObjectManager become detached.
      *
-     * @param string|null $objectName if given, only objects of this type will get detached.
-     *
      * @return void
      */
-    public function clear($objectName = null);
+    public function clear();
 
     /**
      * Detaches an object from the ObjectManager, causing a managed object to
@@ -87,7 +72,7 @@ interface ObjectManager
      *
      * @return void
      */
-    public function detach($object);
+    public function detach(object $object);
 
     /**
      * Refreshes the persistent state of an object from the database,
@@ -97,7 +82,7 @@ interface ObjectManager
      *
      * @return void
      */
-    public function refresh($object);
+    public function refresh(object $object);
 
     /**
      * Flushes all changes to objects that have been queued up to now to the database.
@@ -111,15 +96,13 @@ interface ObjectManager
     /**
      * Gets the repository for a class.
      *
-     * @param string $className
      * @psalm-param class-string<T> $className
      *
-     * @return ObjectRepository
      * @psalm-return ObjectRepository<T>
      *
-     * @template T
+     * @template T of object
      */
-    public function getRepository($className);
+    public function getRepository(string $className);
 
     /**
      * Returns the ClassMetadata descriptor for a class.
@@ -127,20 +110,17 @@ interface ObjectManager
      * The class name must be the fully-qualified class name without a leading backslash
      * (as it is returned by get_class($obj)).
      *
-     * @param string $className
      * @psalm-param class-string<T> $className
      *
-     * @return ClassMetadata
      * @psalm-return ClassMetadata<T>
      *
      * @template T of object
      */
-    public function getClassMetadata($className);
+    public function getClassMetadata(string $className);
 
     /**
      * Gets the metadata factory used to gather the metadata of classes.
      *
-     * @return ClassMetadataFactory
      * @psalm-return ClassMetadataFactory<ClassMetadata<object>>
      */
     public function getMetadataFactory();
@@ -150,18 +130,14 @@ interface ObjectManager
      *
      * This method is a no-op for other objects.
      *
-     * @param object $obj
-     *
      * @return void
      */
-    public function initializeObject($obj);
+    public function initializeObject(object $obj);
 
     /**
      * Checks if the object is part of the current UnitOfWork and therefore managed.
      *
-     * @param object $object
-     *
      * @return bool
      */
-    public function contains($object);
+    public function contains(object $object);
 }

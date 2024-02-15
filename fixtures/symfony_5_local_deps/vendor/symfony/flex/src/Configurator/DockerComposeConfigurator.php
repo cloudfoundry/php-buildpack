@@ -23,9 +23,9 @@ use Symfony\Flex\Recipe;
 use Symfony\Flex\Update\RecipeUpdate;
 
 /**
- * Adds services and volumes to docker-compose.yml file.
+ * Adds services and volumes to compose.yaml file.
  *
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Kévin Dunglas <kevin@dunglas.dev>
  */
 class DockerComposeConfigurator extends AbstractConfigurator
 {
@@ -48,7 +48,7 @@ class DockerComposeConfigurator extends AbstractConfigurator
 
         $this->configureDockerCompose($recipe, $config, $options['force'] ?? false);
 
-        $this->write('Docker Compose definitions have been modified. Please run "docker-compose up --build" again to apply the changes.');
+        $this->write('Docker Compose definitions have been modified. Please run "docker compose up --build" again to apply the changes.');
     }
 
     public function unconfigure(Recipe $recipe, $config, Lock $lock)
@@ -76,7 +76,7 @@ class DockerComposeConfigurator extends AbstractConfigurator
             file_put_contents($dockerComposeFile, ltrim($contents, "\n"));
         }
 
-        $this->write('Docker Compose definitions have been modified. Please run "docker-compose up" again to apply the changes.');
+        $this->write('Docker Compose definitions have been modified. Please run "docker compose up" again to apply the changes.');
     }
 
     public function update(RecipeUpdate $recipeUpdate, array $originalConfig, array $newConfig): void
@@ -145,9 +145,20 @@ class DockerComposeConfigurator extends AbstractConfigurator
      */
     private function normalizeConfig(array $config): array
     {
-        foreach ($config as $val) {
-            // Support for the short syntax recipe syntax that modifies docker-compose.yml only
-            return isset($val[0]) ? ['docker-compose.yml' => $config] : $config;
+        foreach ($config as $key => $val) {
+            // Support for the short recipe syntax that modifies compose.yaml only
+            if (isset($val[0])) {
+                return ['compose.yaml' => $config];
+            }
+
+            if (!str_starts_with($key, 'docker-')) {
+                continue;
+            }
+
+            // If the recipe still use the legacy "docker-compose.yml" names, remove the "docker-" prefix and change the extension
+            $newKey = pathinfo(substr($key, 7), \PATHINFO_FILENAME).'.yaml';
+            $config[$newKey] = $val;
+            unset($config[$key]);
         }
 
         return $config;
@@ -159,11 +170,13 @@ class DockerComposeConfigurator extends AbstractConfigurator
     private function findDockerComposeFile(string $rootDir, string $file): ?string
     {
         if (isset($_SERVER['COMPOSE_FILE'])) {
+            $filenameToFind = pathinfo($file, \PATHINFO_FILENAME);
             $separator = $_SERVER['COMPOSE_PATH_SEPARATOR'] ?? ('\\' === \DIRECTORY_SEPARATOR ? ';' : ':');
 
             $files = explode($separator, $_SERVER['COMPOSE_FILE']);
             foreach ($files as $f) {
-                if ($file !== basename($f)) {
+                $filename = pathinfo($f, \PATHINFO_FILENAME);
+                if ($filename !== $filenameToFind && "docker-$filenameToFind" !== $filename) {
                     continue;
                 }
 
@@ -180,10 +193,13 @@ class DockerComposeConfigurator extends AbstractConfigurator
         // COMPOSE_FILE not set, or doesn't contain the file we're looking for
         $dir = $rootDir;
         do {
-            // Test with the ".yaml" extension if the file doesn't end up with ".yml".
             if (
                 $this->filesystem->exists($dockerComposeFile = sprintf('%s/%s', $dir, $file)) ||
-                $this->filesystem->exists($dockerComposeFile = substr($dockerComposeFile, 0, -2).'aml')
+                // Test with the ".yml" extension if the file doesn't end up with ".yaml"
+                $this->filesystem->exists($dockerComposeFile = substr($dockerComposeFile, 0, -3).'ml') ||
+                // Test with the legacy "docker-" suffix if "compose.ya?ml" doesn't exist
+                $this->filesystem->exists($dockerComposeFile = sprintf('%s/docker-%s', $dir, $file)) ||
+                $this->filesystem->exists($dockerComposeFile = substr($dockerComposeFile, 0, -3).'ml')
             ) {
                 return $dockerComposeFile;
             }
@@ -259,7 +275,7 @@ class DockerComposeConfigurator extends AbstractConfigurator
                 }
 
                 // Keep end in memory (check break line on previous line)
-                $endAt[$node] = '' !== trim($lines[$i - 1]) ? $i : $i - 1;
+                $endAt[$node] = !$i || '' !== trim($lines[$i - 1]) ? $i : $i - 1;
                 $node = $matches[1];
                 if (!isset($nodesLines[$node])) {
                     $nodesLines[$node] = [];
@@ -315,9 +331,9 @@ class DockerComposeConfigurator extends AbstractConfigurator
             return [];
         }
 
-        $files = array_map(function ($file) use ($rootDir) {
+        $files = array_filter(array_map(function ($file) use ($rootDir) {
             return $this->findDockerComposeFile($rootDir, $file);
-        }, array_keys($config));
+        }, array_keys($config)));
 
         $originalContents = [];
         foreach ($files as $file) {
@@ -332,7 +348,11 @@ class DockerComposeConfigurator extends AbstractConfigurator
 
         $updatedContents = [];
         foreach ($files as $file) {
-            $localPath = ltrim(str_replace($rootDir, '', $file), '/\\');
+            $localPath = $file;
+            if (0 === strpos($file, $rootDir)) {
+                $localPath = substr($file, \strlen($rootDir) + 1);
+            }
+            $localPath = ltrim($localPath, '/\\');
             $updatedContents[$localPath] = file_exists($file) ? file_get_contents($file) : null;
         }
 
@@ -355,7 +375,7 @@ class DockerComposeConfigurator extends AbstractConfigurator
         $io->writeError(sprintf('  - <warning> %s </> %s', $warning, $recipe->getFormattedOrigin()));
         $question = '    The recipe for this package contains some Docker configuration.
 
-    This may create/update <comment>docker-compose.yml</comment> or update <comment>Dockerfile</comment> (if it exists).
+    This may create/update <comment>compose.yaml</comment> or update <comment>Dockerfile</comment> (if it exists).
 
     Do you want to include Docker configuration from recipes?
     [<comment>y</>] Yes

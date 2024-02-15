@@ -3,39 +3,51 @@
 namespace Doctrine\Bundle\DoctrineBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
-use LogicException;
 
-/**
- * Optional EntityRepository base class with a simplified constructor (for autowiring).
- *
- * To use in your class, inject the "registry" service and call
- * the parent constructor. For example:
- *
- * class YourEntityRepository extends ServiceEntityRepository
- * {
- *     public function __construct(ManagerRegistry $registry)
- *     {
- *         parent::__construct($registry, YourEntity::class);
- *     }
- * }
- */
-class ServiceEntityRepository extends EntityRepository implements ServiceEntityRepositoryInterface
-{
+use function property_exists;
+
+if (property_exists(EntityRepository::class, '_entityName')) {
+    // ORM 2
     /**
-     * @param string $entityClass The class name of the entity this repository manages
+     * Optional EntityRepository base class with a simplified constructor (for autowiring).
+     *
+     * To use in your class, inject the "registry" service and call
+     * the parent constructor. For example:
+     *
+     * class YourEntityRepository extends ServiceEntityRepository
+     * {
+     *     public function __construct(ManagerRegistry $registry)
+     *     {
+     *         parent::__construct($registry, YourEntity::class);
+     *     }
+     * }
+     *
+     * @template T of object
+     * @template-extends LazyServiceEntityRepository<T>
      */
-    public function __construct(ManagerRegistry $registry, $entityClass)
+    class ServiceEntityRepository extends LazyServiceEntityRepository
     {
-        $manager = $registry->getManagerForClass($entityClass);
-
-        if ($manager === null) {
-            throw new LogicException(sprintf(
-                'Could not find the entity manager for class "%s". Check your Doctrine configuration to make sure it is configured to load this entity’s metadata.',
-                $entityClass
-            ));
-        }
-
-        parent::__construct($manager, $manager->getClassMetadata($entityClass));
+    }
+} else {
+    // ORM 3
+    /**
+     * Optional EntityRepository base class with a simplified constructor (for autowiring).
+     *
+     * To use in your class, inject the "registry" service and call
+     * the parent constructor. For example:
+     *
+     * class YourEntityRepository extends ServiceEntityRepository
+     * {
+     *     public function __construct(ManagerRegistry $registry)
+     *     {
+     *         parent::__construct($registry, YourEntity::class);
+     *     }
+     * }
+     *
+     * @template T of object
+     * @template-extends ServiceEntityRepositoryProxy<T>
+     */
+    class ServiceEntityRepository extends ServiceEntityRepositoryProxy
+    {
     }
 }

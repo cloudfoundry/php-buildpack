@@ -11,6 +11,9 @@
 
 namespace Monolog\Handler;
 
+use Monolog\LogRecord;
+use Throwable;
+
 /**
  * Forwards records to multiple handlers suppressing failures of each handler
  * and continuing through to give every handler a chance to succeed.
@@ -20,18 +23,18 @@ namespace Monolog\Handler;
 class WhatFailureGroupHandler extends GroupHandler
 {
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function handle(array $record): bool
+    public function handle(LogRecord $record): bool
     {
-        if ($this->processors) {
+        if (\count($this->processors) > 0) {
             $record = $this->processRecord($record);
         }
 
         foreach ($this->handlers as $handler) {
             try {
-                $handler->handle($record);
-            } catch (\Throwable $e) {
+                $handler->handle(clone $record);
+            } catch (Throwable) {
                 // What failure?
             }
         }
@@ -40,12 +43,12 @@ class WhatFailureGroupHandler extends GroupHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function handleBatch(array $records): void
     {
-        if ($this->processors) {
-            $processed = array();
+        if (\count($this->processors) > 0) {
+            $processed = [];
             foreach ($records as $record) {
                 $processed[] = $this->processRecord($record);
             }
@@ -54,7 +57,21 @@ class WhatFailureGroupHandler extends GroupHandler
 
         foreach ($this->handlers as $handler) {
             try {
-                $handler->handleBatch($records);
+                $handler->handleBatch(array_map(fn ($record) => clone $record, $records));
+            } catch (Throwable) {
+                // What failure?
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function close(): void
+    {
+        foreach ($this->handlers as $handler) {
+            try {
+                $handler->close();
             } catch (\Throwable $e) {
                 // What failure?
             }

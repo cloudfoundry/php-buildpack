@@ -22,7 +22,7 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class PdoCaster
 {
-    private static $pdoAttributes = [
+    private const PDO_ATTRIBUTES = [
         'CASE' => [
             \PDO::CASE_LOWER => 'LOWER',
             \PDO::CASE_NATURAL => 'NATURAL',
@@ -59,13 +59,16 @@ class PdoCaster
         ],
     ];
 
+    /**
+     * @return array
+     */
     public static function castPdo(\PDO $c, array $a, Stub $stub, bool $isNested)
     {
         $attr = [];
         $errmode = $c->getAttribute(\PDO::ATTR_ERRMODE);
         $c->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        foreach (self::$pdoAttributes as $k => $v) {
+        foreach (self::PDO_ATTRIBUTES as $k => $v) {
             if (!isset($k[0])) {
                 $k = $v;
                 $v = [];
@@ -76,7 +79,7 @@ class PdoCaster
                 if ($v && isset($v[$attr[$k]])) {
                     $attr[$k] = new ConstStub($v[$attr[$k]], $attr[$k]);
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
             }
         }
         if (isset($attr[$k = 'STATEMENT_CLASS'][1])) {
@@ -108,6 +111,9 @@ class PdoCaster
         return $a;
     }
 
+    /**
+     * @return array
+     */
     public static function castPdoStatement(\PDOStatement $c, array $a, Stub $stub, bool $isNested)
     {
         $prefix = Caster::PREFIX_VIRTUAL;

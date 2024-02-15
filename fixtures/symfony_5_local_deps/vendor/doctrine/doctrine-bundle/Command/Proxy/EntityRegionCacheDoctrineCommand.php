@@ -3,31 +3,28 @@
 namespace Doctrine\Bundle\DoctrineBundle\Command\Proxy;
 
 use Doctrine\ORM\Tools\Console\Command\ClearCache\EntityRegionCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command to clear a entity cache region.
+ *
+ * @deprecated use Doctrine\ORM\Tools\Console\Command\ClearCache\EntityRegionCommand instead
  */
 class EntityRegionCacheDoctrineCommand extends EntityRegionCommand
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
+    use OrmProxyCommand;
+
+    protected function configure(): void
     {
         parent::configure();
 
         $this
-            ->setName('doctrine:cache:clear-entity-region')
-            ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
-    }
+            ->setName('doctrine:cache:clear-entity-region');
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        DoctrineCommandHelper::setApplicationEntityManager($this->getApplication(), $input->getOption('em'));
+        if ($this->getDefinition()->hasOption('em')) {
+            return;
+        }
 
-        return parent::execute($input, $output);
+        $this->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
     }
 }

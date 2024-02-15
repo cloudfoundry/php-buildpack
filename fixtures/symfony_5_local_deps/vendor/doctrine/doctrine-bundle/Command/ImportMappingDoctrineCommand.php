@@ -13,6 +13,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function chmod;
+use function dirname;
+use function file_put_contents;
+use function is_dir;
+use function mkdir;
+use function sprintf;
+use function str_replace;
+
 /**
  * Import Doctrine ORM metadata mapping information from an existing database.
  *
@@ -23,11 +31,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ImportMappingDoctrineCommand extends DoctrineCommand
 {
     /** @var string[] */
-    private $bundles;
+    private array $bundles;
 
-    /**
-     * @param string[] $bundles
-     */
+    /** @param string[] $bundles */
     public function __construct(ManagerRegistry $doctrine, array $bundles)
     {
         parent::__construct($doctrine);
@@ -35,30 +41,26 @@ class ImportMappingDoctrineCommand extends DoctrineCommand
         $this->bundles = $bundles;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('doctrine:mapping:import')
             ->addArgument('name', InputArgument::REQUIRED, 'The bundle or namespace to import the mapping information to')
             ->addArgument('mapping-type', InputArgument::OPTIONAL, 'The mapping type to export the imported mapping information to')
             ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command')
-            ->addOption('shard', null, InputOption::VALUE_REQUIRED, 'The shard connection to use for this command')
             ->addOption('filter', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A string pattern used to match entities that should be mapped.')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Force to overwrite existing mapping files.')
             ->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path where the files would be generated (not used when a bundle is passed).')
             ->setDescription('Imports mapping information from an existing database')
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command imports mapping information
 from an existing database:
 
 Generate annotation mappings into the src/ directory using App as the namespace:
-<info>php %command.full_name% App\\\Entity annotation --path=src/Entity</info>
+<info>php %command.full_name% App\\Entity annotation --path=src/Entity</info>
 
 Generate xml mappings into the config/doctrine/ directory using App as the namespace:
-<info>php %command.full_name% App\\\Entity xml --path=config/doctrine</info>
+<info>php %command.full_name% App\\Entity xml --path=config/doctrine</info>
 
 Generate XML mappings into a bundle:
 <info>php %command.full_name% "MyCustomBundle" xml</info>
@@ -77,14 +79,10 @@ provided pattern string.
 Use the <info>--force</info> option, if you want to override existing mapping files:
 
 <info>php %command.full_name% "MyCustomBundle" xml --force</info>
-EOT
-        );
+EOT);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $type = $input->getArgument('mapping-type') ?: 'xml';
         if ($type === 'yaml') {
@@ -120,7 +118,7 @@ EOT
             $exporter->setEntityGenerator($entityGenerator);
         }
 
-        $em = $this->getEntityManager($input->getOption('em'), $input->getOption('shard'));
+        $em = $this->getEntityManager($input->getOption('em'));
 
         $databaseDriver = new DatabaseDriver($em->getConnection()->getSchemaManager());
         $em->getConfiguration()->setMetadataDriverImpl($databaseDriver);
@@ -142,12 +140,14 @@ EOT
                 } else {
                     $path = $destPath . '/' . str_replace('\\', '.', $className) . '.orm.' . $type;
                 }
+
                 $output->writeln(sprintf('  > writing <comment>%s</comment>', $path));
                 $code = $exporter->exportClassMetadata($class);
                 $dir  = dirname($path);
                 if (! is_dir($dir)) {
                     mkdir($dir, 0775, true);
                 }
+
                 file_put_contents($path, $code);
                 chmod($path, 0664);
             }

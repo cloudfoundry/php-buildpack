@@ -13,6 +13,8 @@ namespace Symfony\Flex\Command;
 
 use Composer\Command\BaseCommand;
 use Composer\Downloader\TransportException;
+use Composer\Package\Package;
+use Composer\Util\HttpDownloader;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,10 +32,10 @@ class RecipesCommand extends BaseCommand
     /** @var \Symfony\Flex\Flex */
     private $flex;
 
-    private $symfonyLock;
-    private $githubApi;
+    private Lock $symfonyLock;
+    private GithubApi $githubApi;
 
-    public function __construct(/* cannot be type-hinted */ $flex, Lock $symfonyLock, $downloader)
+    public function __construct(/* cannot be type-hinted */ $flex, Lock $symfonyLock, HttpDownloader $downloader)
     {
         $this->flex = $flex;
         $this->symfonyLock = $symfonyLock;
@@ -54,26 +56,32 @@ class RecipesCommand extends BaseCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $installedRepo = $this->getComposer()->getRepositoryManager()->getLocalRepository();
 
         // Inspect one or all packages
         $package = $input->getArgument('package');
         if (null !== $package) {
-            $packages = [0 => ['name' => strtolower($package)]];
+            $packages = [strtolower($package)];
         } else {
             $locker = $this->getComposer()->getLocker();
             $lockData = $locker->getLockData();
 
             // Merge all packages installed
-            $packages = array_merge($lockData['packages'], $lockData['packages-dev']);
+            $packages = array_column(array_merge($lockData['packages'], $lockData['packages-dev']), 'name');
+            $packages = array_unique(array_merge($packages, array_keys($this->symfonyLock->all())));
         }
 
         $operations = [];
-        foreach ($packages as $value) {
-            if (null === $pkg = $installedRepo->findPackage($value['name'], '*')) {
-                $this->getIO()->writeError(sprintf('<error>Package %s is not installed</error>', $value['name']));
+        foreach ($packages as $name) {
+            $pkg = $installedRepo->findPackage($name, '*');
+
+            if (!$pkg && $this->symfonyLock->has($name)) {
+                $pkgVersion = $this->symfonyLock->get($name)['version'];
+                $pkg = new Package($name, $pkgVersion, $pkgVersion);
+            } elseif (!$pkg) {
+                $this->getIO()->writeError(sprintf('<error>Package %s is not installed</error>', $name));
 
                 continue;
             }
@@ -102,7 +110,6 @@ class RecipesCommand extends BaseCommand
 
         $write = [];
         $hasOutdatedRecipes = false;
-        /** @var Recipe $recipe */
         foreach ($recipes as $name => $recipe) {
             $lockRef = $this->symfonyLock->get($name)['recipe']['ref'] ?? null;
 
@@ -157,6 +164,10 @@ class RecipesCommand extends BaseCommand
         $lockFiles = $recipeLock['files'] ?? null;
         $lockBranch = $recipeLock['recipe']['branch'] ?? null;
         $lockVersion = $recipeLock['recipe']['version'] ?? $recipeLock['version'] ?? null;
+
+        if ('master' === $lockBranch && \in_array($lockRepo, ['github.com/symfony/recipes', 'github.com/symfony/recipes-contrib'])) {
+            $lockBranch = 'main';
+        }
 
         $status = '<comment>up to date</comment>';
         if ($recipe->isAuto()) {

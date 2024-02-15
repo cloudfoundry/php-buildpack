@@ -1,6 +1,64 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * [BC BREAK] Add argument `$buildDir` to `ProxyCacheWarmer::warmUp()` 
+ * [BC BREAK] Add return type-hints to `EntityFactory`
+ * Deprecate `DbalLogger`, use a middleware instead
+ * Deprecate not constructing `DoctrineDataCollector` with an instance of `DebugDataHolder`
+ * Deprecate `DoctrineDataCollector::addLogger()`, use a `DebugDataHolder` instead
+ * Deprecate `ContainerAwareLoader`, use dependency injection in your fixtures instead
+ * Always pass the `Request` object to `EntityValueResolver`'s expression
+ * [BC BREAK] Change argument `$lastUsed` of `DoctrineTokenProvider::updateToken()` to accept `DateTimeInterface`
+
+6.3
+---
+
+ * Deprecate passing Doctrine subscribers to `ContainerAwareEventManager` class, use listeners instead
+ * Add `AbstractSchemaListener`, `LockStoreSchemaListener` and `PdoSessionHandlerSchemaListener`
+ * Deprecate `DoctrineDbalCacheAdapterSchemaSubscriber` in favor of `DoctrineDbalCacheAdapterSchemaListener`
+ * Deprecate `MessengerTransportDoctrineSchemaSubscriber` in favor of `MessengerTransportDoctrineSchemaListener`
+ * Deprecate `RememberMeTokenProviderDoctrineSchemaSubscriber` in favor of `RememberMeTokenProviderDoctrineSchemaListener`
+ * Add optional parameter `$isSameDatabase` to `DoctrineTokenProvider::configureSchema()`
+
+6.2
+---
+
+ * Add `#[MapEntity]` with its corresponding `EntityValueResolver`
+ * Add `NAME` constant to `UlidType` and `UuidType`
+
+6.0
+---
+
+ * Remove `DoctrineTestHelper` and `TestRepositoryFactory`
+
+5.4
+---
+
+ * Add `DoctrineOpenTransactionLoggerMiddleware` to log when a transaction has been left open
+ * Deprecate `PdoCacheAdapterDoctrineSchemaSubscriber` and add `DoctrineDbalCacheAdapterSchemaSubscriber` instead
+ * `UniqueEntity` constraint retrieves a maximum of two entities if the default repository method is used.
+ * Add support for the newer bundle structure to `AbstractDoctrineExtension::loadMappingInformation()`
+ * Add argument `$bundleDir` to `AbstractDoctrineExtension::getMappingDriverBundleConfigDefaults()`
+ * Add argument `$bundleDir` to `AbstractDoctrineExtension::getMappingResourceConfigDirectory()`
+
+5.3
+---
+
+ * Deprecate `UserLoaderInterface::loadUserByUsername()` in favor of `UserLoaderInterface::loadUserByIdentifier()
+ * Deprecate `DoctrineTestHelper` and `TestRepositoryFactory`
+ * [BC BREAK] Remove `UuidV*Generator` classes
+ * Add `UuidGenerator`
+ * Add support for the new security-core `TokenVerifierInterface` in `DoctrineTokenProvider`, fixing parallel requests handling in remember-me
+
+5.2.0
+-----
+
+ * added support for symfony/uid as `UlidType` and `UuidType` as Doctrine types
+ * added `UlidGenerator`, `UuidV1Generator`, `UuidV4Generator` and `UuidV6Generator`
+
 5.0.0
 -----
 

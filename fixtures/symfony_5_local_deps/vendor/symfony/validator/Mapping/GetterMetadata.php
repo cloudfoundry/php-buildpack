@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Exception\ValidatorException;
  * method.
  *
  * A property getter is any method that is equal to the property's name,
- * prefixed with either "get" or "is". That method will be used to access the
+ * prefixed with "get", "is" or "has". That method will be used to access the
  * property's value.
  *
  * The getter will be invoked by reflection, so the access of private and
@@ -39,7 +39,7 @@ class GetterMetadata extends MemberMetadata
      *
      * @throws ValidatorException
      */
-    public function __construct(string $class, string $property, string $method = null)
+    public function __construct(string $class, string $property, ?string $method = null)
     {
         if (null === $method) {
             $getMethod = 'get'.ucfirst($property);
@@ -62,18 +62,12 @@ class GetterMetadata extends MemberMetadata
         parent::__construct($class, $method, $property);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPropertyValue($object)
+    public function getPropertyValue(mixed $object): mixed
     {
         return $this->newReflectionMember($object)->invoke($object);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function newReflectionMember($objectOrClassName)
+    protected function newReflectionMember(object|string $objectOrClassName): \ReflectionMethod|\ReflectionProperty
     {
         return new \ReflectionMethod($objectOrClassName, $this->getName());
     }

@@ -9,13 +9,11 @@ use Doctrine\ORM\EntityManagerInterface;
 
 interface PurgerFactory
 {
-    /**
-     * @psalm-param list<string> $excluded
-     */
+    /** @psalm-param list<string> $excluded */
     public function createForEntityManager(
-        ?string $emName,
+        string|null $emName,
         EntityManagerInterface $em,
         array $excluded = [],
-        bool $purgeWithTruncate = false
+        bool $purgeWithTruncate = false,
     ): PurgerInterface;
 }

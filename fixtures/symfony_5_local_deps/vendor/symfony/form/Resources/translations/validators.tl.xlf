@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="file.ext">
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="tl" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="28">
                 <source>This form should not contain extra fields.</source>
@@ -113,6 +113,26 @@
             <trans-unit id="123">
                 <source>Please provide a valid phone number.</source>
                 <target>Pakilagay ang balidong numero ng telepono.</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>The checkbox has an invalid value.</source>
+                <target>Ang checkbox ay mayroon hindi balidong halaga.</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>Please enter a valid email address.</source>
+                <target>Pakilagay ang balidong email address.</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>Please select a valid option.</source>
+                <target>Pakipiliin ang balidong pagpipilian.</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>Please select a valid range.</source>
+                <target>Pakipilian ang balidong layo.</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>Please enter a valid week.</source>
+                <target>Pakilagay ang balidong linggo.</target>
             </trans-unit>
         </body>
     </file>

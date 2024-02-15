@@ -3,11 +3,17 @@
 namespace Doctrine\Bundle\DoctrineBundle\Command;
 
 use Doctrine\DBAL\DriverManager;
-use Exception;
+use Doctrine\DBAL\Schema\SQLiteSchemaManager;
 use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
+
+use function file_exists;
+use function in_array;
+use function sprintf;
+use function unlink;
 
 /**
  * Database tool allows you to easily drop your configured databases.
@@ -16,23 +22,20 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DropDatabaseDoctrineCommand extends DoctrineCommand
 {
-    const RETURN_CODE_NOT_DROP = 1;
+    public const RETURN_CODE_NOT_DROP = 1;
 
-    const RETURN_CODE_NO_FORCE = 2;
+    public const RETURN_CODE_NO_FORCE = 2;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** @return void */
     protected function configure()
     {
         $this
             ->setName('doctrine:database:drop')
             ->setDescription('Drops the configured database')
-            ->addOption('shard', 's', InputOption::VALUE_REQUIRED, 'The shard connection to use for this command')
             ->addOption('connection', 'c', InputOption::VALUE_OPTIONAL, 'The connection to use for this command')
             ->addOption('if-exists', null, InputOption::VALUE_NONE, 'Don\'t trigger an error, when the database doesn\'t exist')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Set this parameter to execute this action')
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command drops the default connections database:
 
     <info>php %command.full_name%</info>
@@ -44,48 +47,32 @@ You can also optionally specify the name of a connection to drop the database fo
     <info>php %command.full_name% --connection=default</info>
 
 <error>Be careful: All data in a given database will be lost when executing this command.</error>
-EOT
-        );
+EOT);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $connectionName = $input->getOption('connection');
         if (empty($connectionName)) {
             $connectionName = $this->getDoctrine()->getDefaultConnectionName();
         }
+
         $connection = $this->getDoctrineConnection($connectionName);
 
         $ifExists = $input->getOption('if-exists');
 
         $params = $connection->getParams();
-        if (isset($params['master'])) {
-            $params = $params['master'];
+
+        if (isset($params['primary'])) {
+            $params = $params['primary'];
         }
 
-        if (isset($params['shards'])) {
-            $shards = $params['shards'];
-            // Default select global
-            $params = array_merge($params, $params['global']);
-            if ($input->getOption('shard')) {
-                foreach ($shards as $shard) {
-                    if ($shard['id'] === (int) $input->getOption('shard')) {
-                        // Select sharded database
-                        $params = $shard;
-                        unset($params['id']);
-                        break;
-                    }
-                }
-            }
-        }
-
-        $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
+        $name = $params['path'] ?? ($params['dbname'] ?? false);
         if (! $name) {
             throw new InvalidArgumentException("Connection does not contain a 'path' or 'dbname' parameter and cannot be dropped.");
         }
+
+        /** @psalm-suppress InvalidArrayOffset Need to be compatible with DBAL < 4, which still has `$params['url']` */
         unset($params['dbname'], $params['url']);
 
         if (! $input->getOption('force')) {
@@ -101,8 +88,9 @@ EOT
         // Reopen connection without database name set
         // as some vendors do not allow dropping the database connected to.
         $connection->close();
-        $connection         = DriverManager::getConnection($params);
-        $shouldDropDatabase = ! $ifExists || in_array($name, $connection->getSchemaManager()->listDatabases());
+        $connection         = DriverManager::getConnection($params, $connection->getConfiguration());
+        $schemaManager      = $connection->createSchemaManager();
+        $shouldDropDatabase = ! $ifExists || in_array($name, $schemaManager->listDatabases());
 
         // Only quote if we don't have a path
         if (! isset($params['path'])) {
@@ -111,14 +99,24 @@ EOT
 
         try {
             if ($shouldDropDatabase) {
-                $connection->getSchemaManager()->dropDatabase($name);
+                /** @psalm-suppress TypeDoesNotContainType Bogus error, Doctrine\DBAL\Schema\AbstractSchemaManager<Doctrine\DBAL\Platforms\AbstractPlatform> does contain Doctrine\DBAL\Schema\SQLiteSchemaManager */
+                if ($schemaManager instanceof SQLiteSchemaManager) {
+                    // dropDatabase() is deprecated for Sqlite
+                    $connection->close();
+                    if (file_exists($name)) {
+                        unlink($name);
+                    }
+                } else {
+                    $schemaManager->dropDatabase($name);
+                }
+
                 $output->writeln(sprintf('<info>Dropped database <comment>%s</comment> for connection named <comment>%s</comment></info>', $name, $connectionName));
             } else {
                 $output->writeln(sprintf('<info>Database <comment>%s</comment> for connection named <comment>%s</comment> doesn\'t exist. Skipped.</info>', $name, $connectionName));
             }
 
             return 0;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $output->writeln(sprintf('<error>Could not drop database <comment>%s</comment> for connection named <comment>%s</comment></error>', $name, $connectionName));
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
 

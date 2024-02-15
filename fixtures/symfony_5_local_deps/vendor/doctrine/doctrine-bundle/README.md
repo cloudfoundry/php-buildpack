@@ -2,7 +2,7 @@
 
 Doctrine DBAL & ORM Bundle for the Symfony Framework.
 
-Build Status: [![Build Status](https://travis-ci.org/doctrine/DoctrineBundle.svg?branch=master)](https://travis-ci.org/doctrine/DoctrineBundle)
+[![Continuous Integration](https://github.com/doctrine/DoctrineBundle/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/doctrine/DoctrineBundle/actions/workflows/continuous-integration.yml) [![codecov](https://codecov.io/gh/doctrine/DoctrineBundle/branch/master/graph/badge.svg?token=qtm3EQ3WgV)](https://codecov.io/gh/doctrine/DoctrineBundle)
 
 ## What is Doctrine?
 
@@ -20,5 +20,5 @@ schema management and PDO abstraction.
 
 ## Documentation
 
-The documentation is rendered on [the symfony.com website](http://symfony.com/doc/master/bundles/DoctrineBundle/index.html).
+The documentation is rendered on [the symfony.com website](https://symfony.com/doc/current/reference/configuration/doctrine.html).
 The source of the documentation is available in the Resources/docs folder.

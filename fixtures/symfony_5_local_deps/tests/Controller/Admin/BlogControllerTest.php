@@ -11,7 +11,10 @@
 
 namespace App\Tests\Controller\Admin;
 
+use App\Entity\User;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,22 +35,39 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BlogControllerTest extends WebTestCase
 {
+    private KernelBrowser $client;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->client = static::createClient();
+
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->client->getContainer()->get(UserRepository::class);
+        /** @var User $user */
+        $user = $userRepository->findOneByUsername('jane_admin');
+        $this->client->loginUser($user);
+    }
+
     /**
      * @dataProvider getUrlsForRegularUsers
      */
     public function testAccessDeniedForRegularUsers(string $httpMethod, string $url): void
     {
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'john_user',
-            'PHP_AUTH_PW' => 'kitten',
-        ]);
+        $this->client->getCookieJar()->clear();
 
-        $client->request($httpMethod, $url);
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->client->getContainer()->get(UserRepository::class);
+        /** @var User $user */
+        $user = $userRepository->findOneByUsername('john_user');
+        $this->client->loginUser($user);
+
+        $this->client->request($httpMethod, $url);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
-    public function getUrlsForRegularUsers(): ?\Generator
+    public function getUrlsForRegularUsers(): \Generator
     {
         yield ['GET', '/en/admin/post/'];
         yield ['GET', '/en/admin/post/1'];
@@ -57,11 +77,7 @@ class BlogControllerTest extends WebTestCase
 
     public function testAdminBackendHomePage(): void
     {
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'jane_admin',
-            'PHP_AUTH_PW' => 'kitten',
-        ]);
-        $client->request('GET', '/en/admin/post/');
+        $this->client->request('GET', '/en/admin/post/');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists(
@@ -82,21 +98,21 @@ class BlogControllerTest extends WebTestCase
         $postSummary = $this->generateRandomString(255);
         $postContent = $this->generateRandomString(1024);
 
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'jane_admin',
-            'PHP_AUTH_PW' => 'kitten',
-        ]);
-        $client->request('GET', '/en/admin/post/new');
-        $client->submitForm('Create post', [
+        $this->client->request('GET', '/en/admin/post/new');
+        $this->client->submitForm('Create post', [
             'post[title]' => $postTitle,
             'post[summary]' => $postSummary,
             'post[content]' => $postContent,
         ]);
 
-        $this->assertResponseRedirects('/en/admin/post/', Response::HTTP_FOUND);
+        $this->assertResponseRedirects('/en/admin/post/', Response::HTTP_SEE_OTHER);
+
+        /** @var PostRepository $postRepository */
+        $postRepository = static::getContainer()->get(PostRepository::class);
 
         /** @var \App\Entity\Post $post */
-        $post = self::$container->get(PostRepository::class)->findOneByTitle($postTitle);
+        $post = $postRepository->findOneByTitle($postTitle);
+
         $this->assertNotNull($post);
         $this->assertSame($postSummary, $post->getSummary());
         $this->assertSame($postContent, $post->getContent());
@@ -108,32 +124,24 @@ class BlogControllerTest extends WebTestCase
         $postSummary = $this->generateRandomString(255);
         $postContent = $this->generateRandomString(1024);
 
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'jane_admin',
-            'PHP_AUTH_PW' => 'kitten',
-        ]);
-        $crawler = $client->request('GET', '/en/admin/post/new');
+        $crawler = $this->client->request('GET', '/en/admin/post/new');
         $form = $crawler->selectButton('Create post')->form([
             'post[title]' => $postTitle,
             'post[summary]' => $postSummary,
             'post[content]' => $postContent,
         ]);
-        $client->submit($form);
+        $this->client->submit($form);
 
         // post titles must be unique, so trying to create the same post twice should result in an error
-        $client->submit($form);
+        $this->client->submit($form);
 
-        $this->assertSelectorTextSame('form .form-group.has-error label', 'Title');
-        $this->assertSelectorTextContains('form .form-group.has-error .help-block', 'This title was already used in another blog post, but they must be unique.');
+        $this->assertSelectorTextContains('form .invalid-feedback .form-error-message', 'This title was already used in another blog post, but they must be unique.');
+        $this->assertSelectorExists('form #post_title.is-invalid');
     }
 
     public function testAdminShowPost(): void
     {
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'jane_admin',
-            'PHP_AUTH_PW' => 'kitten',
-        ]);
-        $client->request('GET', '/en/admin/post/1');
+        $this->client->request('GET', '/en/admin/post/1');
 
         $this->assertResponseIsSuccessful();
     }
@@ -148,19 +156,19 @@ class BlogControllerTest extends WebTestCase
     {
         $newBlogPostTitle = 'Blog Post Title '.mt_rand();
 
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'jane_admin',
-            'PHP_AUTH_PW' => 'kitten',
-        ]);
-        $client->request('GET', '/en/admin/post/1/edit');
-        $client->submitForm('Save changes', [
+        $this->client->request('GET', '/en/admin/post/1/edit');
+        $this->client->submitForm('Save changes', [
             'post[title]' => $newBlogPostTitle,
         ]);
 
-        $this->assertResponseRedirects('/en/admin/post/1/edit', Response::HTTP_FOUND);
+        $this->assertResponseRedirects('/en/admin/post/1/edit', Response::HTTP_SEE_OTHER);
+
+        /** @var PostRepository $postRepository */
+        $postRepository = static::getContainer()->get(PostRepository::class);
 
         /** @var \App\Entity\Post $post */
-        $post = self::$container->get(PostRepository::class)->find(1);
+        $post = $postRepository->find(1);
+
         $this->assertSame($newBlogPostTitle, $post->getTitle());
     }
 
@@ -172,23 +180,21 @@ class BlogControllerTest extends WebTestCase
      */
     public function testAdminDeletePost(): void
     {
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'jane_admin',
-            'PHP_AUTH_PW' => 'kitten',
-        ]);
-        $crawler = $client->request('GET', '/en/admin/post/1');
-        $client->submit($crawler->filter('#delete-form')->form());
+        $crawler = $this->client->request('GET', '/en/admin/post/1');
+        $this->client->submit($crawler->filter('#delete-form')->form());
 
-        $this->assertResponseRedirects('/en/admin/post/', Response::HTTP_FOUND);
+        $this->assertResponseRedirects('/en/admin/post/', Response::HTTP_SEE_OTHER);
 
-        $post = self::$container->get(PostRepository::class)->find(1);
-        $this->assertNull($post);
+        /** @var PostRepository $postRepository */
+        $postRepository = static::getContainer()->get(PostRepository::class);
+
+        $this->assertNull($postRepository->find(1));
     }
 
     private function generateRandomString(int $length): string
     {
         $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        return mb_substr(str_shuffle(str_repeat($chars, ceil($length / mb_strlen($chars)))), 1, $length);
+        return mb_substr(str_shuffle(str_repeat($chars, (int) ceil($length / mb_strlen($chars)))), 1, $length);
     }
 }
