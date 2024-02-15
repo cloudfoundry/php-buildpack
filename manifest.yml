@@ -896,15 +896,15 @@ dependencies:
     version: 
 - name: php
   version: 8.2.15
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.15_linux_x64_cflinuxfs3-dev_4174a1fa.tgz
-  sha256: 4174a1fa666e51dccb6676e3f0612cf8504710e77e747c38adb94087701ce435
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.15_linux_x64_cflinuxfs3-dev_4513f109.tgz
+  sha256: 4513f109d957a05d4875274d416f5f1dc8efaf1e9cfd3d22442bda96a14eb9da
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.15.tar.gz
   source_sha256: f9390d23708c65f428e868583dce7ab4a69e88ab6f377137a56643076f966b8f
   dependencies:
   - name: amqp
-    version: 2.1.1
+    version: 2.1.2
   - name: apcu
     version: 5.1.23
   - name: bz2
@@ -970,11 +970,11 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.11.1
+    version: 5.12.0
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.5.0
+    version: 5.6.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -995,11 +995,11 @@ dependencies:
     version: 
   - name: sodium
   - name: solr
-    version: 2.6.0
+    version: 2.7.0
   - name: sqlsrv
-    version: 5.11.1
+    version: 5.12.0
   - name: ssh2
-    version: '1.4'
+    version: 1.4.1
   - name: stomp
     version: 2.0.3
   - name: sysvmsg
@@ -1022,15 +1022,15 @@ dependencies:
     version: 
 - name: php
   version: 8.2.15
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.15_linux_x64_cflinuxfs4_8d7d6cb8.tgz
-  sha256: 8d7d6cb8673f801a4a5f51540f0cd76c78a024fec7d164cf12cc9ac39d441ccc
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.15_linux_x64_cflinuxfs4_0cb04893.tgz
+  sha256: 0cb04893487e231a071e42ddd684b2206908e44214286d04aca3d77bc6dabed6
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.2.15.tar.gz
   source_sha256: f9390d23708c65f428e868583dce7ab4a69e88ab6f377137a56643076f966b8f
   dependencies:
   - name: amqp
-    version: 2.1.1
+    version: 2.1.2
   - name: apcu
     version: 5.1.23
   - name: bz2
@@ -1096,11 +1096,11 @@ dependencies:
   - name: pdo_sqlite
     version: 
   - name: pdo_sqlsrv
-    version: 5.11.1
+    version: 5.12.0
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.5.0
+    version: 5.6.1
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1121,11 +1121,11 @@ dependencies:
     version: 
   - name: sodium
   - name: solr
-    version: 2.6.0
+    version: 2.7.0
   - name: sqlsrv
-    version: 5.11.1
+    version: 5.12.0
   - name: ssh2
-    version: '1.4'
+    version: 1.4.1
   - name: stomp
     version: 2.0.3
   - name: sysvmsg
