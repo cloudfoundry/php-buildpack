@@ -16,16 +16,14 @@ namespace Symfony\Bundle\MakerBundle;
  */
 final class GeneratorTwigHelper
 {
-    private $fileManager;
-
-    public function __construct(FileManager $fileManager)
-    {
-        $this->fileManager = $fileManager;
+    public function __construct(
+        private FileManager $fileManager,
+    ) {
     }
 
     public function getEntityFieldPrintCode($entity, $field): string
     {
-        $twigField = preg_replace_callback('/(?!^)_([a-z0-9])/', function ($s) {
+        $twigField = preg_replace_callback('/(?!^)_([a-z0-9])/', static function ($s) {
             return strtoupper($s[1]);
         }, $field['fieldName']);
         $printCode = $entity.'.'.str_replace('_', '', $twigField);
@@ -68,23 +66,25 @@ final class GeneratorTwigHelper
     {
         if ($this->fileManager->fileExists($this->fileManager->getPathForTemplate('base.html.twig'))) {
             return <<<TWIG
-{% extends 'base.html.twig' %}
+                {% extends 'base.html.twig' %}
 
-{% block title %}$title{% endblock %}
+                {% block title %}$title{% endblock %}
 
-TWIG;
+                TWIG;
         }
 
         return <<<HTML
-<!DOCTYPE html>
+            <!DOCTYPE html>
 
-<title>$title</title>
+            <title>$title</title>
 
-HTML;
+            HTML;
     }
 
     public function getFileLink($path, $text = null, $line = 0): string
     {
+        trigger_deprecation('symfony/maker-bundle', 'v1.53.0', 'getFileLink() is deprecated and will be removed in the future.');
+
         $text = $text ?: $path;
 
         return "<a href=\"{{ '$path'|file_link($line) }}\">$text</a>";

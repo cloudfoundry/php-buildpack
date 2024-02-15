@@ -6,40 +6,30 @@ namespace Doctrine\Migrations\Configuration\Migration;
 
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\Configuration\Migration\Exception\InvalidConfigurationFormat;
+
 use function count;
 use function pathinfo;
+
 use const PATHINFO_EXTENSION;
 
-/**
- * @internal
- */
+/** @internal */
 final class FormattedFile extends ConfigurationFile
 {
     /** @var callable[] */
-    private $loaders = [];
+    private array $loaders = [];
 
-    private function setDefaultLoaders() : void
+    private function setDefaultLoaders(): void
     {
         $this->loaders = [
-            'json' => static function ($file) : ConfigurationLoader {
-                return new JsonFile($file);
-            },
-            'php' => static function ($file) : ConfigurationLoader {
-                return new PhpFile($file);
-            },
-            'xml' => static function ($file) : ConfigurationLoader {
-                return new XmlFile($file);
-            },
-            'yaml' => static function ($file) : ConfigurationLoader {
-                return new YamlFile($file);
-            },
-            'yml' => static function ($file) : ConfigurationLoader {
-                return new YamlFile($file);
-            },
+            'json' => static fn ($file): ConfigurationLoader => new JsonFile($file),
+            'php' => static fn ($file): ConfigurationLoader => new PhpFile($file),
+            'xml' => static fn ($file): ConfigurationLoader => new XmlFile($file),
+            'yaml' => static fn ($file): ConfigurationLoader => new YamlFile($file),
+            'yml' => static fn ($file): ConfigurationLoader => new YamlFile($file),
         ];
     }
 
-    public function getConfiguration() : Configuration
+    public function getConfiguration(): Configuration
     {
         if (count($this->loaders) === 0) {
             $this->setDefaultLoaders();

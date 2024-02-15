@@ -19,10 +19,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 interface FormTypeInterface
 {
     /**
+     * Returns the name of the parent type.
+     *
+     * The parent type and its extensions will configure the form with the
+     * following methods before the current implementation.
+     *
+     * @return string|null
+     */
+    public function getParent();
+
+    /**
+     * Configures the options for this type.
+     *
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver);
+
+    /**
      * Builds the form.
      *
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
+     *
+     * @param array<string, mixed> $options
+     *
+     * @return void
      *
      * @see FormTypeExtensionInterface::buildForm()
      */
@@ -37,6 +58,10 @@ interface FormTypeInterface
      * A view of a form is built before the views of the child forms are built.
      * This means that you cannot access child views in this method. If you need
      * to do so, move your logic to {@link finishView()} instead.
+     *
+     * @param array<string, mixed> $options
+     *
+     * @return void
      *
      * @see FormTypeExtensionInterface::buildView()
      */
@@ -53,14 +78,13 @@ interface FormTypeInterface
      * such logic in this method that actually accesses child views. For everything
      * else you are recommended to implement {@link buildView()} instead.
      *
+     * @param array<string, mixed> $options
+     *
+     * @return void
+     *
      * @see FormTypeExtensionInterface::finishView()
      */
     public function finishView(FormView $view, FormInterface $form, array $options);
-
-    /**
-     * Configures the options for this type.
-     */
-    public function configureOptions(OptionsResolver $resolver);
 
     /**
      * Returns the prefix of the template block name for this type.
@@ -68,14 +92,7 @@ interface FormTypeInterface
      * The block prefix defaults to the underscored short class name with
      * the "Type" suffix removed (e.g. "UserProfileType" => "user_profile").
      *
-     * @return string The prefix of the template block name
+     * @return string
      */
     public function getBlockPrefix();
-
-    /**
-     * Returns the name of the parent type.
-     *
-     * @return string|null The name of the parent type if any, null otherwise
-     */
-    public function getParent();
 }

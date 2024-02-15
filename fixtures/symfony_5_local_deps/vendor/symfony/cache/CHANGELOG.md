@@ -1,6 +1,49 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * `EarlyExpirationHandler` no longer implements `MessageHandlerInterface`, rely on `AsMessageHandler` instead
+
+6.3
+---
+
+ * Add support for Relay PHP extension for Redis
+ * Updates to allow Redis cluster connections using predis/predis:^2.0
+ * Add optional parameter `$isSameDatabase` to `DoctrineDbalAdapter::configureSchema()`
+
+6.1
+---
+
+ * Add support for ACL auth in RedisAdapter
+ * Improve reliability and performance of `TagAwareAdapter` by making tag versions an integral part of item value
+
+6.0
+---
+
+ * Remove `DoctrineProvider` and `DoctrineAdapter`
+ * Remove support of Doctrine DBAL in `PdoAdapter`
+
+5.4
+---
+
+ * Deprecate `DoctrineProvider` and `DoctrineAdapter` because these classes have been added to the `doctrine/cache` package
+ * Add `DoctrineDbalAdapter` identical to `PdoAdapter` for `Doctrine\DBAL\Connection` or DBAL URL
+ * Deprecate usage of `PdoAdapter` with `Doctrine\DBAL\Connection` or DBAL URL
+
+5.3
+---
+
+ * added support for connecting to Redis Sentinel clusters when using the Redis PHP extension
+ * add support for a custom serializer to the `ApcuAdapter` class
+
+5.2.0
+-----
+
+ * added integration with Messenger to allow computing cached values in a worker
+ * allow ISO 8601 time intervals to specify default lifetime
+
 5.1.0
 -----
 

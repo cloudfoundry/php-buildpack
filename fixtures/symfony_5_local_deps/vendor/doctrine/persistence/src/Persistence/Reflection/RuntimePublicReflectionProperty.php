@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\Persistence\Reflection;
 
 use Doctrine\Common\Proxy\Proxy;
@@ -8,33 +10,23 @@ use ReturnTypeWillChange;
 
 /**
  * PHP Runtime Reflection Public Property - special overrides for public properties.
+ *
+ * @deprecated since version 3.1, use RuntimeReflectionProperty instead.
  */
 class RuntimePublicReflectionProperty extends ReflectionProperty
 {
     /**
      * {@inheritDoc}
      *
-     * Checks is the value actually exist before fetching it.
-     * This is to avoid calling `__get` on the provided $object if it
-     * is a {@see \Doctrine\Common\Proxy\Proxy}.
+     * Returns the value of a public property without calling
+     * `__get` on the provided $object if it exists.
      *
      * @return mixed
      */
     #[ReturnTypeWillChange]
     public function getValue($object = null)
     {
-        $name = $this->getName();
-
-        if ($object instanceof Proxy && ! $object->__isInitialized()) {
-            $originalInitializer = $object->__getInitializer();
-            $object->__setInitializer(null);
-            $val = $object->$name ?? null;
-            $object->__setInitializer($originalInitializer);
-
-            return $val;
-        }
-
-        return isset($object->$name) ? parent::getValue($object) : null;
+        return $object !== null ? ((array) $object)[$this->getName()] ?? null : parent::getValue();
     }
 
     /**
@@ -45,8 +37,8 @@ class RuntimePublicReflectionProperty extends ReflectionProperty
      *
      * @link https://bugs.php.net/bug.php?id=63463
      *
-     * @param object $object
-     * @param mixed  $value
+     * @param object|null $object
+     * @param mixed       $value
      *
      * @return void
      */
@@ -61,7 +53,9 @@ class RuntimePublicReflectionProperty extends ReflectionProperty
 
         $originalInitializer = $object->__getInitializer();
         $object->__setInitializer(null);
+
         parent::setValue($object, $value);
+
         $object->__setInitializer($originalInitializer);
     }
 }

@@ -18,21 +18,22 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class InstanceofConfigurator extends AbstractServiceConfigurator
 {
-    const FACTORY = 'instanceof';
-
     use Traits\AutowireTrait;
     use Traits\BindTrait;
     use Traits\CallTrait;
     use Traits\ConfiguratorTrait;
+    use Traits\ConstructorTrait;
     use Traits\LazyTrait;
     use Traits\PropertyTrait;
     use Traits\PublicTrait;
     use Traits\ShareTrait;
     use Traits\TagTrait;
 
-    private $path;
+    public const FACTORY = 'instanceof';
 
-    public function __construct(ServicesConfigurator $parent, Definition $definition, string $id, string $path = null)
+    private ?string $path;
+
+    public function __construct(ServicesConfigurator $parent, Definition $definition, string $id, ?string $path = null)
     {
         parent::__construct($parent, $definition, $id, []);
 

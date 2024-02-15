@@ -16,7 +16,7 @@ namespace Symfony\Component\Config\Resource;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface ResourceInterface
+interface ResourceInterface extends \Stringable
 {
     /**
      * Returns a string representation of the Resource.
@@ -26,8 +26,6 @@ interface ResourceInterface
      * to be identical for different ResourceInterface instances referring to the same
      * resource; and it should be unlikely to collide with that of other, unrelated
      * resource instances.
-     *
-     * @return string A string representation unique to the underlying Resource
      */
-    public function __toString();
+    public function __toString(): string;
 }

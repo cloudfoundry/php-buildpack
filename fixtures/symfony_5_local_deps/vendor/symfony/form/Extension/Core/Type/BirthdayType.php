@@ -17,27 +17,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class BirthdayType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('years', range((int) date('Y') - 120, date('Y')));
+        $resolver->setDefaults([
+            'years' => range((int) date('Y') - 120, date('Y')),
+            'invalid_message' => 'Please enter a valid birthdate.',
+        ]);
 
         $resolver->setAllowedTypes('years', 'array');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
+    public function getParent(): ?string
     {
         return DateType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'birthday';
     }

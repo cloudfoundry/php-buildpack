@@ -3,8 +3,11 @@ DoctrineFixturesBundle
 
 Fixtures are used to load a "fake" set of data into a database that can then
 be used for testing or to help give you some interesting data while you're
-developing your application. This bundle makes creating fixtures *easy*, and
-supports the `ORM`_ (MySQL, PostgreSQL, SQLite, etc.).
+developing your application.
+
+This bundle is compatible with any database supported by `Doctrine ORM`_
+(MySQL, PostgreSQL, SQLite, etc.). If you are using MongoDB, you must use
+`DoctrineMongoDBBundle`_ instead.
 
 Installation
 ------------
@@ -71,10 +74,6 @@ Create a fixtures class and start adding products::
         }
     }
 
-.. tip::
-
-    You can also create multiple fixtures classes. See :ref:`multiple-files`.
-
 Loading Fixtures
 ----------------
 
@@ -109,27 +108,29 @@ class. No problem! Your fixtures class is a service, so you can use normal depen
 injection::
 
     // src/DataFixtures/AppFixtures.php
-    use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+    use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-    // ...
-    private $encoder;
-
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    class AppFixtures extends Fixture
     {
-        $this->encoder = $encoder;
-    }
+        private UserPasswordHasherInterface $hasher;
 
-    // ...
-    public function load(ObjectManager $manager)
-    {
-        $user = new User();
-        $user->setUsername('admin');
+        public function __construct(UserPasswordHasherInterface $hasher)
+        {
+            $this->hasher = $hasher;
+        }
 
-        $password = $this->encoder->encodePassword($user, 'pass_1234');
-        $user->setPassword($password);
+        // ...
+        public function load(ObjectManager $manager)
+        {
+            $user = new User();
+            $user->setUsername('admin');
 
-        $manager->persist($user);
-        $manager->flush();
+            $password = $this->hasher->hashPassword($user, 'pass_1234');
+            $user->setPassword($password);
+
+            $manager->persist($user);
+            $manager->flush();
+        }
     }
 
 .. _multiple-files:
@@ -151,7 +152,13 @@ Sharing Objects between Fixtures
 When using multiple fixtures files, you can reuse PHP objects across different
 files thanks to the **object references**. Use the ``addReference()`` method to
 give a name to any object and then, use the ``getReference()`` method to get the
-exact same object via its name::
+exact same object via its name.
+
+.. note::
+
+    Adding object references only works for ORM entities or ODM documents.
+
+.. code-block:: php
 
     // src/DataFixtures/UserFixtures.php
     // ...
@@ -169,6 +176,8 @@ exact same object via its name::
             $this->addReference(self::ADMIN_USER_REFERENCE, $userAdmin);
         }
     }
+
+.. code-block:: php
 
     // src/DataFixtures/GroupFixtures.php
     // ...
@@ -227,9 +236,9 @@ an array of the fixture classes that must be loaded before this one::
 
         public function getDependencies()
         {
-            return array(
+            return [
                 UserFixtures::class,
-            );
+            ];
         }
     }
 
@@ -287,3 +296,152 @@ fixture using the ``UserFixtures`` group:
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
 .. _`Symfony Flex`: https://symfony.com/doc/current/setup/flex.html
 .. _`default service configuration`: https://symfony.com/doc/current/service_container.html#service-container-services-load-example
+
+
+Specifying purging behavior
+---------------------------
+
+By default all previously existing data is purged using ``DELETE FROM table`` statements. If you prefer to use
+``TRUNCATE table`` statements for purging, use ``--purge-with-truncate``.
+
+If you want to exclude a set of tables from being purged, e.g. because your schema comes with pre-populated,
+semi-static data, pass the option ``--purge-exclusions``. Specify ``--purge-exclusions`` multiple times to exclude
+multiple tables:
+
+.. code-block:: terminal
+
+    $ php bin/console doctrine:fixtures:load --purge-exclusions=post_category --purge-exclusions=comment_type
+
+You can also customize purging behavior significantly more and implement a custom purger plus a custom purger factory::
+
+    // src/Purger/CustomPurger.php
+    namespace App\Purger;
+
+    use Doctrine\Common\DataFixtures\Purger\PurgerInterface;
+
+    // ...
+    class CustomPurger implements PurgerInterface
+    {
+        public function purge() : void
+        {
+            // ...
+        }
+    }
+
+    // src/Purger/CustomPurgerFactory.php
+    namespace App\Purger;
+    // ...
+    use Doctrine\Bundle\FixturesBundle\Purger\PurgerFactory;
+
+    class CustomPurgerFactory implements PurgerFactory
+    {
+        public function createForEntityManager(?string $emName, EntityManagerInterface $em, array $excluded = [], bool $purgeWithTruncate = false) : PurgerInterface
+        {
+            return new CustomPurger($em);
+        }
+    }
+
+The next step is to register our custom purger factory and specify its alias.
+
+.. configuration-block::
+
+    .. code-block:: yaml
+
+        # config/services.yaml
+        services:
+            App\Purger\CustomPurgerFactory:
+                tags:
+                    - { name: 'doctrine.fixtures.purger_factory', alias: 'my_purger' }
+
+    .. code-block:: xml
+
+        <!-- config/services.xml -->
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <container xmlns="http://symfony.com/schema/dic/services"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/services
+                https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+            <services>
+                <service id="App\Purger\CustomPurgerFactory">
+                    <tag name="doctrine.fixtures.purger_factory" alias="my_purger"/>
+                </service>
+            </services>
+        </container>
+
+    .. code-block:: php
+
+        // config/services.php
+        namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+        use App\Purger\CustomerPurgerFactory;
+
+        return function(ContainerConfigurator $configurator) : void {
+            $services = $configurator->services();
+
+            $services->set(CustomerPurgerFactory::class)
+                ->tag('doctrine.fixtures.purger_factory', ['alias' => 'my_purger'])
+            ;
+        };
+
+With the ``--purger`` option we can now specify to use ``my_purger`` instead of the ``default`` purger.
+
+.. code-block:: terminal
+
+    $ php bin/console doctrine:fixtures:load --purger=my_purger
+
+.. _`Doctrine ORM`: https://symfony.com/doc/current/doctrine.html
+.. _`DoctrineMongoDBBundle`: https://github.com/doctrine/DoctrineMongoDBBundle
+
+
+How to load Fixtures from a different Directory
+-----------------------------------------------
+By default, fixtures are loaded from the ``src/DataFixtures`` directory.
+In this example, we are going to load our DataFixtures from a new ``fixtures`` directory.
+
+First, add a new ``PSR-4`` autoload-entry in the ``composer.json`` with the new ``fixtures`` directory:
+
+.. code-block:: json
+
+    "autoload-dev": {
+        "psr-4": {
+            "...": "...",
+            "DataFixtures\\": "fixtures/"
+        }
+    },
+
+.. note::
+
+    You need to dump the autoloader with ``composer dump-autoloader``
+
+Then, enable Dependency Injection for the ``fixtures`` directory:
+
+.. configuration-block::
+
+    .. code-block:: yaml
+    
+        # config/services.yaml
+        services:
+            DataFixtures\:
+                resource: '../fixtures'
+    
+    .. code-block:: php
+    
+        // config/services.php
+        namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+    
+        return function(ContainerConfigurator $container) : void {
+            $services = $container->services()
+                ->defaults()
+                    ->autowire()
+                    ->autoconfigure();
+    
+            $services->load('DataFixtures\\', '../fixtures');
+        };
+
+.. caution::
+
+    This will not override the default ``src/DataFixtures`` directory when creating fixtures with the
+    `Symfony MakerBundle`_ (``make:fixtures``).
+
+.. _`Symfony MakerBundle`: https://symfony.com/bundles/SymfonyMakerBundle/current/index.html

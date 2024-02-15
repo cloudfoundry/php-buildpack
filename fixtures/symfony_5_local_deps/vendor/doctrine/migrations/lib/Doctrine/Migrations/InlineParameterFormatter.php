@@ -6,10 +6,12 @@ namespace Doctrine\Migrations;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
+
 use function array_map;
 use function implode;
 use function is_array;
 use function is_bool;
+use function is_float;
 use function is_int;
 use function is_string;
 use function sprintf;
@@ -22,19 +24,15 @@ use function sprintf;
  */
 final class InlineParameterFormatter implements ParameterFormatter
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
      * @param mixed[] $params
      * @param mixed[] $types
      */
-    public function formatParameters(array $params, array $types) : string
+    public function formatParameters(array $params, array $types): string
     {
         if ($params === []) {
             return '';
@@ -55,36 +53,26 @@ final class InlineParameterFormatter implements ParameterFormatter
         return sprintf('with parameters (%s)', implode(', ', $formattedParameters));
     }
 
-    /**
-     * @param string|int $value
-     * @param string|int $type
-     *
-     * @return string|int
-     */
-    private function formatParameter($value, $type)
+    private function formatParameter(mixed $value, string|int $type): string|int|float|null
     {
         if (is_string($type) && Type::hasType($type)) {
             return Type::getType($type)->convertToDatabaseValue(
                 $value,
-                $this->connection->getDatabasePlatform()
+                $this->connection->getDatabasePlatform(),
             );
         }
 
         return $this->parameterToString($value);
     }
 
-    /**
-     * @param int[]|bool[]|string[]|array|int|string|bool $value
-     */
-    private function parameterToString($value) : string
+    /** @param int[]|bool[]|string[]|float[]|array|int|string|float|bool $value */
+    private function parameterToString(array|int|string|float|bool $value): string
     {
         if (is_array($value)) {
-            return implode(', ', array_map(function ($value) : string {
-                return $this->parameterToString($value);
-            }, $value));
+            return implode(', ', array_map($this->parameterToString(...), $value));
         }
 
-        if (is_int($value) || is_string($value)) {
+        if (is_int($value) || is_string($value) || is_float($value)) {
             return (string) $value;
         }
 

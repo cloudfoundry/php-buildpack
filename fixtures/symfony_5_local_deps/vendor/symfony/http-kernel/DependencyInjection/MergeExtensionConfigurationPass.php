@@ -21,14 +21,17 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class MergeExtensionConfigurationPass extends BaseMergeExtensionConfigurationPass
 {
-    private $extensions;
+    private array $extensions;
 
+    /**
+     * @param string[] $extensions
+     */
     public function __construct(array $extensions)
     {
         $this->extensions = $extensions;
     }
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         foreach ($this->extensions as $extension) {
             if (!\count($container->getExtensionConfig($extension))) {

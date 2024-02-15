@@ -7,13 +7,13 @@ namespace Doctrine\Bundle\MigrationsBundle\DependencyInjection;
 use ReflectionClass;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+
 use function array_filter;
 use function array_keys;
 use function constant;
 use function count;
 use function in_array;
 use function is_string;
-use function method_exists;
 use function strlen;
 use function strpos;
 use function strtoupper;
@@ -29,16 +29,11 @@ class Configuration implements ConfigurationInterface
      *
      * @return TreeBuilder The config tree builder
      */
-    public function getConfigTreeBuilder() : TreeBuilder
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('doctrine_migrations');
 
-        if (method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            // BC layer for symfony/config 4.1 and older
-            $rootNode = $treeBuilder->root('doctrine_migrations', 'array');
-        }
+        $rootNode = $treeBuilder->getRootNode();
 
         $organizeMigrationModes = $this->getOrganizeMigrationsModes();
 
@@ -58,10 +53,10 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('service')
                     ->defaultValue([])
                     ->validate()
-                        ->ifTrue(static function ($v) {
-                            return count(array_filter(array_keys($v), static function (string $doctrineService) : bool {
-                                return strpos($doctrineService, 'Doctrine\Migrations\\') !==0;
-                            }));
+                        ->ifTrue(static function (array $v): bool {
+                            return count(array_filter(array_keys($v), static function (string $doctrineService): bool {
+                                return strpos($doctrineService, 'Doctrine\Migrations\\') !== 0;
+                            })) !== 0;
                         })
                         ->thenInvalid('Valid services for the DoctrineMigrationsBundle must be in the "Doctrine\Migrations" namespace.')
                     ->end()
@@ -73,10 +68,10 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('factory')
                     ->defaultValue([])
                     ->validate()
-                        ->ifTrue(static function ($v) {
-                            return count(array_filter(array_keys($v), static function (string $doctrineService) : bool {
-                                return strpos($doctrineService, 'Doctrine\Migrations\\') !==0;
-                            }));
+                        ->ifTrue(static function (array $v): bool {
+                            return count(array_filter(array_keys($v), static function (string $doctrineService): bool {
+                                return strpos($doctrineService, 'Doctrine\Migrations\\') !== 0;
+                            })) !== 0;
                         })
                         ->thenInvalid('Valid callables for the DoctrineMigrationsBundle must be in the "Doctrine\Migrations" namespace.')
                     ->end()
@@ -130,16 +125,12 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue(false)
                     ->info('Organize migrations mode. Possible values are: "BY_YEAR", "BY_YEAR_AND_MONTH", false')
                     ->validate()
-                        ->ifTrue(static function ($v) use ($organizeMigrationModes) {
+                        ->ifTrue(static function ($v) use ($organizeMigrationModes): bool {
                             if ($v === false) {
                                 return false;
                             }
 
-                            if (is_string($v) && in_array(strtoupper($v), $organizeMigrationModes, true)) {
-                                return false;
-                            }
-
-                            return true;
+                            return ! is_string($v) || ! in_array(strtoupper($v), $organizeMigrationModes, true);
                         })
                         ->thenInvalid('Invalid organize migrations mode value %s')
                     ->end()
@@ -150,31 +141,38 @@ class Configuration implements ConfigurationInterface
                             })
                     ->end()
                 ->end()
+                ->booleanNode('enable_profiler')
+                    ->info('Whether or not to enable the profiler collector to calculate and visualize migration status. This adds some queries overhead.')
+                    ->defaultFalse()
+                ->end()
+                ->booleanNode('transactional')
+                    ->info('Whether or not to wrap migrations in a single transaction.')
+                    ->defaultTrue()
+                ->end()
             ->end();
 
         return $treeBuilder;
     }
-
 
     /**
      * Find organize migrations modes for their names
      *
      * @return string[]
      */
-    private function getOrganizeMigrationsModes() : array
+    private function getOrganizeMigrationsModes(): array
     {
         $constPrefix = 'VERSIONS_ORGANIZATION_';
         $prefixLen   = strlen($constPrefix);
         $refClass    = new ReflectionClass('Doctrine\Migrations\Configuration\Configuration');
-        $constsArray = $refClass->getConstants();
+        $constsArray = array_keys($refClass->getConstants());
         $namesArray  = [];
 
-        foreach ($constsArray as $key => $value) {
-            if (strpos($key, $constPrefix) !== 0) {
+        foreach ($constsArray as $constant) {
+            if (strpos($constant, $constPrefix) !== 0) {
                 continue;
             }
 
-            $namesArray[] = substr($key, $prefixLen);
+            $namesArray[] = substr($constant, $prefixLen);
         }
 
         return $namesArray;

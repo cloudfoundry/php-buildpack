@@ -31,12 +31,12 @@ final class PropertyInfoLoader implements LoaderInterface
 {
     use AutoMappingTrait;
 
-    private $listExtractor;
-    private $typeExtractor;
-    private $accessExtractor;
-    private $classValidatorRegexp;
+    private PropertyListExtractorInterface $listExtractor;
+    private PropertyTypeExtractorInterface $typeExtractor;
+    private PropertyAccessExtractorInterface $accessExtractor;
+    private ?string $classValidatorRegexp;
 
-    public function __construct(PropertyListExtractorInterface $listExtractor, PropertyTypeExtractorInterface $typeExtractor, PropertyAccessExtractorInterface $accessExtractor, string $classValidatorRegexp = null)
+    public function __construct(PropertyListExtractorInterface $listExtractor, PropertyTypeExtractorInterface $typeExtractor, PropertyAccessExtractorInterface $accessExtractor, ?string $classValidatorRegexp = null)
     {
         $this->listExtractor = $listExtractor;
         $this->typeExtractor = $typeExtractor;
@@ -44,9 +44,6 @@ final class PropertyInfoLoader implements LoaderInterface
         $this->classValidatorRegexp = $classValidatorRegexp;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadClassMetadata(ClassMetadata $metadata): bool
     {
         $className = $metadata->getClassName();
@@ -119,7 +116,8 @@ final class PropertyInfoLoader implements LoaderInterface
             }
             if (!$hasTypeConstraint) {
                 if (1 === \count($builtinTypes)) {
-                    if ($types[0]->isCollection() && (null !== $collectionValueType = $types[0]->getCollectionValueType())) {
+                    if ($types[0]->isCollection() && \count($collectionValueType = $types[0]->getCollectionValueTypes()) > 0) {
+                        [$collectionValueType] = $collectionValueType;
                         $this->handleAllConstraint($property, $allConstraint, $collectionValueType, $metadata);
                     }
 
@@ -146,7 +144,7 @@ final class PropertyInfoLoader implements LoaderInterface
         return new Type(['type' => $builtinType]);
     }
 
-    private function handleAllConstraint(string $property, ?All $allConstraint, PropertyInfoType $propertyInfoType, ClassMetadata $metadata)
+    private function handleAllConstraint(string $property, ?All $allConstraint, PropertyInfoType $propertyInfoType, ClassMetadata $metadata): void
     {
         $containsTypeConstraint = false;
         $containsNotNullConstraint = false;

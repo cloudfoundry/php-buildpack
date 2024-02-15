@@ -16,7 +16,8 @@ use Aws\DynamoDb\DynamoDbClient;
 use Monolog\Formatter\FormatterInterface;
 use Aws\DynamoDb\Marshaler;
 use Monolog\Formatter\ScalarFormatter;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\LogRecord;
 
 /**
  * Amazon DynamoDB handler (http://aws.amazon.com/dynamodb/)
@@ -28,37 +29,15 @@ class DynamoDbHandler extends AbstractProcessingHandler
 {
     public const DATE_FORMAT = 'Y-m-d\TH:i:s.uO';
 
-    /**
-     * @var DynamoDbClient
-     */
-    protected $client;
+    protected DynamoDbClient $client;
 
-    /**
-     * @var string
-     */
-    protected $table;
+    protected string $table;
 
-    /**
-     * @var int
-     */
-    protected $version;
+    protected Marshaler $marshaler;
 
-    /**
-     * @var Marshaler
-     */
-    protected $marshaler;
-
-    /**
-     * @param int|string $level
-     */
-    public function __construct(DynamoDbClient $client, string $table, $level = Logger::DEBUG, bool $bubble = true)
+    public function __construct(DynamoDbClient $client, string $table, int|string|Level $level = Level::Debug, bool $bubble = true)
     {
-        if (defined('Aws\Sdk::VERSION') && version_compare(Sdk::VERSION, '3.0', '>=')) {
-            $this->version = 3;
-            $this->marshaler = new Marshaler;
-        } else {
-            $this->version = 2;
-        }
+        $this->marshaler = new Marshaler;
 
         $this->client = $client;
         $this->table = $table;
@@ -67,16 +46,12 @@ class DynamoDbHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
-        $filtered = $this->filterEmptyFields($record['formatted']);
-        if ($this->version === 3) {
-            $formatted = $this->marshaler->marshalItem($filtered);
-        } else {
-            $formatted = $this->client->formatAttributes($filtered);
-        }
+        $filtered = $this->filterEmptyFields($record->formatted);
+        $formatted = $this->marshaler->marshalItem($filtered);
 
         $this->client->putItem([
             'TableName' => $this->table,
@@ -84,15 +59,19 @@ class DynamoDbHandler extends AbstractProcessingHandler
         ]);
     }
 
+    /**
+     * @param  mixed[] $record
+     * @return mixed[]
+     */
     protected function filterEmptyFields(array $record): array
     {
         return array_filter($record, function ($value) {
-            return !empty($value) || false === $value || 0 === $value;
+            return [] !== $value;
         });
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function getDefaultFormatter(): FormatterInterface
     {

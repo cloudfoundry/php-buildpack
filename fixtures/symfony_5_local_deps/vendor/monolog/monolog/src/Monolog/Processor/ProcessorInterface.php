@@ -11,6 +11,8 @@
 
 namespace Monolog\Processor;
 
+use Monolog\LogRecord;
+
 /**
  * An optional interface to allow labelling Monolog processors.
  *
@@ -19,7 +21,7 @@ namespace Monolog\Processor;
 interface ProcessorInterface
 {
     /**
-     * @return array The processed record
+     * @return LogRecord The processed record
      */
-    public function __invoke(array $record);
+    public function __invoke(LogRecord $record);
 }

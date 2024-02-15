@@ -16,6 +16,7 @@ use Symfony\Component\Intl\Currencies;
 use Symfony\Component\Intl\Exception\MissingResourceException;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\Intl\Locales;
+use Symfony\Component\Intl\Scripts;
 use Symfony\Component\Intl\Timezones;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
@@ -25,7 +26,36 @@ use Twig\TwigFunction;
 
 final class IntlExtension extends AbstractExtension
 {
-    private const DATE_FORMATS = [
+    private static function availableDateFormats(): array
+    {
+        static $formats = null;
+
+        if (null !== $formats) {
+            return $formats;
+        }
+
+        $formats = [
+            'none' => \IntlDateFormatter::NONE,
+            'short' => \IntlDateFormatter::SHORT,
+            'medium' => \IntlDateFormatter::MEDIUM,
+            'long' => \IntlDateFormatter::LONG,
+            'full' => \IntlDateFormatter::FULL,
+        ];
+
+        // Assuming that each `RELATIVE_*` constant are defined when one of them is.
+        if (\defined('IntlDateFormatter::RELATIVE_FULL')) {
+            $formats = array_merge($formats, [
+                'relative_short' => \IntlDateFormatter::RELATIVE_SHORT,
+                'relative_medium' => \IntlDateFormatter::RELATIVE_MEDIUM,
+                'relative_long' => \IntlDateFormatter::RELATIVE_LONG,
+                'relative_full' => \IntlDateFormatter::RELATIVE_FULL,
+            ]);
+        }
+
+        return $formats;
+    }
+
+    private const TIME_FORMATS = [
         'none' => \IntlDateFormatter::NONE,
         'short' => \IntlDateFormatter::SHORT,
         'medium' => \IntlDateFormatter::MEDIUM,
@@ -37,7 +67,6 @@ final class IntlExtension extends AbstractExtension
         'int32' => \NumberFormatter::TYPE_INT32,
         'int64' => \NumberFormatter::TYPE_INT64,
         'double' => \NumberFormatter::TYPE_DOUBLE,
-        'currency' => \NumberFormatter::TYPE_CURRENCY,
     ];
     private const NUMBER_STYLES = [
         'decimal' => \NumberFormatter::DECIMAL,
@@ -90,7 +119,7 @@ final class IntlExtension extends AbstractExtension
         'negative_prefix' => \NumberFormatter::NEGATIVE_PREFIX,
         'negative_suffix' => \NumberFormatter::NEGATIVE_SUFFIX,
         'padding_character' => \NumberFormatter::PADDING_CHARACTER,
-        'currency_mode' => \NumberFormatter::CURRENCY_CODE,
+        'currency_code' => \NumberFormatter::CURRENCY_CODE,
         'default_ruleset' => \NumberFormatter::DEFAULT_RULESET,
         'public_rulesets' => \NumberFormatter::PUBLIC_RULESETS,
     ];
@@ -152,6 +181,12 @@ final class IntlExtension extends AbstractExtension
         return [
             // internationalized names
             new TwigFunction('country_timezones', [$this, 'getCountryTimezones']),
+            new TwigFunction('language_names', [$this, 'getLanguageNames']),
+            new TwigFunction('script_names', [$this, 'getScriptNames']),
+            new TwigFunction('country_names', [$this, 'getCountryNames']),
+            new TwigFunction('locale_names', [$this, 'getLocaleNames']),
+            new TwigFunction('currency_names', [$this, 'getCurrencyNames']),
+            new TwigFunction('timezone_names', [$this, 'getTimezoneNames']),
         ];
     }
 
@@ -242,6 +277,60 @@ final class IntlExtension extends AbstractExtension
         }
     }
 
+    public function getLanguageNames(string $locale = null): array
+    {
+        try {
+            return Languages::getNames($locale);
+        } catch (MissingResourceException $exception) {
+            return [];
+        }
+    }
+
+    public function getScriptNames(string $locale = null): array
+    {
+        try {
+            return Scripts::getNames($locale);
+        } catch (MissingResourceException $exception) {
+            return [];
+        }
+    }
+
+    public function getCountryNames(string $locale = null): array
+    {
+        try {
+            return Countries::getNames($locale);
+        } catch (MissingResourceException $exception) {
+            return [];
+        }
+    }
+
+    public function getLocaleNames(string $locale = null): array
+    {
+        try {
+            return Locales::getNames($locale);
+        } catch (MissingResourceException $exception) {
+            return [];
+        }
+    }
+
+    public function getCurrencyNames(string $locale = null): array
+    {
+        try {
+            return Currencies::getNames($locale);
+        } catch (MissingResourceException $exception) {
+            return [];
+        }
+    }
+
+    public function getTimezoneNames(string $locale = null): array
+    {
+        try {
+            return Timezones::getNames($locale);
+        } catch (MissingResourceException $exception) {
+            return [];
+        }
+    }
+
     public function formatCurrency($amount, string $currency, array $attrs = [], string $locale = null): string
     {
         $formatter = $this->createNumberFormatter($locale, 'currency', $attrs);
@@ -279,8 +368,15 @@ final class IntlExtension extends AbstractExtension
      */
     public function formatDateTime(Environment $env, $date, ?string $dateFormat = 'medium', ?string $timeFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', string $locale = null): string
     {
-        $date = \twig_date_converter($env, $date, $timezone);
-        $formatter = $this->createDateFormatter($locale, $dateFormat, $timeFormat, $pattern, $date->getTimezone(), $calendar);
+        $date = twig_date_converter($env, $date, $timezone);
+
+        $formatterTimezone = $timezone;
+        if (null === $formatterTimezone) {
+            $formatterTimezone = $date->getTimezone();
+        } elseif (\is_string($formatterTimezone)) {
+            $formatterTimezone = new \DateTimeZone($timezone);
+        }
+        $formatter = $this->createDateFormatter($locale, $dateFormat, $timeFormat, $pattern, $formatterTimezone, $calendar);
 
         if (false === $ret = $formatter->format($date)) {
             throw new RuntimeError('Unable to format the given date.');
@@ -307,34 +403,41 @@ final class IntlExtension extends AbstractExtension
         return $this->formatDateTime($env, $date, 'none', $timeFormat, $pattern, $timezone, $calendar, $locale);
     }
 
-    private function createDateFormatter(?string $locale, ?string $dateFormat, ?string $timeFormat, string $pattern, \DateTimeZone $timezone, string $calendar): \IntlDateFormatter
+    private function createDateFormatter(?string $locale, ?string $dateFormat, ?string $timeFormat, string $pattern, ?\DateTimeZone $timezone, string $calendar): \IntlDateFormatter
     {
-        if (null !== $dateFormat && !isset(self::DATE_FORMATS[$dateFormat])) {
-            throw new RuntimeError(sprintf('The date format "%s" does not exist, known formats are: "%s".', $dateFormat, implode('", "', array_keys(self::DATE_FORMATS))));
+        $dateFormats = self::availableDateFormats();
+
+        if (null !== $dateFormat && !isset($dateFormats[$dateFormat])) {
+            throw new RuntimeError(sprintf('The date format "%s" does not exist, known formats are: "%s".', $dateFormat, implode('", "', array_keys($dateFormats))));
         }
 
-        if (null !== $timeFormat && !isset(self::DATE_FORMATS[$timeFormat])) {
-            throw new RuntimeError(sprintf('The time format "%s" does not exist, known formats are: "%s".', $timeFormat, implode('", "', array_keys(self::DATE_FORMATS))));
+        if (null !== $timeFormat && !isset(self::TIME_FORMATS[$timeFormat])) {
+            throw new RuntimeError(sprintf('The time format "%s" does not exist, known formats are: "%s".', $timeFormat, implode('", "', array_keys(self::TIME_FORMATS))));
         }
 
         if (null === $locale) {
-            $locale = \Locale::getDefault();
+            if ($this->dateFormatterPrototype) {
+                $locale = $this->dateFormatterPrototype->getLocale();
+            }
+            $locale = $locale ?: \Locale::getDefault();
         }
 
         $calendar = 'gregorian' === $calendar ? \IntlDateFormatter::GREGORIAN : \IntlDateFormatter::TRADITIONAL;
 
-        $dateFormatValue = self::DATE_FORMATS[$dateFormat] ?? null;
-        $timeFormatValue = self::DATE_FORMATS[$timeFormat] ?? null;
+        $dateFormatValue = $dateFormats[$dateFormat] ?? null;
+        $timeFormatValue = self::TIME_FORMATS[$timeFormat] ?? null;
 
         if ($this->dateFormatterPrototype) {
             $dateFormatValue = $dateFormatValue ?: $this->dateFormatterPrototype->getDateType();
             $timeFormatValue = $timeFormatValue ?: $this->dateFormatterPrototype->getTimeType();
-            $timezone = $timezone ?: $this->dateFormatterPrototype->getTimeType();
+            $timezone = $timezone ?: $this->dateFormatterPrototype->getTimeZone()->toDateTimeZone();
             $calendar = $calendar ?: $this->dateFormatterPrototype->getCalendar();
             $pattern = $pattern ?: $this->dateFormatterPrototype->getPattern();
         }
 
-        $hash = $locale.'|'.$dateFormatValue.'|'.$timeFormatValue.'|'.$timezone->getName().'|'.$calendar.'|'.$pattern;
+        $timezoneName = $timezone ? $timezone->getName() : '(none)';
+
+        $hash = $locale.'|'.$dateFormatValue.'|'.$timeFormatValue.'|'.$timezoneName.'|'.$calendar.'|'.$pattern;
 
         if (!isset($this->dateFormatters[$hash])) {
             $this->dateFormatters[$hash] = new \IntlDateFormatter($locale, $dateFormatValue, $timeFormatValue, $timezone, $calendar, $pattern);

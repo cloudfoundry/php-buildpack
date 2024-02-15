@@ -11,7 +11,8 @@
 
 namespace Symfony\Bridge\Monolog\Handler\FingersCrossed;
 
-use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
+use Monolog\Handler\FingersCrossed\ActivationStrategyInterface;
+use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -19,41 +20,37 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * Activation strategy that ignores certain HTTP codes.
  *
  * @author Shaun Simmons <shaun@envysphere.com>
+ * @author Pierrick Vignand <pierrick.vignand@gmail.com>
  */
-class HttpCodeActivationStrategy extends ErrorLevelActivationStrategy
+final class HttpCodeActivationStrategy implements ActivationStrategyInterface
 {
-    private $exclusions;
-    private $requestStack;
-
     /**
      * @param array $exclusions each exclusion must have a "code" and "urls" keys
      */
-    public function __construct(RequestStack $requestStack, array $exclusions, $actionLevel)
-    {
+    public function __construct(
+        private RequestStack $requestStack,
+        private array $exclusions,
+        private ActivationStrategyInterface $inner,
+    ) {
         foreach ($exclusions as $exclusion) {
             if (!\array_key_exists('code', $exclusion)) {
-                throw new \LogicException(sprintf('An exclusion must have a "code" key.'));
+                throw new \LogicException('An exclusion must have a "code" key.');
             }
             if (!\array_key_exists('urls', $exclusion)) {
-                throw new \LogicException(sprintf('An exclusion must have a "urls" key.'));
+                throw new \LogicException('An exclusion must have a "urls" key.');
             }
         }
-
-        parent::__construct($actionLevel);
-
-        $this->requestStack = $requestStack;
-        $this->exclusions = $exclusions;
     }
 
-    public function isHandlerActivated(array $record): bool
+    public function isHandlerActivated(array|LogRecord $record): bool
     {
-        $isActivated = parent::isHandlerActivated($record);
+        $isActivated = $this->inner->isHandlerActivated($record);
 
         if (
             $isActivated
             && isset($record['context']['exception'])
             && $record['context']['exception'] instanceof HttpException
-            && ($request = $this->requestStack->getMasterRequest())
+            && ($request = $this->requestStack->getMainRequest())
         ) {
             foreach ($this->exclusions as $exclusion) {
                 if ($record['context']['exception']->getStatusCode() !== $exclusion['code']) {

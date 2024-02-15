@@ -17,19 +17,17 @@ use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\String\AbstractUnicodeString;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
 
-class AppFixtures extends Fixture
+final class AppFixtures extends Fixture
 {
-    private $passwordEncoder;
-    private $slugger;
-
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-        $this->slugger = $slugger;
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly SluggerInterface $slugger
+    ) {
     }
 
     public function load(ObjectManager $manager): void
@@ -45,7 +43,7 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setFullName($fullname);
             $user->setUsername($username);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+            $user->setPassword($this->passwordHasher->hashPassword($user, $password));
             $user->setEmail($email);
             $user->setRoles($roles);
 
@@ -58,9 +56,8 @@ class AppFixtures extends Fixture
 
     private function loadTags(ObjectManager $manager): void
     {
-        foreach ($this->getTagData() as $index => $name) {
-            $tag = new Tag();
-            $tag->setName($name);
+        foreach ($this->getTagData() as $name) {
+            $tag = new Tag($name);
 
             $manager->persist($tag);
             $this->addReference('tag-'.$name, $tag);
@@ -82,8 +79,11 @@ class AppFixtures extends Fixture
             $post->addTag(...$tags);
 
             foreach (range(1, 5) as $i) {
+                /** @var User $commentAuthor */
+                $commentAuthor = $this->getReference('john_user');
+
                 $comment = new Comment();
-                $comment->setAuthor($this->getReference('john_user'));
+                $comment->setAuthor($commentAuthor);
                 $comment->setContent($this->getRandomText(random_int(255, 512)));
                 $comment->setPublishedAt(new \DateTime('now + '.$i.'seconds'));
 
@@ -96,16 +96,22 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @return array<array{string, string, string, string, array<string>}>
+     */
     private function getUserData(): array
     {
         return [
             // $userData = [$fullname, $username, $password, $email, $roles];
-            ['Jane Doe', 'jane_admin', 'kitten', 'jane_admin@symfony.com', ['ROLE_ADMIN']],
-            ['Tom Doe', 'tom_admin', 'kitten', 'tom_admin@symfony.com', ['ROLE_ADMIN']],
-            ['John Doe', 'john_user', 'kitten', 'john_user@symfony.com', ['ROLE_USER']],
+            ['Jane Doe', 'jane_admin', 'kitten', 'jane_admin@symfony.com', [User::ROLE_ADMIN]],
+            ['Tom Doe', 'tom_admin', 'kitten', 'tom_admin@symfony.com', [User::ROLE_ADMIN]],
+            ['John Doe', 'john_user', 'kitten', 'john_user@symfony.com', [User::ROLE_USER]],
         ];
     }
 
+    /**
+     * @return string[]
+     */
     private function getTagData(): array
     {
         return [
@@ -121,19 +127,28 @@ class AppFixtures extends Fixture
         ];
     }
 
-    private function getPostData()
+    /**
+     * @throws \Exception
+     *
+     * @return array<int, array{0: string, 1: AbstractUnicodeString, 2: string, 3: string, 4: \DateTime, 5: User, 6: array<Tag>}>
+     */
+    private function getPostData(): array
     {
         $posts = [];
         foreach ($this->getPhrases() as $i => $title) {
             // $postData = [$title, $slug, $summary, $content, $publishedAt, $author, $tags, $comments];
+
+            /** @var User $user */
+            $user = $this->getReference(['jane_admin', 'tom_admin'][0 === $i ? 0 : random_int(0, 1)]);
+
             $posts[] = [
                 $title,
                 $this->slugger->slug($title)->lower(),
                 $this->getRandomText(),
                 $this->getPostContent(),
-                new \DateTime('now - '.$i.'days'),
+                (new \DateTime('now - '.$i.'days'))->setTime(random_int(8, 17), random_int(7, 49), random_int(0, 59)),
                 // Ensure that the first post is written by Jane Doe to simplify tests
-                $this->getReference(['jane_admin', 'tom_admin'][0 === $i ? 0 : random_int(0, 1)]),
+                $user,
                 $this->getRandomTags(),
             ];
         }
@@ -141,6 +156,9 @@ class AppFixtures extends Fixture
         return $posts;
     }
 
+    /**
+     * @return string[]
+     */
     private function getPhrases(): array
     {
         return [
@@ -193,49 +211,59 @@ class AppFixtures extends Fixture
     private function getPostContent(): string
     {
         return <<<'MARKDOWN'
-Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et **dolore magna aliqua**: Duis aute irure dolor in
-reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-deserunt mollit anim id est laborum.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt ut labore et **dolore magna aliqua**: Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+            deserunt mollit anim id est laborum.
 
-  * Ut enim ad minim veniam
-  * Quis nostrud exercitation *ullamco laboris*
-  * Nisi ut aliquip ex ea commodo consequat
+              * Ut enim ad minim veniam
+              * Quis nostrud exercitation *ullamco laboris*
+              * Nisi ut aliquip ex ea commodo consequat
 
-Praesent id fermentum lorem. Ut est lorem, fringilla at accumsan nec, euismod at
-nunc. Aenean mattis sollicitudin mattis. Nullam pulvinar vestibulum bibendum.
-Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-himenaeos. Fusce nulla purus, gravida ac interdum ut, blandit eget ex. Duis a
-luctus dolor.
+            Praesent id fermentum lorem. Ut est lorem, fringilla at accumsan nec, euismod at
+            nunc. Aenean mattis sollicitudin mattis. Nullam pulvinar vestibulum bibendum.
+            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+            himenaeos. Fusce nulla purus, gravida ac interdum ut, blandit eget ex. Duis a
+            luctus dolor.
 
-Integer auctor massa maximus nulla scelerisque accumsan. *Aliquam ac malesuada*
-ex. Pellentesque tortor magna, vulputate eu vulputate ut, venenatis ac lectus.
-Praesent ut lacinia sem. Mauris a lectus eget felis mollis feugiat. Quisque
-efficitur, mi ut semper pulvinar, urna urna blandit massa, eget tincidunt augue
-nulla vitae est.
+            Integer auctor massa maximus nulla scelerisque accumsan. *Aliquam ac malesuada*
+            ex. Pellentesque tortor magna, vulputate eu vulputate ut, venenatis ac lectus.
+            Praesent ut lacinia sem. Mauris a lectus eget felis mollis feugiat. Quisque
+            efficitur, mi ut semper pulvinar, urna urna blandit massa, eget tincidunt augue
+            nulla vitae est.
 
-Ut posuere aliquet tincidunt. Aliquam erat volutpat. **Class aptent taciti**
-sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi
-arcu orci, gravida eget aliquam eu, suscipit et ante. Morbi vulputate metus vel
-ipsum finibus, ut dapibus massa feugiat. Vestibulum vel lobortis libero. Sed
-tincidunt tellus et viverra scelerisque. Pellentesque tincidunt cursus felis.
-Sed in egestas erat.
+            Ut posuere aliquet tincidunt. Aliquam erat volutpat. **Class aptent taciti**
+            sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi
+            arcu orci, gravida eget aliquam eu, suscipit et ante. Morbi vulputate metus vel
+            ipsum finibus, ut dapibus massa feugiat. Vestibulum vel lobortis libero. Sed
+            tincidunt tellus et viverra scelerisque. Pellentesque tincidunt cursus felis.
+            Sed in egestas erat.
 
-Aliquam pulvinar interdum massa, vel ullamcorper ante consectetur eu. Vestibulum
-lacinia ac enim vel placerat. Integer pulvinar magna nec dui malesuada, nec
-congue nisl dictum. Donec mollis nisl tortor, at congue erat consequat a. Nam
-tempus elit porta, blandit elit vel, viverra lorem. Sed sit amet tellus
-tincidunt, faucibus nisl in, aliquet libero.
-MARKDOWN;
+            Aliquam pulvinar interdum massa, vel ullamcorper ante consectetur eu. Vestibulum
+            lacinia ac enim vel placerat. Integer pulvinar magna nec dui malesuada, nec
+            congue nisl dictum. Donec mollis nisl tortor, at congue erat consequat a. Nam
+            tempus elit porta, blandit elit vel, viverra lorem. Sed sit amet tellus
+            tincidunt, faucibus nisl in, aliquet libero.
+            MARKDOWN;
     }
 
+    /**
+     * @throws \Exception
+     *
+     * @return array<Tag>
+     */
     private function getRandomTags(): array
     {
         $tagNames = $this->getTagData();
         shuffle($tagNames);
         $selectedTags = \array_slice($tagNames, 0, random_int(2, 4));
 
-        return array_map(function ($tagName) { return $this->getReference('tag-'.$tagName); }, $selectedTags);
+        return array_map(function ($tagName) {
+            /** @var Tag $tag */
+            $tag = $this->getReference('tag-'.$tagName);
+
+            return $tag;
+        }, $selectedTags);
     }
 }

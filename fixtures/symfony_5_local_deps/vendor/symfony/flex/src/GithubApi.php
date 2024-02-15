@@ -128,7 +128,7 @@ class GithubApi
 
     public function getPullRequestForCommit(string $commit, string $repo): ?array
     {
-        $data = $this->requestGitHubApi('https://api.github.com/search/issues?q='.$commit);
+        $data = $this->requestGitHubApi('https://api.github.com/search/issues?q='.$commit.'+is:pull-request');
 
         if (0 === \count($data['items'])) {
             return null;
@@ -173,11 +173,7 @@ class GithubApi
 
     private function requestGitHubApi(string $path)
     {
-        if ($this->downloader instanceof HttpDownloader) {
-            $contents = $this->downloader->get($path)->getBody();
-        } else {
-            $contents = $this->downloader->getContents('api.github.com', $path, false);
-        }
+        $contents = $this->downloader->get($path)->getBody();
 
         return json_decode($contents, true);
     }

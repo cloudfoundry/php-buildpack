@@ -1,9 +1,9 @@
 security:
-    encoders:
+    password_hashers:
         # Our user class and the algorithm we'll use to encode passwords
         # 'auto' means to let Symfony choose the best possible password hasher (Argon2 or Bcrypt)
-        # https://symfony.com/doc/current/security.html#c-encoding-passwords
-        App\Entity\User: 'auto'
+        # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     providers:
         # https://symfony.com/doc/current/security/user_provider.html
@@ -20,15 +20,8 @@ security:
             security: false
 
         main:
-            # this firewall applies to all URLs
-            pattern: ^/
-
-            # but the firewall does not require login on every page
-            # denying access is done in access_control or in your controllers
-            anonymous: true
+            # this firewall does not have a 'pattern' option because it applies to all URLs
             lazy: true
-
-            # The user provider to use.
             provider: database_users
 
             # This allows the user to login by submitting a username and password
@@ -40,17 +33,32 @@ security:
                 # When the user tries to access a protected page, they are redirected here
                 login_path: security_login
                 # Secure the login form against CSRF
-                # Reference: https://symfony.com/doc/current/security/csrf.html#csrf-protection-in-login-forms
-                csrf_token_generator: security.csrf.token_manager
+                # Reference: https://symfony.com/doc/current/security/csrf.html
+                enable_csrf: true
                 # The page users are redirect to when there is no previous page stored in the
                 # session (for example when the users access directly to the login page).
                 default_target_path: blog_index
 
+            # This option allows users to choose to stay logged in for longer than
+            # the session lasts using a cookie. Reference: https://symfony.com/doc/current/security/remember_me.html
+            remember_me:
+                secret:   '%kernel.secret%' # required
+                lifetime: 604800 # 1 week in seconds
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form , uncomment the following line to always enable it.
+                #always_remember_me: true
+
             logout:
-                # The route name the user can go to in order to logout
-                path: security_logout
                 # The name of the route to redirect to after logging out
                 target: homepage
+                # Secure the logout against CSRF
+                enable_csrf: true
+
+            # needed because in tests we redefine the 'main' firewall to use
+            # HTTP Basic instead of the login form, so this firewall has
+            # multiple authenticators
+            # See https://symfony.com/doc/current/security/experimental_authenticators.html#configuring-the-authentication-entry-point
+            entry_point: 'form_login'
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -59,5 +67,25 @@ security:
         # additional security lives in the controllers
         - { path: '^/(%app_locales%)/admin', roles: ROLE_ADMIN }
 
+    # The ROLE_ADMIN role inherits from the ROLE_USER role
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
+
+when@test:
+    # this configuration simplifies testing URLs protected by the security mechanism
+    # See https://symfony.com/doc/current/testing/http_authentication.html
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon
+
+        firewalls:
+            main:
+                http_basic: ~

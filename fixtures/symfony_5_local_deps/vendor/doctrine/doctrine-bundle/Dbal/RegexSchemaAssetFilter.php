@@ -4,22 +4,24 @@ namespace Doctrine\Bundle\DoctrineBundle\Dbal;
 
 use Doctrine\DBAL\Schema\AbstractAsset;
 
+use function preg_match;
+
 class RegexSchemaAssetFilter
 {
-    /** @var string */
-    private $filterExpression;
+    private string $filterExpression;
 
     public function __construct(string $filterExpression)
     {
         $this->filterExpression = $filterExpression;
     }
 
-    public function __invoke($assetName) : bool
+    /** @param string|AbstractAsset $assetName */
+    public function __invoke($assetName): bool
     {
         if ($assetName instanceof AbstractAsset) {
             $assetName = $assetName->getName();
         }
 
-        return preg_match($this->filterExpression, $assetName);
+        return (bool) preg_match($this->filterExpression, $assetName);
     }
 }

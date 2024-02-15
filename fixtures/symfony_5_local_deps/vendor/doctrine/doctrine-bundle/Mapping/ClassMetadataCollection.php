@@ -6,58 +6,43 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 
 class ClassMetadataCollection
 {
-    /** @var string */
-    private $path;
-
-    /** @var string */
-    private $namespace;
+    private ?string $path      = null;
+    private ?string $namespace = null;
 
     /** @var ClassMetadata[] */
-    private $metadata;
+    private array $metadata;
 
-    /**
-     * @param ClassMetadata[] $metadata
-     */
+    /** @param ClassMetadata[] $metadata */
     public function __construct(array $metadata)
     {
         $this->metadata = $metadata;
     }
 
-    /**
-     * @return ClassMetadata[]
-     */
+    /** @return ClassMetadata[] */
     public function getMetadata()
     {
         return $this->metadata;
     }
 
-    /**
-     * @param string $path
-     */
+    /** @param string $path */
     public function setPath($path)
     {
         $this->path = $path;
     }
 
-    /**
-     * @return string
-     */
+    /** @return string|null */
     public function getPath()
     {
         return $this->path;
     }
 
-    /**
-     * @param string $namespace
-     */
+    /** @param string $namespace */
     public function setNamespace($namespace)
     {
         $this->namespace = $namespace;
     }
 
-    /**
-     * @return string
-     */
+    /** @return string|null */
     public function getNamespace()
     {
         return $this->namespace;

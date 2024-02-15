@@ -6,35 +6,35 @@ use Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand;
 use Doctrine\ORM\Tools\Export\Driver\AbstractExporter;
 use Doctrine\ORM\Tools\Export\Driver\XmlExporter;
 use Doctrine\ORM\Tools\Export\Driver\YamlExporter;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+
+use function assert;
 
 /**
  * Convert Doctrine ORM metadata mapping information between the various supported
  * formats.
+ *
+ * @deprecated use Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand instead
+ *
+ * @psalm-suppress UndefinedClass ORM < 3
  */
 class ConvertMappingDoctrineCommand extends ConvertMappingCommand
 {
-    /**
-     * {@inheritDoc}
-     */
+    use OrmProxyCommand;
+
+    /** @return void */
     protected function configure()
     {
         parent::configure();
+
         $this
-            ->setName('doctrine:mapping:convert')
-            ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
-    }
+            ->setName('doctrine:mapping:convert');
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        DoctrineCommandHelper::setApplicationEntityManager($this->getApplication(), $input->getOption('em'));
+        if ($this->getDefinition()->hasOption('em')) {
+            return;
+        }
 
-        return parent::execute($input, $output);
+        $this->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
     }
 
     /**
@@ -45,8 +45,8 @@ class ConvertMappingDoctrineCommand extends ConvertMappingCommand
      */
     protected function getExporter($toType, $destPath)
     {
-        /** @var AbstractExporter $exporter */
         $exporter = parent::getExporter($toType, $destPath);
+        assert($exporter instanceof AbstractExporter);
         if ($exporter instanceof XmlExporter) {
             $exporter->setExtension('.orm.xml');
         } elseif ($exporter instanceof YamlExporter) {

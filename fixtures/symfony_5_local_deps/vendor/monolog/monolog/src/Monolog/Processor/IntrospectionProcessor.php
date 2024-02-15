@@ -11,7 +11,10 @@
 
 namespace Monolog\Processor;
 
+use Monolog\Level;
 use Monolog\Logger;
+use Psr\Log\LogLevel;
+use Monolog\LogRecord;
 
 /**
  * Injects line/file:class/function where the log message came from
@@ -26,31 +29,38 @@ use Monolog\Logger;
  */
 class IntrospectionProcessor implements ProcessorInterface
 {
-    private $level;
+    private Level $level;
 
-    private $skipClassesPartials;
+    /** @var string[] */
+    private array $skipClassesPartials;
 
-    private $skipStackFramesCount;
+    private int $skipStackFramesCount;
 
-    private $skipFunctions = [
+    private const SKIP_FUNCTIONS = [
         'call_user_func',
         'call_user_func_array',
     ];
 
     /**
-     * @param string|int $level The minimum logging level at which this Processor will be triggered
+     * @param string|int|Level $level               The minimum logging level at which this Processor will be triggered
+     * @param string[]                   $skipClassesPartials
+     *
+     * @phpstan-param value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::* $level
      */
-    public function __construct($level = Logger::DEBUG, array $skipClassesPartials = [], int $skipStackFramesCount = 0)
+    public function __construct(int|string|Level $level = Level::Debug, array $skipClassesPartials = [], int $skipStackFramesCount = 0)
     {
         $this->level = Logger::toMonologLevel($level);
         $this->skipClassesPartials = array_merge(['Monolog\\'], $skipClassesPartials);
         $this->skipStackFramesCount = $skipStackFramesCount;
     }
 
-    public function __invoke(array $record): array
+    /**
+     * @inheritDoc
+     */
+    public function __invoke(LogRecord $record): LogRecord
     {
         // return if the level is not high enough
-        if ($record['level'] < $this->level) {
+        if ($record->level->isLowerThan($this->level)) {
             return $record;
         }
 
@@ -72,7 +82,7 @@ class IntrospectionProcessor implements ProcessorInterface
                         continue 2;
                     }
                 }
-            } elseif (in_array($trace[$i]['function'], $this->skipFunctions)) {
+            } elseif (in_array($trace[$i]['function'], self::SKIP_FUNCTIONS, true)) {
                 $i++;
 
                 continue;
@@ -84,25 +94,29 @@ class IntrospectionProcessor implements ProcessorInterface
         $i += $this->skipStackFramesCount;
 
         // we should have the call source now
-        $record['extra'] = array_merge(
-            $record['extra'],
+        $record->extra = array_merge(
+            $record->extra,
             [
-                'file'      => isset($trace[$i - 1]['file']) ? $trace[$i - 1]['file'] : null,
-                'line'      => isset($trace[$i - 1]['line']) ? $trace[$i - 1]['line'] : null,
-                'class'     => isset($trace[$i]['class']) ? $trace[$i]['class'] : null,
-                'function'  => isset($trace[$i]['function']) ? $trace[$i]['function'] : null,
+                'file'      => $trace[$i - 1]['file'] ?? null,
+                'line'      => $trace[$i - 1]['line'] ?? null,
+                'class'     => $trace[$i]['class'] ?? null,
+                'callType'  => $trace[$i]['type'] ?? null,
+                'function'  => $trace[$i]['function'] ?? null,
             ]
         );
 
         return $record;
     }
 
-    private function isTraceClassOrSkippedFunction(array $trace, int $index)
+    /**
+     * @param array<mixed> $trace
+     */
+    private function isTraceClassOrSkippedFunction(array $trace, int $index): bool
     {
         if (!isset($trace[$index])) {
             return false;
         }
 
-        return isset($trace[$index]['class']) || in_array($trace[$index]['function'], $this->skipFunctions);
+        return isset($trace[$index]['class']) || in_array($trace[$index]['function'], self::SKIP_FUNCTIONS, true);
     }
 }

@@ -14,9 +14,9 @@ namespace App\Tests\Utils;
 use App\Utils\Validator;
 use PHPUnit\Framework\TestCase;
 
-class ValidatorTest extends TestCase
+final class ValidatorTest extends TestCase
 {
-    private $validator;
+    private Validator $validator;
 
     protected function setUp(): void
     {
@@ -93,7 +93,7 @@ class ValidatorTest extends TestCase
         $this->assertSame($test, $this->validator->validateFullName($test));
     }
 
-    public function testValidateFullNameEmpty()
+    public function testValidateFullNameEmpty(): void
     {
         $this->expectException('Exception');
         $this->expectExceptionMessage('The full name can not be empty.');

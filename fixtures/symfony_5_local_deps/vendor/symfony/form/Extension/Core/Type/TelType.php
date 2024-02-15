@@ -12,21 +12,26 @@
 namespace Symfony\Component\Form\Extension\Core\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TelType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @return void
      */
-    public function getParent()
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'invalid_message' => 'Please provide a valid phone number.',
+        ]);
+    }
+
+    public function getParent(): ?string
     {
         return TextType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'tel';
     }

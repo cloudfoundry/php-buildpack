@@ -18,30 +18,35 @@ class DnsMock
 {
     private static $hosts = [];
     private static $dnsTypes = [
-        'A' => DNS_A,
-        'MX' => DNS_MX,
-        'NS' => DNS_NS,
-        'SOA' => DNS_SOA,
-        'PTR' => DNS_PTR,
-        'CNAME' => DNS_CNAME,
-        'AAAA' => DNS_AAAA,
-        'A6' => DNS_A6,
-        'SRV' => DNS_SRV,
-        'NAPTR' => DNS_NAPTR,
-        'TXT' => DNS_TXT,
-        'HINFO' => DNS_HINFO,
+        'A' => \DNS_A,
+        'MX' => \DNS_MX,
+        'NS' => \DNS_NS,
+        'SOA' => \DNS_SOA,
+        'PTR' => \DNS_PTR,
+        'CNAME' => \DNS_CNAME,
+        'AAAA' => \DNS_AAAA,
+        'A6' => \DNS_A6,
+        'SRV' => \DNS_SRV,
+        'NAPTR' => \DNS_NAPTR,
+        'TXT' => \DNS_TXT,
+        'HINFO' => \DNS_HINFO,
     ];
 
     /**
      * Configures the mock values for DNS queries.
      *
      * @param array $hosts Mocked hosts as keys, arrays of DNS records as returned by dns_get_record() as values
+     *
+     * @return void
      */
     public static function withMockedHosts(array $hosts)
     {
         self::$hosts = $hosts;
     }
 
+    /**
+     * @return bool
+     */
     public static function checkdnsrr($hostname, $type = 'MX')
     {
         if (!self::$hosts) {
@@ -63,6 +68,9 @@ class DnsMock
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public static function getmxrr($hostname, &$mxhosts, &$weight = null)
     {
         if (!self::$hosts) {
@@ -137,7 +145,7 @@ class DnsMock
         return $ips;
     }
 
-    public static function dns_get_record($hostname, $type = DNS_ANY, &$authns = null, &$addtl = null, $raw = false)
+    public static function dns_get_record($hostname, $type = \DNS_ANY, &$authns = null, &$addtl = null, $raw = false)
     {
         if (!self::$hosts) {
             return \dns_get_record($hostname, $type, $authns, $addtl, $raw);
@@ -146,13 +154,13 @@ class DnsMock
         $records = false;
 
         if (isset(self::$hosts[$hostname])) {
-            if (DNS_ANY === $type) {
-                $type = DNS_ALL;
+            if (\DNS_ANY === $type) {
+                $type = \DNS_ALL;
             }
             $records = [];
 
             foreach (self::$hosts[$hostname] as $record) {
-                if (isset(self::$dnsTypes[$record['type']]) && (self::$dnsTypes[$record['type']] & $type)) {
+                if ((self::$dnsTypes[$record['type']] ?? 0) & $type) {
                     $records[] = array_merge(['host' => $hostname, 'class' => 'IN', 'ttl' => 1, 'type' => $record['type']], $record);
                 }
             }
@@ -161,9 +169,12 @@ class DnsMock
         return $records;
     }
 
+    /**
+     * @return void
+     */
     public static function register($class)
     {
-        $self = \get_called_class();
+        $self = static::class;
 
         $mockedNs = [substr($class, 0, strrpos($class, '\\'))];
         if (0 < strpos($class, '\\Tests\\')) {

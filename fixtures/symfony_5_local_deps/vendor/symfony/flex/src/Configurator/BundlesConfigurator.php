@@ -44,20 +44,20 @@ class BundlesConfigurator extends AbstractConfigurator
 
     public function update(RecipeUpdate $recipeUpdate, array $originalConfig, array $newConfig): void
     {
-        $originalBundles = $this->configureBundles($originalConfig);
+        $originalBundles = $this->configureBundles($originalConfig, true);
         $recipeUpdate->setOriginalFile(
             $this->getLocalConfFile(),
             $this->buildContents($originalBundles)
         );
 
-        $newBundles = $this->configureBundles($newConfig);
+        $newBundles = $this->configureBundles($newConfig, true);
         $recipeUpdate->setNewFile(
             $this->getLocalConfFile(),
             $this->buildContents($newBundles)
         );
     }
 
-    private function configureBundles(array $bundles): array
+    private function configureBundles(array $bundles, bool $resetEnvironments = false): array
     {
         $file = $this->getConfFile();
         $registered = $this->load($file);
@@ -69,12 +69,19 @@ class BundlesConfigurator extends AbstractConfigurator
             unset($classes[$fwb]);
         }
         foreach ($classes as $class => $envs) {
-            // if the class already existed, clear so we can update the envs
-            if (isset($registered[$class])) {
-                $registered[$class] = [];
-            }
-            foreach ($envs as $env) {
-                $registered[$class][$env] = true;
+            // do not override existing configured envs for a bundle
+            if (!isset($registered[$class]) || $resetEnvironments) {
+                if ($resetEnvironments) {
+                    // used during calculating an "upgrade"
+                    // here, we want to "undo" the bundle's configuration entirely
+                    // then re-add it fresh, in case some environments have been
+                    // removed in an updated version of the recipe
+                    $registered[$class] = [];
+                }
+
+                foreach ($envs as $env) {
+                    $registered[$class][$env] = true;
+                }
             }
         }
 

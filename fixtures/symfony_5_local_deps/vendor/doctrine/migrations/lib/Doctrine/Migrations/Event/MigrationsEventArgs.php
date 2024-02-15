@@ -14,36 +14,24 @@ use Doctrine\Migrations\MigratorConfiguration;
  */
 final class MigrationsEventArgs extends EventArgs
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var MigrationPlanList */
-    private $plan;
-
-    /** @var MigratorConfiguration */
-    private $migratorConfiguration;
-
     public function __construct(
-        Connection $connection,
-        MigrationPlanList $plan,
-        MigratorConfiguration $migratorConfiguration
+        private readonly Connection $connection,
+        private readonly MigrationPlanList $plan,
+        private readonly MigratorConfiguration $migratorConfiguration,
     ) {
-        $this->connection            = $connection;
-        $this->plan                  = $plan;
-        $this->migratorConfiguration = $migratorConfiguration;
     }
 
-    public function getConnection() : Connection
+    public function getConnection(): Connection
     {
         return $this->connection;
     }
 
-    public function getPlan() : MigrationPlanList
+    public function getPlan(): MigrationPlanList
     {
         return $this->plan;
     }
 
-    public function getMigratorConfiguration() : MigratorConfiguration
+    public function getMigratorConfiguration(): MigratorConfiguration
     {
         return $this->migratorConfiguration;
     }

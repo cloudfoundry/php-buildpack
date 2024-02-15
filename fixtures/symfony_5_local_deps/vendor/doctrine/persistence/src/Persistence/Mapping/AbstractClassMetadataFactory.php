@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\Persistence\Mapping;
 
-use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\Psr6\CacheAdapter;
-use Doctrine\Common\Cache\Psr6\DoctrineProvider;
-use Doctrine\Deprecations\Deprecation;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Proxy;
 use Psr\Cache\CacheItemPoolInterface;
+use ReflectionClass;
 use ReflectionException;
 
 use function array_combine;
@@ -17,8 +16,8 @@ use function array_map;
 use function array_reverse;
 use function array_unshift;
 use function assert;
-use function explode;
-use function is_array;
+use function class_exists;
+use function ltrim;
 use function str_replace;
 use function strpos;
 use function strrpos;
@@ -43,14 +42,11 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
      */
     protected $cacheSalt = '__CLASSMETADATA__';
 
-    /** @var Cache|null */
-    private $cacheDriver;
-
     /** @var CacheItemPoolInterface|null */
     private $cache;
 
     /**
-     * @var ClassMetadata[]
+     * @var array<string, ClassMetadata>
      * @psalm-var CMTemplate[]
      */
     private $loadedMetadata = [];
@@ -64,56 +60,9 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
     /** @var ProxyClassNameResolver|null */
     private $proxyClassNameResolver = null;
 
-    /**
-     * Sets the cache driver used by the factory to cache ClassMetadata instances.
-     *
-     * @deprecated setCacheDriver was deprecated in doctrine/persistence 2.2 and will be removed in 3.0. Use setCache instead
-     *
-     * @return void
-     */
-    public function setCacheDriver(?Cache $cacheDriver = null)
-    {
-        Deprecation::trigger(
-            'doctrine/persistence',
-            'https://github.com/doctrine/persistence/issues/184',
-            '%s is deprecated. Use setCache() with a PSR-6 cache instead.',
-            __METHOD__
-        );
-
-        $this->cacheDriver = $cacheDriver;
-
-        if ($cacheDriver === null) {
-            $this->cache = null;
-
-            return;
-        }
-
-        $this->cache = CacheAdapter::wrap($cacheDriver);
-    }
-
-    /**
-     * Gets the cache driver used by the factory to cache ClassMetadata instances.
-     *
-     * @deprecated getCacheDriver was deprecated in doctrine/persistence 2.2 and will be removed in 3.0.
-     *
-     * @return Cache|null
-     */
-    public function getCacheDriver()
-    {
-        Deprecation::trigger(
-            'doctrine/persistence',
-            'https://github.com/doctrine/persistence/issues/184',
-            '%s is deprecated. Use getCache() instead.',
-            __METHOD__
-        );
-
-        return $this->cacheDriver;
-    }
-
     public function setCache(CacheItemPoolInterface $cache): void
     {
-        $this->cache       = $cache;
-        $this->cacheDriver = DoctrineProvider::wrap($cache);
+        $this->cache = $cache;
     }
 
     final protected function getCache(): ?CacheItemPoolInterface
@@ -164,19 +113,6 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
     abstract protected function initialize();
 
     /**
-     * Gets the fully qualified class-name from the namespace alias.
-     *
-     * @deprecated This method is deprecated along with short namespace aliases.
-     *
-     * @param string $namespaceAlias
-     * @param string $simpleClassName
-     *
-     * @return string
-     * @psalm-return class-string
-     */
-    abstract protected function getFqcnFromAlias($namespaceAlias, $simpleClassName);
-
-    /**
      * Returns the mapping driver implementation.
      *
      * @return MappingDriver
@@ -190,7 +126,10 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
      *
      * @return void
      */
-    abstract protected function wakeupReflection(ClassMetadata $class, ReflectionService $reflService);
+    abstract protected function wakeupReflection(
+        ClassMetadata $class,
+        ReflectionService $reflService
+    );
 
     /**
      * Initializes Reflection after ClassMetadata was constructed.
@@ -199,7 +138,10 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
      *
      * @return void
      */
-    abstract protected function initializeReflection(ClassMetadata $class, ReflectionService $reflService);
+    abstract protected function initializeReflection(
+        ClassMetadata $class,
+        ReflectionService $reflService
+    );
 
     /**
      * Checks whether the class metadata is an entity.
@@ -213,43 +155,48 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
     abstract protected function isEntity(ClassMetadata $class);
 
     /**
+     * Removes the prepended backslash of a class string to conform with how php outputs class names
+     *
+     * @psalm-param class-string $className
+     *
+     * @psalm-return class-string
+     */
+    private function normalizeClassName(string $className): string
+    {
+        return ltrim($className, '\\');
+    }
+
+    /**
      * {@inheritDoc}
      *
      * @throws ReflectionException
      * @throws MappingException
      */
-    public function getMetadataFor($className)
+    public function getMetadataFor(string $className)
     {
+        $className = $this->normalizeClassName($className);
+
         if (isset($this->loadedMetadata[$className])) {
             return $this->loadedMetadata[$className];
         }
 
-        // Check for namespace alias
-        if (strpos($className, ':') !== false) {
-            Deprecation::trigger(
-                'doctrine/persistence',
-                'https://github.com/doctrine/persistence/issues/204',
-                'Short namespace aliases such as "%s" are deprecated, use ::class constant instead.',
-                $className
-            );
-
-            [$namespaceAlias, $simpleClassName] = explode(':', $className, 2);
-
-            $realClassName = $this->getFqcnFromAlias($namespaceAlias, $simpleClassName);
-        } else {
-            /** @psalm-var class-string $className */
-            $realClassName = $this->getRealClass($className);
+        if (class_exists($className, false) && (new ReflectionClass($className))->isAnonymous()) {
+            throw MappingException::classIsAnonymous($className);
         }
+
+        if (! class_exists($className, false) && strpos($className, ':') !== false) {
+            throw MappingException::nonExistingClass($className);
+        }
+
+        $realClassName = $this->getRealClass($className);
 
         if (isset($this->loadedMetadata[$realClassName])) {
             // We do not have the alias name in the map, include it
             return $this->loadedMetadata[$className] = $this->loadedMetadata[$realClassName];
         }
 
-        $loadingException = null;
-
         try {
-            if ($this->cache) {
+            if ($this->cache !== null) {
                 $cached = $this->cache->getItem($this->getCacheKey($realClassName))->get();
                 if ($cached instanceof ClassMetadata) {
                     /** @psalm-var CMTemplate $cached */
@@ -262,7 +209,6 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
                         array_map([$this, 'getCacheKey'], $loadedMetadata),
                         $loadedMetadata
                     );
-                    assert(is_array($classNames));
 
                     foreach ($this->cache->getItems(array_keys($classNames)) as $item) {
                         if (! isset($classNames[$item->getKey()])) {
@@ -281,7 +227,7 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
         } catch (MappingException $loadingException) {
             $fallbackMetadataResponse = $this->onNotFoundMetadata($realClassName);
 
-            if (! $fallbackMetadataResponse) {
+            if ($fallbackMetadataResponse === null) {
                 throw $loadingException;
             }
 
@@ -299,8 +245,10 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
     /**
      * {@inheritDoc}
      */
-    public function hasMetadataFor($className)
+    public function hasMetadataFor(string $className)
     {
+        $className = $this->normalizeClassName($className);
+
         return isset($this->loadedMetadata[$className]);
     }
 
@@ -309,25 +257,25 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
      *
      * NOTE: This is only useful in very special cases, like when generating proxy classes.
      *
-     * {@inheritDoc}
+     * @psalm-param class-string $className
+     * @psalm-param CMTemplate $class
      *
      * @return void
      */
-    public function setMetadataFor($className, $class)
+    public function setMetadataFor(string $className, ClassMetadata $class)
     {
-        $this->loadedMetadata[$className] = $class;
+        $this->loadedMetadata[$this->normalizeClassName($className)] = $class;
     }
 
     /**
      * Gets an array of parent classes for the given entity class.
      *
-     * @param string $name
      * @psalm-param class-string $name
      *
      * @return string[]
-     * @psalm-return class-string[]
+     * @psalm-return list<class-string>
      */
-    protected function getParentClasses($name)
+    protected function getParentClasses(string $name)
     {
         // Collect parent classes, ignoring transient (not-mapped) classes.
         $parentClasses = [];
@@ -350,15 +298,16 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
      * Important: The class $name does not necessarily exist at this point here.
      * Scenarios in a code-generation setup might have access to XML/YAML
      * Mapping files without the actual PHP code existing here. That is why the
-     * {@see Doctrine\Common\Persistence\Mapping\ReflectionService} interface
+     * {@see \Doctrine\Persistence\Mapping\ReflectionService} interface
      * should be used for reflection.
      *
      * @param string $name The name of the class for which the metadata should get loaded.
      * @psalm-param class-string $name
      *
-     * @return string[]
+     * @return array<int, string>
+     * @psalm-return list<string>
      */
-    protected function loadMetadata($name)
+    protected function loadMetadata(string $name)
     {
         if (! $this->initialized) {
             $this->initialize();
@@ -374,11 +323,14 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
         $rootEntityFound = false;
         $visited         = [];
         $reflService     = $this->getReflectionService();
+
         foreach ($parentClasses as $className) {
             if (isset($this->loadedMetadata[$className])) {
                 $parent = $this->loadedMetadata[$className];
+
                 if ($this->isEntity($parent)) {
                     $rootEntityFound = true;
+
                     array_unshift($visited, $className);
                 }
 
@@ -396,6 +348,7 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
 
             if ($this->isEntity($class)) {
                 $rootEntityFound = true;
+
                 array_unshift($visited, $className);
             }
 
@@ -412,12 +365,10 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
      *
      * Override this method to implement a fallback strategy for failed metadata loading
      *
-     * @param string $className
-     *
      * @return ClassMetadata|null
      * @psalm-return CMTemplate|null
      */
-    protected function onNotFoundMetadata($className)
+    protected function onNotFoundMetadata(string $className)
     {
         return null;
     }
@@ -425,22 +376,23 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
     /**
      * Actually loads the metadata from the underlying metadata.
      *
-     * @param ClassMetadata      $class
-     * @param ClassMetadata|null $parent
-     * @param bool               $rootEntityFound
-     * @param string[]           $nonSuperclassParents All parent class names
-     *                                                 that are not marked as mapped superclasses.
+     * @param bool               $rootEntityFound      True when there is another entity (non-mapped superclass) class above the current class in the PHP class hierarchy.
+     * @param list<class-string> $nonSuperclassParents All parent class names that are not marked as mapped superclasses, with the direct parent class being the first and the root entity class the last element.
      * @psalm-param CMTemplate $class
      * @psalm-param CMTemplate|null $parent
      *
      * @return void
      */
-    abstract protected function doLoadMetadata($class, $parent, $rootEntityFound, array $nonSuperclassParents);
+    abstract protected function doLoadMetadata(
+        ClassMetadata $class,
+        ?ClassMetadata $parent,
+        bool $rootEntityFound,
+        array $nonSuperclassParents
+    );
 
     /**
      * Creates a new ClassMetadata instance for the given class name.
      *
-     * @param string $className
      * @psalm-param class-string<T> $className
      *
      * @return ClassMetadata<T>
@@ -448,30 +400,23 @@ abstract class AbstractClassMetadataFactory implements ClassMetadataFactory
      *
      * @template T of object
      */
-    abstract protected function newClassMetadataInstance($className);
+    abstract protected function newClassMetadataInstance(string $className);
 
     /**
      * {@inheritDoc}
-     *
-     * @psalm-param class-string|string $className
      */
-    public function isTransient($className)
+    public function isTransient(string $className)
     {
         if (! $this->initialized) {
             $this->initialize();
         }
 
-        // Check for namespace alias
-        if (strpos($className, ':') !== false) {
-            Deprecation::trigger(
-                'doctrine/persistence',
-                'https://github.com/doctrine/persistence/issues/204',
-                'Short namespace aliases such as "%s" are deprecated, use ::class constant instead.',
-                $className
-            );
+        if (class_exists($className, false) && (new ReflectionClass($className))->isAnonymous()) {
+            return false;
+        }
 
-            [$namespaceAlias, $simpleClassName] = explode(':', $className, 2);
-            $className                          = $this->getFqcnFromAlias($namespaceAlias, $simpleClassName);
+        if (! class_exists($className, false) && strpos($className, ':') !== false) {
+            throw MappingException::nonExistingClass($className);
         }
 
         /** @psalm-var class-string $className */

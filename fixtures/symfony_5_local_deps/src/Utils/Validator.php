@@ -17,10 +17,11 @@ use function Symfony\Component\String\u;
 /**
  * This class is used to provide an example of integrating simple classes as
  * services into a Symfony application.
+ * See https://symfony.com/doc/current/service_container.html#creating-configuring-services-in-the-container.
  *
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class Validator
+final class Validator
 {
     public function validateUsername(?string $username): string
     {

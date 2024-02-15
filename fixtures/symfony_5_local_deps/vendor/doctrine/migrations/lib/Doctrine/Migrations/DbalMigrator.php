@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Doctrine\Migrations;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\Migrations\Exception\MigrationConfigurationConflict;
 use Doctrine\Migrations\Metadata\MigrationPlanList;
 use Doctrine\Migrations\Query\Query;
 use Doctrine\Migrations\Tools\BytesFormatter;
+use Doctrine\Migrations\Tools\TransactionHelper;
 use Doctrine\Migrations\Version\Executor;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Stopwatch\StopwatchEvent;
 use Throwable;
+
 use function count;
+
 use const COUNT_RECURSIVE;
 
 /**
@@ -23,45 +27,24 @@ use const COUNT_RECURSIVE;
  */
 class DbalMigrator implements Migrator
 {
-    /** @var Stopwatch */
-    private $stopwatch;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var Executor */
-    private $executor;
-
-    /** @var Connection */
-    private $connection;
-
-    /** @var EventDispatcher */
-    private $dispatcher;
-
     public function __construct(
-        Connection $connection,
-        EventDispatcher $dispatcher,
-        Executor $executor,
-        LoggerInterface $logger,
-        Stopwatch $stopwatch
+        private readonly Connection $connection,
+        private readonly EventDispatcher $dispatcher,
+        private readonly Executor $executor,
+        private readonly LoggerInterface $logger,
+        private readonly Stopwatch $stopwatch,
     ) {
-        $this->stopwatch  = $stopwatch;
-        $this->logger     = $logger;
-        $this->executor   = $executor;
-        $this->connection = $connection;
-        $this->dispatcher = $dispatcher;
     }
 
-    /**
-     * @return array<string, Query[]>
-     */
+    /** @return array<string, Query[]> */
     private function executeMigrations(
         MigrationPlanList $migrationsPlan,
-        MigratorConfiguration $migratorConfiguration
-    ) : array {
+        MigratorConfiguration $migratorConfiguration,
+    ): array {
         $allOrNothing = $migratorConfiguration->isAllOrNothing();
 
         if ($allOrNothing) {
+            $this->assertAllMigrationsAreTransactional($migrationsPlan);
             $this->connection->beginTransaction();
         }
 
@@ -73,23 +56,30 @@ class DbalMigrator implements Migrator
             $this->dispatcher->dispatchMigrationEvent(Events::onMigrationsMigrated, $migrationsPlan, $migratorConfiguration);
         } catch (Throwable $e) {
             if ($allOrNothing) {
-                $this->connection->rollBack();
+                TransactionHelper::rollbackIfInTransaction($this->connection);
             }
 
             throw $e;
         }
 
         if ($allOrNothing) {
-            $this->connection->commit();
+            TransactionHelper::commitIfInTransaction($this->connection);
         }
 
         return $sql;
     }
 
-    /**
-     * @return array<string, Query[]>
-     */
-    private function executePlan(MigrationPlanList $migrationsPlan, MigratorConfiguration $migratorConfiguration) : array
+    private function assertAllMigrationsAreTransactional(MigrationPlanList $migrationsPlan): void
+    {
+        foreach ($migrationsPlan->getItems() as $plan) {
+            if (! $plan->getMigration()->isTransactional()) {
+                throw MigrationConfigurationConflict::migrationIsNotTransactional($plan->getMigration());
+            }
+        }
+    }
+
+    /** @return array<string, Query[]> */
+    private function executePlan(MigrationPlanList $migrationsPlan, MigratorConfiguration $migratorConfiguration): array
     {
         $sql  = [];
         $time = 0;
@@ -111,14 +101,12 @@ class DbalMigrator implements Migrator
         return $sql;
     }
 
-    /**
-     * @param array<string, Query[]> $sql
-     */
+    /** @param array<string, Query[]> $sql */
     private function endMigrations(
         StopwatchEvent $stopwatchEvent,
         MigrationPlanList $migrationsPlan,
-        array $sql
-    ) : void {
+        array $sql,
+    ): void {
         $stopwatchEvent->stop();
 
         $this->logger->notice(
@@ -128,14 +116,14 @@ class DbalMigrator implements Migrator
                 'memory' => BytesFormatter::formatBytes($stopwatchEvent->getMemory()),
                 'migrations_count' => count($migrationsPlan),
                 'queries_count' => count($sql, COUNT_RECURSIVE) - count($sql),
-            ]
+            ],
         );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function migrate(MigrationPlanList $migrationsPlan, MigratorConfiguration $migratorConfiguration) : array
+    public function migrate(MigrationPlanList $migrationsPlan, MigratorConfiguration $migratorConfiguration): array
     {
         if (count($migrationsPlan) === 0) {
             $this->logger->notice('No migrations to execute.');

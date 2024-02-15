@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\Persistence\Reflection;
 
 use Closure;
@@ -9,6 +11,8 @@ use function assert;
 
 /**
  * PHP Typed No Default Reflection Property Base - special override for typed properties without a default value.
+ *
+ * @internal since version 3.1
  */
 trait TypedNoDefaultReflectionPropertyBase
 {
@@ -19,7 +23,7 @@ trait TypedNoDefaultReflectionPropertyBase
      * This is necessary to avoid PHP error "Error: Typed property must not be accessed before initialization".
      * Should be used only for reflecting typed properties without a default value.
      *
-     * @param object $object
+     * @param object|null $object
      *
      * @return mixed
      */
@@ -37,7 +41,7 @@ trait TypedNoDefaultReflectionPropertyBase
      *
      * @link https://github.com/doctrine/orm/issues/7999
      *
-     * @param object $object
+     * @param object|null $object
      *
      * @return void
      */

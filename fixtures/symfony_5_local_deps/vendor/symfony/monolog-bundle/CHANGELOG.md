@@ -1,4 +1,46 @@
-## 3.6.0 (xxxx-xx-xx)
+## Unreleased
+
+## 3.10.0 (2023-11-06)
+
+* Add configuration support for SamplingHandler
+
+## 3.9.0 (2023-11-06)
+
+* Add support for the `WithMonologChannel` attribute of Monolog 3.5.0 to autoconfigure the `monolog.logger` tag
+* Add support for Symfony 7
+* Remove support for Symfony 4
+* Mark classes as internal when relevant
+* Add support for env placeholders in the `level` option of handlers
+
+## 3.8.0 (2022-05-10)
+
+* Deprecated ambiguous `elasticsearch` type, use `elastica` instead
+* Added support for Monolog 3.0 (requires symfony/monolog-bridge 6.1)
+* Added support for `AsMonologProcessor` to autoconfigure processors
+* Added support for `FallbackGroupHandler`
+* Added support for `ElasticsearchHandler` as `elastic_search` type
+* Added support for `ElasticaHandler` as `elastica` type
+* Added support for `TelegramBotHandler` as `telegram`
+* Added `fill_extra_context` flag for `sentry` handlers
+* Added support for configuring PsrLogMessageProcessor (`date_format` and `remove_used_context_fields`)
+* Fixed issue on Windows + PHP 8, workaround for https://github.com/php/php-src/issues/8315
+* Fixed MongoDBHandler support when no client id is provided
+
+## 3.7.1 (2021-11-05)
+
+* Indicate compatibility with Symfony 6
+
+## 3.7.0 (2021-03-31)
+
+* Use `ActivationStrategy` instead of `actionLevel` when available
+* Register resettable processors (`ResettableInterface`) for autoconfiguration (tag: `kernel.reset`)
+* Drop support for Symfony 3.4
+* Drop support for PHP < 7.1
+* Fix call to undefined method pushProcessor on handler that does not implement ProcessableHandlerInterface
+* Use "use_locking" option with rotating file handler
+* Add ability to specify custom Sentry hub service
+
+## 3.6.0 (2020-10-06)
 
 * Added support for Symfony Mailer
 * Added support for setting log levels from parameters or environment variables

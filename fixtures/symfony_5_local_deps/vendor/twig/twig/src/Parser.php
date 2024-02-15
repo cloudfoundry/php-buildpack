@@ -34,7 +34,6 @@ class Parser
     private $stack = [];
     private $stream;
     private $parent;
-    private $handlers;
     private $visitors;
     private $expressionParser;
     private $blocks;
@@ -53,24 +52,14 @@ class Parser
 
     public function getVarName(): string
     {
-        return sprintf('__internal_%s', hash('sha256', __METHOD__.$this->stream->getSourceContext()->getCode().$this->varNameSalt++));
+        return sprintf('__internal_parse_%d', $this->varNameSalt++);
     }
 
     public function parse(TokenStream $stream, $test = null, bool $dropNeedle = false): ModuleNode
     {
         $vars = get_object_vars($this);
-        unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames']);
+        unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames'], $vars['varNameSalt']);
         $this->stack[] = $vars;
-
-        // tag handlers
-        if (null === $this->handlers) {
-            $this->handlers = [];
-            foreach ($this->env->getTokenParsers() as $handler) {
-                $handler->setParser($this);
-
-                $this->handlers[$handler->getTag()] = $handler;
-            }
-        }
 
         // node visitors
         if (null === $this->visitors) {
@@ -89,7 +78,6 @@ class Parser
         $this->blockStack = [];
         $this->importedSymbols = [[]];
         $this->embeddedTemplates = [];
-        $this->varNameSalt = 0;
 
         try {
             $body = $this->subparse($test, $dropNeedle);
@@ -161,7 +149,7 @@ class Parser
                         return new Node($rv, [], $lineno);
                     }
 
-                    if (!isset($this->handlers[$token->getValue()])) {
+                    if (!$subparser = $this->env->getTokenParser($token->getValue())) {
                         if (null !== $test) {
                             $e = new SyntaxError(sprintf('Unexpected "%s" tag', $token->getValue()), $token->getLine(), $this->stream->getSourceContext());
 
@@ -170,7 +158,7 @@ class Parser
                             }
                         } else {
                             $e = new SyntaxError(sprintf('Unknown "%s" tag.', $token->getValue()), $token->getLine(), $this->stream->getSourceContext());
-                            $e->addSuggestions($token->getValue(), array_keys($this->env->getTags()));
+                            $e->addSuggestions($token->getValue(), array_keys($this->env->getTokenParsers()));
                         }
 
                         throw $e;
@@ -178,7 +166,7 @@ class Parser
 
                     $this->stream->next();
 
-                    $subparser = $this->handlers[$token->getValue()];
+                    $subparser->setParser($this);
                     $node = $subparser->parse($token);
                     if (null !== $node) {
                         $rv[] = $node;
@@ -204,7 +192,7 @@ class Parser
 
     public function peekBlockStack()
     {
-        return isset($this->blockStack[\count($this->blockStack) - 1]) ? $this->blockStack[\count($this->blockStack) - 1] : null;
+        return $this->blockStack[\count($this->blockStack) - 1] ?? null;
     }
 
     public function popBlockStack(): void
@@ -315,10 +303,9 @@ class Parser
         // check that the body does not contain non-empty output nodes
         if (
             ($node instanceof TextNode && !ctype_space($node->getAttribute('data')))
-            ||
-            (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface)
+            || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface)
         ) {
-            if (false !== strpos((string) $node, \chr(0xEF).\chr(0xBB).\chr(0xBF))) {
+            if (str_contains((string) $node, \chr(0xEF).\chr(0xBB).\chr(0xBF))) {
                 $t = substr($node->getAttribute('data'), 3);
                 if ('' === $t || ctype_space($t)) {
                     // bypass empty nodes starting with a BOM

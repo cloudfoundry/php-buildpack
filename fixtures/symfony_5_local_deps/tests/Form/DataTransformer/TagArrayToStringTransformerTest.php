@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  *
  * See https://symfony.com/doc/current/testing/database.html
  */
-class TagArrayToStringTransformerTest extends TestCase
+final class TagArrayToStringTransformerTest extends TestCase
 {
     /**
      * Ensures that tags are created correctly.
@@ -72,8 +72,8 @@ class TagArrayToStringTransformerTest extends TestCase
     public function testUsesAlreadyDefinedTags(): void
     {
         $persistedTags = [
-            $this->createTag('Hello'),
-            $this->createTag('World'),
+            new Tag('Hello'),
+            new Tag('World'),
         ];
         $tags = $this->getMockedTransformer($persistedTags)->reverseTransform('Hello, World, How, Are, You');
 
@@ -89,8 +89,8 @@ class TagArrayToStringTransformerTest extends TestCase
     public function testTransform(): void
     {
         $persistedTags = [
-            $this->createTag('Hello'),
-            $this->createTag('World'),
+            new Tag('Hello'),
+            new Tag('World'),
         ];
         $transformed = $this->getMockedTransformer()->transform($persistedTags);
 
@@ -101,7 +101,7 @@ class TagArrayToStringTransformerTest extends TestCase
      * This helper method mocks the real TagArrayToStringTransformer class to
      * simplify the tests. See https://phpunit.de/manual/current/en/test-doubles.html.
      *
-     * @param array $findByReturnValues The values returned when calling to the findBy() method
+     * @param array<int, object> $findByReturnValues The values returned when calling to the findBy() method
      */
     private function getMockedTransformer(array $findByReturnValues = []): TagArrayToStringTransformer
     {
@@ -113,16 +113,5 @@ class TagArrayToStringTransformerTest extends TestCase
             ->willReturn($findByReturnValues);
 
         return new TagArrayToStringTransformer($tagRepository);
-    }
-
-    /**
-     * This helper method creates a Tag instance for the given tag name.
-     */
-    private function createTag(string $name): Tag
-    {
-        $tag = new Tag();
-        $tag->setName($name);
-
-        return $tag;
     }
 }

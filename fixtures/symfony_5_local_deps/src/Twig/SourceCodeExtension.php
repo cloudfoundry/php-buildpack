@@ -11,45 +11,76 @@
 
 namespace App\Twig;
 
-use function Symfony\Component\String\u;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
-use Twig\Template;
 use Twig\TemplateWrapper;
 use Twig\TwigFunction;
+use function Symfony\Component\String\u;
 
 /**
  * CAUTION: this is an extremely advanced Twig extension. It's used to get the
  * source code of the controller and the template used to render the current
  * page. If you are starting with Symfony, don't look at this code and consider
- * studying instead the code of the src/App/Twig/AppExtension.php extension.
+ * studying instead the code of the src/Twig/AppExtension.php extension.
  *
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class SourceCodeExtension extends AbstractExtension
+final class SourceCodeExtension extends AbstractExtension
 {
+    private FileLinkFormatter $fileLinkFormat;
+    private string $projectDir;
+    /**
+     * @var callable|null
+     */
     private $controller;
 
-    public function setController(?callable $controller)
+    public function __construct(
+        FileLinkFormatter $fileLinkFormat,
+        #[Autowire('%kernel.project_dir%')]
+        string $projectDir,
+    ) {
+        $this->fileLinkFormat = $fileLinkFormat;
+        $this->projectDir = str_replace('\\', '/', $projectDir).'/';
+    }
+
+    public function setController(?callable $controller): void
     {
         $this->controller = $controller;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('show_source_code', [$this, 'showSourceCode'], ['is_safe' => ['html'], 'needs_environment' => true]),
+            new TwigFunction('link_source_file', $this->linkSourceFile(...), ['is_safe' => ['html'], 'needs_environment' => true]),
+            new TwigFunction('show_source_code', $this->showSourceCode(...), ['is_safe' => ['html'], 'needs_environment' => true]),
         ];
     }
 
     /**
-     * @param string|TemplateWrapper|array $template
+     * Render a link to a source file.
      */
-    public function showSourceCode(Environment $twig, $template): string
+    public function linkSourceFile(Environment $twig, string $file, int $line): string
+    {
+        $text = str_replace('\\', '/', $file);
+        if (str_starts_with($text, $this->projectDir)) {
+            $text = mb_substr($text, mb_strlen($this->projectDir));
+        }
+
+        if (false === $link = $this->fileLinkFormat->format($file, $line)) {
+            return '';
+        }
+
+        return sprintf('<a href="%s" title="Click to open this file" class="file_link">%s</a> at line %d',
+            htmlspecialchars($link, \ENT_COMPAT | \ENT_SUBSTITUTE, $twig->getCharset()),
+            htmlspecialchars($text, \ENT_COMPAT | \ENT_SUBSTITUTE, $twig->getCharset()),
+            $line,
+        );
+    }
+
+    public function showSourceCode(Environment $twig, string|TemplateWrapper $template): string
     {
         return $twig->render('debug/source_code.html.twig', [
             'controller' => $this->getController(),
@@ -57,6 +88,9 @@ class SourceCodeExtension extends AbstractExtension
         ]);
     }
 
+    /**
+     * @return array{file_path: string, starting_line: int|false, source_code: string}|null
+     */
     private function getController(): ?array
     {
         // this happens for example for exceptions (404 errors, etc.)
@@ -66,12 +100,30 @@ class SourceCodeExtension extends AbstractExtension
 
         $method = $this->getCallableReflector($this->controller);
 
-        $classCode = file($method->getFileName());
-        $methodCode = \array_slice($classCode, $method->getStartLine() - 1, $method->getEndLine() - $method->getStartLine() + 1);
-        $controllerCode = '    '.$method->getDocComment()."\n".implode('', $methodCode);
+        /** @var string $fileName */
+        $fileName = $method->getFileName();
+
+        if (false === $classCode = file($fileName)) {
+            throw new \LogicException(sprintf('There was an error while trying to read the contents of the "%s" file.', $fileName));
+        }
+
+        $startLine = $method->getStartLine() - 1;
+        $endLine = $method->getEndLine();
+
+        while ($startLine > 0) {
+            $line = trim($classCode[$startLine - 1]);
+
+            if (\in_array($line, ['{', '}', ''], true)) {
+                break;
+            }
+
+            --$startLine;
+        }
+
+        $controllerCode = implode('', \array_slice($classCode, $startLine, $endLine - $startLine));
 
         return [
-            'file_path' => $method->getFileName(),
+            'file_path' => $fileName,
             'starting_line' => $method->getStartLine(),
             'source_code' => $this->unindentCode($controllerCode),
         ];
@@ -97,6 +149,9 @@ class SourceCodeExtension extends AbstractExtension
         return new \ReflectionFunction($callable);
     }
 
+    /**
+     * @return array{file_path: string|false, starting_line: int, source_code: string}
+     */
     private function getTemplateSource(TemplateWrapper $template): array
     {
         $templateSource = $template->getSourceContext();
@@ -120,16 +175,16 @@ class SourceCodeExtension extends AbstractExtension
     {
         $codeLines = u($code)->split("\n");
 
-        $indentedOrBlankLines = array_filter($codeLines, function ($lineOfCode) {
+        $indentedOrBlankLines = array_filter($codeLines, static function ($lineOfCode) {
             return u($lineOfCode)->isEmpty() || u($lineOfCode)->startsWith('    ');
         });
 
         $codeIsIndented = \count($indentedOrBlankLines) === \count($codeLines);
         if ($codeIsIndented) {
-            $unindentedLines = array_map(function ($lineOfCode) {
+            $unindentedLines = array_map(static function ($lineOfCode) {
                 return u($lineOfCode)->after('    ');
             }, $codeLines);
-            $code = u("\n")->join($unindentedLines);
+            $code = u("\n")->join($unindentedLines)->toString();
         }
 
         return $code;

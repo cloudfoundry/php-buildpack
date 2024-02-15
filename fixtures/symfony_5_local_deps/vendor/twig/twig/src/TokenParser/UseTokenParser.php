@@ -27,6 +27,8 @@ use Twig\Token;
  *    {% block content %}{% endblock %}
  *
  * @see https://twig.symfony.com/doc/templates.html#horizontal-reuse for details.
+ *
+ * @internal
  */
 final class UseTokenParser extends AbstractTokenParser
 {
@@ -41,7 +43,7 @@ final class UseTokenParser extends AbstractTokenParser
 
         $targets = [];
         if ($stream->nextIf('with')) {
-            do {
+            while (true) {
                 $name = $stream->expect(/* Token::NAME_TYPE */ 5)->getValue();
 
                 $alias = $name;
@@ -54,7 +56,7 @@ final class UseTokenParser extends AbstractTokenParser
                 if (!$stream->nextIf(/* Token::PUNCTUATION_TYPE */ 9, ',')) {
                     break;
                 }
-            } while (true);
+            }
         }
 
         $stream->expect(/* Token::BLOCK_END_TYPE */ 3);

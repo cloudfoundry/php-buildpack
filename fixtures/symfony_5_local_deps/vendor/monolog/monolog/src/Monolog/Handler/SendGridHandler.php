@@ -11,7 +11,7 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
+use Monolog\Level;
 
 /**
  * SendGridrHandler uses the SendGrid API v2 function to send Log emails, more information in https://sendgrid.com/docs/API_Reference/Web_API/mail.html
@@ -22,45 +22,45 @@ class SendGridHandler extends MailHandler
 {
     /**
      * The SendGrid API User
-     * @var string
      */
-    protected $apiUser;
+    protected string $apiUser;
 
     /**
      * The SendGrid API Key
-     * @var string
      */
-    protected $apiKey;
+    protected string $apiKey;
 
     /**
      * The email addresses to which the message will be sent
-     * @var string
      */
-    protected $from;
+    protected string $from;
 
     /**
      * The email addresses to which the message will be sent
-     * @var array
+     * @var string[]
      */
-    protected $to;
+    protected array $to;
 
     /**
      * The subject of the email
-     * @var string
      */
-    protected $subject;
+    protected string $subject;
 
     /**
-     * @param string       $apiUser The SendGrid API User
-     * @param string       $apiKey  The SendGrid API Key
-     * @param string       $from    The sender of the email
-     * @param string|array $to      The recipients of the email
-     * @param string       $subject The subject of the mail
-     * @param int|string   $level   The minimum logging level at which this handler will be triggered
-     * @param bool         $bubble  Whether the messages that are handled can bubble up the stack or not
+     * @param string          $apiUser The SendGrid API User
+     * @param string          $apiKey  The SendGrid API Key
+     * @param string          $from    The sender of the email
+     * @param string|string[] $to      The recipients of the email
+     * @param string          $subject The subject of the mail
+     *
+     * @throws MissingExtensionException If the curl extension is missing
      */
-    public function __construct(string $apiUser, string $apiKey, string $from, $to, string $subject, $level = Logger::ERROR, bool $bubble = true)
+    public function __construct(string $apiUser, string $apiKey, string $from, string|array $to, string $subject, int|string|Level $level = Level::Error, bool $bubble = true)
     {
+        if (!extension_loaded('curl')) {
+            throw new MissingExtensionException('The curl extension is needed to use the SendGridHandler');
+        }
+
         parent::__construct($level, $bubble);
         $this->apiUser = $apiUser;
         $this->apiKey = $apiKey;
@@ -70,7 +70,7 @@ class SendGridHandler extends MailHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function send(string $content, array $records): void
     {

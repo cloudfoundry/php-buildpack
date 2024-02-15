@@ -9,15 +9,15 @@ use DateTimeInterface;
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
+use Stringable;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function get_class;
+
 use function gettype;
 use function is_object;
 use function is_scalar;
-use function method_exists;
 use function sprintf;
-use function strpos;
+use function str_contains;
 use function strtr;
 
 /**
@@ -32,11 +32,8 @@ final class ConsoleLogger extends AbstractLogger
     public const INFO  = 'info';
     public const ERROR = 'error';
 
-    /** @var OutputInterface */
-    private $output;
-
     /** @var array<string, int> */
-    private $verbosityLevelMap = [
+    private array $verbosityLevelMap = [
         LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ALERT => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::CRITICAL => OutputInterface::VERBOSITY_NORMAL,
@@ -47,7 +44,7 @@ final class ConsoleLogger extends AbstractLogger
         LogLevel::DEBUG => OutputInterface::VERBOSITY_VERY_VERBOSE,
     ];
     /** @var array<string, string> */
-    private $formatLevelMap = [
+    private array $formatLevelMap = [
         LogLevel::EMERGENCY => self::ERROR,
         LogLevel::ALERT => self::ERROR,
         LogLevel::CRITICAL => self::ERROR,
@@ -62,17 +59,21 @@ final class ConsoleLogger extends AbstractLogger
      * @param array<string, int>    $verbosityLevelMap
      * @param array<string, string> $formatLevelMap
      */
-    public function __construct(OutputInterface $output, array $verbosityLevelMap = [], array $formatLevelMap = [])
-    {
-        $this->output            = $output;
+    public function __construct(
+        private readonly OutputInterface $output,
+        array $verbosityLevelMap = [],
+        array $formatLevelMap = [],
+    ) {
         $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelMap;
         $this->formatLevelMap    = $formatLevelMap + $this->formatLevelMap;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param mixed[] $context
      */
-    public function log($level, $message, array $context = []) : void
+    public function log($level, $message, array $context = []): void
     {
         if (! isset($this->verbosityLevelMap[$level])) {
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
@@ -101,20 +102,21 @@ final class ConsoleLogger extends AbstractLogger
      *
      * @param mixed[] $context
      */
-    private function interpolate(string $message, array $context) : string
+    private function interpolate(string|Stringable $message, array $context): string
     {
-        if (strpos($message, '{') === false) {
+        $message = (string) $message;
+        if (! str_contains($message, '{')) {
             return $message;
         }
 
         $replacements = [];
         foreach ($context as $key => $val) {
-            if ($val === null || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
+            if ($val === null || is_scalar($val) || $val instanceof Stringable) {
                 $replacements["{{$key}}"] = $val;
             } elseif ($val instanceof DateTimeInterface) {
                 $replacements["{{$key}}"] = $val->format(DateTime::RFC3339);
             } elseif (is_object($val)) {
-                $replacements["{{$key}}"] = '[object ' . get_class($val) . ']';
+                $replacements["{{$key}}"] = '[object ' . $val::class . ']';
             } else {
                 $replacements["{{$key}}"] = '[' . gettype($val) . ']';
             }

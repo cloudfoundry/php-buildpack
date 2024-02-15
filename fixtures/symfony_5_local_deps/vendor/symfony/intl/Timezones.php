@@ -35,12 +35,12 @@ final class Timezones extends ResourceBundle
             self::readEntry(['Names', $timezone]);
 
             return true;
-        } catch (MissingResourceException $e) {
+        } catch (MissingResourceException) {
             try {
                 new \DateTimeZone($timezone);
 
                 return true;
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
         }
@@ -49,7 +49,7 @@ final class Timezones extends ResourceBundle
     /**
      * @throws MissingResourceException if the timezone identifier does not exist or is an alias
      */
-    public static function getName(string $timezone, string $displayLocale = null): string
+    public static function getName(string $timezone, ?string $displayLocale = null): string
     {
         return self::readEntry(['Names', $timezone], $displayLocale);
     }
@@ -57,7 +57,7 @@ final class Timezones extends ResourceBundle
     /**
      * @return string[]
      */
-    public static function getNames(string $displayLocale = null): array
+    public static function getNames(?string $displayLocale = null): array
     {
         return self::asort(self::readEntry(['Names'], $displayLocale), $displayLocale);
     }
@@ -66,22 +66,14 @@ final class Timezones extends ResourceBundle
      * @throws \Exception       if the timezone identifier does not exist
      * @throws RuntimeException if there's no timezone DST transition information available
      */
-    public static function getRawOffset(string $timezone, int $timestamp = null): int
+    public static function getRawOffset(string $timezone, ?int $timestamp = null): int
     {
-        if (null === $timestamp) {
-            $timestamp = time();
-        }
+        $dateTimeImmutable = new \DateTimeImmutable(date('Y-m-d H:i:s', $timestamp ?? time()), new \DateTimeZone($timezone));
 
-        $transitions = (new \DateTimeZone($timezone))->getTransitions($timestamp, $timestamp);
-
-        if (!isset($transitions[0]['offset'])) {
-            throw new RuntimeException('No timezone transitions available.');
-        }
-
-        return $transitions[0]['offset'];
+        return $dateTimeImmutable->getOffset();
     }
 
-    public static function getGmtOffset(string $timezone, int $timestamp = null, string $displayLocale = null): string
+    public static function getGmtOffset(string $timezone, ?int $timestamp = null, ?string $displayLocale = null): string
     {
         $offset = self::getRawOffset($timezone, $timestamp);
         $abs = abs($offset);

@@ -4,25 +4,20 @@ declare(strict_types=1);
 
 namespace Doctrine\Migrations\Version;
 
-final class Version
-{
-    /** @var string */
-    private $version;
+use Stringable;
 
-    public function __construct(string $version)
+final class Version implements Stringable
+{
+    public function __construct(private readonly string $version)
     {
-        $this->version = $version;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->version;
     }
 
-    /**
-     * @param mixed $object
-     */
-    public function equals($object) : bool
+    public function equals(mixed $object): bool
     {
         return $object instanceof self && $object->version === $this->version;
     }

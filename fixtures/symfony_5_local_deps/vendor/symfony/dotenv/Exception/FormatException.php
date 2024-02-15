@@ -18,9 +18,9 @@ namespace Symfony\Component\Dotenv\Exception;
  */
 final class FormatException extends \LogicException implements ExceptionInterface
 {
-    private $context;
+    private FormatExceptionContext $context;
 
-    public function __construct(string $message, FormatExceptionContext $context, int $code = 0, \Throwable $previous = null)
+    public function __construct(string $message, FormatExceptionContext $context, int $code = 0, ?\Throwable $previous = null)
     {
         $this->context = $context;
 

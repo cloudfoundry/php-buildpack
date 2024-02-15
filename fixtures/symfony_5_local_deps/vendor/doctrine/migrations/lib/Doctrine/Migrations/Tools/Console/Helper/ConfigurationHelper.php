@@ -13,6 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 interface ConfigurationHelper
 {
     public function getConfiguration(
-        InputInterface $input
-    ) : Configuration;
+        InputInterface $input,
+    ): Configuration;
 }

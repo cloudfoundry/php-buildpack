@@ -6,10 +6,12 @@ namespace Doctrine\Migrations\Tools\Console\Helper;
 
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\Tools\Console\Exception\DirectoryDoesNotExist;
+
 use function date;
 use function file_exists;
 use function mkdir;
 use function rtrim;
+
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -19,10 +21,8 @@ use const DIRECTORY_SEPARATOR;
  */
 class MigrationDirectoryHelper
 {
-    /**
-     * @throws DirectoryDoesNotExist
-     */
-    public function getMigrationDirectory(Configuration $configuration, string $dir) : string
+    /** @throws DirectoryDoesNotExist */
+    public function getMigrationDirectory(Configuration $configuration, string $dir): string
     {
         $dir = rtrim($dir, '/');
 
@@ -43,12 +43,12 @@ class MigrationDirectoryHelper
         return $dir;
     }
 
-    private function appendDir(string $dir) : string
+    private function appendDir(string $dir): string
     {
         return DIRECTORY_SEPARATOR . $dir;
     }
 
-    private function createDirIfNotExists(string $dir) : void
+    private function createDirIfNotExists(string $dir): void
     {
         if (file_exists($dir)) {
             return;

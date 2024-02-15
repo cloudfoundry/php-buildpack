@@ -10,6 +10,7 @@
 namespace Symfony\WebpackEncoreBundle\Twig;
 
 use Psr\Container\ContainerInterface;
+use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
 use Symfony\WebpackEncoreBundle\Asset\TagRenderer;
 use Twig\Extension\AbstractExtension;
@@ -24,13 +25,14 @@ final class EntryFilesTwigExtension extends AbstractExtension
         $this->container = $container;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('encore_entry_js_files', [$this, 'getWebpackJsFiles']),
             new TwigFunction('encore_entry_css_files', [$this, 'getWebpackCssFiles']),
             new TwigFunction('encore_entry_script_tags', [$this, 'renderWebpackScriptTags'], ['is_safe' => ['html']]),
             new TwigFunction('encore_entry_link_tags', [$this, 'renderWebpackLinkTags'], ['is_safe' => ['html']]),
+            new TwigFunction('encore_entry_exists', [$this, 'entryExists']),
         ];
     }
 
@@ -46,16 +48,26 @@ final class EntryFilesTwigExtension extends AbstractExtension
             ->getCssFiles($entryName);
     }
 
-    public function renderWebpackScriptTags(string $entryName, string $packageName = null, string $entrypointName = '_default'): string
+    public function renderWebpackScriptTags(string $entryName, string $packageName = null, string $entrypointName = '_default', array $attributes = []): string
     {
         return $this->getTagRenderer()
-            ->renderWebpackScriptTags($entryName, $packageName, $entrypointName);
+            ->renderWebpackScriptTags($entryName, $packageName, $entrypointName, $attributes);
     }
 
-    public function renderWebpackLinkTags(string $entryName, string $packageName = null, string $entrypointName = '_default'): string
+    public function renderWebpackLinkTags(string $entryName, string $packageName = null, string $entrypointName = '_default', array $attributes = []): string
     {
         return $this->getTagRenderer()
-            ->renderWebpackLinkTags($entryName, $packageName, $entrypointName);
+            ->renderWebpackLinkTags($entryName, $packageName, $entrypointName, $attributes);
+    }
+
+    public function entryExists(string $entryName, string $entrypointName = '_default'): bool
+    {
+        $entrypointLookup = $this->getEntrypointLookup($entrypointName);
+        if (!$entrypointLookup instanceof EntrypointLookup) {
+            throw new \LogicException(sprintf('Cannot use entryExists() unless the entrypoint lookup is an instance of "%s"', EntrypointLookup::class));
+        }
+
+        return $entrypointLookup->entryExists($entryName);
     }
 
     private function getEntrypointLookup(string $entrypointName): EntrypointLookupInterface

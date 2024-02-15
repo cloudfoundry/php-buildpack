@@ -4,10 +4,15 @@ namespace Doctrine\Bundle\DoctrineBundle;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\Proxy;
 use ProxyManager\Proxy\LazyLoadingInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\VarExporter\LazyObjectInterface;
 use Symfony\Contracts\Service\ResetInterface;
+
+use function array_keys;
+use function assert;
 
 /**
  * References all Doctrine connections and entity managers in a given Container.
@@ -17,14 +22,12 @@ class Registry extends ManagerRegistry implements ResetInterface
     /**
      * @param string[] $connections
      * @param string[] $entityManagers
-     * @param string   $defaultConnection
-     * @param string   $defaultEntityManager
      */
-    public function __construct(ContainerInterface $container, array $connections, array $entityManagers, $defaultConnection, $defaultEntityManager)
+    public function __construct(ContainerInterface $container, array $connections, array $entityManagers, string $defaultConnection, string $defaultEntityManager)
     {
         $this->container = $container;
 
-        parent::__construct('ORM', $connections, $entityManagers, $defaultConnection, $defaultEntityManager, 'Doctrine\ORM\Proxy\Proxy');
+        parent::__construct('ORM', $connections, $entityManagers, $defaultConnection, $defaultEntityManager, Proxy::class);
     }
 
     /**
@@ -41,8 +44,15 @@ class Registry extends ManagerRegistry implements ResetInterface
     public function getAliasNamespace($alias)
     {
         foreach (array_keys($this->getManagers()) as $name) {
+            $objectManager = $this->getManager($name);
+
+            if (! $objectManager instanceof EntityManagerInterface) {
+                continue;
+            }
+
             try {
-                return $this->getManager($name)->getConfiguration()->getEntityNamespace($alias);
+                /** @psalm-suppress UndefinedMethod ORM < 3 specific */
+                return $objectManager->getConfiguration()->getEntityNamespace($alias);
             } catch (ORMException $e) {
             }
         }
@@ -50,14 +60,14 @@ class Registry extends ManagerRegistry implements ResetInterface
         throw ORMException::unknownEntityNamespace($alias);
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         foreach ($this->getManagerNames() as $managerName => $serviceId) {
             $this->resetOrClearManager($managerName, $serviceId);
         }
     }
 
-    private function resetOrClearManager(string $managerName, string $serviceId) : void
+    private function resetOrClearManager(string $managerName, string $serviceId): void
     {
         if (! $this->container->initialized($serviceId)) {
             return;
@@ -67,7 +77,7 @@ class Registry extends ManagerRegistry implements ResetInterface
 
         assert($manager instanceof EntityManagerInterface);
 
-        if (! $manager instanceof LazyLoadingInterface || $manager->isOpen()) {
+        if ((! $manager instanceof LazyLoadingInterface && ! $manager instanceof LazyObjectInterface) || $manager->isOpen()) {
             $manager->clear();
 
             return;
