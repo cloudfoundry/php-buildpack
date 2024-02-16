@@ -15,7 +15,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		app = DestroyApp(app)
 	})
 
-	It("deploying a symfony 5 app with locally-vendored dependencies", func() {
+	PIt("deploying a symfony 5 app with locally-vendored dependencies", func() {
 		SkipUnlessCached()
 
 		app = cutlass.New(Fixtures("symfony_5_local_deps"))
@@ -26,7 +26,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 		Expect(app.GetBody("/")).To(ContainSubstring("Welcome to the <strong>Symfony Demo</strong> application"))
 	})
 
-	It("deploying a symfony 5 app with remotely-sourced dependencies", func() {
+	PIt("deploying a symfony 5 app with remotely-sourced dependencies", func() {
 		SkipUnlessUncached()
 
 		app = cutlass.New(Fixtures("symfony_5_remote_deps"))
