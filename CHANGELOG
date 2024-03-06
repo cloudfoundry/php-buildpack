@@ -1,3 +1,9 @@
+v4.6.16 Mar 05, 2024
+=====================
+
+* Add php 8.2.16, remove php 8.2.14 for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.15 Feb 17, 2024
 =====================
 
