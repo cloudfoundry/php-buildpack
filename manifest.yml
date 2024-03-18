@@ -1396,8 +1396,8 @@ dependencies:
     version: 
 - name: php
   version: 8.3.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.4_linux_x64_cflinuxfs3-dev_44d7680d.tgz
-  sha256: 44d7680df073f5c151e47867a5d86a75894de14e849339151bb5a0b5107c5947
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.4_linux_x64_cflinuxfs3-dev_71ebc1ca.tgz
+  sha256: 71ebc1ca81b9fbb78bf73ac03e140660c0e7cc5693f805dcfe79cea3c11ceeda
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.3.4.tar.gz
@@ -1444,7 +1444,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.2
+    version: 1.17.3
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1472,7 +1472,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.6.1
+    version: 5.6.2
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1520,8 +1520,8 @@ dependencies:
     version: 
 - name: php
   version: 8.3.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.4_linux_x64_cflinuxfs4_23467554.tgz
-  sha256: 2346755473ea8819c04ffc559a5fd2d3903320794c906ecdcdbc1ef6999e0fb7
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.4_linux_x64_cflinuxfs4_4d74663f.tgz
+  sha256: 4d74663f571a01af6e31abfe8c33732244dfbb7f4fd773099f654d6bc6ceb044
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.3.4.tar.gz
@@ -1568,7 +1568,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.2
+    version: 1.17.3
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1596,7 +1596,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.6.1
+    version: 5.6.2
   - name: phpiredis
     version: 1.0.1
   - name: pspell
