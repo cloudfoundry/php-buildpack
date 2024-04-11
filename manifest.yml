@@ -1147,254 +1147,6 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.3.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.3_linux_x64_cflinuxfs3-dev_a68944a3.tgz
-  sha256: a68944a31cc71be4479fced9cb18c585bad67214bd78ea89ff05d9b681d7411f
-  cf_stacks:
-  - cflinuxfs3
-  source: https://php.net/distributions/php-8.3.3.tar.gz
-  source_sha256: 61285ae17a93d172c9f2ebfe4280058d05bda17cadab705ca5b51ba3e6f3a5ac
-  dependencies:
-  - name: amqp
-    version: 2.1.2
-  - name: apcu
-    version: 5.1.23
-  - name: bz2
-    version: 
-  - name: curl
-    version: 
-  - name: dba
-    version: 
-  - name: enchant
-  - name: exif
-    version: 
-  - name: fileinfo
-    version: 
-  - name: ftp
-    version: 
-  - name: gd
-  - name: gettext
-    version: 
-  - name: gmp
-    version: 
-  - name: igbinary
-    version: 3.2.15
-  - name: imagick
-    version: 3.7.0
-  - name: imap
-    version: 
-  - name: ldap
-    version: 
-  - name: lzf
-    version: 
-  - name: mailparse
-    version: 3.1.6
-  - name: maxminddb
-    version: 1.11.1
-  - name: mbstring
-    version: 
-  - name: memcached
-    version: 3.2.0
-  - name: mongodb
-    version: 1.17.3
-  - name: msgpack
-    version: 2.2.0
-  - name: mysqli
-    version: 
-  - name: oauth
-    version: 2.0.7
-  - name: opcache
-    version: 
-  - name: openssl
-    version: 
-  - name: pcntl
-    version: 
-  - name: pdo
-    version: 
-  - name: pdo_firebird
-  - name: pdo_mysql
-    version: 
-  - name: pdo_odbc
-  - name: pdo_pgsql
-    version: 
-  - name: pdo_sqlite
-    version: 
-  - name: pdo_sqlsrv
-    version: 5.12.0
-  - name: pgsql
-    version: 
-  - name: phalcon
-    version: 5.6.2
-  - name: phpiredis
-    version: 1.0.1
-  - name: pspell
-    version: 
-  - name: psr
-    version: 1.2.0
-  - name: rdkafka
-    version: 6.0.3
-  - name: readline
-  - name: redis
-    version: 6.0.2
-  - name: shmop
-    version: 
-  - name: snmp
-  - name: soap
-    version: 
-  - name: sockets
-    version: 
-  - name: sodium
-  - name: solr
-    version: 2.7.0
-  - name: sqlsrv
-    version: 5.12.0
-  - name: ssh2
-    version: 1.4.1
-  - name: stomp
-    version: 2.0.3
-  - name: sysvmsg
-    version: 
-  - name: sysvsem
-    version: 
-  - name: sysvshm
-    version: 
-  - name: tideways_xhprof
-    version: 5.0.4
-  - name: tidy
-  - name: xdebug
-    version: 3.3.1
-  - name: xsl
-    version: 
-  - name: yaml
-    version: 2.2.3
-  - name: zip
-  - name: zlib
-    version: 
-- name: php
-  version: 8.3.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.3_linux_x64_cflinuxfs4_10623a7d.tgz
-  sha256: 10623a7dba7515254b54d7f0b439167c59e3efa93f3697d4f1db26188fcc40df
-  cf_stacks:
-  - cflinuxfs4
-  source: https://php.net/distributions/php-8.3.3.tar.gz
-  source_sha256: 61285ae17a93d172c9f2ebfe4280058d05bda17cadab705ca5b51ba3e6f3a5ac
-  dependencies:
-  - name: amqp
-    version: 2.1.2
-  - name: apcu
-    version: 5.1.23
-  - name: bz2
-    version: 
-  - name: curl
-    version: 
-  - name: dba
-    version: 
-  - name: enchant
-  - name: exif
-    version: 
-  - name: fileinfo
-    version: 
-  - name: ftp
-    version: 
-  - name: gd
-  - name: gettext
-    version: 
-  - name: gmp
-    version: 
-  - name: igbinary
-    version: 3.2.15
-  - name: imagick
-    version: 3.7.0
-  - name: imap
-    version: 
-  - name: ldap
-    version: 
-  - name: lzf
-    version: 
-  - name: mailparse
-    version: 3.1.6
-  - name: maxminddb
-    version: 1.11.1
-  - name: mbstring
-    version: 
-  - name: memcached
-    version: 3.2.0
-  - name: mongodb
-    version: 1.17.3
-  - name: msgpack
-    version: 2.2.0
-  - name: mysqli
-    version: 
-  - name: oauth
-    version: 2.0.7
-  - name: opcache
-    version: 
-  - name: openssl
-    version: 
-  - name: pcntl
-    version: 
-  - name: pdo
-    version: 
-  - name: pdo_firebird
-  - name: pdo_mysql
-    version: 
-  - name: pdo_odbc
-  - name: pdo_pgsql
-    version: 
-  - name: pdo_sqlite
-    version: 
-  - name: pdo_sqlsrv
-    version: 5.12.0
-  - name: pgsql
-    version: 
-  - name: phalcon
-    version: 5.6.2
-  - name: phpiredis
-    version: 1.0.1
-  - name: pspell
-    version: 
-  - name: psr
-    version: 1.2.0
-  - name: rdkafka
-    version: 6.0.3
-  - name: readline
-  - name: redis
-    version: 6.0.2
-  - name: shmop
-    version: 
-  - name: snmp
-  - name: soap
-    version: 
-  - name: sockets
-    version: 
-  - name: sodium
-  - name: solr
-    version: 2.7.0
-  - name: sqlsrv
-    version: 5.12.0
-  - name: ssh2
-    version: 1.4.1
-  - name: stomp
-    version: 2.0.3
-  - name: sysvmsg
-    version: 
-  - name: sysvsem
-    version: 
-  - name: sysvshm
-    version: 
-  - name: tideways_xhprof
-    version: 5.0.4
-  - name: tidy
-  - name: xdebug
-    version: 3.3.1
-  - name: xsl
-    version: 
-  - name: yaml
-    version: 2.2.3
-  - name: zip
-  - name: zlib
-    version: 
-- name: php
   version: 8.3.4
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.4_linux_x64_cflinuxfs3-dev_71ebc1ca.tgz
   sha256: 71ebc1ca81b9fbb78bf73ac03e140660c0e7cc5693f805dcfe79cea3c11ceeda
@@ -1526,6 +1278,254 @@ dependencies:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.3.4.tar.gz
   source_sha256: 0e2801e47fb1b92d2743204fcf650ce2fcad1a13ef7a44fe05738101a383e4a2
+  dependencies:
+  - name: amqp
+    version: 2.1.2
+  - name: apcu
+    version: 5.1.23
+  - name: bz2
+    version: 
+  - name: curl
+    version: 
+  - name: dba
+    version: 
+  - name: enchant
+  - name: exif
+    version: 
+  - name: fileinfo
+    version: 
+  - name: ftp
+    version: 
+  - name: gd
+  - name: gettext
+    version: 
+  - name: gmp
+    version: 
+  - name: igbinary
+    version: 3.2.15
+  - name: imagick
+    version: 3.7.0
+  - name: imap
+    version: 
+  - name: ldap
+    version: 
+  - name: lzf
+    version: 
+  - name: mailparse
+    version: 3.1.6
+  - name: maxminddb
+    version: 1.11.1
+  - name: mbstring
+    version: 
+  - name: memcached
+    version: 3.2.0
+  - name: mongodb
+    version: 1.17.3
+  - name: msgpack
+    version: 2.2.0
+  - name: mysqli
+    version: 
+  - name: oauth
+    version: 2.0.7
+  - name: opcache
+    version: 
+  - name: openssl
+    version: 
+  - name: pcntl
+    version: 
+  - name: pdo
+    version: 
+  - name: pdo_firebird
+  - name: pdo_mysql
+    version: 
+  - name: pdo_odbc
+  - name: pdo_pgsql
+    version: 
+  - name: pdo_sqlite
+    version: 
+  - name: pdo_sqlsrv
+    version: 5.12.0
+  - name: pgsql
+    version: 
+  - name: phalcon
+    version: 5.6.2
+  - name: phpiredis
+    version: 1.0.1
+  - name: pspell
+    version: 
+  - name: psr
+    version: 1.2.0
+  - name: rdkafka
+    version: 6.0.3
+  - name: readline
+  - name: redis
+    version: 6.0.2
+  - name: shmop
+    version: 
+  - name: snmp
+  - name: soap
+    version: 
+  - name: sockets
+    version: 
+  - name: sodium
+  - name: solr
+    version: 2.7.0
+  - name: sqlsrv
+    version: 5.12.0
+  - name: ssh2
+    version: 1.4.1
+  - name: stomp
+    version: 2.0.3
+  - name: sysvmsg
+    version: 
+  - name: sysvsem
+    version: 
+  - name: sysvshm
+    version: 
+  - name: tideways_xhprof
+    version: 5.0.4
+  - name: tidy
+  - name: xdebug
+    version: 3.3.1
+  - name: xsl
+    version: 
+  - name: yaml
+    version: 2.2.3
+  - name: zip
+  - name: zlib
+    version: 
+- name: php
+  version: 8.3.6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.6_linux_x64_cflinuxfs3-dev_209c8f0e.tgz
+  sha256: 209c8f0ef4836184bef03a62840e88436fc9a541b76b3b5eee1dcde633baec0f
+  cf_stacks:
+  - cflinuxfs3
+  source: https://php.net/distributions/php-8.3.6.tar.gz
+  source_sha256: 39695f5bd107892e36fd2ed6b3d3a78140fd4b05d556d6c6531a921633cacb5f
+  dependencies:
+  - name: amqp
+    version: 2.1.2
+  - name: apcu
+    version: 5.1.23
+  - name: bz2
+    version: 
+  - name: curl
+    version: 
+  - name: dba
+    version: 
+  - name: enchant
+  - name: exif
+    version: 
+  - name: fileinfo
+    version: 
+  - name: ftp
+    version: 
+  - name: gd
+  - name: gettext
+    version: 
+  - name: gmp
+    version: 
+  - name: igbinary
+    version: 3.2.15
+  - name: imagick
+    version: 3.7.0
+  - name: imap
+    version: 
+  - name: ldap
+    version: 
+  - name: lzf
+    version: 
+  - name: mailparse
+    version: 3.1.6
+  - name: maxminddb
+    version: 1.11.1
+  - name: mbstring
+    version: 
+  - name: memcached
+    version: 3.2.0
+  - name: mongodb
+    version: 1.17.3
+  - name: msgpack
+    version: 2.2.0
+  - name: mysqli
+    version: 
+  - name: oauth
+    version: 2.0.7
+  - name: opcache
+    version: 
+  - name: openssl
+    version: 
+  - name: pcntl
+    version: 
+  - name: pdo
+    version: 
+  - name: pdo_firebird
+  - name: pdo_mysql
+    version: 
+  - name: pdo_odbc
+  - name: pdo_pgsql
+    version: 
+  - name: pdo_sqlite
+    version: 
+  - name: pdo_sqlsrv
+    version: 5.12.0
+  - name: pgsql
+    version: 
+  - name: phalcon
+    version: 5.6.2
+  - name: phpiredis
+    version: 1.0.1
+  - name: pspell
+    version: 
+  - name: psr
+    version: 1.2.0
+  - name: rdkafka
+    version: 6.0.3
+  - name: readline
+  - name: redis
+    version: 6.0.2
+  - name: shmop
+    version: 
+  - name: snmp
+  - name: soap
+    version: 
+  - name: sockets
+    version: 
+  - name: sodium
+  - name: solr
+    version: 2.7.0
+  - name: sqlsrv
+    version: 5.12.0
+  - name: ssh2
+    version: 1.4.1
+  - name: stomp
+    version: 2.0.3
+  - name: sysvmsg
+    version: 
+  - name: sysvsem
+    version: 
+  - name: sysvshm
+    version: 
+  - name: tideways_xhprof
+    version: 5.0.4
+  - name: tidy
+  - name: xdebug
+    version: 3.3.1
+  - name: xsl
+    version: 
+  - name: yaml
+    version: 2.2.3
+  - name: zip
+  - name: zlib
+    version: 
+- name: php
+  version: 8.3.6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.6_linux_x64_cflinuxfs4_79529fc7.tgz
+  sha256: 79529fc7ef7602331daee112a2a974b42db501a1c24119893ee4c168c753eabb
+  cf_stacks:
+  - cflinuxfs4
+  source: https://php.net/distributions/php-8.3.6.tar.gz
+  source_sha256: 39695f5bd107892e36fd2ed6b3d3a78140fd4b05d556d6c6531a921633cacb5f
   dependencies:
   - name: amqp
     version: 2.1.2
