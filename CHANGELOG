@@ -1,3 +1,13 @@
+v4.6.18 Apr 18, 2024
+=====================
+
+* Add php 8.2.18, remove php 8.2.16 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add php 8.3.6, remove php 8.3.3 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add httpd 2.4.59, remove httpd 2.4.58 for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.17 Mar 18, 2024
 =====================
 
