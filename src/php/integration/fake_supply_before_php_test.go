@@ -27,7 +27,7 @@ var _ = Describe("running supply buildpacks before the php buildpack", func() {
 				"https://github.com/cloudfoundry/dotnet-core-buildpack#develop",
 				"php_buildpack",
 			}
-			app.Disk = "1G"
+			app.Disk = "2G"
 		})
 
 		It("finds the supplied dependency in the runtime container", func() {
