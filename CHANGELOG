@@ -1,3 +1,15 @@
+v4.6.19 May 02, 2024
+=====================
+
+* Add nginx 1.25.5, remove nginx 1.25.4 (#1036)
+  for stack(s) cflinuxfs4, cflinuxfs3 [#187441964]
+
+* Add nginx 1.26.0 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add composer 2.7.4, remove composer 2.7.2 (#1033)
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.18 Apr 18, 2024
 =====================
 
