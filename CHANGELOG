@@ -1,3 +1,27 @@
+v4.6.19 May 16, 2024
+=====================
+
+* Add php 8.3.7, remove php 8.3.4 (#1047) for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add composer 2.7.6, remove composer 2.7.5 (#1044) for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add php 8.2.19, remove php 8.2.17 (#1045) for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add composer 2.7.5, remove composer 2.7.4 (#1043) for stack(s) cflinuxfs4, cflinuxfs3
+
+* Update default nginx version
+
+* Add nginx 1.25.5, remove nginx 1.25.4 (#1036)
+
+* Add nginx 1.26.0 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Rebuild php 8.2.18 for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add composer 2.7.4, remove composer 2.7.3 (#1034) for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add composer 2.7.3, remove composer 2.7.2 (#1033) for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.18 Apr 18, 2024
 =====================
 
