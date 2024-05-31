@@ -388,8 +388,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.27_linux_x64_cflinuxfs3-dev_5becc105.tgz
-  sha256: 5becc105015681638a1991ef7ba8c536e1490577a4807ef542da9264bd2eb7cc
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.27_linux_x64_cflinuxfs3-dev_2edf0f14.tgz
+  sha256: 2edf0f1420418f008ddca1225946c13bfaa9b2188ea8d2b55a09193bd0f24f4e
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.1.27.tar.gz
@@ -438,7 +438,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.3
+    version: 1.18.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -504,7 +504,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.3.1
+    version: 3.3.2
   - name: xsl
     version: 
   - name: yaf
@@ -516,8 +516,8 @@ dependencies:
     version: 
 - name: php
   version: 8.1.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.27_linux_x64_cflinuxfs4_9c19636c.tgz
-  sha256: 9c19636c64e1d78ec3e0f3a29410fcb7ac4b0d04e2e6436392e75ab765a9a453
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.27_linux_x64_cflinuxfs4_9c1b9ec7.tgz
+  sha256: 9c1b9ec7c26f358a19f4ce837bf7aed93578ae071bd89e691dfaeb32d2d72648
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.1.27.tar.gz
@@ -566,7 +566,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.17.3
+    version: 1.18.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -632,7 +632,7 @@ dependencies:
     version: 5.0.4
   - name: tidy
   - name: xdebug
-    version: 3.3.1
+    version: 3.3.2
   - name: xsl
     version: 
   - name: yaf
