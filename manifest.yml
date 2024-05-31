@@ -644,8 +644,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.18
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.18_linux_x64_cflinuxfs3-dev_397d3da0.tgz
-  sha256: 397d3da0a1b71a67c2f2b84e835dce509c06a5041a5b8480d6bd81f6d6dcd652
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.18_linux_x64_cflinuxfs3-dev_dd497b6e.tgz
+  sha256: dd497b6e02e3a7028bac4778b26a9971ff6f885f405551e38f24e50137e51047
   cf_stacks:
   - cflinuxfs3
   source: https://php.net/distributions/php-8.2.18.tar.gz
@@ -770,8 +770,8 @@ dependencies:
     version: 
 - name: php
   version: 8.2.18
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.18_linux_x64_cflinuxfs4_f4b98533.tgz
-  sha256: f4b98533ab10b84d0bab94481151d1a62a4416f5ab2b1e88c4675b646155c736
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.18_linux_x64_cflinuxfs4_5a5ee813.tgz
+  sha256: 5a5ee8139628492b80d2893912e793c1a16be43701d547a499167fe64889ec5d
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.2.18.tar.gz
