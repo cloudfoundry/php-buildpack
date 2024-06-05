@@ -91,9 +91,9 @@ dependencies:
   source: https://dlcdn.apache.org/httpd/httpd-2.4.59.tar.bz2
   source_sha256: ec51501ec480284ff52f637258135d333230a7d229c3afa6f6c2f9040e321323
 - name: newrelic
-  version: 10.11.0.3
-  uri: https://download.newrelic.com/php_agent/archive/10.11.0.3/newrelic-php5-10.11.0.3-linux.tar.gz
-  sha256: 8401e0ef5d3f0770f6b4dbdb3e20c22ea5918473bbf0c95d96d36388c80b1842
+  version: 10.21.0.11
+  uri: https://download.newrelic.com/php_agent/archive/10.21.0.11/newrelic-php5-10.21.0.11-linux.tar.gz
+  sha256: e840111f3c4122745cc0ee4e656aab3774b6733373be5db01c404dc2bae855c4
   cf_stacks:
   - cflinuxfs3
   - cflinuxfs4
