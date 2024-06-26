@@ -1,3 +1,15 @@
+v4.6.21 Jun 26, 2024
+=====================
+
+* Add composer 2.7.7, remove composer 2.7.6
+  for stack(s) cflinuxfs4, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/187768377)
+
+* Add php 8.2.20, remove php 8.2.18
+  for stack(s) cflinuxfs3, cflinuxfs4
+  (https://www.pivotaltracker.com/story/show/187749745)
+
+
 v4.6.20 Jun 05, 2024
 =====================
 
