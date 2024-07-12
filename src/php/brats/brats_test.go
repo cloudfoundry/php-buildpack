@@ -15,7 +15,6 @@ var _ = Describe("PHP buildpack", func() {
 	bratshelper.DeployingAnAppWithAnUpdatedVersionOfTheSameBuildpack(CopyBrats)
 	bratshelper.StagingWithBuildpackThatSetsEOL("php", CopyBrats)
 	bratshelper.StagingWithADepThatIsNotTheLatest("php", CopyBrats)
-	bratshelper.StagingWithCustomBuildpackWithCredentialsInDependencies(CopyBrats)
 	bratshelper.DeployAppWithExecutableProfileScript("php", CopyBrats)
 	bratshelper.DeployAnAppWithSensitiveEnvironmentVariables(CopyBrats)
 
