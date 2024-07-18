@@ -1,3 +1,23 @@
+v4.6.22 Jul 18, 2024
+=====================
+
+* Add php 8.2.21, remove php 8.2.19 (#1073)
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add php 8.3.9, remove php 8.3.6
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add httpd 2.4.61, remove httpd 2.4.59
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+* Add nginx 1.27.0
+  for stack(s) cflinuxfs3, cflinuxfs4 [#187862901]
+
+* Fix default nginx: it always need to mainline
+
+* Remove dependency credential test (#1076)
+
+
 v4.6.21 Jun 26, 2024
 =====================
 
