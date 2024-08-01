@@ -58,7 +58,7 @@ dependency_deprecation_dates:
 dependencies:
 - name: appdynamics
   version: 23.11.0-839
-  uri: https://download.run.pivotal.io/appdynamics-php/appdynamics-23.11.0-839.tar.bz2
+  uri: https://java-buildpack.cloudfoundry.org/appdynamics-php/appdynamics-23.11.0-839.tar.bz2
   sha256: '04904a9ddc45bab06b80fa6c32671e82d8edfbaecf8dc943720db7b5c790ec8d'
   cf_stacks:
   - cflinuxfs4
