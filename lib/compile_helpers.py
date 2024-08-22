@@ -73,7 +73,7 @@ def setup_log_dir(ctx):
 def load_manifest(ctx):
     manifest_path = os.path.join(ctx['BP_DIR'], 'manifest.yml')
     _log.debug('Loading manifest from %s', manifest_path)
-    return yaml.load(open(manifest_path))
+    return yaml.load(open(manifest_path), Loader=yaml.Loader)
 
 
 def find_all_php_versions(dependencies):
