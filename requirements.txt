@@ -7,5 +7,4 @@ pynose==1.5.2
 pep8==1.4.6
 pudb==2013.5.1
 pyflakes==0.7.3
-urwid==1.1.2
-wsgiref==0.1.2
+urwid==2.6.14
