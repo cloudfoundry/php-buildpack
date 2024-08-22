@@ -5,6 +5,7 @@ binaries/precise/*
 binaries/trusty/*
 !binaries/trusty/index*.json
 *.pyc
+*.so
 *.swp
 /env
 *_buildpack*.zip
@@ -18,3 +19,5 @@ DebugKit
 .idea
 .vscode/
 Dockerfile
+lib/PyYAML*
+lib/_yaml
