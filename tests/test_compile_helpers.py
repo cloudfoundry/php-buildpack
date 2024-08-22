@@ -4,7 +4,7 @@ import tempfile
 import shutil
 import mock
 from nose.tools import eq_
-from nose.tools import assert_raises_regexp
+from nose.tools import assert_raises_regex
 from build_pack_utils import utils
 from compile_helpers import setup_webdir_if_it_doesnt_exist
 from compile_helpers import convert_php_extensions
@@ -240,7 +240,7 @@ class TestCompileHelpers(object):
             'BUILD_DIR': self.build_dir
         }
         self.setup_php_ini_dir("extension =pumpkin.so\nextension=apple.so\nextension=pie.so")
-        with assert_raises_regexp(RuntimeError, "The extension 'apple' is not provided by this buildpack."):
+        with assert_raises_regex(RuntimeError, "The extension 'apple' is not provided by this buildpack."):
             validate_php_ini_extensions(ctx)
 
     @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin'])
@@ -250,7 +250,7 @@ class TestCompileHelpers(object):
             'BUILD_DIR': self.build_dir
         }
         self.setup_php_ini_dir("[php]\nextension =pumpkin.so\nextension=blueberry.so\nextension=pie.so")
-        with assert_raises_regexp(RuntimeError, "The extension 'blueberry' is not provided by this buildpack."):
+        with assert_raises_regex(RuntimeError, "The extension 'blueberry' is not provided by this buildpack."):
             validate_php_ini_extensions(ctx)
 
     @mock.patch('compile_helpers._get_supported_php_extensions', return_value=['pumpkin', 'apple'])
