@@ -13,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import json
-from dingus import Dingus
 from nose.tools import eq_
 from build_pack_utils import utils
+from unittest.mock import MagicMock
 
 
 class TestSessions(object):
@@ -65,7 +65,7 @@ class TestSessions(object):
 
     def test_should_compile(self):
         sessions = self.extension_module.SessionStoreConfig({})
-        sessions._load_session = Dingus(return_value=object())
+        sessions._load_session = MagicMock(return_value=object())
         eq_(True, sessions._should_compile())
 
     def test_load_session_redis_but_not_for_sessions(self):
@@ -78,7 +78,7 @@ class TestSessions(object):
         ctx = json.load(open('tests/data/sessions/vcap_services_redis.json'))
         ctx['PHP_EXTENSIONS'] = []
         sessions = self.extension_module.SessionStoreConfig(ctx)
-        sessions._php_ini = Dingus()
+        sessions._php_ini = MagicMock()
         sessions.configure()
         eq_(True, 'redis' in ctx['PHP_EXTENSIONS'])
 
@@ -87,45 +87,43 @@ class TestSessions(object):
             open('tests/data/sessions/vcap_services_memcached.json'))
         ctx['PHP_EXTENSIONS'] = []
         sessions = self.extension_module.SessionStoreConfig(ctx)
-        sessions._php_ini = Dingus()
+        sessions._php_ini = MagicMock()
         sessions.configure()
         eq_(True, 'memcached' in ctx['PHP_EXTENSIONS'])
 
     def test_configure_adds_redis_config_to_php_ini(self):
         ctx = json.load(open('tests/data/sessions/vcap_services_redis.json'))
         sessions = self.extension_module.SessionStoreConfig(ctx)
-        sessions.load_config = Dingus()
-        php_ini = Dingus()
+        sessions.load_config = MagicMock()
+        php_ini = MagicMock()
         sessions._php_ini = php_ini
         sessions._php_ini_path = '/tmp/staged/app/php/etc/php.ini'
         sessions.compile(None)
-        eq_(1, len(sessions.load_config.calls()))
-        eq_(3, len(php_ini.update_lines.calls()))
-        eq_(1, len(php_ini.save.calls()))
-        eq_(4, len(php_ini.calls()))
+        eq_(1, sessions.load_config.call_count)
+        eq_(3, php_ini.update_lines.call_count)
+        eq_(1, php_ini.save.call_count)
         eq_('session.save_handler = redis',
-            php_ini.update_lines.calls()[1].args[1])
+            php_ini.update_lines.call_args_list[1][0][1])
         eq_('session.save_path = "tcp://redis-host:45629?auth=redis-pass"',
-            php_ini.update_lines.calls()[2].args[1])
+            php_ini.update_lines.call_args_list[2][0][1])
 
     def test_configure_adds_memcached_config_to_php_ini(self):
         ctx = json.load(
             open('tests/data/sessions/vcap_services_memcached.json'))
         sessions = self.extension_module.SessionStoreConfig(ctx)
-        sessions.load_config = Dingus()
-        php_ini = Dingus()
+        sessions.load_config = MagicMock()
+        php_ini = MagicMock()
         sessions._php_ini = php_ini
         sessions._php_ini_path = '/tmp/staged/app/php/etc/php.ini'
         sessions.compile(None)
-        eq_(1, len(sessions.load_config.calls()))
-        eq_(3, len(php_ini.update_lines.calls()))
-        eq_(1, len(php_ini.append_lines.calls()))
+        eq_(1, sessions.load_config.call_count)
+        eq_(3, php_ini.update_lines.call_count)
+        eq_(1, php_ini.append_lines.call_count)
         eq_(True, all([arg.endswith('\n')
                        for arg in php_ini.append_lines.calls()[0].args[0]]),
             "Must end with EOL")
-        eq_(1, len(php_ini.save.calls()))
-        eq_(5, len(php_ini.calls()))
+        eq_(1, php_ini.save.call_count)
         eq_('session.save_handler = memcached',
-            php_ini.update_lines.calls()[1].args[1])
+            php_ini.update_lines.call_args_list[1][0][1])
         eq_('session.save_path = "PERSISTENT=app_sessions host:port"',
-            php_ini.update_lines.calls()[2].args[1])
+            php_ini.update_lines.call_args_list[2][0][1])

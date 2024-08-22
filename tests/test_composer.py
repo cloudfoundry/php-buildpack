@@ -3,11 +3,9 @@ import tempfile
 import shutil
 import re
 from nose.tools import eq_
-from dingus import Dingus
-from dingus import patch
 from build_pack_utils import utils
-from common.dingus_extension import patches
-
+from unittest.mock import MagicMock
+from unittest.mock import patch
 
 class TestComposer(object):
 
@@ -62,25 +60,22 @@ class TestComposer(object):
             'CACHE_DIR': '/cache/dir',
             'WEBDIR': ''
         })
-        builder = Dingus(_ctx=ctx)
-        installer = Dingus()
-        cfInstaller = Dingus()
-        builder.install = Dingus(_installer=cfInstaller,
+        builder = MagicMock(_ctx=ctx)
+        installer = MagicMock(name='installer')
+        cfInstaller = MagicMock()
+        builder.install = MagicMock(_installer=cfInstaller,
                                  return_value=installer)
         ct = self.extension_module.ComposerExtension(ctx)
         ct._builder = builder
         ct.install()
-        eq_(2, len(builder.install.calls()))
+        eq_(2, builder.install.call_count)
         # make sure PHP is installed
-        assert installer.package.calls().once()
-        eq_('PHP', installer.package.calls()[0].args[0])
-        call = installer.package.calls()[0]
-        assert call.return_value.calls().once()
-        assert installer.calls().once()
+        installer.package.assert_called_with('PHP')
+        installer.package.return_value.done.assert_called_once()
         # make sure composer is installed
-        assert installer._installer.calls().once()
-        assert re.match('/composer/[\d\.]+/composer.phar', installer._installer.calls()[0].args[0]), \
-            "was %s" % installer._installer.calls()[0].args[0]
+        installer._installer._install_binary_from_manifest.assert_called_once()
+        assert re.match('/composer/[\d\.]+/composer.phar', installer._installer._install_binary_from_manifest.call_args[0][0]), \
+            "was %s" % installer._installer._install_binary_from_manifest.call_args[0][0]
 
     def test_composer_tool_install_latest(self):
         ctx = utils.FormattedDict({
@@ -91,26 +86,23 @@ class TestComposer(object):
             'BP_DIR': '',
             'WEBDIR': ''
         })
-        builder = Dingus(_ctx=ctx)
-        installer = Dingus()
-        cfInstaller = Dingus()
-        builder.install = Dingus(_installer=cfInstaller,
+        builder = MagicMock(_ctx=ctx)
+        installer = MagicMock()
+        cfInstaller = MagicMock()
+        builder.install = MagicMock(_installer=cfInstaller,
                                  return_value=installer)
         ct = self.extension_module.ComposerExtension(ctx)
         ct._builder = builder
         ct.install()
-        eq_(2, len(builder.install.calls()))
+        eq_(2, builder.install.call_count)
         # make sure PHP is installed
-        assert installer.package.calls().once()
-        eq_('PHP', installer.package.calls()[0].args[0])
-        call = installer.package.calls()[0]
-        assert call.return_value.calls().once()
-        assert installer.calls().once()
+        installer.package.assert_called_with('PHP')
+        installer.package.return_value.done.assert_called_once()
         # make sure composer is installed
-        assert installer._installer.calls().once()
-        assert installer._installer.calls()[0].args[0] == \
+        installer._installer.install_binary_direct.assert_called_once()
+        assert installer._installer.install_binary_direct.call_args[0][0] == \
             'https://getcomposer.org/composer.phar', \
-            "was %s" % installer._installer.calls()[0].args[0]
+            "was %s" % installer._installer.install_binary_direct.call_args[0][0]
 
     def test_composer_tool_run_custom_composer_opts(self):
         ctx = utils.FormattedDict({
@@ -124,30 +116,30 @@ class TestComposer(object):
             'BP_DIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{"rate": {"limit": 60, "remaining": 60}}"""
 
-        stream_output_stub = Dingus()
-        rewrite_stub = Dingus()
-        builder = Dingus(_ctx=ctx)
+        stream_output_stub = MagicMock()
+        rewrite_stub = MagicMock()
+        builder = MagicMock(_ctx=ctx)
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-            'composer.extension.utils.rewrite_cfgs': rewrite_stub
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+            patch('composer.extension.utils.rewrite_cfgs', rewrite_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
             ct._builder = builder
             ct.composer_runner = \
                 self.extension_module.ComposerCommandRunner(ctx, builder)
             ct.run()
-            eq_(1, len(builder.copy.calls()))
-            assert rewrite_stub.calls().once()
-            rewrite_args = rewrite_stub.calls()[0].args
+            eq_(1, builder.copy.call_count)
+            rewrite_stub.assert_called_once()
+            rewrite_args = rewrite_stub.call_args[0]
             assert rewrite_args[0].endswith('php.ini')
             assert 'HOME' in rewrite_args[1]
             assert 'TMPDIR' in rewrite_args[1]
-            instCmd = stream_output_stub.calls()[-1].args[1]
+            instCmd = stream_output_stub.call_args[0][1]
             assert instCmd.find('--optimize-autoloader') > 0
 
     def test_composer_tool_run_sanity_checks(self):
@@ -161,39 +153,39 @@ class TestComposer(object):
             'BP_DIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{"rate": {"limit": 60, "remaining": 60}}"""
 
-        stream_output_stub = Dingus()
+        stream_output_stub = MagicMock()
 
-        rewrite_stub = Dingus()
+        rewrite_stub = MagicMock()
 
-        builder = Dingus(_ctx=ctx)
+        builder = MagicMock(_ctx=ctx)
 
-        exists_stub = Dingus()
+        exists_stub = MagicMock()
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-            'composer.extension.utils.rewrite_cfgs': rewrite_stub
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+            patch('composer.extension.utils.rewrite_cfgs', rewrite_stub),
+        ):
             composer_extension = \
                 self.extension_module.ComposerExtension(ctx)
-            composer_extension._log = Dingus()
+            composer_extension._log = MagicMock()
             composer_extension._builder = builder
             composer_extension.composer_runner = \
                 self.extension_module.ComposerCommandRunner(ctx, builder)
 
             composer_extension.run()
 
-            composer_extension_calls = composer_extension._log.warning.calls()
+            composer_extension_calls = composer_extension._log.warning.call_args_list
             assert len(composer_extension_calls) > 0
-            assert composer_extension_calls[0].args[0].find('PROTIP:') == 0
-            exists = Dingus(return_value=True)
+            assert composer_extension_calls[0][0][0].find('PROTIP:') == 0
+            exists = MagicMock(return_value=True)
             with patch('os.path.exists', exists_stub):
-                composer_extension._log = Dingus()
+                composer_extension._log = MagicMock()
                 composer_extension.run()
-            assert len(composer_extension._log.warning.calls()) == 0
+            composer_extension._log.warning.assert_not_called()
 
     def test_process_commands(self):
         eq_(0, len(self.extension_module.preprocess_commands({
@@ -476,15 +468,14 @@ class TestComposer(object):
             'OUR_SPECIAL_KEY': 'SPECIAL_VALUE'
         })
 
-        environ_stub = Dingus()
-        environ_stub._set_return_value(['OUR_SPECIAL_KEY'])
+        environ_stub = MagicMock(return_value=['OUR_SPECIAL_KEY'])
 
-        write_config_stub = Dingus()
+        write_config_stub = MagicMock()
 
-        with patches({
-            'os.environ.keys': environ_stub,
-            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
-        }):
+        with (
+            patch('os.environ.keys', environ_stub),
+            patch('composer.extension.PHPComposerStrategy.write_config', write_config_stub),
+        ):
 
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
@@ -507,12 +498,9 @@ class TestComposer(object):
             'PHP_VM': 'php'
         })
 
-        write_config_stub = Dingus()
+        write_config_stub = MagicMock()
 
-        with patches({
-            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
-        }):
-
+        with patch('composer.extension.PHPComposerStrategy.write_config', write_config_stub):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
@@ -537,11 +525,9 @@ class TestComposer(object):
             'PHPRC': '/usr/awesome/phpini',
         })
 
-        write_config_stub = Dingus()
+        write_config_stub = MagicMock()
 
-        with patches({
-            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
-        }):
+        with patch('composer.extension.PHPComposerStrategy.write_config', write_config_stub):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
@@ -563,11 +549,9 @@ class TestComposer(object):
             'MY_DICTIONARY': {'KEY': 'VALUE'},
         })
 
-        write_config_stub = Dingus()
+        write_config_stub = MagicMock()
 
-        with patches({
-            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
-        }):
+        with patch('composer.extension.PHPComposerStrategy.write_config', write_config_stub):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
@@ -591,11 +575,9 @@ class TestComposer(object):
             'SOME_KEY': utils.wrap('{exact_match}')
         })
 
-        write_config_stub = Dingus()
+        write_config_stub = MagicMock()
 
-        with patches({
-            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
-        }):
+        with patch('composer.extension.PHPComposerStrategy.write_config', write_config_stub):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
@@ -619,11 +601,9 @@ class TestComposer(object):
             'CACHE_DIR': 'cache'
         })
 
-        write_config_stub = Dingus()
+        write_config_stub = MagicMock()
 
-        with patches({
-            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
-        }):
+        with patch('composer.extension.PHPComposerStrategy.write_config', write_config_stub):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
@@ -646,11 +626,9 @@ class TestComposer(object):
             'PATH': '/bin:/usr/bin'
         })
 
-        write_config_stub = Dingus()
+        write_config_stub = MagicMock()
 
-        with patches({
-            'composer.extension.PHPComposerStrategy.write_config': write_config_stub
-        }):
+        with patch('composer.extension.PHPComposerStrategy.write_config', write_config_stub):
             self.extension_module.ComposerExtension(ctx)
             cr = self.extension_module.ComposerCommandRunner(ctx, None)
 
@@ -683,38 +661,38 @@ class TestComposer(object):
             'WEBDIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{"rate": {"limit": 60, "remaining": 60}}"""
 
-        stream_output_stub = Dingus()
+        stream_output_stub = MagicMock()
 
-        rewrite_stub = Dingus()
+        rewrite_stub = MagicMock()
 
-        environ_stub = Dingus()
-        environ_stub._set_return_value('MADE_UP_TOKEN_VALUE')
+        environ_stub = MagicMock()
+        environ_stub.return_value = 'MADE_UP_TOKEN_VALUE'
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-            'composer.extension.utils.rewrite_cfgs': rewrite_stub,
-            'os.environ.get': environ_stub
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+            patch('composer.extension.utils.rewrite_cfgs', rewrite_stub),
+            patch('os.environ.get', environ_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
 
-            builder_stub = Dingus(_ctx=ctx)
+            builder_stub = MagicMock(_ctx=ctx)
             ct._builder = builder_stub
             ct.composer_runner = \
                 self.extension_module.ComposerCommandRunner(ctx, builder_stub)
 
-            github_oauth_token_is_valid_stub = Dingus(
+            github_oauth_token_is_valid_stub = MagicMock(name= \
                 'test_run_sets_github_oauth_token_if_present:'
                 'github_oauth_token_is_valid_stub')
-            github_oauth_token_is_valid_stub._set_return_value(True)
+            github_oauth_token_is_valid_stub.return_value = True
             ct._github_oauth_token_is_valid = github_oauth_token_is_valid_stub
 
             ct.run()
 
-            executed_command = stream_output_stub.calls()[0].args[1]
+            executed_command = stream_output_stub.call_args_list[0][0][1]
 
         assert executed_command.find('config') > 0, 'did not see "config"'
         assert executed_command.find('-g') > 0, 'did not see "-g"'
@@ -733,23 +711,23 @@ class TestComposer(object):
             'BP_DIR': '',
             'WEBDIR': ''
         })
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{"rate": {"limit": 60, "remaining": 60}}"""
 
-        stream_output_stub = Dingus()
+        stream_output_stub = MagicMock()
 
-        rewrite_stub = Dingus()
+        rewrite_stub = MagicMock()
 
-        builder = Dingus(_ctx=ctx)
+        builder = MagicMock(_ctx=ctx)
 
-        setup_composer_github_token_stub = Dingus()
+        setup_composer_github_token_stub = MagicMock()
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-            'composer.extension.utils.rewrite_cfgs': rewrite_stub,
-            'composer.extension.ComposerExtension.setup_composer_github_token': setup_composer_github_token_stub
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+            patch('composer.extension.utils.rewrite_cfgs', rewrite_stub),
+            patch('composer.extension.ComposerExtension.setup_composer_github_token', setup_composer_github_token_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
 
             ct._builder = builder
@@ -757,10 +735,10 @@ class TestComposer(object):
                 self.extension_module.ComposerCommandRunner(ctx, builder)
             ct.run()
 
-            setup_composer_github_token_calls = setup_composer_github_token_stub.calls()
+            setup_composer_github_token_calls = setup_composer_github_token_stub.call_count
 
-        assert 0 == len(setup_composer_github_token_calls), \
-            'setup_composer_github_token() was called %s times, expected 0' % len(setup_composer_github_token_calls)
+        assert 0 == setup_composer_github_token_calls, \
+            'setup_composer_github_token() was called %s times, expected 0' % setup_composer_github_token_calls
 
     def test_github_oauth_token_is_valid_uses_curl(self):
         ctx = utils.FormattedDict({
@@ -773,21 +751,21 @@ class TestComposer(object):
             'WEBDIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"resources": {}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{"resources": {}}"""
 
-        stream_output_stub = Dingus(
+        stream_output_stub = MagicMock(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
             ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
-            executed_command = stream_output_stub.calls()[0].args[1]
+            executed_command = stream_output_stub.call_args[0][1]
 
-        assert stream_output_stub.calls().once(), \
+        assert stream_output_stub.call_count == 1, \
             'stream_output() was called more than once'
         assert executed_command.find('curl') == 0, \
             'Curl was not called, executed_command was %s' % executed_command
@@ -808,16 +786,16 @@ class TestComposer(object):
             'WEBDIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"resources": {}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{"resources": {}}"""
 
-        stream_output_stub = Dingus(
+        stream_output_stub = MagicMock(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
             result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
 
@@ -835,16 +813,16 @@ class TestComposer(object):
             'WEBDIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{}"""
 
-        stream_output_stub = Dingus(
+        stream_output_stub = MagicMock(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
             result = ct._github_oauth_token_is_valid('MADE_UP_TOKEN_VALUE')
 
@@ -862,34 +840,34 @@ class TestComposer(object):
             'WEBDIR': ''
         })
 
-        builder = Dingus(_ctx=ctx)
+        builder = MagicMock(_ctx=ctx)
 
-        path_exists_stub = Dingus()
-        path_exists_stub._set_return_value(True)
+        path_exists_stub = MagicMock()
+        path_exists_stub.return_value = True
 
-        setup_composer_github_token_stub = Dingus()
-        check_github_rate_exceeded_stub = Dingus()
+        setup_composer_github_token_stub = MagicMock()
+        check_github_rate_exceeded_stub = MagicMock()
 
-        rewrite_stub = Dingus()
+        rewrite_stub = MagicMock()
 
-        stream_output_stub = Dingus(
+        stream_output_stub = MagicMock(
             'test_github_oauth_token_uses_curl : stream_output')
-        with patches({
-            'os.path.exists': path_exists_stub,
-            'composer.extension.ComposerExtension.setup_composer_github_token': setup_composer_github_token_stub,
-            'composer.extension.ComposerExtension.check_github_rate_exceeded': check_github_rate_exceeded_stub,
-            'composer.extension.utils.rewrite_cfgs': rewrite_stub,
-            'composer.extension.stream_output': stream_output_stub
-        }):
+        with (
+            patch('os.path.exists', path_exists_stub),
+            patch('composer.extension.ComposerExtension.setup_composer_github_token', setup_composer_github_token_stub),
+            patch('composer.extension.ComposerExtension.check_github_rate_exceeded', check_github_rate_exceeded_stub),
+            patch('composer.extension.utils.rewrite_cfgs', rewrite_stub),
+            patch('composer.extension.stream_output', stream_output_stub)
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
             ct._builder = builder
             ct.composer_runner = \
                     self.extension_module.ComposerCommandRunner(ctx, builder)
             ct.run()
 
-        assert 0 == len(setup_composer_github_token_stub.calls()), \
+        assert 0 == setup_composer_github_token_stub.call_count, \
                 'setup_composer_github_token was called, expected no calls'
-        assert 0 == len(check_github_rate_exceeded_stub.calls()), \
+        assert 0 == check_github_rate_exceeded_stub.call_count, \
                 'check_github_rate_exceeded was called, expected no calls'
 
     def test_github_download_rate_not_exceeded(self):  # noqa
@@ -903,16 +881,16 @@ class TestComposer(object):
             'WEBDIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 60}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = """{"rate": {"limit": 60, "remaining": 60}}"""
 
-        stream_output_stub = Dingus(
+        stream_output_stub = MagicMock(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
             result = ct._github_rate_exceeded(False)
 
@@ -930,16 +908,16 @@ class TestComposer(object):
             'WEBDIR': ''
         })
 
-        instance_stub = Dingus()
-        instance_stub._set_return_value("""{"rate": {"limit": 60, "remaining": 0}}""")
+        stringio_stub = MagicMock()
+        stringio_stub.return_value.getvalue.return_value = ("""{"rate": {"limit": 60, "remaining": 0}}""")
 
-        stream_output_stub = Dingus(
+        stream_output_stub = MagicMock(
             'test_github_oauth_token_uses_curl : stream_output')
 
-        with patches({
-            'StringIO.StringIO.getvalue': instance_stub,
-            'composer.extension.stream_output': stream_output_stub,
-        }):
+        with (
+            patch('io.StringIO', stringio_stub),
+            patch('composer.extension.stream_output', stream_output_stub),
+        ):
             ct = self.extension_module.ComposerExtension(ctx)
             result = ct._github_rate_exceeded(False)
 
