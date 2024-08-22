@@ -2,11 +2,11 @@ import os
 import sys
 import tempfile
 import shutil
-from dingus import Dingus
 from nose.tools import eq_
 from build_pack_utils import utils
 from extension_helpers import ExtensionHelper
 from extension_helpers import PHPExtensionHelper
+from unittest.mock import MagicMock
 
 
 class TestPHPExtensionHelper(object):
@@ -71,13 +71,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _compile = Dingus()
+            _compile = MagicMock()
 
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
         ext.compile(None)
-        eq_(1, len(MyExtn._compile.calls()))
+        eq_(1, MyExtn._compile.call_count)
 
     def test_compile_doesnt_run(self):
         ctx = utils.FormattedDict({
@@ -86,13 +86,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _compile = Dingus()
+            _compile = MagicMock()
 
             def _should_compile(self):
                 return False
         ext = MyExtn(ctx)
         ext.compile(None)
-        eq_(0, len(MyExtn._compile.calls()))
+        eq_(0, MyExtn._compile.call_count)
 
     def test_configure_runs(self):
         ctx = utils.FormattedDict({
@@ -101,13 +101,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _configure = Dingus()
+            _configure = MagicMock()
 
             def _should_configure(self):
                 return True
         ext = MyExtn(ctx)
         ext.configure()
-        eq_(1, len(MyExtn._configure.calls()))
+        eq_(1, MyExtn._configure.call_count)
 
     def test_configure_doesnt_run(self):
         ctx = utils.FormattedDict({
@@ -116,13 +116,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _configure = Dingus()
+            _configure = MagicMock()
 
             def _should_configure(self):
                 return False
         ext = MyExtn(ctx)
         ext.configure()
-        eq_(0, len(MyExtn._configure.calls()))
+        eq_(0, MyExtn._configure.call_count)
 
     def test_preprocess_commands_runs(self):
         ctx = utils.FormattedDict({
@@ -131,13 +131,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _preprocess_commands = Dingus()
+            _preprocess_commands = MagicMock()
 
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
         ext.preprocess_commands()
-        eq_(1, len(MyExtn._preprocess_commands.calls()))
+        eq_(1, MyExtn._preprocess_commands.call_count)
 
     def test_preprocess_commands_doesnt_run(self):
         ctx = utils.FormattedDict({
@@ -146,13 +146,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _preprocess_commands = Dingus()
+            _preprocess_commands = MagicMock()
 
             def _should_compile(self):
                 return False
         ext = MyExtn(ctx)
         ext.preprocess_commands()
-        eq_(0, len(MyExtn._preprocess_commands.calls()))
+        eq_(0, MyExtn._preprocess_commands.call_count)
 
     def test_service_commands_runs(self):
         ctx = utils.FormattedDict({
@@ -161,13 +161,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _service_commands = Dingus()
+            _service_commands = MagicMock()
 
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
         ext.service_commands()
-        eq_(1, len(MyExtn._service_commands.calls()))
+        eq_(1, MyExtn._service_commands.call_count)
 
     def test_service_commands_doesnt_run(self):
         ctx = utils.FormattedDict({
@@ -176,13 +176,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _service_commands = Dingus()
+            _service_commands = MagicMock()
 
             def _should_compile(self):
                 return False
         ext = MyExtn(ctx)
         ext.service_commands()
-        eq_(0, len(MyExtn._service_commands.calls()))
+        eq_(0, MyExtn._service_commands.call_count)
 
     def test_service_environment_runs(self):
         ctx = utils.FormattedDict({
@@ -191,13 +191,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _service_environment = Dingus()
+            _service_environment = MagicMock()
 
             def _should_compile(self):
                 return True
         ext = MyExtn(ctx)
         ext.service_environment()
-        eq_(1, len(MyExtn._service_environment.calls()))
+        eq_(1, MyExtn._service_environment.call_count)
 
     def test_service_environment_doesnt_run(self):
         ctx = utils.FormattedDict({
@@ -206,13 +206,13 @@ class TestPHPExtensionHelper(object):
         })
 
         class MyExtn(PHPExtensionHelper):
-            _service_environment = Dingus()
+            _service_environment = MagicMock()
 
             def _should_compile(self):
                 return False
         ext = MyExtn(ctx)
         ext.service_environment()
-        eq_(0, len(MyExtn._service_environment.calls()))
+        eq_(0, MyExtn._service_environment.call_count)
 
     def test_register_extension_methods(self):
         ExtensionHelper.register(__name__)
