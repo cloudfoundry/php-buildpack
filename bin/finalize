@@ -30,12 +30,15 @@ DEPS_IDX=${4:-}
 PROFILE_DIR=${5:-}
 
 # Generally stacks do not have ruby or python installed, with the exception of cflinuxfs3, so we install them here
-# We deliberately skip re-installing python and ruby on the cflinuxfs3 stack to avoid compatibility issues
-# (e.g. the bootstrapped python is incompatible with cflinuxfs3 due to being compiled on a newer version of GBLIC)
-if [ "$CF_STACK" != "cflinuxfs3" ]; then
-  source "$BP/bin/install-python" "$DEPS_DIR/$DEPS_IDX" "$BP"
+#
+# We skip re-installing ruby on the cflinuxfs3 stack to avoid compatibility issues
+if [ "$CF_STACK" != "cflinuxfs3" ] && [ -z "${USE_SYSTEM_RUBY_PYTHON}" ]; then
   source "$BP/bin/install-ruby" "$DEPS_DIR/$DEPS_IDX" "$BP"
 fi
+
+# To avoid having to support both python 2 & 3 and to avoid using the ancient
+# python included in cflinuxfs3, always install python
+source "$BP/bin/install-python" "$DEPS_DIR/$DEPS_IDX" "$BP"
 
 BUILDPACK_PATH=$BP
 export BUILDPACK_PATH
