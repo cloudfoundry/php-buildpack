@@ -16,7 +16,6 @@ function main() {
 
   export LD_LIBRARY_PATH="$install_dir/lib:${LD_LIBRARY_PATH:-}"
   export PATH="$install_dir/bin:${PATH:-}"
-  alias python2=python2.7
 }
 
 function setup_python() {

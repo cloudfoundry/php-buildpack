@@ -56,7 +56,7 @@ done
 export PYTHONPATH=$BP/lib
 unset PYTHONHOME
 
-python2 "$BP"/scripts/compile.py "$BUILD_DIR" "$CACHE_DIR"
+python "$BP"/scripts/compile.py "$BUILD_DIR" "$CACHE_DIR"
 
 pushd "$BUILD_DIR"/.profile.d > /dev/null
   for f in *; do mv "$f" "finalize_$f"; done

@@ -40,4 +40,4 @@ source "$BP/bin/install-python" "$PYTHON_DIR" "$BP" &> /dev/null
 
 export PYTHONPATH=$BP/lib
 
-python2 "$BP"/scripts/release.py "$1"
+python "$BP"/scripts/release.py "$1"
