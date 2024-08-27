@@ -42,12 +42,12 @@ class TestDetect(object):
         try:
             output = bp._detect().strip()
             assert re.match('php*', output)
-        except Exception, e:
-            print str(e)
+        except Exception as e:
+            print(str(e))
             if hasattr(e, 'output'):
-                print e.output
+                print(e.output)
             if output:
-                print output
+                print(output)
             raise
         finally:
             if os.path.exists(bp.bp_dir):
@@ -71,10 +71,10 @@ class TestDetect(object):
         try:
             output = bp._detect().strip()
             assert re.match('php*', output)
-        except Exception, e:
-            print str(e)
+        except Exception as e:
+            print(str(e))
             if hasattr(e, 'output'):
-                print e.output
+                print(e.output)
             raise
         finally:
             if os.path.exists(bp.bp_dir):
@@ -98,10 +98,10 @@ class TestDetect(object):
         try:
             output = bp._detect().strip()
             assert re.match('php*', output)
-        except Exception, e:
-            print str(e)
+        except Exception as e:
+            print(str(e))
             if hasattr(e, 'output'):
-                print e.output
+                print(e.output)
             raise
         finally:
             if os.path.exists(bp.bp_dir):
@@ -125,12 +125,12 @@ class TestDetect(object):
         try:
             output = bp._detect().strip()
             assert re.match('php*', output)
-        except Exception, e:
-            print str(e)
+        except Exception as e:
+            print(str(e))
             if hasattr(e, 'output'):
-                print e.output
+                print(e.output)
             if output:
-                print output
+                print(output)
         finally:
             if os.path.exists(bp.bp_dir):
                 shutil.rmtree(bp.bp_dir)
@@ -152,8 +152,8 @@ class TestDetect(object):
                                                       "tests"))
         try:
             bp._detect().strip()
-        except Exception, e:
-            print e.output
+        except Exception as e:
+            print(e.output)
             assert re.match('no', e.output)
         finally:
             if os.path.exists(bp.bp_dir):

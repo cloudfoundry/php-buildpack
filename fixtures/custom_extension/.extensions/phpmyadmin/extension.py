@@ -35,7 +35,7 @@ def service_environment(ctx):
 
 
 def compile(install):
-    print 'Installing PHPMyAdmin %s' % DEFAULTS['PHPMYADMIN_VERSION']
+    print('Installing PHPMyAdmin %s' % DEFAULTS['PHPMYADMIN_VERSION'])
     ctx = install.builder._ctx
     inst = install._installer
     workDir = os.path.join(ctx['TMPDIR'], 'phpmyadmin')

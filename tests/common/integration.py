@@ -3,7 +3,7 @@ import tempfile
 import shutil
 import os
 import itertools
-from StringIO import StringIO
+from io import StringIO
 
 
 class OptionsHelper(object):
@@ -89,13 +89,13 @@ class DirectoryHelper(object):
                 if os.path.isfile(f):
                     os.remove(f)
                 else:
-                    print 'Could not remove [%s], not a file' % f
+                    print('Could not remove [%s], not a file' % f)
         for d in self._temp_dirs:
             if os.path.exists(d):
                 if os.path.isdir(d):
                     shutil.rmtree(d)
                 else:
-                    print 'Could not remove [%s], not a directory' % d
+                    print('Could not remove [%s], not a directory' % d)
 
 
 class FileAssertHelper(object):
@@ -196,7 +196,7 @@ class TextFileAssertHelper(object):
         return self
 
     def line_count_equals(self, num, test=None):
-        found = len([item for item in itertools.ifilter(test, self._contents)])
+        found = len([item for item in filter(test, self._contents)])
         assert num == found, \
             "Found [%d] lines, not [%d] in [%s]\n\nContents:\n%s" % \
             (found, num, self._path, "\n".join(self._contents))
@@ -212,9 +212,9 @@ class ErrorHelper(object):
             bp._stream = buf
             bp._compile()
             return buf.getvalue().strip()
-        except Exception, e:
-            print "Command Output:"
-            print buf.getvalue().strip()
+        except Exception as e:
+            print("Command Output:")
+            print(buf.getvalue().strip())
             if hasattr(e, 'output'):
-                print e.output
+                print(e.output)
             raise

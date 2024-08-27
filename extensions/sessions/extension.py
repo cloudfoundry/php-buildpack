@@ -93,7 +93,7 @@ class SessionStoreConfig(PHPExtensionHelper):
         ]
         # search for an appropriately name session store
         vcap_services = self._ctx.get('VCAP_SERVICES', {})
-        for provider, services in vcap_services.iteritems():
+        for provider, services in vcap_services.items():
             for service in services:
                 service_name = service.get('name', '')
                 for session_type in session_types:

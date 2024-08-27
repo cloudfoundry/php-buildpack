@@ -353,7 +353,7 @@ class TestComposer(object):
         config = self.extension_module.ComposerConfiguration(ctx)
         try:
             config.read_version_from_composer('php')
-        except SystemExit, e:
+        except SystemExit as e:
             eq_(1, e.code)
 
     def test_pick_php_version(self):
@@ -557,7 +557,7 @@ class TestComposer(object):
 
             built_environment = cr._build_composer_environment()
 
-        for key, val in built_environment.iteritems():
+        for key, val in built_environment.items():
             assert type(val) == str, \
                 "Expected [%s]:[%s] to be type `str`, but found type [%s]" % (
                     key, val, type(val))
@@ -585,7 +585,7 @@ class TestComposer(object):
                 built_environment = cr._build_composer_environment()
                 assert "{exact_match}" == built_environment['SOME_KEY'], \
                     "value should match"
-            except KeyError, e:
+            except KeyError as e:
                 assert 'exact_match' != e.message, \
                     "Should not try to evaluate value [%s]" % e
                 raise

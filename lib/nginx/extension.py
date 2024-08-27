@@ -33,7 +33,7 @@ def service_environment(ctx):
 
 
 def compile(install):
-    print 'Installing Nginx'
+    print('Installing Nginx')
     install.builder._ctx['PHP_FPM_LISTEN'] = '{TMPDIR}/php-fpm.socket'
     (install
         .package('NGINX')
@@ -44,5 +44,5 @@ def compile(install):
             .rewrite()
             .done())
 
-    print 'NGINX %s' % (install.builder._ctx['NGINX_VERSION'])
+    print('NGINX %s' % (install.builder._ctx['NGINX_VERSION']))
     return 0

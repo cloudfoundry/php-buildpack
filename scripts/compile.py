@@ -73,4 +73,4 @@ if __name__ == '__main__':
             .using_process_manager()
             .write())
 
-    print 'Finished: [%s]' % datetime.now()
+    print('Finished: [%s]' % datetime.now())

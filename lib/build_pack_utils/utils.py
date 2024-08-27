@@ -6,7 +6,7 @@ import codecs
 import inspect
 import re
 from string import Template
-from runner import check_output
+from . runner import check_output
 
 
 _log = logging.getLogger('utils')
@@ -15,7 +15,7 @@ _log = logging.getLogger('utils')
 def safe_makedirs(path):
     try:
         os.makedirs(path)
-    except OSError, e:
+    except OSError as e:
         # Ignore if it exists
         if e.errno != 17:
             raise e
@@ -82,7 +82,7 @@ def process_extensions(ctx, to_call, success, args=None, ignore=False):
 def rewrite_with_template(template, cfgPath, ctx):
     with codecs.open(cfgPath, encoding='utf-8') as fin:
         data = fin.read()
-    with codecs.open(cfgPath, encoding='utf-8', mode='wt') as out:
+    with codecs.open(cfgPath, encoding='utf-8', mode='w') as out:
         out.write(template(data).safe_substitute(ctx))
 
 
@@ -269,7 +269,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
         ignored_names = set()
     try:
         os.makedirs(dst)
-    except OSError, e:
+    except OSError as e:
         if e.errno != 17:  # File exists
             raise e
     errors = []
@@ -289,17 +289,17 @@ def copytree(src, dst, symlinks=False, ignore=None):
                 shutil.copy2(srcname, dstname)
         # catch the Error from the recursive copytree so that we can
         # continue with other files
-        except shutil.Error, err:
+        except shutil.Error as err:
             errors.extend(err.args[0])
-        except EnvironmentError, why:
+        except EnvironmentError as why:
             errors.append((srcname, dstname, str(why)))
     try:
         shutil.copystat(src, dst)
-    except OSError, why:
+    except OSError as why:
         if WindowsError is not None and isinstance(why, WindowsError):
             # Copying file access times may fail on Windows
             pass
         else:
             errors.extend((src, dst, str(why)))
     if errors:
-        raise shutil.Error, errors
+        raise shutil.Error(errors)

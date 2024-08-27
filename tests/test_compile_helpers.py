@@ -2,7 +2,6 @@ import os
 import os.path
 import tempfile
 import shutil
-import mock
 from nose.tools import eq_
 from nose.tools import assert_raises_regex
 from build_pack_utils import utils
@@ -15,6 +14,7 @@ from compile_helpers import find_all_php_versions
 from compile_helpers import validate_php_version
 from compile_helpers import validate_php_ini_extensions
 from compile_helpers import setup_log_dir
+from unittest import mock
 
 
 class TestCompileHelpers(object):

@@ -3,14 +3,13 @@ import os.path
 import tempfile
 import shutil
 import subprocess
-import imp
+import importlib
 from nose.tools import eq_
 
 
 class BaseRewriteScript(object):
     def __init__(self):
-        info = imp.find_module('runner', ['lib/build_pack_utils'])
-        self.run = imp.load_module('runner', *info)
+        self.run =importlib.import_module('.runner', 'build_pack_utils')
 
     def setUp(self):
         self.rewrite = os.path.abspath("bin/rewrite")
