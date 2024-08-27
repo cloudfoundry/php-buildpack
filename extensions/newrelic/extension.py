@@ -66,7 +66,7 @@ class NewRelicInstaller(object):
         self._ctx['NEWRELIC_VERSION'] = output
 
     def _merge_defaults(self):
-        for key, val in DEFAULTS.iteritems():
+        for key, val in DEFAULTS.items():
             if key not in self._ctx:
                 self._ctx[key] = val
 

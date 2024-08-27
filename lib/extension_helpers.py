@@ -49,7 +49,7 @@ class ExtensionHelper(object):
         setattr(module, 'compile', extension_helper_wrapper)
 
     def _merge_defaults(self):
-        for key, val in self._defaults().iteritems():
+        for key, val in self._defaults().items():
             if key not in self._ctx:
                 self._ctx[key] = val
 

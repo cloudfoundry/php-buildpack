@@ -1,7 +1,7 @@
 import os
 import re
 import logging
-import utils
+from . import utils
 from itertools import chain
 
 class BaseFileSearch(object):

@@ -1,4 +1,4 @@
-from build_pack_utils import utils
+from lib.build_pack_utils import utils
 
 
 extn = utils.load_extension('lib/additional_commands')
