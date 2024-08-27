@@ -9,6 +9,6 @@
 set -e
 for TEST in ./tests/*.py; do
     echo "Running test [$TEST]..."
-    nosetests --verbose --detailed-errors --nocapture "$@" "$TEST"
+    USE_SYSTEM_PYTHON=1 nosetests --verbose --detailed-errors --nocapture "$@" "$TEST"
     echo
 done
