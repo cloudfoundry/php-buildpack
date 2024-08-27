@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import sys
+import io
 import os
 import logging
 from build_pack_utils import utils
@@ -23,7 +24,7 @@ from build_pack_utils import process
 
 if __name__ == '__main__':
     if hasattr(sys.stdout, 'fileno'):
-        sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb', 0)
+        sys.stdout = io.TextIOWrapper(os.fdopen(sys.stdout.fileno(), 'wb', buffering=0), write_through=True)
 
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s [%(levelname)s] %(name)s - %(message)s',

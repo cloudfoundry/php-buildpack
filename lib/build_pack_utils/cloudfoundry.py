@@ -1,3 +1,4 @@
+import io
 import os
 import sys
 import json
@@ -28,7 +29,7 @@ class CloudFoundryUtil(object):
              sys.stdout.close()
              os.dup2(tmp_fd, fileno)
              os.close(tmp_fd)
-             sys.stdout = os.fdopen(fileno, "w", 0)
+             sys.stdout = io.TextIOWrapper(os.fdopen(fileno, "wb", buffering=0), write_through=True)
         ctx = utils.FormattedDict()
         # Add environment variables
         for key, val in os.environ.iteritems():
