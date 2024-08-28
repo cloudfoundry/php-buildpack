@@ -6,7 +6,7 @@ class CompileExtensions(object):
         self._buildpack_dir = buildpack_dir
 
     def call_compile_extensions_script(self, script, *args):
-        process = subprocess.Popen([os.path.join(self._buildpack_dir, 'compile-extensions', 'bin', script)] + list(args), stdout=subprocess.PIPE)
+        process = subprocess.Popen([os.path.join(self._buildpack_dir, 'compile-extensions', 'bin', script)] + list(args), stdout=subprocess.PIPE, text=True)
         exit_code = process.wait()
         output = process.stdout.read().rstrip()
         return (exit_code, output)

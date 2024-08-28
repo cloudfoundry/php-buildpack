@@ -43,12 +43,7 @@ from queue import Queue, Empty
 
 def _enqueue_output(proc, queue):
     if not proc.quiet:
-        for line in iter(proc.stdout.readline, b''):
-            try:
-                line = line.decode('utf-8')
-            except UnicodeDecodeError as e:
-                queue.put((proc, e))
-                continue
+        for line in iter(proc.stdout.readline, ''):
             if not line.endswith('\n'):
                 line += '\n'
             queue.put((proc, line))
@@ -111,7 +106,7 @@ class ProcessManager(object):
                       (e.g. 'python run.py')
         """
         self._log.debug("Adding process [%s] with cmd [%s]", name, cmd)
-        self.processes.append(Process(cmd, name=name, quiet=quiet))
+        self.processes.append(Process(cmd, name=name, quiet=quiet, text=True))
 
     def loop(self):
         """
