@@ -1,7 +1,6 @@
 package unit_test
 
 import (
-	"bytes"
 	"os"
 	"os/exec"
 	"time"
@@ -10,6 +9,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gexec"
+	"github.com/onsi/gomega/gbytes"
 )
 
 var _ = Describe("Compile", func() {
@@ -29,12 +29,11 @@ var _ = Describe("Compile", func() {
 		})
 
 		It("fails with a very helpful error message", func() {
-			out := bytes.Buffer{}
-			session, err := gexec.Start(cmd, &out, &out)
+			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).ToNot(HaveOccurred())
 
 			Eventually(session.ExitCode, 120*time.Second).Should(Equal(44))
-			Expect(out.String()).To(ContainSubstring("not supported by this buildpack"))
+			Expect(session.Err).Should(gbytes.Say("not supported by this buildpack"))
 		})
 	})
 })
