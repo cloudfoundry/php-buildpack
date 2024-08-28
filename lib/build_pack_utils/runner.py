@@ -1,3 +1,4 @@
+import io
 import os
 import os.path
 import sys
@@ -92,20 +93,20 @@ def stream_output(*popenargs, **kwargs):
     """
     if 'stdout' in kwargs:
         raise ValueError('stdout argument not allowed, it will be overridden.')
-    if hasattr(popenargs[0], 'fileno'):
+    try:
         process = subprocess.Popen(stdout=popenargs[0],
-                                   *popenargs[1:], **kwargs)
+                                   *popenargs[1:], text=True, **kwargs)
         retcode = process.wait()
-    else:
+    except io.UnsupportedOperation:
         process = subprocess.Popen(stdout=subprocess.PIPE,
-                                   *popenargs[1:], **kwargs)
+                                   *popenargs[1:], text=True, **kwargs)
         for c in iter(lambda: process.stdout.read(1024), ''):
             popenargs[0].write(c)
         retcode = process.poll()
     if retcode:
         cmd = kwargs.get("args")
         if cmd is None:
-            cmd = popenargs[0]
+            cmd = popenargs[1]
         raise CalledProcessError(retcode, cmd)
 
 
@@ -144,7 +145,8 @@ class BuildPack(object):
                self._ctx['BUILD_DIR']]
         return check_output(" ".join(cmd),
                             stderr=subprocess.STDOUT,
-                            shell=True).strip()
+                            shell=True,
+                            text=True).strip()
 
     def _compile(self):
         self._log.debug("Running compile script with build dir [%s] "
