@@ -43,14 +43,14 @@ class TestRewriteScriptPhp(BaseRewriteScript):
 
     def test_rewrite_no_args(self):
         try:
-            self.run.check_output(self.rewrite,
+            subprocess.check_output(self.rewrite,
                                   cwd=self.run_dir,
                                   env=self.env,
                                   stderr=subprocess.STDOUT,
                                   shell=True,
                                   text=True)
             assert False
-        except self.run.CalledProcessError, e:
+        except subprocess.CalledProcessError as e:
             eq_('Argument required!  Specify path to configuration '
                 'directory.\n', e.output)
             eq_(255, e.returncode)

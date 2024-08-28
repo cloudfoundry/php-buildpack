@@ -6,7 +6,7 @@ import codecs
 import inspect
 import re
 from string import Template
-from . runner import check_output
+from subprocess import check_output
 
 
 _log = logging.getLogger('utils')
