@@ -13,4 +13,4 @@ util::tools::ginkgo::install --directory "${ROOTDIR}/.bin"
 
 cd src/*/integration/..
 export CF_STACK=${CF_STACK:-cflinuxfs3}
-ginkgo -r -skipPackage=brats,integration
+ginkgo -v -r -skipPackage=brats,integration
