@@ -38,9 +38,18 @@ class BuildPackAssertHelper(object):
         (fah.expect()
             .path(build_dir, '.bp', 'bin', 'rewrite')
             .root(build_dir, '.bp', 'lib', 'build_pack_utils')
-                .directory_count_equals(20)  # noqa
-                .path('utils.py')
+                .directory_count_equals(11)  # noqa
+                .path('__init__.py')
+                .path('__pycache__')
+                .path('builder.py')
+                .path('cloudfoundry.py')
+                .path('compile_extensions.py')
+                .path('detecter.py') # [sic]
+                .path('downloads.py')
                 .path('process.py')
+                .path('runner.py')
+                .path('utils.py')
+                .path('zips.py')
             .exists())
 
     def assert_config_options(self, build_dir):

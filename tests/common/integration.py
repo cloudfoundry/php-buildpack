@@ -128,9 +128,10 @@ class FileAssertHelper(object):
 
     def directory_count_equals(self, cnt):
         root = os.path.join(*self._root)
+        actual = len(os.listdir(root))
         assert \
-            len(os.listdir(root)) == cnt, \
-            "Directory [%s] does not contain [%d] files" % (root, cnt)
+            actual == cnt, \
+            "Directory [%s] contains [%d] files, expected [%d] files" % (root, actual, cnt)
         return self
 
 
