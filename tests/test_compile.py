@@ -5,7 +5,7 @@ from nose.tools import eq_
 from nose.tools import raises
 from nose.tools import with_setup
 from build_pack_utils import BuildPack
-from build_pack_utils.runner import CalledProcessError
+from subprocess import CalledProcessError
 from common.integration import FileAssertHelper
 from common.integration import ErrorHelper
 from common.components import BuildPackAssertHelper
