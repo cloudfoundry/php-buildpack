@@ -111,13 +111,13 @@ class SessionStoreConfig(PHPExtensionHelper):
         # modify php.ini to contain the right session config
         self.load_config()
         self._php_ini.update_lines(
-            '^session\.name = JSESSIONID$',
+            r'^session\.name = JSESSIONID$',
             'session.name = PHPSESSIONID')
         self._php_ini.update_lines(
-            '^session\.save_handler = files$',
+            r'^session\.save_handler = files$',
             'session.save_handler = %s' % self.service.EXTENSION_NAME)
         self._php_ini.update_lines(
-            '^session\.save_path = "@{TMPDIR}"$',
+            r'^session\.save_path = "@{TMPDIR}"$',
             'session.save_path = "%s"' % self.service.session_save_path())
         self.service.custom_config_php_ini(self._php_ini)
         self._php_ini.save(self._php_ini_path)

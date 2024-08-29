@@ -260,7 +260,7 @@ class DynatraceInstaller(object):
 
         # store static config in same kind of data structure (nested dictionary)
         # as we use for the config from we fetched from the API
-        section_regex = re.compile('\[(.*)\]')
+        section_regex = re.compile(r'\[(.*)\]')
         config_section = ""
         config_from_agent = dict()
         _log.debug("Starting to parse OneAgent config...")

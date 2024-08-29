@@ -74,7 +74,7 @@ class TestComposer(object):
         installer.package.return_value.done.assert_called_once()
         # make sure composer is installed
         installer._installer._install_binary_from_manifest.assert_called_once()
-        assert re.match('/composer/[\d\.]+/composer.phar', installer._installer._install_binary_from_manifest.call_args[0][0]), \
+        assert re.match(r'/composer/[\d\.]+/composer.phar', installer._installer._install_binary_from_manifest.call_args[0][0]), \
             "was %s" % installer._installer._install_binary_from_manifest.call_args[0][0]
 
     def test_composer_tool_install_latest(self):

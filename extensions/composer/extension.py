@@ -94,7 +94,7 @@ class ComposerConfiguration(object):
     def pick_php_version(self, requested):
         selected = None
 
-        if requested is None or requested is '':
+        if requested is None or requested == '':
             return self._ctx['PHP_VERSION']
 
         # requested is coming from the composer.json file and is a unicode string type.
