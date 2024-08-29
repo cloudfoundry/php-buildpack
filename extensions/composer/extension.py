@@ -31,7 +31,7 @@ from compile_helpers import warn_invalid_php_version
 from extension_helpers import ExtensionHelper
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'python-vendor', 'node-semver'))
-from semver import max_satisfying
+from nodesemver import max_satisfying
 
 from build_pack_utils.compile_extensions import CompileExtensions
 
