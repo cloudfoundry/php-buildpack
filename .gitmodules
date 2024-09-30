@@ -9,4 +9,4 @@
 	url = https://github.com/php-fig/log
 [submodule "python-vendor/node-semver"]
 	path = python-vendor/node-semver
-	url = git@github.com:podhmo/python-node-semver.git
+	url = https://github.com/podhmo/python-node-semver.git
