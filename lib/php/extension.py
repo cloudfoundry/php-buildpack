@@ -129,11 +129,11 @@ class PHPExtension(ExtensionHelper):
         if ctx.get('OPTIONS_JSON_HAS_PHP_EXTENSIONS', False):
             print("Warning: PHP_EXTENSIONS in options.json is deprecated. See: http://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html")
 
-        print 'Installing PHP'
+        print('Installing PHP')
         validate_php_version(ctx)
-        print 'PHP %s' % (ctx['PHP_VERSION'])
+        print('PHP %s' % (ctx['PHP_VERSION']))
 
-        major_minor = '.'.join(string.split(ctx['PHP_VERSION'], '.')[0:2])
+        major_minor = '.'.join(ctx['PHP_VERSION'].split('.')[0:2])
 
         (install
             .package('PHP')

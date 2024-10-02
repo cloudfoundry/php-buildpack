@@ -16,7 +16,6 @@ function main() {
 
   export LD_LIBRARY_PATH="$install_dir/lib:${LD_LIBRARY_PATH:-}"
   export PATH="$install_dir/bin:${PATH:-}"
-  alias python2=python2.7
 }
 
 function setup_python() {
@@ -33,7 +32,7 @@ function setup_python() {
 
 function get_python_from_manifest() {
   local buildpack_dir="$1"
-  cat "$buildpack_dir/manifest.yml" | awk '/uri:/ && /\/python\// {print}' | sed 's:.*/::'
+  cat "$buildpack_dir/manifest.yml" | awk "/uri:/ && /\/python\// && /${CF_STACK}/ {print}" | sed 's:.*/::'
 }
 
 main "${@:-}"

@@ -20,6 +20,7 @@ var _ = Describe("CF PHP Buildpack", func() {
 
 		It("succeeds", func() {
 			app = cutlass.New(Fixtures("with_newrelic"))
+			app.Disk = "2GB"
 			app.SetEnv("COMPOSER_GITHUB_OAUTH_TOKEN", os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"))
 			app.SetEnv("BP_DEBUG", "true")
 			PushAppAndConfirm(app)

@@ -4,27 +4,27 @@ import shutil
 import re
 import logging
 from collections import defaultdict
-from StringIO import StringIO
+from io import StringIO
 from subprocess import Popen
 from subprocess import PIPE
-from cloudfoundry import CloudFoundryUtil
-from cloudfoundry import CloudFoundryInstaller
-from detecter import TextFileSearch
-from detecter import ComposerJsonSearch
-from detecter import RegexFileSearch
-from detecter import StartsWithFileSearch
-from detecter import EndsWithFileSearch
-from detecter import ContainsFileSearch
-from runner import BuildPack
-from utils import rewrite_cfgs
-from detecter import RegexFileSearch
-from detecter import StartsWithFileSearch
-from detecter import EndsWithFileSearch
-from detecter import ContainsFileSearch
-from runner import BuildPack
-from utils import rewrite_cfgs
-from utils import process_extension
-from utils import process_extensions
+from . cloudfoundry import CloudFoundryUtil
+from . cloudfoundry import CloudFoundryInstaller
+from . detecter import TextFileSearch
+from . detecter import ComposerJsonSearch
+from . detecter import RegexFileSearch
+from . detecter import StartsWithFileSearch
+from . detecter import EndsWithFileSearch
+from . detecter import ContainsFileSearch
+from . runner import BuildPack
+from . utils import rewrite_cfgs
+from . detecter import RegexFileSearch
+from . detecter import StartsWithFileSearch
+from . detecter import EndsWithFileSearch
+from . detecter import ContainsFileSearch
+from . runner import BuildPack
+from . utils import rewrite_cfgs
+from . utils import process_extension
+from . utils import process_extensions
 
 
 _log = logging.getLogger('builder')
@@ -166,10 +166,10 @@ class Detecter(object):
         #  conform to the requirements of CF's detect script
         #  which must set exit codes
         if self._detecter and self._detecter.search(self._root):
-            print self._output
+            print(self._output)
             sys.exit(0)
         elif not self._continue:
-            print 'no'
+            print('no')
             sys.exit(1)
         else:
             return self._builder
@@ -622,8 +622,7 @@ class FileUtil(object):
             if not os.path.exists(self._from_path):
                 raise ValueError("Source path [%s] does not exist"
                                  % self._from_path)
-            for root, dirs, files in os.walk(self._from_path.decode('utf-8'),
-                                             topdown=False):
+            for root, dirs, files in os.walk(self._from_path, topdown=False):
                 for f in files:
                     fromPath = os.path.join(root, f)
                     toPath = fromPath.replace(self._from_path, self._into_path)
@@ -704,7 +703,7 @@ class StartScriptBuilder(object):
         with open(startScriptPath, 'wt') as out:
             if self.content:
                 out.write('\n'.join(self.content))
-        os.chmod(startScriptPath, 0755)
+        os.chmod(startScriptPath, 0o755)
         return self.builder
 
 
@@ -856,7 +855,7 @@ class SaveBuilder(object):
         all_extns_env = defaultdict(list)
 
         def process(env):
-            for key, val in env.iteritems():
+            for key, val in env.items():
                 if hasattr(val, 'append'):
                     all_extns_env[key].extend(val)
                 else:
@@ -871,7 +870,7 @@ class SaveBuilder(object):
             os.makedirs(profile_d_directory)
         envPath = os.path.join(profile_d_directory, 'bp_env_vars.sh')
         with open(envPath, 'at') as envFile:
-            for key, val in all_extns_env.iteritems():
+            for key, val in all_extns_env.items():
                 if len(val) == 0:
                     val = ''
                 elif len(val) == 1:
@@ -885,7 +884,7 @@ class SaveBuilder(object):
         def process(cmds):
             procPath = os.path.join(self._builder._ctx['BUILD_DIR'], '.procs')
             with open(procPath, 'at') as procFile:
-                for name, cmd in cmds.iteritems():
+                for name, cmd in cmds.items():
                     procFile.write("%s: %s\n" % (name, ' '.join(cmd)))
         process_extensions(self._builder._ctx, 'service_commands', process)
         return self
@@ -980,6 +979,6 @@ class Builder(object):
         return SaveBuilder(self)
 
     def release(self):
-        print 'default_process_types:'
-        print '  web: $HOME/%s' % self._ctx.get('START_SCRIPT_NAME',
-                                                '.bp/bin/start')
+        print('default_process_types:')
+        print('  web: $HOME/%s' % self._ctx.get('START_SCRIPT_NAME',
+                                                '.bp/bin/start'))

@@ -3,14 +3,13 @@ import os.path
 import tempfile
 import shutil
 import subprocess
-import imp
+import importlib
 from nose.tools import eq_
 
 
 class BaseRewriteScript(object):
     def __init__(self):
-        info = imp.find_module('runner', ['lib/build_pack_utils'])
-        self.run = imp.load_module('runner', *info)
+        self.run =importlib.import_module('.runner', 'build_pack_utils')
 
     def setUp(self):
         self.rewrite = os.path.abspath("bin/rewrite")
@@ -44,24 +43,30 @@ class TestRewriteScriptPhp(BaseRewriteScript):
 
     def test_rewrite_no_args(self):
         try:
-            self.run.check_output(self.rewrite,
+            subprocess.check_output(self.rewrite,
                                   cwd=self.run_dir,
                                   env=self.env,
                                   stderr=subprocess.STDOUT,
-                                  shell=True)
+                                  shell=True,
+                                  text=True)
             assert False
-        except self.run.CalledProcessError, e:
+        except subprocess.CalledProcessError as e:
             eq_('Argument required!  Specify path to configuration '
                 'directory.\n', e.output)
             eq_(255, e.returncode)
 
     def test_rewrite_arg_file(self):
         cfg_file = os.path.join(self.cfg_dir, 'php.ini')
-        res = self.run.check_output("%s %s" % (self.rewrite, cfg_file),
-                                    env=self.env,
-                                    cwd=self.run_dir,
-                                    stderr=subprocess.STDOUT,
-                                    shell=True)
+        try:
+            res = subprocess.check_output("%s %s" % (self.rewrite, cfg_file),
+                                        env=self.env,
+                                        cwd=self.run_dir,
+                                        stderr=subprocess.STDOUT,
+                                        shell=True,
+                                        text=True)
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise e
         eq_('', res)
         with open(os.path.join(self.cfg_dir, 'php.ini')) as fin:
             cfgFile = fin.read()
@@ -69,11 +74,16 @@ class TestRewriteScriptPhp(BaseRewriteScript):
             eq_(-1, cfgFile.find('@{TMPDIR}'))
 
     def test_rewrite_arg_dir(self):
-        res = self.run.check_output("%s %s" % (self.rewrite, self.cfg_dir),
-                                    env=self.env,
-                                    cwd=self.run_dir,
-                                    stderr=subprocess.STDOUT,
-                                    shell=True)
+        try:
+            res = subprocess.check_output("%s %s" % (self.rewrite, self.cfg_dir),
+                                          env=self.env,
+                                          cwd=self.run_dir,
+                                          stderr=subprocess.STDOUT,
+                                          shell=True,
+                                          text=True)
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise e
         eq_('', res)
         with open(os.path.join(self.cfg_dir, 'php.ini')) as fin:
             cfgFile = fin.read()
@@ -98,11 +108,16 @@ class TestRewriteScriptWithHttpd(BaseRewriteScript):
         BaseRewriteScript.tearDown(self)
 
     def test_rewrite_with_sub_dirs(self):
-        res = self.run.check_output("%s %s" % (self.rewrite, self.cfg_dir),
-                                    env=self.env,
-                                    cwd=self.run_dir,
-                                    stderr=subprocess.STDOUT,
-                                    shell=True)
+        try:
+            res = subprocess.check_output("%s %s" % (self.rewrite, self.cfg_dir),
+                                        env=self.env,
+                                        cwd=self.run_dir,
+                                        stderr=subprocess.STDOUT,
+                                        shell=True,
+                                        text=True)
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise e
         eq_('', res)
         for root, dirs, files in os.walk(self.cfg_dir):
             for f in files:
@@ -125,11 +140,16 @@ class TestRewriteScriptWithNginx(BaseRewriteScript):
         BaseRewriteScript.tearDown(self)
 
     def test_rewrite(self):
-        res = self.run.check_output("%s %s" % (self.rewrite, self.cfg_dir),
-                                    env=self.env,
-                                    cwd=self.run_dir,
-                                    stderr=subprocess.STDOUT,
-                                    shell=True)
+        try:
+            res = subprocess.check_output("%s %s" % (self.rewrite, self.cfg_dir),
+                                        env=self.env,
+                                        cwd=self.run_dir,
+                                        stderr=subprocess.STDOUT,
+                                        shell=True,
+                                        text=True)
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise e
         eq_('', res)
         for root, dirs, files in os.walk(self.cfg_dir):
             for f in files:

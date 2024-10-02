@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -26,12 +26,12 @@ if __name__ == '__main__':
                         filename='logs/rewrite.log')
 
     if len(sys.argv) != 2:
-        print 'Argument required!  Specify path to configuration directory.'
+        print('Argument required!  Specify path to configuration directory.')
         sys.exit(-1)
 
     toPath = sys.argv[1]
     if not os.path.exists(toPath):
-        print 'Path [%s] not found.' % toPath
+        print('Path [%s] not found.' % toPath)
         sys.exit(-1)
 
     ctx = utils.FormattedDict({

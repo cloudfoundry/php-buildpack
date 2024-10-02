@@ -22,7 +22,7 @@ import sys
 import logging
 import re
 import json
-import StringIO
+import io
 import copy
 import shutil
 from build_pack_utils import utils
@@ -31,7 +31,7 @@ from compile_helpers import warn_invalid_php_version
 from extension_helpers import ExtensionHelper
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'python-vendor', 'node-semver'))
-from semver import max_satisfying
+from nodesemver import max_satisfying
 
 from build_pack_utils.compile_extensions import CompileExtensions
 
@@ -94,7 +94,7 @@ class ComposerConfiguration(object):
     def pick_php_version(self, requested):
         selected = None
 
-        if requested is None or requested is '':
+        if requested is None or requested == '':
             return self._ctx['PHP_VERSION']
 
         # requested is coming from the composer.json file and is a unicode string type.
@@ -114,10 +114,10 @@ class ComposerConfiguration(object):
     def get_composer_contents(self, file_path):
         try:
             composer = json.load(open(file_path, 'r'))
-        except ValueError, e:
+        except ValueError as e:
             sys.tracebacklimit = 0
             sys.stderr.write('-------> Invalid JSON present in {0}. Parser said: "{1}"'
-                             .format(os.path.basename(file_path), e.message))
+                             .format(os.path.basename(file_path), str(e)))
             sys.stderr.write("\n")
             sys.exit(1)
         return composer
@@ -235,7 +235,7 @@ class ComposerExtension(ExtensionHelper):
                 extract=False)
 
     def _github_oauth_token_is_valid(self, candidate_oauth_token):
-        stringio_writer = StringIO.StringIO()
+        stringio_writer = io.StringIO()
 
         curl_command = 'curl -H "Authorization: token %s" ' \
             'https://api.github.com/rate_limit' % candidate_oauth_token
@@ -252,7 +252,7 @@ class ComposerExtension(ExtensionHelper):
         return 'resources' in github_response_json
 
     def _github_rate_exceeded(self, token_is_valid):
-        stringio_writer = StringIO.StringIO()
+        stringio_writer = io.StringIO()
         if token_is_valid:
             candidate_oauth_token = os.getenv('COMPOSER_GITHUB_OAUTH_TOKEN')
             curl_command = 'curl -H "Authorization: token %s" ' \
@@ -319,7 +319,7 @@ class ComposerExtension(ExtensionHelper):
                 'application! This will make sure the exact same version '
                 'of dependencies are used when you deploy to CloudFoundry.')
             self._log.warning(msg)
-            print msg
+            print(msg)
         # dump composer version, if in debug mode
         if self._ctx.get('BP_DEBUG', False):
             self.composer_runner.run('-V')
@@ -369,11 +369,10 @@ class ComposerCommandRunner(object):
         # prevent key system variables from being overridden
         env['LD_LIBRARY_PATH'] = self._strategy.ld_library_path()
         env['PHPRC'] = self._ctx['TMPDIR']
-        env['PATH'] = ':'.join(filter(None,
-                                      [env.get('PATH', ''),
+        env['PATH'] = ':'.join([_f for _f in [env.get('PATH', ''),
                                        os.path.dirname(self._php_path),
-                                       os.path.join(self._ctx['COMPOSER_HOME'], 'bin')]))
-        for key, val in env.iteritems():
+                                       os.path.join(self._ctx['COMPOSER_HOME'], 'bin')] if _f])
+        for key, val in env.items():
             self._log.debug("ENV IS: %s=%s (%s)", key, val, type(val))
 
         return env
@@ -389,7 +388,7 @@ class ComposerCommandRunner(object):
                           cwd=self._ctx['BUILD_DIR'],
                           shell=True)
         except:
-            print "-----> Composer command failed"
+            print("-----> Composer command failed")
             raise
 
 

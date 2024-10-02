@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 import signal
 import subprocess
@@ -6,7 +6,7 @@ import sys
 import logging
 from datetime import datetime
 from threading import Thread
-from Queue import Queue, Empty
+from queue import Queue, Empty
 
 
 #
@@ -43,12 +43,7 @@ from Queue import Queue, Empty
 
 def _enqueue_output(proc, queue):
     if not proc.quiet:
-        for line in iter(proc.stdout.readline, b''):
-            try:
-                line = line.decode('utf-8')
-            except UnicodeDecodeError as e:
-                queue.put((proc, e))
-                continue
+        for line in iter(proc.stdout.readline, ''):
             if not line.endswith('\n'):
                 line += '\n'
             queue.put((proc, line))
@@ -111,7 +106,7 @@ class ProcessManager(object):
                       (e.g. 'python run.py')
         """
         self._log.debug("Adding process [%s] with cmd [%s]", name, cmd)
-        self.processes.append(Process(cmd, name=name, quiet=quiet))
+        self.processes.append(Process(cmd, name=name, quiet=quiet, text=True))
 
     def loop(self):
         """
@@ -209,7 +204,7 @@ class ProcessManager(object):
 
     def _init_printers(self):
         width = max(len(p.name) for p in
-                    filter(lambda x: not x.quiet, self.processes))
+                    [x for x in self.processes if not x.quiet])
         for proc in self.processes:
             proc.printer = Printer(sys.stdout,
                                    name=proc.name,
@@ -238,7 +233,7 @@ class Printer(object):
         for arg in args:
             lines = arg.split('\n')
             lines = [self._prefix() + l if l else l for l in lines]
-            new_args.append('\n'.join(lines).encode('utf-8'))
+            new_args.append('\n'.join(lines))
 
         self.output.write(*new_args, **kwargs)
 

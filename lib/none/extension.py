@@ -27,5 +27,5 @@ def service_environment(ctx):
 
 
 def compile(install):
-    print 'No Web Server is being installed.'
+    print('No Web Server is being installed.')
     return 0

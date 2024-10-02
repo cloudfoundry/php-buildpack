@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 import os
 import os.path
 import re
@@ -73,7 +73,7 @@ def setup_log_dir(ctx):
 def load_manifest(ctx):
     manifest_path = os.path.join(ctx['BP_DIR'], 'manifest.yml')
     _log.debug('Loading manifest from %s', manifest_path)
-    return yaml.load(open(manifest_path))
+    return yaml.load(open(manifest_path), Loader=yaml.Loader)
 
 
 def find_all_php_versions(dependencies):
@@ -123,7 +123,7 @@ def _get_compiled_modules(ctx):
         'LD_LIBRARY_PATH': os.path.join(ctx["PHP_INSTALL_PATH"], 'lib')
     }
 
-    process = subprocess.Popen([php_binary, '-m'], stdout=subprocess.PIPE, env=env)
+    process = subprocess.Popen([php_binary, '-m'], stdout=subprocess.PIPE, env=env, text=True)
     exit_code = process.wait()
     output = process.stdout.read().rstrip()
 
