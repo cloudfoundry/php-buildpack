@@ -128,7 +128,7 @@ class DynatraceInstaller(object):
         url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?bitness=64&include=php&include=nginx&include=apache'
         if self._ctx['DYNATRACE_ADDTECHNOLOGIES']:
             for code_module in self._ctx['DYNATRACE_ADDTECHNOLOGIES'].split(","):
-                self._log.info(f"Adding {code_module} to OneAgent download...")
+                self._log.info(f"Adding additional code module to download: {code_module}")
                 url = f"{url}&include={code_module}"
         if self._ctx['DYNATRACE_NETWORK_ZONE']:
             self._log.info("Setting DT_NETWORK_ZONE...")
