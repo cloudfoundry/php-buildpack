@@ -1656,13 +1656,13 @@ dependencies:
   sha256: 68f2696b4129488c05a46f2efa4919ed99668700467e06cb1172addaa7faae73
   cf_stacks:
   - cflinuxfs4
-  source: https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tgz
-  source_sha256: 01b3c1c082196f3b33168d344a9c85fb07bfe0e7ecfe77f
+  source: https://www.python.org/ftp/python/3.12.6/Python-3.12.6.tgz
+  source_sha256: 85a4c1be906d20e5c5a69f2466b00da769c221d6a684acfd3a514dbf5bf10a66
 - name: ruby
   version: 3.0.5
   uri: https://buildpacks.cloudfoundry.org/dependencies/ruby/ruby_3.0.5_linux_x64_cflinuxfs3_098393c3.tgz
   sha256: '098393c33a20af7638ff7183bbf184daf9b207b31e39f20a7fd00466823859b3'
   cf_stacks:
   - cflinuxfs4
-  source: https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.5.tar.gz
-  source_sha256: 9afc6380a027a4fe1ae1a3e2eccb6b497b9c5ac0631c12ca56f9b7beb4848776
+  source: https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.3.6.tar.gz
+  source_sha256: 8dc48fffaf270f86f1019053f28e51e4da4cce32a36760a0603a9aee67d7fd8d
