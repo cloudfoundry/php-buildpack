@@ -184,9 +184,10 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.Stdout.String()).To(ContainSubstring("Setting DT_NETWORK_ZONE..."))
 	})
 
-	It("Deploy app with single dynatrace service and check for config update", func() {
+	It("Deploy app with single dynatrace service and check for config update and additional code modules", func() {
 		serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
 		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone"}`, dynatraceAPIURI))).To(Succeed())
+		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone", "addtechnologies":"go,nodejs"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 		Expect(RunCf("start", app.Name)).To(Succeed())
 		ConfirmRunning(app)
@@ -194,18 +195,7 @@ var _ = Describe("Deploy app with", func() {
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 		Expect(app.Stdout.String()).To(ContainSubstring("Fetching updated OneAgent configuration from tenant..."))
 		Expect(app.Stdout.String()).To(ContainSubstring("Finished writing updated OneAgent config back to"))
-	})
-	
-	It("Deploy app with single dynatrace service and additional code modules", func() {
-		serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
-		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone", "addtechnologies":"go,nodejs"}`, dynatraceAPIURI))).To(Succeed())
-		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
-		Expect(RunCf("start", app.Name)).To(Succeed())
-		ConfirmRunning(app)
-
-		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 		Expect(app.Stdout.String()).To(ContainSubstring("Adding additional code module to download: go"))
 		Expect(app.Stdout.String()).To(ContainSubstring("Adding additional code module to download: nodejs"))
 	})
-
 })
