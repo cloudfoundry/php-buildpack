@@ -73,6 +73,7 @@ class DynatraceInstaller(object):
             self._ctx['DYNATRACE_TOKEN'] = detected_services[0].get('apitoken', None)
             self._ctx['DYNATRACE_SKIPERRORS'] = detected_services[0].get('skiperrors', None)
             self._ctx['DYNATRACE_NETWORK_ZONE'] = detected_services[0].get('networkzone', None)
+            self._ctx['DYNATRACE_ADDTECHNOLOGIES'] = detected_services[0].get('addtechnologies', None)
 
             self._convert_api_url()
             self._detected = True
@@ -125,6 +126,10 @@ class DynatraceInstaller(object):
         self.create_folder(os.path.join(self._ctx['BUILD_DIR'], 'dynatrace'))
         installer = self._get_oneagent_installer_path()
         url = self._ctx['DYNATRACE_API_URL'] + '/v1/deployment/installer/agent/unix/paas-sh/latest?bitness=64&include=php&include=nginx&include=apache'
+        if self._ctx['DYNATRACE_ADDTECHNOLOGIES']:
+            for code_module in self._ctx['DYNATRACE_ADDTECHNOLOGIES'].split(","):
+                self._log.info(f"Adding additional code module to download: {code_module}")
+                url = f"{url}&include={code_module}"
         if self._ctx['DYNATRACE_NETWORK_ZONE']:
             self._log.info("Setting DT_NETWORK_ZONE...")
             url = url + ("&networkZone=%s" % self._ctx['DYNATRACE_NETWORK_ZONE'])
