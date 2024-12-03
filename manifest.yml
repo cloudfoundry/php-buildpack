@@ -23,7 +23,7 @@ default_versions:
 - name: newrelic
   version: 10.21.0.11
 - name: nginx
-  version: 1.27.2
+  version: 1.27.3
 - name: composer
   version: 2.8.3
 url_to_dependency_map:
@@ -115,21 +115,21 @@ dependencies:
   source: http://nginx.org/download/nginx-1.26.2.tar.gz
   source_sha256: 627fe086209bba80a2853a0add9d958d7ebbdffa1a8467a5784c9a6b4f03d738
 - name: nginx
-  version: 1.27.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.2_linux_x64_cflinuxfs3_d261671a.tgz
-  sha256: d261671a40e552f572234982b95e9f8a3957a99853f100c5bb352ee4471f2ea1
+  version: 1.27.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.3_linux_x64_cflinuxfs3_00c9ee64.tgz
+  sha256: 00c9ee64ffeaada944ef45bbe533a9d1981c3391f8bc117a83b49331a7c87cf6
   cf_stacks:
   - cflinuxfs3
-  source: http://nginx.org/download/nginx-1.27.2.tar.gz
-  source_sha256: a91ecfc3a0b3a2c1413afca627bd886d76e0414b81cad0fb7872a9655a1b25fa
+  source: http://nginx.org/download/nginx-1.27.3.tar.gz
+  source_sha256: ba23a9568f442036b61cd0e29bd66a47b90634efa91e0b2cf2d719057a9b7903
 - name: nginx
-  version: 1.27.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.2_linux_x64_cflinuxfs4_1f7c7962.tgz
-  sha256: 1f7c7962fc38bdf11e9a4f70c2b69ba9951d33b983041a29ab0a6fae686fa405
+  version: 1.27.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.3_linux_x64_cflinuxfs4_5c7f8c17.tgz
+  sha256: 5c7f8c17a4ea09bc2d08f02aebce079c8095809eddb92e5f832629f637704501
   cf_stacks:
   - cflinuxfs4
-  source: http://nginx.org/download/nginx-1.27.2.tar.gz
-  source_sha256: a91ecfc3a0b3a2c1413afca627bd886d76e0414b81cad0fb7872a9655a1b25fa
+  source: http://nginx.org/download/nginx-1.27.3.tar.gz
+  source_sha256: ba23a9568f442036b61cd0e29bd66a47b90634efa91e0b2cf2d719057a9b7903
 - name: php
   version: 8.1.29
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.29_linux_x64_cflinuxfs3-dev_72a67001.tgz
@@ -1395,13 +1395,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.3.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.13_linux_x64_cflinuxfs3-dev_68aefede.tgz
-  sha256: 68aefedea3e3fb4d2240594fbb401ca3fe2722b96484c589cd99e2af94dbad22
+  version: 8.3.14
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.14_linux_x64_cflinuxfs3-dev_1ff6913d.tgz
+  sha256: 1ff6913d4a634dd3d72d9951311ba55f0dd54c1a2afca553411dac9bed62952c
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-8.3.13.tar.gz
-  source_sha256: ffe34317d2688ed3161809c90ca4135c84ebfdfd12a46880a264d7d1e1d7739a
+  source: https://php.net/distributions/php-8.3.14.tar.gz
+  source_sha256: e4ee602c31e2f701c9f0209a2902dd4802727431246a9155bf56dda7bcf7fb4a
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -1519,13 +1519,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.3.13
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.13_linux_x64_cflinuxfs4_9cbb729c.tgz
-  sha256: 9cbb729c3b5186fad56ff73c78769c86bfa0dcc80749a7ecb4d6deb6075b7b17
+  version: 8.3.14
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.14_linux_x64_cflinuxfs4_47d48c30.tgz
+  sha256: 47d48c30e28d4874389bb23c2d862522ae96abef2e4872a0c5ab0dff31c27c2d
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.3.13.tar.gz
-  source_sha256: ffe34317d2688ed3161809c90ca4135c84ebfdfd12a46880a264d7d1e1d7739a
+  source: https://php.net/distributions/php-8.3.14.tar.gz
+  source_sha256: e4ee602c31e2f701c9f0209a2902dd4802727431246a9155bf56dda7bcf7fb4a
   dependencies:
   - name: amqp
     version: 2.1.2
