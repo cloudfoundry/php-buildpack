@@ -643,13 +643,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.2.24
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.24_linux_x64_cflinuxfs3-dev_770cf6c5.tgz
-  sha256: 770cf6c50ab00d40ee8fe56c7bfa28970cfd37a872dda2db0871ed5fdd00077c
+  version: 8.2.25
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.25_linux_x64_cflinuxfs3-dev_01703591.tgz
+  sha256: '01703591a27dfcdfb0ff98755b1dfffddabb044d937350107c81e1829bf77ff2'
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-8.2.24.tar.gz
-  source_sha256: 5d26441969279a594e404bb9f2e17b6f74bb10606fe05911e739137673ae6c4c
+  source: https://php.net/distributions/php-8.2.25.tar.gz
+  source_sha256: 7fe7ba6e3e66cd0e61cfa95341e6aefc8790030a7867333f54aef5fb78aad18b
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -680,7 +680,7 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 13.0.2
+    version: 13.0.3
   - name: ldap
     version: 
   - name: lzf
@@ -694,7 +694,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.18.1
+    version: 1.19.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -722,7 +722,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.6.2
+    version: 5.7.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -769,13 +769,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.2.24
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.24_linux_x64_cflinuxfs4_efd46f9c.tgz
-  sha256: efd46f9ccd7f933e2dd8d2ee5cd25140bfa45a77098c0c7d6e9c141cc35dbb0f
+  version: 8.2.25
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.25_linux_x64_cflinuxfs4_ae2e604e.tgz
+  sha256: ae2e604ea38c7976addaa4827c0b7bb9e2d6bc815864d6ff6e999c6494f6e096
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.2.24.tar.gz
-  source_sha256: 5d26441969279a594e404bb9f2e17b6f74bb10606fe05911e739137673ae6c4c
+  source: https://php.net/distributions/php-8.2.25.tar.gz
+  source_sha256: 7fe7ba6e3e66cd0e61cfa95341e6aefc8790030a7867333f54aef5fb78aad18b
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -806,7 +806,7 @@ dependencies:
   - name: imap
     version: 
   - name: ioncube
-    version: 13.0.2
+    version: 13.0.3
   - name: ldap
     version: 
   - name: lzf
@@ -820,7 +820,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.18.1
+    version: 1.19.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -848,7 +848,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.6.2
+    version: 5.7.0
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1147,13 +1147,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.3.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.11_linux_x64_cflinuxfs3-dev_d9051151.tgz
-  sha256: d9051151c915855de83921003a7018cd3a0b33c25276097de7131b71be178faa
+  version: 8.3.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.13_linux_x64_cflinuxfs3-dev_68aefede.tgz
+  sha256: 68aefedea3e3fb4d2240594fbb401ca3fe2722b96484c589cd99e2af94dbad22
   cf_stacks:
   - cflinuxfs3
-  source: https://php.net/distributions/php-8.3.11.tar.gz
-  source_sha256: b93a69af83a1302543789408194bd1ae9829e116e784d578778200f20f1b72d40
+  source: https://php.net/distributions/php-8.3.13.tar.gz
+  source_sha256: ffe34317d2688ed3161809c90ca4135c84ebfdfd12a46880a264d7d1e1d7739a
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -1271,13 +1271,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.3.11
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.11_linux_x64_cflinuxfs4_1766919d.tgz
-  sha256: 1766919de1601fdfe220a5327751324b8f4b015acbc70ae29357575b9b88c0c6
+  version: 8.3.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.13_linux_x64_cflinuxfs4_9cbb729c.tgz
+  sha256: 9cbb729c3b5186fad56ff73c78769c86bfa0dcc80749a7ecb4d6deb6075b7b17
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.3.11.tar.gz
-  source_sha256: b93a69af83a1302543789408194bd1ae9829e116e784d578778200f20f1b72d40
+  source: https://php.net/distributions/php-8.3.13.tar.gz
+  source_sha256: ffe34317d2688ed3161809c90ca4135c84ebfdfd12a46880a264d7d1e1d7739a
   dependencies:
   - name: amqp
     version: 2.1.2
