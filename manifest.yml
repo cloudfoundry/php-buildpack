@@ -1444,7 +1444,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.19.1
+    version: 1.18.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1472,7 +1472,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.7.0
+    version: 5.6.2
   - name: phpiredis
     version: 1.0.1
   - name: pspell
@@ -1568,7 +1568,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 1.19.1
+    version: 1.18.1
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1596,7 +1596,7 @@ dependencies:
   - name: pgsql
     version: 
   - name: phalcon
-    version: 5.7.0
+    version: 5.6.2
   - name: phpiredis
     version: 1.0.1
   - name: pspell
