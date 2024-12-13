@@ -186,7 +186,6 @@ var _ = Describe("Deploy app with", func() {
 
 	It("Deploy app with single dynatrace service and check for config update and additional code modules", func() {
 		serviceName := "dynatrace-" + cutlass.RandStringRunes(20) + "-service"
-		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("cups", serviceName, "-p", fmt.Sprintf(`{"apitoken":"secretpaastoken","apiurl":"%s","environmentid":"envid", "networkzone":"testzone", "addtechnologies":"go,nodejs"}`, dynatraceAPIURI))).To(Succeed())
 		Expect(RunCf("bind-service", app.Name, serviceName)).To(Succeed())
 		Expect(RunCf("start", app.Name)).To(Succeed())
