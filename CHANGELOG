@@ -1,3 +1,31 @@
+v4.6.26 Jan 08, 2025
+=====================
+
+* Add composer 2.8.4, remove composer 2.8.3
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+* Bump go deps
+
+* Add php 8.1.31, remove php 8.1.29 (#1126)
+  for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add php 8.2.26, remove php 8.2.23 (#1125)
+  for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add php 8.3.14, remove php 8.3.10
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+* Update nginx default
+
+* Add nginx 1.27.3, remove nginx 1.27.2
+  for stack(s) cflinuxfs3, cflinuxfs4
+
+* Add multi-tech support to Dynatrace OneAgent integration (#1117)
+
+* Add composer 2.8.3, remove composer 2.8.2
+  for stack(s) cflinuxfs4, cflinuxfs3
+
+
 v4.6.25 Nov 13, 2024
 =====================
 
