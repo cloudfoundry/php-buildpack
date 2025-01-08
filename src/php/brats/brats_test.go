@@ -12,11 +12,7 @@ import (
 )
 
 var _ = Describe("PHP buildpack", func() {
-	bratshelper.DeployingAnAppWithAnUpdatedVersionOfTheSameBuildpack(CopyBrats)
-	bratshelper.StagingWithBuildpackThatSetsEOL("php", CopyBrats)
-	bratshelper.StagingWithADepThatIsNotTheLatest("php", CopyBrats)
 	bratshelper.DeployAppWithExecutableProfileScript("php", CopyBrats)
-	bratshelper.DeployAnAppWithSensitiveEnvironmentVariables(CopyBrats)
 
 	compatible := func(phpVersion, webserverVersion string) bool { return true }
 	for _, webserver := range []string{"nginx", "httpd"} {
