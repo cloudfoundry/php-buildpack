@@ -19,7 +19,7 @@ default_versions:
 - name: php
   version: 8.1.30
 - name: httpd
-  version: 2.4.62
+  version: 2.4.63
 - name: newrelic
   version: 10.21.0.11
 - name: nginx
@@ -75,21 +75,21 @@ dependencies:
   source: https://github.com/composer/composer/releases/download/2.8.4/composer.phar
   source_sha256: c4c4e2e1beab0ea04e0bd042a5dbba9feda1fbf5eda0d36203958edd343c0a8a
 - name: httpd
-  version: 2.4.62
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.62_linux_x64_cflinuxfs3_4391324d.tgz
-  sha256: 4391324d36fc5a35b2dc182485a688a11596d76c2fded07ed581404630c1c029
+  version: 2.4.63
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.63_linux_x64_cflinuxfs3_0ba61a88.tgz
+  sha256: 0ba61a886fae10e47ba00614ce2df3213698d86442eb64000aa3c718c39e5761
   cf_stacks:
   - cflinuxfs3
-  source: https://dlcdn.apache.org/httpd/httpd-2.4.62.tar.bz2
-  source_sha256: 674188e7bf44ced82da8db522da946849e22080d73d16c93f7f4df89e25729ec
+  source: https://dlcdn.apache.org/httpd/httpd-2.4.63.tar.bz2
+  source_sha256: 88fc236ab99b2864b248de7d49a008ec2afd7551e64dce8b95f58f32f94c46ab
 - name: httpd
-  version: 2.4.62
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.62_linux_x64_cflinuxfs4_1b994906.tgz
-  sha256: 1b9949068467e67d57457fb6bb51e426a5d83eb6eecb52a02edcae8693ef10b9
+  version: 2.4.63
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.63_linux_x64_cflinuxfs4_cf38773e.tgz
+  sha256: cf38773e753f482597c5a30bf549662018bf8e7bf82a232a891a31ea057572a9
   cf_stacks:
   - cflinuxfs4
-  source: https://dlcdn.apache.org/httpd/httpd-2.4.62.tar.bz2
-  source_sha256: 674188e7bf44ced82da8db522da946849e22080d73d16c93f7f4df89e25729ec
+  source: https://dlcdn.apache.org/httpd/httpd-2.4.63.tar.bz2
+  source_sha256: 88fc236ab99b2864b248de7d49a008ec2afd7551e64dce8b95f58f32f94c46ab
 - name: newrelic
   version: 10.21.0.11
   uri: https://download.newrelic.com/php_agent/archive/10.21.0.11/newrelic-php5-10.21.0.11-linux.tar.gz
