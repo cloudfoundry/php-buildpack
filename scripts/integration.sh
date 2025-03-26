@@ -13,49 +13,120 @@ source "${ROOTDIR}/scripts/.util/print.sh"
 # shellcheck source=SCRIPTDIR/.util/tools.sh
 source "${ROOTDIR}/scripts/.util/tools.sh"
 
+function usage() {
+  cat <<-USAGE
+integration.sh --github-token <token> [OPTIONS]
+Runs the integration tests.
+OPTIONS
+  --help                  -h  prints the command usage
+  --github-token <token>      GitHub token to use when making API requests
+  --platform <cf|docker>      Switchblade platform to execute the tests against
+USAGE
+}
+
 function main() {
-  local src stack token
-
-  if [[ -z "${COMPOSER_GITHUB_OAUTH_TOKEN:-}" ]]; then
-    echo "Missing required environment variable: COMPOSER_GITHUB_OAUTH_TOKEN"
-    exit 1
-  else
-    token="${COMPOSER_GITHUB_OAUTH_TOKEN}"
-  fi
-
+  local src stack platform token cached parallel
   src="$(find "${ROOTDIR}/src" -mindepth 1 -maxdepth 1 -type d )"
   stack="${CF_STACK:-$(jq -r -S .stack "${ROOTDIR}/config.json")}"
+  platform="cf"
 
+  while [[ "${#}" != 0 ]]; do
+    case "${1}" in
+      --platform)
+        platform="${2}"
+        shift 2
+        ;;
+
+      --github-token)
+        token="${2}"
+        shift 2
+        ;;
+
+      --cached)
+        cached="${2}"
+        shift 2
+        ;;
+
+      --parallel)
+        parallel="${2}"
+        shift 2
+        ;;
+
+      --help|-h)
+        shift 1
+        usage
+        exit 0
+        ;;
+
+      "")
+        # skip if the argument is empty
+        shift 1
+        ;;
+
+      *)
+        util::print::error "unknown argument \"${1}\""
+    esac
+  done
+
+  if [[ -z "${token:-}" ]]; then
+    util::print::error "Missing required github token. This is used as COMPOSER_GITHUB_OAUTH_TOKEN for the build"
+  fi
+  util::print::info "The provided github token is also being used as COMPOSER_GITHUB_OAUTH_TOKEN for the build"
+
+  if [[ "${platform}" == "docker" ]]; then
+    if [[ "$(jq -r -S .integration.harness "${ROOTDIR}/config.json")" != "switchblade" ]]; then
+      util::print::warn "NOTICE: This integration suite does not support Docker."
+    fi
+  fi
+
+  declare -a matrix
+  if [[ "${cached:-}" != "" && "${parallel:-}" != "" ]]; then
+    matrix+=("{\"cached\":${cached},\"parallel\":${parallel}}")
+  else
+    IFS=$'\n' read -r -d '' -a matrix < <(
+      jq -r -S -c .integration.matrix[] "${ROOTDIR}/config.json" \
+        && printf "\0"
+    )
+  fi
+
+  #util::tools::buildpack-packager::install --directory "${ROOTDIR}/.bin"
   util::tools::cf::install --directory "${ROOTDIR}/.bin"
 
-  # Run uncached tests
-  specs::run "false" "${stack}" "${token}"
+  for row in "${matrix[@]}"; do
+    local cached parallel
+    cached="$(jq -r -S .cached <<<"${row}")"
+    parallel="$(jq -r -S .parallel <<<"${row}")"
 
-  # Run cached tests
-  specs::run "true" "${stack}" "${token}"
+    echo "Running integration suite (cached: ${cached}, parallel: ${parallel})"
+
+    specs::run "${cached}" "${parallel}" "${stack}" "${platform}" "${token:-}"
+  done
 }
 
 function specs::run() {
-  local cached stack token
+  local cached parallel stack platform token
   cached="${1}"
-  stack="${2}"
-  token="${3}"
+  parallel="${2}"
+  stack="${3}"
+  platform="${4}"
+  token="${5}"
 
-  local nodes cached_flag stack_flag
+  local nodes cached_flag serial_flag platform_flag stack_flag token_flag
   cached_flag="--cached=${cached}"
+  serial_flag="--serial=true"
+  platform_flag="--platform=${platform}"
   stack_flag="--stack=${stack}"
+  token_flag="--github-token=${token}"
   nodes=1
 
-  local buildpack_file
-  buildpack::package "${cached}" "${stack}"
-  version="$(cat "${ROOTDIR}/VERSION")"
-  if [[ "${cached}" == "true" ]]; then
-    buildpack_file="${ROOTDIR}/php_buildpack-cached-${stack}-v${version}.zip"
-  else
-    buildpack_file="${ROOTDIR}/php_buildpack-${stack}-v${version}.zip"
+  if [[ "${parallel}" == "true" ]]; then
+    nodes=3
+    serial_flag=""
   fi
 
-  util::print::title "Running integration tests (cached=${cached}, stack=${stack})"
+  local buildpack_file version
+  version="$(cat "${ROOTDIR}/VERSION")"
+  buildpack_file="$(buildpack::package "${version}" "${cached}" "${stack}")"
 
   CF_STACK="${stack}" \
   COMPOSER_GITHUB_OAUTH_TOKEN="${token}" \
@@ -68,25 +139,36 @@ function specs::run() {
       -v \
         "${src}/integration" \
          "${cached_flag}" \
-         "${stack_flag}"
+         "${platform_flag}" \
+         "${token_flag}" \
+         "${stack_flag}" \
+         "${serial_flag}"
 }
 
 function buildpack::package() {
   local version cached
-  cached="${1}"
-  stack="${2}"
+  version="${1}"
+  cached="${2}"
+  stack="${3}"
 
   local cached_flag
   cached_flag=""
   if [[ "${cached}" == "true" ]]; then
     cached_flag="--cached"
-  else
-    cached_flag="--uncached"
   fi
 
   bash "${ROOTDIR}/scripts/package.sh" \
     --stack "${stack}" \
-    "${cached_flag}" &> /dev/null
+    "${cached_flag}" > /dev/null
+
+  # This is set by the ruby-written buildpack-packager
+  local output
+  if [[ "${cached}" == "true" ]]; then
+    output="${ROOTDIR}/php_buildpack-cached-${stack}-v${version}.zip"
+  else
+    output="${ROOTDIR}/php_buildpack-${stack}-v${version}.zip"
+  fi
+  printf "%s" "${output}"
 }
 
 main "${@:-}"

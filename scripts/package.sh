@@ -98,7 +98,6 @@ EOF
     docker build -t buildpack-packager . &> /dev/null
 
     docker run --rm -v "${ROOTDIR}":/buildpack -w /buildpack buildpack-packager "${stack_flag}" ${cached_flag} &> /dev/null
-    util::print::success "Buildpack packaged successfully"
 
   popd &> /dev/null
 

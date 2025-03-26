@@ -1,0 +1,7 @@
+{
+    "COMPOSER_VENDOR_DIR": "vendor",
+    "COMPOSER_INSTALL_OPTIONS": ["--no-interaction"],
+    "WEBDIR": "webroot",
+    "LIBDIR": "library",
+    "PHP_EXTENSIONS": ["pdo", "pdo_sqlite", "mcrypt", "pdo_mysql"]
+}

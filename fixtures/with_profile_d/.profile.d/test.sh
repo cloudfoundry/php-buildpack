@@ -1,1 +1,0 @@
-export TEST_ENV_VAR="Generic Environment Variable"

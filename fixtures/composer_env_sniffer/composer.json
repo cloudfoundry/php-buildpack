@@ -1,8 +1,0 @@
-{
-  "scripts": {
-    "post-install-cmd": [
-      "echo \"MANIFEST_VARIABLE: '$MANIFEST_VARIABLE'\"",
-      "php -r 'print \"PHP said MANIFEST_VARIABLE: \" . getenv(\"MANIFEST_VARIABLE\") . \"\n\";'"
-    ]
-  }
-}
