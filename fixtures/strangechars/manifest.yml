@@ -1,6 +1,0 @@
----
-applications:
-- name: strangechars
-  random-route: true
-  env:
-    CLUSTERS_INFO: '{"dev01":{"env":"開発環境","use":"YJ向け","center":"新白河(ssk)"},"sandbox":{"env":" 検証環境","use":"","center":""}}'
