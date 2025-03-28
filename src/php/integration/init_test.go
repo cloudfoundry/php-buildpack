@@ -61,6 +61,7 @@ func TestIntegration(t *testing.T) {
 
 	suite := spec.New("integration", spec.Report(report.Terminal{}), spec.Parallel())
 	suite("Default", testDefault(platform, fixtures))
+	suite("Modules", testModules(platform, fixtures))
 
 	suite.Run(t)
 

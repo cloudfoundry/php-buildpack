@@ -1,6 +1,7 @@
 package integration_test
 
 import (
+	"net/http"
 	"path/filepath"
 	"testing"
 
@@ -33,27 +34,37 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		context("default PHP web app", func() {
 			it("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"BP_DEBUG": "1",
+					}).
 					Execute(name, filepath.Join(fixtures, "default"))
 				Expect(err).NotTo(HaveOccurred())
 
 				Eventually(logs).Should(SatisfyAll(
 					ContainLines("Installing PHP"),
 					ContainLines(MatchRegexp(`PHP [\d\.]+`)),
+					ContainSubstring(`"update_default_version" is setting [PHP_VERSION]`),
+					ContainSubstring("DEBUG: default_version_for composer is"),
+
+					Not(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.")),
+					Not(ContainSubstring("WARNING: The version defined in `composer.json` will be used.")),
 				))
 
-				// todo get header
+				if settings.Cached {
+					Eventually(logs).Should(
+						ContainLines(MatchRegexp(`Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php.*_linux_x64_.*.tgz\] to \[/tmp\]`)),
+					)
+				}
+
 				Eventually(deployment).Should(Serve(
 					ContainSubstring("PHP Version"),
 				))
-				/*
-					Eventually(func() string {
-						cmd := exec.Command("docker", "container", "logs", deployment.Name)
-						output, err := cmd.CombinedOutput()
-						Expect(err).NotTo(HaveOccurred())
-						return string(output)
-					}).Should(
-						ContainSubstring("library(shiny)"),
-					)*/
+
+				response, err := http.Get(deployment.ExternalURL)
+				Expect(err).NotTo(HaveOccurred())
+				defer response.Body.Close()
+				// Does not return the version of PHP in the response headers
+				Expect(response.Header).ToNot(HaveKey("X-Powered-By"))
 			})
 		})
 
