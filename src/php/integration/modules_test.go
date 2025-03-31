@@ -2,7 +2,9 @@ package integration_test
 
 import (
 	"fmt"
+	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -99,6 +101,9 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 		context("app with extensions listed composer.json", func() {
 			it("app loads all listed extensions", func() {
 				deployment, _, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
 					Execute(name, filepath.Join(fixtures, "php_all_modules_composer"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -106,5 +111,83 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 			})
 		})
 
+		// TODO
+		context.Pend("app with amqp module", func() {
+			it("amqp module is loaded", func() {
+				deployment, _, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "with_amqp"))
+				Expect(err).NotTo(HaveOccurred())
+
+				response, _ := http.Get(deployment.ExternalURL)
+				// _ = err
+				// Expect(err).NotTo(HaveOccurred())
+				defer response.Body.Close()
+				// Expect(response.StatusCode).To(Equal(501))
+
+				Eventually(func() string {
+					cmd := exec.Command("docker", "container", "logs", deployment.Name)
+					output, err := cmd.CombinedOutput()
+					Expect(err).NotTo(HaveOccurred())
+					return string(output)
+				}).Should(
+					ContainSubstring("PHP message: PHP Fatal error:  Uncaught AMQPConnectionException"),
+				)
+			})
+		})
+
+		context("app with APCu module", func() {
+			it("apcu module is loaded", func() {
+				deployment, _, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "with_apcu"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(deployment).Should(Serve(
+					ContainSubstring("I'm an apcu cached variable"),
+				))
+			})
+		})
+
+		context("app with argon2 module", func() {
+			it("argon2 module is loaded", func() {
+				deployment, _, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "with_argon2"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(deployment).Should(Serve(
+					ContainSubstring(`password hash of "hello-world": $argon2i$v=19$m=1024,t=2`),
+				))
+			})
+		})
+
+		context("app with compiled modules in PHP_EXTENSIONS", func() {
+			it("loads the modules", func() {
+				deployment, logs, err := platform.Deploy.
+					Execute(name, filepath.Join(fixtures, "with_compiled_modules"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(logs).Should(SatisfyAll(
+					Not(ContainSubstring("The extension 'libxml' is not provided by this buildpack")),
+					Not(ContainSubstring("The extension 'SimpleXML' is not provided by this buildpack")),
+					Not(ContainSubstring("The extension 'sqlite3' is not provided by this buildpack")),
+					Not(ContainSubstring("The extension 'SPL' is not provided by this buildpack")),
+				))
+
+				Eventually(deployment).Should(Serve(SatisfyAll(
+					ContainSubstring("module_libxml"),
+					ContainSubstring("module_simplexml"),
+					ContainSubstring("module_sqlite3"),
+					ContainSubstring("module_spl"),
+				)))
+			})
+		})
 	}
 }
