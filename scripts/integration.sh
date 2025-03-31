@@ -68,6 +68,11 @@ function main() {
     esac
   done
 
+  if [[ -z "${token:-}" ]]; then
+    util::print::error "Missing required github token. This is used as COMPOSER_GITHUB_OAUTH_TOKEN for the build"
+  fi
+  util::print::info "The provided github token is also being used as COMPOSER_GITHUB_OAUTH_TOKEN for the build"
+
   if [[ "${platform}" == "docker" ]]; then
     if [[ "$(jq -r -S .integration.harness "${ROOTDIR}/config.json")" != "switchblade" ]]; then
       util::print::warn "NOTICE: This integration suite does not support Docker."
@@ -124,6 +129,7 @@ function specs::run() {
   buildpack_file="$(buildpack::package "${version}" "${cached}" "${stack}")"
 
   CF_STACK="${stack}" \
+  COMPOSER_GITHUB_OAUTH_TOKEN="${token}" \
   BUILDPACK_FILE="${BUILDPACK_FILE:-"${buildpack_file}"}" \
   GOMAXPROCS="${GOMAXPROCS:-"${nodes}"}" \
     go test \
