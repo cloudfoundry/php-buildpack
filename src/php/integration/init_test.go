@@ -62,6 +62,10 @@ func TestIntegration(t *testing.T) {
 	suite := spec.New("integration", spec.Report(report.Terminal{}), spec.Parallel())
 	suite("Default", testDefault(platform, fixtures))
 	suite("Modules", testModules(platform, fixtures))
+	suite("Composer", testComposer(platform, fixtures))
+	if settings.Cached {
+		suite("Offline", testOffline(platform, fixtures))
+	}
 
 	suite.Run(t)
 
