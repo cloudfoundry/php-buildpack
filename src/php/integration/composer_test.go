@@ -52,6 +52,23 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 			})
 		})
 
+		context("Composer app with custom path", func() {
+			it("builds and runs the app", func() {
+				_, logs, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_PATH":               "meatball/sub",
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "composer_custom_path"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(logs).Should(SatisfyAll(
+					ContainSubstring("Installing dependencies from lock file"),
+					ContainSubstring("Installing monolog/monolog"),
+				))
+			})
+		})
+
 		context("deployed with invalid COMPOSER_GITHUB_OAUTH_TOKEN", func() {
 			it("logs warning", func() {
 				_, logs, err := platform.Deploy.
@@ -64,6 +81,22 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 				Eventually(logs.String()).Should(SatisfyAll(
 					ContainSubstring("-----> The GitHub OAuth token supplied from $COMPOSER_GITHUB_OAUTH_TOKEN is invalid"),
 				))
+			})
+		})
+
+		context("composer app with non-existent dependency", func() {
+			it("fails with error", func() {
+				_, logs, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "composer_invalid_dependency"))
+				Expect(err).To(HaveOccurred())
+				Expect(err).To(MatchError(ContainSubstring("App staging failed")))
+
+				Eventually(logs).Should(
+					ContainSubstring("-----> Composer command failed"),
+				)
 			})
 		})
 	}
