@@ -5,7 +5,6 @@ binaries/precise/*
 binaries/trusty/*
 !binaries/trusty/index*.json
 *.pyc
-*.so
 *.swp
 /env
 *_buildpack*.zip

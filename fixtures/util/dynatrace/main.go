@@ -12,50 +12,35 @@ import (
 )
 
 func main() {
-	var application struct {
-		ApplicationURIs []string `json:"application_uris"`
-	}
-
-	err := json.Unmarshal([]byte(os.Getenv("VCAP_APPLICATION")), &application)
-	if err != nil {
-		log.Fatalf("failed to parse VCAP_APPLICATION: %s", err)
-	}
-
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
 		var withoutAgentPath bool
 		path := req.URL.Path
 
-		uri := application.ApplicationURIs[0]
-
 		if strings.HasPrefix(path, "/without-agent-path") {
-			uri = fmt.Sprintf("%s/without-agent-path", uri)
 			path = strings.TrimPrefix(path, "/without-agent-path")
 			withoutAgentPath = true
 		}
 
 		switch path {
 		case "/v1/deployment/installer/agent/unix/paas-sh/latest":
-			context := struct{ URI string }{URI: uri}
+			context := struct{ URI string }{URI: req.Host}
 			t := template.Must(template.New("install.sh").ParseFiles("install.sh"))
 			err := t.Execute(w, context)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte(err.Error()))
+				fmt.Fprint(w, err.Error())
 				return
 			}
 
 		case "/dynatrace-env.sh", "/liboneagentproc.so", "/ruxitagentproc.conf":
-			requestUrl := req.URL.Path
-			if strings.Contains(requestUrl, "without-agent-path") {
-				requestUrl = strings.TrimPrefix(requestUrl, "/without-agent-path")
-			}
-			contents, err := ioutil.ReadFile(strings.TrimPrefix(requestUrl, "/"))
+			contents, err := os.ReadFile(strings.TrimPrefix(req.URL.Path, "/"))
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte(err.Error()))
+				fmt.Fprint(w, err.Error())
 				return
 			}
-			w.Write(contents)
+
+			fmt.Fprintf(w, "%s", contents)
 
 		case "/manifest.json":
 			var payload map[string]interface{}

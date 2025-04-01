@@ -2,6 +2,9 @@ package integration_test
 
 import (
 	"flag"
+	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"testing"
@@ -51,12 +54,27 @@ func TestIntegration(t *testing.T) {
 	platform, err := switchblade.NewPlatform(settings.Platform, settings.GitHubToken, settings.Stack)
 	Expect(err).NotTo(HaveOccurred())
 
+	goBuildpackFile, err := downloadBuildpack("go")
+	Expect(err).NotTo(HaveOccurred())
+
 	err = platform.Initialize(
 		switchblade.Buildpack{
 			Name: "php_buildpack",
 			URI:  os.Getenv("BUILDPACK_FILE"),
 		},
+		// Go buildpack is needed for dynatrace apps
+		switchblade.Buildpack{
+			Name: "go_buildpack",
+			URI:  goBuildpackFile,
+		},
 	)
+	Expect(err).NotTo(HaveOccurred())
+
+	dynatraceName, err := switchblade.RandomName()
+	Expect(err).NotTo(HaveOccurred())
+	dynatraceDeploymentProcess := platform.Deploy.WithBuildpacks("go_buildpack")
+	dynatraceDeployment, _, err := dynatraceDeploymentProcess.
+		Execute(dynatraceName, filepath.Join(fixtures, "util", "dynatrace"))
 	Expect(err).NotTo(HaveOccurred())
 
 	suite := spec.New("integration", spec.Report(report.Terminal{}), spec.Parallel())
@@ -64,12 +82,34 @@ func TestIntegration(t *testing.T) {
 	suite("Modules", testModules(platform, fixtures))
 	suite("Composer", testComposer(platform, fixtures))
 	suite("WebServer", testWebServer(platform, fixtures))
+	suite("APMs", testAPMs(platform, fixtures, dynatraceDeployment.InternalURL))
 	if settings.Cached {
 		suite("Offline", testOffline(platform, fixtures))
 	}
 
 	suite.Run(t)
 
+	Expect(platform.Delete.Execute(dynatraceName)).To(Succeed())
 	Expect(os.Remove(os.Getenv("BUILDPACK_FILE"))).To(Succeed())
+	Expect(os.Remove(goBuildpackFile)).To(Succeed())
 	Expect(platform.Deinitialize()).To(Succeed())
+}
+
+func downloadBuildpack(name string) (string, error) {
+	uri := fmt.Sprintf("https://github.com/cloudfoundry/%s-buildpack/archive/master.zip", name)
+
+	file, err := os.CreateTemp("", fmt.Sprintf("%s-buildpack-*.zip", name))
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	resp, err := http.Get(uri)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	_, err = io.Copy(file, resp.Body)
+	return file.Name(), err
 }
