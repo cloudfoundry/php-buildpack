@@ -111,6 +111,18 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 			})
 		})
 
+		context("app with custom conf files in php.ini.d dir in app root", func() {
+			it("app sets custom conf", func() {
+				deployment, _, err := platform.Deploy.
+					Execute(name, filepath.Join(fixtures, "php_with_php_ini_d"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(deployment).Should(Serve(
+					ContainSubstring("teststring"),
+				))
+			})
+		})
+
 		// TODO
 		context.Pend("app with amqp module", func() {
 			it("amqp module is loaded", func() {

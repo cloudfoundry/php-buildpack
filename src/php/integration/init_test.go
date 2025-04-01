@@ -63,6 +63,7 @@ func TestIntegration(t *testing.T) {
 	suite("Default", testDefault(platform, fixtures))
 	suite("Modules", testModules(platform, fixtures))
 	suite("Composer", testComposer(platform, fixtures))
+	suite("WebServer", testWebServer(platform, fixtures))
 	if settings.Cached {
 		suite("Offline", testOffline(platform, fixtures))
 	}
