@@ -68,5 +68,22 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			})
 		})
 
+		context("PHP web app with a supply buildpack", func() {
+			it("builds and runs the app", func() {
+				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("dotnet_core_buildpack", "php_buildpack").
+					Execute(name, filepath.Join(fixtures, "dotnet_core_as_supply_app"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(logs).Should(SatisfyAll(
+					ContainSubstring("Supplying Dotnet Core"),
+				))
+
+				Eventually(deployment).Should(Serve(
+					MatchRegexp(`dotnet: \d+\.\d+\.\d+`),
+				))
+			})
+		})
+
 	}
 }

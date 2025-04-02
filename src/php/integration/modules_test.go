@@ -220,5 +220,23 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 				)))
 			})
 		})
+
+		context("app with unsupported extensions", func() {
+			it("logs the unsupported exts and loads the supported ones", func() {
+				deployment, logs, err := platform.Deploy.
+					Execute(name, filepath.Join(fixtures, "unsupported_extensions"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(logs).Should(SatisfyAll(
+					ContainSubstring("The extension 'meatball' is not provided by this buildpack"),
+					ContainSubstring("The extension 'hotdog' is not provided by this buildpack"),
+					Not(ContainSubstring("The extension 'curl' is not provided by this buildpack")),
+				))
+
+				Eventually(deployment).Should(Serve(SatisfyAll(
+					ContainSubstring("curl module has been loaded successfully"),
+				)))
+			})
+		})
 	}
 }

@@ -1,6 +1,0 @@
----
-applications:
-  -
-    name: what_does_it_do
-    env:
-      MANIFEST_VARIABLE: "VARIABLE_IS_SET"

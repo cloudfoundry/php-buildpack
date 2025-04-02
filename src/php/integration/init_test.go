@@ -2,9 +2,6 @@ package integration_test
 
 import (
 	"flag"
-	"fmt"
-	"io"
-	"net/http"
 	"os"
 	"path/filepath"
 	"testing"
@@ -54,26 +51,28 @@ func TestIntegration(t *testing.T) {
 	platform, err := switchblade.NewPlatform(settings.Platform, settings.GitHubToken, settings.Stack)
 	Expect(err).NotTo(HaveOccurred())
 
-	goBuildpackFile, err := downloadBuildpack("go")
-	Expect(err).NotTo(HaveOccurred())
-
 	err = platform.Initialize(
 		switchblade.Buildpack{
 			Name: "php_buildpack",
 			URI:  os.Getenv("BUILDPACK_FILE"),
 		},
-		// Go buildpack is needed for dynatrace apps
+		// Go buildpack is needed for dynatrace tests
 		switchblade.Buildpack{
 			Name: "go_buildpack",
-			URI:  goBuildpackFile,
+			URI:  "https://github.com/cloudfoundry/go-buildpack/archive/master.zip",
+		},
+		// .NET Core buildpack is needed for the supply test
+		switchblade.Buildpack{
+			Name: "dotnet_core_buildpack",
+			URI:  "https://github.com/cloudfoundry/dotnet-core-buildpack/archive/master.zip",
 		},
 	)
 	Expect(err).NotTo(HaveOccurred())
 
 	dynatraceName, err := switchblade.RandomName()
 	Expect(err).NotTo(HaveOccurred())
-	dynatraceDeploymentProcess := platform.Deploy.WithBuildpacks("go_buildpack")
-	dynatraceDeployment, _, err := dynatraceDeploymentProcess.
+	dynatraceDeployment, _, err := platform.Deploy.
+		WithBuildpacks("go_buildpack").
 		Execute(dynatraceName, filepath.Join(fixtures, "util", "dynatrace"))
 	Expect(err).NotTo(HaveOccurred())
 
@@ -83,6 +82,7 @@ func TestIntegration(t *testing.T) {
 	suite("Composer", testComposer(platform, fixtures))
 	suite("WebServer", testWebServer(platform, fixtures))
 	suite("APMs", testAPMs(platform, fixtures, dynatraceDeployment.InternalURL))
+	suite("BuildpackPythonExtension", testPythonExtension(platform, fixtures))
 	if settings.Cached {
 		suite("Offline", testOffline(platform, fixtures))
 	}
@@ -91,25 +91,5 @@ func TestIntegration(t *testing.T) {
 
 	Expect(platform.Delete.Execute(dynatraceName)).To(Succeed())
 	Expect(os.Remove(os.Getenv("BUILDPACK_FILE"))).To(Succeed())
-	Expect(os.Remove(goBuildpackFile)).To(Succeed())
 	Expect(platform.Deinitialize()).To(Succeed())
-}
-
-func downloadBuildpack(name string) (string, error) {
-	uri := fmt.Sprintf("https://github.com/cloudfoundry/%s-buildpack/archive/master.zip", name)
-
-	file, err := os.CreateTemp("", fmt.Sprintf("%s-buildpack-*.zip", name))
-	if err != nil {
-		return "", err
-	}
-	defer file.Close()
-
-	resp, err := http.Get(uri)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-
-	_, err = io.Copy(file, resp.Body)
-	return file.Name(), err
 }
