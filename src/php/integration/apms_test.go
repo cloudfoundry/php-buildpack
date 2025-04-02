@@ -1,6 +1,7 @@
 package integration_test
 
 import (
+	"fmt"
 	"os/exec"
 	"path/filepath"
 	"testing"
@@ -46,7 +47,7 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 						WithEnv(map[string]string{
 							"BP_DEBUG": "true",
 						}).
-						Execute(name, filepath.Join(fixtures, "with_appdynamics"))
+						Execute(name, filepath.Join(fixtures, "default"))
 					Expect(err).NotTo(HaveOccurred())
 
 					Eventually(logs.String()).Should(SatisfyAll(
@@ -73,46 +74,128 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 		})
 
 		context("dynatrace", func() {
-			context("app with network zone set", func() {
+			context("app with single service and network zone set", func() {
 				it("sets the right network zone config", func() {
 					_, logs, err := platform.Deploy.
 						WithServices(map[string]switchblade.Service{
 							"some-dynatrace": {
-								"apitoken": "secretpaastoken",
-								"apiurl":   dynatraceURI, "environmentid": "envid",
-								"networkzone": "testzone",
+								"apitoken":      "secretpaastoken",
+								"apiurl":        dynatraceURI,
+								"environmentid": "envid",
+								"networkzone":   "testzone",
 							},
 						}).
 						WithEnv(map[string]string{
 							"BP_DEBUG": "true",
 						}).
-						Execute(name, filepath.Join(fixtures, "with_dynatrace"))
+						Execute(name, filepath.Join(fixtures, "default"))
 					Expect(err).NotTo(HaveOccurred())
 
 					Eventually(logs.String()).Should(SatisfyAll(
 						ContainSubstring("Extracting Dynatrace OneAgent"),
 						ContainSubstring("Setting DT_NETWORK_ZONE..."),
 					))
+				})
+			})
 
-					// Eventually(logs.String()).Should(SatisfyAll(
-					// 	ContainSubstring("Initializing"),
-					// 	ContainSubstring("Found one matching Dynatrace service"),
-					// 	ContainSubstring("Downloading Dynatrace OneAgent Installer"),
-					// 	ContainSubstring("Extracting Dynatrace OneAgent"),
-					// 	ContainSubstring("Removing Dynatrace OneAgent Installer"),
-					// 	ContainSubstring("Adding Dynatrace specific Environment Vars"),
-					// 	ContainSubstring("Adding Dynatrace LD_PRELOAD settings"),
-					// 	ContainSubstring("Agent path not found in manifest.json, using fallback"),
-					// ))
+			context("app with single service and check for additional code modules", func() {
+				it("adds additional code modules", func() {
+					_, logs, err := platform.Deploy.
+						WithServices(map[string]switchblade.Service{
+							"some-dynatrace": {
+								"apitoken":        "secretpaastoken",
+								"apiurl":          dynatraceURI,
+								"environmentid":   "envid",
+								"networkzone":     "testzone",
+								"addtechnologies": "go,nodejs",
+							},
+						}).
+						WithEnv(map[string]string{
+							"BP_DEBUG": "true",
+						}).
+						Execute(name, filepath.Join(fixtures, "default"))
+					Expect(err).NotTo(HaveOccurred())
 
-					// Eventually(func() string {
-					// 	cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					// 	output, err := cmd.CombinedOutput()
-					// 	Expect(err).NotTo(HaveOccurred())
-					// 	return string(output)
-					// }).Should(
-					// 	ContainSubstring("Installing AppDynamics package..."),
-					// )
+					Eventually(logs.String()).Should(SatisfyAll(
+						ContainSubstring("Fetching updated OneAgent configuration from tenant..."),
+						ContainSubstring("Finished writing updated OneAgent config back to"),
+						ContainSubstring("Adding additional code module to download: go"),
+						ContainSubstring("Adding additional code module to download: nodejs"),
+					))
+				})
+			})
+
+			context("multiple dynatrace services", func() {
+				it("sets the right config", func() {
+					_, logs, err := platform.Deploy.
+						WithServices(map[string]switchblade.Service{
+							"dynatrace1": {
+								"apitoken":      "secretpaastoken",
+								"apiurl":        dynatraceURI,
+								"environmentid": "envid",
+							},
+							"dynatrace2": {
+								"apitoken":      "secretpaastoken",
+								"apiurl":        dynatraceURI,
+								"environmentid": "envid2",
+							},
+						}).
+						WithEnv(map[string]string{
+							"BP_DEBUG": "true",
+						}).
+						Execute(name, filepath.Join(fixtures, "default"))
+					Expect(err).To(HaveOccurred())
+					Expect(err).To(MatchError(ContainSubstring("App staging failed")))
+
+					Eventually(logs.String()).Should(SatisfyAll(
+						ContainSubstring("More than one matching service found!"),
+					))
+				})
+			})
+
+			context("app with wrong url and skiperrors set to true", func() {
+				it("sets the right network zone config", func() {
+					_, logs, err := platform.Deploy.
+						WithServices(map[string]switchblade.Service{
+							"some-dynatrace": {
+								"apitoken":      "secretpaastoken",
+								"apiurl":        fmt.Sprintf("%s/no-such-endpoint", dynatraceURI),
+								"environmentid": "envid",
+								"skiperrors":    "true",
+							},
+						}).
+						WithEnv(map[string]string{
+							"BP_DEBUG": "true",
+						}).
+						Execute(name, filepath.Join(fixtures, "default"))
+					Expect(err).NotTo(HaveOccurred())
+
+					Eventually(logs.String()).Should(SatisfyAll(
+						ContainSubstring("Found one matching Dynatrace service"),
+						ContainSubstring("Downloading Dynatrace OneAgent Installer"),
+						ContainSubstring("Error during installer download, retrying in"),
+						ContainSubstring("Error during installer download, skipping installation"),
+					))
+				})
+			})
+		})
+
+		context("newrelic", func() {
+			context("app with appdynamics configured", func() {
+				it("sets the right config on build", func() {
+					_, logs, err := platform.Deploy.
+						WithEnv(map[string]string{
+							"NEWRELIC_LICENSE": "mock_license",
+							"BP_DEBUG":         "true",
+						}).
+						Execute(name, filepath.Join(fixtures, "default"))
+					Expect(err).NotTo(HaveOccurred())
+
+					Eventually(logs.String()).Should(SatisfyAll(
+						ContainSubstring("Installing NewRelic"),
+						ContainSubstring("NewRelic Installed"),
+						ContainSubstring("Using NewRelic default version:"),
+					))
 				})
 			})
 		})

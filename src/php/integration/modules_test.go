@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -123,8 +122,7 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 			})
 		})
 
-		// TODO
-		context.Pend("app with amqp module", func() {
+		context("app with amqp module", func() {
 			it("amqp module is loaded", func() {
 				deployment, _, err := platform.Deploy.
 					WithEnv(map[string]string{
@@ -133,11 +131,7 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 					Execute(name, filepath.Join(fixtures, "with_amqp"))
 				Expect(err).NotTo(HaveOccurred())
 
-				response, _ := http.Get(deployment.ExternalURL)
-				// _ = err
-				// Expect(err).NotTo(HaveOccurred())
-				defer response.Body.Close()
-				// Expect(response.StatusCode).To(Equal(501))
+				Eventually(deployment).Should(Serve("").WithExpectedStatusCode(500))
 
 				Eventually(func() string {
 					cmd := exec.Command("docker", "container", "logs", deployment.Name)
@@ -176,6 +170,31 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 
 				Eventually(deployment).Should(Serve(
 					ContainSubstring(`password hash of "hello-world": $argon2i$v=19$m=1024,t=2`),
+				))
+			})
+		})
+
+		context("app with phpredis module", func() {
+			it("logs that phpredis could not connect to server", func() {
+				deployment, _, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "with_phpredis"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(deployment).Should(Serve(
+					ContainSubstring("<title>Redis Connection with phpredis</title>"),
+				).WithExpectedStatusCode(500))
+
+				Eventually(func() string {
+					cmd := exec.Command("docker", "container", "logs", deployment.Name)
+					output, err := cmd.CombinedOutput()
+					Expect(err).NotTo(HaveOccurred())
+					return string(output)
+				}).Should(Or(
+					ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Connection refused"),
+					ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Cannot assign requested address"),
 				))
 			})
 		})
