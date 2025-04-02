@@ -1,4 +1,0 @@
-{
-    "COMPOSER_VENDOR_DIR": "vendor",
-    "PHP_EXTENSIONS": ["bz2", "zlib", "curl", "mcrypt","pdo"]
-}

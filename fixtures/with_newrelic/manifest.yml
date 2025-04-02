@@ -1,5 +1,0 @@
----
-applications:
-- name: php_app_with_newrelic
-  env:
-    NEWRELIC_LICENSE: mock_license
