@@ -1,7 +1,0 @@
-services:
-  laminas:
-    build: .
-    ports:
-     - "8080:80"
-    volumes:
-     - .:/var/www

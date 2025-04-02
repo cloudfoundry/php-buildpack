@@ -80,9 +80,10 @@ func TestIntegration(t *testing.T) {
 	suite("Default", testDefault(platform, fixtures))
 	suite("Modules", testModules(platform, fixtures))
 	suite("Composer", testComposer(platform, fixtures))
-	suite("WebServer", testWebServer(platform, fixtures))
-	suite("APMs", testAPMs(platform, fixtures, dynatraceDeployment.InternalURL))
+	suite("WebServers", testWebServers(platform, fixtures))
+	suite("AppFrameworks", testAppFrameworks(platform, fixtures))
 	suite("BuildpackPythonExtension", testPythonExtension(platform, fixtures))
+	suite("APMs", testAPMs(platform, fixtures, dynatraceDeployment.InternalURL))
 	if settings.Cached {
 		suite("Offline", testOffline(platform, fixtures))
 	}

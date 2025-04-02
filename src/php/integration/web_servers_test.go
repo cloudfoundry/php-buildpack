@@ -14,7 +14,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func testWebServer(platform switchblade.Platform, fixtures string) func(*testing.T, spec.G, spec.S) {
+func testWebServers(platform switchblade.Platform, fixtures string) func(*testing.T, spec.G, spec.S) {
 	return func(t *testing.T, context spec.G, it spec.S) {
 		var (
 			Expect     = NewWithT(t).Expect
