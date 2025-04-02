@@ -69,20 +69,22 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 			})
 		})
 
-		context("deployed with invalid COMPOSER_GITHUB_OAUTH_TOKEN", func() {
-			it("logs warning", func() {
-				_, logs, err := platform.Deploy.
-					WithEnv(map[string]string{
-						"COMPOSER_GITHUB_OAUTH_TOKEN": "badtoken123123",
-					}).
-					Execute(name, filepath.Join(fixtures, "composer_default"))
-				Expect(err).NotTo(HaveOccurred())
+		if !settings.Cached {
+			context("deployed with invalid COMPOSER_GITHUB_OAUTH_TOKEN", func() {
+				it("logs warning", func() {
+					_, logs, err := platform.Deploy.
+						WithEnv(map[string]string{
+							"COMPOSER_GITHUB_OAUTH_TOKEN": "badtoken123123",
+						}).
+						Execute(name, filepath.Join(fixtures, "composer_default"))
+					Expect(err).NotTo(HaveOccurred())
 
-				Eventually(logs.String()).Should(SatisfyAll(
-					ContainSubstring("-----> The GitHub OAuth token supplied from $COMPOSER_GITHUB_OAUTH_TOKEN is invalid"),
-				))
+					Eventually(logs.String()).Should(SatisfyAll(
+						ContainSubstring("-----> The GitHub OAuth token supplied from $COMPOSER_GITHUB_OAUTH_TOKEN is invalid"),
+					))
+				})
 			})
-		})
+		}
 
 		context("composer app with non-existent dependency", func() {
 			it("fails with error", func() {

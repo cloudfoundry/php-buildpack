@@ -28,7 +28,7 @@ func testAppFrameworks(platform switchblade.Platform, fixtures string) func(*tes
 		})
 
 		it.After(func() {
-			//Expect(platform.Delete.Execute(name)).To(Succeed())
+			Expect(platform.Delete.Execute(name)).To(Succeed())
 		})
 
 		// TODO
@@ -62,7 +62,7 @@ func testAppFrameworks(platform switchblade.Platform, fixtures string) func(*tes
 					WithEnv(map[string]string{
 						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
 					}).
-					Execute(name, filepath.Join(fixtures, "laminas-remote-deps"))
+					Execute(name, filepath.Join(fixtures, "laminas"))
 				Expect(err).NotTo(HaveOccurred())
 
 				Eventually(deployment).Should(Serve(
