@@ -1,12 +1,6 @@
 [submodule "compile-extensions"]
 	path = compile-extensions
 	url = https://github.com/cloudfoundry/compile-extensions
-[submodule "fixtures/composer_no_index_dot_php/vendor/monolog/monolog"]
-	path = fixtures/composer_no_index_dot_php/vendor/monolog/monolog
-	url = https://github.com/Seldaek/monolog
-[submodule "fixtures/composer_no_index_dot_php/vendor/psr/log"]
-	path = fixtures/composer_no_index_dot_php/vendor/psr/log
-	url = https://github.com/php-fig/log
 [submodule "python-vendor/node-semver"]
 	path = python-vendor/node-semver
 	url = https://github.com/podhmo/python-node-semver.git
