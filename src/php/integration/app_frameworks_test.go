@@ -31,10 +31,9 @@ func testAppFrameworks(platform switchblade.Platform, fixtures string) func(*tes
 			Expect(platform.Delete.Execute(name)).To(Succeed())
 		})
 
-		// TODO
-		context.Pend("CakePHP", func() {
+		context("CakePHP", func() {
 			it("builds and runs the app", func() {
-				deployment, logs, err := platform.Deploy.
+				deployment, _, err := platform.Deploy.
 					WithEnv(map[string]string{
 						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
 					}).
@@ -42,11 +41,8 @@ func testAppFrameworks(platform switchblade.Platform, fixtures string) func(*tes
 					Execute(name, filepath.Join(fixtures, "cake"))
 				Expect(err).NotTo(HaveOccurred())
 
-				err = os.WriteFile("/tmp/cakebuild", []byte(logs.String()), 0644)
-				Expect(err).NotTo(HaveOccurred())
-
 				Eventually(deployment).Should(Serve(SatisfyAll(
-					ContainSubstring("CakePHP"),
+					ContainSubstring("CakePHP: the rapid development PHP framework"),
 					Not(ContainSubstring("Missing Database Table")),
 				)))
 
