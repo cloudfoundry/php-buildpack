@@ -14,14 +14,21 @@ readonly ROOTDIR
 source "${ROOTDIR}/scripts/.util/print.sh"
 
 function main() {
-  local stack cached
+  local stack cached version
   stack="any"
   cached="false"
+  version=""
+  output="${ROOTDIR}/build/buildpack.zip"
 
   while [[ "${#}" != 0 ]]; do
     case "${1}" in
       --stack)
         stack="${2}"
+        shift 2
+        ;;
+
+      --version)
+        version="${2}"
         shift 2
         ;;
 
@@ -33,6 +40,11 @@ function main() {
       --uncached)
         cached="false"
         shift 1
+        ;;
+
+      --output)
+        output="${2}"
+        shift 2
         ;;
 
       --help|-h)
@@ -51,7 +63,7 @@ function main() {
     esac
   done
 
-  package::buildpack "${cached}" "${stack}"
+  package::buildpack "${version}" "${cached}" "${stack}" "${output}"
 }
 
 
@@ -64,14 +76,21 @@ OPTIONS
   --cached            packages the buildpack as a cached buildpack
   --uncached          packages the buildpack as an uncached buildpack (default)
   --stack             the stack to package the buildpack for (default: any)
+  --version <version>  -v <version>  specifies the version number to use when packaging the buildpack
 USAGE
 }
 
 function package::buildpack() {
-  local cached stack
-  cached="${1}"
-  stack="${2}"
+  local version cached stack output
+  version="${1}"
+  cached="${2}"
+  stack="${3}"
+  output="${4}"
 
+  if [[ -n "${version}" ]]; then
+    echo "writing version to VERSION file: ${version}"
+    echo "${version}" > "${ROOTDIR}/VERSION"
+  fi
 
   local stack_flag
   stack_flag="--any-stack"
@@ -102,6 +121,12 @@ EOF
   popd &> /dev/null
 
   rm -f "${ROOTDIR}/Dockerfile"
+
+  file="$(ls "${ROOTDIR}" | grep -i 'php.*zip' )"
+  if [[ -z "${file}" ]]; then
+    util::print::error "failed to find zip file in ${ROOTDIR}"
+  fi
+  mv "${file}" "${output}"
 }
 
 main "${@:-}"
