@@ -126,6 +126,9 @@ EOF
   if [[ -z "${file}" ]]; then
     util::print::error "failed to find zip file in ${ROOTDIR}"
   fi
+
+  mkdir -p "$(dirname "${output}")"
+  echo "Moving ${file} to ${output}"
   mv "${file}" "${output}"
 }
 
