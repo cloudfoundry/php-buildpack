@@ -161,14 +161,8 @@ function buildpack::package() {
     --stack "${stack}" \
     "${cached_flag}" > /dev/null
 
-  # This is set by the ruby-written buildpack-packager
-  local output
-  if [[ "${cached}" == "true" ]]; then
-    output="${ROOTDIR}/php_buildpack-cached-${stack}-v${version}.zip"
-  else
-    output="${ROOTDIR}/php_buildpack-${stack}-v${version}.zip"
-  fi
-  printf "%s" "${output}"
+  # this is the default output location of the package.sh script
+  echo "${ROOTDIR}/build/buildpack.zip"
 }
 
 main "${@:-}"
