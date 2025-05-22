@@ -3,6 +3,7 @@ import sys
 import shutil
 import re
 import logging
+
 from collections import defaultdict
 from io import StringIO
 from subprocess import Popen
@@ -45,15 +46,45 @@ class Configurer(object):
         self.builder = builder
 
     def default_config(self):
-        self._merge(
-            CloudFoundryUtil.load_json_config_file_from(
+        opts = CloudFoundryUtil.load_json_config_file_from(
                 self.builder._ctx['BP_DIR'],
-                'defaults/options.json'))
+                'defaults/options.json')
+        # imported here instead of at the top of the file to prevent ImportError,
+        # because build_pack_utils is also loaded at launch-time when the
+        # vendored lib yaml is unavailable.
+        import yaml
+        with open(os.path.join(self.builder._ctx['BP_DIR'], 'manifest.yml'), 'r') as f:
+            manifest = yaml.safe_load(f)
+
+        default_versions = manifest.get('default_versions', [])
+        php_default = next(
+            (d['version'] for d in default_versions if d.get('name') == 'php'),
+            None
+        )
+
+        if not php_default:
+            raise Exception('ERROR: Buildpack could not read default PHP version.')
+        opts['PHP_DEFAULT'] = php_default
+
+        deps = manifest.get('dependencies', [])
+        php_versions = [d['version'] for d in deps if d.get('name') == 'php']
+        lines = defaultdict(list)
+        for v in php_versions:
+            maj, mino, _ = v.split('.', 2)
+            # Construct keys. e.g. "PHP_83_LATEST" corresponding to PHP 8.3.X
+            lines[f'PHP_{maj}{mino}_LATEST'].append(v)
+        for key, vs in lines.items():
+            # sort and find the highest patch version for each key
+            vs.sort(key=lambda s: tuple(map(int, s.split('.'))))
+            opts[key] = vs[-1]
+
+        self._merge(opts)
         return self
 
     def stack_config(self):
         stack = os.environ.get('CF_STACK', None)
         if stack:
+            # we haven't used this config since cflinuxfs2
             self._merge(
                 CloudFoundryUtil.load_json_config_file_from(
                     self.builder._ctx['BP_DIR'],
