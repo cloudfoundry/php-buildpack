@@ -96,7 +96,7 @@ class DynatraceInstaller(object):
 
     def get_buildpack_version(self):
         with open(os.path.join(self._ctx['BP_DIR'], "VERSION")) as version_file:
-            return version_file.read()
+            return version_file.read().strip()
 
     def _retry_download(self, url, dest):
         tries = 3
