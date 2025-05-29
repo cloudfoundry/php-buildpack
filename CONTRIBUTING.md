@@ -19,5 +19,5 @@ Use `./scripts/unit`, `./scripts/integration`, and `./scripts/brats`. The integr
 
 Please include integration tests (in `src/php/integration`) and corresponding fixtures (in `fixtures`) where necessary to cover any functionality that is introduced.
 
-**NOTE:** When submitting a pull request, *please make sure to target the `develop` branch*, so that your changes are up-to-date and easy to integrate with the most recent work on the buildpack. Thanks!
+**NOTE:** When submitting a pull request, *please make sure to target the `master` branch*, so that your changes are up-to-date and easy to integrate with the most recent work on the buildpack. Thanks!
 
