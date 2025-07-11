@@ -130,6 +130,22 @@ dependencies:
   - cflinuxfs4
   source: http://nginx.org/download/nginx-1.27.5.tar.gz
   source_sha256: e96acebb9c2a6db8a000c3dd1b32ecba1b810f0cd586232d4d921e376674dd0e
+- name: nginx
+  version: 1.28.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.28.0_linux_x64_cflinuxfs3_3831afca.tgz
+  sha256: 3831afcaa1cd40a0221130e9b10e5c38e4f5f17e2a0e98804fc3d4479053e4d0
+  cf_stacks:
+  - cflinuxfs3
+  source: http://nginx.org/download/nginx-1.28.0.tar.gz
+  source_sha256: c6b5c6b086c0df9d3ca3ff5e084c1d0ef909e6038279c71c1c3e985f576ff76a
+- name: nginx
+  version: 1.28.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.28.0_linux_x64_cflinuxfs4_4004e2c1.tgz
+  sha256: 4004e2c1847e47b1ad01d26afd33604e689e7945531ee9ad231d2cb83556b895
+  cf_stacks:
+  - cflinuxfs4
+  source: http://nginx.org/download/nginx-1.28.0.tar.gz
+  source_sha256: c6b5c6b086c0df9d3ca3ff5e084c1d0ef909e6038279c71c1c3e985f576ff76a
 - name: php
   version: 8.1.31
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.31_linux_x64_cflinuxfs3-dev_532e374f.tgz
