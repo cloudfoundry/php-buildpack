@@ -48,7 +48,13 @@ class RedisSetup(BaseSetup):
         BaseSetup.__init__(self, ctx, info)
 
     def session_save_path(self):
-        return "tcp://%s:%s?auth=%s" % (
+        uri = self.creds.get('uri', '')
+        if uri.startswith('rediss://'):
+            scheme = 'tls'
+        else:
+            scheme = 'tcp'
+        return "%s://%s:%s?auth=%s" % (
+            scheme,
             self.creds.get('hostname',
                            self.creds.get('host', 'not-found')),
             self.creds.get('port', 'not-found'),
