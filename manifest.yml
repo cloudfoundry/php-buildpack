@@ -56,6 +56,14 @@ dependency_deprecation_dates:
   link: http://php.net/supported-versions.php
   match: 8.3.\d+
 dependencies:
+- name: CAAPM
+  version: 20.11.0
+  uri: https://packages.broadcom.com/artifactory/apm-agents/CA-APM-PHPAgent-20.11.0_linux.tar.gz
+  sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
+  cf_stacks:
+  - cflinuxfs3
+  osl: https://docops.ca.com/ca-apm/10-5/en/ca-apm-release-notes/third-party-software-acknowledgments/php-agents-third-party-software-acknowledgments
+  source_sha256: e6932228f8990dad74eaee42e48799545bf47a7f65fbb445655588ee88139252
 - name: appdynamics
   version: 23.11.0-839
   uri: https://java-buildpack.cloudfoundry.org/appdynamics-php/appdynamics-23.11.0-839.tar.bz2
