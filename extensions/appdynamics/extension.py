@@ -51,7 +51,7 @@ class AppDynamicsInstaller(PHPExtensionHelper):
         """
         return {
                 'APPDYNAMICS_HOST': 'java-buildpack.cloudfoundry.org',
-                'APPDYNAMICS_VERSION': '23.11.0-839',
+                'APPDYNAMICS_VERSION': '25.5.0-1371',
                 'APPDYNAMICS_PACKAGE': 'appdynamics-{APPDYNAMICS_VERSION}.tar.bz2',
                 'APPDYNAMICS_DOWNLOAD_URL': 'https://{APPDYNAMICS_HOST}/appdynamics-php/{APPDYNAMICS_PACKAGE}'
         }
