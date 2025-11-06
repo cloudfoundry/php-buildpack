@@ -9,8 +9,6 @@ exclude_files:
 - ".bin/"
 - log/
 - tests/
-- cf.Gemfile
-- cf.Gemfile.lock
 - bin/package
 - buildpack-packager/
 - requirements.txt
@@ -20,8 +18,6 @@ default_versions:
   version: 8.1.32
 - name: httpd
   version: 2.4.63
-- name: newrelic
-  version: 10.21.0.11
 - name: nginx
   version: 1.27.5
 - name: composer

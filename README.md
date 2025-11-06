@@ -13,8 +13,7 @@ Official buildpack documentation can be found here: [php buildpack docs](http://
 #### Option 1: Using the `package.sh` script
 1. Run `./scripts/package.sh [ --uncached | --cached ] [ --stack=STACK ]`
 
-This requires that you have `docker` installed on your local machine, as it
-will run packaging setup within a `ruby` image.
+This script automatically installs the Go-based `buildpack-packager` and builds the buildpack.
 
 #### Option 2: Manually use the `buildpack-packager`
 1. Make sure you have fetched submodules
@@ -29,16 +28,16 @@ will run packaging setup within a `ruby` image.
    git checkout v4.4.2  # or whatever version you want, see releases page for available versions
    ```
 
-1. Get latest buildpack dependencies, this will require having Ruby 3.0 or running in a Ruby 3.0 container image
+1. Install the Go-based buildpack-packager
 
    ```shell
-   BUNDLE_GEMFILE=cf.Gemfile bundle
+   go install github.com/cloudfoundry/libbuildpack/packager/buildpack-packager@latest
    ```
 
-1. Build the buildpack. Please note that the PHP buildpack still uses the older Ruby based buildpack packager. This is different than most of the other buildpacks which use a newer Golang based buildpack packager. You must use the Ruby based buildpack packager with the PHP buildpack.
+1. Build the buildpack
 
    ```shell
-   BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --uncached | --cached ] [ --any-stack | --stack=STACK ]
+   buildpack-packager build [ -uncached | -cached ] [ -any-stack | -stack=STACK ]
    ```
 
 1. Use in Cloud Foundry
