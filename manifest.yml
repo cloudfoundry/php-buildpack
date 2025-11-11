@@ -1,18 +1,5 @@
 ---
 language: php
-exclude_files:
-- ".git/"
-- ".gitignore"
-- fixtures/
-- pkg/
-- src/php/
-- ".bin/"
-- log/
-- tests/
-- bin/package
-- buildpack-packager/
-- requirements.txt
-- php_buildpack-*v*
 default_versions:
 - name: php
   version: 8.1.32
@@ -1662,3 +1649,21 @@ dependencies:
   - cflinuxfs4
   source: https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.5.tar.gz
   source_sha256: 9afc6380a027a4fe1ae1a3e2eccb6b497b9c5ac0631c12ca56f9b7beb4848776
+include_files:
+- CHANGELOG
+- CONTRIBUTING.md
+- ISSUE_TEMPLATE
+- LICENSE
+- NOTICE
+- PULL_REQUEST_TEMPLATE
+- README.md
+- VERSION
+- bin/compile
+- bin/detect
+- bin/finalize
+- bin/release
+- bin/supply
+- bin/rewrite
+- bin/start
+- manifest.yml
+pre_package: scripts/build.sh

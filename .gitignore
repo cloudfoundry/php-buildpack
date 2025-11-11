@@ -31,3 +31,43 @@ AGENTS.md
 
 # Test artifacts
 test-verify*/
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/bin/supply-compiled
+/bin/detect-compiled
+/bin/finalize-compiled
+/bin/release-compiled
+/bin/start-compiled
+/bin/rewrite-compiled
+
+# Test binary and coverage files
+*.out
+coverage.txt
+*.coverprofile
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+/temp/
+
+# Zip and archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Test output and fixtures
+*_test_output/
+test-results/
+test-fixtures/tmp/
+
+# Comparison directories
+tmp-comparison/
