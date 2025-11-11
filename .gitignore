@@ -20,3 +20,14 @@ DebugKit
 Dockerfile
 lib/PyYAML*
 lib/_yaml
+
+# Build artifacts
+*.test
+.bin/
+build/*.zip
+
+# Sensitive files
+AGENTS.md
+
+# Test artifacts
+test-verify*/
