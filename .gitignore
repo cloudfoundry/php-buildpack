@@ -4,9 +4,7 @@ binaries/precise/*
 !binaries/precise/index*.json
 binaries/trusty/*
 !binaries/trusty/index*.json
-*.pyc
 *.swp
-/env
 *_buildpack*.zip
 /log/
 *.DS_Store
@@ -18,8 +16,6 @@ DebugKit
 .idea
 .vscode/
 Dockerfile
-lib/PyYAML*
-lib/_yaml
 
 # Build artifacts
 *.test
