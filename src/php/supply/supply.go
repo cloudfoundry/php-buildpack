@@ -109,6 +109,13 @@ func Run(s *Supplier) error {
 			s.Log.Error("Extension configuration failed: %v", err)
 			return err
 		}
+
+		// Sync PHP version from context back to options
+		// Extensions (like composer) may have updated PHP_VERSION during Configure
+		if phpVersion := ctx.GetString("PHP_VERSION"); phpVersion != "" {
+			s.Options.PHPVersion = phpVersion
+			s.Log.Debug("Updated PHP version from extension context: %s", phpVersion)
+		}
 	}
 
 	// Determine and install PHP version
@@ -237,6 +244,13 @@ func (s *Supplier) populateDefaultVersions(ctx *extensions.Context) error {
 		// This pattern will be used by the Installer to look up the actual URL
 		downloadKey := fmt.Sprintf("%s_DOWNLOAD_URL", upperDepName)
 		ctx.Set(downloadKey, entry.URI)
+
+		// For PHP, also set all available versions for version matching
+		if depName == "php" {
+			allVersions := s.Manifest.AllDependencyVersions("php")
+			ctx.Set("ALL_PHP_VERSIONS", strings.Join(allVersions, ","))
+			s.Log.Debug("Set ALL_PHP_VERSIONS = %s", strings.Join(allVersions, ","))
+		}
 
 		s.Log.Debug("Set %s = %s", defaultKey, dep.Version)
 		s.Log.Debug("Set %s = %s", downloadKey, entry.URI)

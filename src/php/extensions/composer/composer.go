@@ -202,15 +202,310 @@ func (e *ComposerExtension) pickPHPVersion(ctx *extensions.Context, requested st
 		return ctx.GetString("PHP_VERSION")
 	}
 
-	// TODO: Implement proper semantic version matching
-	// For now, return the default version or requested if valid
-	// The Python version uses node-semver library for this
-
 	fmt.Printf("-----> Composer requires PHP %s\n", requested)
 
-	// Simplified version selection - in production this would use semver matching
-	// against ALL_PHP_VERSIONS from context
-	return ctx.GetString("PHP_DEFAULT")
+	// Get all available PHP versions from context
+	// Context should have ALL_PHP_VERSIONS set by supply phase
+	allVersionsStr := ctx.GetString("ALL_PHP_VERSIONS")
+	if allVersionsStr == "" {
+		fmt.Println("       Warning: ALL_PHP_VERSIONS not set in context, using default")
+		return ctx.GetString("PHP_DEFAULT")
+	}
+
+	// Parse available versions (comma-separated)
+	availableVersions := strings.Split(allVersionsStr, ",")
+	for i := range availableVersions {
+		availableVersions[i] = strings.TrimSpace(availableVersions[i])
+	}
+
+	// Find the best matching version
+	selectedVersion := e.matchVersion(requested, availableVersions)
+	if selectedVersion == "" {
+		fmt.Printf("       Warning: No matching PHP version found for %s, using default\n", requested)
+		return ctx.GetString("PHP_DEFAULT")
+	}
+
+	fmt.Printf("       Selected PHP version: %s\n", selectedVersion)
+	return selectedVersion
+}
+
+// matchVersion finds the best matching version for a given constraint
+func (e *ComposerExtension) matchVersion(constraint string, availableVersions []string) string {
+	// Remove spaces
+	constraint = strings.TrimSpace(constraint)
+
+	// Handle different constraint formats
+	if strings.HasPrefix(constraint, ">=") {
+		// >= constraint: find highest version that is >= requested
+		minVersion := strings.TrimSpace(constraint[2:])
+		return e.findHighestVersionGTE(minVersion, availableVersions)
+	} else if strings.HasPrefix(constraint, ">") {
+		// > constraint: find highest version that is > requested
+		minVersion := strings.TrimSpace(constraint[1:])
+		return e.findHighestVersionGT(minVersion, availableVersions)
+	} else if strings.HasPrefix(constraint, "<=") {
+		// <= constraint: find highest version that is <= requested
+		maxVersion := strings.TrimSpace(constraint[2:])
+		return e.findHighestVersionLTE(maxVersion, availableVersions)
+	} else if strings.HasPrefix(constraint, "<") {
+		// < constraint: find highest version that is < requested
+		maxVersion := strings.TrimSpace(constraint[1:])
+		return e.findHighestVersionLT(maxVersion, availableVersions)
+	} else if strings.HasPrefix(constraint, "^") {
+		// ^ constraint: compatible version (same major version)
+		baseVersion := strings.TrimSpace(constraint[1:])
+		return e.findCompatibleVersion(baseVersion, availableVersions)
+	} else if strings.HasPrefix(constraint, "~") {
+		// ~ constraint: approximately equivalent (same major.minor)
+		baseVersion := strings.TrimSpace(constraint[1:])
+		return e.findApproximateVersion(baseVersion, availableVersions)
+	} else if strings.Contains(constraint, "||") {
+		// OR constraint: try each constraint
+		parts := strings.Split(constraint, "||")
+		for _, part := range parts {
+			if result := e.matchVersion(strings.TrimSpace(part), availableVersions); result != "" {
+				return result
+			}
+		}
+		return ""
+	} else if strings.Contains(constraint, " ") {
+		// AND constraint (multiple constraints): check all
+		parts := strings.Fields(constraint)
+		candidates := availableVersions
+		for _, part := range parts {
+			newCandidates := []string{}
+			for _, v := range candidates {
+				if e.versionMatchesConstraint(v, part) {
+					newCandidates = append(newCandidates, v)
+				}
+			}
+			candidates = newCandidates
+		}
+		if len(candidates) > 0 {
+			return e.findHighestVersion(candidates)
+		}
+		return ""
+	} else {
+		// Exact version or wildcard
+		if strings.Contains(constraint, "*") {
+			return e.findWildcardMatch(constraint, availableVersions)
+		}
+		// Check if exact version exists
+		for _, v := range availableVersions {
+			if v == constraint {
+				return v
+			}
+		}
+	}
+
+	return ""
+}
+
+// versionMatchesConstraint checks if a version matches a single constraint
+func (e *ComposerExtension) versionMatchesConstraint(version, constraint string) bool {
+	constraint = strings.TrimSpace(constraint)
+
+	if strings.HasPrefix(constraint, ">=") {
+		minVersion := strings.TrimSpace(constraint[2:])
+		return e.compareVersions(version, minVersion) >= 0
+	} else if strings.HasPrefix(constraint, ">") {
+		minVersion := strings.TrimSpace(constraint[1:])
+		return e.compareVersions(version, minVersion) > 0
+	} else if strings.HasPrefix(constraint, "<=") {
+		maxVersion := strings.TrimSpace(constraint[2:])
+		return e.compareVersions(version, maxVersion) <= 0
+	} else if strings.HasPrefix(constraint, "<") {
+		maxVersion := strings.TrimSpace(constraint[1:])
+		return e.compareVersions(version, maxVersion) < 0
+	} else if strings.HasPrefix(constraint, "^") {
+		baseVersion := strings.TrimSpace(constraint[1:])
+		return e.isCompatible(version, baseVersion)
+	} else if strings.HasPrefix(constraint, "~") {
+		baseVersion := strings.TrimSpace(constraint[1:])
+		return e.isApproximatelyEquivalent(version, baseVersion)
+	} else if constraint == version {
+		return true
+	}
+
+	return false
+}
+
+// findHighestVersionGTE finds the highest version >= minVersion
+func (e *ComposerExtension) findHighestVersionGTE(minVersion string, versions []string) string {
+	var best string
+	for _, v := range versions {
+		if e.compareVersions(v, minVersion) >= 0 {
+			if best == "" || e.compareVersions(v, best) > 0 {
+				best = v
+			}
+		}
+	}
+	return best
+}
+
+// findHighestVersionGT finds the highest version > minVersion
+func (e *ComposerExtension) findHighestVersionGT(minVersion string, versions []string) string {
+	var best string
+	for _, v := range versions {
+		if e.compareVersions(v, minVersion) > 0 {
+			if best == "" || e.compareVersions(v, best) > 0 {
+				best = v
+			}
+		}
+	}
+	return best
+}
+
+// findHighestVersionLTE finds the highest version <= maxVersion
+func (e *ComposerExtension) findHighestVersionLTE(maxVersion string, versions []string) string {
+	var best string
+	for _, v := range versions {
+		if e.compareVersions(v, maxVersion) <= 0 {
+			if best == "" || e.compareVersions(v, best) > 0 {
+				best = v
+			}
+		}
+	}
+	return best
+}
+
+// findHighestVersionLT finds the highest version < maxVersion
+func (e *ComposerExtension) findHighestVersionLT(maxVersion string, versions []string) string {
+	var best string
+	for _, v := range versions {
+		if e.compareVersions(v, maxVersion) < 0 {
+			if best == "" || e.compareVersions(v, best) > 0 {
+				best = v
+			}
+		}
+	}
+	return best
+}
+
+// findHighestVersion finds the highest version from a list
+func (e *ComposerExtension) findHighestVersion(versions []string) string {
+	if len(versions) == 0 {
+		return ""
+	}
+	best := versions[0]
+	for _, v := range versions[1:] {
+		if e.compareVersions(v, best) > 0 {
+			best = v
+		}
+	}
+	return best
+}
+
+// findCompatibleVersion finds the highest compatible version (^ constraint)
+func (e *ComposerExtension) findCompatibleVersion(baseVersion string, versions []string) string {
+	var best string
+	for _, v := range versions {
+		if e.isCompatible(v, baseVersion) {
+			if best == "" || e.compareVersions(v, best) > 0 {
+				best = v
+			}
+		}
+	}
+	return best
+}
+
+// findApproximateVersion finds the highest approximately equivalent version (~ constraint)
+func (e *ComposerExtension) findApproximateVersion(baseVersion string, versions []string) string {
+	var best string
+	for _, v := range versions {
+		if e.isApproximatelyEquivalent(v, baseVersion) {
+			if best == "" || e.compareVersions(v, best) > 0 {
+				best = v
+			}
+		}
+	}
+	return best
+}
+
+// findWildcardMatch finds versions matching a wildcard pattern
+func (e *ComposerExtension) findWildcardMatch(pattern string, versions []string) string {
+	// Replace * with empty string to get prefix
+	prefix := strings.Replace(pattern, "*", "", -1)
+	prefix = strings.TrimSuffix(prefix, ".")
+
+	var best string
+	for _, v := range versions {
+		if strings.HasPrefix(v, prefix) {
+			if best == "" || e.compareVersions(v, best) > 0 {
+				best = v
+			}
+		}
+	}
+	return best
+}
+
+// isCompatible checks if version is compatible with base (^ constraint)
+// Compatible means same major version, and >= base version
+func (e *ComposerExtension) isCompatible(version, base string) bool {
+	vParts := strings.Split(version, ".")
+	bParts := strings.Split(base, ".")
+
+	if len(vParts) < 1 || len(bParts) < 1 {
+		return false
+	}
+
+	// Must have same major version
+	if vParts[0] != bParts[0] {
+		return false
+	}
+
+	// Must be >= base version
+	return e.compareVersions(version, base) >= 0
+}
+
+// isApproximatelyEquivalent checks if version is approximately equivalent to base (~ constraint)
+// Approximately equivalent means same major.minor, and >= base version
+func (e *ComposerExtension) isApproximatelyEquivalent(version, base string) bool {
+	vParts := strings.Split(version, ".")
+	bParts := strings.Split(base, ".")
+
+	if len(vParts) < 2 || len(bParts) < 2 {
+		return false
+	}
+
+	// Must have same major.minor version
+	if vParts[0] != bParts[0] || vParts[1] != bParts[1] {
+		return false
+	}
+
+	// Must be >= base version
+	return e.compareVersions(version, base) >= 0
+}
+
+// compareVersions compares two semantic versions
+// Returns: -1 if v1 < v2, 0 if v1 == v2, 1 if v1 > v2
+func (e *ComposerExtension) compareVersions(v1, v2 string) int {
+	parts1 := strings.Split(v1, ".")
+	parts2 := strings.Split(v2, ".")
+
+	maxLen := len(parts1)
+	if len(parts2) > maxLen {
+		maxLen = len(parts2)
+	}
+
+	for i := 0; i < maxLen; i++ {
+		var n1, n2 int
+
+		if i < len(parts1) {
+			fmt.Sscanf(parts1[i], "%d", &n1)
+		}
+		if i < len(parts2) {
+			fmt.Sscanf(parts2[i], "%d", &n2)
+		}
+
+		if n1 < n2 {
+			return -1
+		} else if n1 > n2 {
+			return 1
+		}
+	}
+
+	return 0
 }
 
 // Compile downloads and runs Composer
