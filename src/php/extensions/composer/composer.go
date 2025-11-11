@@ -114,7 +114,10 @@ func (e *ComposerExtension) Configure(ctx *extensions.Context) error {
 
 	// Read PHP version requirement from composer.json
 	phpVersion, err := e.readPHPVersionFromComposer()
-	if err == nil && phpVersion != "" {
+	if err != nil {
+		return fmt.Errorf("failed to read PHP version from composer files: %w", err)
+	}
+	if phpVersion != "" {
 		// Also check composer.lock for package PHP constraints
 		lockConstraints := e.readPHPConstraintsFromLock()
 		selectedVersion := e.pickPHPVersion(ctx, phpVersion, lockConstraints)
@@ -161,7 +164,10 @@ func (e *ComposerExtension) readPHPVersionFromComposer() (string, error) {
 	// Try composer.json first
 	if e.jsonPath != "" {
 		version, err := e.readVersionFromFile(e.jsonPath, "require", "php")
-		if err == nil && version != "" {
+		if err != nil {
+			return "", err
+		}
+		if version != "" {
 			return version, nil
 		}
 	}
@@ -169,7 +175,10 @@ func (e *ComposerExtension) readPHPVersionFromComposer() (string, error) {
 	// Try composer.lock
 	if e.lockPath != "" {
 		version, err := e.readVersionFromFile(e.lockPath, "platform", "php")
-		if err == nil && version != "" {
+		if err != nil {
+			return "", err
+		}
+		if version != "" {
 			return version, nil
 		}
 	}
@@ -305,10 +314,46 @@ func (e *ComposerExtension) pickPHPVersion(ctx *extensions.Context, requested st
 
 // matchVersion finds the best matching version for a given constraint
 func (e *ComposerExtension) matchVersion(constraint string, availableVersions []string) string {
-	// Remove spaces
+	// Remove leading/trailing spaces
 	constraint = strings.TrimSpace(constraint)
 
-	// Handle different constraint formats
+	// Handle compound constraints FIRST (before single operator checks)
+	// OR constraint: find highest version matching any constraint
+	if strings.Contains(constraint, "||") {
+		parts := strings.Split(constraint, "||")
+		var matches []string
+		for _, part := range parts {
+			if result := e.matchVersion(strings.TrimSpace(part), availableVersions); result != "" {
+				matches = append(matches, result)
+			}
+		}
+		if len(matches) > 0 {
+			return e.findHighestVersion(matches)
+		}
+		return ""
+	}
+
+	// AND constraint (multiple constraints): check all
+	// Must check BEFORE single operators, as ">=8.1.0 <8.3.0" contains spaces
+	if strings.Contains(constraint, " ") {
+		parts := strings.Fields(constraint)
+		candidates := availableVersions
+		for _, part := range parts {
+			newCandidates := []string{}
+			for _, v := range candidates {
+				if e.versionMatchesConstraint(v, part) {
+					newCandidates = append(newCandidates, v)
+				}
+			}
+			candidates = newCandidates
+		}
+		if len(candidates) > 0 {
+			return e.findHighestVersion(candidates)
+		}
+		return ""
+	}
+
+	// Handle single operator constraints
 	if strings.HasPrefix(constraint, ">=") {
 		// >= constraint: find highest version that is >= requested
 		minVersion := strings.TrimSpace(constraint[2:])
@@ -333,32 +378,6 @@ func (e *ComposerExtension) matchVersion(constraint string, availableVersions []
 		// ~ constraint: approximately equivalent (same major.minor)
 		baseVersion := strings.TrimSpace(constraint[1:])
 		return e.findApproximateVersion(baseVersion, availableVersions)
-	} else if strings.Contains(constraint, "||") {
-		// OR constraint: try each constraint
-		parts := strings.Split(constraint, "||")
-		for _, part := range parts {
-			if result := e.matchVersion(strings.TrimSpace(part), availableVersions); result != "" {
-				return result
-			}
-		}
-		return ""
-	} else if strings.Contains(constraint, " ") {
-		// AND constraint (multiple constraints): check all
-		parts := strings.Fields(constraint)
-		candidates := availableVersions
-		for _, part := range parts {
-			newCandidates := []string{}
-			for _, v := range candidates {
-				if e.versionMatchesConstraint(v, part) {
-					newCandidates = append(newCandidates, v)
-				}
-			}
-			candidates = newCandidates
-		}
-		if len(candidates) > 0 {
-			return e.findHighestVersion(candidates)
-		}
-		return ""
 	} else {
 		// Exact version or wildcard
 		if strings.Contains(constraint, "*") {
@@ -378,6 +397,28 @@ func (e *ComposerExtension) matchVersion(constraint string, availableVersions []
 // versionMatchesConstraint checks if a version matches a single constraint
 func (e *ComposerExtension) versionMatchesConstraint(version, constraint string) bool {
 	constraint = strings.TrimSpace(constraint)
+
+	// Handle OR constraints (||)
+	if strings.Contains(constraint, "||") {
+		parts := strings.Split(constraint, "||")
+		for _, part := range parts {
+			if e.versionMatchesConstraint(version, strings.TrimSpace(part)) {
+				return true
+			}
+		}
+		return false
+	}
+
+	// Handle AND constraints (space-separated)
+	if strings.Contains(constraint, " ") {
+		parts := strings.Fields(constraint)
+		for _, part := range parts {
+			if !e.versionMatchesConstraint(version, strings.TrimSpace(part)) {
+				return false
+			}
+		}
+		return true
+	}
 
 	if strings.HasPrefix(constraint, ">=") {
 		minVersion := strings.TrimSpace(constraint[2:])
