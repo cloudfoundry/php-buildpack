@@ -3,6 +3,7 @@ package options_test
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/cloudfoundry/libbuildpack"
@@ -201,31 +202,18 @@ func TestLoadOptions_InvalidWebServer(t *testing.T) {
 	bpDir := filepath.Join(tmpDir, "bp")
 	buildDir := filepath.Join(tmpDir, "build")
 
-	// Create defaults directory
-	defaultsDir := filepath.Join(bpDir, "defaults")
-	if err := os.MkdirAll(defaultsDir, 0755); err != nil {
-		t.Fatalf("Failed to create defaults dir: %v", err)
+	// Create user config directory with invalid web server
+	userConfigDir := filepath.Join(buildDir, ".bp-config")
+	if err := os.MkdirAll(userConfigDir, 0755); err != nil {
+		t.Fatalf("Failed to create user config dir: %v", err)
 	}
 
-	// Write default options.json with invalid web server
-	defaultOpts := `{
-		"STACK": "cflinuxfs4",
-		"LIBDIR": "lib",
-		"WEBDIR": "htdocs",
-		"WEB_SERVER": "apache",
-		"PHP_VM": "php",
-		"ADMIN_EMAIL": "admin@localhost",
-		"HTTPD_STRIP": false,
-		"HTTPD_MODULES_STRIP": true,
-		"NGINX_STRIP": false,
-		"PHP_STRIP": false,
-		"PHP_MODULES_STRIP": true,
-		"PHP_MODULES": [],
-		"PHP_EXTENSIONS": [],
-		"ZEND_EXTENSIONS": []
+	// Write user options.json with INVALID web server
+	userOpts := `{
+		"WEB_SERVER": "apache"
 	}`
-	if err := os.WriteFile(filepath.Join(defaultsDir, "options.json"), []byte(defaultOpts), 0644); err != nil {
-		t.Fatalf("Failed to write default options: %v", err)
+	if err := os.WriteFile(filepath.Join(userConfigDir, "options.json"), []byte(userOpts), 0644); err != nil {
+		t.Fatalf("Failed to write user options: %v", err)
 	}
 
 	// Create mock manifest
@@ -244,7 +232,13 @@ func TestLoadOptions_InvalidWebServer(t *testing.T) {
 	// Load options - should fail validation
 	_, err := options.LoadOptions(bpDir, buildDir, manifest, logger)
 	if err == nil {
-		t.Fatal("Expected error for invalid WEB_SERVER, got nil")
+		t.Fatal("Expected error for invalid WEB_SERVER 'apache', got nil")
+	}
+
+	// Verify error message
+	expectedMsg := "invalid WEB_SERVER: apache"
+	if !strings.Contains(err.Error(), expectedMsg) {
+		t.Errorf("Expected error containing '%s', got: %v", expectedMsg, err)
 	}
 }
 

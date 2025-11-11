@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/cloudfoundry/libbuildpack"
@@ -397,10 +398,15 @@ func NewConfigFileEditor(path string) (*ConfigFileEditor, error) {
 
 // UpdateLines replaces lines matching a regex pattern with a new line
 func (e *ConfigFileEditor) UpdateLines(pattern, replacement string) error {
-	// TODO: Implement regex replacement
-	// For now, just do simple string replacement
+	re, err := regexp.Compile(pattern)
+	if err != nil {
+		return fmt.Errorf("invalid regex pattern %q: %w", pattern, err)
+	}
+
 	for i, line := range e.lines {
-		if line == pattern+"\n" {
+		// Remove trailing newline for matching
+		lineContent := strings.TrimSuffix(line, "\n")
+		if re.MatchString(lineContent) {
 			e.lines[i] = replacement + "\n"
 		}
 	}
