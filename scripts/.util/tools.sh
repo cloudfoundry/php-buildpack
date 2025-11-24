@@ -45,6 +45,34 @@ function util::tools::ginkgo::install() {
   fi
 }
 
+function util::tools::buildpack-packager::install() {
+  local dir
+  while [[ "${#}" != 0 ]]; do
+    case "${1}" in
+      --directory)
+        dir="${2}"
+        shift 2
+        ;;
+
+      *)
+        util::print::error "unknown argument \"${1}\""
+    esac
+  done
+
+  mkdir -p "${dir}"
+  util::tools::path::export "${dir}"
+
+  if [[ ! -f "${dir}/buildpack-packager" ]]; then
+    util::print::title "Installing buildpack-packager"
+
+    pushd /tmp > /dev/null || return
+      GOBIN="${dir}" \
+        go install \
+          github.com/cloudfoundry/libbuildpack/packager/buildpack-packager@latest
+    popd > /dev/null || return
+  fi
+}
+
 function util::tools::jq::install() {
   local dir
   while [[ "${#}" != 0 ]]; do

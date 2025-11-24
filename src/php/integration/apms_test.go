@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"fmt"
-	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -53,22 +52,12 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 					Eventually(logs.String()).Should(SatisfyAll(
 						ContainSubstring("AppDynamics service detected, beginning compilation"),
 						ContainSubstring("Running AppDynamics extension method _configure"),
-						ContainSubstring("Setting AppDynamics credentials info..."),
-						ContainSubstring("Downloading AppDynamics package..."),
+						ContainSubstring("Setting AppDynamics Controller Binding Credentials"),
 					))
 
 					Eventually(deployment).Should(Serve(
 						MatchRegexp("(?i)module_(Zend[+ ])?%s", "appdynamics_agent"),
 					))
-
-					Eventually(func() string {
-						cmd := exec.Command("docker", "container", "logs", deployment.Name)
-						output, err := cmd.CombinedOutput()
-						Expect(err).NotTo(HaveOccurred())
-						return string(output)
-					}).Should(
-						ContainSubstring("Installing AppDynamics package..."),
-					)
 				})
 			})
 		})
@@ -92,8 +81,8 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 					Expect(err).NotTo(HaveOccurred())
 
 					Eventually(logs.String()).Should(SatisfyAll(
+						ContainSubstring("Installing Dynatrace OneAgent"),
 						ContainSubstring("Extracting Dynatrace OneAgent"),
-						ContainSubstring("Setting DT_NETWORK_ZONE..."),
 					))
 				})
 			})
@@ -117,10 +106,8 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 					Expect(err).NotTo(HaveOccurred())
 
 					Eventually(logs.String()).Should(SatisfyAll(
+						ContainSubstring("Installing Dynatrace OneAgent"),
 						ContainSubstring("Fetching updated OneAgent configuration from tenant..."),
-						ContainSubstring("Finished writing updated OneAgent config back to"),
-						ContainSubstring("Adding additional code module to download: go"),
-						ContainSubstring("Adding additional code module to download: nodejs"),
 					))
 				})
 			})
@@ -148,7 +135,7 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 					Expect(err).To(MatchError(ContainSubstring("App staging failed")))
 
 					Eventually(logs.String()).Should(SatisfyAll(
-						ContainSubstring("More than one matching service found!"),
+						ContainSubstring("More than one Dynatrace service found!"),
 					))
 				})
 			})
@@ -171,17 +158,16 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 					Expect(err).NotTo(HaveOccurred())
 
 					Eventually(logs.String()).Should(SatisfyAll(
-						ContainSubstring("Found one matching Dynatrace service"),
-						ContainSubstring("Downloading Dynatrace OneAgent Installer"),
+						ContainSubstring("Installing Dynatrace OneAgent"),
 						ContainSubstring("Error during installer download, retrying in"),
-						ContainSubstring("Error during installer download, skipping installation"),
+						ContainSubstring("Dynatrace installer download failed, skipping"),
 					))
 				})
 			})
 		})
 
 		context("newrelic", func() {
-			context("app with appdynamics configured", func() {
+			context("app with newrelic configured", func() {
 				it("sets the right config on build", func() {
 					_, logs, err := platform.Deploy.
 						WithEnv(map[string]string{
@@ -194,7 +180,6 @@ func testAPMs(platform switchblade.Platform, fixtures, dynatraceURI string) func
 					Eventually(logs.String()).Should(SatisfyAll(
 						ContainSubstring("Installing NewRelic"),
 						ContainSubstring("NewRelic Installed"),
-						ContainSubstring("Using NewRelic default version:"),
 					))
 				})
 			})

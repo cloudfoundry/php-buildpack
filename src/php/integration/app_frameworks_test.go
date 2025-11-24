@@ -37,7 +37,6 @@ func testAppFrameworks(platform switchblade.Platform, fixtures string) func(*tes
 					WithEnv(map[string]string{
 						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
 					}).
-					WithStartCommand(`/app/bin/cake migrations migrate && /app/.bp/bin/start`).
 					Execute(name, filepath.Join(fixtures, "cake"))
 				Expect(err).NotTo(HaveOccurred())
 

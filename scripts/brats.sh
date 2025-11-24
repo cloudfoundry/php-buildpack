@@ -18,13 +18,7 @@ function main() {
   source "${ROOTDIR}/scripts/.util/tools.sh"
 
   util::tools::ginkgo::install --directory "${ROOTDIR}/.bin"
-
-  # set up buildpack-packager
-  # apt-get install ruby
-  gem install bundler
-  export BUNDLE_GEMFILE=cf.Gemfile
-  bundle install
-
+  util::tools::buildpack-packager::install --directory "${ROOTDIR}/.bin"
 
   GINKGO_NODES=${GINKGO_NODES:-3}
   GINKGO_ATTEMPTS=${GINKGO_ATTEMPTS:-1}

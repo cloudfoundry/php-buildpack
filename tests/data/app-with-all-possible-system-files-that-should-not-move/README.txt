@@ -1,1 +1,0 @@
-This directory is not a "real" app. It is a fixture intended to support test_system_files_not_moved_into_webdir. That's why all the files and folders are empty.

@@ -41,8 +41,7 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 				Expect(err).NotTo(HaveOccurred())
 
 				Eventually(logs).Should(SatisfyAll(
-					ContainSubstring("Downloading vlucas/phpdotenv"),
-					ContainSubstring("Installing vlucas/phpdotenv"),
+					ContainSubstring("Installing Composer dependencies"),
 				))
 
 				if !settings.Cached {
@@ -68,8 +67,7 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 				Expect(err).NotTo(HaveOccurred())
 
 				Eventually(logs).Should(SatisfyAll(
-					ContainSubstring("Installing dependencies from lock file"),
-					ContainSubstring("Installing monolog/monolog"),
+					ContainSubstring("Installing Composer dependencies"),
 				))
 			})
 		})

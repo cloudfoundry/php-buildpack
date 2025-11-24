@@ -1,6 +1,0 @@
-[submodule "compile-extensions"]
-	path = compile-extensions
-	url = https://github.com/cloudfoundry/compile-extensions
-[submodule "python-vendor/node-semver"]
-	path = python-vendor/node-semver
-	url = https://github.com/podhmo/python-node-semver.git
