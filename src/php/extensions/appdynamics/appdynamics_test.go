@@ -3,7 +3,7 @@ package appdynamics_test
 import (
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions/appdynamics"
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 

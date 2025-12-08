@@ -6,7 +6,7 @@ import (
 
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions/sessions"
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 

@@ -1,16 +1,30 @@
 #!/usr/bin/env bash
-set -euo pipefail
+
+set -e
+set -u
+set -o pipefail
 
 ROOTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly ROOTDIR
 
-source .envrc
+# shellcheck source=SCRIPTDIR/.util/tools.sh
+source "${ROOTDIR}/scripts/.util/tools.sh"
 
 # shellcheck source=SCRIPTDIR/.util/tools.sh
 source "${ROOTDIR}/scripts/.util/tools.sh"
 
-util::tools::ginkgo::install --directory "${ROOTDIR}/.bin"
+function main() {
+  local src
+  src="$(find "${ROOTDIR}/src" -mindepth 1 -maxdepth 1 -type d )"
 
-cd src/*/integration/..
-export CF_STACK=${CF_STACK:-cflinuxfs3}
-ginkgo -v -r -skipPackage=brats,integration
+  util::tools::ginkgo::install --directory "${ROOTDIR}/.bin"
+  util::tools::buildpack-packager::install --directory "${ROOTDIR}/.bin"
+
+  ginkgo \
+    -r \
+    -mod vendor \
+    -skipPackage brats,integration \
+      "${src}/..."
+}
+
+main "${@:-}"

@@ -11,7 +11,7 @@ import (
 	"github.com/cloudfoundry/php-buildpack/src/php/options"
 	"github.com/cloudfoundry/php-buildpack/src/php/supply"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
