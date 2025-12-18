@@ -154,7 +154,7 @@ function util::tools::cf::install() {
     cf version
     return 0
   fi
-
+  
   if [[ ! -f "${dir}/cf" ]]; then
     util::print::title "Installing cf"
 
