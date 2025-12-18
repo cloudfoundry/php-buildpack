@@ -119,10 +119,9 @@ func testWebServers(platform switchblade.Platform, fixtures string) func(*testin
 					)
 
 					Eventually(func() string {
-						cmd := exec.Command("docker", "container", "logs", deployment.Name)
-						output, err := cmd.CombinedOutput()
+						logs, err := deployment.RuntimeLogs()
 						Expect(err).NotTo(HaveOccurred())
-						return string(output)
+						return logs
 					}).Should(
 						Not(ContainSubstring("Invalid command 'RequestHeader'")),
 					)

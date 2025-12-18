@@ -139,10 +139,9 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 				Eventually(deployment).Should(Serve("").WithExpectedStatusCode(500))
 
 				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
+					logs, err := deployment.RuntimeLogs()
 					Expect(err).NotTo(HaveOccurred())
-					return string(output)
+					return logs
 				}).Should(
 					ContainSubstring("PHP message: PHP Fatal error:  Uncaught AMQPConnectionException"),
 				)
@@ -193,10 +192,9 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 				).WithExpectedStatusCode(500))
 
 				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
+					logs, err := deployment.RuntimeLogs()
 					Expect(err).NotTo(HaveOccurred())
-					return string(output)
+					return logs
 				}).Should(Or(
 					ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Connection refused"),
 					ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Cannot assign requested address"),
