@@ -43,9 +43,9 @@ func testOffline(platform switchblade.Platform, fixtures string) func(*testing.T
 					Execute(name, filepath.Join(fixtures, "vendored"))
 				Expect(err).NotTo(HaveOccurred())
 
-				Eventually(logs).Should(
-					ContainLines("Generating autoload files"),
-				)
+				Eventually(logs).Should(SatisfyAll(
+					ContainSubstring("Generating autoload files"),
+				))
 
 				Eventually(deployment).Should(Serve(
 					ContainSubstring("<p>App with dependencies running</p>"),
