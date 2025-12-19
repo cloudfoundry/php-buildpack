@@ -125,12 +125,16 @@ function specs::run() {
   platform_flag="--platform=${platform}"
   stack_flag="--stack=${stack}"
   token_flag="--github-token=${token}"
-  keep_failed_flag="--keep-failed-containers=${keep_failed}"
+  keep_failed_flag=""
   nodes=1
 
   if [[ "${parallel}" == "true" ]]; then
     nodes=3
     serial_flag=""
+  fi
+
+  if [[ "${keep_failed}" == "true" ]]; then
+    keep_failed_flag="--keep-failed-containers"
   fi
 
   local buildpack_file version
