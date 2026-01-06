@@ -314,6 +314,75 @@ var _ = Describe("Supply", func() {
 				Expect(installer.installed).To(HaveKey("php"))
 			})
 		})
+
+	})
+
+	Describe("PHP-FPM configuration with dynamic deps index", func() {
+		It("uses dynamic deps index in fpm.d include directive when user configs exist", func() {
+			stager := &testStager{
+				buildDir: buildDir,
+				depsDir:  depsDir,
+				depsIdx:  "13",
+			}
+
+			supplier = &supply.Supplier{
+				Stager: stager,
+				Log:    logger,
+			}
+
+			phpInstallDir := filepath.Join(stager.DepDir(), "php")
+			phpEtcDir := filepath.Join(phpInstallDir, "etc")
+			Expect(os.MkdirAll(phpEtcDir, 0755)).To(Succeed())
+
+			fpmDDir := filepath.Join(phpEtcDir, "fpm.d")
+			Expect(os.MkdirAll(fpmDDir, 0755)).To(Succeed())
+			testConfPath := filepath.Join(fpmDDir, "test-pool.conf")
+			Expect(os.WriteFile(testConfPath, []byte("[test]\nlisten = 9001\n"), 0644)).To(Succeed())
+
+			phpFpmConfPath := filepath.Join(phpEtcDir, "php-fpm.conf")
+			phpFpmConfContent := "[global]\npid = /tmp/php-fpm.pid\n\n#{PHP_FPM_CONF_INCLUDE}\n\n[www]\nlisten = 9000\n"
+			Expect(os.WriteFile(phpFpmConfPath, []byte(phpFpmConfContent), 0644)).To(Succeed())
+
+			err = supplier.ProcessPhpFpmConfForTesting(phpFpmConfPath, phpEtcDir)
+			Expect(err).To(BeNil())
+
+			content, err := os.ReadFile(phpFpmConfPath)
+			Expect(err).To(BeNil())
+
+			Expect(string(content)).To(ContainSubstring("include=@{DEPS_DIR}/13/php/etc/fpm.d/*.conf"))
+			Expect(string(content)).NotTo(ContainSubstring("@{DEPS_DIR}/0/"))
+			Expect(string(content)).NotTo(ContainSubstring("#{PHP_FPM_CONF_INCLUDE}"))
+		})
+
+		It("removes include directive when no user fpm.d configs exist", func() {
+			stager := &testStager{
+				buildDir: buildDir,
+				depsDir:  depsDir,
+				depsIdx:  "07",
+			}
+
+			supplier = &supply.Supplier{
+				Stager: stager,
+				Log:    logger,
+			}
+
+			phpInstallDir := filepath.Join(stager.DepDir(), "php")
+			phpEtcDir := filepath.Join(phpInstallDir, "etc")
+			Expect(os.MkdirAll(phpEtcDir, 0755)).To(Succeed())
+
+			phpFpmConfPath := filepath.Join(phpEtcDir, "php-fpm.conf")
+			phpFpmConfContent := "[global]\npid = /tmp/php-fpm.pid\n\n#{PHP_FPM_CONF_INCLUDE}\n\n[www]\nlisten = 9000\n"
+			Expect(os.WriteFile(phpFpmConfPath, []byte(phpFpmConfContent), 0644)).To(Succeed())
+
+			err = supplier.ProcessPhpFpmConfForTesting(phpFpmConfPath, phpEtcDir)
+			Expect(err).To(BeNil())
+
+			content, err := os.ReadFile(phpFpmConfPath)
+			Expect(err).To(BeNil())
+
+			Expect(string(content)).NotTo(ContainSubstring("include="))
+			Expect(string(content)).NotTo(ContainSubstring("#{PHP_FPM_CONF_INCLUDE}"))
+		})
 	})
 
 	Describe("InstallWebServer", func() {

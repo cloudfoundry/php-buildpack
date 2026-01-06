@@ -595,8 +595,9 @@ func (s *Supplier) processPhpFpmConf(phpFpmConfPath, phpEtcDir string) error {
 	// Set the include directive based on whether user has fpm.d configs
 	var includeDirective string
 	if hasFpmDConfigs {
-		// Use DEPS_DIR which will be replaced by rewrite tool at runtime
-		includeDirective = "include=@{DEPS_DIR}/0/php/etc/fpm.d/*.conf"
+		// Use DEPS_DIR with dynamic index which will be replaced by rewrite tool at runtime
+		depsIdx := s.Stager.DepsIdx()
+		includeDirective = fmt.Sprintf("include=@{DEPS_DIR}/%s/php/etc/fpm.d/*.conf", depsIdx)
 		s.Log.Info("Enabling fpm.d config includes")
 	} else {
 		includeDirective = ""
@@ -833,4 +834,9 @@ func (s *Supplier) copyFile(src, dest string) error {
 		return err
 	}
 	return os.Chmod(dest, sourceInfo.Mode())
+}
+
+// ProcessPhpFpmConfForTesting exposes processPhpFpmConf for testing purposes
+func (s *Supplier) ProcessPhpFpmConfForTesting(phpFpmConfPath, phpEtcDir string) error {
+	return s.processPhpFpmConf(phpFpmConfPath, phpEtcDir)
 }
