@@ -3,6 +3,7 @@ module github.com/cloudfoundry/php-buildpack
 go 1.24.0
 
 require (
+	github.com/Dynatrace/libbuildpack-dynatrace v1.8.0
 	github.com/cloudfoundry/libbuildpack v0.0.0-20251203175254-7be530ec9fef
 	github.com/cloudfoundry/switchblade v0.9.4
 	github.com/onsi/ginkgo/v2 v2.27.2

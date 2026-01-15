@@ -90,10 +90,10 @@ The project is broken down into the following directories:
     - `supply/` - Dependency installation (PHP, HTTPD, Nginx)
     - `finalize/` - Final configuration and setup
     - `release/` - Release information
-    - `extensions/` - Extension system (composer, newrelic, dynatrace, appdynamics, sessions)
+    - `extensions/` - Extension system (composer, newrelic, appdynamics, sessions)
     - `config/` - Configuration management
     - `options/` - Options parsing
-    - `hooks/` - Lifecycle hooks
+    - `hooks/` - Lifecycle hooks (dynatrace integration)
     - `integration/` - Integration tests
     - `unit/` - Unit tests
   - `defaults/` - Default configuration files
@@ -145,7 +145,7 @@ The buildpack includes several built-in extensions written in Go:
 
 - **[composer](src/php/extensions/composer/)** - [Downloads, installs and runs Composer](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-composer.html). Automatically detects PHP version requirements from `composer.json` and validates against locked dependencies.
 - **[newrelic](src/php/extensions/newrelic/)** - [Downloads, installs and configures the NewRelic agent for PHP](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-newrelic.html)
-- **[dynatrace](src/php/extensions/dynatrace/)** - Downloads and configures Dynatrace OneAgent. Looks for a bound service with name `dynatrace` and credentials containing `apiurl`, `environmentid`, and `apitoken`.
+- **[dynatrace](src/php/hooks/dynatrace.go)** - Downloads and configures Dynatrace OneAgent using the official [libbuildpack-dynatrace](https://github.com/Dynatrace/libbuildpack-dynatrace) library. Looks for a bound service with name `dynatrace` and credentials containing `apiurl`, `environmentid`, and `apitoken`.
 - **[appdynamics](src/php/extensions/appdynamics/)** - Downloads and configures AppDynamics agent
 - **[sessions](src/php/extensions/sessions/)** - [Configures PHP to store session information in a bound Redis or Memcached service instance](http://docs.cloudfoundry.org/buildpacks/php/gsg-php-sessions.html)
 

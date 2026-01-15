@@ -9,7 +9,6 @@ import (
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions/appdynamics"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions/composer"
-	"github.com/cloudfoundry/php-buildpack/src/php/extensions/dynatrace"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions/newrelic"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions/sessions"
 	"github.com/cloudfoundry/php-buildpack/src/php/finalize"
@@ -59,7 +58,6 @@ func main() {
 	registry := extensions.NewRegistry()
 	registry.Register(&sessions.SessionsExtension{})
 	registry.Register(&appdynamics.AppDynamicsExtension{})
-	registry.Register(&dynatrace.DynatraceExtension{})
 	registry.Register(&newrelic.NewRelicExtension{})
 	registry.Register(&composer.ComposerExtension{})
 
