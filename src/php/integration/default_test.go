@@ -91,5 +91,31 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			})
 		})
 
+		context("PHP app deployed via git URL buildpack", func() {
+			it("successfully builds without release YAML pollution", func() {
+				if settings.Platform == "docker" {
+					t.Skip("Git URL buildpacks require CF platform - Docker platform cannot clone git repos")
+				}
+
+				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("https://github.com/cloudfoundry/php-buildpack.git").
+					WithEnv(map[string]string{
+						"BP_DEBUG": "1",
+					}).
+					Execute(name, filepath.Join(fixtures, "default"))
+
+				Expect(err).NotTo(HaveOccurred(), logs.String)
+
+				Eventually(logs).Should(SatisfyAll(
+					ContainLines("Installing PHP"),
+					ContainLines(MatchRegexp(`PHP [\d\.]+`)),
+				))
+
+				Eventually(deployment).Should(Serve(
+					ContainSubstring("PHP Version"),
+				))
+			})
+		})
+
 	}
 }

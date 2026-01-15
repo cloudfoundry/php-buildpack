@@ -138,6 +138,21 @@ func Run(f *Finalizer) error {
 		return err
 	}
 
+	// Write release YAML file for bin/release to consume
+	tmpDir := filepath.Join(f.Stager.BuildDir(), "tmp")
+	if err := os.MkdirAll(tmpDir, 0755); err != nil {
+		return fmt.Errorf("failed to create tmp directory: %w", err)
+	}
+
+	releaseYamlPath := filepath.Join(tmpDir, "php-buildpack-release-step.yml")
+	yamlContent := `---
+default_process_types:
+  web: $HOME/.bp/bin/start
+`
+	if err := os.WriteFile(releaseYamlPath, []byte(yamlContent), 0644); err != nil {
+		return fmt.Errorf("failed to write release YAML: %w", err)
+	}
+
 	f.Log.Info("PHP buildpack finalize phase complete")
 	return nil
 }
