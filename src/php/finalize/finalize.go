@@ -9,6 +9,7 @@ import (
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
 	"github.com/cloudfoundry/php-buildpack/src/php/options"
+	"github.com/cloudfoundry/php-buildpack/src/php/util"
 )
 
 // Stager interface abstracts buildpack staging operations
@@ -231,7 +232,7 @@ func (f *Finalizer) CreateStartScript() error {
 	}
 	rewriteSrc := filepath.Join(bpDir, "bin", "rewrite")
 	rewriteDst := filepath.Join(bpBinDir, "rewrite")
-	if err := copyFile(rewriteSrc, rewriteDst); err != nil {
+	if err := util.CopyFile(rewriteSrc, rewriteDst); err != nil {
 		return fmt.Errorf("could not copy rewrite binary: %v", err)
 	}
 	f.Log.Debug("Copied rewrite binary to .bp/bin")
@@ -349,24 +350,6 @@ func (f *Finalizer) CreatePHPRuntimeDirectories() error {
 	}
 	f.Log.Debug("Created PHP runtime directory: %s", phpVarRunDir)
 	return nil
-}
-
-// copyFile copies a file from src to dst with the same permissions
-func copyFile(src, dst string) error {
-	// Read source file
-	data, err := os.ReadFile(src)
-	if err != nil {
-		return err
-	}
-
-	// Get source file info for permissions
-	srcInfo, err := os.Stat(src)
-	if err != nil {
-		return err
-	}
-
-	// Write destination file with same permissions
-	return os.WriteFile(dst, data, srcInfo.Mode())
 }
 
 // generateHTTPDStartScript generates a start script for Apache HTTPD with PHP-FPM

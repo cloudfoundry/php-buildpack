@@ -85,3 +85,18 @@ func CompareVersions(v1, v2 string) int {
 
 	return 0
 }
+
+// CopyFile copies a file from src to dst preserving file permissions
+func CopyFile(src, dst string) error {
+	data, err := os.ReadFile(src)
+	if err != nil {
+		return err
+	}
+
+	srcInfo, err := os.Stat(src)
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(dst, data, srcInfo.Mode())
+}

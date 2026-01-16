@@ -912,7 +912,7 @@ func (e *ComposerExtension) setupPHPConfig(ctx *extensions.Context) error {
 	// Copy processed php.ini to TMPDIR for Composer to use
 	// This matches the Python buildpack behavior where PHPRC points to TMPDIR
 	tmpPhpIniPath := filepath.Join(e.tmpDir, "php.ini")
-	if err := e.copyFile(phpIniPath, tmpPhpIniPath); err != nil {
+	if err := util.CopyFile(phpIniPath, tmpPhpIniPath); err != nil {
 		return fmt.Errorf("failed to copy php.ini to TMPDIR: %w", err)
 	}
 
@@ -1172,24 +1172,6 @@ func (e *ComposerExtension) ServiceCommands(ctx *extensions.Context) (map[string
 // ServiceEnvironment returns environment variables for runtime (none for Composer)
 func (e *ComposerExtension) ServiceEnvironment(ctx *extensions.Context) (map[string]string, error) {
 	return nil, nil
-}
-
-// copyFile copies a file from src to dst
-func (e *ComposerExtension) copyFile(src, dst string) error {
-	sourceFile, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer sourceFile.Close()
-
-	destFile, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer destFile.Close()
-
-	_, err = io.Copy(destFile, sourceFile)
-	return err
 }
 
 func (e *ComposerExtension) loadUserExtensions(ctx *extensions.Context) error {

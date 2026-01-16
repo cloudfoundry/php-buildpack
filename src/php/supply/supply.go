@@ -775,34 +775,8 @@ func (s *Supplier) copyUserConfigs(srcDir, destDir string) error {
 
 		// If it's a file, copy it
 		s.Log.Debug("Copying user config: %s -> %s", path, destPath)
-		return s.copyFile(path, destPath)
+		return util.CopyFile(path, destPath)
 	})
-}
-
-// copyFile copies a single file from src to dest
-func (s *Supplier) copyFile(src, dest string) error {
-	sourceFile, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer sourceFile.Close()
-
-	destFile, err := os.Create(dest)
-	if err != nil {
-		return err
-	}
-	defer destFile.Close()
-
-	if _, err := io.Copy(destFile, sourceFile); err != nil {
-		return err
-	}
-
-	// Copy file permissions
-	sourceInfo, err := os.Stat(src)
-	if err != nil {
-		return err
-	}
-	return os.Chmod(dest, sourceInfo.Mode())
 }
 
 // ProcessPhpFpmConfForTesting exposes processPhpFpmConf for testing purposes
