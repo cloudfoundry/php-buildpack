@@ -1,0 +1,14 @@
+{
+    "name": "cloudfoundry/composer_with_extensions",
+    "description": "Test app requiring PHP extensions during composer install",
+    "require": {
+        "php": ">=8.1",
+        "ext-apcu": "*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php -r \"if (!extension_loaded('apcu')) { echo 'FATAL: apcu extension not loaded during composer!'; exit(1); }\"",
+            "php -r \"echo 'SUCCESS: All required extensions are loaded during composer install\\n';\""
+        ]
+    }
+}

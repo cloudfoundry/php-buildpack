@@ -628,6 +628,12 @@ func (e *ComposerExtension) Compile(ctx *extensions.Context, installer *extensio
 		return fmt.Errorf("failed to install PHP: %w", err)
 	}
 
+	// Load user-requested extensions from .bp-config/php/php.ini.d/*.ini files
+	// and add them to the context so they're available during composer
+	if err := e.loadUserExtensions(ctx); err != nil {
+		return fmt.Errorf("failed to load user extensions: %w", err)
+	}
+
 	// Setup PHP configuration (config files + process extensions in php.ini)
 	if err := e.setupPHPConfig(ctx); err != nil {
 		return fmt.Errorf("failed to setup PHP config: %w", err)
@@ -878,13 +884,11 @@ func (e *ComposerExtension) setupPHPConfig(ctx *extensions.Context) error {
 	phpInstallDir := filepath.Join(e.buildDir, "php")
 	phpEtcDir := filepath.Join(phpInstallDir, "etc")
 
-	// Get PHP version from context to determine config path
 	phpVersion := ctx.GetString("PHP_VERSION")
 	if phpVersion == "" {
 		return fmt.Errorf("PHP_VERSION not set in context")
 	}
 
-	// Extract major.minor version (e.g., "8.1.32" -> "8.1")
 	versionParts := strings.Split(phpVersion, ".")
 	if len(versionParts) < 2 {
 		return fmt.Errorf("invalid PHP version format: %s", phpVersion)
@@ -892,25 +896,20 @@ func (e *ComposerExtension) setupPHPConfig(ctx *extensions.Context) error {
 	majorMinor := fmt.Sprintf("%s.%s", versionParts[0], versionParts[1])
 	phpConfigPath := fmt.Sprintf("php/%s.x", majorMinor)
 
-	// Extract PHP config files from embedded defaults
 	if err := config.ExtractConfig(phpConfigPath, phpEtcDir); err != nil {
 		return fmt.Errorf("failed to extract PHP config: %w", err)
 	}
 
-	// Create php.ini.d directory for extension configs
 	phpIniDir := filepath.Join(phpEtcDir, "php.ini.d")
 	if err := os.MkdirAll(phpIniDir, 0755); err != nil {
 		return fmt.Errorf("failed to create php.ini.d directory: %w", err)
 	}
 
-	// Process php.ini to replace extension placeholders
 	phpIniPath := filepath.Join(phpEtcDir, "php.ini")
 	if err := e.processPhpIni(ctx, phpIniPath); err != nil {
 		return fmt.Errorf("failed to process php.ini: %w", err)
 	}
 
-	// Copy processed php.ini to TMPDIR for Composer to use
-	// This matches the Python buildpack behavior where PHPRC points to TMPDIR
 	tmpPhpIniPath := filepath.Join(e.tmpDir, "php.ini")
 	if err := util.CopyFile(phpIniPath, tmpPhpIniPath); err != nil {
 		return fmt.Errorf("failed to copy php.ini to TMPDIR: %w", err)
@@ -1093,10 +1092,11 @@ func (e *ComposerExtension) runComposerCommand(ctx *extensions.Context, phpPath,
 func (e *ComposerExtension) buildComposerEnv() []string {
 	env := os.Environ()
 
-	// Add Composer-specific variables
 	vendorDir := filepath.Join(e.buildDir, e.composerVendorDir)
 	binDir := filepath.Join(e.buildDir, "php", "bin")
 	cacheDir := filepath.Join(e.composerHome, "cache")
+	phpEtcDir := filepath.Join(e.buildDir, "php", "etc")
+	phpIniScanDir := filepath.Join(phpEtcDir, "php.ini.d")
 
 	env = append(env,
 		fmt.Sprintf("COMPOSER_HOME=%s", e.composerHome),
@@ -1105,6 +1105,7 @@ func (e *ComposerExtension) buildComposerEnv() []string {
 		fmt.Sprintf("COMPOSER_CACHE_DIR=%s", cacheDir),
 		fmt.Sprintf("LD_LIBRARY_PATH=%s", filepath.Join(e.buildDir, "php", "lib")),
 		fmt.Sprintf("PHPRC=%s", e.tmpDir),
+		fmt.Sprintf("PHP_INI_SCAN_DIR=%s", phpIniScanDir),
 	)
 
 	return env
