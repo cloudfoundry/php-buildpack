@@ -485,6 +485,110 @@ func (c *ComposerExtension) Supply(stager libbuildpack.Stager) error {
 }
 ```
 
+### PHP Extension Configuration
+
+The buildpack supports two methods for specifying PHP extensions to load:
+
+#### Method 1: .ini Files (Standard PHP Format)
+
+Users can create `.ini` files in `.bp-config/php/php.ini.d/` with standard PHP extension directives:
+
+```ini
+[PHP]
+extension=apcu.so
+extension=redis.so
+zend_extension=opcache.so
+```
+
+**Implementation Details:**
+
+During both the **supply phase** (`src/php/supply/supply.go`) and **composer phase** (`src/php/extensions/composer/composer.go`), the buildpack:
+
+1. Walks the `.bp-config/php/php.ini.d/` directory
+2. Parses all `.ini` files looking for `extension=` and `zend_extension=` directives
+3. Extracts extension names (stripping `.so` suffix and quotes)
+4. Adds these extensions to the buildpack context's `PHP_EXTENSIONS` and `ZEND_EXTENSIONS` lists
+5. The buildpack's normal extension configuration mechanism handles loading them
+
+**Key Functions:**
+
+- `loadUserExtensions()` in `src/php/supply/supply.go` (lines 850-945)
+- `loadUserExtensions()` in `src/php/extensions/composer/composer.go` (lines 1254-1341)
+
+**Why This Approach:**
+
+- **No duplicate loading**: Extensions are only configured once through the buildpack mechanism
+- **Consistent**: Works the same way as extensions specified in `.bp-config/options.json`
+- **Build-time and runtime**: Extensions are available during `composer install` and at application runtime
+- **Familiar syntax**: PHP developers already know `.ini` file format
+
+#### Method 2: options.json (Buildpack-Specific Format)
+
+Alternatively, users can specify extensions in `.bp-config/options.json`:
+
+```json
+{
+  "PHP_EXTENSIONS": ["apcu", "redis"],
+  "ZEND_EXTENSIONS": ["opcache"]
+}
+```
+
+Both methods produce the same result and can be used interchangeably.
+
+#### Extension Types
+
+PHP extensions fall into two categories (defined in `manifest.yml`):
+
+1. **Built-in Extensions** - Have empty `version:` field, compiled into PHP binary
+   - Examples: `bz2`, `curl`, `fileinfo`, `gettext`, `openssl`, `sockets`, `zip`
+   - Always available, no explicit loading required
+
+2. **PECL Extensions** - Have version numbers (e.g., `5.1.23`), distributed separately
+   - Examples: `apcu`, `redis`, `mongodb`, `imagick`, `memcached`, `opcache`
+   - Require explicit loading via `.ini` files or `options.json`
+
+#### Composer Build-Time PHP Installation
+
+The composer extension creates a separate PHP installation specifically for running `composer install`:
+
+**Location:** `BUILD_DIR/php/` (temporary, not in final application)
+
+**Why separate?** 
+
+- Composer may have different PHP version requirements than the runtime
+- Allows composer to run with extensions needed for dependency installation
+- Isolated from runtime PHP configuration
+
+**Extension Loading Flow:**
+
+```
+1. Supply Phase (supply.go)
+   ├─► loadUserExtensions()
+   │   └─► Parse .bp-config/php/php.ini.d/*.ini
+   │       └─► Add to ctx.PHP_EXTENSIONS
+   │
+   └─► Install runtime PHP with extensions
+
+2. Composer Phase (composer.go)
+   ├─► loadUserExtensions()
+   │   └─► Parse .bp-config/php/php.ini.d/*.ini
+   │       └─► Add to ctx.PHP_EXTENSIONS
+   │
+   ├─► Install temporary PHP for composer
+   │   └─► Configure with user extensions
+   │
+   ├─► setupPHPConfig()
+   │   └─► Generate php.ini with extension_dir
+   │
+   └─► Run: php composer.phar install
+       └─► Extensions now available during install
+```
+
+**Key Files:**
+
+- `src/php/extensions/composer/composer.go` - Main composer extension logic
+- `src/php/supply/supply.go` - Runtime PHP installation and extension configuration
+
 ## Comparison with Other Buildpacks
 
 ### Go Buildpack
