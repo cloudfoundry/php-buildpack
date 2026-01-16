@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/cloudfoundry/libbuildpack"
+	"github.com/cloudfoundry/php-buildpack/src/php/util"
 )
 
 // Extension defines the interface that all buildpack extensions must implement.
@@ -476,4 +477,86 @@ func (h *PHPConfigHelper) PHPFpm() *ConfigFileEditor {
 // PHPIniPath returns the path to php.ini
 func (h *PHPConfigHelper) PHPIniPath() string {
 	return h.phpIniPath
+}
+
+// LoadUserExtensions loads user-requested PHP extensions from .bp-config/php/php.ini.d/*.ini files
+// and updates the context with the parsed extension lists
+func LoadUserExtensions(ctx *Context, buildDir string) error {
+	userPhpIniDir := filepath.Join(buildDir, ".bp-config", "php", "php.ini.d")
+	if _, err := os.Stat(userPhpIniDir); os.IsNotExist(err) {
+		return nil
+	}
+
+	fmt.Println("       Loading user-requested extensions from .bp-config/php/php.ini.d")
+
+	currentExtensions := ctx.GetStringSlice("PHP_EXTENSIONS")
+	currentZendExtensions := ctx.GetStringSlice("ZEND_EXTENSIONS")
+
+	extensionsToAdd := make(map[string]bool)
+	zendExtensionsToAdd := make(map[string]bool)
+
+	err := filepath.Walk(userPhpIniDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() || !strings.HasSuffix(strings.ToLower(path), ".ini") {
+			return nil
+		}
+
+		content, err := os.ReadFile(path)
+		if err != nil {
+			fmt.Printf("       WARNING: Failed to read %s: %v\n", path, err)
+			return nil
+		}
+
+		for _, line := range strings.Split(string(content), "\n") {
+			line = strings.TrimSpace(line)
+
+			if strings.HasPrefix(line, ";") || strings.HasPrefix(line, "#") || line == "" {
+				continue
+			}
+
+			if strings.HasPrefix(line, "extension=") || strings.HasPrefix(line, "extension =") {
+				extLine := strings.TrimSpace(strings.TrimPrefix(line, "extension="))
+				extLine = strings.TrimSpace(strings.TrimPrefix(extLine, "extension ="))
+				extName := strings.TrimSuffix(extLine, ".so")
+				extName = strings.Trim(extName, "\"' ")
+				if extName != "" {
+					extensionsToAdd[extName] = true
+				}
+			} else if strings.HasPrefix(line, "zend_extension=") || strings.HasPrefix(line, "zend_extension =") {
+				extLine := strings.TrimSpace(strings.TrimPrefix(line, "zend_extension="))
+				extLine = strings.TrimSpace(strings.TrimPrefix(extLine, "zend_extension ="))
+				extName := strings.TrimSuffix(extLine, ".so")
+				extName = strings.Trim(extName, "\"' ")
+				if extName != "" {
+					zendExtensionsToAdd[extName] = true
+				}
+			}
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return fmt.Errorf("failed to scan user ini files: %w", err)
+	}
+
+	for ext := range extensionsToAdd {
+		currentExtensions = append(currentExtensions, ext)
+	}
+	for ext := range zendExtensionsToAdd {
+		currentZendExtensions = append(currentZendExtensions, ext)
+	}
+
+	ctx.Set("PHP_EXTENSIONS", util.UniqueStrings(currentExtensions))
+	ctx.Set("ZEND_EXTENSIONS", util.UniqueStrings(currentZendExtensions))
+
+	if len(extensionsToAdd) > 0 || len(zendExtensionsToAdd) > 0 {
+		fmt.Printf("       Found %d extension(s) and %d zend extension(s) in user config\n",
+			len(extensionsToAdd), len(zendExtensionsToAdd))
+	}
+
+	return nil
 }
