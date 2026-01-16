@@ -436,17 +436,7 @@ func (s *Supplier) InstallPHP() error {
 	return nil
 }
 
-// processPhpIni processes php.ini to replace extension placeholders with actual extension directives
 func (s *Supplier) processPhpIni(phpIniPath string) error {
-	// Read the php.ini file
-	content, err := os.ReadFile(phpIniPath)
-	if err != nil {
-		return fmt.Errorf("failed to read php.ini: %w", err)
-	}
-
-	phpIniContent := string(content)
-
-	// Get PHP extensions from context if available, otherwise from Options
 	var phpExtensions, zendExtensions []string
 	if s.Context != nil {
 		phpExtensions = s.Context.GetStringSlice("PHP_EXTENSIONS")
@@ -456,79 +446,20 @@ func (s *Supplier) processPhpIni(phpIniPath string) error {
 		zendExtensions = s.Options.ZendExtensions
 	}
 
-	// Skip certain extensions that should not be in php.ini (they're CLI-only or built-in)
-	skipExtensions := map[string]bool{
-		"cli":  true,
-		"pear": true,
-		"cgi":  true,
-	}
-
-	// Find PHP extensions directory to validate requested extensions
 	phpInstallDir := filepath.Join(s.Stager.DepDir(), "php")
-	phpExtDir := ""
 
-	// Look for extensions directory: php/lib/php/extensions/no-debug-non-zts-*/
-	phpLibDir := filepath.Join(phpInstallDir, "lib", "php", "extensions")
-	if entries, err := os.ReadDir(phpLibDir); err == nil {
-		for _, entry := range entries {
-			if entry.IsDir() && strings.HasPrefix(entry.Name(), "no-debug-non-zts-") {
-				phpExtDir = filepath.Join(phpLibDir, entry.Name())
-				break
-			}
-		}
+	logWarning := func(format string, args ...interface{}) {
+		s.Log.Warning(format, args...)
 	}
 
-	// Get list of built-in PHP modules (extensions compiled into PHP core)
-	phpBinary := filepath.Join(phpInstallDir, "bin", "php")
-	phpLib := filepath.Join(phpInstallDir, "lib")
-	compiledModules, err := util.GetCompiledModules(phpBinary, phpLib)
-	if err != nil {
-		s.Log.Warning("Failed to get compiled PHP modules: %v", err)
-		compiledModules = make(map[string]bool) // Continue without built-in module list
-	}
-
-	// Build extension directives and validate extensions
-	var extensionLines []string
-	for _, ext := range phpExtensions {
-		if skipExtensions[ext] {
-			continue
-		}
-
-		// Check if extension .so file exists
-		if phpExtDir != "" {
-			extFile := filepath.Join(phpExtDir, ext+".so")
-			if exists, _ := libbuildpack.FileExists(extFile); exists {
-				// Extension has .so file, add to php.ini
-				extensionLines = append(extensionLines, fmt.Sprintf("extension=%s.so", ext))
-			} else if !compiledModules[strings.ToLower(ext)] {
-				// Extension doesn't have .so file AND is not built-in -> warn
-				fmt.Printf("The extension '%s' is not provided by this buildpack.\n", ext)
-			}
-			// If it's built-in (no .so but in compiled modules), silently skip - it's already available
-		}
-	}
-	extensionsString := strings.Join(extensionLines, "\n")
-
-	// Build zend extension directives
-	var zendExtensionLines []string
-	for _, ext := range zendExtensions {
-		zendExtensionLines = append(zendExtensionLines, fmt.Sprintf("zend_extension=\"%s.so\"", ext))
-	}
-	zendExtensionsString := strings.Join(zendExtensionLines, "\n")
-
-	// Replace build-time-only placeholders
-	// Note: Runtime placeholders like @{HOME}, @{TMPDIR}, #{WEBDIR}, #{LIBDIR} are left as-is
-	// and will be replaced by the rewrite tool at runtime (in start script)
-	phpIniContent = strings.ReplaceAll(phpIniContent, "#{PHP_EXTENSIONS}", extensionsString)
-	phpIniContent = strings.ReplaceAll(phpIniContent, "#{ZEND_EXTENSIONS}", zendExtensionsString)
-
-	// Write back to php.ini
-	if err := os.WriteFile(phpIniPath, []byte(phpIniContent), 0644); err != nil {
-		return fmt.Errorf("failed to write php.ini: %w", err)
-	}
-
-	s.Log.Debug("Processed php.ini with %d extensions and %d zend extensions", len(extensionLines), len(zendExtensionLines))
-	return nil
+	return config.ProcessPhpIni(
+		phpIniPath,
+		phpInstallDir,
+		phpExtensions,
+		zendExtensions,
+		nil,
+		logWarning,
+	)
 }
 
 // processPhpFpmConf processes php-fpm.conf to set the include directive for fpm.d configs

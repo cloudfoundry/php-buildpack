@@ -7,6 +7,9 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
+
+	"github.com/cloudfoundry/php-buildpack/src/php/util"
 )
 
 //go:embed defaults
@@ -194,4 +197,89 @@ func CopyWithSubstitution(src io.Reader, dest io.Writer, vars map[string]string)
 
 	_, err = dest.Write([]byte(content))
 	return err
+}
+
+// ProcessPhpIni processes php.ini file by validating extensions and replacing placeholders
+func ProcessPhpIni(
+	phpIniPath string,
+	phpInstallDir string,
+	phpExtensions []string,
+	zendExtensions []string,
+	additionalReplacements map[string]string,
+	logWarning func(string, ...interface{}),
+) error {
+	content, err := os.ReadFile(phpIniPath)
+	if err != nil {
+		return fmt.Errorf("failed to read php.ini: %w", err)
+	}
+
+	phpIniContent := string(content)
+
+	skipExtensions := map[string]bool{
+		"cli":  true,
+		"pear": true,
+		"cgi":  true,
+	}
+
+	phpExtDir := ""
+	phpLibDir := filepath.Join(phpInstallDir, "lib", "php", "extensions")
+	if entries, err := os.ReadDir(phpLibDir); err == nil {
+		for _, entry := range entries {
+			if entry.IsDir() && strings.HasPrefix(entry.Name(), "no-debug-non-zts-") {
+				phpExtDir = filepath.Join(phpLibDir, entry.Name())
+				break
+			}
+		}
+	}
+
+	phpBinary := filepath.Join(phpInstallDir, "bin", "php")
+	phpLib := filepath.Join(phpInstallDir, "lib")
+	compiledModules, err := util.GetCompiledModules(phpBinary, phpLib)
+	if err != nil {
+		if logWarning != nil {
+			logWarning("Failed to get compiled PHP modules: %v", err)
+		}
+		compiledModules = make(map[string]bool)
+	}
+
+	var extensionLines []string
+	for _, ext := range phpExtensions {
+		if skipExtensions[ext] {
+			continue
+		}
+
+		if phpExtDir != "" {
+			extFile := filepath.Join(phpExtDir, ext+".so")
+			exists := false
+			if info, err := os.Stat(extFile); err == nil && !info.IsDir() {
+				exists = true
+			}
+
+			if exists {
+				extensionLines = append(extensionLines, fmt.Sprintf("extension=%s.so", ext))
+			} else if !compiledModules[strings.ToLower(ext)] {
+				fmt.Printf("The extension '%s' is not provided by this buildpack.\n", ext)
+			}
+		}
+	}
+	extensionsString := strings.Join(extensionLines, "\n")
+
+	var zendExtensionLines []string
+	for _, ext := range zendExtensions {
+		zendExtensionLines = append(zendExtensionLines, fmt.Sprintf("zend_extension=\"%s.so\"", ext))
+	}
+	zendExtensionsString := strings.Join(zendExtensionLines, "\n")
+
+	phpIniContent = strings.ReplaceAll(phpIniContent, "#{PHP_EXTENSIONS}", extensionsString)
+	phpIniContent = strings.ReplaceAll(phpIniContent, "#{ZEND_EXTENSIONS}", zendExtensionsString)
+
+	for placeholder, value := range additionalReplacements {
+		phpIniContent = strings.ReplaceAll(phpIniContent, placeholder, value)
+	}
+
+	if err := os.WriteFile(phpIniPath, []byte(phpIniContent), 0644); err != nil {
+		return fmt.Errorf("failed to write php.ini: %w", err)
+	}
+
+	return nil
 }

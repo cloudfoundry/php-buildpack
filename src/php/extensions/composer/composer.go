@@ -919,28 +919,33 @@ func (e *ComposerExtension) setupPHPConfig(ctx *extensions.Context) error {
 	return nil
 }
 
-// processPhpIni processes php.ini to replace extension placeholders with actual extension directives
 func (e *ComposerExtension) processPhpIni(ctx *extensions.Context, phpIniPath string) error {
-	// Read the php.ini file
-	content, err := os.ReadFile(phpIniPath)
-	if err != nil {
-		return fmt.Errorf("failed to read php.ini: %w", err)
-	}
-
-	phpIniContent := string(content)
-
-	// Get PHP extensions from context
 	phpExtensions := ctx.GetStringSlice("PHP_EXTENSIONS")
 	zendExtensions := ctx.GetStringSlice("ZEND_EXTENSIONS")
 
-	// Skip certain extensions that should not be in php.ini (they're CLI-only or built-in)
-	skipExtensions := map[string]bool{
-		"cli":  true,
-		"pear": true,
-		"cgi":  true,
+	phpInstallDir := filepath.Join(e.buildDir, "php")
+
+	additionalReplacements := map[string]string{
+		"@{HOME}":   e.buildDir,
+		"@{TMPDIR}": e.tmpDir,
+		"#{LIBDIR}": e.libDir,
 	}
 
-	// Find PHP extensions directory to validate requested extensions
+	logWarning := func(format string, args ...interface{}) {
+		fmt.Printf("       WARNING: "+format+"\n", args...)
+	}
+
+	if err := config.ProcessPhpIni(
+		phpIniPath,
+		phpInstallDir,
+		phpExtensions,
+		zendExtensions,
+		additionalReplacements,
+		logWarning,
+	); err != nil {
+		return err
+	}
+
 	phpExtDir := ""
 	phpLibDir := filepath.Join(e.buildDir, "php", "lib", "php", "extensions")
 	if entries, err := os.ReadDir(phpLibDir); err == nil {
@@ -952,83 +957,29 @@ func (e *ComposerExtension) processPhpIni(ctx *extensions.Context, phpIniPath st
 		}
 	}
 
-	// Get list of built-in PHP modules (extensions compiled into PHP core)
-	phpBinary := filepath.Join(e.buildDir, "php", "bin", "php")
-	phpLib := filepath.Join(e.buildDir, "php", "lib")
-	compiledModules, err := util.GetCompiledModules(phpBinary, phpLib)
-	if err != nil {
-		fmt.Printf("       WARNING: Failed to get compiled PHP modules: %v\n", err)
-		compiledModules = make(map[string]bool) // Continue without built-in module list
-	}
-
-	// Build extension directives and validate extensions
-	var extensionLines []string
-	for _, ext := range phpExtensions {
-		if skipExtensions[ext] {
-			continue
-		}
-
-		// Check if extension .so file exists
-		if phpExtDir != "" {
-			extFile := filepath.Join(phpExtDir, ext+".so")
-			exists := false
-			if info, err := os.Stat(extFile); err == nil && !info.IsDir() {
-				exists = true
-			}
-
-			if exists {
-				// Extension has .so file, add to php.ini
-				extensionLines = append(extensionLines, fmt.Sprintf("extension=%s.so", ext))
-			} else if !compiledModules[strings.ToLower(ext)] {
-				// Extension doesn't have .so file AND is not built-in -> warn
-				fmt.Printf("The extension '%s' is not provided by this buildpack.\n", ext)
-			}
-			// If it's built-in (no .so but in compiled modules), silently skip - it's already available
-		}
-	}
-	extensionsString := strings.Join(extensionLines, "\n")
-
-	// Build zend extension directives
-	var zendExtensionLines []string
-	for _, ext := range zendExtensions {
-		zendExtensionLines = append(zendExtensionLines, fmt.Sprintf("zend_extension=\"%s.so\"", ext))
-	}
-	zendExtensionsString := strings.Join(zendExtensionLines, "\n")
-
-	// Replace placeholders
-	phpIniContent = strings.ReplaceAll(phpIniContent, "#{PHP_EXTENSIONS}", extensionsString)
-	phpIniContent = strings.ReplaceAll(phpIniContent, "#{ZEND_EXTENSIONS}", zendExtensionsString)
-
-	// Replace path placeholders (@{HOME}, @{TMPDIR}, #{LIBDIR})
-	// @{HOME} should be the build directory, not build_dir/php
-	// The template already has paths like @{HOME}/php/lib/...
-	phpIniContent = strings.ReplaceAll(phpIniContent, "@{HOME}", e.buildDir)
-	phpIniContent = strings.ReplaceAll(phpIniContent, "@{TMPDIR}", e.tmpDir)
-	phpIniContent = strings.ReplaceAll(phpIniContent, "#{LIBDIR}", e.libDir)
-
-	// Fix extension_dir to use the actual discovered path
-	// During Composer phase, PHP is installed in BUILD_DIR/php
-	// The phpExtDir variable already contains the correct full path
 	if phpExtDir != "" {
-		// Find and replace the extension_dir line with the actual path
+		content, err := os.ReadFile(phpIniPath)
+		if err != nil {
+			return fmt.Errorf("failed to read php.ini: %w", err)
+		}
+
+		phpIniContent := string(content)
 		lines := strings.Split(phpIniContent, "\n")
 		for i, line := range lines {
 			trimmed := strings.TrimSpace(line)
 			if strings.HasPrefix(trimmed, "extension_dir") && !strings.HasPrefix(trimmed, ";") {
-				// This is the active extension_dir line - replace it with actual path
 				lines[i] = fmt.Sprintf("extension_dir = \"%s\"", phpExtDir)
 				break
 			}
 		}
 		phpIniContent = strings.Join(lines, "\n")
+
+		if err := os.WriteFile(phpIniPath, []byte(phpIniContent), 0644); err != nil {
+			return fmt.Errorf("failed to write php.ini: %w", err)
+		}
 	}
 
-	// Write back to php.ini
-	if err := os.WriteFile(phpIniPath, []byte(phpIniContent), 0644); err != nil {
-		return fmt.Errorf("failed to write php.ini: %w", err)
-	}
-
-	fmt.Printf("       Configured PHP with %d extensions\n", len(extensionLines))
+	fmt.Printf("       Configured PHP with extensions\n")
 	return nil
 }
 
