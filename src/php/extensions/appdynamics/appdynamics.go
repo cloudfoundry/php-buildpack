@@ -2,6 +2,7 @@ package appdynamics
 
 import (
 	"fmt"
+	"path/filepath"
 	"regexp"
 
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
@@ -169,21 +170,10 @@ func (e *AppDynamicsExtension) Configure(ctx *extensions.Context) error {
 func (e *AppDynamicsExtension) Compile(ctx *extensions.Context, installer *extensions.Installer) error {
 	fmt.Println("Downloading AppDynamics package...")
 
-	// Merge defaults
-	if _, ok := ctx.Get("APPDYNAMICS_HOST"); !ok {
-		ctx.Set("APPDYNAMICS_HOST", "java-buildpack.cloudfoundry.org")
-	}
-	if _, ok := ctx.Get("APPDYNAMICS_VERSION"); !ok {
-		ctx.Set("APPDYNAMICS_VERSION", "23.11.0-839")
-	}
-	if _, ok := ctx.Get("APPDYNAMICS_PACKAGE"); !ok {
-		ctx.Set("APPDYNAMICS_PACKAGE", "appdynamics-{APPDYNAMICS_VERSION}.tar.bz2")
-	}
-	if _, ok := ctx.Get("APPDYNAMICS_DOWNLOAD_URL"); !ok {
-		ctx.Set("APPDYNAMICS_DOWNLOAD_URL", "https://{APPDYNAMICS_HOST}/appdynamics-php/{APPDYNAMICS_PACKAGE}")
-	}
+	buildDir := ctx.GetString("BUILD_DIR")
+	appdynamicsInstallDir := filepath.Join(buildDir, "appdynamics")
 
-	if err := installer.Package("APPDYNAMICS"); err != nil {
+	if err := installer.InstallOnlyVersion("appdynamics", appdynamicsInstallDir); err != nil {
 		return fmt.Errorf("failed to download AppDynamics package: %w", err)
 	}
 

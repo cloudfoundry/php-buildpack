@@ -202,6 +202,14 @@ func (i *Installer) InstallDependency(dep libbuildpack.Dependency, outputDir str
 	return i.libbuildpackInst.InstallDependency(dep, outputDir)
 }
 
+// InstallOnlyVersion installs the only available version of a dependency
+func (i *Installer) InstallOnlyVersion(depName, installDir string) error {
+	if i.libbuildpackInst == nil {
+		return fmt.Errorf("libbuildpack installer not available")
+	}
+	return i.libbuildpackInst.InstallOnlyVersion(depName, installDir)
+}
+
 // Package downloads and installs a package based on a key in the context
 // This mimics Python's install.package('PACKAGENAME') method
 func (i *Installer) Package(packageKey string) error {

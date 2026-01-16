@@ -167,8 +167,8 @@ func (e *NewRelicExtension) Compile(ctx *extensions.Context, installer *extensio
 
 	fmt.Println("-----> Installing NewRelic")
 
-	// Install NewRelic package
-	if err := installer.Package("NEWRELIC"); err != nil {
+	newrelicInstallDir := filepath.Join(e.buildDir, "newrelic")
+	if err := installer.InstallOnlyVersion("newrelic", newrelicInstallDir); err != nil {
 		return fmt.Errorf("failed to install NewRelic package: %w", err)
 	}
 
