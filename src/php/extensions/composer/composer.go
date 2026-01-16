@@ -15,6 +15,7 @@ import (
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/php-buildpack/src/php/config"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
+	"github.com/cloudfoundry/php-buildpack/src/php/util"
 )
 
 // ComposerExtension downloads, installs and runs Composer
@@ -125,7 +126,7 @@ func (e *ComposerExtension) Configure(ctx *extensions.Context) error {
 	}
 
 	// Update context with unique extensions
-	ctx.Set("PHP_EXTENSIONS", uniqueStrings(exts))
+	ctx.Set("PHP_EXTENSIONS", util.UniqueStrings(exts))
 	ctx.Set("PHP_VM", "php")
 
 	return nil
@@ -422,16 +423,16 @@ func (e *ComposerExtension) versionMatchesConstraint(version, constraint string)
 
 	if strings.HasPrefix(constraint, ">=") {
 		minVersion := strings.TrimSpace(constraint[2:])
-		return e.compareVersions(version, minVersion) >= 0
+		return util.CompareVersions(version, minVersion) >= 0
 	} else if strings.HasPrefix(constraint, ">") {
 		minVersion := strings.TrimSpace(constraint[1:])
-		return e.compareVersions(version, minVersion) > 0
+		return util.CompareVersions(version, minVersion) > 0
 	} else if strings.HasPrefix(constraint, "<=") {
 		maxVersion := strings.TrimSpace(constraint[2:])
-		return e.compareVersions(version, maxVersion) <= 0
+		return util.CompareVersions(version, maxVersion) <= 0
 	} else if strings.HasPrefix(constraint, "<") {
 		maxVersion := strings.TrimSpace(constraint[1:])
-		return e.compareVersions(version, maxVersion) < 0
+		return util.CompareVersions(version, maxVersion) < 0
 	} else if strings.HasPrefix(constraint, "^") {
 		baseVersion := strings.TrimSpace(constraint[1:])
 		return e.isCompatible(version, baseVersion)
@@ -449,8 +450,8 @@ func (e *ComposerExtension) versionMatchesConstraint(version, constraint string)
 func (e *ComposerExtension) findHighestVersionGTE(minVersion string, versions []string) string {
 	var best string
 	for _, v := range versions {
-		if e.compareVersions(v, minVersion) >= 0 {
-			if best == "" || e.compareVersions(v, best) > 0 {
+		if util.CompareVersions(v, minVersion) >= 0 {
+			if best == "" || util.CompareVersions(v, best) > 0 {
 				best = v
 			}
 		}
@@ -462,8 +463,8 @@ func (e *ComposerExtension) findHighestVersionGTE(minVersion string, versions []
 func (e *ComposerExtension) findHighestVersionGT(minVersion string, versions []string) string {
 	var best string
 	for _, v := range versions {
-		if e.compareVersions(v, minVersion) > 0 {
-			if best == "" || e.compareVersions(v, best) > 0 {
+		if util.CompareVersions(v, minVersion) > 0 {
+			if best == "" || util.CompareVersions(v, best) > 0 {
 				best = v
 			}
 		}
@@ -475,8 +476,8 @@ func (e *ComposerExtension) findHighestVersionGT(minVersion string, versions []s
 func (e *ComposerExtension) findHighestVersionLTE(maxVersion string, versions []string) string {
 	var best string
 	for _, v := range versions {
-		if e.compareVersions(v, maxVersion) <= 0 {
-			if best == "" || e.compareVersions(v, best) > 0 {
+		if util.CompareVersions(v, maxVersion) <= 0 {
+			if best == "" || util.CompareVersions(v, best) > 0 {
 				best = v
 			}
 		}
@@ -488,8 +489,8 @@ func (e *ComposerExtension) findHighestVersionLTE(maxVersion string, versions []
 func (e *ComposerExtension) findHighestVersionLT(maxVersion string, versions []string) string {
 	var best string
 	for _, v := range versions {
-		if e.compareVersions(v, maxVersion) < 0 {
-			if best == "" || e.compareVersions(v, best) > 0 {
+		if util.CompareVersions(v, maxVersion) < 0 {
+			if best == "" || util.CompareVersions(v, best) > 0 {
 				best = v
 			}
 		}
@@ -504,7 +505,7 @@ func (e *ComposerExtension) findHighestVersion(versions []string) string {
 	}
 	best := versions[0]
 	for _, v := range versions[1:] {
-		if e.compareVersions(v, best) > 0 {
+		if util.CompareVersions(v, best) > 0 {
 			best = v
 		}
 	}
@@ -516,7 +517,7 @@ func (e *ComposerExtension) findCompatibleVersion(baseVersion string, versions [
 	var best string
 	for _, v := range versions {
 		if e.isCompatible(v, baseVersion) {
-			if best == "" || e.compareVersions(v, best) > 0 {
+			if best == "" || util.CompareVersions(v, best) > 0 {
 				best = v
 			}
 		}
@@ -529,7 +530,7 @@ func (e *ComposerExtension) findApproximateVersion(baseVersion string, versions 
 	var best string
 	for _, v := range versions {
 		if e.isApproximatelyEquivalent(v, baseVersion) {
-			if best == "" || e.compareVersions(v, best) > 0 {
+			if best == "" || util.CompareVersions(v, best) > 0 {
 				best = v
 			}
 		}
@@ -546,7 +547,7 @@ func (e *ComposerExtension) findWildcardMatch(pattern string, versions []string)
 	var best string
 	for _, v := range versions {
 		if strings.HasPrefix(v, prefix) {
-			if best == "" || e.compareVersions(v, best) > 0 {
+			if best == "" || util.CompareVersions(v, best) > 0 {
 				best = v
 			}
 		}
@@ -570,7 +571,7 @@ func (e *ComposerExtension) isCompatible(version, base string) bool {
 	}
 
 	// Must be >= base version
-	return e.compareVersions(version, base) >= 0
+	return util.CompareVersions(version, base) >= 0
 }
 
 // isApproximatelyEquivalent checks if version is approximately equivalent to base (~ constraint)
@@ -589,39 +590,11 @@ func (e *ComposerExtension) isApproximatelyEquivalent(version, base string) bool
 	}
 
 	// Must be >= base version
-	return e.compareVersions(version, base) >= 0
+	return util.CompareVersions(version, base) >= 0
 }
 
 // compareVersions compares two semantic versions
 // Returns: -1 if v1 < v2, 0 if v1 == v2, 1 if v1 > v2
-func (e *ComposerExtension) compareVersions(v1, v2 string) int {
-	parts1 := strings.Split(v1, ".")
-	parts2 := strings.Split(v2, ".")
-
-	maxLen := len(parts1)
-	if len(parts2) > maxLen {
-		maxLen = len(parts2)
-	}
-
-	for i := 0; i < maxLen; i++ {
-		var n1, n2 int
-
-		if i < len(parts1) {
-			fmt.Sscanf(parts1[i], "%d", &n1)
-		}
-		if i < len(parts2) {
-			fmt.Sscanf(parts2[i], "%d", &n2)
-		}
-
-		if n1 < n2 {
-			return -1
-		} else if n1 > n2 {
-			return 1
-		}
-	}
-
-	return 0
-}
 
 // Compile downloads and runs Composer
 func (e *ComposerExtension) Compile(ctx *extensions.Context, installer *extensions.Installer) error {
@@ -946,37 +919,6 @@ func (e *ComposerExtension) setupPHPConfig(ctx *extensions.Context) error {
 	return nil
 }
 
-// getCompiledModules returns a list of built-in PHP modules by running `php -m`
-func getCompiledModules(phpBinPath, phpLibPath string) (map[string]bool, error) {
-	cmd := exec.Command(phpBinPath, "-m")
-	// Set LD_LIBRARY_PATH so php binary can find its shared libraries
-	env := os.Environ()
-	env = append(env, fmt.Sprintf("LD_LIBRARY_PATH=%s", phpLibPath))
-	cmd.Env = env
-
-	output, err := cmd.Output()
-	if err != nil {
-		return nil, fmt.Errorf("failed to run php -m: %w", err)
-	}
-
-	// Parse output - skip header lines and empty lines
-	compiledModules := make(map[string]bool)
-	skipLines := map[string]bool{
-		"[PHP Modules]":  true,
-		"[Zend Modules]": true,
-	}
-
-	for _, line := range strings.Split(string(output), "\n") {
-		line = strings.TrimSpace(line)
-		if line != "" && !skipLines[line] {
-			// Store lowercase version for case-insensitive comparison
-			compiledModules[strings.ToLower(line)] = true
-		}
-	}
-
-	return compiledModules, nil
-}
-
 // processPhpIni processes php.ini to replace extension placeholders with actual extension directives
 func (e *ComposerExtension) processPhpIni(ctx *extensions.Context, phpIniPath string) error {
 	// Read the php.ini file
@@ -1013,7 +955,7 @@ func (e *ComposerExtension) processPhpIni(ctx *extensions.Context, phpIniPath st
 	// Get list of built-in PHP modules (extensions compiled into PHP core)
 	phpBinary := filepath.Join(e.buildDir, "php", "bin", "php")
 	phpLib := filepath.Join(e.buildDir, "php", "lib")
-	compiledModules, err := getCompiledModules(phpBinary, phpLib)
+	compiledModules, err := util.GetCompiledModules(phpBinary, phpLib)
 	if err != nil {
 		fmt.Printf("       WARNING: Failed to get compiled PHP modules: %v\n", err)
 		compiledModules = make(map[string]bool) // Continue without built-in module list
@@ -1250,17 +1192,82 @@ func (e *ComposerExtension) copyFile(src, dst string) error {
 	return err
 }
 
-// uniqueStrings returns a slice with duplicate strings removed
-func uniqueStrings(input []string) []string {
-	seen := make(map[string]bool)
-	result := []string{}
-
-	for _, item := range input {
-		if !seen[item] {
-			seen[item] = true
-			result = append(result, item)
-		}
+func (e *ComposerExtension) loadUserExtensions(ctx *extensions.Context) error {
+	userPhpIniDir := filepath.Join(e.buildDir, ".bp-config", "php", "php.ini.d")
+	if _, err := os.Stat(userPhpIniDir); os.IsNotExist(err) {
+		return nil
 	}
 
-	return result
+	fmt.Println("       Loading user-requested extensions from .bp-config/php/php.ini.d")
+
+	currentExtensions := ctx.GetStringSlice("PHP_EXTENSIONS")
+	currentZendExtensions := ctx.GetStringSlice("ZEND_EXTENSIONS")
+
+	extensionsToAdd := make(map[string]bool)
+	zendExtensionsToAdd := make(map[string]bool)
+
+	err := filepath.Walk(userPhpIniDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() || !strings.HasSuffix(strings.ToLower(path), ".ini") {
+			return nil
+		}
+
+		content, err := os.ReadFile(path)
+		if err != nil {
+			fmt.Printf("       WARNING: Failed to read %s: %v\n", path, err)
+			return nil
+		}
+
+		for _, line := range strings.Split(string(content), "\n") {
+			line = strings.TrimSpace(line)
+
+			if strings.HasPrefix(line, ";") || strings.HasPrefix(line, "#") || line == "" {
+				continue
+			}
+
+			if strings.HasPrefix(line, "extension=") || strings.HasPrefix(line, "extension =") {
+				extLine := strings.TrimSpace(strings.TrimPrefix(line, "extension="))
+				extLine = strings.TrimSpace(strings.TrimPrefix(extLine, "extension ="))
+				extName := strings.TrimSuffix(extLine, ".so")
+				extName = strings.Trim(extName, "\"' ")
+				if extName != "" {
+					extensionsToAdd[extName] = true
+				}
+			} else if strings.HasPrefix(line, "zend_extension=") || strings.HasPrefix(line, "zend_extension =") {
+				extLine := strings.TrimSpace(strings.TrimPrefix(line, "zend_extension="))
+				extLine = strings.TrimSpace(strings.TrimPrefix(extLine, "zend_extension ="))
+				extName := strings.TrimSuffix(extLine, ".so")
+				extName = strings.Trim(extName, "\"' ")
+				if extName != "" {
+					zendExtensionsToAdd[extName] = true
+				}
+			}
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return fmt.Errorf("failed to scan user ini files: %w", err)
+	}
+
+	for ext := range extensionsToAdd {
+		currentExtensions = append(currentExtensions, ext)
+	}
+	for ext := range zendExtensionsToAdd {
+		currentZendExtensions = append(currentZendExtensions, ext)
+	}
+
+	ctx.Set("PHP_EXTENSIONS", util.UniqueStrings(currentExtensions))
+	ctx.Set("ZEND_EXTENSIONS", util.UniqueStrings(currentZendExtensions))
+
+	if len(extensionsToAdd) > 0 || len(zendExtensionsToAdd) > 0 {
+		fmt.Printf("       Found %d extension(s) and %d zend extension(s) in user config\n",
+			len(extensionsToAdd), len(zendExtensionsToAdd))
+	}
+
+	return nil
 }

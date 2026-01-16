@@ -9,6 +9,7 @@ import (
 
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/php-buildpack/src/php/config"
+	"github.com/cloudfoundry/php-buildpack/src/php/util"
 )
 
 // Manifest interface abstracts the buildpack manifest operations needed for options
@@ -222,40 +223,9 @@ func sortVersions(versions []string) {
 	// Simple bubble sort for semantic versions
 	for i := 0; i < len(versions); i++ {
 		for j := i + 1; j < len(versions); j++ {
-			if compareVersions(versions[i], versions[j]) > 0 {
+			if util.CompareVersions(versions[i], versions[j]) > 0 {
 				versions[i], versions[j] = versions[j], versions[i]
 			}
 		}
 	}
-}
-
-// compareVersions compares two semantic version strings
-// Returns: -1 if v1 < v2, 0 if v1 == v2, 1 if v1 > v2
-func compareVersions(v1, v2 string) int {
-	parts1 := strings.Split(v1, ".")
-	parts2 := strings.Split(v2, ".")
-
-	maxLen := len(parts1)
-	if len(parts2) > maxLen {
-		maxLen = len(parts2)
-	}
-
-	for i := 0; i < maxLen; i++ {
-		var n1, n2 int
-
-		if i < len(parts1) {
-			fmt.Sscanf(parts1[i], "%d", &n1)
-		}
-		if i < len(parts2) {
-			fmt.Sscanf(parts2[i], "%d", &n2)
-		}
-
-		if n1 < n2 {
-			return -1
-		} else if n1 > n2 {
-			return 1
-		}
-	}
-
-	return 0
 }
