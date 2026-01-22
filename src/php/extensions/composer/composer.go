@@ -410,6 +410,17 @@ func (e *ComposerExtension) versionMatchesConstraint(version, constraint string)
 		return false
 	}
 
+	// Handle OR constraints (|)
+	if strings.Contains(constraint, "|") {
+		parts := strings.Split(constraint, "|")
+		for _, part := range parts {
+			if e.versionMatchesConstraint(version, strings.TrimSpace(part)) {
+				return true
+			}
+		}
+		return false
+	}
+
 	// Handle AND constraints (space-separated)
 	if strings.Contains(constraint, " ") {
 		parts := strings.Fields(constraint)
