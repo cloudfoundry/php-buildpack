@@ -9,7 +9,6 @@ import (
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
 	"github.com/cloudfoundry/php-buildpack/src/php/options"
-	"github.com/cloudfoundry/php-buildpack/src/php/util"
 )
 
 // Stager interface abstracts buildpack staging operations
@@ -225,17 +224,18 @@ func (f *Finalizer) CreateStartScript() error {
 		return fmt.Errorf("could not create .bp/bin directory: %v", err)
 	}
 
-	// Copy rewrite binary to .bp/bin
 	bpDir := os.Getenv("BP_DIR")
 	if bpDir == "" {
 		return fmt.Errorf("BP_DIR environment variable not set")
 	}
+
+	// Copy pre-compiled rewrite binary from bin/rewrite to .bp/bin/rewrite
 	rewriteSrc := filepath.Join(bpDir, "bin", "rewrite")
 	rewriteDst := filepath.Join(bpBinDir, "rewrite")
-	if err := util.CopyFile(rewriteSrc, rewriteDst); err != nil {
+	if err := f.copyFile(rewriteSrc, rewriteDst); err != nil {
 		return fmt.Errorf("could not copy rewrite binary: %v", err)
 	}
-	f.Log.Debug("Copied rewrite binary to .bp/bin")
+	f.Log.Debug("Copied pre-compiled rewrite binary to .bp/bin")
 
 	// Load options from options.json to determine which web server to use
 	opts, err := options.LoadOptions(bpDir, f.Stager.BuildDir(), f.Manifest, f.Log)
@@ -606,6 +606,35 @@ func (f *Finalizer) SetupProcessTypes() error {
 	defaultProcfile := "web: .bp/bin/start\n"
 	if err := os.WriteFile(procfile, []byte(defaultProcfile), 0644); err != nil {
 		return fmt.Errorf("could not write Procfile: %v", err)
+	}
+
+	return nil
+}
+
+func (f *Finalizer) copyFile(src, dst string) error {
+	sourceFile, err := os.Open(src)
+	if err != nil {
+		return fmt.Errorf("could not open source file: %v", err)
+	}
+	defer sourceFile.Close()
+
+	destFile, err := os.Create(dst)
+	if err != nil {
+		return fmt.Errorf("could not create destination file: %v", err)
+	}
+	defer destFile.Close()
+
+	if _, err := io.Copy(destFile, sourceFile); err != nil {
+		return fmt.Errorf("could not copy file: %v", err)
+	}
+
+	sourceInfo, err := os.Stat(src)
+	if err != nil {
+		return fmt.Errorf("could not stat source file: %v", err)
+	}
+
+	if err := os.Chmod(dst, sourceInfo.Mode()); err != nil {
+		return fmt.Errorf("could not set file permissions: %v", err)
 	}
 
 	return nil

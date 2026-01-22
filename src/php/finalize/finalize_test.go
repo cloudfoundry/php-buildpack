@@ -405,7 +405,7 @@ var _ = Describe("Finalize", func() {
 			})
 		})
 
-		Context("when rewrite binary doesn't exist", func() {
+		Context("when rewrite binary doesn't exist in bin/", func() {
 			It("returns an error", func() {
 				finalizer = &finalize.Finalizer{
 					Manifest: manifest,
@@ -463,7 +463,7 @@ var _ = Describe("Finalize", func() {
 			Expect(bpBinDir).To(BeADirectory())
 		})
 
-		It("copies rewrite binary to .bp/bin", func() {
+		It("copies pre-compiled rewrite binary to .bp/bin", func() {
 			stager := &testStager{
 				buildDir: buildDir,
 				depsDir:  depsDir,
@@ -486,7 +486,7 @@ var _ = Describe("Finalize", func() {
 			rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
 			err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
 			Expect(err).To(BeNil())
-			err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\necho test\n"), 0755)
+			err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\necho test rewrite\n"), 0755)
 			Expect(err).To(BeNil())
 
 			optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
@@ -498,13 +498,12 @@ var _ = Describe("Finalize", func() {
 			err = finalizer.CreateStartScript()
 			Expect(err).To(BeNil())
 
-			// Verify rewrite binary was copied
 			rewriteDst := filepath.Join(buildDir, ".bp", "bin", "rewrite")
 			Expect(rewriteDst).To(BeAnExistingFile())
 
 			contents, err := os.ReadFile(rewriteDst)
 			Expect(err).To(BeNil())
-			Expect(string(contents)).To(ContainSubstring("echo test"))
+			Expect(string(contents)).To(ContainSubstring("echo test rewrite"))
 		})
 	})
 
