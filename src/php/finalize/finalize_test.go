@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/php-buildpack/src/php/finalize"
@@ -237,6 +238,7 @@ var _ = Describe("Finalize", func() {
 			manifest *testManifest
 			stager   *testStager
 			command  *testCommand
+			bpDir    string
 		)
 
 		BeforeEach(func() {
@@ -257,26 +259,21 @@ var _ = Describe("Finalize", func() {
 
 			command = &testCommand{}
 
-			// Set required environment variables
-			os.Setenv("BP_DIR", buildDir)
+			cwd, err := os.Getwd()
+			Expect(err).To(BeNil())
+			bpDir = filepath.Join(cwd, "..", "..", "..")
+			os.Setenv("BP_DIR", bpDir)
+			os.Setenv("GoInstallDir", runtime.GOROOT())
 		})
 
 		Context("when web server is httpd", func() {
 			It("creates HTTPD start script", func() {
-				// Create options.json with httpd
 				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
 				Expect(err).To(BeNil())
 
 				optionsJSON := `{"WEB_SERVER": "httpd", "WEBDIR": "htdocs"}`
 				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
-				Expect(err).To(BeNil())
-
-				// Create rewrite binary source (empty file for test)
-				rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
-				err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
-				Expect(err).To(BeNil())
-				err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\n"), 0755)
 				Expect(err).To(BeNil())
 
 				finalizer = &finalize.Finalizer{
@@ -289,11 +286,9 @@ var _ = Describe("Finalize", func() {
 				err = finalizer.CreateStartScript()
 				Expect(err).To(BeNil())
 
-				// Verify start script was created
 				startScript := filepath.Join(buildDir, ".bp", "bin", "start")
 				Expect(startScript).To(BeAnExistingFile())
 
-				// Verify script content
 				contents, err := os.ReadFile(startScript)
 				Expect(err).To(BeNil())
 				scriptContent := string(contents)
@@ -305,20 +300,12 @@ var _ = Describe("Finalize", func() {
 
 		Context("when web server is nginx", func() {
 			It("creates Nginx start script", func() {
-				// Create options.json with nginx
 				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
 				Expect(err).To(BeNil())
 
 				optionsJSON := `{"WEB_SERVER": "nginx", "WEBDIR": "htdocs"}`
 				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
-				Expect(err).To(BeNil())
-
-				// Create rewrite binary source
-				rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
-				err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
-				Expect(err).To(BeNil())
-				err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\n"), 0755)
 				Expect(err).To(BeNil())
 
 				finalizer = &finalize.Finalizer{
@@ -331,11 +318,9 @@ var _ = Describe("Finalize", func() {
 				err = finalizer.CreateStartScript()
 				Expect(err).To(BeNil())
 
-				// Verify start script was created
 				startScript := filepath.Join(buildDir, ".bp", "bin", "start")
 				Expect(startScript).To(BeAnExistingFile())
 
-				// Verify script content
 				contents, err := os.ReadFile(startScript)
 				Expect(err).To(BeNil())
 				scriptContent := string(contents)
@@ -347,20 +332,12 @@ var _ = Describe("Finalize", func() {
 
 		Context("when web server is none", func() {
 			It("creates PHP-FPM only start script", func() {
-				// Create options.json with none (PHP-FPM only)
 				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
 				Expect(err).To(BeNil())
 
 				optionsJSON := `{"WEB_SERVER": "none", "WEBDIR": "htdocs"}`
 				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
-				Expect(err).To(BeNil())
-
-				// Create rewrite binary source
-				rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
-				err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
-				Expect(err).To(BeNil())
-				err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\n"), 0755)
 				Expect(err).To(BeNil())
 
 				finalizer = &finalize.Finalizer{
@@ -373,11 +350,9 @@ var _ = Describe("Finalize", func() {
 				err = finalizer.CreateStartScript()
 				Expect(err).To(BeNil())
 
-				// Verify start script was created
 				startScript := filepath.Join(buildDir, ".bp", "bin", "start")
 				Expect(startScript).To(BeAnExistingFile())
 
-				// Verify script content
 				contents, err := os.ReadFile(startScript)
 				Expect(err).To(BeNil())
 				scriptContent := string(contents)
@@ -405,8 +380,10 @@ var _ = Describe("Finalize", func() {
 			})
 		})
 
-		Context("when rewrite binary doesn't exist in bin/", func() {
+		Context("when GoInstallDir is not set", func() {
 			It("returns an error", func() {
+				os.Unsetenv("GoInstallDir")
+
 				finalizer = &finalize.Finalizer{
 					Manifest: manifest,
 					Stager:   stager,
@@ -416,7 +393,7 @@ var _ = Describe("Finalize", func() {
 
 				err = finalizer.CreateStartScript()
 				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(ContainSubstring("rewrite"))
+				Expect(err.Error()).To(ContainSubstring("GoInstallDir"))
 			})
 		})
 	})
@@ -441,13 +418,11 @@ var _ = Describe("Finalize", func() {
 				Log:      logger,
 			}
 
-			// Set BP_DIR and create necessary files
-			os.Setenv("BP_DIR", buildDir)
-			rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
-			err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
+			cwd, err := os.Getwd()
 			Expect(err).To(BeNil())
-			err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\n"), 0755)
-			Expect(err).To(BeNil())
+			bpDir := filepath.Join(cwd, "..", "..", "..")
+			os.Setenv("BP_DIR", bpDir)
+			os.Setenv("GoInstallDir", runtime.GOROOT())
 
 			optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 			err = os.MkdirAll(filepath.Dir(optionsFile), 0755)
@@ -458,12 +433,11 @@ var _ = Describe("Finalize", func() {
 			err = finalizer.CreateStartScript()
 			Expect(err).To(BeNil())
 
-			// Verify directory structure
 			bpBinDir := filepath.Join(buildDir, ".bp", "bin")
 			Expect(bpBinDir).To(BeADirectory())
 		})
 
-		It("copies pre-compiled rewrite binary to .bp/bin", func() {
+		It("compiles rewrite binary to .bp/bin", func() {
 			stager := &testStager{
 				buildDir: buildDir,
 				depsDir:  depsDir,
@@ -482,12 +456,11 @@ var _ = Describe("Finalize", func() {
 				Log:      logger,
 			}
 
-			os.Setenv("BP_DIR", buildDir)
-			rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
-			err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
+			cwd, err := os.Getwd()
 			Expect(err).To(BeNil())
-			err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\necho test rewrite\n"), 0755)
-			Expect(err).To(BeNil())
+			bpDir := filepath.Join(cwd, "..", "..", "..")
+			os.Setenv("BP_DIR", bpDir)
+			os.Setenv("GoInstallDir", runtime.GOROOT())
 
 			optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 			err = os.MkdirAll(filepath.Dir(optionsFile), 0755)
@@ -501,9 +474,9 @@ var _ = Describe("Finalize", func() {
 			rewriteDst := filepath.Join(buildDir, ".bp", "bin", "rewrite")
 			Expect(rewriteDst).To(BeAnExistingFile())
 
-			contents, err := os.ReadFile(rewriteDst)
+			fileInfo, err := os.Stat(rewriteDst)
 			Expect(err).To(BeNil())
-			Expect(string(contents)).To(ContainSubstring("echo test rewrite"))
+			Expect(fileInfo.Mode().Perm() & 0111).NotTo(Equal(os.FileMode(0)))
 		})
 	})
 
@@ -578,12 +551,11 @@ var _ = Describe("Finalize", func() {
 					Log:      logger,
 				}
 
-				os.Setenv("BP_DIR", buildDir)
-				rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
-				err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
+				cwd, err := os.Getwd()
 				Expect(err).To(BeNil())
-				err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\n"), 0755)
-				Expect(err).To(BeNil())
+				bpDir := filepath.Join(cwd, "..", "..", "..")
+				os.Setenv("BP_DIR", bpDir)
+				os.Setenv("GoInstallDir", runtime.GOROOT())
 
 				// Create options with custom WEBDIR
 				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
@@ -622,12 +594,11 @@ var _ = Describe("Finalize", func() {
 					Log:      logger,
 				}
 
-				os.Setenv("BP_DIR", buildDir)
-				rewriteSrc := filepath.Join(buildDir, "bin", "rewrite")
-				err = os.MkdirAll(filepath.Dir(rewriteSrc), 0755)
+				cwd, err := os.Getwd()
 				Expect(err).To(BeNil())
-				err = os.WriteFile(rewriteSrc, []byte("#!/bin/bash\n"), 0755)
-				Expect(err).To(BeNil())
+				bpDir := filepath.Join(cwd, "..", "..", "..")
+				os.Setenv("BP_DIR", bpDir)
+				os.Setenv("GoInstallDir", runtime.GOROOT())
 
 				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 				err = os.MkdirAll(filepath.Dir(optionsFile), 0755)
