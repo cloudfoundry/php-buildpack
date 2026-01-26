@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack"
@@ -231,12 +230,25 @@ func (f *Finalizer) CreateStartScript() error {
 	}
 
 	rewriteDst := filepath.Join(bpBinDir, "rewrite")
-	if err := f.compileGoBinary(bpDir, "src/php/rewrite/cli", rewriteDst); err != nil {
-		return fmt.Errorf("could not compile rewrite binary: %v", err)
-	}
-	f.Log.Debug("Compiled rewrite binary to .bp/bin")
 
-	// Load options from options.json to determine which web server to use
+	rewriteSrc := os.Getenv("REWRITE_BINARY_PATH")
+	if rewriteSrc != "" {
+		if err := f.copyFile(rewriteSrc, rewriteDst); err != nil {
+			return fmt.Errorf("could not copy rewrite binary: %v", err)
+		}
+		f.Log.Debug("Copied pre-compiled rewrite binary to .bp/bin (from bash wrapper)")
+	} else {
+		rewriteSrc = filepath.Join(bpDir, "bin", "rewrite")
+		if _, err := os.Stat(rewriteSrc); err == nil {
+			if err := f.copyFile(rewriteSrc, rewriteDst); err != nil {
+				return fmt.Errorf("could not copy rewrite binary: %v", err)
+			}
+			f.Log.Debug("Copied pre-compiled rewrite binary to .bp/bin (from packaged buildpack)")
+		} else {
+			return fmt.Errorf("rewrite binary not found: neither REWRITE_BINARY_PATH nor %s exists", rewriteSrc)
+		}
+	}
+
 	opts, err := options.LoadOptions(bpDir, f.Stager.BuildDir(), f.Manifest, f.Log)
 	if err != nil {
 		return fmt.Errorf("could not load options: %v", err)
@@ -637,31 +649,4 @@ func (f *Finalizer) copyFile(src, dst string) error {
 	}
 
 	return nil
-}
-
-func (f *Finalizer) compileGoBinary(bpDir, srcPath, destPath string) error {
-	goInstallDir := os.Getenv("GoInstallDir")
-	if goInstallDir == "" {
-		return fmt.Errorf("GoInstallDir environment variable not set")
-	}
-
-	goBin := filepath.Join(goInstallDir, "bin", "go")
-	fullSrcPath := filepath.Join(bpDir, srcPath)
-
-	f.Log.Info("Compiling %s", srcPath)
-
-	cmd := exec.Command(goBin, "build", "-mod=vendor", "-ldflags=-s -w", "-o", destPath, fullSrcPath)
-	cmd.Dir = bpDir
-	cmd.Stdout = f.Log.Output()
-	cmd.Stderr = f.Log.Output()
-	cmd.Env = append(os.Environ(),
-		fmt.Sprintf("GOROOT=%s", goInstallDir),
-		"CGO_ENABLED=0",
-	)
-
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("go build failed: %v", err)
-	}
-
-	return os.Chmod(destPath, 0755)
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 
@@ -15,15 +16,32 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func compileRewriteBinaryForTest() string {
+	cwd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	bpDir := filepath.Join(cwd, "..", "..", "..")
+
+	tmpRewrite := filepath.Join(os.TempDir(), fmt.Sprintf("rewrite-test-%d", os.Getpid()))
+	cmd := exec.Command("go", "build", "-o", tmpRewrite, filepath.Join(bpDir, "src/php/rewrite/cli"))
+	cmd.Env = append(os.Environ(), "CGO_ENABLED=0")
+	if err := cmd.Run(); err != nil {
+		panic(fmt.Sprintf("Failed to compile rewrite binary: %v", err))
+	}
+	return tmpRewrite
+}
+
 var _ = Describe("Finalize", func() {
 	var (
-		buildDir  string
-		depsDir   string
-		depsIdx   string
-		finalizer *finalize.Finalizer
-		logger    *libbuildpack.Logger
-		buffer    *bytes.Buffer
-		err       error
+		buildDir      string
+		depsDir       string
+		depsIdx       string
+		finalizer     *finalize.Finalizer
+		logger        *libbuildpack.Logger
+		buffer        *bytes.Buffer
+		rewriteBinary string
+		err           error
 	)
 
 	BeforeEach(func() {
@@ -39,11 +57,23 @@ var _ = Describe("Finalize", func() {
 
 		buffer = new(bytes.Buffer)
 		logger = libbuildpack.NewLogger(buffer)
+
+		rewriteBinary = compileRewriteBinaryForTest()
+		os.Setenv("REWRITE_BINARY_PATH", rewriteBinary)
+
+		cwd, err := os.Getwd()
+		Expect(err).To(BeNil())
+		os.Setenv("BP_DIR", filepath.Join(cwd, "..", "..", ".."))
 	})
 
 	AfterEach(func() {
 		Expect(os.RemoveAll(buildDir)).To(Succeed())
 		Expect(os.RemoveAll(depsDir)).To(Succeed())
+		if rewriteBinary != "" {
+			os.Remove(rewriteBinary)
+		}
+		os.Unsetenv("REWRITE_BINARY_PATH")
+		os.Unsetenv("BP_DIR")
 	})
 
 	Describe("Stager interface", func() {
@@ -380,9 +410,9 @@ var _ = Describe("Finalize", func() {
 			})
 		})
 
-		Context("when GoInstallDir is not set", func() {
-			It("returns an error", func() {
-				os.Unsetenv("GoInstallDir")
+		Context("when rewrite binary is not available", func() {
+			It("uses pre-compiled binary from BP_DIR if available", func() {
+				os.Unsetenv("REWRITE_BINARY_PATH")
 
 				finalizer = &finalize.Finalizer{
 					Manifest: manifest,
@@ -392,8 +422,10 @@ var _ = Describe("Finalize", func() {
 				}
 
 				err = finalizer.CreateStartScript()
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(ContainSubstring("GoInstallDir"))
+				Expect(err).To(BeNil())
+
+				rewriteDst := filepath.Join(buildDir, ".bp", "bin", "rewrite")
+				Expect(rewriteDst).To(BeAnExistingFile())
 			})
 		})
 	})
@@ -437,7 +469,7 @@ var _ = Describe("Finalize", func() {
 			Expect(bpBinDir).To(BeADirectory())
 		})
 
-		It("compiles rewrite binary to .bp/bin", func() {
+		It("copies pre-compiled rewrite binary to .bp/bin", func() {
 			stager := &testStager{
 				buildDir: buildDir,
 				depsDir:  depsDir,
@@ -455,12 +487,6 @@ var _ = Describe("Finalize", func() {
 				Command:  &testCommand{},
 				Log:      logger,
 			}
-
-			cwd, err := os.Getwd()
-			Expect(err).To(BeNil())
-			bpDir := filepath.Join(cwd, "..", "..", "..")
-			os.Setenv("BP_DIR", bpDir)
-			os.Setenv("GoInstallDir", runtime.GOROOT())
 
 			optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 			err = os.MkdirAll(filepath.Dir(optionsFile), 0755)
