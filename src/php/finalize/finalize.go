@@ -262,12 +262,10 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 		phpReplacements := map[string]string{
 			"@{HOME}":         depsPath,
 			"@{DEPS_DIR}":     "/home/vcap/deps", // For fpm.d include directive
-			"#DEPS_DIR/0":     depsPath,          // Legacy placeholder from old config files
-			"#DEPS_DIR":       "/home/vcap/deps",
 			"#{LIBDIR}":       libDir,
 			"#PHP_FPM_LISTEN": phpFpmListen, // Note: no braces, unlike other placeholders
 			// @{TMPDIR} is converted to ${TMPDIR} for shell expansion at runtime
-			// This allows users to override TMPDIR via environment variable
+			// This allows users to customize TMPDIR via environment variable
 			"@{TMPDIR}": "${TMPDIR}",
 		}
 
