@@ -53,7 +53,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 				Expect(logs).NotTo(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
 
 				if settings.Cached {
-					Expect(logs).To(MatchRegexp(`Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php.*_linux_x64_.*.tgz\] to \[/tmp\]`))
+					Expect(logs).To(ContainLines(MatchRegexp(`Copy \[.*/dependencies/.*/php_[\d\.]+_linux_x64_.*\.tgz\]`)))
 				}
 
 				Eventually(deployment).Should(Serve(
