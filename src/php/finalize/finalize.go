@@ -260,10 +260,10 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 	if exists, _ := libbuildpack.FileExists(phpEtcDir); exists {
 		depsPath := filepath.Join("/home/vcap/deps", depsIdx)
 		phpReplacements := map[string]string{
-			"@{HOME}":         depsPath,
-			"@{DEPS_DIR}":     "/home/vcap/deps", // For fpm.d include directive
-			"#{LIBDIR}":       libDir,
-			"#PHP_FPM_LISTEN": phpFpmListen, // Note: no braces, unlike other placeholders
+			"@{HOME}":           depsPath,
+			"@{DEPS_DIR}":       "/home/vcap/deps", // For fpm.d include directive
+			"@{LIBDIR}":         libDir,
+			"@{PHP_FPM_LISTEN}": phpFpmListen,
 			// @{TMPDIR} is converted to ${TMPDIR} for shell expansion at runtime
 			// This allows users to customize TMPDIR via environment variable
 			"@{TMPDIR}": "${TMPDIR}",
@@ -283,8 +283,8 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 		if exists, _ := libbuildpack.FileExists(fpmDDir); exists {
 			fpmDReplacements := map[string]string{
 				"@{HOME}":   "/home/vcap/app", // Use app HOME for fpm.d env vars
-				"#{WEBDIR}": webDir,
-				"#{LIBDIR}": libDir,
+				"@{WEBDIR}": webDir,
+				"@{LIBDIR}": libDir,
 				"@{TMPDIR}": "${TMPDIR}",
 			}
 
@@ -297,9 +297,9 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 
 	// Process web server configs - use app directory for ${HOME}
 	appReplacements := map[string]string{
-		"#{WEBDIR}":         webDir,
-		"#{LIBDIR}":         libDir,
-		"#{PHP_FPM_LISTEN}": phpFpmListen,
+		"@{WEBDIR}":         webDir,
+		"@{LIBDIR}":         libDir,
+		"@{PHP_FPM_LISTEN}": phpFpmListen,
 	}
 
 	// Process HTTPD configs

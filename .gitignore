@@ -39,7 +39,6 @@ test-verify*/
 /bin/finalize-compiled
 /bin/release-compiled
 /bin/start-compiled
-/bin/rewrite-compiled
 
 # Test binary and coverage files
 *.out

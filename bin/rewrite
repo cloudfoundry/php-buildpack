@@ -1,6 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-
-# Rewrite binary was pre-compiled during finalize phase
-# and placed in .bp/bin/ directory. Just execute it.
-exec "$HOME/.bp/bin/rewrite" "$@"

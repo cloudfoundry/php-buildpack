@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"runtime"
 
@@ -16,32 +15,15 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func compileRewriteBinaryForTest() string {
-	cwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	bpDir := filepath.Join(cwd, "..", "..", "..")
-
-	tmpRewrite := filepath.Join(os.TempDir(), fmt.Sprintf("rewrite-test-%d", os.Getpid()))
-	cmd := exec.Command("go", "build", "-o", tmpRewrite, filepath.Join(bpDir, "src/php/rewrite/cli"))
-	cmd.Env = append(os.Environ(), "CGO_ENABLED=0")
-	if err := cmd.Run(); err != nil {
-		panic(fmt.Sprintf("Failed to compile rewrite binary: %v", err))
-	}
-	return tmpRewrite
-}
-
 var _ = Describe("Finalize", func() {
 	var (
-		buildDir      string
-		depsDir       string
-		depsIdx       string
-		finalizer     *finalize.Finalizer
-		logger        *libbuildpack.Logger
-		buffer        *bytes.Buffer
-		rewriteBinary string
-		err           error
+		buildDir  string
+		depsDir   string
+		depsIdx   string
+		finalizer *finalize.Finalizer
+		logger    *libbuildpack.Logger
+		buffer    *bytes.Buffer
+		err       error
 	)
 
 	BeforeEach(func() {
@@ -58,9 +40,6 @@ var _ = Describe("Finalize", func() {
 		buffer = new(bytes.Buffer)
 		logger = libbuildpack.NewLogger(buffer)
 
-		rewriteBinary = compileRewriteBinaryForTest()
-		os.Setenv("REWRITE_BINARY_PATH", rewriteBinary)
-
 		cwd, err := os.Getwd()
 		Expect(err).To(BeNil())
 		os.Setenv("BP_DIR", filepath.Join(cwd, "..", "..", ".."))
@@ -69,10 +48,6 @@ var _ = Describe("Finalize", func() {
 	AfterEach(func() {
 		Expect(os.RemoveAll(buildDir)).To(Succeed())
 		Expect(os.RemoveAll(depsDir)).To(Succeed())
-		if rewriteBinary != "" {
-			os.Remove(rewriteBinary)
-		}
-		os.Unsetenv("REWRITE_BINARY_PATH")
 		os.Unsetenv("BP_DIR")
 	})
 
@@ -409,25 +384,6 @@ var _ = Describe("Finalize", func() {
 				Expect(err.Error()).To(ContainSubstring("BP_DIR"))
 			})
 		})
-
-		Context("when rewrite binary is not available", func() {
-			It("uses pre-compiled binary from BP_DIR if available", func() {
-				os.Unsetenv("REWRITE_BINARY_PATH")
-
-				finalizer = &finalize.Finalizer{
-					Manifest: manifest,
-					Stager:   stager,
-					Command:  command,
-					Log:      logger,
-				}
-
-				err = finalizer.CreateStartScript()
-				Expect(err).To(BeNil())
-
-				rewriteDst := filepath.Join(buildDir, ".bp", "bin", "rewrite")
-				Expect(rewriteDst).To(BeAnExistingFile())
-			})
-		})
 	})
 
 	Describe("Start script file creation", func() {
@@ -467,42 +423,6 @@ var _ = Describe("Finalize", func() {
 
 			bpBinDir := filepath.Join(buildDir, ".bp", "bin")
 			Expect(bpBinDir).To(BeADirectory())
-		})
-
-		It("copies pre-compiled rewrite binary to .bp/bin", func() {
-			stager := &testStager{
-				buildDir: buildDir,
-				depsDir:  depsDir,
-				depsIdx:  depsIdx,
-			}
-
-			manifest := &testManifest{
-				versions: map[string][]string{"php": {"8.1.32"}},
-				defaults: map[string]string{"php": "8.1.32"},
-			}
-
-			finalizer = &finalize.Finalizer{
-				Manifest: manifest,
-				Stager:   stager,
-				Command:  &testCommand{},
-				Log:      logger,
-			}
-
-			optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
-			err = os.MkdirAll(filepath.Dir(optionsFile), 0755)
-			Expect(err).To(BeNil())
-			err = os.WriteFile(optionsFile, []byte(`{"WEB_SERVER": "httpd"}`), 0644)
-			Expect(err).To(BeNil())
-
-			err = finalizer.CreateStartScript()
-			Expect(err).To(BeNil())
-
-			rewriteDst := filepath.Join(buildDir, ".bp", "bin", "rewrite")
-			Expect(rewriteDst).To(BeAnExistingFile())
-
-			fileInfo, err := os.Stat(rewriteDst)
-			Expect(err).To(BeNil())
-			Expect(fileInfo.Mode().Perm() & 0111).NotTo(Equal(os.FileMode(0)))
 		})
 	})
 
