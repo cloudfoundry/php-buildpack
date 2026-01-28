@@ -654,6 +654,12 @@ func (e *ComposerExtension) Compile(ctx *extensions.Context, installer *extensio
 		return fmt.Errorf("failed to run composer: %w", err)
 	}
 
+	// Create vendor symlink in WEBDIR for backward compatibility
+	// This allows apps to use `require 'vendor/autoload.php'` from their web root
+	if err := e.createVendorSymlink(); err != nil {
+		return fmt.Errorf("failed to create vendor symlink: %w", err)
+	}
+
 	return nil
 }
 
@@ -873,6 +879,59 @@ func (e *ComposerExtension) runComposer(ctx *extensions.Context) error {
 	return nil
 }
 
+// createVendorSymlink creates a symlink from WEBDIR/vendor to the actual vendor directory
+// This allows apps to use relative paths like `require 'vendor/autoload.php'` from their web root
+func (e *ComposerExtension) createVendorSymlink() error {
+	// Only create symlink if:
+	// 1. WEBDIR exists (e.g., htdocs)
+	// 2. Vendor directory is not already inside WEBDIR
+	// 3. A vendor symlink doesn't already exist in WEBDIR
+
+	webDirPath := filepath.Join(e.buildDir, e.webDir)
+	webDirVendorPath := filepath.Join(webDirPath, "vendor")
+	actualVendorPath := filepath.Join(e.buildDir, e.composerVendorDir)
+
+	// Check if WEBDIR exists
+	if _, err := os.Stat(webDirPath); os.IsNotExist(err) {
+		return nil // WEBDIR doesn't exist, nothing to do
+	}
+
+	// Check if vendor is already inside WEBDIR (no symlink needed)
+	if strings.HasPrefix(e.composerVendorDir, e.webDir+string(os.PathSeparator)) {
+		return nil // Vendor is already inside WEBDIR
+	}
+
+	// Check if vendor directory or symlink already exists in WEBDIR
+	if info, err := os.Lstat(webDirVendorPath); err == nil {
+		if info.Mode()&os.ModeSymlink != 0 {
+			return nil // Symlink already exists
+		}
+		if info.IsDir() {
+			return nil // Real vendor directory exists
+		}
+	}
+
+	// Check if actual vendor directory exists
+	if _, err := os.Stat(actualVendorPath); os.IsNotExist(err) {
+		return nil // Vendor directory doesn't exist yet
+	}
+
+	// Calculate relative path from WEBDIR to vendor directory
+	// e.g., from htdocs/ to lib/vendor -> ../lib/vendor
+	relPath, err := filepath.Rel(webDirPath, actualVendorPath)
+	if err != nil {
+		return fmt.Errorf("failed to calculate relative path for vendor symlink: %w", err)
+	}
+
+	// Create the symlink
+	if err := os.Symlink(relPath, webDirVendorPath); err != nil {
+		return fmt.Errorf("failed to create vendor symlink: %w", err)
+	}
+
+	fmt.Printf("-----> Created vendor symlink: %s -> %s\n", filepath.Join(e.webDir, "vendor"), relPath)
+	return nil
+}
+
 // setupPHPConfig sets up PHP configuration files and processes extensions
 func (e *ComposerExtension) setupPHPConfig(ctx *extensions.Context) error {
 	phpInstallDir := filepath.Join(e.buildDir, "php")
@@ -928,7 +987,7 @@ func (e *ComposerExtension) processPhpIni(ctx *extensions.Context, phpIniPath st
 	additionalReplacements := map[string]string{
 		"@{HOME}":   e.buildDir,
 		"@{TMPDIR}": e.tmpDir,
-		"#{LIBDIR}": e.libDir,
+		"@{LIBDIR}": e.libDir,
 	}
 
 	logWarning := func(format string, args ...interface{}) {
