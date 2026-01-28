@@ -223,10 +223,10 @@ func (e *NewRelicExtension) modifyPHPIni() error {
 		}
 	}
 
-	// If no extensions found, insert after #{PHP_EXTENSIONS} marker
+	// If no extensions found, insert after @{PHP_EXTENSIONS} marker
 	if insertPos == -1 {
 		for i, line := range lines {
-			if strings.Contains(line, "#{PHP_EXTENSIONS}") {
+			if strings.Contains(line, "@{PHP_EXTENSIONS}") {
 				insertPos = i + 1
 				break
 			}
