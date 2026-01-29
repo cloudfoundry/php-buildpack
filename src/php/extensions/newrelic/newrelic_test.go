@@ -266,7 +266,7 @@ extension_dir = "/home/vcap/app/php/lib/php/extensions/debug-zts-20210902"
 			phpIniPath = filepath.Join(phpDir, "php.ini")
 			phpIniContent := `[PHP]
 extension_dir = "/home/vcap/app/php/lib/php/extensions/no-debug-non-zts-20210902"
-#{PHP_EXTENSIONS}
+@{PHP_EXTENSIONS}
 `
 			Expect(os.WriteFile(phpIniPath, []byte(phpIniContent), 0644)).To(Succeed())
 

@@ -116,14 +116,16 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 		})
 
 		context("app with custom conf files in php.ini.d dir in app root", func() {
-			it("app sets custom conf", func() {
+			it("app sets custom conf and replaces placeholders", func() {
 				deployment, _, err := platform.Deploy.
 					Execute(name, filepath.Join(fixtures, "php_with_php_ini_d"))
 				Expect(err).NotTo(HaveOccurred())
 
-				Eventually(deployment).Should(Serve(
+				Eventually(deployment).Should(Serve(SatisfyAll(
 					ContainSubstring("teststring"),
-				))
+					// Verify @{HOME} was replaced with /home/vcap/app in include_path
+					ContainSubstring("/home/vcap/app/lib"),
+				)))
 			})
 		})
 

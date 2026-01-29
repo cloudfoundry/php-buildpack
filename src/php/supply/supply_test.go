@@ -340,7 +340,7 @@ var _ = Describe("Supply", func() {
 			Expect(os.WriteFile(testConfPath, []byte("[test]\nlisten = 9001\n"), 0644)).To(Succeed())
 
 			phpFpmConfPath := filepath.Join(phpEtcDir, "php-fpm.conf")
-			phpFpmConfContent := "[global]\npid = /tmp/php-fpm.pid\n\n#{PHP_FPM_CONF_INCLUDE}\n\n[www]\nlisten = 9000\n"
+			phpFpmConfContent := "[global]\npid = /tmp/php-fpm.pid\n\n@{PHP_FPM_CONF_INCLUDE}\n\n[www]\nlisten = 9000\n"
 			Expect(os.WriteFile(phpFpmConfPath, []byte(phpFpmConfContent), 0644)).To(Succeed())
 
 			err = supplier.ProcessPhpFpmConfForTesting(phpFpmConfPath, phpEtcDir)
@@ -351,7 +351,7 @@ var _ = Describe("Supply", func() {
 
 			Expect(string(content)).To(ContainSubstring("include=@{DEPS_DIR}/13/php/etc/fpm.d/*.conf"))
 			Expect(string(content)).NotTo(ContainSubstring("@{DEPS_DIR}/0/"))
-			Expect(string(content)).NotTo(ContainSubstring("#{PHP_FPM_CONF_INCLUDE}"))
+			Expect(string(content)).NotTo(ContainSubstring("@{PHP_FPM_CONF_INCLUDE}"))
 		})
 
 		It("removes include directive when no user fpm.d configs exist", func() {
@@ -371,7 +371,7 @@ var _ = Describe("Supply", func() {
 			Expect(os.MkdirAll(phpEtcDir, 0755)).To(Succeed())
 
 			phpFpmConfPath := filepath.Join(phpEtcDir, "php-fpm.conf")
-			phpFpmConfContent := "[global]\npid = /tmp/php-fpm.pid\n\n#{PHP_FPM_CONF_INCLUDE}\n\n[www]\nlisten = 9000\n"
+			phpFpmConfContent := "[global]\npid = /tmp/php-fpm.pid\n\n@{PHP_FPM_CONF_INCLUDE}\n\n[www]\nlisten = 9000\n"
 			Expect(os.WriteFile(phpFpmConfPath, []byte(phpFpmConfContent), 0644)).To(Succeed())
 
 			err = supplier.ProcessPhpFpmConfForTesting(phpFpmConfPath, phpEtcDir)
@@ -381,7 +381,7 @@ var _ = Describe("Supply", func() {
 			Expect(err).To(BeNil())
 
 			Expect(string(content)).NotTo(ContainSubstring("include="))
-			Expect(string(content)).NotTo(ContainSubstring("#{PHP_FPM_CONF_INCLUDE}"))
+			Expect(string(content)).NotTo(ContainSubstring("@{PHP_FPM_CONF_INCLUDE}"))
 		})
 	})
 
