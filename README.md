@@ -8,6 +8,14 @@ A buildpack to deploy PHP applications to Cloud Foundry based systems, such as a
 
 Official buildpack documentation can be found here: [php buildpack docs](http://docs.cloudfoundry.org/buildpacks/php/index.html).
 
+**Developer Documentation:**
+- [docs/](docs/) - Architecture and implementation guides
+  - [User Guide](docs/USER_GUIDE.md) - Complete user guide for all buildpack features
+  - [Features Reference](docs/FEATURES.md) - Developer reference with test coverage verification
+  - [VCAP_SERVICES Usage](docs/VCAP_SERVICES_USAGE.md) - Service binding patterns
+  - [Buildpack Comparison](docs/BUILDPACK_COMPARISON.md) - Alignment with CF standards
+  - [Migration Guide](docs/REWRITE_MIGRATION.md) - v4.x to v5.x migration
+
 ### Building the Buildpack
 
 To build this buildpack, run the following commands from the buildpack's directory:
@@ -84,7 +92,7 @@ More information can be found on Github [switchblade](https://github.com/cloudfo
 
 The project is broken down into the following directories:
 
-  - `bin/` - Executable shell scripts for buildpack lifecycle: `detect`, `supply`, `finalize`, `release`, `start`, `rewrite`
+  - `bin/` - Executable shell scripts for buildpack lifecycle: `detect`, `supply`, `finalize`, `release`, `start`
   - `src/php/` - Go source code for the buildpack
     - `detect/` - Detection logic
     - `supply/` - Dependency installation (PHP, HTTPD, Nginx)
@@ -118,7 +126,8 @@ This buildpack uses Cloud Foundry's [libbuildpack](https://github.com/cloudfound
 3. **Finalize** (`bin/finalize` → `src/php/finalize/`) - Final configuration:
    - Configures web server (HTTPD or Nginx)
    - Sets up PHP and PHP-FPM configuration
-   - Copies rewrite and start binaries to `.bp/bin/`
+   - Copies start binary to `.bp/bin/`
+   - Processes configuration files to replace build-time placeholders with runtime values
    - Generates preprocess scripts that will run at startup
    - Prepares runtime environment
 
@@ -126,18 +135,66 @@ This buildpack uses Cloud Foundry's [libbuildpack](https://github.com/cloudfound
 
 #### Runtime Phases
 
-5. **Rewrite** (`bin/rewrite` → `src/php/rewrite/cli/`) - Configuration templating at runtime:
-   - Called during application startup (before services start)
-   - Replaces template patterns in configuration files with runtime environment variables
-   - Supports patterns: `@{VAR}`, `#{VAR}`, `@VAR@`, `#VAR`
-   - Allows configuration to adapt to the actual runtime environment (ports, paths, etc.)
-   - Rewrites PHP, PHP-FPM, and web server configs
-
-6. **Start** (`bin/start` → `src/php/start/cli/`) - Process management:
-   - Runs preprocess commands (including rewrite operations)
+5. **Start** (`bin/start` → `src/php/start/cli/`) - Process management:
+   - Runs preprocess commands
+   - Handles dynamic runtime variables (PORT, TMPDIR) via sed replacement
    - Launches all configured services (PHP-FPM, web server, etc.) from `.procs` file
    - Monitors all processes
    - If any process exits, terminates all others and restarts the application
+
+### Configuration Placeholders
+
+The buildpack uses a two-tier placeholder system for configuration files:
+
+#### Build-Time Placeholders (`@{VAR}`)
+
+These placeholders are replaced during the **finalize phase** (staging/build time) with known values:
+
+- `@{HOME}` - Replaced with dependency or app directory path
+- `@{DEPS_DIR}` - Replaced with `/home/vcap/deps`
+- `@{WEBDIR}` - Replaced with web document root (default: `htdocs`)
+- `@{LIBDIR}` - Replaced with library directory (default: `lib`)
+- `@{PHP_FPM_LISTEN}` - Replaced with PHP-FPM socket/TCP address
+- `@{TMPDIR}` - Converted to `${TMPDIR}` for runtime expansion
+- `@{PHP_EXTENSIONS}` - Replaced with extension directives
+- `@{ZEND_EXTENSIONS}` - Replaced with Zend extension directives
+- `@{PHP_FPM_CONF_INCLUDE}` - Replaced with fpm.d include directive
+
+**Example** (php.ini):
+```ini
+; Before finalize:
+extension_dir = "@{HOME}/php/lib/php/extensions"
+include_path = "@{HOME}/@{LIBDIR}"
+
+; After finalize:
+extension_dir = "/home/vcap/deps/0/php/lib/php/extensions"
+include_path = "/home/vcap/deps/0/lib"
+```
+
+#### Runtime Variables (`${VAR}`)
+
+These are standard environment variables expanded at **runtime**:
+
+- `${PORT}` - HTTP port assigned by Cloud Foundry (dynamic)
+- `${TMPDIR}` - Temporary directory (can be customized)
+- `${HOME}` - Application directory
+- `${HTTPD_SERVER_ADMIN}` - Apache admin email
+
+**Supported by:**
+- **Apache HTTPD** - Native variable interpolation for any `${VAR}`
+- **Bash scripts** - Standard shell expansion for any `${VAR}`
+- **Nginx/PHP configs** - Only `${PORT}` and `${TMPDIR}` via sed replacement
+
+**Example** (httpd.conf):
+```apache
+Listen ${PORT}                    # Expanded by Apache at runtime
+ServerRoot "${HOME}/httpd"        # Expanded by Apache at runtime
+DocumentRoot "${HOME}/htdocs"     # Expanded by Apache at runtime
+```
+
+**Note:** Custom placeholders are **not supported**. To use custom configuration values, either:
+- Use environment variables with `${VAR}` syntax (works with Apache/bash)
+- Set values directly in your code instead of using placeholders
 
 ### Extensions
 
@@ -175,9 +232,108 @@ type Extension interface {
 
 For examples, see the built-in extensions in `src/php/extensions/`.
 
-**Note:** Custom user extensions from `.extensions/` directory are not currently supported in the Go-based buildpack. This feature may be added in a future release.
+### User Extensions
 
+The buildpack supports user-defined extensions through the `.extensions/` directory. This allows you to add custom startup commands, environment variables, and services without modifying the buildpack itself.
 
+#### Creating a User Extension
+
+Create a directory `.extensions/<name>/` in your application with an `extension.json` file:
+
+```
+myapp/
+├── .extensions/
+│   └── myext/
+│       └── extension.json
+├── index.php
+└── .bp-config/
+    └── options.json
+```
+
+#### extension.json Format
+
+```json
+{
+    "name": "my-custom-extension",
+    "preprocess_commands": [
+        "echo 'Running setup'",
+        ["./bin/setup.sh", "arg1", "arg2"]
+    ],
+    "service_commands": {
+        "worker": "php worker.php --daemon"
+    },
+    "service_environment": {
+        "MY_VAR": "my_value",
+        "ANOTHER_VAR": "another_value"
+    }
+}
+```
+
+**Fields:**
+
+- `name` - Extension identifier (defaults to directory name)
+- `preprocess_commands` - Commands to run at container startup before PHP-FPM starts. Each command can be a string or array of arguments.
+- `service_commands` - Map of long-running background services (name → command)
+- `service_environment` - Environment variables to set for services
+
+### Additional Configuration Options
+
+#### ADDITIONAL_PREPROCESS_CMDS
+
+Run custom commands at container startup before PHP-FPM starts. Useful for migrations, cache warming, or other initialization tasks.
+
+**Configuration (`.bp-config/options.json`):**
+
+```json
+{
+    "ADDITIONAL_PREPROCESS_CMDS": [
+        "php artisan migrate --force",
+        "php artisan config:cache",
+        ["./bin/setup.sh", "arg1", "arg2"]
+    ]
+}
+```
+
+Commands can be:
+- A string: `"echo hello"` - runs as a single command
+- An array: `["script.sh", "arg1"]` - arguments joined with spaces
+
+#### Standalone PHP Mode (APP_START_CMD)
+
+For CLI/worker applications that don't need a web server or PHP-FPM, you can run a PHP script directly.
+
+**Configuration (`.bp-config/options.json`):**
+
+```json
+{
+    "WEB_SERVER": "none",
+    "APP_START_CMD": "worker.php"
+}
+```
+
+**Auto-detection:** If `WEB_SERVER` is set to `"none"` and `APP_START_CMD` is not specified, the buildpack searches for these entry point files:
+- `app.php`
+- `main.php`
+- `run.php`
+- `start.php`
+
+If none are found, it defaults to running PHP-FPM only (for custom proxy setups).
+
+**Example worker script:**
+
+```php
+<?php
+// worker.php - Long-running background worker
+echo "Worker started\n";
+
+while (true) {
+    // Process jobs from queue
+    processNextJob();
+    sleep(1);
+}
+```
+
+**Note:** Standalone apps on Cloud Foundry may need special health check configuration since they don't have an HTTP endpoint.
 
 ### Help and Support
 
