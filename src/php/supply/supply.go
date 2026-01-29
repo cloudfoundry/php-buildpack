@@ -412,7 +412,7 @@ func (s *Supplier) InstallPHP() error {
 	}
 
 	// Process php.ini to replace build-time extension placeholders only
-	// Runtime placeholders (@{HOME}, etc.) will be replaced by the rewrite tool in start script
+	// Runtime placeholders (@{HOME}, etc.) are replaced during finalize phase
 	phpIniPath := filepath.Join(phpEtcDir, "php.ini")
 	if err := s.processPhpIni(phpIniPath); err != nil {
 		return fmt.Errorf("failed to process php.ini: %w", err)
@@ -431,7 +431,7 @@ func (s *Supplier) InstallPHP() error {
 	}
 
 	// Note: User's .bp-config/php/fpm.d/*.conf files are already copied by copyUserConfigs() above
-	// They will be processed by the rewrite tool at runtime (in start script)
+	// They will be processed during the finalize phase (build-time placeholder replacement)
 
 	return nil
 }
@@ -495,7 +495,7 @@ func (s *Supplier) processPhpFpmConf(phpFpmConfPath, phpEtcDir string) error {
 	// Set the include directive based on whether user has fpm.d configs
 	var includeDirective string
 	if hasFpmDConfigs {
-		// Use DEPS_DIR with dynamic index which will be replaced by rewrite tool at runtime
+		// Use DEPS_DIR with dynamic index which will be replaced during finalize phase
 		depsIdx := s.Stager.DepsIdx()
 		includeDirective = fmt.Sprintf("include=@{DEPS_DIR}/%s/php/etc/fpm.d/*.conf", depsIdx)
 		s.Log.Info("Enabling fpm.d config includes")
@@ -505,7 +505,7 @@ func (s *Supplier) processPhpFpmConf(phpFpmConfPath, phpEtcDir string) error {
 	}
 
 	// Replace the placeholder
-	phpFpmConfContent = strings.ReplaceAll(phpFpmConfContent, "#{PHP_FPM_CONF_INCLUDE}", includeDirective)
+	phpFpmConfContent = strings.ReplaceAll(phpFpmConfContent, "@{PHP_FPM_CONF_INCLUDE}", includeDirective)
 
 	// Write back to php-fpm.conf
 	if err := os.WriteFile(phpFpmConfPath, []byte(phpFpmConfContent), 0644); err != nil {
@@ -516,16 +516,16 @@ func (s *Supplier) processPhpFpmConf(phpFpmConfPath, phpEtcDir string) error {
 }
 
 // createIncludePathIni creates a separate include-path.ini file in php.ini.d
-// This file uses @{HOME} placeholder which gets rewritten AFTER HOME is restored
-// to /home/vcap/app, avoiding the issue where php.ini gets rewritten while HOME
-// points to the deps directory
+// This file uses @{HOME} placeholder which gets replaced during finalize phase with /home/vcap/app
+// (app context, not deps context). The php.ini.d directory is processed separately from other
+// PHP configs because it contains app-relative paths like include_path.
 func (s *Supplier) createIncludePathIni(phpIniDDir string) error {
 	includePathIniPath := filepath.Join(phpIniDDir, "include-path.ini")
 
-	// Use @{HOME} placeholder which will be replaced by rewrite tool at runtime
-	// after HOME is restored to /home/vcap/app
+	// Use @{HOME} placeholder which will be replaced during finalize phase
+	// with /home/vcap/app (app context)
 	content := `; Include path configuration
-; This file is rewritten at runtime after HOME is restored to /home/vcap/app
+; This file is processed during finalize phase with @{HOME} = /home/vcap/app
 include_path = ".:/usr/share/php:@{HOME}/lib"
 `
 

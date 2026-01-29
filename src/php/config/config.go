@@ -270,8 +270,8 @@ func ProcessPhpIni(
 	}
 	zendExtensionsString := strings.Join(zendExtensionLines, "\n")
 
-	phpIniContent = strings.ReplaceAll(phpIniContent, "#{PHP_EXTENSIONS}", extensionsString)
-	phpIniContent = strings.ReplaceAll(phpIniContent, "#{ZEND_EXTENSIONS}", zendExtensionsString)
+	phpIniContent = strings.ReplaceAll(phpIniContent, "@{PHP_EXTENSIONS}", extensionsString)
+	phpIniContent = strings.ReplaceAll(phpIniContent, "@{ZEND_EXTENSIONS}", zendExtensionsString)
 
 	for placeholder, value := range additionalReplacements {
 		phpIniContent = strings.ReplaceAll(phpIniContent, placeholder, value)

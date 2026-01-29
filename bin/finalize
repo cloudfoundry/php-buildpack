@@ -9,11 +9,13 @@ PROFILE_DIR=$5
 
 export BUILDPACK_DIR=`dirname $(readlink -f ${BASH_SOURCE%/*})`
 source "$BUILDPACK_DIR/scripts/install_go.sh"
+export GoInstallDir="${GoInstallDir}"
+export BP_DIR="$BUILDPACK_DIR"
 output_dir=$(mktemp -d -t finalizeXXX)
 
-pushd $BUILDPACK_DIR
-echo "-----> Running go build finalize"
+pushd $BUILDPACK_DIR > /dev/null
+echo "-----> Compiling finalize binary"
 GOROOT=$GoInstallDir $GoInstallDir/bin/go build -mod=vendor -o $output_dir/finalize ./src/php/finalize/cli
-popd
+popd > /dev/null
 
 $output_dir/finalize "$BUILD_DIR" "$CACHE_DIR" "$DEPS_DIR" "$DEPS_IDX" "$PROFILE_DIR"

@@ -20,7 +20,7 @@ The PHP buildpack uses a **hybrid architecture** that combines:
 
 1. **Bash wrapper scripts** for buildpack lifecycle hooks (detect, supply, finalize, release)
 2. **Go implementations** for core logic (compiled at staging time)
-3. **Pre-compiled runtime utilities** for application startup (rewrite, start)
+3. **Pre-compiled runtime utility** for application startup (start)
 
 This design optimizes for both flexibility during staging and performance at runtime.
 
@@ -91,8 +91,9 @@ Installs dependencies:
 ### 3. Finalize Phase (`bin/finalize`)
 
 Configures the application for runtime:
+- Processes configuration files to replace build-time placeholders with runtime values
 - Generates start scripts with correct paths
-- Copies `rewrite` and `start` binaries to `$HOME/.bp/bin/`
+- Copies `start` binary to `$HOME/.bp/bin/`
 - Sets up environment variables
 
 **Location:** `src/php/finalize/finalize.go`
@@ -145,8 +146,8 @@ This triggers the following sequence:
        ├─► Load .procs file
        │   (defines processes to run)
        │
-       ├─► $HOME/.bp/bin/rewrite
-       │   (substitute runtime variables)
+       ├─► Handle dynamic runtime variables
+       │   (PORT, TMPDIR via sed replacement)
        │
        ├─► Start PHP-FPM
        │   (background, port 9000)
@@ -158,71 +159,17 @@ This triggers the following sequence:
            (multiplex output, handle failures)
 ```
 
-## Pre-compiled Binaries
+## Pre-compiled Binary
 
-The buildpack includes two pre-compiled runtime utilities:
+The buildpack includes a pre-compiled runtime utility:
 
 ### Why Pre-compiled?
 
-Unlike lifecycle hooks (detect, supply, finalize) which run **during staging**, these utilities run **during application startup**. Pre-compilation provides:
+Unlike lifecycle hooks (detect, supply, finalize) which run **during staging**, this utility runs **during application startup**. Pre-compilation provides:
 
 1. **Fast startup time** - No compilation delay when starting the app
 2. **Reliability** - Go toolchain not available in runtime container
 3. **Simplicity** - Single binary, no dependencies
-
-### `bin/rewrite` (1.7 MB)
-
-**Purpose:** Runtime configuration templating
-
-**Source:** `src/php/rewrite/cli/main.go`
-
-**Why needed:** Cloud Foundry assigns `$PORT` **at runtime**, not build time. Configuration files need runtime variable substitution.
-
-**Supported patterns:**
-
-| Pattern | Example | Replaced With |
-|---------|---------|---------------|
-| `@{VAR}` | `@{PORT}` | `$PORT` value |
-| `#{VAR}` | `#{HOME}` | `$HOME` value |
-| `@VAR@` | `@WEBDIR@` | `$WEBDIR` value |
-
-**Example usage:**
-
-```bash
-# In start script
-export PORT=8080
-export WEBDIR=htdocs
-$HOME/.bp/bin/rewrite "$DEPS_DIR/0/php/etc"
-
-# Before: httpd.conf
-Listen @{PORT}
-DocumentRoot #{HOME}/@WEBDIR@
-
-# After: httpd.conf
-Listen 8080
-DocumentRoot /home/vcap/app/htdocs
-```
-
-**Key files rewritten:**
-- `httpd.conf` - Apache configuration
-- `nginx.conf` - Nginx configuration  
-- `php-fpm.conf` - PHP-FPM configuration
-- `php.ini` - PHP configuration (extension_dir paths)
-
-**Implementation:** `src/php/rewrite/cli/main.go`
-
-```go
-func rewriteFile(filePath string) error {
-    content := readFile(filePath)
-    
-    // Replace @{VAR}, #{VAR}, @VAR@, #VAR
-    result := replacePatterns(content, "@{", "}")
-    result = replacePatterns(result, "#{", "}")
-    result = replaceSimplePatterns(result, "@", "@")
-    
-    writeFile(filePath, result)
-}
-```
 
 ### `bin/start` (1.9 MB)
 
@@ -317,24 +264,30 @@ These values **cannot be known at staging time**, so configuration files use tem
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│ 1. Staging Time (finalize.go)                                │
+│ 1. Staging Time (supply phase)                               │
 │    - Copy template configs with @{PORT}, #{HOME}, etc.       │
-│    - Generate start script with rewrite commands             │
-│    - Copy pre-compiled rewrite binary to .bp/bin/            │
+│    - Placeholders remain in config files                     │
 └──────────────────────────────────────────────────────────────┘
                             │
                             ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ 2. Runtime (start script)                                     │
-│    - Export environment variables (PORT, HOME, WEBDIR, etc.)  │
-│    - Run: $HOME/.bp/bin/rewrite $DEPS_DIR/0/php/etc          │
-│    - Run: $HOME/.bp/bin/rewrite $HOME/nginx/conf             │
+│ 2. Finalize Phase (build-time processing)                    │
+│    - Replace build-time placeholders with known values       │
+│    - Process PHP, PHP-FPM, and web server configs            │
+│    - Dynamic runtime values (PORT, TMPDIR) handled via sed   │
+└──────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 3. Runtime (start script)                                     │
+│    - Export environment variables (PORT, TMPDIR, etc.)        │
+│    - Use sed to replace remaining dynamic variables          │
 │    - Configs now have actual values instead of templates     │
 └──────────────────────────────────────────────────────────────┘
                             │
                             ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ 3. Start Processes                                            │
+│ 4. Start Processes                                            │
 │    - PHP-FPM reads php-fpm.conf (with real PORT)             │
 │    - Web server reads config (with real HOME, WEBDIR)        │
 └──────────────────────────────────────────────────────────────┘
@@ -355,7 +308,7 @@ server {
 }
 ```
 
-**At runtime** (after rewrite with `PORT=8080`, `HOME=/home/vcap/app`, `WEBDIR=htdocs`, `PHP_FPM_LISTEN=127.0.0.1:9000`):
+**At finalize/runtime** (after placeholder replacement with `PORT=8080`, `HOME=/home/vcap/app`, `WEBDIR=htdocs`, `PHP_FPM_LISTEN=127.0.0.1:9000`):
 
 ```nginx
 server {
@@ -598,18 +551,14 @@ export BP_DEBUG=true
 # - Process startup logs
 ```
 
-### Modifying Rewrite or Start Binaries
+### Modifying Start Binary
 
 ```bash
 # Edit source
-vim src/php/rewrite/cli/main.go
 vim src/php/start/cli/main.go
 
-# Rebuild binaries
-cd src/php/rewrite/cli
-go build -o ../../../../bin/rewrite
-
-cd ../../../start/cli
+# Rebuild binary
+cd src/php/start/cli
 go build -o ../../../../bin/start
 
 # Test changes
@@ -621,9 +570,10 @@ go build -o ../../../../bin/start
 The PHP buildpack's unique architecture is driven by PHP's multi-process nature:
 
 1. **Multi-process requirement** - PHP-FPM + Web Server (unlike Go/Ruby/Python single process)
-2. **Runtime configuration** - Cloud Foundry assigns PORT at runtime (requires templating)
-3. **Process coordination** - Two processes must start, run, and shutdown together
-4. **Pre-compiled utilities** - Fast startup, no compilation during app start
+2. **Build-time configuration processing** - Most placeholders replaced during finalize phase
+3. **Runtime variable handling** - Dynamic values (PORT, TMPDIR) handled via sed at startup
+4. **Process coordination** - Two processes must start, run, and shutdown together
+5. **Pre-compiled utility** - Fast startup, no compilation during app start
 
 This architecture ensures PHP applications run reliably and efficiently in Cloud Foundry while maintaining compatibility with standard PHP deployment patterns.
 
