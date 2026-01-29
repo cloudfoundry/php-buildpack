@@ -10,6 +10,8 @@ Official buildpack documentation can be found here: [php buildpack docs](http://
 
 **Developer Documentation:**
 - [docs/](docs/) - Architecture and implementation guides
+  - [User Guide](docs/USER_GUIDE.md) - Complete user guide for all buildpack features
+  - [Features Reference](docs/FEATURES.md) - Developer reference with test coverage verification
   - [VCAP_SERVICES Usage](docs/VCAP_SERVICES_USAGE.md) - Service binding patterns
   - [Buildpack Comparison](docs/BUILDPACK_COMPARISON.md) - Alignment with CF standards
   - [Migration Guide](docs/REWRITE_MIGRATION.md) - v4.x to v5.x migration

@@ -4,6 +4,26 @@ This directory contains architectural documentation for the PHP buildpack v5.x.
 
 ## Documentation Index
 
+### Features & User Guides
+
+- **[USER_GUIDE.md](USER_GUIDE.md)** - Complete user guide for all buildpack features
+  - Getting started guide
+  - Web server configuration (Apache HTTPD, Nginx, FPM-only)
+  - PHP configuration and extensions
+  - Composer and dependency management
+  - APM integration (NewRelic, AppDynamics, Dynatrace)
+  - Session storage (Redis, Memcached)
+  - Framework guides (Laravel, CakePHP, Laminas, Symfony)
+  - Advanced features and troubleshooting
+
+- **[FEATURES.md](FEATURES.md)** - Developer reference with test coverage verification
+  - Feature list with test references
+  - Integration test locations (file:line)
+  - Fixture paths and examples
+  - Implementation details
+  - Test coverage analysis
+  - Test gaps and notes
+
 ### Architecture & Design
 
 - **[BUILDPACK_COMPARISON.md](BUILDPACK_COMPARISON.md)** - Comparison with other CF buildpacks (Go, Java, Ruby, Python)
@@ -34,10 +54,15 @@ This directory contains architectural documentation for the PHP buildpack v5.x.
 
 ### For Users
 
+**New to the buildpack?**
+1. Start with [USER_GUIDE.md](USER_GUIDE.md) to see what's supported
+2. Check examples for your web server (HTTPD, Nginx, etc.)
+3. Review [Best Practices](#best-practices) below
+
 **Migrating from v4.x?**
 1. Read [REWRITE_MIGRATION.md](REWRITE_MIGRATION.md) for breaking changes
 2. Check [VCAP_SERVICES_USAGE.md](VCAP_SERVICES_USAGE.md) for service binding patterns
-3. Review [Best Practices](#best-practices) below
+3. Review feature parity in [USER_GUIDE.md](USER_GUIDE.md)
 
 **Using VCAP_SERVICES?**
 - See [VCAP_SERVICES_USAGE.md](VCAP_SERVICES_USAGE.md) for complete guide
