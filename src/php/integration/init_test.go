@@ -83,8 +83,6 @@ func TestIntegration(t *testing.T) {
 
 	suite.Run(t)
 
-	// Expect(platform.Delete.Execute(dynatraceName)).To(Succeed()) // No dynatrace deployment to delete
-	// Commenting out buildpack.zip removal for testing - prevents parallel test failures
-	// Expect(os.Remove(os.Getenv("BUILDPACK_FILE"))).To(Succeed())
+	Expect(os.Remove(os.Getenv("BUILDPACK_FILE"))).To(Succeed())
 	Expect(platform.Deinitialize()).To(Succeed())
 }
