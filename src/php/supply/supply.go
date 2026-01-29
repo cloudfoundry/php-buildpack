@@ -516,16 +516,16 @@ func (s *Supplier) processPhpFpmConf(phpFpmConfPath, phpEtcDir string) error {
 }
 
 // createIncludePathIni creates a separate include-path.ini file in php.ini.d
-// This file uses @{HOME} placeholder which gets replaced during finalize phase AFTER HOME is restored
-// to /home/vcap/app, avoiding the issue where php.ini gets rewritten while HOME
-// points to the deps directory
+// This file uses @{HOME} placeholder which gets replaced during finalize phase with /home/vcap/app
+// (app context, not deps context). The php.ini.d directory is processed separately from other
+// PHP configs because it contains app-relative paths like include_path.
 func (s *Supplier) createIncludePathIni(phpIniDDir string) error {
 	includePathIniPath := filepath.Join(phpIniDDir, "include-path.ini")
 
 	// Use @{HOME} placeholder which will be replaced during finalize phase
-	// after HOME is restored to /home/vcap/app
+	// with /home/vcap/app (app context)
 	content := `; Include path configuration
-; This file is rewritten during finalize phase after HOME is restored to /home/vcap/app
+; This file is processed during finalize phase with @{HOME} = /home/vcap/app
 include_path = ".:/usr/share/php:@{HOME}/lib"
 `
 

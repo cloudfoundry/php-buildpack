@@ -261,7 +261,7 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 		depsPath := filepath.Join("/home/vcap/deps", depsIdx)
 		phpReplacements := map[string]string{
 			"@{HOME}":           depsPath,
-			"@{DEPS_DIR}":       "/home/vcap/deps", // For fpm.d include directive
+			"@{DEPS_DIR}":       "/home/vcap/deps", // Available for user configs, though rarely needed
 			"@{LIBDIR}":         libDir,
 			"@{PHP_FPM_LISTEN}": phpFpmListen,
 			// @{TMPDIR} is converted to ${TMPDIR} for shell expansion at runtime
@@ -269,28 +269,38 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 			"@{TMPDIR}": "${TMPDIR}",
 		}
 
-		// Process fpm.d directory separately with app HOME (not deps HOME)
-		// This is because fpm.d configs contain environment variables for PHP scripts
-		// which run in the app context, not the deps context
+		// Process fpm.d and php.ini.d directories separately with app HOME (not deps HOME)
+		// This is because these configs typically reference app paths:
+		// - fpm.d: environment variables for PHP scripts (run in app context)
+		// - php.ini.d: include paths, open_basedir, etc. (reference app directories)
 		fpmDDir := filepath.Join(phpEtcDir, "fpm.d")
+		phpIniDDir := filepath.Join(phpEtcDir, "php.ini.d")
 
-		// Process PHP configs, excluding fpm.d which we'll process separately
-		f.Log.Debug("Processing PHP configs in %s with replacements: %v (excluding fpm.d)", phpEtcDir, phpReplacements)
-		if err := f.replacePlaceholdersInDirExclude(phpEtcDir, phpReplacements, []string{fpmDDir}); err != nil {
+		// Process PHP configs, excluding fpm.d and php.ini.d which we'll process separately
+		f.Log.Debug("Processing PHP configs in %s with replacements: %v (excluding fpm.d and php.ini.d)", phpEtcDir, phpReplacements)
+		if err := f.replacePlaceholdersInDirExclude(phpEtcDir, phpReplacements, []string{fpmDDir, phpIniDDir}); err != nil {
 			return fmt.Errorf("failed to process PHP configs: %w", err)
 		}
 
-		if exists, _ := libbuildpack.FileExists(fpmDDir); exists {
-			fpmDReplacements := map[string]string{
-				"@{HOME}":   "/home/vcap/app", // Use app HOME for fpm.d env vars
-				"@{WEBDIR}": webDir,
-				"@{LIBDIR}": libDir,
-				"@{TMPDIR}": "${TMPDIR}",
-			}
+		// App-context replacements for fpm.d and php.ini.d
+		appContextReplacements := map[string]string{
+			"@{HOME}":   "/home/vcap/app", // Use app HOME for app-relative paths
+			"@{WEBDIR}": webDir,
+			"@{LIBDIR}": libDir,
+			"@{TMPDIR}": "${TMPDIR}",
+		}
 
-			f.Log.Debug("Processing fpm.d configs in %s with replacements: %v", fpmDDir, fpmDReplacements)
-			if err := f.replacePlaceholdersInDir(fpmDDir, fpmDReplacements); err != nil {
+		if exists, _ := libbuildpack.FileExists(fpmDDir); exists {
+			f.Log.Debug("Processing fpm.d configs in %s with replacements: %v", fpmDDir, appContextReplacements)
+			if err := f.replacePlaceholdersInDir(fpmDDir, appContextReplacements); err != nil {
 				return fmt.Errorf("failed to process fpm.d configs: %w", err)
+			}
+		}
+
+		if exists, _ := libbuildpack.FileExists(phpIniDDir); exists {
+			f.Log.Debug("Processing php.ini.d configs in %s with replacements: %v", phpIniDDir, appContextReplacements)
+			if err := f.replacePlaceholdersInDir(phpIniDDir, appContextReplacements); err != nil {
+				return fmt.Errorf("failed to process php.ini.d configs: %w", err)
 			}
 		}
 	}
