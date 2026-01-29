@@ -44,22 +44,16 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 						"BP_DEBUG": "1",
 					}).
 					Execute(name, filepath.Join(fixtures, "default"))
-				Expect(err).NotTo(HaveOccurred())
+				Expect(err).NotTo(HaveOccurred(), logs.String)
 
-				Eventually(logs).Should(SatisfyAll(
-					ContainLines("Installing PHP"),
-					ContainLines(MatchRegexp(`PHP [\d\.]+`)),
-					ContainSubstring(`"update_default_version" is setting [PHP_VERSION]`),
-					ContainSubstring("DEBUG: default_version_for composer is"),
+				Expect(logs).To(ContainLines(MatchRegexp(`Installing PHP [\d\.]+`)))
+				Expect(logs).To(ContainSubstring("PHP buildpack supply phase complete"))
 
-					Not(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`.")),
-					Not(ContainSubstring("WARNING: The version defined in `composer.json` will be used.")),
-				))
+				Expect(logs).NotTo(ContainSubstring("WARNING: A version of PHP has been specified in both `composer.json` and `./bp-config/options.json`."))
+				Expect(logs).NotTo(ContainSubstring("WARNING: The version defined in `composer.json` will be used."))
 
 				if settings.Cached {
-					Eventually(logs).Should(
-						ContainLines(MatchRegexp(`Downloaded \[file://.*/dependencies/https___buildpacks.cloudfoundry.org_dependencies_php_php.*_linux_x64_.*.tgz\] to \[/tmp\]`)),
-					)
+					Expect(logs).To(ContainLines(MatchRegexp(`Copy \[.*/dependencies/.*/php_[\d\.]+_linux_x64_.*\.tgz\]`)))
 				}
 
 				Eventually(deployment).Should(Serve(
@@ -76,18 +70,20 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 
 		context("PHP web app with a supply buildpack", func() {
 			it("builds and runs the app", func() {
-				deployment, logs, err := platform.Deploy.
-					WithBuildpacks("dotnet_core_buildpack", "php_buildpack").
-					Execute(name, filepath.Join(fixtures, "dotnet_core_as_supply_app"))
-				Expect(err).NotTo(HaveOccurred())
+				if settings.Platform == "docker" {
+					t.Skip("Git URL buildpacks require CF platform - Docker platform cannot clone git repos")
+				}
 
-				Eventually(logs).Should(SatisfyAll(
-					ContainSubstring("Supplying Dotnet Core"),
-				))
+				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("https://github.com/cloudfoundry/dotnet-core-buildpack#master", "php_buildpack").
+					Execute(name, filepath.Join(fixtures, "dotnet_core_as_supply_app"))
+				Expect(err).NotTo(HaveOccurred(), logs.String)
+
+				Expect(logs).To(ContainSubstring("Supplying Dotnet Core"), logs.String)
 
 				Eventually(deployment).Should(Serve(
 					MatchRegexp(`dotnet: \d+\.\d+\.\d+`),
-				))
+				), logs.String)
 			})
 		})
 
@@ -98,7 +94,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 				}
 
 				deployment, logs, err := platform.Deploy.
-					WithBuildpacks("https://github.com/cloudfoundry/php-buildpack.git").
+					WithBuildpacks("https://github.com/cloudfoundry/php-buildpack.git#fix-rewrite-binary-compilation").
 					WithEnv(map[string]string{
 						"BP_DEBUG": "1",
 					}).
@@ -106,10 +102,8 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 
 				Expect(err).NotTo(HaveOccurred(), logs.String)
 
-				Eventually(logs).Should(SatisfyAll(
-					ContainLines("Installing PHP"),
-					ContainLines(MatchRegexp(`PHP [\d\.]+`)),
-				))
+				Expect(logs).To(ContainLines(MatchRegexp(`Installing PHP [\d\.]+`)))
+				Expect(logs).To(ContainSubstring("PHP buildpack supply phase complete"))
 
 				Eventually(deployment).Should(Serve(
 					ContainSubstring("PHP Version"),
