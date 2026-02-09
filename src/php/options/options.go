@@ -211,8 +211,22 @@ func (o *Options) validate() error {
 }
 
 // GetPHPVersion returns the PHP version to use, either from user config or default
+// Resolves placeholders like {PHP_83_LATEST} to actual versions
 func (o *Options) GetPHPVersion() string {
 	if o.PHPVersion != "" {
+		// Check if it's a placeholder like {PHP_83_LATEST}
+		if strings.HasPrefix(o.PHPVersion, "{") && strings.HasSuffix(o.PHPVersion, "}") {
+			// Extract the placeholder name (remove { and })
+			placeholderName := strings.TrimPrefix(strings.TrimSuffix(o.PHPVersion, "}"), "{")
+
+			// Look up the actual version from PHPVersions map
+			if actualVersion, exists := o.PHPVersions[placeholderName]; exists {
+				return actualVersion
+			}
+
+			// If placeholder not found, return as-is (will fail with clear error message)
+			// This allows the buildpack to show which placeholder was invalid
+		}
 		return o.PHPVersion
 	}
 	return o.PHPDefault

@@ -261,12 +261,17 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 		depsPath := filepath.Join("/home/vcap/deps", depsIdx)
 		phpReplacements := map[string]string{
 			"@{HOME}":           depsPath,
+			"#{HOME}":           depsPath,          // Support #{VAR} syntax for backward compatibility
 			"@{DEPS_DIR}":       "/home/vcap/deps", // Available for user configs, though rarely needed
+			"#{DEPS_DIR}":       "/home/vcap/deps",
 			"@{LIBDIR}":         libDir,
+			"#{LIBDIR}":         libDir,
 			"@{PHP_FPM_LISTEN}": phpFpmListen,
+			"#{PHP_FPM_LISTEN}": phpFpmListen,
 			// @{TMPDIR} is converted to ${TMPDIR} for shell expansion at runtime
 			// This allows users to customize TMPDIR via environment variable
 			"@{TMPDIR}": "${TMPDIR}",
+			"#{TMPDIR}": "${TMPDIR}",
 		}
 
 		// Process fpm.d and php.ini.d directories separately with app HOME (not deps HOME)
@@ -285,9 +290,13 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 		// App-context replacements for fpm.d and php.ini.d
 		appContextReplacements := map[string]string{
 			"@{HOME}":   "/home/vcap/app", // Use app HOME for app-relative paths
+			"#{HOME}":   "/home/vcap/app", // Support #{VAR} syntax for backward compatibility
 			"@{WEBDIR}": webDir,
+			"#{WEBDIR}": webDir,
 			"@{LIBDIR}": libDir,
+			"#{LIBDIR}": libDir,
 			"@{TMPDIR}": "${TMPDIR}",
+			"#{TMPDIR}": "${TMPDIR}",
 		}
 
 		if exists, _ := libbuildpack.FileExists(fpmDDir); exists {
@@ -308,8 +317,13 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 	// Process web server configs - use app directory for ${HOME}
 	appReplacements := map[string]string{
 		"@{WEBDIR}":         webDir,
+		"#{WEBDIR}":         webDir, // Support #{VAR} syntax for backward compatibility
 		"@{LIBDIR}":         libDir,
+		"#{LIBDIR}":         libDir,
 		"@{PHP_FPM_LISTEN}": phpFpmListen,
+		"#{PHP_FPM_LISTEN}": phpFpmListen,
+		"@{ADMIN_EMAIL}":    opts.AdminEmail,
+		"#{ADMIN_EMAIL}":    opts.AdminEmail,
 	}
 
 	// Process HTTPD configs
@@ -333,6 +347,7 @@ func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
 				nginxReplacements[k] = v
 			}
 			nginxReplacements["@{HOME}"] = "/home/vcap/app"
+			nginxReplacements["#{HOME}"] = "/home/vcap/app" // Support #{VAR} syntax
 
 			f.Log.Debug("Processing Nginx configs in %s", nginxConfDir)
 			if err := f.replacePlaceholdersInDir(nginxConfDir, nginxReplacements); err != nil {

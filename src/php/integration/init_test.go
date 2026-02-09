@@ -75,6 +75,7 @@ func TestIntegration(t *testing.T) {
 	suite("Composer", testComposer(platform, fixtures))
 	suite("WebServers", testWebServers(platform, fixtures))
 	suite("AppFrameworks", testAppFrameworks(platform, fixtures))
+	suite("Placeholders", testPlaceholders(platform, fixtures))
 	// suite("BuildpackPythonExtension", testPythonExtension(platform, fixtures)) // Skipped for now
 	// suite("APMs", testAPMs(platform, fixtures, dynatraceDeployment.InternalURL)) // Needs dynatrace mock
 	if settings.Cached {
