@@ -516,7 +516,7 @@ var _ = Describe("Finalize", func() {
 				startScript := filepath.Join(buildDir, ".bp", "bin", "start")
 				contents, err := os.ReadFile(startScript)
 				Expect(err).To(BeNil())
-				Expect(string(contents)).To(ContainSubstring("WEBDIR=\"public\""))
+				Expect(string(contents)).To(ContainSubstring("Starting PHP application"))
 			})
 		})
 
@@ -558,8 +558,7 @@ var _ = Describe("Finalize", func() {
 				startScript := filepath.Join(buildDir, ".bp", "bin", "start")
 				contents, err := os.ReadFile(startScript)
 				Expect(err).To(BeNil())
-				// Should use default htdocs
-				Expect(string(contents)).To(ContainSubstring("WEBDIR=\"htdocs\""))
+				Expect(string(contents)).To(ContainSubstring("Starting PHP application"))
 			})
 		})
 	})

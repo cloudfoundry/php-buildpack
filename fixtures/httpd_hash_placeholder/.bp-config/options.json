@@ -1,0 +1,5 @@
+{
+  "WEB_SERVER": "httpd",
+  "WEBDIR": "htdocs",
+  "ADMIN_EMAIL": "test@example.com"
+}
