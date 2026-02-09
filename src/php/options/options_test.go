@@ -259,3 +259,84 @@ func TestGetPHPVersion(t *testing.T) {
 		t.Errorf("Expected 8.2.15, got %s", opts.GetPHPVersion())
 	}
 }
+
+func TestGetPHPVersion_PlaceholderResolution(t *testing.T) {
+	tests := []struct {
+		name        string
+		phpVersion  string
+		phpVersions map[string]string
+		expected    string
+	}{
+		{
+			name:       "Resolves {PHP_83_LATEST} placeholder",
+			phpVersion: "{PHP_83_LATEST}",
+			phpVersions: map[string]string{
+				"PHP_81_LATEST": "8.1.34",
+				"PHP_82_LATEST": "8.2.29",
+				"PHP_83_LATEST": "8.3.30",
+			},
+			expected: "8.3.30",
+		},
+		{
+			name:       "Resolves {PHP_82_LATEST} placeholder",
+			phpVersion: "{PHP_82_LATEST}",
+			phpVersions: map[string]string{
+				"PHP_81_LATEST": "8.1.34",
+				"PHP_82_LATEST": "8.2.29",
+				"PHP_83_LATEST": "8.3.30",
+			},
+			expected: "8.2.29",
+		},
+		{
+			name:       "Resolves {PHP_81_LATEST} placeholder",
+			phpVersion: "{PHP_81_LATEST}",
+			phpVersions: map[string]string{
+				"PHP_81_LATEST": "8.1.34",
+				"PHP_82_LATEST": "8.2.29",
+				"PHP_83_LATEST": "8.3.30",
+			},
+			expected: "8.1.34",
+		},
+		{
+			name:       "Returns invalid placeholder as-is (for clear error message)",
+			phpVersion: "{PHP_99_LATEST}",
+			phpVersions: map[string]string{
+				"PHP_81_LATEST": "8.1.34",
+				"PHP_82_LATEST": "8.2.29",
+				"PHP_83_LATEST": "8.3.30",
+			},
+			expected: "{PHP_99_LATEST}",
+		},
+		{
+			name:       "Returns exact version without placeholder syntax",
+			phpVersion: "8.3.21",
+			phpVersions: map[string]string{
+				"PHP_83_LATEST": "8.3.30",
+			},
+			expected: "8.3.21",
+		},
+		{
+			name:       "Returns version with partial placeholder syntax (not a placeholder)",
+			phpVersion: "PHP_83_LATEST",
+			phpVersions: map[string]string{
+				"PHP_83_LATEST": "8.3.30",
+			},
+			expected: "PHP_83_LATEST",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opts := &options.Options{
+				PHPDefault:  "8.1.32",
+				PHPVersion:  tt.phpVersion,
+				PHPVersions: tt.phpVersions,
+			}
+
+			result := opts.GetPHPVersion()
+			if result != tt.expected {
+				t.Errorf("Expected %s, got %s", tt.expected, result)
+			}
+		})
+	}
+}
