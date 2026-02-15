@@ -1,0 +1,4 @@
+{
+  "WEB_SERVER": "none",
+  "APP_START_CMD": "worker.php"
+}

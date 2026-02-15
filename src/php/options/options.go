@@ -48,6 +48,10 @@ type Options struct {
 	// Supports: string, []string, or [][]string formats (v4.x compatibility)
 	AdditionalPreprocessCmds interface{} `json:"ADDITIONAL_PREPROCESS_CMDS,omitempty"`
 
+	// Custom start command for standalone PHP applications (when WEB_SERVER=none)
+	// If not set, auto-detects: app.php, main.php, run.php, start.php
+	AppStartCmd string `json:"APP_START_CMD,omitempty"`
+
 	// Internal flags
 	OptionsJSONHasPHPExtensions bool `json:"OPTIONS_JSON_HAS_PHP_EXTENSIONS,omitempty"`
 
@@ -204,6 +208,11 @@ func (o *Options) mergeUserOptions(user *Options) {
 		o.AdditionalPreprocessCmds = user.AdditionalPreprocessCmds
 	}
 
+	// Merge APP_START_CMD if user specified
+	if user.AppStartCmd != "" {
+		o.AppStartCmd = user.AppStartCmd
+	}
+
 	// Note: Boolean fields are not merged because we can't distinguish between
 	// false (user set) and false (default zero value). If needed, use pointers.
 }
@@ -299,4 +308,40 @@ func (o *Options) GetPreprocessCommands() []string {
 	}
 
 	return commands
+}
+
+// FindStandaloneApp returns the PHP file to run for standalone applications (WEB_SERVER=none).
+// If APP_START_CMD is set, returns that. Otherwise auto-detects in order:
+//  1. app.php
+//  2. main.php
+//  3. run.php
+//  4. start.php
+//
+// Returns empty string if no standalone app found.
+func (o *Options) FindStandaloneApp(buildDir string) (string, error) {
+	// If user explicitly set APP_START_CMD, use it
+	if o.AppStartCmd != "" {
+		// Verify the file exists
+		appPath := filepath.Join(buildDir, o.AppStartCmd)
+		if exists, err := libbuildpack.FileExists(appPath); err != nil {
+			return "", fmt.Errorf("failed to check APP_START_CMD file: %w", err)
+		} else if !exists {
+			return "", fmt.Errorf("APP_START_CMD file not found: %s", o.AppStartCmd)
+		}
+		return o.AppStartCmd, nil
+	}
+
+	// Auto-detect standalone app (v4.x compatibility)
+	candidates := []string{"app.php", "main.php", "run.php", "start.php"}
+	for _, candidate := range candidates {
+		appPath := filepath.Join(buildDir, candidate)
+		if exists, err := libbuildpack.FileExists(appPath); err != nil {
+			return "", fmt.Errorf("failed to check for %s: %w", candidate, err)
+		} else if exists {
+			return candidate, nil
+		}
+	}
+
+	// No standalone app found
+	return "", fmt.Errorf("no standalone app found: set APP_START_CMD or create one of: %s", strings.Join(candidates, ", "))
 }
