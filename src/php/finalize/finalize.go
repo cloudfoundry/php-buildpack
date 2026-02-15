@@ -704,7 +704,8 @@ wait $PHP_FPM_PID $NGINX_PID
 `, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
-// generatePHPFPMStartScript generates a start script for PHP-FPM only (no web server)
+// generatePHPFPMStartScript generates a start script for standalone PHP applications (no web server)
+// When WEB_SERVER=none, this runs a PHP script directly instead of PHP-FPM
 func (f *Finalizer) generatePHPFPMStartScript(depsIdx string, opts *options.Options) string {
 	// Load options to get WEBDIR and other config values
 	webDir := os.Getenv("WEBDIR")
@@ -720,8 +721,19 @@ func (f *Finalizer) generatePHPFPMStartScript(depsIdx string, opts *options.Opti
 		libDir = "lib" // default
 	}
 
+	// Find the standalone app to run
+	appFile, err := opts.FindStandaloneApp(f.Stager.BuildDir())
+	if err != nil {
+		// Log error but continue - the start script will fail at runtime with clear message
+		f.Log.Warning("Failed to find standalone app: %v", err)
+		f.Log.Warning("The application will fail to start. Set APP_START_CMD or create one of: app.php, main.php, run.php, start.php")
+		appFile = "" // Will generate error in start script
+	} else {
+		f.Log.Info("Standalone app mode: will run %s", appFile)
+	}
+
 	return fmt.Sprintf(`#!/usr/bin/env bash
-# PHP Application Start Script (PHP-FPM only)
+# PHP Application Start Script (Standalone Mode)
 set -e
 
 # Set DEPS_DIR with fallback for different environments
@@ -748,13 +760,14 @@ export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
 # Add PHP binaries to PATH for CLI commands
 export PATH="$DEPS_DIR/%s/php/bin:$PATH"
 
-echo "Starting PHP-FPM only..."
+echo "Starting standalone PHP application..."
 echo "DEPS_DIR: $DEPS_DIR"
 echo "TMPDIR: $TMPDIR"
-echo "PHP-FPM path: $DEPS_DIR/%s/php/sbin/php-fpm"
+echo "PHP: $DEPS_DIR/%s/php/bin/php"
 
-# Expand ${TMPDIR} in PHP configs
-for config_file in "$PHPRC/php.ini" "$PHPRC/php-fpm.conf"; do
+# Expand ${TMPDIR} in PHP configs (php.ini uses ${TMPDIR} placeholder)
+# This allows users to customize TMPDIR via environment variable
+for config_file in "$PHPRC/php.ini"; do
     if [ -f "$config_file" ]; then
         sed "s|\${TMPDIR}|$TMPDIR|g" "$config_file" > "$config_file.tmp"
         mv "$config_file.tmp" "$config_file"
@@ -771,13 +784,21 @@ if [ -d "$PHP_INI_SCAN_DIR" ]; then
     done
 fi
 
-# Create PHP-FPM socket directory if it doesn't exist
-mkdir -p "$DEPS_DIR/%s/php/var/run"
+# Create required directories
 mkdir -p "$TMPDIR"
 
-# Start PHP-FPM in foreground
-exec $DEPS_DIR/%s/php/sbin/php-fpm -F -y $PHPRC/php-fpm.conf
-`, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+# Run the standalone PHP application
+if [ -z "%s" ]; then
+    echo "ERROR: No standalone application found!"
+    echo "Please set APP_START_CMD in .bp-config/options.json"
+    echo "Or create one of: app.php, main.php, run.php, start.php"
+    exit 1
+fi
+
+echo "Running: php %s"
+cd "$HOME"
+exec $DEPS_DIR/%s/php/bin/php "%s"
+`, depsIdx, depsIdx, depsIdx, depsIdx, appFile, appFile, depsIdx, appFile)
 }
 
 // SetupProcessTypes creates the process types for the application
