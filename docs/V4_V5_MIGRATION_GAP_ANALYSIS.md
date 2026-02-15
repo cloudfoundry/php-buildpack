@@ -6,9 +6,9 @@ This document provides a comprehensive comparison between the v4.x (Python) and 
 
 | Category | v4.x Features | v5.x Status | Priority |
 |----------|---------------|-------------|----------|
-| Core Features | 15 | 12 implemented, 3 missing | High |
+| Core Features | 15 | 15 implemented, 0 missing | Complete |
 | Extensions | 5 | 4 implemented, 1 partial | Medium |
-| Configuration Options | 25+ | 20+ implemented, 5 missing | High |
+| Configuration Options | 25+ | 25+ implemented, 0 missing | Complete |
 | Placeholder Syntax | 2 types | Both implemented | Complete |
 | Service Bindings | 5 services | 4 implemented | Medium |
 
@@ -49,7 +49,7 @@ This document provides a comprehensive comparison between the v4.x (Python) and 
 | `COMPOSER_INSTALL_OPTIONS` | ✅ | ✅ | ✅ | |
 | `COMPOSER_INSTALL_GLOBAL` | ✅ | ✅ | ✅ | |
 | **`ADDITIONAL_PREPROCESS_CMDS`** | ✅ | ✅ | ✅ **IMPLEMENTED** | Commands to run before app starts |
-| **`APP_START_CMD`** | ✅ | ❌ | ❌ **MISSING** | Custom start command for standalone apps |
+| **`APP_START_CMD`** | ✅ | ✅ | ✅ **IMPLEMENTED** | Custom start command for standalone apps |
 
 ### 1.2 Missing Configuration Options - Details
 
@@ -83,10 +83,18 @@ This document provides a comprehensive comparison between the v4.x (Python) and 
 
 ---
 
-#### `APP_START_CMD` ❌ CRITICAL
+#### `APP_START_CMD` ✅ IMPLEMENTED
 
-**v4.x Implementation:** `php-buildpack-v4/lib/compile_helpers.py`
+**Status:** Implemented in v5.x (Feb 2026)
 
+**v5.x Implementation:**
+- `src/php/options/options.go` - `APP_START_CMD` field and `FindStandaloneApp()` method
+- `src/php/finalize/finalize.go` - `generatePHPFPMStartScript()` modified for standalone mode
+- `fixtures/standalone_app/` - Test fixture with explicit APP_START_CMD
+- `fixtures/standalone_autodetect/` - Test fixture for auto-detection
+- `src/php/integration/standalone_test.go` - Integration tests
+
+**v4.x Reference Implementation:**
 ```python
 def find_stand_alone_app_to_run(ctx):
     app = ctx.get('APP_START_CMD', None)
@@ -120,7 +128,9 @@ def find_stand_alone_app_to_run(ctx):
 - CLI applications
 - Scheduled tasks
 
-**Impact:** MEDIUM - Required for standalone PHP applications
+**Test Fixture:** `fixtures/standalone_app/` and `fixtures/standalone_autodetect/`
+
+**Impact:** MEDIUM - Required for standalone PHP applications (now implemented)
 
 ---
 
@@ -331,7 +341,7 @@ def service_environment(ctx):
 | Signal handling | ✅ | ✅ | ✅ | |
 | Graceful shutdown | ✅ | ✅ | ✅ | |
 | Pre-start script | ❌ | ✅ | ✅ | New in v5.x |
-| **Standalone PHP mode** | ✅ | ⚠️ | ⚠️ **PARTIAL** | Missing APP_START_CMD |
+| **Standalone PHP mode** | ✅ | ✅ | ✅ **COMPLETE** | With APP_START_CMD |
 
 ### 8.2 Environment Setup
 
@@ -347,14 +357,14 @@ def service_environment(ctx):
 
 ## 9. Priority Implementation Roadmap
 
-### 9.1 Critical (Must Have for v5.x GA)
+### 9.1 Completed ✅
 
-| Feature | Effort | Impact | Issue |
-|---------|--------|--------|-------|
-| `ADDITIONAL_PREPROCESS_CMDS` | Medium | HIGH | #1208 (akf) |
-| `APP_START_CMD` | Low | MEDIUM | Standalone apps |
+| Feature | Effort | Impact | Status |
+|---------|--------|--------|--------|
+| `ADDITIONAL_PREPROCESS_CMDS` | Medium | HIGH | ✅ Implemented (#1208) |
+| `APP_START_CMD` | Low | MEDIUM | ✅ Implemented (Feb 2026) |
 
-### 9.2 High Priority
+### 9.2 High Priority (Remaining)
 
 | Feature | Effort | Impact |
 |---------|--------|--------|
@@ -468,10 +478,10 @@ func LoadUserExtensions(buildDir string, registry *Registry) error {
 
 | Test | Status | Priority |
 |------|--------|----------|
-| ADDITIONAL_PREPROCESS_CMDS - string format | ❌ | HIGH |
-| ADDITIONAL_PREPROCESS_CMDS - array format | ❌ | HIGH |
-| APP_START_CMD - explicit | ❌ | MEDIUM |
-| APP_START_CMD - auto-detect | ❌ | MEDIUM |
+| ADDITIONAL_PREPROCESS_CMDS - string format | ✅ | HIGH |
+| ADDITIONAL_PREPROCESS_CMDS - array format | ✅ | HIGH |
+| APP_START_CMD - explicit | ✅ | MEDIUM |
+| APP_START_CMD - auto-detect | ✅ | MEDIUM |
 | User extensions | ❌ | LOW |
 | Multi-buildpack with apt-buildpack | ⚠️ | HIGH |
 
