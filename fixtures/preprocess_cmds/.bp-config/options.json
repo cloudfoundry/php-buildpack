@@ -1,0 +1,9 @@
+{
+  "WEB_SERVER": "httpd",
+  "WEBDIR": "htdocs",
+  "ADDITIONAL_PREPROCESS_CMDS": [
+    "echo 'PREPROCESS_MARKER_1' > $HOME/preprocess_ran.txt",
+    "echo 'PREPROCESS_MARKER_2' >> $HOME/preprocess_ran.txt",
+    "echo $HOME > $HOME/home_var_test.txt"
+  ]
+}

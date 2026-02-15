@@ -10,6 +10,7 @@ import (
 
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/php-buildpack/src/php/finalize"
+	"github.com/cloudfoundry/php-buildpack/src/php/options"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -382,6 +383,200 @@ var _ = Describe("Finalize", func() {
 				err = finalizer.CreateStartScript()
 				Expect(err).NotTo(BeNil())
 				Expect(err.Error()).To(ContainSubstring("BP_DIR"))
+			})
+		})
+
+		Context("with ADDITIONAL_PREPROCESS_CMDS", func() {
+			BeforeEach(func() {
+				cwd, err := os.Getwd()
+				Expect(err).To(BeNil())
+				bpDir := filepath.Join(cwd, "..", "..", "..")
+				os.Setenv("BP_DIR", bpDir)
+				os.Setenv("GoInstallDir", runtime.GOROOT())
+			})
+
+			It("creates .profile.d/preprocess.sh with string command and logs security warning", func() {
+				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
+				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
+				Expect(err).To(BeNil())
+
+				optionsJSON := `{
+					"WEB_SERVER": "httpd",
+					"WEBDIR": "htdocs",
+					"ADDITIONAL_PREPROCESS_CMDS": "source $HOME/scripts/bootstrap.sh"
+				}`
+				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
+				Expect(err).To(BeNil())
+
+				finalizer = &finalize.Finalizer{
+					Manifest: manifest,
+					Stager:   stager,
+					Command:  command,
+					Log:      logger,
+				}
+
+				// Load options and create preprocess script
+				opts, err := options.LoadOptions(os.Getenv("BP_DIR"), buildDir, manifest, logger)
+				Expect(err).To(BeNil())
+
+				err = finalizer.CreatePreprocessScript(opts)
+				Expect(err).To(BeNil())
+
+				// Verify security warning was logged
+				logOutput := buffer.String()
+				Expect(logOutput).To(ContainSubstring("ADDITIONAL_PREPROCESS_CMDS detected"))
+				Expect(logOutput).To(ContainSubstring("will execute at app startup"))
+
+				// Check .profile.d/preprocess.sh was created
+				preprocessScript := filepath.Join(depsDir, depsIdx, "profile.d", "preprocess.sh")
+				contents, err := os.ReadFile(preprocessScript)
+				Expect(err).To(BeNil())
+				scriptContent := string(contents)
+				Expect(scriptContent).To(ContainSubstring("ADDITIONAL_PREPROCESS_CMDS"))
+				Expect(scriptContent).To(ContainSubstring("Running preprocess commands"))
+				Expect(scriptContent).To(ContainSubstring("source $HOME/scripts/bootstrap.sh"))
+				// Verify security warning comment in script
+				Expect(scriptContent).To(ContainSubstring("WARNING: These are user-provided commands"))
+			})
+
+			It("creates .profile.d/preprocess.sh with array of strings", func() {
+				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
+				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
+				Expect(err).To(BeNil())
+
+				optionsJSON := `{
+					"WEB_SERVER": "nginx",
+					"WEBDIR": "htdocs",
+					"ADDITIONAL_PREPROCESS_CMDS": ["env", "echo hello"]
+				}`
+				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
+				Expect(err).To(BeNil())
+
+				finalizer = &finalize.Finalizer{
+					Manifest: manifest,
+					Stager:   stager,
+					Command:  command,
+					Log:      logger,
+				}
+
+				opts, err := options.LoadOptions(os.Getenv("BP_DIR"), buildDir, manifest, logger)
+				Expect(err).To(BeNil())
+
+				err = finalizer.CreatePreprocessScript(opts)
+				Expect(err).To(BeNil())
+
+				preprocessScript := filepath.Join(depsDir, depsIdx, "profile.d", "preprocess.sh")
+				contents, err := os.ReadFile(preprocessScript)
+				Expect(err).To(BeNil())
+				scriptContent := string(contents)
+				Expect(scriptContent).To(ContainSubstring("ADDITIONAL_PREPROCESS_CMDS"))
+				Expect(scriptContent).To(ContainSubstring("env"))
+				Expect(scriptContent).To(ContainSubstring("echo hello"))
+			})
+
+			It("creates .profile.d/preprocess.sh with array of arrays", func() {
+				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
+				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
+				Expect(err).To(BeNil())
+
+				optionsJSON := `{
+					"WEB_SERVER": "none",
+					"WEBDIR": "htdocs",
+					"ADDITIONAL_PREPROCESS_CMDS": [["echo", "Hello World"], ["ls", "-la"]]
+				}`
+				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
+				Expect(err).To(BeNil())
+
+				finalizer = &finalize.Finalizer{
+					Manifest: manifest,
+					Stager:   stager,
+					Command:  command,
+					Log:      logger,
+				}
+
+				opts, err := options.LoadOptions(os.Getenv("BP_DIR"), buildDir, manifest, logger)
+				Expect(err).To(BeNil())
+
+				err = finalizer.CreatePreprocessScript(opts)
+				Expect(err).To(BeNil())
+
+				preprocessScript := filepath.Join(depsDir, depsIdx, "profile.d", "preprocess.sh")
+				contents, err := os.ReadFile(preprocessScript)
+				Expect(err).To(BeNil())
+				scriptContent := string(contents)
+				Expect(scriptContent).To(ContainSubstring("ADDITIONAL_PREPROCESS_CMDS"))
+				Expect(scriptContent).To(ContainSubstring("echo Hello World"))
+				Expect(scriptContent).To(ContainSubstring("ls -la"))
+			})
+
+			It("does not create preprocess.sh when ADDITIONAL_PREPROCESS_CMDS is empty", func() {
+				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
+				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
+				Expect(err).To(BeNil())
+
+				optionsJSON := `{
+					"WEB_SERVER": "httpd",
+					"WEBDIR": "htdocs"
+				}`
+				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
+				Expect(err).To(BeNil())
+
+				finalizer = &finalize.Finalizer{
+					Manifest: manifest,
+					Stager:   stager,
+					Command:  command,
+					Log:      logger,
+				}
+
+				opts, err := options.LoadOptions(os.Getenv("BP_DIR"), buildDir, manifest, logger)
+				Expect(err).To(BeNil())
+
+				err = finalizer.CreatePreprocessScript(opts)
+				Expect(err).To(BeNil())
+
+				// preprocess.sh should NOT exist
+				preprocessScript := filepath.Join(depsDir, depsIdx, "profile.d", "preprocess.sh")
+				_, err = os.Stat(preprocessScript)
+				Expect(os.IsNotExist(err)).To(BeTrue())
+			})
+
+			It("handles Drupal-style bootstrap command", func() {
+				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
+				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
+				Expect(err).To(BeNil())
+
+				// This is the actual use case from akf's Drupal app
+				optionsJSON := `{
+					"WEB_SERVER": "httpd",
+					"WEBDIR": "web",
+					"ADDITIONAL_PREPROCESS_CMDS": [
+						"source $HOME/scripts/bootstrap.sh"
+					]
+				}`
+				err = os.WriteFile(optionsFile, []byte(optionsJSON), 0644)
+				Expect(err).To(BeNil())
+
+				finalizer = &finalize.Finalizer{
+					Manifest: manifest,
+					Stager:   stager,
+					Command:  command,
+					Log:      logger,
+				}
+
+				// Load options and create preprocess script (this is what Run() does)
+				opts, err := options.LoadOptions(os.Getenv("BP_DIR"), buildDir, manifest, logger)
+				Expect(err).To(BeNil())
+
+				err = finalizer.CreatePreprocessScript(opts)
+				Expect(err).To(BeNil())
+
+				// Check .profile.d/preprocess.sh was created with the bootstrap command
+				preprocessScript := filepath.Join(depsDir, depsIdx, "profile.d", "preprocess.sh")
+				contents, err := os.ReadFile(preprocessScript)
+				Expect(err).To(BeNil())
+				scriptContent := string(contents)
+				Expect(scriptContent).To(ContainSubstring("source $HOME/scripts/bootstrap.sh"))
+				Expect(scriptContent).To(ContainSubstring("Running preprocess commands"))
 			})
 		})
 	})

@@ -340,3 +340,81 @@ func TestGetPHPVersion_PlaceholderResolution(t *testing.T) {
 		})
 	}
 }
+
+func TestGetPreprocessCommands(t *testing.T) {
+	tests := []struct {
+		name     string
+		cmds     interface{}
+		expected []string
+	}{
+		{
+			name:     "nil returns empty slice",
+			cmds:     nil,
+			expected: nil,
+		},
+		{
+			name:     "empty string returns empty slice",
+			cmds:     "",
+			expected: nil,
+		},
+		{
+			name:     "single string command",
+			cmds:     "source $HOME/scripts/bootstrap.sh",
+			expected: []string{"source $HOME/scripts/bootstrap.sh"},
+		},
+		{
+			name:     "array of strings",
+			cmds:     []interface{}{"env", "run_something"},
+			expected: []string{"env", "run_something"},
+		},
+		{
+			name:     "array with single string",
+			cmds:     []interface{}{"source $HOME/scripts/setup.sh"},
+			expected: []string{"source $HOME/scripts/setup.sh"},
+		},
+		{
+			name:     "array of arrays (command with args)",
+			cmds:     []interface{}{[]interface{}{"echo", "Hello World"}},
+			expected: []string{"echo Hello World"},
+		},
+		{
+			name: "mixed array of strings and arrays",
+			cmds: []interface{}{
+				"env",
+				[]interface{}{"echo", "Hello"},
+				"run_script",
+			},
+			expected: []string{"env", "echo Hello", "run_script"},
+		},
+		{
+			name: "complex Drupal-style bootstrap",
+			cmds: []interface{}{
+				"source $HOME/scripts/bootstrap.sh",
+			},
+			expected: []string{"source $HOME/scripts/bootstrap.sh"},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opts := &options.Options{
+				AdditionalPreprocessCmds: tt.cmds,
+			}
+
+			result := opts.GetPreprocessCommands()
+
+			// Check length
+			if len(result) != len(tt.expected) {
+				t.Errorf("Expected %d commands, got %d: %v", len(tt.expected), len(result), result)
+				return
+			}
+
+			// Check each command
+			for i, cmd := range result {
+				if cmd != tt.expected[i] {
+					t.Errorf("Command %d: expected %q, got %q", i, tt.expected[i], cmd)
+				}
+			}
+		})
+	}
+}
