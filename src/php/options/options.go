@@ -44,6 +44,10 @@ type Options struct {
 	ComposerVendorDir      string   `json:"COMPOSER_VENDOR_DIR,omitempty"`      // Custom composer vendor directory
 	ComposerInstallOptions []string `json:"COMPOSER_INSTALL_OPTIONS,omitempty"` // Additional composer install options
 
+	// Additional preprocess commands to run before app starts
+	// Supports: string, []string, or [][]string formats (v4.x compatibility)
+	AdditionalPreprocessCmds interface{} `json:"ADDITIONAL_PREPROCESS_CMDS,omitempty"`
+
 	// Internal flags
 	OptionsJSONHasPHPExtensions bool `json:"OPTIONS_JSON_HAS_PHP_EXTENSIONS,omitempty"`
 
@@ -195,6 +199,11 @@ func (o *Options) mergeUserOptions(user *Options) {
 		o.ComposerInstallOptions = user.ComposerInstallOptions
 	}
 
+	// Merge ADDITIONAL_PREPROCESS_CMDS if user specified
+	if user.AdditionalPreprocessCmds != nil {
+		o.AdditionalPreprocessCmds = user.AdditionalPreprocessCmds
+	}
+
 	// Note: Boolean fields are not merged because we can't distinguish between
 	// false (user set) and false (default zero value). If needed, use pointers.
 }
@@ -242,4 +251,52 @@ func sortVersions(versions []string) {
 			}
 		}
 	}
+}
+
+// GetPreprocessCommands returns the list of preprocess commands to run before app starts.
+// Supports multiple formats for v4.x compatibility:
+//   - string: "source $HOME/scripts/bootstrap.sh"
+//   - []string: ["env", "run_something"]
+//   - [][]string: [["echo", "Hello"], ["run", "script"]]
+//
+// Returns a list of shell command strings ready to execute.
+func (o *Options) GetPreprocessCommands() []string {
+	if o.AdditionalPreprocessCmds == nil {
+		return nil
+	}
+
+	var commands []string
+
+	switch v := o.AdditionalPreprocessCmds.(type) {
+	case string:
+		// Single string command
+		if v != "" {
+			commands = append(commands, v)
+		}
+	case []interface{}:
+		// Array - could be []string or [][]string
+		for _, item := range v {
+			switch cmd := item.(type) {
+			case string:
+				// Simple string in array: ["cmd1", "cmd2"]
+				if cmd != "" {
+					commands = append(commands, cmd)
+				}
+			case []interface{}:
+				// Array of strings: [["echo", "hello"]]
+				// Join with spaces to form a single command
+				var parts []string
+				for _, part := range cmd {
+					if s, ok := part.(string); ok {
+						parts = append(parts, s)
+					}
+				}
+				if len(parts) > 0 {
+					commands = append(commands, strings.Join(parts, " "))
+				}
+			}
+		}
+	}
+
+	return commands
 }

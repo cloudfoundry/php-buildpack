@@ -44,6 +44,12 @@ This directory contains architectural documentation for the PHP buildpack v5.x.
 
 ### Migration Guides
 
+- **[V4_V5_MIGRATION_GAP_ANALYSIS.md](V4_V5_MIGRATION_GAP_ANALYSIS.md)** - Comprehensive v4.x to v5.x feature comparison
+  - Complete feature matrix (what's implemented, missing, or changed)
+  - Missing features: `ADDITIONAL_PREPROCESS_CMDS`, `APP_START_CMD`, User Extensions
+  - Implementation roadmap and priorities
+  - Testing recommendations
+
 - **[REWRITE_MIGRATION.md](REWRITE_MIGRATION.md)** - v4.x to v5.x migration guide
   - Rewrite system changes
   - Breaking changes
@@ -60,9 +66,10 @@ This directory contains architectural documentation for the PHP buildpack v5.x.
 3. Review [Best Practices](#best-practices) below
 
 **Migrating from v4.x?**
-1. Read [REWRITE_MIGRATION.md](REWRITE_MIGRATION.md) for breaking changes
-2. Check [VCAP_SERVICES_USAGE.md](VCAP_SERVICES_USAGE.md) for service binding patterns
-3. Review feature parity in [USER_GUIDE.md](USER_GUIDE.md)
+1. **Start here:** [V4_V5_MIGRATION_GAP_ANALYSIS.md](V4_V5_MIGRATION_GAP_ANALYSIS.md) for complete feature comparison
+2. Read [REWRITE_MIGRATION.md](REWRITE_MIGRATION.md) for breaking changes
+3. Check [VCAP_SERVICES_USAGE.md](VCAP_SERVICES_USAGE.md) for service binding patterns
+4. Review feature parity in [USER_GUIDE.md](USER_GUIDE.md)
 
 **Using VCAP_SERVICES?**
 - See [VCAP_SERVICES_USAGE.md](VCAP_SERVICES_USAGE.md) for complete guide
