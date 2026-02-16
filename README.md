@@ -139,6 +139,48 @@ This buildpack uses Cloud Foundry's [libbuildpack](https://github.com/cloudfound
    - Monitors all processes
    - If any process exits, terminates all others and restarts the application
 
+### PHP Extension Configuration
+
+The buildpack supports loading PHP extensions using standard `.ini` file syntax. This allows extensions to be available during both build-time (composer install) and runtime.
+
+#### Loading Extensions via .ini Files
+
+Create `.ini` files in `.bp-config/php/php.ini.d/` directory with standard PHP extension directives:
+
+**Example: `.bp-config/php/php.ini.d/custom.ini`**
+```ini
+[PHP]
+extension=apcu.so
+extension=redis.so
+zend_extension=opcache.so
+```
+
+These extensions will be loaded during:
+- **Build-time**: Available during `composer install` execution (if your dependencies require specific extensions)
+- **Runtime**: Available when your application runs
+
+**Alternative Method:** You can also specify extensions in `.bp-config/options.json`:
+```json
+{
+  "PHP_EXTENSIONS": ["apcu", "redis"],
+  "ZEND_EXTENSIONS": ["opcache"]
+}
+```
+
+Both methods are equivalent and produce the same result. Use whichever format you prefer.
+
+#### Available Extensions
+
+Check the `manifest.yml` file for all available extensions. Extensions fall into two categories:
+
+1. **Built-in Extensions** (no version number) - Compiled into PHP, always available:
+   - `bz2`, `curl`, `fileinfo`, `gettext`, `openssl`, `sockets`, `zip`, etc.
+
+2. **PECL Extensions** (with version numbers) - Require explicit loading:
+   - `apcu`, `redis`, `mongodb`, `imagick`, `memcached`, `opcache`, etc.
+
+Only PECL extensions need to be specified in `.ini` files or `options.json`. Built-in extensions are always available.
+
 ### Extensions
 
 The buildpack includes several built-in extensions written in Go:

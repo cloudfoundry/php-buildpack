@@ -110,5 +110,29 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 				})
 			})
 		}
+
+		context("composer app with extensions in .bp-config/php/php.ini.d", func() {
+			it("loads extensions during composer install and at runtime", func() {
+				deployment, logs, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "composer_with_extensions"))
+				Expect(err).NotTo(HaveOccurred())
+
+				// Check build logs first (composer phase)
+				Expect(logs.String()).To(SatisfyAll(
+					ContainSubstring("Loading user-requested extensions from .bp-config/php/php.ini.d"),
+					ContainSubstring("Found 1 extension(s)"),
+					ContainSubstring("Installing Composer dependencies"),
+					ContainSubstring("SUCCESS: All required extensions are loaded during composer install"),
+					Not(ContainSubstring("composer install failed")),
+					Not(ContainSubstring("ERROR")),
+				))
+
+				// Then wait for deployment and check runtime
+				Eventually(deployment).Should(Serve(ContainSubstring("apcu:</strong> ✓ LOADED")))
+			})
+		})
 	}
 }
