@@ -28,7 +28,13 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		})
 
 		it.After(func() {
-			Expect(platform.Delete.Execute(name)).To(Succeed())
+			if t.Failed() && name != "" {
+				t.Logf("❌ FAILED TEST - App/Container: %s", name)
+				t.Logf("   Platform: %s", settings.Platform)
+			}
+			if name != "" && (!settings.KeepFailedContainers || !t.Failed()) {
+				Expect(platform.Delete.Execute(name)).To(Succeed())
+			}
 		})
 
 		context("default PHP web app", func() {
@@ -81,6 +87,32 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 
 				Eventually(deployment).Should(Serve(
 					MatchRegexp(`dotnet: \d+\.\d+\.\d+`),
+				))
+			})
+		})
+
+		context("PHP app deployed via git URL buildpack", func() {
+			it("successfully builds without release YAML pollution", func() {
+				if settings.Platform == "docker" {
+					t.Skip("Git URL buildpacks require CF platform - Docker platform cannot clone git repos")
+				}
+
+				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("https://github.com/cloudfoundry/php-buildpack.git").
+					WithEnv(map[string]string{
+						"BP_DEBUG": "1",
+					}).
+					Execute(name, filepath.Join(fixtures, "default"))
+
+				Expect(err).NotTo(HaveOccurred(), logs.String)
+
+				Eventually(logs).Should(SatisfyAll(
+					ContainLines("Installing PHP"),
+					ContainLines(MatchRegexp(`PHP [\d\.]+`)),
+				))
+
+				Eventually(deployment).Should(Serve(
+					ContainSubstring("PHP Version"),
 				))
 			})
 		})

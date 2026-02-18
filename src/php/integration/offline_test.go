@@ -27,7 +27,13 @@ func testOffline(platform switchblade.Platform, fixtures string) func(*testing.T
 		})
 
 		it.After(func() {
-			Expect(platform.Delete.Execute(name)).To(Succeed())
+			if t.Failed() && name != "" {
+				t.Logf("❌ FAILED TEST - App/Container: %s", name)
+				t.Logf("   Platform: %s", settings.Platform)
+			}
+			if name != "" && (!settings.KeepFailedContainers || !t.Failed()) {
+				Expect(platform.Delete.Execute(name)).To(Succeed())
+			}
 		})
 
 		context("vendored PHP web app", func() {
@@ -37,9 +43,9 @@ func testOffline(platform switchblade.Platform, fixtures string) func(*testing.T
 					Execute(name, filepath.Join(fixtures, "vendored"))
 				Expect(err).NotTo(HaveOccurred())
 
-				Eventually(logs).Should(
-					ContainLines("Generating autoload files"),
-				)
+				Eventually(logs).Should(SatisfyAll(
+					ContainSubstring("Generating autoload files"),
+				))
 
 				Eventually(deployment).Should(Serve(
 					ContainSubstring("<p>App with dependencies running</p>"),

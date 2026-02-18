@@ -7,9 +7,9 @@ set -o pipefail
 ROOTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly ROOTDIR
 
-## shellcheck source=SCRIPTDIR/.util/tools.sh
-#source "${ROOTDIR}/scripts/.util/tools.sh"
-#
+# shellcheck source=SCRIPTDIR/.util/tools.sh
+source "${ROOTDIR}/scripts/.util/tools.sh"
+
 # shellcheck source=SCRIPTDIR/.util/print.sh
 source "${ROOTDIR}/scripts/.util/print.sh"
 
@@ -92,43 +92,27 @@ function package::buildpack() {
     echo "${version}" > "${ROOTDIR}/VERSION"
   fi
 
+  mkdir -p "$(dirname "${output}")"
+
+  util::tools::buildpack-packager::install --directory "${ROOTDIR}/.bin"
+
+  echo "Building buildpack (version: ${version}, stack: ${stack}, cached: ${cached}, output: ${output})"
+
   local stack_flag
   stack_flag="--any-stack"
   if [[ "${stack}" != "any" ]]; then
     stack_flag="--stack=${stack}"
   fi
 
-  local cached_flag
-  cached_flag="--uncached"
-  if [[ "${cached}" == "true" ]]; then
-    cached_flag="--cached"
-  fi
+  local file
+  file="$(
+    buildpack-packager build \
+      "--version=${version}" \
+      "--cached=${cached}" \
+      "${stack_flag}" \
+    | xargs -n1 | grep -e '\.zip$'
+  )"
 
-  pushd "${ROOTDIR}" &> /dev/null
-    cat <<EOF > Dockerfile
-FROM ruby:3.0
-RUN apt-get update && apt-get install -y zip
-ADD cf.Gemfile .
-ADD cf.Gemfile.lock .
-ENV BUNDLE_GEMFILE=cf.Gemfile
-RUN bundle install
-ENTRYPOINT ["bundle", "exec", "buildpack-packager"]
-EOF
-    docker build -t buildpack-packager . &> /dev/null
-
-    docker run --rm -v "${ROOTDIR}":/buildpack -w /buildpack buildpack-packager "${stack_flag}" ${cached_flag} &> /dev/null
-
-  popd &> /dev/null
-
-  rm -f "${ROOTDIR}/Dockerfile"
-
-  file="$(ls "${ROOTDIR}" | grep -i 'php.*zip' )"
-  if [[ -z "${file}" ]]; then
-    util::print::error "failed to find zip file in ${ROOTDIR}"
-  fi
-
-  mkdir -p "$(dirname "${output}")"
-  echo "Moving ${file} to ${output}"
   mv "${file}" "${output}"
 }
 

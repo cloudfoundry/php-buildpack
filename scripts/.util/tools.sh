@@ -45,6 +45,34 @@ function util::tools::ginkgo::install() {
   fi
 }
 
+function util::tools::buildpack-packager::install() {
+  local dir
+  while [[ "${#}" != 0 ]]; do
+    case "${1}" in
+      --directory)
+        dir="${2}"
+        shift 2
+        ;;
+
+      *)
+        util::print::error "unknown argument \"${1}\""
+    esac
+  done
+
+  mkdir -p "${dir}"
+  util::tools::path::export "${dir}"
+
+  if [[ ! -f "${dir}/buildpack-packager" ]]; then
+    util::print::title "Installing buildpack-packager"
+
+    pushd /tmp > /dev/null || return
+      GOBIN="${dir}" \
+        go install \
+          github.com/cloudfoundry/libbuildpack/packager/buildpack-packager@latest
+    popd > /dev/null || return
+  fi
+}
+
 function util::tools::jq::install() {
   local dir
   while [[ "${#}" != 0 ]]; do
@@ -120,10 +148,17 @@ function util::tools::cf::install() {
       exit 1
   esac
 
+  # Check if cf already exists in the target directory or system PATH
+  if [[ -f "${dir}/cf" ]] || command -v cf >/dev/null 2>&1; then
+    util::print::title "CF CLI already installed (using system version)"
+    cf version
+    return 0
+  fi
+  
   if [[ ! -f "${dir}/cf" ]]; then
     util::print::title "Installing cf"
 
-    curl "https://packages.cloudfoundry.org/stable?release=${os}-binary&version=6.49.0&source=github-rel" \
+    curl "https://packages.cloudfoundry.org/stable?release=${os}-binary&source=github-rel" \
       --silent \
       --location \
       --output /tmp/cf.tar.gz

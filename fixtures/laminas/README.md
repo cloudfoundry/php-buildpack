@@ -113,7 +113,7 @@ $ composer static-analysis
 ## Using Vagrant
 
 This skeleton includes a `Vagrantfile` based on ubuntu 18.04 (bento box)
-with configured Apache2 and PHP 7.3. Start it up using:
+with configured Apache2 and PHP 8.3. Start it up using:
 
 ```bash
 $ vagrant up

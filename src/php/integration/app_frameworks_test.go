@@ -28,7 +28,13 @@ func testAppFrameworks(platform switchblade.Platform, fixtures string) func(*tes
 		})
 
 		it.After(func() {
-			Expect(platform.Delete.Execute(name)).To(Succeed())
+			if t.Failed() && name != "" {
+				t.Logf("❌ FAILED TEST - App/Container: %s", name)
+				t.Logf("   Platform: %s", settings.Platform)
+			}
+			if name != "" && (!settings.KeepFailedContainers || !t.Failed()) {
+				Expect(platform.Delete.Execute(name)).To(Succeed())
+			}
 		})
 
 		context("CakePHP", func() {
@@ -37,7 +43,6 @@ func testAppFrameworks(platform switchblade.Platform, fixtures string) func(*tes
 					WithEnv(map[string]string{
 						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
 					}).
-					WithStartCommand(`/app/bin/cake migrations migrate && /app/.bp/bin/start`).
 					Execute(name, filepath.Join(fixtures, "cake"))
 				Expect(err).NotTo(HaveOccurred())
 

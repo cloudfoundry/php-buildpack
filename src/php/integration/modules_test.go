@@ -3,7 +3,6 @@ package integration_test
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -31,7 +30,13 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 		})
 
 		it.After(func() {
-			Expect(platform.Delete.Execute(name)).To(Succeed())
+			if t.Failed() && name != "" {
+				t.Logf("❌ FAILED TEST - App/Container: %s", name)
+				t.Logf("   Platform: %s", settings.Platform)
+			}
+			if name != "" && (!settings.KeepFailedContainers || !t.Failed()) {
+				Expect(platform.Delete.Execute(name)).To(Succeed())
+			}
 		})
 
 		ItLoadsAllTheModules := func(deployment switchblade.Deployment) {
@@ -134,10 +139,9 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 				Eventually(deployment).Should(Serve("").WithExpectedStatusCode(500))
 
 				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
+					logs, err := deployment.RuntimeLogs()
 					Expect(err).NotTo(HaveOccurred())
-					return string(output)
+					return logs
 				}).Should(
 					ContainSubstring("PHP message: PHP Fatal error:  Uncaught AMQPConnectionException"),
 				)
@@ -188,10 +192,9 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 				).WithExpectedStatusCode(500))
 
 				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
+					logs, err := deployment.RuntimeLogs()
 					Expect(err).NotTo(HaveOccurred())
-					return string(output)
+					return logs
 				}).Should(Or(
 					ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Connection refused"),
 					ContainSubstring("PHP message: PHP Fatal error:  Uncaught RedisException: Cannot assign requested address"),

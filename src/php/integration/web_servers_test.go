@@ -3,7 +3,6 @@ package integration_test
 import (
 	"fmt"
 	"net/http"
-	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -30,7 +29,13 @@ func testWebServers(platform switchblade.Platform, fixtures string) func(*testin
 		})
 
 		it.After(func() {
-			Expect(platform.Delete.Execute(name)).To(Succeed())
+			if t.Failed() && name != "" {
+				t.Logf("❌ FAILED TEST - App/Container: %s", name)
+				t.Logf("   Platform: %s", settings.Platform)
+			}
+			if name != "" && (!settings.KeepFailedContainers || !t.Failed()) {
+				Expect(platform.Delete.Execute(name)).To(Succeed())
+			}
 		})
 
 		context("Default PHP web server with fpm.d dir in app root", func() {
@@ -114,10 +119,9 @@ func testWebServers(platform switchblade.Platform, fixtures string) func(*testin
 					)
 
 					Eventually(func() string {
-						cmd := exec.Command("docker", "container", "logs", deployment.Name)
-						output, err := cmd.CombinedOutput()
+						logs, err := deployment.RuntimeLogs()
 						Expect(err).NotTo(HaveOccurred())
-						return string(output)
+						return logs
 					}).Should(
 						Not(ContainSubstring("Invalid command 'RequestHeader'")),
 					)
