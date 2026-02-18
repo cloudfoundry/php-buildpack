@@ -73,7 +73,17 @@ func (r *RedisSetup) SessionSavePath() string {
 		password = fmt.Sprintf("%v", pw)
 	}
 
-	return fmt.Sprintf("tcp://%s:%s?auth=%s", hostname, port, password)
+   // For now, tls scheme only uses OS default SSL context (eg. from /etc/pki/*)
+   // TODO: Try to add SSL context options (https://www.php.net/manual/en/context.ssl.php), but I don't known if they are all supported by PHP Redis session.save_path URL.
+	scheme := "tcp"
+	if u, ok := r.credentials["uri"]; ok {
+		uri := fmt.Sprintf("%v", u)
+		if strings.HasPrefix(uri, "rediss://") {
+			scheme = "tls"
+		}
+	}
+
+	return fmt.Sprintf("%s://%s:%s?auth=%s", scheme, hostname, port, password)
 }
 
 // ExtensionName returns the PHP extension name
