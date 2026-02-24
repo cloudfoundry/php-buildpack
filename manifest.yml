@@ -80,10 +80,18 @@ dependencies:
   source_sha256: 69ee2b237744036e61d24b836668aad3040dda461fe6f570f1787eab570c75aa
 - name: nginx
   version: 1.27.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.5_linux_x64_cflinuxfs4_292d0853.tgz
-  sha256: 292d08531aa8d15f7ac239871987be7b52d36152fbb0cf3f5329627f3a778a2d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.5_linux_x64_cflinuxfs4_96cd8830.tgz
+  sha256: 96cd88303f3cfd7a817da2bfdde7d2ca4b3022a105b785373b80c3071fd6c9d9
   cf_stacks:
   - cflinuxfs4
+  source: http://nginx.org/download/nginx-1.27.5.tar.gz
+  source_sha256: e96acebb9c2a6db8a000c3dd1b32ecba1b810f0cd586232d4d921e376674dd0e
+- name: nginx
+  version: 1.27.5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.5_linux_x64_cflinuxfs5_98918e69.tgz
+  sha256: 98918e69f5f26b732f6f1c92d19fabf29b058cf4f6e26b4291738f6cbc4a8b90
+  cf_stacks:
+  - cflinuxfs5
   source: http://nginx.org/download/nginx-1.27.5.tar.gz
   source_sha256: e96acebb9c2a6db8a000c3dd1b32ecba1b810f0cd586232d4d921e376674dd0e
 - name: php
