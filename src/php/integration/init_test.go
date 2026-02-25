@@ -58,16 +58,6 @@ func TestIntegration(t *testing.T) {
 			Name: "php_buildpack",
 			URI:  os.Getenv("BUILDPACK_FILE"),
 		},
-		// Go buildpack is needed for dynatrace tests - TEMPORARILY COMMENTED OUT
-		// switchblade.Buildpack{
-		// 	Name: "go_buildpack",
-		// 	URI:  "https://github.com/cloudfoundry/go-buildpack/archive/master.zip",
-		// },
-		// .NET Core buildpack is needed for the supply test - TEMPORARILY COMMENTED OUT
-		// switchblade.Buildpack{
-		// 	Name: "dotnet_core_buildpack",
-		// 	URI:  "https://github.com/cloudfoundry/dotnet-core-buildpack/archive/master.zip",
-		// },
 	)
 	Expect(err).NotTo(HaveOccurred())
 
@@ -80,7 +70,7 @@ func TestIntegration(t *testing.T) {
 	// Expect(err).NotTo(HaveOccurred())
 
 	suite := spec.New("integration", spec.Report(report.Terminal{}), spec.Parallel())
-	// suite("Default", testDefault(platform, fixtures)) // Uses dotnet_core_buildpack - skipped
+	suite("Default", testDefault(platform, fixtures))
 	suite("Modules", testModules(platform, fixtures))
 	suite("Composer", testComposer(platform, fixtures))
 	suite("WebServers", testWebServers(platform, fixtures))
@@ -93,8 +83,6 @@ func TestIntegration(t *testing.T) {
 
 	suite.Run(t)
 
-	// Expect(platform.Delete.Execute(dynatraceName)).To(Succeed()) // No dynatrace deployment to delete
-	// Commenting out buildpack.zip removal for testing - prevents parallel test failures
-	// Expect(os.Remove(os.Getenv("BUILDPACK_FILE"))).To(Succeed())
+	Expect(os.Remove(os.Getenv("BUILDPACK_FILE"))).To(Succeed())
 	Expect(platform.Deinitialize()).To(Succeed())
 }

@@ -854,7 +854,6 @@ include_files:
 - bin/finalize
 - bin/release
 - bin/supply
-- bin/rewrite
 - bin/start
 - manifest.yml
 pre_package: scripts/build.sh

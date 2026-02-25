@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/php-buildpack/src/php/extensions"
@@ -99,6 +100,22 @@ func Run(f *Finalizer) error {
 				return err
 			}
 		}
+	}
+
+	// Load options for config processing
+	bpDir := os.Getenv("BP_DIR")
+	if bpDir == "" {
+		return fmt.Errorf("BP_DIR environment variable not set")
+	}
+	opts, err := options.LoadOptions(bpDir, f.Stager.BuildDir(), f.Manifest, f.Log)
+	if err != nil {
+		return fmt.Errorf("could not load options: %v", err)
+	}
+
+	// Process all config files (replace build-time placeholders)
+	if err := f.ProcessConfigs(opts); err != nil {
+		f.Log.Error("Error processing configs: %v", err)
+		return err
 	}
 
 	// Create start script
@@ -214,6 +231,120 @@ export PATH="$DEPS_DIR/%s/php/bin:$DEPS_DIR/%s/php/sbin:$PATH"
 	return f.Stager.WriteProfileD("php-env.sh", scriptContent)
 }
 
+// ProcessConfigs replaces build-time placeholders in all config files
+func (f *Finalizer) ProcessConfigs(opts *options.Options) error {
+	buildDir := f.Stager.BuildDir()
+	depsIdx := f.Stager.DepsIdx()
+	depDir := f.Stager.DepDir()
+
+	// Determine web server
+	webServer := opts.WebServer
+	webDir := opts.WebDir
+	if webDir == "" {
+		webDir = "htdocs"
+	}
+	libDir := opts.LibDir
+	if libDir == "" {
+		libDir = "lib"
+	}
+
+	// Determine PHP-FPM listen address first (needed for both PHP and web server configs)
+	phpFpmListen := "127.0.0.1:9000" // Default TCP
+	if webServer == "nginx" {
+		// Nginx uses Unix socket for better performance
+		phpFpmListen = filepath.Join("/home/vcap/deps", depsIdx, "php", "var", "run", "php-fpm.sock")
+	}
+
+	// Process PHP configs - use deps directory for @{HOME}
+	phpEtcDir := filepath.Join(depDir, "php", "etc")
+	if exists, _ := libbuildpack.FileExists(phpEtcDir); exists {
+		depsPath := filepath.Join("/home/vcap/deps", depsIdx)
+		phpReplacements := map[string]string{
+			"@{HOME}":           depsPath,
+			"@{DEPS_DIR}":       "/home/vcap/deps", // Available for user configs, though rarely needed
+			"@{LIBDIR}":         libDir,
+			"@{PHP_FPM_LISTEN}": phpFpmListen,
+			// @{TMPDIR} is converted to ${TMPDIR} for shell expansion at runtime
+			// This allows users to customize TMPDIR via environment variable
+			"@{TMPDIR}": "${TMPDIR}",
+		}
+
+		// Process fpm.d and php.ini.d directories separately with app HOME (not deps HOME)
+		// This is because these configs typically reference app paths:
+		// - fpm.d: environment variables for PHP scripts (run in app context)
+		// - php.ini.d: include paths, open_basedir, etc. (reference app directories)
+		fpmDDir := filepath.Join(phpEtcDir, "fpm.d")
+		phpIniDDir := filepath.Join(phpEtcDir, "php.ini.d")
+
+		// Process PHP configs, excluding fpm.d and php.ini.d which we'll process separately
+		f.Log.Debug("Processing PHP configs in %s with replacements: %v (excluding fpm.d and php.ini.d)", phpEtcDir, phpReplacements)
+		if err := f.replacePlaceholdersInDirExclude(phpEtcDir, phpReplacements, []string{fpmDDir, phpIniDDir}); err != nil {
+			return fmt.Errorf("failed to process PHP configs: %w", err)
+		}
+
+		// App-context replacements for fpm.d and php.ini.d
+		appContextReplacements := map[string]string{
+			"@{HOME}":   "/home/vcap/app", // Use app HOME for app-relative paths
+			"@{WEBDIR}": webDir,
+			"@{LIBDIR}": libDir,
+			"@{TMPDIR}": "${TMPDIR}",
+		}
+
+		if exists, _ := libbuildpack.FileExists(fpmDDir); exists {
+			f.Log.Debug("Processing fpm.d configs in %s with replacements: %v", fpmDDir, appContextReplacements)
+			if err := f.replacePlaceholdersInDir(fpmDDir, appContextReplacements); err != nil {
+				return fmt.Errorf("failed to process fpm.d configs: %w", err)
+			}
+		}
+
+		if exists, _ := libbuildpack.FileExists(phpIniDDir); exists {
+			f.Log.Debug("Processing php.ini.d configs in %s with replacements: %v", phpIniDDir, appContextReplacements)
+			if err := f.replacePlaceholdersInDir(phpIniDDir, appContextReplacements); err != nil {
+				return fmt.Errorf("failed to process php.ini.d configs: %w", err)
+			}
+		}
+	}
+
+	// Process web server configs - use app directory for ${HOME}
+	appReplacements := map[string]string{
+		"@{WEBDIR}":         webDir,
+		"@{LIBDIR}":         libDir,
+		"@{PHP_FPM_LISTEN}": phpFpmListen,
+	}
+
+	// Process HTTPD configs
+	if webServer == "httpd" {
+		httpdConfDir := filepath.Join(buildDir, "httpd", "conf")
+		if exists, _ := libbuildpack.FileExists(httpdConfDir); exists {
+			f.Log.Debug("Processing HTTPD configs in %s", httpdConfDir)
+			if err := f.replacePlaceholdersInDir(httpdConfDir, appReplacements); err != nil {
+				return fmt.Errorf("failed to process HTTPD configs: %w", err)
+			}
+		}
+	}
+
+	// Process Nginx configs
+	if webServer == "nginx" {
+		nginxConfDir := filepath.Join(buildDir, "nginx", "conf")
+		if exists, _ := libbuildpack.FileExists(nginxConfDir); exists {
+			// For nginx, also need to handle @{HOME} in some configs (like pid file)
+			nginxReplacements := make(map[string]string)
+			for k, v := range appReplacements {
+				nginxReplacements[k] = v
+			}
+			nginxReplacements["@{HOME}"] = "/home/vcap/app"
+
+			f.Log.Debug("Processing Nginx configs in %s", nginxConfDir)
+			if err := f.replacePlaceholdersInDir(nginxConfDir, nginxReplacements); err != nil {
+				return fmt.Errorf("failed to process Nginx configs: %w", err)
+			}
+		}
+	}
+
+	f.Log.Info("Config processing complete")
+	return nil
+}
+
 // CreateStartScript creates the start script for the application
 func (f *Finalizer) CreateStartScript() error {
 	bpBinDir := filepath.Join(f.Stager.BuildDir(), ".bp", "bin")
@@ -229,15 +360,6 @@ func (f *Finalizer) CreateStartScript() error {
 		return fmt.Errorf("BP_DIR environment variable not set")
 	}
 
-	// Copy pre-compiled rewrite binary from bin/rewrite to .bp/bin/rewrite
-	rewriteSrc := filepath.Join(bpDir, "bin", "rewrite")
-	rewriteDst := filepath.Join(bpBinDir, "rewrite")
-	if err := f.copyFile(rewriteSrc, rewriteDst); err != nil {
-		return fmt.Errorf("could not copy rewrite binary: %v", err)
-	}
-	f.Log.Debug("Copied pre-compiled rewrite binary to .bp/bin")
-
-	// Load options from options.json to determine which web server to use
 	opts, err := options.LoadOptions(bpDir, f.Stager.BuildDir(), f.Manifest, f.Log)
 	if err != nil {
 		return fmt.Errorf("could not load options: %v", err)
@@ -269,55 +391,24 @@ func (f *Finalizer) CreateStartScript() error {
 	return nil
 }
 
-// writePreStartScript creates a pre-start wrapper that handles config rewriting
-// before running optional user commands (e.g., migrations) and starting the server.
-// This allows PHP commands to run with properly rewritten configs.
+// writePreStartScript creates a pre-start wrapper that runs optional user commands
+// (e.g., migrations) before starting the server.
 func (f *Finalizer) writePreStartScript() error {
-	depsIdx := f.Stager.DepsIdx()
-
-	// Create script in .bp/bin/ directory (same location as start and rewrite)
+	// Create script in .bp/bin/ directory (same location as start)
 	bpBinDir := filepath.Join(f.Stager.BuildDir(), ".bp", "bin")
 	if err := os.MkdirAll(bpBinDir, 0755); err != nil {
 		return fmt.Errorf("could not create .bp/bin directory: %v", err)
 	}
 	preStartPath := filepath.Join(bpBinDir, "pre-start")
 
-	script := fmt.Sprintf(`#!/usr/bin/env bash
+	script := `#!/usr/bin/env bash
 # PHP Pre-Start Wrapper
-# Runs config rewriting and optional user command before starting servers
+# Runs optional user command before starting servers
 set -e
 
 # Set DEPS_DIR with fallback
 : ${DEPS_DIR:=$HOME/.cloudfoundry}
 export DEPS_DIR
-
-# Source all profile.d scripts to set up environment
-for f in /home/vcap/deps/%s/profile.d/*.sh; do
-    [ -f "$f" ] && source "$f"
-done
-
-# Export required variables for rewrite tool
-export HOME="${HOME:-/home/vcap/app}"
-export PHPRC="$DEPS_DIR/%s/php/etc"
-export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
-
-echo "-----> Pre-start: Rewriting PHP configs..."
-
-# Rewrite PHP base configs with HOME=$DEPS_DIR/0
-OLD_HOME="$HOME"
-export HOME="$DEPS_DIR/%s"
-$OLD_HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php.ini"
-$OLD_HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php-fpm.conf"
-export HOME="$OLD_HOME"
-
-# Rewrite user configs with app HOME
-if [ -d "$DEPS_DIR/%s/php/etc/fpm.d" ]; then
-    $HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/fpm.d"
-fi
-
-if [ -d "$DEPS_DIR/%s/php/etc/php.ini.d" ]; then
-    $HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php.ini.d"
-fi
 
 # Run user command if provided
 if [ $# -gt 0 ]; then
@@ -331,7 +422,7 @@ fi
 # Start the application servers
 echo "-----> Pre-start: Starting application..."
 exec $HOME/.bp/bin/start
-`, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`
 
 	if err := os.WriteFile(preStartPath, []byte(script), 0755); err != nil {
 		return fmt.Errorf("could not write pre-start script: %v", err)
@@ -368,15 +459,20 @@ func (f *Finalizer) generateHTTPDStartScript(depsIdx string, opts *options.Optio
 		libDir = "lib" // default
 	}
 
-	phpFpmConfInclude := "; No additional includes"
-
 	return fmt.Sprintf(`#!/usr/bin/env bash
 # PHP Application Start Script (HTTPD)
 set -e
 
 # Set DEPS_DIR with fallback for different environments
-: ${DEPS_DIR:=$HOME/.cloudfoundry}
+: ${DEPS_DIR:=/home/vcap/deps}
 export DEPS_DIR
+
+# Set TMPDIR with fallback (users can override via environment variable)
+: ${TMPDIR:=/home/vcap/tmp}
+export TMPDIR
+
+WEBDIR="%s"
+
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
 
@@ -386,55 +482,40 @@ export PATH="$DEPS_DIR/%s/php/bin:$PATH"
 # Set HTTPD_SERVER_ADMIN if not already set
 export HTTPD_SERVER_ADMIN="${HTTPD_SERVER_ADMIN:-noreply@vcap.me}"
 
-# Set template variables for rewrite tool - use absolute paths!
-export HOME="${HOME:-/home/vcap/app}"
-export WEBDIR="%s"
-export LIBDIR="%s"
-export PHP_FPM_LISTEN="127.0.0.1:9000"
-export PHP_FPM_CONF_INCLUDE="%s"
-
 echo "Starting PHP application with HTTPD..."
 echo "DEPS_DIR: $DEPS_DIR"
-echo "WEBDIR: $WEBDIR"
+echo "TMPDIR: $TMPDIR"
 echo "PHP-FPM: $DEPS_DIR/%s/php/sbin/php-fpm"
 echo "HTTPD: $DEPS_DIR/%s/httpd/bin/httpd"
-echo "Checking if binaries exist..."
-ls -la "$DEPS_DIR/%s/php/sbin/php-fpm" || echo "PHP-FPM not found!"
-ls -la "$DEPS_DIR/%s/httpd/bin/httpd" || echo "HTTPD not found!"
 
 # Create symlinks for httpd files (httpd config expects them relative to ServerRoot)
 ln -sf "$DEPS_DIR/%s/httpd/modules" "$HOME/httpd/modules"
 ln -sf "$DEPS_DIR/%s/httpd/conf/mime.types" "$HOME/httpd/conf/mime.types" 2>/dev/null || \
     touch "$HOME/httpd/conf/mime.types"
 
-# Create httpd logs directory if it doesn't exist
+# Create required directories
 mkdir -p "$HOME/httpd/logs"
-
-# Run rewrite to update config with runtime values
-$HOME/.bp/bin/rewrite "$HOME/httpd/conf"
-
-# Rewrite PHP base configs (php.ini, php-fpm.conf) with HOME=$DEPS_DIR/0
-# This ensures @{HOME} placeholders in extension_dir are replaced with correct deps path
-OLD_HOME="$HOME"
-export HOME="$DEPS_DIR/%s"
-export DEPS_DIR
-$OLD_HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php.ini"
-$OLD_HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php-fpm.conf"
-export HOME="$OLD_HOME"
-
-# Rewrite user fpm.d configs with HOME=/home/vcap/app
-# User configs expect HOME to be the app directory, not deps directory
-if [ -d "$DEPS_DIR/%s/php/etc/fpm.d" ]; then
-    $HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/fpm.d"
-fi
-
-# Rewrite php.ini.d configs with app HOME as well (may contain user overrides)
-if [ -d "$DEPS_DIR/%s/php/etc/php.ini.d" ]; then
-    $HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php.ini.d"
-fi
-
-# Create PHP-FPM socket directory if it doesn't exist
 mkdir -p "$DEPS_DIR/%s/php/var/run"
+mkdir -p "$TMPDIR"
+
+# Expand ${TMPDIR} in PHP configs (php.ini uses ${TMPDIR} placeholder)
+# This allows users to customize TMPDIR via environment variable
+for config_file in "$PHPRC/php.ini" "$PHPRC/php-fpm.conf"; do
+    if [ -f "$config_file" ]; then
+        sed "s|\${TMPDIR}|$TMPDIR|g" "$config_file" > "$config_file.tmp"
+        mv "$config_file.tmp" "$config_file"
+    fi
+done
+
+# Also process php.ini.d directory if it exists
+if [ -d "$PHP_INI_SCAN_DIR" ]; then
+    for config_file in "$PHP_INI_SCAN_DIR"/*.ini; do
+        if [ -f "$config_file" ]; then
+            sed "s|\${TMPDIR}|$TMPDIR|g" "$config_file" > "$config_file.tmp"
+            mv "$config_file.tmp" "$config_file"
+        fi
+    done
+fi
 
 # Start PHP-FPM in background
 $DEPS_DIR/%s/php/sbin/php-fpm -F -y $PHPRC/php-fpm.conf &
@@ -446,7 +527,7 @@ HTTPD_PID=$!
 
 # Wait for both processes
 wait $PHP_FPM_PID $HTTPD_PID
-`, depsIdx, depsIdx, depsIdx, webDir, libDir, phpFpmConfInclude, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
 // generateNginxStartScript generates a start script for Nginx with PHP-FPM
@@ -470,56 +551,58 @@ func (f *Finalizer) generateNginxStartScript(depsIdx string, opts *options.Optio
 set -e
 
 # Set DEPS_DIR with fallback for different environments
-: ${DEPS_DIR:=$HOME/.cloudfoundry}
+: ${DEPS_DIR:=/home/vcap/deps}
 export DEPS_DIR
+
+# Set TMPDIR with fallback (users can override via environment variable)
+: ${TMPDIR:=/home/vcap/tmp}
+export TMPDIR
+
+WEBDIR="%s"
+
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
 
 # Add PHP binaries to PATH for CLI commands (e.g., bin/cake migrations)
 export PATH="$DEPS_DIR/%s/php/bin:$PATH"
 
-# Set template variables for rewrite tool - use absolute paths!
-export HOME="${HOME:-/home/vcap/app}"
-export WEBDIR="%s"
-export LIBDIR="%s"
-export PHP_FPM_LISTEN="127.0.0.1:9000"
-export PHP_FPM_CONF_INCLUDE=""
-
 echo "Starting PHP application with Nginx..."
 echo "DEPS_DIR: $DEPS_DIR"
-echo "WEBDIR: $WEBDIR"
+echo "TMPDIR: $TMPDIR"
 echo "PHP-FPM: $DEPS_DIR/%s/php/sbin/php-fpm"
 echo "Nginx: $DEPS_DIR/%s/nginx/sbin/nginx"
-echo "Checking if binaries exist..."
-ls -la "$DEPS_DIR/%s/php/sbin/php-fpm" || echo "PHP-FPM not found!"
-ls -la "$DEPS_DIR/%s/nginx/sbin/nginx" || echo "Nginx not found!"
 
-# Run rewrite to update config with runtime values
-$HOME/.bp/bin/rewrite "$HOME/nginx/conf"
+# Substitute runtime variables in nginx config
+# PORT is assigned by Cloud Foundry, TMPDIR can be customized by user
+sed -e "s|\${PORT}|$PORT|g" -e "s|\${TMPDIR}|$TMPDIR|g" "$HOME/nginx/conf/server-defaults.conf" > "$HOME/nginx/conf/server-defaults.conf.tmp"
+mv "$HOME/nginx/conf/server-defaults.conf.tmp" "$HOME/nginx/conf/server-defaults.conf"
 
-# Rewrite PHP base configs (php.ini, php-fpm.conf) with HOME=$DEPS_DIR/0
-# This ensures @{HOME} placeholders in extension_dir are replaced with correct deps path
-OLD_HOME="$HOME"
-export HOME="$DEPS_DIR/%s"
-export DEPS_DIR
-$OLD_HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php.ini"
-$OLD_HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php-fpm.conf"
-export HOME="$OLD_HOME"
+# Expand ${TMPDIR} in PHP configs (php.ini uses ${TMPDIR} placeholder)
+# This allows users to customize TMPDIR via environment variable
+for config_file in "$PHPRC/php.ini" "$PHPRC/php-fpm.conf"; do
+    if [ -f "$config_file" ]; then
+        sed "s|\${TMPDIR}|$TMPDIR|g" "$config_file" > "$config_file.tmp"
+        mv "$config_file.tmp" "$config_file"
+    fi
+done
 
-# Rewrite user fpm.d configs with HOME=/home/vcap/app
-# User configs expect HOME to be the app directory, not deps directory
-if [ -d "$DEPS_DIR/%s/php/etc/fpm.d" ]; then
-    $HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/fpm.d"
-fi
-
-# Rewrite php.ini.d configs with app HOME as well (may contain user overrides)
-if [ -d "$DEPS_DIR/%s/php/etc/php.ini.d" ]; then
-    $HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc/php.ini.d"
+# Also process php.ini.d directory if it exists
+if [ -d "$PHP_INI_SCAN_DIR" ]; then
+    for config_file in "$PHP_INI_SCAN_DIR"/*.ini; do
+        if [ -f "$config_file" ]; then
+            sed "s|\${TMPDIR}|$TMPDIR|g" "$config_file" > "$config_file.tmp"
+            mv "$config_file.tmp" "$config_file"
+        fi
+    done
 fi
 
 # Create required directories
 mkdir -p "$DEPS_DIR/%s/php/var/run"
 mkdir -p "$HOME/nginx/logs"
+mkdir -p "$TMPDIR"
+mkdir -p "$TMPDIR/nginx_fastcgi"
+mkdir -p "$TMPDIR/nginx_client_body"
+mkdir -p "$TMPDIR/nginx_proxy"
 
 # Start PHP-FPM in background
 $DEPS_DIR/%s/php/sbin/php-fpm -F -y $PHPRC/php-fpm.conf &
@@ -531,7 +614,7 @@ NGINX_PID=$!
 
 # Wait for both processes
 wait $PHP_FPM_PID $NGINX_PID
-`, depsIdx, depsIdx, depsIdx, webDir, libDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
 // generatePHPFPMStartScript generates a start script for PHP-FPM only (no web server)
@@ -555,38 +638,48 @@ func (f *Finalizer) generatePHPFPMStartScript(depsIdx string, opts *options.Opti
 set -e
 
 # Set DEPS_DIR with fallback for different environments
-: ${DEPS_DIR:=$HOME/.cloudfoundry}
+: ${DEPS_DIR:=/home/vcap/deps}
 export DEPS_DIR
+
+# Set TMPDIR with fallback (users can override via environment variable)
+: ${TMPDIR:=/home/vcap/tmp}
+export TMPDIR
+
+WEBDIR="%s"
+
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
 
-# Set template variables for rewrite tool - use absolute paths!
-export HOME="${HOME:-/home/vcap/app}"
-export WEBDIR="%s"
-export LIBDIR="%s"
-export PHP_FPM_LISTEN="$DEPS_DIR/%s/php/var/run/php-fpm.sock"
-export PHP_FPM_CONF_INCLUDE=""
-
 echo "Starting PHP-FPM only..."
 echo "DEPS_DIR: $DEPS_DIR"
-echo "WEBDIR: $WEBDIR"
+echo "TMPDIR: $TMPDIR"
 echo "PHP-FPM path: $DEPS_DIR/%s/php/sbin/php-fpm"
-ls -la "$DEPS_DIR/%s/php/sbin/php-fpm" || echo "PHP-FPM not found!"
 
-# Temporarily set HOME to DEPS_DIR/0 for PHP config rewriting
-# This ensures @{HOME} placeholders in extension_dir are replaced with the correct path
-OLD_HOME="$HOME"
-export HOME="$DEPS_DIR/%s"
-export DEPS_DIR
-$OLD_HOME/.bp/bin/rewrite "$DEPS_DIR/%s/php/etc"
-export HOME="$OLD_HOME"
+# Expand ${TMPDIR} in PHP configs
+for config_file in "$PHPRC/php.ini" "$PHPRC/php-fpm.conf"; do
+    if [ -f "$config_file" ]; then
+        sed "s|\${TMPDIR}|$TMPDIR|g" "$config_file" > "$config_file.tmp"
+        mv "$config_file.tmp" "$config_file"
+    fi
+done
+
+# Also process php.ini.d directory if it exists
+if [ -d "$PHP_INI_SCAN_DIR" ]; then
+    for config_file in "$PHP_INI_SCAN_DIR"/*.ini; do
+        if [ -f "$config_file" ]; then
+            sed "s|\${TMPDIR}|$TMPDIR|g" "$config_file" > "$config_file.tmp"
+            mv "$config_file.tmp" "$config_file"
+        fi
+    done
+fi
 
 # Create PHP-FPM socket directory if it doesn't exist
 mkdir -p "$DEPS_DIR/%s/php/var/run"
+mkdir -p "$TMPDIR"
 
 # Start PHP-FPM in foreground
 exec $DEPS_DIR/%s/php/sbin/php-fpm -F -y $PHPRC/php-fpm.conf
-`, depsIdx, depsIdx, webDir, libDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
 // SetupProcessTypes creates the process types for the application
@@ -609,6 +702,54 @@ func (f *Finalizer) SetupProcessTypes() error {
 	}
 
 	return nil
+}
+
+// replacePlaceholders replaces build-time placeholders in a file
+func (f *Finalizer) replacePlaceholders(filePath string, replacements map[string]string) error {
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		return fmt.Errorf("failed to read file %s: %w", filePath, err)
+	}
+
+	result := string(content)
+
+	// Replace all placeholders
+	for placeholder, value := range replacements {
+		result = strings.ReplaceAll(result, placeholder, value)
+	}
+
+	if err := os.WriteFile(filePath, []byte(result), 0644); err != nil {
+		return fmt.Errorf("failed to write file %s: %w", filePath, err)
+	}
+
+	return nil
+}
+
+// replacePlaceholdersInDir replaces placeholders in all files in a directory recursively
+func (f *Finalizer) replacePlaceholdersInDir(dirPath string, replacements map[string]string) error {
+	return f.replacePlaceholdersInDirExclude(dirPath, replacements, nil)
+}
+
+func (f *Finalizer) replacePlaceholdersInDirExclude(dirPath string, replacements map[string]string, excludeDirs []string) error {
+	return filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// Skip directories, but check if we should skip their contents
+		if info.IsDir() {
+			// Check if this directory should be excluded
+			for _, exclude := range excludeDirs {
+				if path == exclude {
+					return filepath.SkipDir
+				}
+			}
+			return nil
+		}
+
+		// Replace placeholders in this file
+		return f.replacePlaceholders(path, replacements)
+	})
 }
 
 func (f *Finalizer) copyFile(src, dst string) error {

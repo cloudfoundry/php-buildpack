@@ -30,6 +30,7 @@ function main() {
       fi
 
       echo "-----> Building ${name} for ${os}"
+      rm -f "${output}"
       CGO_ENABLED=0 \
       GOOS="${os}" \
         go build \
