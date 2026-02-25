@@ -1,0 +1,4 @@
+{
+  "WEB_SERVER": "httpd",
+  "LIBDIR": "lib"
+}

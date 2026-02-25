@@ -1,0 +1,4 @@
+{
+  "PHP_VERSION": "{PHP_99_LATEST}",
+  "WEB_SERVER": "httpd"
+}
