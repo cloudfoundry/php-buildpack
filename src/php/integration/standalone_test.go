@@ -37,6 +37,7 @@ func testStandaloneApp(platform switchblade.Platform, fixtures string) func(*tes
 		context("APP_START_CMD with WEB_SERVER=none", func() {
 			it("builds with explicit APP_START_CMD", func() {
 				_, logs, err := platform.Deploy.
+					WithHealthCheckType("none").
 					WithEnv(map[string]string{
 						"BP_DEBUG": "1",
 					}).
@@ -55,6 +56,7 @@ func testStandaloneApp(platform switchblade.Platform, fixtures string) func(*tes
 
 			it("builds with auto-detected app.php", func() {
 				_, logs, err := platform.Deploy.
+					WithHealthCheckType("none").
 					WithEnv(map[string]string{
 						"BP_DEBUG": "1",
 					}).
