@@ -46,7 +46,6 @@ This directory contains architectural documentation for the PHP buildpack v5.x.
 
 - **[V4_V5_MIGRATION_GAP_ANALYSIS.md](V4_V5_MIGRATION_GAP_ANALYSIS.md)** - Comprehensive v4.x to v5.x feature comparison
   - Complete feature matrix (what's implemented, missing, or changed)
-  - Missing features: `ADDITIONAL_PREPROCESS_CMDS`, `APP_START_CMD`, User Extensions
   - Implementation roadmap and priorities
   - Testing recommendations
 
