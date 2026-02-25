@@ -337,7 +337,7 @@ var _ = Describe("Finalize", func() {
 		})
 
 		Context("when web server is none", func() {
-			It("creates PHP-FPM only start script", func() {
+			It("creates standalone PHP application start script", func() {
 				optionsFile := filepath.Join(buildDir, ".bp-config", "options.json")
 				err := os.MkdirAll(filepath.Dir(optionsFile), 0755)
 				Expect(err).To(BeNil())
@@ -362,8 +362,8 @@ var _ = Describe("Finalize", func() {
 				contents, err := os.ReadFile(startScript)
 				Expect(err).To(BeNil())
 				scriptContent := string(contents)
-				Expect(scriptContent).To(ContainSubstring("PHP-FPM only"))
-				Expect(scriptContent).To(ContainSubstring("php-fpm"))
+				Expect(scriptContent).To(ContainSubstring("Standalone Mode"))
+				Expect(scriptContent).To(ContainSubstring("php/bin/php"))
 				Expect(scriptContent).NotTo(ContainSubstring("httpd"))
 				Expect(scriptContent).NotTo(ContainSubstring("nginx"))
 			})

@@ -418,3 +418,111 @@ func TestGetPreprocessCommands(t *testing.T) {
 		})
 	}
 }
+
+func TestFindStandaloneApp(t *testing.T) {
+	tests := []struct {
+		name          string
+		appStartCmd   string
+		createFiles   []string
+		expectedApp   string
+		expectError   bool
+		errorContains string
+	}{
+		{
+			name:        "explicit APP_START_CMD exists",
+			appStartCmd: "worker.php",
+			createFiles: []string{"worker.php"},
+			expectedApp: "worker.php",
+			expectError: false,
+		},
+		{
+			name:          "explicit APP_START_CMD not found",
+			appStartCmd:   "missing.php",
+			createFiles:   []string{},
+			expectedApp:   "",
+			expectError:   true,
+			errorContains: "APP_START_CMD file not found",
+		},
+		{
+			name:        "auto-detect app.php (first priority)",
+			appStartCmd: "",
+			createFiles: []string{"app.php", "main.php", "run.php", "start.php"},
+			expectedApp: "app.php",
+			expectError: false,
+		},
+		{
+			name:        "auto-detect main.php (second priority)",
+			appStartCmd: "",
+			createFiles: []string{"main.php", "run.php", "start.php"},
+			expectedApp: "main.php",
+			expectError: false,
+		},
+		{
+			name:        "auto-detect run.php (third priority)",
+			appStartCmd: "",
+			createFiles: []string{"run.php", "start.php"},
+			expectedApp: "run.php",
+			expectError: false,
+		},
+		{
+			name:        "auto-detect start.php (fourth priority)",
+			appStartCmd: "",
+			createFiles: []string{"start.php"},
+			expectedApp: "start.php",
+			expectError: false,
+		},
+		{
+			name:          "no standalone app found",
+			appStartCmd:   "",
+			createFiles:   []string{"index.php"},
+			expectedApp:   "",
+			expectError:   true,
+			errorContains: "no standalone app found",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Create temp directory
+			buildDir := t.TempDir()
+
+			// Create test files
+			for _, file := range tt.createFiles {
+				filePath := filepath.Join(buildDir, file)
+				if err := os.WriteFile(filePath, []byte("<?php\n"), 0644); err != nil {
+					t.Fatalf("Failed to create test file %s: %v", file, err)
+				}
+			}
+
+			// Create options with APP_START_CMD
+			opts := &options.Options{
+				AppStartCmd: tt.appStartCmd,
+			}
+
+			// Run FindStandaloneApp
+			result, err := opts.FindStandaloneApp(buildDir)
+
+			// Check error expectation
+			if tt.expectError {
+				if err == nil {
+					t.Errorf("Expected error containing %q, but got no error", tt.errorContains)
+					return
+				}
+				if !strings.Contains(err.Error(), tt.errorContains) {
+					t.Errorf("Expected error containing %q, got: %v", tt.errorContains, err)
+				}
+				return
+			}
+
+			// Check success case
+			if err != nil {
+				t.Errorf("Unexpected error: %v", err)
+				return
+			}
+
+			if result != tt.expectedApp {
+				t.Errorf("Expected %q, got %q", tt.expectedApp, result)
+			}
+		})
+	}
+}
