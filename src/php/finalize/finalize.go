@@ -471,6 +471,8 @@ export DEPS_DIR
 : ${TMPDIR:=/home/vcap/tmp}
 export TMPDIR
 
+WEBDIR="%s"
+
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
 
@@ -525,7 +527,7 @@ HTTPD_PID=$!
 
 # Wait for both processes
 wait $PHP_FPM_PID $HTTPD_PID
-`, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
 // generateNginxStartScript generates a start script for Nginx with PHP-FPM
@@ -555,6 +557,8 @@ export DEPS_DIR
 # Set TMPDIR with fallback (users can override via environment variable)
 : ${TMPDIR:=/home/vcap/tmp}
 export TMPDIR
+
+WEBDIR="%s"
 
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
@@ -610,7 +614,7 @@ NGINX_PID=$!
 
 # Wait for both processes
 wait $PHP_FPM_PID $NGINX_PID
-`, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
 // generatePHPFPMStartScript generates a start script for PHP-FPM only (no web server)
@@ -640,6 +644,8 @@ export DEPS_DIR
 # Set TMPDIR with fallback (users can override via environment variable)
 : ${TMPDIR:=/home/vcap/tmp}
 export TMPDIR
+
+WEBDIR="%s"
 
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
@@ -673,7 +679,7 @@ mkdir -p "$TMPDIR"
 
 # Start PHP-FPM in foreground
 exec $DEPS_DIR/%s/php/sbin/php-fpm -F -y $PHPRC/php-fpm.conf
-`, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
 // SetupProcessTypes creates the process types for the application
