@@ -142,6 +142,12 @@ func Run(f *Finalizer) error {
 		return err
 	}
 
+	// Create .profile.d script for ADDITIONAL_PREPROCESS_CMDS (v4.x compatibility)
+	if err := f.CreatePreprocessScript(opts); err != nil {
+		f.Log.Error("Error creating preprocess script: %v", err)
+		return err
+	}
+
 	// Copy profile.d scripts from deps to BUILD_DIR/.profile.d
 	// This ensures CF launcher sources them at runtime
 	if err := f.Stager.SetLaunchEnvironment(); err != nil {
@@ -229,6 +235,56 @@ export PATH="$DEPS_DIR/%s/php/bin:$DEPS_DIR/%s/php/sbin:$PATH"
 `, depsIdx, depsIdx)
 
 	return f.Stager.WriteProfileD("php-env.sh", scriptContent)
+}
+
+// CreatePreprocessScript creates a .profile.d script to run ADDITIONAL_PREPROCESS_CMDS
+// This matches v4.x behavior where preprocess commands run via .profile.d
+// with $HOME=/home/vcap (not /home/vcap/app as in the start script)
+//
+// SECURITY NOTE: ADDITIONAL_PREPROCESS_CMDS executes arbitrary shell commands
+// provided by the application. This is intentional for v4.x compatibility
+// (e.g., running database migrations, sourcing bootstrap scripts).
+func (f *Finalizer) CreatePreprocessScript(opts *options.Options) error {
+	commands := opts.GetPreprocessCommands()
+	if len(commands) == 0 {
+		return nil
+	}
+
+	// Security warning: Log that we're executing user-provided commands
+	f.Log.Warning("ADDITIONAL_PREPROCESS_CMDS detected: %d command(s) will execute at app startup", len(commands))
+	f.Log.Warning("These commands run with full shell access - ensure they are trusted")
+
+	var script strings.Builder
+	script.WriteString("#!/usr/bin/env bash\n")
+	script.WriteString("# ADDITIONAL_PREPROCESS_CMDS - runs before app starts\n")
+	script.WriteString("# This script is sourced by CF launcher via .profile.d\n")
+	script.WriteString("# For v4.x compatibility, we set HOME=/home/vcap during preprocess commands\n")
+	script.WriteString("# WARNING: These are user-provided commands executed with full shell access\n\n")
+
+	// Save current HOME and set to /home/vcap for v4.x compatibility
+	// In v4.x, preprocess commands ran with $HOME=/home/vcap
+	// In v5.x, the CF launcher may set $HOME=/home/vcap/app before sourcing profile.d
+	script.WriteString("_PREPROCESS_ORIG_HOME=\"$HOME\"\n")
+	script.WriteString("export HOME=\"/home/vcap\"\n\n")
+
+	script.WriteString("echo \"-----> Running preprocess commands...\"\n")
+
+	for i, cmd := range commands {
+		// Log the command being run (use %q for safe quoting in echo)
+		script.WriteString(fmt.Sprintf("echo \"       [%d] %s\"\n", i+1, cmd))
+		// Run the command - use eval to handle complex shell commands
+		// Error message also uses %q to safely quote the command
+		script.WriteString(fmt.Sprintf("eval %q || { echo \"ERROR: Preprocess command failed: %q\"; exit 1; }\n", cmd, cmd))
+	}
+
+	script.WriteString("echo \"-----> Preprocess commands completed.\"\n\n")
+
+	// Restore original HOME
+	script.WriteString("export HOME=\"$_PREPROCESS_ORIG_HOME\"\n")
+	script.WriteString("unset _PREPROCESS_ORIG_HOME\n")
+
+	f.Log.Info("Writing preprocess commands to .profile.d/preprocess.sh")
+	return f.Stager.WriteProfileD("preprocess.sh", script.String())
 }
 
 // ProcessConfigs replaces build-time placeholders in all config files
@@ -488,6 +544,16 @@ export TMPDIR
 
 WEBDIR="%s"
 
+# Source profile.d scripts (for environments where CF launcher doesn't run them)
+# This ensures ADDITIONAL_PREPROCESS_CMDS and other setup scripts run
+if [ -d "$HOME/../profile.d" ]; then
+    for script in "$HOME/../profile.d"/*.sh; do
+        if [ -f "$script" ]; then
+            source "$script"
+        fi
+    done
+fi
+
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
 
@@ -574,6 +640,16 @@ export DEPS_DIR
 export TMPDIR
 
 WEBDIR="%s"
+
+# Source profile.d scripts (for environments where CF launcher doesn't run them)
+# This ensures ADDITIONAL_PREPROCESS_CMDS and other setup scripts run
+if [ -d "$HOME/../profile.d" ]; then
+    for script in "$HOME/../profile.d"/*.sh; do
+        if [ -f "$script" ]; then
+            source "$script"
+        fi
+    done
+fi
 
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
@@ -662,8 +738,21 @@ export TMPDIR
 
 WEBDIR="%s"
 
+# Source profile.d scripts (for environments where CF launcher doesn't run them)
+# This ensures ADDITIONAL_PREPROCESS_CMDS and other setup scripts run
+if [ -d "$HOME/../profile.d" ]; then
+    for script in "$HOME/../profile.d"/*.sh; do
+        if [ -f "$script" ]; then
+            source "$script"
+        fi
+    done
+fi
+
 export PHPRC="$DEPS_DIR/%s/php/etc"
 export PHP_INI_SCAN_DIR="$DEPS_DIR/%s/php/etc/php.ini.d"
+
+# Add PHP binaries to PATH for CLI commands
+export PATH="$DEPS_DIR/%s/php/bin:$PATH"
 
 echo "Starting PHP-FPM only..."
 echo "DEPS_DIR: $DEPS_DIR"
@@ -694,7 +783,7 @@ mkdir -p "$TMPDIR"
 
 # Start PHP-FPM in foreground
 exec $DEPS_DIR/%s/php/sbin/php-fpm -F -y $PHPRC/php-fpm.conf
-`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
+`, webDir, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx, depsIdx)
 }
 
 // SetupProcessTypes creates the process types for the application
