@@ -477,37 +477,38 @@ var _ = Describe("ComposerExtension", func() {
 				Expect(phpVersion).To(Equal("8.1.32")) // PHP_DEFAULT
 			})
 		})
-	})
 
-	Describe("Configure - composer.lock Constraint Checking", func() {
-		Context("when composer.lock has package PHP constraints", func() {
+		// Regression test for https://github.com/cloudfoundry/php-buildpack/issues/1220
+		// composer.json requires ^8.3, but composer.lock packages carry stale upper-bound
+		// constraints (e.g. <8.3.0) written before PHP 8.3 was released. The buildpack must
+		// not re-evaluate those package-level constraints — Composer already resolved them
+		// when it wrote the lock file. Only the top-level require.php in composer.json matters.
+		Context("when composer.json requires ^8.3 and composer.lock has packages with stale <8.3.0 constraints (issue #1220)", func() {
 			BeforeEach(func() {
 				composerJSON := filepath.Join(buildDir, "composer.json")
 				jsonContent := `{
 					"require": {
-						"php": ">=7.4"
+						"php": "^8.3"
 					}
 				}`
 				err := os.WriteFile(composerJSON, []byte(jsonContent), 0644)
 				Expect(err).NotTo(HaveOccurred())
 
+				// Simulate a real-world lock file: 84 packages, many with conservative
+				// upper-bound PHP constraints written before PHP 8.3 was released.
 				composerLock := filepath.Join(buildDir, "composer.lock")
 				lockContent := `{
 					"packages": [
-						{
-							"name": "laminas/laminas-diactoros",
-							"version": "2.22.0",
-							"require": {
-								"php": "~8.0.0 || ~8.1.0 || ~8.2.0"
-							}
-						},
-						{
-							"name": "vendor/package",
-							"version": "1.0.0",
-							"require": {
-								"php": ">=8.1.0"
-							}
-						}
+						{"name": "pkg/a", "version": "1.0.0", "require": {"php": ">=7.2.5 <8.3.0"}},
+						{"name": "pkg/b", "version": "2.0.0", "require": {"php": ">=7.4 <8.3.0"}},
+						{"name": "pkg/c", "version": "3.0.0", "require": {"php": ">=8.0 <8.3.0"}},
+						{"name": "pkg/d", "version": "1.5.0", "require": {"php": "^7.2 || ^8.0"}},
+						{"name": "pkg/e", "version": "1.0.0", "require": {"php": ">=8.1"}},
+						{"name": "pkg/f", "version": "1.0.0", "require": {"php": ">=7.2.5 <8.3.0"}},
+						{"name": "pkg/g", "version": "1.0.0", "require": {"php": ">=7.2.5 <8.3.0"}},
+						{"name": "pkg/h", "version": "1.0.0", "require": {"php": ">=7.2.5 <8.3.0"}},
+						{"name": "pkg/i", "version": "1.0.0", "require": {"php": ">=7.2.5 <8.3.0"}},
+						{"name": "pkg/j", "version": "1.0.0", "require": {"php": ">=7.2.5 <8.3.0"}}
 					]
 				}`
 				err = os.WriteFile(composerLock, []byte(lockContent), 0644)
@@ -516,130 +517,14 @@ var _ = Describe("ComposerExtension", func() {
 				ext.ShouldCompile(ctx)
 			})
 
-			It("should select highest version satisfying all constraints", func() {
+			It("should select 8.3.x, ignoring stale package constraints in composer.lock", func() {
 				err := ext.Configure(ctx)
 				Expect(err).NotTo(HaveOccurred())
 
 				phpVersion := ctx.GetString("PHP_VERSION")
-				// composer.json: >=7.4
-				// laminas: ~8.0.0 || ~8.1.0 || ~8.2.0
-				// vendor/package: >=8.1.0
-				// Should select 8.2.28 (highest matching all)
-				Expect(phpVersion).To(Equal("8.2.28"))
-			})
-		})
-
-		Context("when composer.lock constraints exclude highest version", func() {
-			BeforeEach(func() {
-				composerJSON := filepath.Join(buildDir, "composer.json")
-				jsonContent := `{
-					"require": {
-						"php": ">=8.0"
-					}
-				}`
-				err := os.WriteFile(composerJSON, []byte(jsonContent), 0644)
-				Expect(err).NotTo(HaveOccurred())
-
-				composerLock := filepath.Join(buildDir, "composer.lock")
-				lockContent := `{
-					"packages": [
-						{
-							"name": "old-package/example",
-							"version": "1.0.0",
-							"require": {
-								"php": "<8.3.0"
-							}
-						}
-					]
-				}`
-				err = os.WriteFile(composerLock, []byte(lockContent), 0644)
-				Expect(err).NotTo(HaveOccurred())
-
-				ext.ShouldCompile(ctx)
-			})
-
-			It("should respect lock constraint and select lower version", func() {
-				err := ext.Configure(ctx)
-				Expect(err).NotTo(HaveOccurred())
-
-				phpVersion := ctx.GetString("PHP_VERSION")
-				// composer.json: >=8.0
-				// old-package: <8.3.0
-				// Should select 8.2.28 (not 8.3.x)
-				Expect(phpVersion).To(Equal("8.2.28"))
-			})
-		})
-
-		Context("when no version satisfies all lock constraints", func() {
-			BeforeEach(func() {
-				composerJSON := filepath.Join(buildDir, "composer.json")
-				jsonContent := `{
-					"require": {
-						"php": ">=8.3.0"
-					}
-				}`
-				err := os.WriteFile(composerJSON, []byte(jsonContent), 0644)
-				Expect(err).NotTo(HaveOccurred())
-
-				composerLock := filepath.Join(buildDir, "composer.lock")
-				lockContent := `{
-					"packages": [
-						{
-							"name": "impossible/package",
-							"version": "1.0.0",
-							"require": {
-								"php": "<8.0.0"
-							}
-						}
-					]
-				}`
-				err = os.WriteFile(composerLock, []byte(lockContent), 0644)
-				Expect(err).NotTo(HaveOccurred())
-
-				ext.ShouldCompile(ctx)
-			})
-
-			It("should fall back to default PHP version", func() {
-				err := ext.Configure(ctx)
-				Expect(err).NotTo(HaveOccurred())
-
-				phpVersion := ctx.GetString("PHP_VERSION")
-				Expect(phpVersion).To(Equal("8.1.32")) // PHP_DEFAULT
-			})
-		})
-
-		Context("when composer.lock has no package PHP constraints", func() {
-			BeforeEach(func() {
-				composerJSON := filepath.Join(buildDir, "composer.json")
-				jsonContent := `{
-					"require": {
-						"php": ">=8.2.0"
-					}
-				}`
-				err := os.WriteFile(composerJSON, []byte(jsonContent), 0644)
-				Expect(err).NotTo(HaveOccurred())
-
-				composerLock := filepath.Join(buildDir, "composer.lock")
-				lockContent := `{
-					"packages": [
-						{
-							"name": "simple/package",
-							"version": "1.0.0"
-						}
-					]
-				}`
-				err = os.WriteFile(composerLock, []byte(lockContent), 0644)
-				Expect(err).NotTo(HaveOccurred())
-
-				ext.ShouldCompile(ctx)
-			})
-
-			It("should use only composer.json constraint", func() {
-				err := ext.Configure(ctx)
-				Expect(err).NotTo(HaveOccurred())
-
-				phpVersion := ctx.GetString("PHP_VERSION")
-				Expect(phpVersion).To(Equal("8.3.21")) // Highest matching >=8.2.0
+				// Must NOT fall back to default 8.1.32 — that is the regression.
+				// Must select the highest 8.3.x version available.
+				Expect(phpVersion).To(Equal("8.3.21"))
 			})
 		})
 	})

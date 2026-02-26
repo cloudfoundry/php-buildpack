@@ -1,0 +1,7 @@
+{
+    "name": "cloudfoundry/composer_83_version_selection",
+    "description": "Regression fixture for issue #1220: composer.json requires ^8.3 but composer.lock packages carry stale <8.3.0 upper-bound constraints",
+    "require": {
+        "php": "^8.3"
+    }
+}

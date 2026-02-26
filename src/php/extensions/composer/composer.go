@@ -119,9 +119,7 @@ func (e *ComposerExtension) Configure(ctx *extensions.Context) error {
 		return fmt.Errorf("failed to read PHP version from composer files: %w", err)
 	}
 	if phpVersion != "" {
-		// Also check composer.lock for package PHP constraints
-		lockConstraints := e.readPHPConstraintsFromLock()
-		selectedVersion := e.pickPHPVersion(ctx, phpVersion, lockConstraints)
+		selectedVersion := e.pickPHPVersion(ctx, phpVersion)
 		ctx.Set("PHP_VERSION", selectedVersion)
 	}
 
@@ -208,50 +206,15 @@ func (e *ComposerExtension) readVersionFromFile(path, section, key string) (stri
 	return "", nil
 }
 
-// readPHPConstraintsFromLock reads PHP constraints from all packages in composer.lock
-func (e *ComposerExtension) readPHPConstraintsFromLock() []string {
-	if e.lockPath == "" {
-		return nil
-	}
-
-	data, err := os.ReadFile(e.lockPath)
-	if err != nil {
-		return nil
-	}
-
-	var lockData struct {
-		Packages []struct {
-			Name    string                 `json:"name"`
-			Require map[string]interface{} `json:"require"`
-		} `json:"packages"`
-	}
-
-	if err := json.Unmarshal(data, &lockData); err != nil {
-		return nil
-	}
-
-	var constraints []string
-	for _, pkg := range lockData.Packages {
-		if phpConstraint, ok := pkg.Require["php"].(string); ok && phpConstraint != "" {
-			constraints = append(constraints, phpConstraint)
-		}
-	}
-
-	return constraints
-}
-
-// pickPHPVersion selects the appropriate PHP version based on requirements
-func (e *ComposerExtension) pickPHPVersion(ctx *extensions.Context, requested string, lockConstraints []string) string {
+// pickPHPVersion selects the appropriate PHP version based on the composer.json requirement.
+// Version selection is based solely on the top-level require.php in composer.json;
+// package-level PHP constraints in composer.lock are intentionally ignored (v4 semantics).
+func (e *ComposerExtension) pickPHPVersion(ctx *extensions.Context, requested string) string {
 	if requested == "" {
 		return ctx.GetString("PHP_VERSION")
 	}
 
 	fmt.Printf("-----> Composer requires PHP %s\n", requested)
-
-	// If we have composer.lock constraints, show them
-	if len(lockConstraints) > 0 {
-		fmt.Printf("       Locked dependencies have %d additional PHP constraints\n", len(lockConstraints))
-	}
 
 	// Get all available PHP versions from context
 	// Context should have ALL_PHP_VERSIONS set by supply phase
@@ -267,48 +230,14 @@ func (e *ComposerExtension) pickPHPVersion(ctx *extensions.Context, requested st
 		availableVersions[i] = strings.TrimSpace(availableVersions[i])
 	}
 
-	// Find the best matching version for composer.json constraint
+	// Find the best matching version for the composer.json constraint
 	selectedVersion := e.matchVersion(requested, availableVersions)
 	if selectedVersion == "" {
 		fmt.Printf("       Warning: No matching PHP version found for %s, using default\n", requested)
 		return ctx.GetString("PHP_DEFAULT")
 	}
 
-	// If we have lock constraints, ensure the selected version satisfies ALL of them
-	if len(lockConstraints) > 0 {
-		// Filter available versions to only those matching ALL constraints (composer.json + lock)
-		validVersions := []string{}
-		for _, version := range availableVersions {
-			// Check composer.json constraint
-			if !e.versionMatchesConstraint(version, requested) {
-				continue
-			}
-
-			// Check all lock constraints
-			matchesAll := true
-			for _, lockConstraint := range lockConstraints {
-				if !e.versionMatchesConstraint(version, lockConstraint) {
-					matchesAll = false
-					break
-				}
-			}
-
-			if matchesAll {
-				validVersions = append(validVersions, version)
-			}
-		}
-
-		if len(validVersions) == 0 {
-			fmt.Printf("       Warning: No PHP version satisfies all constraints, using default\n")
-			return ctx.GetString("PHP_DEFAULT")
-		}
-
-		// Find the highest valid version
-		selectedVersion = e.findHighestVersion(validVersions)
-		fmt.Printf("       Selected PHP version: %s (satisfies all %d constraints)\n", selectedVersion, len(lockConstraints)+1)
-	} else {
-		fmt.Printf("       Selected PHP version: %s\n", selectedVersion)
-	}
+	fmt.Printf("       Selected PHP version: %s\n", selectedVersion)
 
 	return selectedVersion
 }
