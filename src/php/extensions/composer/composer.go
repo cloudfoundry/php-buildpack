@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
@@ -650,7 +649,7 @@ func (e *ComposerExtension) installComposer(ctx *extensions.Context, installer *
 		fmt.Printf("-----> Installing composer %s\n", composerVersion)
 
 		// Create a temporary directory for the composer download
-		tmpDir, err := ioutil.TempDir("", "composer-install")
+		tmpDir, err := os.MkdirTemp("", "composer-install")
 		if err != nil {
 			return fmt.Errorf("failed to create temp dir: %w", err)
 		}
@@ -666,7 +665,7 @@ func (e *ComposerExtension) installComposer(ctx *extensions.Context, installer *
 		}
 
 		// Find the downloaded .phar file (e.g., composer_2.8.8_linux_noarch_cflinuxfs4_abc123.phar)
-		files, err := ioutil.ReadDir(tmpDir)
+		files, err := os.ReadDir(tmpDir)
 		if err != nil {
 			return fmt.Errorf("failed to read temp dir: %w", err)
 		}

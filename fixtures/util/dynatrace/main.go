@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -69,7 +68,7 @@ func main() {
 			json.NewEncoder(w).Encode(payload)
 
 		case "/v1/deployment/installer/agent/processmoduleconfig":
-			fakeConfig, err := ioutil.ReadFile("fake_config.json")
+			fakeConfig, err := os.ReadFile("fake_config.json")
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(err.Error()))
