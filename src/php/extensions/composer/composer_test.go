@@ -386,6 +386,45 @@ var _ = Describe("ComposerExtension", func() {
 			})
 		})
 
+		Context("when lock use | (OR) constraint", func() {
+			BeforeEach(func() {
+				composerJSON := filepath.Join(buildDir, "composer.json")
+				jsonContent := `{
+					"require": {
+						"php": ">=8.3"
+					}
+				}`
+				err := os.WriteFile(composerJSON, []byte(jsonContent), 0644)
+				Expect(err).NotTo(HaveOccurred())
+
+				composerLock := filepath.Join(buildDir, "composer.lock")
+				lockContent := `{
+					"packages": [
+						{
+							"name": "simple/package",
+							"version": "1.0.0",
+							"require": {
+								"php": "^7.1 | ^8.0"
+							}
+						}
+					]
+				}`
+				err = os.WriteFile(composerLock, []byte(lockContent), 0644)
+				Expect(err).NotTo(HaveOccurred())
+
+				ext.ShouldCompile(ctx)
+			})
+
+			It("should select highest version matching all constraints", func() {
+				err := ext.Configure(ctx)
+				Expect(err).NotTo(HaveOccurred())
+
+				phpVersion := ctx.GetString("PHP_VERSION")
+				// In Composer, ^7.1 | ^8.0 is same as ^7.1 || ^8.0, so 8.3.21 is valid
+				Expect(phpVersion).To(Equal("8.3.21"))
+			})
+		})
+
 		Context("when composer.json specifies AND constraints (space-separated)", func() {
 			BeforeEach(func() {
 				composerJSON := filepath.Join(buildDir, "composer.json")
