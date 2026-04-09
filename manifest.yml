@@ -2,7 +2,7 @@
 language: php
 default_versions:
 - name: php
-  version: 8.1.32
+  version: 8.3.x
 - name: httpd
   version: 2.4.66
 - name: nginx
