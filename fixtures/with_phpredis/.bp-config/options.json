@@ -1,4 +1,4 @@
 {
-    "PHP_VERSION": "8.2.28",
+    "PHP_VERSION": "{PHP_82_LATEST}",
     "PHP_EXTENSIONS": ["redis"]
 }
