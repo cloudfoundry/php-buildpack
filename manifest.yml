@@ -240,8 +240,8 @@ dependencies:
   - name: zlib
 - name: php
   version: 8.1.34
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.34_linux_x64_cflinuxfs4_924f1540.tgz
-  sha256: 924f1540a7d4c8cd3f81a99de7731c9aa48c0c27a0a370532a0e4ab7de8713f6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.34_linux_x64_cflinuxfs4_4647726c.tgz
+  sha256: 4647726cb6c9231b3d45a424afd4e56748d732bd0d7d5451355d41e9beddcc14
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.1.34.tar.gz
