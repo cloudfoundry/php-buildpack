@@ -25,7 +25,6 @@
     "mailparse",
     "maxminddb",
     "mbstring",
-    "mcrypt",
     "memcached",
     "mongodb",
     "msgpack",
@@ -63,7 +62,6 @@
     "tidy",
     "xsl",
     "yaml",
-    "yaf",
     "zip",
     "zlib",
     "phalcon"

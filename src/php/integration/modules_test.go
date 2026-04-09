@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/cloudfoundry/switchblade"
-	"github.com/sclevine/spec"
-
 	. "github.com/cloudfoundry/switchblade/matchers"
 	. "github.com/onsi/gomega"
+	"github.com/sclevine/spec"
 	"gopkg.in/yaml.v2"
 )
 
@@ -69,12 +69,21 @@ func testModules(platform switchblade.Platform, fixtures string) func(*testing.T
 				}
 			}
 
+			// Resolve wildcard default (e.g. "8.3.x") to the highest matching
+			// exact version present in the manifest dependencies.
+			prefix := strings.TrimSuffix(phpVersion, "x")
+			var resolvedVersion string
 			var modules []SubDependency
 			for _, d := range manifest.Dependencies {
-				if d.Name == "php" && d.Version == phpVersion {
-					modules = d.Modules
-					break
+				if d.Name == "php" && strings.HasPrefix(d.Version, prefix) {
+					if resolvedVersion == "" || d.Version > resolvedVersion {
+						resolvedVersion = d.Version
+						modules = d.Modules
+					}
 				}
+			}
+			if resolvedVersion != "" {
+				phpVersion = resolvedVersion
 			}
 
 			Eventually(deployment).Should(Serve(
