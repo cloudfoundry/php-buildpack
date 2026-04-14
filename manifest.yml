@@ -871,8 +871,8 @@ dependencies:
     version: 
 - name: php
   version: 8.3.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.30_linux_x64_cflinuxfs4_b16cbcea.tgz
-  sha256: b16cbcea132f0afa843c8bd3ff11b958a147c71ac2eba4296db7fbbfa489e523
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.30_linux_x64_cflinuxfs4_33d4d509.tgz
+  sha256: 33d4d509e5d34f2ab057c338b2aae4c5c6df990f1d0ca7344e562f9f6a296933
   cf_stacks:
   - cflinuxfs4
   source: https://php.net/distributions/php-8.3.30.tar.gz
@@ -906,6 +906,8 @@ dependencies:
     version: 3.7.0
   - name: imap
     version: 
+  - name: ioncube
+    version: 14.0.0
   - name: ldap
     version: 
   - name: lzf
@@ -995,8 +997,8 @@ dependencies:
     version: 
 - name: php
   version: 8.3.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.30_linux_x64_cflinuxfs5_931fc6a2.tgz
-  sha256: 931fc6a27ef9ba4e65e7d3e1e671243a41d4d0708e8db1e8dc8017e6b639a810
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.30_linux_x64_cflinuxfs5_6a239a48.tgz
+  sha256: 6a239a484f4847c0e3ee14887104d6665281c2662b068572dac955495d650e2e
   cf_stacks:
   - cflinuxfs5
   source: https://php.net/distributions/php-8.3.30.tar.gz
@@ -1030,6 +1032,8 @@ dependencies:
     version: 3.7.0
   - name: imap
     version: 
+  - name: ioncube
+    version: 14.0.0
   - name: ldap
     version: 
   - name: lzf
