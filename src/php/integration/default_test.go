@@ -94,7 +94,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 				}
 
 				deployment, logs, err := platform.Deploy.
-					WithBuildpacks("https://github.com/cloudfoundry/php-buildpack.git#fix-rewrite-binary-compilation").
+					WithBuildpacks("https://github.com/cloudfoundry/php-buildpack.git#master").
 					WithEnv(map[string]string{
 						"BP_DEBUG": "1",
 					}).
