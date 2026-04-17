@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/Dynatrace/libbuildpack-dynatrace v1.8.0
-	github.com/cloudfoundry/libbuildpack v0.0.0-20260306121953-8ab9253c8181
+	github.com/cloudfoundry/libbuildpack v0.0.0-20260306125332-dcaf55eb6f33
 	github.com/cloudfoundry/switchblade v0.9.5
 	github.com/onsi/ginkgo/v2 v2.27.2
 	github.com/onsi/gomega v1.38.2
