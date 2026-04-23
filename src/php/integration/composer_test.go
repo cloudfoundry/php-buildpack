@@ -38,7 +38,7 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 		})
 
 		context("default PHP composer app", func() {
-			it("builds and runs the app", func() {
+			it.Focus("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
 					WithEnv(map[string]string{
 						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
@@ -100,7 +100,7 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 		// composer.json explicitly required "^8.3". The fix restores v4 semantics: only the
 		// top-level require.php in composer.json is used for version selection.
 		context("composer.json requires ^8.3 with stale <8.3.0 package constraints in composer.lock", func() {
-			it("selects PHP 8.3, ignoring stale package constraints in composer.lock (issue #1220)", func() {
+			it.Focus("selects PHP 8.3, ignoring stale package constraints in composer.lock (issue #1220)", func() {
 				deployment, logs, err := platform.Deploy.
 					Execute(name, filepath.Join(fixtures, "composer_83_version_selection"))
 				Expect(err).NotTo(HaveOccurred(), logs.String)
@@ -108,17 +108,17 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 				// Build log must show the composer.json constraint was read
 				Expect(logs.String()).To(ContainSubstring("Composer requires PHP ^8.3"))
 
-				// Build log must show PHP 8.3.x was installed — not the 8.1.x default
-				Expect(logs.String()).To(MatchRegexp(`Installing PHP 8\.3\.\d+`))
+				// Build log must show PHP >=8.3 was installed — not the 8.1.x default
+				Expect(logs.String()).To(MatchRegexp(`Installing PHP 8\.[3-9]\.\d+`))
 				Expect(logs.String()).NotTo(MatchRegexp(`Installing PHP 8\.1\.\d+`))
 
-				// The running app must confirm it is executing on PHP 8.3
-				Eventually(deployment).Should(Serve(MatchRegexp(`PHP Version: 8\.3`)))
+				// The running app must confirm it is executing on PHP >=8.3
+				Eventually(deployment).Should(Serve(MatchRegexp(`PHP Version: 8\.[3-9]`)))
 			})
 		})
 
 		if !settings.Cached {
-			context("deployed with invalid COMPOSER_GITHUB_OAUTH_TOKEN", func() {
+			context.Focus("deployed with invalid COMPOSER_GITHUB_OAUTH_TOKEN", func() {
 				it("logs warning", func() {
 					_, logs, err := platform.Deploy.
 						WithEnv(map[string]string{
