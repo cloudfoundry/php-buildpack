@@ -1,5 +1,5 @@
 {
   "WEBDIR": "public",
-  "COMPOSER_VENDOR_DIR": "vendor",
-  "PHP_VERSION": "{PHP_83_LATEST}"
+  "COMPOSER_VENDOR_DIR": "vendor"
+}
 }
