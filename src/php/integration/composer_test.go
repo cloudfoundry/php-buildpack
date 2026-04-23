@@ -108,12 +108,12 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 				// Build log must show the composer.json constraint was read
 				Expect(logs.String()).To(ContainSubstring("Composer requires PHP ^8.3"))
 
-				// Build log must show PHP 8.3.x was installed — not the 8.1.x default
-				Expect(logs.String()).To(MatchRegexp(`Installing PHP 8\.3\.\d+`))
+				// Build log must show PHP >=8.3 was installed — not the 8.1.x default
+				Expect(logs.String()).To(MatchRegexp(`Installing PHP 8\.[3-9]\.\d+`))
 				Expect(logs.String()).NotTo(MatchRegexp(`Installing PHP 8\.1\.\d+`))
 
-				// The running app must confirm it is executing on PHP 8.3
-				Eventually(deployment).Should(Serve(MatchRegexp(`PHP Version: 8\.3`)))
+				// The running app must confirm it is executing on PHP >=8.3
+				Eventually(deployment).Should(Serve(MatchRegexp(`PHP Version: 8\.[3-9]`)))
 			})
 		})
 
