@@ -4,7 +4,7 @@ default_versions:
 - name: php
   version: 8.3.x
 - name: httpd
-  version: 2.4.66
+  version: 2.4.67
 - name: nginx
   version: 1.27.5
 - name: composer
@@ -64,20 +64,20 @@ dependencies:
   source_sha256: d3c6801ea6e5dd291d0f149295a4d0f1539a74d5231958fe8fdaa889a497e6cf
 - name: httpd
   version: 2.4.66
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.66_linux_x64_cflinuxfs4_f5966450.tgz
-  sha256: f596645059d59729765fbd2dfe42588f6f8915547999e3dc7095536a7ec6806d
-  cf_stacks:
-  - cflinuxfs4
-  source: https://dlcdn.apache.org/httpd/httpd-2.4.66.tar.bz2
-  source_sha256: 94d7ff2b42acbb828e870ba29e4cbad48e558a79c623ad3596e4116efcfea25a
-- name: httpd
-  version: 2.4.66
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.66_linux_x64_cflinuxfs5_a21e24cb.tgz
   sha256: a21e24cb92bab61393a9d4381cf7d6d65e50d486d239808b860c84c96fd8e737
   cf_stacks:
   - cflinuxfs5
   source: https://dlcdn.apache.org/httpd/httpd-2.4.66.tar.bz2
   source_sha256: 94d7ff2b42acbb828e870ba29e4cbad48e558a79c623ad3596e4116efcfea25a
+- name: httpd
+  version: 2.4.67
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.67_linux_x64_cflinuxfs4_bdb43550.tgz
+  sha256: bdb43550258bbb2935cca0ca2359fb3f7a3aa0992d45a719b88bc042fc01804e
+  cf_stacks:
+  - cflinuxfs4
+  source: https://dlcdn.apache.org/httpd/httpd-2.4.67.tar.bz2
+  source_sha256: 66cd206637b0d5c446fa7dabe75fe03525da8fb55855876c46288cd88b136aa4
 - name: newrelic
   version: 10.21.0.11
   uri: https://download.newrelic.com/php_agent/archive/10.21.0.11/newrelic-php5-10.21.0.11-linux.tar.gz
