@@ -1,7 +1,6 @@
 {
     "require": {
         "ext-redis": "*",
-        "ext-igbinary": "*",
-        "cloudfoundry-community/cf-helper-php": "1.6.*"
+        "ext-igbinary": "*"
     }
 }
