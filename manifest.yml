@@ -35,7 +35,7 @@ dependency_deprecation_dates:
   match: 8.2.\d+
 - version_line: 8.3.x
   name: php
-  date: 2025-12-31
+  date: 2026-11-23
   link: http://php.net/supported-versions.php
   match: 8.3.\d+
 - version_line: 8.4.x
