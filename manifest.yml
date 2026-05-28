@@ -43,6 +43,11 @@ dependency_deprecation_dates:
   date: 2026-12-31
   link: http://php.net/supported-versions.php
   match: 8.4.\d+
+- version_line: 8.5.x
+  name: php
+  date: 2027-12-31
+  link: http://php.net/supported-versions.php
+  match: 8.5.\d+
 dependencies:
 - name: appdynamics
   version: 25.5.0-1371
@@ -1485,6 +1490,122 @@ dependencies:
     version: 3.3.7
   - name: yaml
     version: 2.2.3
+  - name: zip
+  - name: zlib
+    version: 
+- name: php
+  version: 8.5.6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.5.6_linux_x64_cflinuxfs4_8f2e137d.tgz
+  sha256: 8f2e137d099d488f495cdd555d09ead48a7c8d68d28362b5a70b0475f5b2a794
+  cf_stacks:
+  - cflinuxfs4
+  source: https://php.net/distributions/php-8.5.6.tar.gz
+  source_sha256: 169aaa21c2834b38df8e39169f43bc5bea8d4059a816cfbc59be08fc2bae60cd
+  dependencies:
+  - name: amqp
+    version: 2.2.0
+  - name: apcu
+    version: 5.1.28
+  - name: bz2
+    version: 
+  - name: curl
+    version: 
+  - name: dba
+    version: 
+  - name: enchant
+  - name: exif
+    version: 
+  - name: fileinfo
+    version: 
+  - name: ftp
+    version: 
+  - name: gd
+  - name: gettext
+    version: 
+  - name: gmp
+    version: 
+  - name: igbinary
+    version: 3.2.17RC1
+  - name: imagick
+    version: 3.8.1
+  - name: ioncube
+    version: 15.5.0
+  - name: ldap
+    version: 
+  - name: lzf
+    version: 
+  - name: mailparse
+    version: 3.2.0
+  - name: maxminddb
+    version: 1.11.1
+  - name: mbstring
+    version: 
+  - name: memcached
+    version: 3.4.0
+  - name: mongodb
+    version: 2.2.1
+  - name: msgpack
+    version: 2.2.0
+  - name: mysqli
+    version: 
+  - name: oauth
+    version: 2.0.10
+  - name: openssl
+    version: 
+  - name: pcntl
+    version: 
+  - name: pdo
+    version: 
+  - name: pdo_firebird
+  - name: pdo_mysql
+    version: 
+  - name: pdo_odbc
+  - name: pdo_pgsql
+    version: 
+  - name: pdo_sqlite
+    version: 
+  - name: pdo_sqlsrv
+    version: 5.13.0
+  - name: pgsql
+    version: 
+  - name: phpiredis
+    version: 1.0.1
+  - name: psr
+    version: 1.2.0
+  - name: rdkafka
+    version: 6.0.3
+  - name: readline
+  - name: redis
+    version: 6.3.0
+  - name: shmop
+    version: 
+  - name: snmp
+  - name: soap
+    version: 
+  - name: sockets
+    version: 
+  - name: sodium
+  - name: solr
+    version: 2.9.3
+  - name: sqlsrv
+    version: 5.13.0
+  - name: ssh2
+    version: 1.4.1
+  - name: sysvmsg
+    version: 
+  - name: sysvsem
+    version: 
+  - name: sysvshm
+    version: 
+  - name: tidy
+  - name: xdebug
+    version: 3.5.1
+  - name: xsl
+    version: 
+  - name: yaf
+    version: 3.3.7
+  - name: yaml
+    version: 2.3.0
   - name: zip
   - name: zlib
     version: 
