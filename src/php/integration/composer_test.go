@@ -117,6 +117,28 @@ func testComposer(platform switchblade.Platform, fixtures string) func(*testing.
 			})
 		})
 
+		// Regression test for https://github.com/cloudfoundry/php-buildpack/issues/1265
+		// COMPOSER_INSTALL_OPTIONS in options.json was silently ignored in v5 because
+		// supply.go never wrote the parsed value into the extension Context.Data map.
+		// As a result, composer always ran with the hardcoded default ["--no-interaction",
+		// "--no-dev"], making it impossible to install dev dependencies via options.json.
+		context("composer app with COMPOSER_INSTALL_OPTIONS set to --dev in options.json", func() {
+			it("installs dev dependencies (issue #1265)", func() {
+				deployment, logs, err := platform.Deploy.
+					WithEnv(map[string]string{
+						"COMPOSER_GITHUB_OAUTH_TOKEN": os.Getenv("COMPOSER_GITHUB_OAUTH_TOKEN"),
+					}).
+					Execute(name, filepath.Join(fixtures, "composer_install_options"))
+				Expect(err).NotTo(HaveOccurred(), logs.String)
+
+				// Staging log must NOT contain --no-dev, confirming the user option overrides the default
+				Expect(logs.String()).NotTo(ContainSubstring("--no-dev"))
+
+				// The running app confirms psr/log (a require-dev package) was installed
+				Eventually(deployment).Should(Serve(ContainSubstring("dev dependencies installed")))
+			})
+		})
+
 		if !settings.Cached {
 			context("deployed with invalid COMPOSER_GITHUB_OAUTH_TOKEN", func() {
 				it("logs warning", func() {

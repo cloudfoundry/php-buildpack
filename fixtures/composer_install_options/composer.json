@@ -1,0 +1,9 @@
+{
+    "name": "cloudfoundry/composer_install_options_test",
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "psr/log": "^3.0"
+    }
+}
