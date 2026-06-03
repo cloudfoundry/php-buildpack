@@ -6,7 +6,7 @@ default_versions:
 - name: httpd
   version: 2.4.67
 - name: nginx
-  version: 1.27.5
+  version: 1.30.2
 - name: composer
   version: 2.10.0
 url_to_dependency_map:
