@@ -69,18 +69,18 @@ dependencies:
   source_sha256: a346538851988ead111d11e3cbd7d372eeba44abd0af412e09890d3c21ea6c31
 - name: httpd
   version: 2.4.67
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.67_linux_x64_cflinuxfs5_7e4a72af.tgz
-  sha256: 7e4a72af80eb30439bedd9d3affbe782512b15d7d5698e69a7f07760fb3dd52b
-  cf_stacks:
-  - cflinuxfs5
-  source: https://dlcdn.apache.org/httpd/httpd-2.4.67.tar.bz2
-  source_sha256: 66cd206637b0d5c446fa7dabe75fe03525da8fb55855876c46288cd88b136aa4
-- name: httpd
-  version: 2.4.67
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.67_linux_x64_cflinuxfs4_bdb43550.tgz
   sha256: bdb43550258bbb2935cca0ca2359fb3f7a3aa0992d45a719b88bc042fc01804e
   cf_stacks:
   - cflinuxfs4
+  source: https://dlcdn.apache.org/httpd/httpd-2.4.67.tar.bz2
+  source_sha256: 66cd206637b0d5c446fa7dabe75fe03525da8fb55855876c46288cd88b136aa4
+- name: httpd
+  version: 2.4.67
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.67_linux_x64_cflinuxfs5_7e4a72af.tgz
+  sha256: 7e4a72af80eb30439bedd9d3affbe782512b15d7d5698e69a7f07760fb3dd52b
+  cf_stacks:
+  - cflinuxfs5
   source: https://dlcdn.apache.org/httpd/httpd-2.4.67.tar.bz2
   source_sha256: 66cd206637b0d5c446fa7dabe75fe03525da8fb55855876c46288cd88b136aa4
 - name: newrelic
@@ -122,6 +122,22 @@ dependencies:
   - cflinuxfs5
   source: http://nginx.org/download/nginx-1.27.5.tar.gz
   source_sha256: e96acebb9c2a6db8a000c3dd1b32ecba1b810f0cd586232d4d921e376674dd0e
+- name: nginx
+  version: 1.30.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.30.2_linux_x64_cflinuxfs4_689366dc.tgz
+  sha256: 689366dc09e034e38192376aa8dd93892d5ee697d806c820cdde777dd893cac2
+  cf_stacks:
+  - cflinuxfs4
+  source: http://nginx.org/download/nginx-1.30.2.tar.gz
+  source_sha256: 7df3090907fca3cc0e456d6dc00ceb230da74ea88026ceff0affc29dbbd9ac4c
+- name: nginx
+  version: 1.30.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.30.2_linux_x64_cflinuxfs5_1bcee2c4.tgz
+  sha256: 1bcee2c49fe9c6e08cbc12f243f06e2dddb8e4117b1258442366f77a0bfc5236
+  cf_stacks:
+  - cflinuxfs5
+  source: http://nginx.org/download/nginx-1.30.2.tar.gz
+  source_sha256: 7df3090907fca3cc0e456d6dc00ceb230da74ea88026ceff0affc29dbbd9ac4c
 - name: php
   version: 8.1.32
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.32_linux_x64_cflinuxfs4_51db527b.tgz
