@@ -523,13 +523,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.3.31
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.31_linux_x64_cflinuxfs4_6f5a35e7.tgz
-  sha256: 6f5a35e755045020e915c25de4ed9711454545c533ea02af751d7c342599cdaf
+  version: 8.3.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.32_linux_x64_cflinuxfs4_f9ec449a.tgz
+  sha256: f9ec449a389176cf159a73e8776061e0fcc13ec90841584f260b3bee623c3e94
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.3.31.tar.gz
-  source_sha256: 4e7baaf0a690e954a20e7ced3dd633ce8cb8094e2b6b612a55e703ecbbdcbf4f
+  source: https://php.net/distributions/php-8.3.32.tar.gz
+  source_sha256: 8e1f03eea0b07bc29e1f94d3cfcf0532b0421ec63c1792346b58c3ad8e40fc9b
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -651,13 +651,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.3.31
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.31_linux_x64_cflinuxfs5_52c65f89.tgz
-  sha256: 52c65f8927c257322faa99ede00f14601cb7cb2ba8b972240f344e5f9230513f
+  version: 8.3.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.32_linux_x64_cflinuxfs5_aed6dba6.tgz
+  sha256: aed6dba671748a4ad8f16d8dab4b9d95cb1360812bc372d663238ea1b0187a84
   cf_stacks:
   - cflinuxfs5
-  source: https://php.net/distributions/php-8.3.31.tar.gz
-  source_sha256: 4e7baaf0a690e954a20e7ced3dd633ce8cb8094e2b6b612a55e703ecbbdcbf4f
+  source: https://php.net/distributions/php-8.3.32.tar.gz
+  source_sha256: 8e1f03eea0b07bc29e1f94d3cfcf0532b0421ec63c1792346b58c3ad8e40fc9b
   dependencies:
   - name: amqp
     version: 2.1.2
