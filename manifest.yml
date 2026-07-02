@@ -505,7 +505,7 @@ dependencies:
     version: 2.2.3
   - name: zip
   - name: zlib
-    version:
+    version: 
 - name: php
   version: 8.3.32
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.32_linux_x64_cflinuxfs4_f9ec449a.tgz
