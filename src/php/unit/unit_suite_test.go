@@ -1,12 +1,12 @@
 package unit_test
 
 import (
+	"context"
 	"os/exec"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"github.com/onsi/gomega/gexec"
 
 	"testing"
 )
@@ -17,11 +17,7 @@ func TestUnit(t *testing.T) {
 }
 
 func IsDockerAvailable() bool {
-	cmd := exec.Command("docker", "system", "info")
-
-	session, err := gexec.Start(cmd, nil, nil)
-	Expect(err).ToNot(HaveOccurred())
-
-	session.Wait(5 * time.Second)
-	return session.ExitCode() == 0
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	return exec.CommandContext(ctx, "docker", "system", "info").Run() == nil
 }
