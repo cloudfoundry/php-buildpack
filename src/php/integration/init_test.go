@@ -70,8 +70,9 @@ func TestIntegration(t *testing.T) {
 	// Expect(err).NotTo(HaveOccurred())
 
 	suite := spec.New("integration", spec.Report(report.Terminal{}), spec.Parallel())
-	suite("Default", testDefault(platform, fixtures))
+	// Reordered: Moved "Default" to second position to test if failure is position-dependent
 	suite("Modules", testModules(platform, fixtures))
+	suite("Default", testDefault(platform, fixtures))
 	suite("Composer", testComposer(platform, fixtures))
 	suite("WebServers", testWebServers(platform, fixtures))
 	suite("AppFrameworks", testAppFrameworks(platform, fixtures))
