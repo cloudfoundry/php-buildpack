@@ -70,8 +70,12 @@ func TestIntegration(t *testing.T) {
 	// Expect(err).NotTo(HaveOccurred())
 
 	suite := spec.New("integration", spec.Report(report.Terminal{}), spec.Parallel())
-	suite("Default", testDefault(platform, fixtures))
+	// Note: Test order matters due to CF environment cold-start issues.
+	// The first test to execute sometimes hits HTTP 500 errors during app push.
+	// Running "Modules" first (instead of "Default") avoids this issue.
+	// See: https://github.com/cloudfoundry/php-buildpack/issues/XXXX
 	suite("Modules", testModules(platform, fixtures))
+	suite("Default", testDefault(platform, fixtures))
 	suite("Composer", testComposer(platform, fixtures))
 	suite("WebServers", testWebServers(platform, fixtures))
 	suite("AppFrameworks", testAppFrameworks(platform, fixtures))
