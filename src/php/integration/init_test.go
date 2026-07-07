@@ -73,7 +73,6 @@ func TestIntegration(t *testing.T) {
 	// Note: Test order matters due to CF environment cold-start issues.
 	// The first test to execute sometimes hits HTTP 500 errors during app push.
 	// Running "Modules" first (instead of "Default") avoids this issue.
-	// See: https://github.com/cloudfoundry/php-buildpack/issues/XXXX
 	suite("Modules", testModules(platform, fixtures))
 	suite("Default", testDefault(platform, fixtures))
 	suite("Composer", testComposer(platform, fixtures))

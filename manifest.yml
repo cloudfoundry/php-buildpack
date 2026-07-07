@@ -4,11 +4,11 @@ default_versions:
 - name: php
   version: 8.3.x
 - name: httpd
-  version: 2.4.66
+  version: 2.4.67
 - name: nginx
-  version: 1.27.5
+  version: 1.31.2
 - name: composer
-  version: 2.9.8
+  version: 2.10.2
 url_to_dependency_map:
 - match: appdynamics-(\d+\.\d+\.\d+-\d+)
   name: appdynamics
@@ -35,7 +35,7 @@ dependency_deprecation_dates:
   match: 8.2.\d+
 - version_line: 8.3.x
   name: php
-  date: 2026-11-23
+  date: 2025-12-31
   link: http://php.net/supported-versions.php
   match: 8.3.\d+
 - version_line: 8.4.x
@@ -43,6 +43,11 @@ dependency_deprecation_dates:
   date: 2026-12-31
   link: http://php.net/supported-versions.php
   match: 8.4.\d+
+- version_line: 8.5.x
+  name: php
+  date: 2027-12-31
+  link: http://php.net/supported-versions.php
+  match: 8.5.\d+
 dependencies:
 - name: appdynamics
   version: 25.5.0-1371
@@ -54,30 +59,30 @@ dependencies:
   osl: https://docs.appdynamics.com/display/DASH/Legal+Notices
   source_sha256: afa6a41f427788ae056b7699c99ded037e8f26f5c19ebeef59359535dedea85b
 - name: composer
-  version: 2.9.8
-  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.9.8_linux_noarch_any-stack_59b2c50e.phar
-  sha256: 59b2c50e10cafa0d8efc19ede9a326d782f096c674a26baf98cf042ce23de890
+  version: 2.10.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/composer/composer_2.10.2_linux_noarch_any-stack_5ee7125f.phar
+  sha256: 5ee7125f8a30a34d246cefdc0bc85b8a783b28f2aec968994118512350d28027
   cf_stacks:
   - cflinuxfs4
   - cflinuxfs5
-  source: https://github.com/composer/composer/releases/download/2.9.8/composer.phar
-  source_sha256: 59b2c50e10cafa0d8efc19ede9a326d782f096c674a26baf98cf042ce23de890
+  source: https://github.com/composer/composer/releases/download/2.10.2/composer.phar
+  source_sha256: 5ee7125f8a30a34d246cefdc0bc85b8a783b28f2aec968994118512350d28027
 - name: httpd
-  version: 2.4.66
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.66_linux_x64_cflinuxfs4_f5966450.tgz
-  sha256: f596645059d59729765fbd2dfe42588f6f8915547999e3dc7095536a7ec6806d
+  version: 2.4.67
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.67_linux_x64_cflinuxfs4_bdb43550.tgz
+  sha256: bdb43550258bbb2935cca0ca2359fb3f7a3aa0992d45a719b88bc042fc01804e
   cf_stacks:
   - cflinuxfs4
-  source: https://dlcdn.apache.org/httpd/httpd-2.4.66.tar.bz2
-  source_sha256: 94d7ff2b42acbb828e870ba29e4cbad48e558a79c623ad3596e4116efcfea25a
+  source: https://dlcdn.apache.org/httpd/httpd-2.4.67.tar.bz2
+  source_sha256: 66cd206637b0d5c446fa7dabe75fe03525da8fb55855876c46288cd88b136aa4
 - name: httpd
-  version: 2.4.66
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.66_linux_x64_cflinuxfs5_a21e24cb.tgz
-  sha256: a21e24cb92bab61393a9d4381cf7d6d65e50d486d239808b860c84c96fd8e737
+  version: 2.4.67
+  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.67_linux_x64_cflinuxfs5_7e4a72af.tgz
+  sha256: 7e4a72af80eb30439bedd9d3affbe782512b15d7d5698e69a7f07760fb3dd52b
   cf_stacks:
   - cflinuxfs5
-  source: https://dlcdn.apache.org/httpd/httpd-2.4.66.tar.bz2
-  source_sha256: 94d7ff2b42acbb828e870ba29e4cbad48e558a79c623ad3596e4116efcfea25a
+  source: https://dlcdn.apache.org/httpd/httpd-2.4.67.tar.bz2
+  source_sha256: 66cd206637b0d5c446fa7dabe75fe03525da8fb55855876c46288cd88b136aa4
 - name: newrelic
   version: 10.21.0.11
   uri: https://download.newrelic.com/php_agent/archive/10.21.0.11/newrelic-php5-10.21.0.11-linux.tar.gz
@@ -86,164 +91,53 @@ dependencies:
   - cflinuxfs4
   osl: https://docs.newrelic.com/docs/licenses/product-or-service-licenses/new-relic-apm/php-agent-licenses
 - name: nginx
-  version: 1.26.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.26.3_linux_x64_cflinuxfs4_1124c0d8.tgz
-  sha256: 1124c0d830c9387f577a70af40841229ecf108b2d2cee3df6fd0d11dce7178d7
+  version: 1.29.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.29.8_linux_x64_cflinuxfs4_080131fe.tgz
+  sha256: '080131fe202401866de098325bf4d5e83b21b87b231342ca074b2ea11131b22a'
   cf_stacks:
   - cflinuxfs4
-  source: http://nginx.org/download/nginx-1.26.3.tar.gz
-  source_sha256: 69ee2b237744036e61d24b836668aad3040dda461fe6f570f1787eab570c75aa
+  source: http://nginx.org/download/nginx-1.29.8.tar.gz
+  source_sha256: 7f1b985dace8fe706dfc288b83927c928f0ae60bcb7507c2d4e0025eca7280c3
 - name: nginx
-  version: 1.26.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.26.3_linux_x64_cflinuxfs5_08c651cf.tgz
-  sha256: '08c651cfaf449d76783aa23a8c7537354ade3cbe4f56e4c1794f16951a437fdf'
+  version: 1.29.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.29.8_linux_x64_cflinuxfs5_02bdb51b.tgz
+  sha256: 02bdb51b2f9867db2613ce95100ea7143f3a3a3a3688291b7a8095be1f8d3275
   cf_stacks:
   - cflinuxfs5
-  source: http://nginx.org/download/nginx-1.26.3.tar.gz
-  source_sha256: 69ee2b237744036e61d24b836668aad3040dda461fe6f570f1787eab570c75aa
+  source: http://nginx.org/download/nginx-1.29.8.tar.gz
+  source_sha256: 7f1b985dace8fe706dfc288b83927c928f0ae60bcb7507c2d4e0025eca7280c3
 - name: nginx
-  version: 1.27.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.5_linux_x64_cflinuxfs4_96cd8830.tgz
-  sha256: 96cd88303f3cfd7a817da2bfdde7d2ca4b3022a105b785373b80c3071fd6c9d9
+  version: 1.30.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.30.3_linux_x64_cflinuxfs4_507d0aed.tgz
+  sha256: 507d0aed770f31836ab9d3d6de110f1f96b08da3d22831b6ab56e42ee8268629
   cf_stacks:
   - cflinuxfs4
-  source: http://nginx.org/download/nginx-1.27.5.tar.gz
-  source_sha256: e96acebb9c2a6db8a000c3dd1b32ecba1b810f0cd586232d4d921e376674dd0e
+  source: http://nginx.org/download/nginx-1.30.3.tar.gz
+  source_sha256: e5823dc6f45610993def93ebf6cfce68264af4958c77e874b7d20f3709001b8f
 - name: nginx
-  version: 1.27.5
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.27.5_linux_x64_cflinuxfs5_98918e69.tgz
-  sha256: 98918e69f5f26b732f6f1c92d19fabf29b058cf4f6e26b4291738f6cbc4a8b90
+  version: 1.30.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.30.3_linux_x64_cflinuxfs5_9499041b.tgz
+  sha256: 9499041be37e7cd747441602161cb10e91fe1a923c471600e2eac716aa12a6ee
   cf_stacks:
   - cflinuxfs5
-  source: http://nginx.org/download/nginx-1.27.5.tar.gz
-  source_sha256: e96acebb9c2a6db8a000c3dd1b32ecba1b810f0cd586232d4d921e376674dd0e
-- name: php
-  version: 8.1.32
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.32_linux_x64_cflinuxfs4_51db527b.tgz
-  sha256: 51db527bb2fbaac31dfacbeb5e02dd1d6d32399520ccee0aa6bc683ba1103d11
+  source: http://nginx.org/download/nginx-1.30.3.tar.gz
+  source_sha256: e5823dc6f45610993def93ebf6cfce68264af4958c77e874b7d20f3709001b8f
+- name: nginx
+  version: 1.31.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.2_linux_x64_cflinuxfs4_f4fc3755.tgz
+  sha256: f4fc37559f4cb9100732a27272e3a0b7aa357712942acb192db401b78ee9a1f4
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.1.32.tar.gz
-  source_sha256: 4846836d1de27dbd28e89180f073531087029a77e98e8e019b7b2eddbdb1baff
-  dependencies:
-  - name: amqp
-    version: 2.1.2
-  - name: apcu
-    version: 5.1.23
-  - name: bz2
-    version: 
-  - name: curl
-    version: 
-  - name: dba
-    version: 
-  - name: enchant
-  - name: exif
-    version: 
-  - name: fileinfo
-    version: 
-  - name: ftp
-    version: 
-  - name: gd
-  - name: gettext
-    version: 
-  - name: gmp
-    version: 
-  - name: igbinary
-    version: 3.2.15
-  - name: imagick
-    version: 3.7.0
-  - name: imap
-    version: 
-  - name: ioncube
-    version: 13.0.3
-  - name: ldap
-    version: 
-  - name: lzf
-    version: 
-  - name: mailparse
-    version: 3.1.6
-  - name: maxminddb
-    version: 1.11.1
-  - name: mbstring
-    version: 
-  - name: memcached
-    version: 3.2.0
-  - name: mongodb
-    version: 1.19.1
-  - name: msgpack
-    version: 2.2.0
-  - name: mysqli
-    version: 
-  - name: oauth
-    version: 2.0.7
-  - name: opcache
-    version: 
-  - name: openssl
-    version: 
-  - name: pcntl
-    version: 
-  - name: pdo
-    version: 
-  - name: pdo_firebird
-  - name: pdo_mysql
-    version: 
-  - name: pdo_odbc
-  - name: pdo_pgsql
-    version: 
-  - name: pdo_sqlite
-    version: 
-  - name: pdo_sqlsrv
-    version: 5.12.0
-  - name: pgsql
-    version: 
-  - name: phalcon
-    version: 5.7.0
-  - name: phpiredis
-    version: 1.0.1
-  - name: pspell
-    version: 
-  - name: psr
-    version: 1.2.0
-  - name: rdkafka
-    version: 6.0.3
-  - name: readline
-  - name: redis
-    version: 6.0.2
-  - name: shmop
-    version: 
-  - name: snmp
-  - name: soap
-    version: 
-  - name: sockets
-    version: 
-  - name: sodium
-  - name: solr
-    version: 2.7.0
-  - name: sqlsrv
-    version: 5.12.0
-  - name: ssh2
-    version: 1.4.1
-  - name: stomp
-    version: 2.0.3
-  - name: sysvmsg
-    version: 
-  - name: sysvsem
-    version: 
-  - name: sysvshm
-    version: 
-  - name: tideways_xhprof
-    version: 5.0.4
-  - name: tidy
-  - name: xdebug
-    version: 3.3.2
-  - name: xsl
-    version: 
-  - name: yaf
-    version: 3.3.5
-  - name: yaml
-    version: 2.2.3
-  - name: zip
-  - name: zlib
+  source: http://nginx.org/download/nginx-1.31.2.tar.gz
+  source_sha256: af2a957c41da636ddc4f883e4523c6d140b4784dbce42000c364ae5092aa473c
+- name: nginx
+  version: 1.31.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.2_linux_x64_cflinuxfs5_0acac0fb.tgz
+  sha256: 0acac0fbb71d12321dda8a626722208a33b428ed90ade5525da13aceba8a6011
+  cf_stacks:
+  - cflinuxfs5
+  source: http://nginx.org/download/nginx-1.31.2.tar.gz
+  source_sha256: af2a957c41da636ddc4f883e4523c6d140b4784dbce42000c364ae5092aa473c
 - name: php
   version: 8.1.34
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.1.34_linux_x64_cflinuxfs4_4647726c.tgz
@@ -373,18 +267,18 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.2.29
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.29_linux_x64_cflinuxfs4_78fafa3b.tgz
-  sha256: 78fafa3bb3de553c509ac1d5754bbc578d4d7bc30faef4feaf2f2c672db3dfaa
+  version: 8.2.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.32_linux_x64_cflinuxfs4_bca6b0c9.tgz
+  sha256: bca6b0c993430ce592a846dec08d04f75780ab48e505f2b0922dba68be05ccc5
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.2.29.tar.gz
-  source_sha256: 0b27d330769d4bc67b1d8864347c38744b289664a946919c3ddb2235d326b3cd
+  source: https://php.net/distributions/php-8.2.32.tar.gz
+  source_sha256: 56c9d6911da0d337e2c1681f6a767ac0571821e1f16c8fdf9c248bf317d99b94
   dependencies:
   - name: amqp
     version: 2.1.2
   - name: apcu
-    version: 5.1.23
+    version: 5.1.28
   - name: bz2
     version: 
   - name: curl
@@ -493,150 +387,26 @@ dependencies:
     version: 3.3.2
   - name: xsl
     version: 
+  - name: yaf
+    version: 3.3.7
   - name: yaml
     version: 2.2.3
   - name: zip
   - name: zlib
     version: 
 - name: php
-  version: 8.2.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.30_linux_x64_cflinuxfs4_51e02230.tgz
-  sha256: 51e02230fc0269f37c182bf5531baf98e375ad70a39c485ed13b05eb4699160f
-  cf_stacks:
-  - cflinuxfs4
-  source: https://php.net/distributions/php-8.2.30.tar.gz
-  source_sha256: a0fa6673ba4b0c8335fbab08afb7c2e13a3791f2b5a0928c7ad3d7ad872edf26
-  dependencies:
-  - name: amqp
-    version: 2.1.2
-  - name: apcu
-    version: 5.1.23
-  - name: bz2
-    version: 
-  - name: curl
-    version: 
-  - name: dba
-    version: 
-  - name: enchant
-  - name: exif
-    version: 
-  - name: fileinfo
-    version: 
-  - name: ftp
-    version: 
-  - name: gd
-  - name: gettext
-    version: 
-  - name: gmp
-    version: 
-  - name: igbinary
-    version: 3.2.15
-  - name: imagick
-    version: 3.7.0
-  - name: imap
-    version: 
-  - name: ioncube
-    version: 13.0.2
-  - name: ldap
-    version: 
-  - name: lzf
-    version: 
-  - name: mailparse
-    version: 3.1.6
-  - name: maxminddb
-    version: 1.11.1
-  - name: mbstring
-    version: 
-  - name: memcached
-    version: 3.2.0
-  - name: mongodb
-    version: 1.18.1
-  - name: msgpack
-    version: 2.2.0
-  - name: mysqli
-    version: 
-  - name: oauth
-    version: 2.0.7
-  - name: opcache
-    version: 
-  - name: openssl
-    version: 
-  - name: pcntl
-    version: 
-  - name: pdo
-    version: 
-  - name: pdo_firebird
-  - name: pdo_mysql
-    version: 
-  - name: pdo_odbc
-  - name: pdo_pgsql
-    version: 
-  - name: pdo_sqlite
-    version: 
-  - name: pdo_sqlsrv
-    version: 5.12.0
-  - name: pgsql
-    version: 
-  - name: phalcon
-    version: 5.6.2
-  - name: phpiredis
-    version: 1.0.1
-  - name: pspell
-    version: 
-  - name: psr
-    version: 1.2.0
-  - name: rdkafka
-    version: 6.0.3
-  - name: readline
-  - name: redis
-    version: 6.0.2
-  - name: shmop
-    version: 
-  - name: snmp
-  - name: soap
-    version: 
-  - name: sockets
-    version: 
-  - name: sodium
-  - name: solr
-    version: 2.7.0
-  - name: sqlsrv
-    version: 5.12.0
-  - name: ssh2
-    version: 1.4.1
-  - name: stomp
-    version: 2.0.3
-  - name: sysvmsg
-    version: 
-  - name: sysvsem
-    version: 
-  - name: sysvshm
-    version: 
-  - name: tideways_xhprof
-    version: 5.0.4
-  - name: tidy
-  - name: xdebug
-    version: 3.3.2
-  - name: xsl
-    version: 
-  - name: yaml
-    version: 2.2.3
-  - name: zip
-  - name: zlib
-    version: 
-- name: php
-  version: 8.2.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.30_linux_x64_cflinuxfs5_3f85c3e9.tgz
-  sha256: 3f85c3e9705a297090a14df6f7e5bf73eda8b39809198b4bfcaabe4e4275832a
+  version: 8.2.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.32_linux_x64_cflinuxfs5_00a23997.tgz
+  sha256: 00a23997a5dd492ad93d4202ca59d913f38442d0994a302550599e0a32b2095d
   cf_stacks:
   - cflinuxfs5
-  source: https://php.net/distributions/php-8.2.30.tar.gz
-  source_sha256: a0fa6673ba4b0c8335fbab08afb7c2e13a3791f2b5a0928c7ad3d7ad872edf26
+  source: https://php.net/distributions/php-8.2.32.tar.gz
+  source_sha256: 56c9d6911da0d337e2c1681f6a767ac0571821e1f16c8fdf9c248bf317d99b94
   dependencies:
   - name: amqp
     version: 2.1.2
   - name: apcu
-    version: 5.1.23
+    version: 5.1.28
   - name: bz2
     version: 
   - name: curl
@@ -745,148 +515,26 @@ dependencies:
     version: 3.3.2
   - name: xsl
     version: 
+  - name: yaf
+    version: 3.3.7
   - name: yaml
     version: 2.2.3
   - name: zip
   - name: zlib
     version: 
 - name: php
-  version: 8.3.21
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.21_linux_x64_cflinuxfs4_699bf9bc.tgz
-  sha256: 699bf9bc863a8d0707fbc422d0351cdd7b1bc865b067ecc146838589c06105e7
+  version: 8.3.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.32_linux_x64_cflinuxfs4_f9ec449a.tgz
+  sha256: f9ec449a389176cf159a73e8776061e0fcc13ec90841584f260b3bee623c3e94
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.3.21.tar.gz
-  source_sha256: e7f1748c1fa3d2bf8ef2e00508bd62325ba68c3b830b253bc561225a9ba5457d
+  source: https://php.net/distributions/php-8.3.32.tar.gz
+  source_sha256: 8e1f03eea0b07bc29e1f94d3cfcf0532b0421ec63c1792346b58c3ad8e40fc9b
   dependencies:
   - name: amqp
     version: 2.1.2
   - name: apcu
-    version: 5.1.23
-  - name: bz2
-    version: 
-  - name: curl
-    version: 
-  - name: dba
-    version: 
-  - name: enchant
-  - name: exif
-    version: 
-  - name: fileinfo
-    version: 
-  - name: ftp
-    version: 
-  - name: gd
-  - name: gettext
-    version: 
-  - name: gmp
-    version: 
-  - name: igbinary
-    version: 3.2.15
-  - name: imagick
-    version: 3.7.0
-  - name: imap
-    version: 
-  - name: ldap
-    version: 
-  - name: lzf
-    version: 
-  - name: mailparse
-    version: 3.1.6
-  - name: maxminddb
-    version: 1.11.1
-  - name: mbstring
-    version: 
-  - name: memcached
-    version: 3.2.0
-  - name: mongodb
-    version: 1.18.1
-  - name: msgpack
-    version: 2.2.0
-  - name: mysqli
-    version: 
-  - name: oauth
-    version: 2.0.7
-  - name: opcache
-    version: 
-  - name: openssl
-    version: 
-  - name: pcntl
-    version: 
-  - name: pdo
-    version: 
-  - name: pdo_firebird
-  - name: pdo_mysql
-    version: 
-  - name: pdo_odbc
-  - name: pdo_pgsql
-    version: 
-  - name: pdo_sqlite
-    version: 
-  - name: pdo_sqlsrv
-    version: 5.12.0
-  - name: pgsql
-    version: 
-  - name: phalcon
-    version: 5.6.2
-  - name: phpiredis
-    version: 1.0.1
-  - name: pspell
-    version: 
-  - name: psr
-    version: 1.2.0
-  - name: rdkafka
-    version: 6.0.3
-  - name: readline
-  - name: redis
-    version: 6.0.2
-  - name: shmop
-    version: 
-  - name: snmp
-  - name: soap
-    version: 
-  - name: sockets
-    version: 
-  - name: sodium
-  - name: solr
-    version: 2.7.0
-  - name: sqlsrv
-    version: 5.12.0
-  - name: ssh2
-    version: 1.4.1
-  - name: stomp
-    version: 2.0.3
-  - name: sysvmsg
-    version: 
-  - name: sysvsem
-    version: 
-  - name: sysvshm
-    version: 
-  - name: tideways_xhprof
-    version: 5.0.4
-  - name: tidy
-  - name: xdebug
-    version: 3.3.2
-  - name: xsl
-    version: 
-  - name: yaml
-    version: 2.2.3
-  - name: zip
-  - name: zlib
-    version: 
-- name: php
-  version: 8.3.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.30_linux_x64_cflinuxfs4_bac0bfc1.tgz
-  sha256: bac0bfc18b86bc300a172742b09f170057f730614f7e0b90b812258453f43929
-  cf_stacks:
-  - cflinuxfs4
-  source: https://php.net/distributions/php-8.3.30.tar.gz
-  source_sha256: e587dc95fb7f62730299fa7b36b6e4f91e6708aaefa2fff68a0098d320c16386
-  dependencies:
-  - name: amqp
-    version: 2.1.2
-  - name: apcu
-    version: 5.1.23
+    version: 5.1.28
   - name: bz2
     version: 
   - name: curl
@@ -995,24 +643,26 @@ dependencies:
     version: 3.3.2
   - name: xsl
     version: 
+  - name: yaf
+    version: 3.3.7
   - name: yaml
     version: 2.2.3
   - name: zip
   - name: zlib
     version: 
 - name: php
-  version: 8.3.30
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.30_linux_x64_cflinuxfs5_38d8614b.tgz
-  sha256: 38d8614b92053411d354fb10e12e18f978961ca6673d2e05861879708f1e1965
+  version: 8.3.32
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.3.32_linux_x64_cflinuxfs5_aed6dba6.tgz
+  sha256: aed6dba671748a4ad8f16d8dab4b9d95cb1360812bc372d663238ea1b0187a84
   cf_stacks:
   - cflinuxfs5
-  source: https://php.net/distributions/php-8.3.30.tar.gz
-  source_sha256: e587dc95fb7f62730299fa7b36b6e4f91e6708aaefa2fff68a0098d320c16386
+  source: https://php.net/distributions/php-8.3.32.tar.gz
+  source_sha256: 8e1f03eea0b07bc29e1f94d3cfcf0532b0421ec63c1792346b58c3ad8e40fc9b
   dependencies:
   - name: amqp
     version: 2.1.2
   - name: apcu
-    version: 5.1.23
+    version: 5.1.28
   - name: bz2
     version: 
   - name: curl
@@ -1121,19 +771,21 @@ dependencies:
     version: 3.3.2
   - name: xsl
     version: 
+  - name: yaf
+    version: 3.3.7
   - name: yaml
     version: 2.2.3
   - name: zip
   - name: zlib
     version: 
 - name: php
-  version: 8.4.20
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.20_linux_x64_cflinuxfs4_984201df.tgz
-  sha256: 984201dfbef31e63c132b5021fd77d26f31a09f8e8d3e185957c4eab6cd9c233
+  version: 8.4.23
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.23_linux_x64_cflinuxfs4_fae098d7.tgz
+  sha256: fae098d71238ed163753790ee88f5eddfe6c13838f14d1e169d16389fe903726
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.4.20.tar.gz
-  source_sha256: a2def5d534d57c6a0236f2265de7537608af871900a4f7955eff463e9e38247d
+  source: https://php.net/distributions/php-8.4.23.tar.gz
+  source_sha256: f43b69572cabfb91c023356f3ce197c782d8a255bc084c1a6af58c0e86cf7573
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -1247,13 +899,13 @@ dependencies:
   - name: zlib
     version: 
 - name: php
-  version: 8.4.20
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.20_linux_x64_cflinuxfs5_f389ad32.tgz
-  sha256: f389ad32a04006876d00594a4b676ef04917677fd95dfd4b08d1a512453d229d
+  version: 8.4.23
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.23_linux_x64_cflinuxfs5_6452c8c8.tgz
+  sha256: 6452c8c8ad2c355710e2131a989788e84c100022742e3e6b33644fdaabb12cab
   cf_stacks:
   - cflinuxfs5
-  source: https://php.net/distributions/php-8.4.20.tar.gz
-  source_sha256: a2def5d534d57c6a0236f2265de7537608af871900a4f7955eff463e9e38247d
+  source: https://php.net/distributions/php-8.4.23.tar.gz
+  source_sha256: f43b69572cabfb91c023356f3ce197c782d8a255bc084c1a6af58c0e86cf7573
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -1363,6 +1015,238 @@ dependencies:
     version: 3.3.7
   - name: yaml
     version: 2.2.3
+  - name: zip
+  - name: zlib
+    version: 
+- name: php
+  version: 8.5.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.5.8_linux_x64_cflinuxfs4_3524e674.tgz
+  sha256: 3524e674aa6cbdfca055a565df3e70c23fef793edab22bff6ce484c80b8cd872
+  cf_stacks:
+  - cflinuxfs4
+  source: https://php.net/distributions/php-8.5.8.tar.gz
+  source_sha256: 6ebc55e52af4396385e689f7af0f28944fbbf966843433b573e9dc1dc03df539
+  dependencies:
+  - name: amqp
+    version: 2.2.0
+  - name: apcu
+    version: 5.1.28
+  - name: bz2
+    version: 
+  - name: curl
+    version: 
+  - name: dba
+    version: 
+  - name: enchant
+  - name: exif
+    version: 
+  - name: fileinfo
+    version: 
+  - name: ftp
+    version: 
+  - name: gd
+  - name: gettext
+    version: 
+  - name: gmp
+    version: 
+  - name: igbinary
+    version: 3.2.17RC1
+  - name: imagick
+    version: 3.8.1
+  - name: ioncube
+    version: 15.5.0
+  - name: ldap
+    version: 
+  - name: lzf
+    version: 
+  - name: mailparse
+    version: 3.2.0
+  - name: maxminddb
+    version: 1.11.1
+  - name: mbstring
+    version: 
+  - name: memcached
+    version: 3.4.0
+  - name: mongodb
+    version: 2.2.1
+  - name: msgpack
+    version: 2.2.0
+  - name: mysqli
+    version: 
+  - name: oauth
+    version: 2.0.10
+  - name: openssl
+    version: 
+  - name: pcntl
+    version: 
+  - name: pdo
+    version: 
+  - name: pdo_firebird
+  - name: pdo_mysql
+    version: 
+  - name: pdo_odbc
+  - name: pdo_pgsql
+    version: 
+  - name: pdo_sqlite
+    version: 
+  - name: pdo_sqlsrv
+    version: 5.13.0
+  - name: pgsql
+    version: 
+  - name: phpiredis
+    version: 1.0.1
+  - name: psr
+    version: 1.2.0
+  - name: rdkafka
+    version: 6.0.3
+  - name: readline
+  - name: redis
+    version: 6.3.0
+  - name: shmop
+    version: 
+  - name: snmp
+  - name: soap
+    version: 
+  - name: sockets
+    version: 
+  - name: sodium
+  - name: solr
+    version: 2.9.3
+  - name: sqlsrv
+    version: 5.13.0
+  - name: ssh2
+    version: 1.4.1
+  - name: sysvmsg
+    version: 
+  - name: sysvsem
+    version: 
+  - name: sysvshm
+    version: 
+  - name: tidy
+  - name: xdebug
+    version: 3.5.1
+  - name: xsl
+    version: 
+  - name: yaf
+    version: 3.3.7
+  - name: yaml
+    version: 2.3.0
+  - name: zip
+  - name: zlib
+    version: 
+- name: php
+  version: 8.5.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.5.8_linux_x64_cflinuxfs5_20d489f7.tgz
+  sha256: 20d489f73dde6a35c92fd4becc8dc6bf30a81af7c0a5e2007f3e6749236885a6
+  cf_stacks:
+  - cflinuxfs5
+  source: https://php.net/distributions/php-8.5.8.tar.gz
+  source_sha256: 6ebc55e52af4396385e689f7af0f28944fbbf966843433b573e9dc1dc03df539
+  dependencies:
+  - name: amqp
+    version: 2.2.0
+  - name: apcu
+    version: 5.1.28
+  - name: bz2
+    version: 
+  - name: curl
+    version: 
+  - name: dba
+    version: 
+  - name: enchant
+  - name: exif
+    version: 
+  - name: fileinfo
+    version: 
+  - name: ftp
+    version: 
+  - name: gd
+  - name: gettext
+    version: 
+  - name: gmp
+    version: 
+  - name: igbinary
+    version: 3.2.17RC1
+  - name: imagick
+    version: 3.8.1
+  - name: ioncube
+    version: 15.5.0
+  - name: ldap
+    version: 
+  - name: lzf
+    version: 
+  - name: mailparse
+    version: 3.2.0
+  - name: maxminddb
+    version: 1.11.1
+  - name: mbstring
+    version: 
+  - name: memcached
+    version: 3.4.0
+  - name: mongodb
+    version: 2.2.1
+  - name: msgpack
+    version: 2.2.0
+  - name: mysqli
+    version: 
+  - name: oauth
+    version: 2.0.10
+  - name: openssl
+    version: 
+  - name: pcntl
+    version: 
+  - name: pdo
+    version: 
+  - name: pdo_firebird
+  - name: pdo_mysql
+    version: 
+  - name: pdo_odbc
+  - name: pdo_pgsql
+    version: 
+  - name: pdo_sqlite
+    version: 
+  - name: pdo_sqlsrv
+    version: 5.13.0
+  - name: pgsql
+    version: 
+  - name: phpiredis
+    version: 1.0.1
+  - name: psr
+    version: 1.2.0
+  - name: rdkafka
+    version: 6.0.3
+  - name: readline
+  - name: redis
+    version: 6.3.0
+  - name: shmop
+    version: 
+  - name: snmp
+  - name: soap
+    version: 
+  - name: sockets
+    version: 
+  - name: sodium
+  - name: solr
+    version: 2.9.3
+  - name: sqlsrv
+    version: 5.13.0
+  - name: ssh2
+    version: 1.4.1
+  - name: sysvmsg
+    version: 
+  - name: sysvsem
+    version: 
+  - name: sysvshm
+    version: 
+  - name: tidy
+  - name: xdebug
+    version: 3.5.1
+  - name: xsl
+    version: 
+  - name: yaf
+    version: 3.3.7
+  - name: yaml
+    version: 2.3.0
   - name: zip
   - name: zlib
     version: 

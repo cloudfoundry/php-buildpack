@@ -147,12 +147,12 @@ function specs::run() {
       -mod vendor \
       -v \
         "${src}/integration" \
-         ${cached_flag} \
-         ${platform_flag} \
-         ${token_flag} \
-         ${stack_flag} \
-         ${serial_flag} \
-         ${keep_failed_flag}
+         "${cached_flag}" \
+         "${platform_flag}" \
+         "${token_flag}" \
+         "${stack_flag}" \
+         "${serial_flag}" \
+         "${keep_failed_flag}"
 }
 
 function buildpack::package() {

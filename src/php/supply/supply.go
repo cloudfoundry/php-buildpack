@@ -201,6 +201,7 @@ func (s *Supplier) createExtensionContext() (*extensions.Context, error) {
 	// Set additional options
 	ctx.Set("ADMIN_EMAIL", s.Options.AdminEmail)
 	ctx.Set("COMPOSER_VENDOR_DIR", s.Options.ComposerVendorDir)
+	ctx.Set("COMPOSER_INSTALL_OPTIONS", s.Options.ComposerInstallOptions)
 
 	// Set dynamic PHP version variables
 	for key, version := range s.Options.PHPVersions {
