@@ -68,14 +68,6 @@ dependencies:
   source: https://github.com/composer/composer/releases/download/2.10.2/composer.phar
   source_sha256: 5ee7125f8a30a34d246cefdc0bc85b8a783b28f2aec968994118512350d28027
 - name: httpd
-  version: 2.4.67
-  uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.67_linux_x64_cflinuxfs5_7e4a72af.tgz
-  sha256: 7e4a72af80eb30439bedd9d3affbe782512b15d7d5698e69a7f07760fb3dd52b
-  cf_stacks:
-  - cflinuxfs5
-  source: https://dlcdn.apache.org/httpd/httpd-2.4.67.tar.bz2
-  source_sha256: 66cd206637b0d5c446fa7dabe75fe03525da8fb55855876c46288cd88b136aa4
-- name: httpd
   version: 2.4.68
   uri: https://buildpacks.cloudfoundry.org/dependencies/httpd/httpd_2.4.68_linux_x64_cflinuxfs4_b5e07025.tgz
   sha256: b5e07025b7f079bead894a8f3f859e39fbd21954b4e37a50d8d35791be933eb0
