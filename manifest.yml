@@ -25,7 +25,7 @@ url_to_dependency_map:
 dependency_deprecation_dates:
 - version_line: 8.2.x
   name: php
-  date: 2025-12-08
+  date: 2026-12-31
   link: http://php.net/supported-versions.php
   match: 8.2.\d+
 - version_line: 8.3.x
@@ -134,13 +134,13 @@ dependencies:
   source: http://nginx.org/download/nginx-1.31.4.tar.gz
   source_sha256: e6f20b644a17a643f059ae6467a1971fe2811587d025e071068753a1f1e3b3c3
 - name: php
-  version: 8.2.32
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.32_linux_x64_cflinuxfs4_bca6b0c9.tgz
-  sha256: bca6b0c993430ce592a846dec08d04f75780ab48e505f2b0922dba68be05ccc5
+  version: 8.2.33
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.33_linux_x64_cflinuxfs4_aa2219c3.tgz
+  sha256: aa2219c358d93e4fda3be91388ccca807ee9418a5736254a463bb132c6d95ace
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.2.32.tar.gz
-  source_sha256: 56c9d6911da0d337e2c1681f6a767ac0571821e1f16c8fdf9c248bf317d99b94
+  source: https://php.net/distributions/php-8.2.33.tar.gz
+  source_sha256: 9a525d4db1237ede408e454b46f5a93b9e45d83d71753592e3f921903d917e07
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -262,13 +262,13 @@ dependencies:
   - name: zlib
     version:
 - name: php
-  version: 8.2.32
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.32_linux_x64_cflinuxfs5_00a23997.tgz
-  sha256: 00a23997a5dd492ad93d4202ca59d913f38442d0994a302550599e0a32b2095d
+  version: 8.2.33
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.33_linux_x64_cflinuxfs5_ff10b4b4.tgz
+  sha256: ff10b4b4b6c06b58f6cfd329cfe3a6bc9188c83e7a4e50a01013dfcba7c2d2cd
   cf_stacks:
   - cflinuxfs5
-  source: https://php.net/distributions/php-8.2.32.tar.gz
-  source_sha256: 56c9d6911da0d337e2c1681f6a767ac0571821e1f16c8fdf9c248bf317d99b94
+  source: https://php.net/distributions/php-8.2.33.tar.gz
+  source_sha256: 9a525d4db1237ede408e454b46f5a93b9e45d83d71753592e3f921903d917e07
   dependencies:
   - name: amqp
     version: 2.1.2
