@@ -12,10 +12,10 @@ import (
 
 var _ = Describe("SessionsExtension", func() {
 	var (
-		ext      *sessions.SessionsExtension
-		ctx      *extensions.Context
-		err      error
-		buildDir string
+		ext     *sessions.SessionsExtension
+		ctx     *extensions.Context
+		err     error
+		depsDir string
 	)
 
 	BeforeEach(func() {
@@ -23,18 +23,18 @@ var _ = Describe("SessionsExtension", func() {
 		ctx, err = extensions.NewContext()
 		Expect(err).NotTo(HaveOccurred())
 
-		// Create temp build directory for file operations
-		buildDir, err = os.MkdirTemp("", "sessions-test")
+		// PHP is installed into the dependency directory, which is where the
+		// supply phase records DEPS_DIR and writes php.ini.
+		depsDir, err = os.MkdirTemp("", "sessions-test")
 		Expect(err).NotTo(HaveOccurred())
 
-		// Set BuildDir directly on the struct field (not via Set() which uses Data map)
-		ctx.BuildDir = buildDir
+		ctx.Set("DEPS_DIR", depsDir)
 		ctx.Set("BP_DIR", "/tmp/bp")
 	})
 
 	AfterEach(func() {
-		if buildDir != "" {
-			os.RemoveAll(buildDir)
+		if depsDir != "" {
+			os.RemoveAll(depsDir)
 		}
 	})
 
@@ -213,7 +213,7 @@ var _ = Describe("SessionsExtension", func() {
 		var phpDir string
 
 		BeforeEach(func() {
-			phpDir = filepath.Join(buildDir, "php")
+			phpDir = filepath.Join(depsDir, "php")
 			err := os.MkdirAll(filepath.Join(phpDir, "etc"), 0755)
 			Expect(err).NotTo(HaveOccurred())
 

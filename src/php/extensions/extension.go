@@ -447,10 +447,15 @@ type PHPConfigHelper struct {
 
 // NewPHPConfigHelper creates a new PHP config helper
 func NewPHPConfigHelper(ctx *Context) *PHPConfigHelper {
+	// PHP is installed into the dependency directory, and ctx.BuildDir is empty
+	// during staging because BUILD_DIR is not exported to the buildpack. The
+	// supply phase records the real path under the DEPS_DIR key instead.
+	phpEtcDir := filepath.Join(ctx.GetString("DEPS_DIR"), "php", "etc")
+
 	return &PHPConfigHelper{
 		ctx:        ctx,
-		phpIniPath: filepath.Join(ctx.BuildDir, "php", "etc", "php.ini"),
-		phpFpmPath: filepath.Join(ctx.BuildDir, "php", "etc", "php-fpm.conf"),
+		phpIniPath: filepath.Join(phpEtcDir, "php.ini"),
+		phpFpmPath: filepath.Join(phpEtcDir, "php-fpm.conf"),
 	}
 }
 
