@@ -6,7 +6,7 @@ default_versions:
 - name: httpd
   version: 2.4.68
 - name: nginx
-  version: 1.31.4
+  version: 1.31.5
 - name: composer
   version: 2.10.2
 url_to_dependency_map:
@@ -119,20 +119,28 @@ dependencies:
   source_sha256: e5823dc6f45610993def93ebf6cfce68264af4958c77e874b7d20f3709001b8f
 - name: nginx
   version: 1.31.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.4_linux_x64_cflinuxfs4_58bbf972.tgz
-  sha256: 58bbf9727af38d9ef5c946587faf97e5e94384c08ff343b8ba5bb61bce28ae18
-  cf_stacks:
-  - cflinuxfs4
-  source: http://nginx.org/download/nginx-1.31.4.tar.gz
-  source_sha256: e6f20b644a17a643f059ae6467a1971fe2811587d025e071068753a1f1e3b3c3
-- name: nginx
-  version: 1.31.4
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.4_linux_x64_cflinuxfs5_badfd1bc.tgz
   sha256: badfd1bc47e7bfe5ec4256a68b55a96123b9e7a316d45f23b957ecc7af22e897
   cf_stacks:
   - cflinuxfs5
   source: http://nginx.org/download/nginx-1.31.4.tar.gz
   source_sha256: e6f20b644a17a643f059ae6467a1971fe2811587d025e071068753a1f1e3b3c3
+- name: nginx
+  version: 1.31.5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.5_linux_x64_cflinuxfs4_05b43b77.tgz
+  sha256: 05b43b77d9fd40614148755b03e29624e31c86432f0968fc37e203dd76accf41
+  cf_stacks:
+  - cflinuxfs4
+  source: http://nginx.org/download/nginx-1.31.5.tar.gz
+  source_sha256: e951607d534836624bd36b6b45a71dbfb055237deae3738da6bbf3270dada279
+- name: nginx
+  version: 1.31.5
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.5_linux_x64_cflinuxfs5_1c1b460b.tgz
+  sha256: 1c1b460ba83689dfd4cb3398f706cd9640cca3fe33582cc409c38f9f18092252
+  cf_stacks:
+  - cflinuxfs5
+  source: http://nginx.org/download/nginx-1.31.5.tar.gz
+  source_sha256: e951607d534836624bd36b6b45a71dbfb055237deae3738da6bbf3270dada279
 - name: php
   version: 8.2.33
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.33_linux_x64_cflinuxfs4_aa2219c3.tgz
