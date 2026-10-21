@@ -6,7 +6,7 @@ default_versions:
 - name: httpd
   version: 2.4.68
 - name: nginx
-  version: 1.31.7
+  version: 1.31.8
 - name: composer
   version: 2.10.3
 url_to_dependency_map:
@@ -119,20 +119,28 @@ dependencies:
   source_sha256: 3cf46f5ed7504d460125866b7bea99fb357f31d887e2e63b35503310e9b8b6c8
 - name: nginx
   version: 1.31.7
-  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.7_linux_x64_cflinuxfs4_9effd06e.tgz
-  sha256: 9effd06ece9e0b53141b91f08d0da4587da08d603c8e103e093f17bd67e3fb82
-  cf_stacks:
-  - cflinuxfs4
-  source: http://nginx.org/download/nginx-1.31.7.tar.gz
-  source_sha256: 89ea8a3dc171511f7325043b50e4c036248d9fad5feb7ec809c0b82d5df42c65
-- name: nginx
-  version: 1.31.7
   uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.7_linux_x64_cflinuxfs5_a53d52cb.tgz
   sha256: a53d52cb9b5d41a4c4bbc90a7f40f30c71a5c9e217f6f2f797f04af0d23416e4
   cf_stacks:
   - cflinuxfs5
   source: http://nginx.org/download/nginx-1.31.7.tar.gz
   source_sha256: 89ea8a3dc171511f7325043b50e4c036248d9fad5feb7ec809c0b82d5df42c65
+- name: nginx
+  version: 1.31.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.8_linux_x64_cflinuxfs4_9a8ac24a.tgz
+  sha256: 9a8ac24a169cfc1f3f5256cce55027c75f6383335e75b6474ac81384e628c9be
+  cf_stacks:
+  - cflinuxfs4
+  source: http://nginx.org/download/nginx-1.31.8.tar.gz
+  source_sha256: 0652b760b3b772d2ec17b47c2fc15d9a95e6fe35cd5b877eadc1a62d9bc75af1
+- name: nginx
+  version: 1.31.8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.31.8_linux_x64_cflinuxfs5_774a85d0.tgz
+  sha256: 774a85d099c254b813fa49e39468a75c40ea8fd06b02bc263239056635cab252
+  cf_stacks:
+  - cflinuxfs5
+  source: http://nginx.org/download/nginx-1.31.8.tar.gz
+  source_sha256: 0652b760b3b772d2ec17b47c2fc15d9a95e6fe35cd5b877eadc1a62d9bc75af1
 - name: php
   version: 8.2.35
   uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.2.35_linux_x64_cflinuxfs4_99e7b353.tgz
