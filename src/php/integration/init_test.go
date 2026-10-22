@@ -81,6 +81,7 @@ func TestIntegration(t *testing.T) {
 	suite("Placeholders", testPlaceholders(platform, fixtures))
 	suite("PreprocessCmds", testPreprocessCmds(platform, fixtures))
 	suite("StandaloneApp", testStandaloneApp(platform, fixtures))
+	suite("Sessions", testSessions(platform, fixtures))
 	// suite("BuildpackPythonExtension", testPythonExtension(platform, fixtures)) // Skipped for now
 	// suite("APMs", testAPMs(platform, fixtures, dynatraceDeployment.InternalURL)) // Needs dynatrace mock
 	if settings.Cached {
