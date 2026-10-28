@@ -1,0 +1,7 @@
+---
+extensions:
+  additions:
+    - name: ioncube
+      version: 14.0.0
+      md5: 4e35b4f31e0238f8efdfe7a0f9e1fade
+      klass: IonCubeRecipe

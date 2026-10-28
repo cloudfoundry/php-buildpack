@@ -1,0 +1,8 @@
+---
+extensions:
+  exclusions:
+  additions:
+  - name: oci8
+    version: 3.2.1
+    md5: 309190ef3ede2779a617c9375d32ea7a
+    klass: OraclePeclRecipe
