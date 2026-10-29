@@ -86,6 +86,7 @@ extensions:
       md5: c48f5de2f96ffebe2e18eaefff4917f9
       klass: PeclRecipe
   additions:
+    # ioncube 15.5.0 is a binary download (not compiled from source); MD5 not available from vendor
     - name: ioncube
       version: 15.5.0
       md5: nil
