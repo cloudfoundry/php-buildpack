@@ -1,0 +1,69 @@
+---
+extensions:
+  exclusions:
+    - name: mongodb
+      version: 1.21.12
+      md5: 0cd4c765161794c749521adcb81dc269
+      klass: PeclRecipe
+    # oauth 2.0.7 uses php_rand.h which was removed in PHP 8.4; replaced by 2.0.10
+    - name: oauth
+      version: 2.0.7
+      md5: 8ea6eb5ac6de8a4ed399980848c04c0c
+      klass: PeclRecipe
+    # redis 6.0.2 uses standard/php_random.h which was removed in PHP 8.4; replaced by 6.1.0
+    - name: redis
+      version: 6.0.2
+      md5: 29f1f0ba367aef7e0313cd75aa1ea83f
+      klass: PeclRecipe
+    # xdebug 3.3.2 does not support PHP >= 8.4; replaced by 3.4.0
+    - name: xdebug
+      version: 3.3.2
+      md5: 3c5bca14b7c638893383646565d78e9b
+      klass: PeclRecipe
+    # phalcon 5.6.2 uses php_rand.h which was removed in PHP 8.4; no compatible PECL release exists
+    - name: phalcon
+      version: 5.6.2
+      md5: 806c25f017c0842798d937caaecbc994
+      klass: PeclRecipe
+    # tideways_xhprof 5.0.4 has configure syntax error on PHP 8.4; no newer release available
+    - name: tideways_xhprof
+      version: 5.0.4
+      md5: 68b68cd9410e62b8481445e0d89220c0
+      klass: TidewaysXhprofRecipe
+    # solr 2.7.0 has configure syntax error on PHP 8.4; replaced by 2.9.3
+    - name: solr
+      version: 2.7.0
+      md5: 3e9df94b06f8a026e33b3a8a3f02921b
+      klass: PeclRecipe
+  additions:
+    # ioncube 15.5.0 is a binary download (not compiled from source); MD5 not available from vendor
+    - name: ioncube
+      version: 15.5.0
+      md5: nil
+      klass: IonCubeRecipe
+    - name: mongodb
+      version: 2.5.5
+      md5: 7fd1c98fb542dd99806da858467ed001
+      klass: PeclRecipe
+    # oauth 2.0.10 adds PHP 8.4 support (php_rand.h conditional)
+    - name: oauth
+      version: 2.0.10
+      md5: 47eeb6adc46a72844f48ce7d2ad3f0da
+      klass: PeclRecipe
+    # redis 6.1.0 adds PHP 8.4 support (fixes php_random.h includes)
+    - name: redis
+      version: 6.1.0
+      md5: ca6277b27ee35e1f55f9ad7f0b4df29b
+      klass: PeclRecipe
+    # xdebug 3.4.0 adds PHP 8.4 support
+    - name: xdebug
+      version: 3.4.0
+      md5: 799983a15e5f5ec7fb19d70304415128
+      klass: PeclRecipe
+    # phalcon has no PHP 8.4 compatible PECL release (all versions use removed php_rand.h)
+    # tideways_xhprof has no PHP 8.4 compatible release (configure syntax error, no newer version)
+    # solr 2.9.3 adds PHP 8.4 support (configure.ac rewritten)
+    - name: solr
+      version: 2.9.3
+      md5: ec442fc69a885220345d13d0889b10e5
+      klass: PeclRecipe
