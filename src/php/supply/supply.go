@@ -198,6 +198,12 @@ func (s *Supplier) createExtensionContext() (*extensions.Context, error) {
 	ctx.Set("WEB_SERVER", s.Options.WebServer)
 	ctx.Set("COMPOSER_VERSION", ctx.GetString("COMPOSER_DEFAULT")) // Use default from manifest
 
+	// Load user-requested extensions from .bp-config/php/php.ini.d/*.ini files
+	// and add them to the context so they're available at runtime
+	if err := s.loadUserExtensions(ctx); err != nil {
+		return nil, fmt.Errorf("failed to load user extensions: %w", err)
+	}
+
 	// Set additional options
 	ctx.Set("ADMIN_EMAIL", s.Options.AdminEmail)
 	ctx.Set("COMPOSER_VENDOR_DIR", s.Options.ComposerVendorDir)
