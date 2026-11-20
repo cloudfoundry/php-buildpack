@@ -646,13 +646,13 @@ dependencies:
   - name: zlib
     version:
 - name: php
-  version: 8.4.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.27_linux_x64_cflinuxfs4_449e729f.tgz
-  sha256: 449e729f4d6360beacfbd7daac8c30c0adf0d6601f4f8cf66d56369659230688
+  version: 8.4.28
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.28_linux_x64_cflinuxfs4_cc36580c.tgz
+  sha256: cc36580c4e3421123869fa936c3727c69e6eedd09ddb342f7ea89a5bf6a4086c
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.4.27.tar.gz
-  source_sha256: 5bafed9994c1a49796b25b5f61c22c9183bfe046b6acc7b363842d03c77f972f
+  source: https://php.net/distributions/php-8.4.28.tar.gz
+  source_sha256: deffc88c60fcfb99f683a9f6689e9c91cf41b7cba50bd5f01a232a98c27f2cd4
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -695,7 +695,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 2.2.1
+    version: 2.5.5
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -766,13 +766,13 @@ dependencies:
   - name: zlib
     version:
 - name: php
-  version: 8.4.27
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.27_linux_x64_cflinuxfs5_786ff598.tgz
-  sha256: 786ff598e0da8f287676eca846edab3bb4c12aa7b0bbef789e3c3a491d7ceba7
+  version: 8.4.28
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.4.28_linux_x64_cflinuxfs5_278583e7.tgz
+  sha256: 278583e7ab2f95d0595c061a666088cc1d63691051923782bff1815b3d6e3bd1
   cf_stacks:
   - cflinuxfs5
-  source: https://php.net/distributions/php-8.4.27.tar.gz
-  source_sha256: 5bafed9994c1a49796b25b5f61c22c9183bfe046b6acc7b363842d03c77f972f
+  source: https://php.net/distributions/php-8.4.28.tar.gz
+  source_sha256: deffc88c60fcfb99f683a9f6689e9c91cf41b7cba50bd5f01a232a98c27f2cd4
   dependencies:
   - name: amqp
     version: 2.1.2
@@ -815,7 +815,7 @@ dependencies:
   - name: memcached
     version: 3.2.0
   - name: mongodb
-    version: 2.2.1
+    version: 2.5.5
   - name: msgpack
     version: 2.2.0
   - name: mysqli
