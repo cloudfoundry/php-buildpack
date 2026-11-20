@@ -886,13 +886,13 @@ dependencies:
   - name: zlib
     version:
 - name: php
-  version: 8.5.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.5.12_linux_x64_cflinuxfs4_ffb1de9d.tgz
-  sha256: ffb1de9df351889c3d9ee10e0e14d4ac9956363cf138d3e97ea4e5329d64ea12
+  version: 8.5.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.5.13_linux_x64_cflinuxfs4_f6fc2f88.tgz
+  sha256: f6fc2f881b2d50b72834435f36ce3a2dc8a824e3bd4c2a625f1fb704800825ef
   cf_stacks:
   - cflinuxfs4
-  source: https://php.net/distributions/php-8.5.12.tar.gz
-  source_sha256: 81a0f450349e84b08eb43faa85f8a4c835684f3cc1c50471775d1317a046c525
+  source: https://php.net/distributions/php-8.5.13.tar.gz
+  source_sha256: 3aeb20a7e667e197929747f76047409196f91f0172357439319cba344df8b3e1
   dependencies:
   - name: amqp
     version: 2.2.0
@@ -935,7 +935,7 @@ dependencies:
   - name: memcached
     version: 3.4.0
   - name: mongodb
-    version: 2.2.1
+    version: 2.5.5
   - name: msgpack
     version: 2.2.0
   - name: mysqli
@@ -1002,13 +1002,13 @@ dependencies:
   - name: zlib
     version:
 - name: php
-  version: 8.5.12
-  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.5.12_linux_x64_cflinuxfs5_fc0f270d.tgz
-  sha256: fc0f270d99bdae222ead93c881c0439d337eee4f43af91fc9551dc5212a49faf
+  version: 8.5.13
+  uri: https://buildpacks.cloudfoundry.org/dependencies/php/php_8.5.13_linux_x64_cflinuxfs5_8447f363.tgz
+  sha256: 8447f363b860a22d813152a6536ef8d2a235f3554928f536955a558826de98bf
   cf_stacks:
   - cflinuxfs5
-  source: https://php.net/distributions/php-8.5.12.tar.gz
-  source_sha256: 81a0f450349e84b08eb43faa85f8a4c835684f3cc1c50471775d1317a046c525
+  source: https://php.net/distributions/php-8.5.13.tar.gz
+  source_sha256: 3aeb20a7e667e197929747f76047409196f91f0172357439319cba344df8b3e1
   dependencies:
   - name: amqp
     version: 2.2.0
@@ -1051,7 +1051,7 @@ dependencies:
   - name: memcached
     version: 3.4.0
   - name: mongodb
-    version: 2.2.1
+    version: 2.5.5
   - name: msgpack
     version: 2.2.0
   - name: mysqli
